@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Header, VideoList, VideoTile } from "@100mslive/sdk-components";
+import {
+  Header,
+  VideoList,
+  VideoTile,
+  ControlBar,
+} from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
 
 const closeMediaStream = (stream) => {
@@ -28,19 +33,15 @@ export const Conference = ({ streamsWithInfo }) => {
       window.navigator.mediaDevices
         .getUserMedia({ video: true })
         .then(function (stream) {
-          // @ts-ignore
-          //window.stream = stream;
           setCameraStream(stream);
           console.log(stream, "got it");
         });
     }
     if (isScreenStreamRequired) {
       window.navigator.mediaDevices
-        // @ts-ignore
+
         .getDisplayMedia({ video: true })
         .then(function (stream) {
-          // @ts-ignore
-          //window.stream = stream;
           console.log(stream);
           setScreenStream(stream);
         });
@@ -52,32 +53,58 @@ export const Conference = ({ streamsWithInfo }) => {
     };
   }, [streamsWithInfo]);
   return (
-    <div className="w-full h-full">
-      {/* {cameraStream && (
-          <VideoTile
-            stream={cameraStream}
-            peer={{ id: "123", displayName: "Eswar" }}
+    <div className="w-full h-full bg-black">
+      <div className="">
+        <Header />
+      </div>
+      <div className="w-full h-5/6 flex">
+        <div className="w-5/6 h-full m-1 ">
+          <VideoList
+            streams={streamsWithInfo
+              .filter(
+                (item) =>
+                  (item.videoSource == "screen" ||
+                    item.videoSource == "camera") &&
+                  item.role === "Student"
+              )
+              .map((item) => ({
+                ...item,
+                stream:
+                  item.videoSource == "screen" ? screenStream : cameraStream,
+              }))}
+            classes={{
+              root: "",
+              videoTileParent: "rounded-xl p-6",
+              video: "rounded-xl",
+            }}
           />
-        )} */}
-      {
-        <VideoList
-          streams={[
-            {
-              stream: cameraStream,
-              peer: { id: "123", displayName: "Nikhil1" },
-              videoSource: "camera",
-              audioLevel: 50,
-            },
-            {
-              stream: cameraStream,
-              peer: { id: "123", displayName: "Nikhil1" },
-              videoSource: "camera",
-              audioLevel: 50,
-            },
-          ]}
-          maxTileCount={2}
-        />
-      }
+        </div>
+        <div className="w-80">
+          <VideoList
+            streams={streamsWithInfo
+              .filter(
+                (item) =>
+                  (item.videoSource == "screen" ||
+                    item.videoSource == "camera") &&
+                  item.role === "Teacher"
+              )
+              .map((item) => ({
+                ...item,
+                stream:
+                  item.videoSource == "screen" ? screenStream : cameraStream,
+              }))}
+            classes={{
+              videoTileParent: "m-2 rounded-xl",
+              video: "rounded-xl",
+            }}
+            overflow="scroll-x"
+            maxColCount={3}
+          />
+        </div>
+      </div>
+      <div className="bg-black">
+        <ControlBar />
+      </div>
     </div>
   );
 };
