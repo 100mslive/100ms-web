@@ -1,23 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import { Thing } from "@100mslive/sdk-components";
+import { Avatar, Header } from "@100mslive/sdk-components";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bg-black h-screen w-full">
+      <div>
+        <Header />
+      </div>
+      <Thing>Hiii</Thing>
+      <Avatar label="Nikhil" />
     </div>
   );
 }
