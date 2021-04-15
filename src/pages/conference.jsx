@@ -19,44 +19,38 @@ export const Conference = ({ streamsWithInfo }) => {
   );
   const [cameraStream, setCameraStream] = useState();
   const [screenStream, setScreenStream] = useState();
-  const [loading, setLoading] = useState(false);
 
-  // setTimeout(() => {
-  //   setLoading(true);
-  // }, 3000);
+  useEffect(() => {
+    closeMediaStream(cameraStream);
+    closeMediaStream(screenStream);
 
-  // useEffect(() => {
-  //   if (!loading) return;
-  //   closeMediaStream(cameraStream);
-  //   closeMediaStream(screenStream);
+    if (isCameraStreamRequired) {
+      window.navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then(function (stream) {
+          // @ts-ignore
+          //window.stream = stream;
+          setCameraStream(stream);
+          console.log(stream, "got it");
+        });
+    }
+    if (isScreenStreamRequired) {
+      window.navigator.mediaDevices
+        // @ts-ignore
+        .getDisplayMedia({ video: true })
+        .then(function (stream) {
+          // @ts-ignore
+          //window.stream = stream;
+          console.log(stream);
+          setScreenStream(stream);
+        });
+    }
 
-  //   if (isCameraStreamRequired) {
-  //     window.navigator.mediaDevices
-  //       .getUserMedia({ video: true })
-  //       .then(function (stream) {
-  //         // @ts-ignore
-  //         //window.stream = stream;
-  //         setCameraStream(stream);
-  //         console.log(stream, "got it");
-  //       });
-  //   }
-  //   if (isScreenStreamRequired) {
-  //     window.navigator.mediaDevices
-  //       // @ts-ignore
-  //       .getDisplayMedia({ video: true })
-  //       .then(function (stream) {
-  //         // @ts-ignore
-  //         //window.stream = stream;
-  //         console.log(stream);
-  //         setScreenStream(stream);
-  //       });
-  //   }
-
-  //   return () => {
-  //     closeMediaStream(screenStream);
-  //     closeMediaStream(cameraStream);
-  //   };
-  // }, [loading]);
+    return () => {
+      closeMediaStream(screenStream);
+      closeMediaStream(cameraStream);
+    };
+  }, [streamsWithInfo]);
   return (
     <div className="w-full h-full">
       {/* {cameraStream && (
@@ -67,22 +61,21 @@ export const Conference = ({ streamsWithInfo }) => {
         )} */}
       {
         <VideoList
-          streams={{
-            stream: new MediaStream(),
-            peer: { id: "123", displayName: "Nikhil1" },
-            videoSource: "camera",
-            audioLevel: 50,
-          }}
-          {...{
-            maxTileCount: 2,
-            overflow: "hidden",
-            audioLevelDisplayType: "border",
-
-            classes: {
-              videoTile: "p-2",
-              video: "rounded-lg shadow-lg",
+          streams={[
+            {
+              stream: cameraStream,
+              peer: { id: "123", displayName: "Nikhil1" },
+              videoSource: "camera",
+              audioLevel: 50,
             },
-          }}
+            {
+              stream: cameraStream,
+              peer: { id: "123", displayName: "Nikhil1" },
+              videoSource: "camera",
+              audioLevel: 50,
+            },
+          ]}
+          maxTileCount={2}
         />
       }
     </div>
