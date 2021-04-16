@@ -8,7 +8,7 @@ import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { AppContext, AppContextProvider } from "./store/AppContext.js";
 function App() {
   return (
-    <div class="w-full h-screen bg-black">
+    <div className="w-full h-screen bg-black">
       <AppContextProvider>
         <Router>
           <Switch>

@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Header, VideoList, VideoTile } from "@100mslive/sdk-components";
+import HMSSdk from "@100mslive/100ms-web-sdk";
 import { AppContext } from "../store/AppContext";
+
+async function getToken() {
+  const response = await fetch("https://100ms-services.vercel.app/api/token", {
+    method: "POST",
+    body: JSON.stringify({
+      env: "qa-in",
+      role: "Guest",
+      room_id: "6077d5e1dcee704ca43caea3",
+      user_name: "Edla",
+    }),
+  });
+
+  const { token } = await response.json();
+  return token;
+}
 
 const closeMediaStream = (stream) => {
   if (!stream) {
@@ -11,73 +27,79 @@ const closeMediaStream = (stream) => {
 };
 
 export const Conference = ({ streamsWithInfo }) => {
-  const isCameraStreamRequired = streamsWithInfo.some(
-    (stream) => stream.videoSource === "camera"
-  );
-  const isScreenStreamRequired = streamsWithInfo.some(
-    (stream) => stream.videoSource === "screen"
-  );
-  const [cameraStream, setCameraStream] = useState();
-  const [screenStream, setScreenStream] = useState();
+  const [streams, setStreams] = useState([]);
 
   useEffect(() => {
-    closeMediaStream(cameraStream);
-    closeMediaStream(screenStream);
+    const sdk = new HMSSdk();
 
-    if (isCameraStreamRequired) {
-      window.navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then(function (stream) {
-          // @ts-ignore
-          //window.stream = stream;
-          setCameraStream(stream);
-          console.log(stream, "got it");
-        });
-    }
-    if (isScreenStreamRequired) {
-      window.navigator.mediaDevices
-        // @ts-ignore
-        .getDisplayMedia({ video: true })
-        .then(function (stream) {
-          // @ts-ignore
-          //window.stream = stream;
-          console.log(stream);
-          setScreenStream(stream);
-        });
-    }
+    getToken().then((token) => {
+      const config = {
+        userName: "Edla",
+        authToken: token,
+        metaData: "Hail Hydra!",
+      };
+      const listener = {
+        onJoin: (room) => {
+          console.log(`[APP]: Joined room`, room);
+        },
 
-    return () => {
-      closeMediaStream(screenStream);
-      closeMediaStream(cameraStream);
+        onRoomUpdate: (type, room) => {
+          console.log(
+            `[APP]: onRoomUpdate with type ${type} and ${JSON.stringify(
+              room,
+              null,
+              2
+            )}`
+          );
+        },
+
+        onPeerUpdate: (type, peer) => {
+          console.log(`[APP]: onPeerUpdate with type ${type} and ${peer}`);
+        },
+
+        onTrackUpdate: (type, track) => {
+          console.log(`[APP]: onTrackUpdate with type ${type}`, track);
+          setStreams((prev) => {
+            console.log({ prev });
+            const newStreams = sdk
+              .getPeers()
+              .filter((peer) => Boolean(peer.videoTrack))
+              .map((peer) => {
+                console.log("PEER", peer);
+                return {
+                  stream: peer.videoTrack.stream.nativeStream,
+                  peer: {
+                    id: peer.peerId,
+                    displayName: peer.name || peer.peerId,
+                  },
+                  videoSource: "camera",
+                  audioLevel: 0,
+                  isLocal: peer.isLocal,
+                };
+              });
+            return newStreams;
+          });
+        },
+
+        onError: (error) => {
+          console.log("ERROR", error);
+        },
+      };
+
+      sdk.join(config, listener);
+    });
+
+    window.onunload = function () {
+      alert("leaving");
+      sdk.leave();
     };
-  }, [streamsWithInfo]);
+  }, []);
+
   return (
-    <div className="w-full h-full">
-      {/* {cameraStream && (
-          <VideoTile
-            stream={cameraStream}
-            peer={{ id: "123", displayName: "Eswar" }}
-          />
-        )} */}
-      {
-        <VideoList
-          streams={[
-            {
-              stream: cameraStream,
-              peer: { id: "123", displayName: "Nikhil1" },
-              videoSource: "camera",
-              audioLevel: 50,
-            },
-            {
-              stream: cameraStream,
-              peer: { id: "123", displayName: "Nikhil1" },
-              videoSource: "camera",
-              audioLevel: 50,
-            },
-          ]}
-          maxTileCount={2}
-        />
-      }
+    <div className="w-full h-full flex flex-wrap">
+      {streams.map((stream) => (
+        <VideoTile {...stream} />
+      ))}
     </div>
   );
 };
