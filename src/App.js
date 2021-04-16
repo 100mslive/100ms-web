@@ -23,7 +23,10 @@ function App() {
                 {(context) => {
                   console.log(context);
                   return (
-                    <Conference streamsWithInfo={context.streamsWithInfo} />
+                    <Conference
+                      streamsWithInfo={context.streamsWithInfo}
+                      loginInfo={context.loginInfo}
+                    />
                   );
                 }}
               </AppContext.Consumer>
