@@ -8,9 +8,9 @@ import {
 export const TeacherView = ({ streamsWithInfo }) => {
   return (
     <React.Fragment>
-      <div className="w-2/3 h-full  ">
+      <div className="w-full h-full ">
         <VideoList
-          streams={streamsWithInfo.filter((peer) => peer.role === "Student")}
+          streams={streamsWithInfo}
           classes={{
             root: "",
             videoTileParent: " p-6 rounded-xl",
@@ -21,7 +21,7 @@ export const TeacherView = ({ streamsWithInfo }) => {
         />
       </div>
       <div className="w-1/3 p-6">
-        <VideoList
+        {/* <VideoList
           streams={streamsWithInfo.filter((peer) => peer.role === "Teacher")}
           classes={{
             videoTileParent: "p-5 rounded-xl",
@@ -30,7 +30,7 @@ export const TeacherView = ({ streamsWithInfo }) => {
           overflow="scroll-x"
           maxTileCount={4}
           showAudioMuteStatus={false}
-        />
+        /> */}
       </div>
     </React.Fragment>
   );
