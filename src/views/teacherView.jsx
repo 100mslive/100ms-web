@@ -16,6 +16,8 @@ export const TeacherView = ({ streamsWithInfo }) => {
             videoTileParent: " p-6 rounded-xl",
             video: "rounded-xl",
           }}
+          showAudioMuteStatus={true}
+          allowRemoteMute={true}
         />
       </div>
       <div className="w-1/3 p-6">
@@ -27,6 +29,7 @@ export const TeacherView = ({ streamsWithInfo }) => {
           }}
           overflow="scroll-x"
           maxTileCount={4}
+          showAudioMuteStatus={false}
         />
       </div>
     </React.Fragment>

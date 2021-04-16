@@ -5,6 +5,8 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 5,
     role: "Student",
+    isAudioMuted: true,
+    isVideoMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -12,6 +14,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 100,
     role: "Student",
+    isAudioMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -19,6 +22,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 1,
     role: "Student",
+    isAudioMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -26,6 +30,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 1,
     role: "Student",
+    isAudioMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -33,6 +38,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 0,
     role: "Student",
+    isAudioMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -40,6 +46,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 10,
     role: "Student",
+    isAudioMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -47,6 +54,8 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 10,
     role: "Teacher",
+    isAudioMuted: true,
+    isVideoMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -54,6 +63,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 10,
     role: "Teacher",
+    isAudioMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -61,6 +71,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 10,
     role: "Teacher",
+    isAudioMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -68,6 +79,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 10,
     role: "Teacher",
+    isAudioMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -75,6 +87,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 10,
     role: "Teacher",
+    isAudioMuted: true,
   },
   {
     stream: new MediaStream(),
@@ -82,6 +95,7 @@ export const streamsWithInfo = [
     videoSource: "camera",
     audioLevel: 10,
     role: "Teacher",
+    isVideoMuted: true,
   },
   // {
   //   stream: new MediaStream(),

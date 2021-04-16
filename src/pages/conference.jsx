@@ -19,10 +19,10 @@ const closeMediaStream = (stream) => {
 export const Conference = ({ streamsWithInfo, loginInfo }) => {
   const { role } = loginInfo;
   const isCameraStreamRequired = streamsWithInfo.some(
-    (stream) => stream.videoSource === "camera"
+    (stream) => !stream.isVideoMuted && stream.videoSource === "camera"
   );
   const isScreenStreamRequired = streamsWithInfo.some(
-    (stream) => stream.videoSource === "screen"
+    (stream) => !stream.isVideoMuted && stream.videoSource === "screen"
   );
   const [cameraStream, setCameraStream] = useState();
   const [screenStream, setScreenStream] = useState();
@@ -33,7 +33,7 @@ export const Conference = ({ streamsWithInfo, loginInfo }) => {
 
     if (isCameraStreamRequired) {
       window.navigator.mediaDevices
-        .getUserMedia({ video: true })
+        .getUserMedia({ audio: true, video: true })
         .then(function (stream) {
           setCameraStream(stream);
           console.log(stream, "got it");
@@ -69,8 +69,11 @@ export const Conference = ({ streamsWithInfo, loginInfo }) => {
               )
               .map((item) => ({
                 ...item,
-                stream:
-                  item.videoSource == "screen" ? screenStream : cameraStream,
+                stream: !item.isVideoMuted
+                  ? item.videoSource == "screen"
+                    ? screenStream
+                    : cameraStream
+                  : new MediaStream(),
               }))}
           />
         ) : (
@@ -82,8 +85,11 @@ export const Conference = ({ streamsWithInfo, loginInfo }) => {
               )
               .map((item) => ({
                 ...item,
-                stream:
-                  item.videoSource == "screen" ? screenStream : cameraStream,
+                stream: !item.isVideoMuted
+                  ? item.videoSource == "screen"
+                    ? screenStream
+                    : cameraStream
+                  : new MediaStream(),
               }))}
           />
         )}
