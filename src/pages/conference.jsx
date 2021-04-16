@@ -1,7 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Header, VideoList, VideoTile } from "@100mslive/sdk-components";
 import HMSSdk from "@100mslive/100ms-web-sdk";
 import { AppContext } from "../store/AppContext";
+import {
+  Header,
+  VideoList,
+  VideoTile,
+  ControlBar,
+} from "@100mslive/sdk-components";
+import { AppContext } from "../store/AppContext";
+import { TeacherView } from "../views/teacherView";
+import { StudentView } from "../views/studentView";
+
+const closeMediaStream = (stream) => {
+  if (!stream) {
+    return;
+  }
+  const tracks = stream.getTracks();
+  tracks.forEach((track) => track.stop());
+};
 
 async function getToken() {
   const response = await fetch("https://100ms-services.vercel.app/api/token", {
@@ -17,14 +33,6 @@ async function getToken() {
   const { token } = await response.json();
   return token;
 }
-
-const closeMediaStream = (stream) => {
-  if (!stream) {
-    return;
-  }
-  const tracks = stream.getTracks();
-  tracks.forEach((track) => track.stop());
-};
 
 export const Conference = ({ streamsWithInfo }) => {
   const [streams, setStreams] = useState([]);
@@ -95,11 +103,51 @@ export const Conference = ({ streamsWithInfo }) => {
     };
   }, []);
 
+  console.log(streams) // use this instead of streamsWithInfo
+
   return (
-    <div className="w-full h-full flex flex-wrap">
-      {streams.map((stream) => (
-        <VideoTile {...stream} />
-      ))}
+    <div className="w-full h-full bg-black">
+      <div style={{ height: "10%" }}>
+        <Header />
+      </div>
+      <div className="w-full flex" style={{ height: "80%" }}>
+        {role === "Teacher" ? (
+          <TeacherView
+            streamsWithInfo={streamsWithInfo
+              .filter(
+                (item) =>
+                  item.videoSource == "screen" || item.videoSource == "camera"
+              )
+              .map((item) => ({
+                ...item,
+                stream: !item.isVideoMuted
+                  ? item.videoSource == "screen"
+                    ? screenStream
+                    : cameraStream
+                  : new MediaStream(),
+              }))}
+          />
+        ) : (
+          <StudentView
+            streamsWithInfo={streamsWithInfo
+              .filter(
+                (item) =>
+                  item.videoSource == "screen" || item.videoSource == "camera"
+              )
+              .map((item) => ({
+                ...item,
+                stream: !item.isVideoMuted
+                  ? item.videoSource == "screen"
+                    ? screenStream
+                    : cameraStream
+                  : new MediaStream(),
+              }))}
+          />
+        )}
+      </div>
+      <div className="bg-black" style={{ height: "10%" }}>
+        <ControlBar />
+      </div>
     </div>
   );
 };
