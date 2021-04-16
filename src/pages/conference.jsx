@@ -6,7 +6,8 @@ import {
   ControlBar,
 } from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
-
+import { TeacherView } from "../views/teacherView";
+import { StudentView } from "../views/studentView";
 const closeMediaStream = (stream) => {
   if (!stream) {
     return;
@@ -15,7 +16,8 @@ const closeMediaStream = (stream) => {
   tracks.forEach((track) => track.stop());
 };
 
-export const Conference = ({ streamsWithInfo }) => {
+export const Conference = ({ streamsWithInfo, loginInfo }) => {
+  const { role } = loginInfo;
   const isCameraStreamRequired = streamsWithInfo.some(
     (stream) => stream.videoSource === "camera"
   );
@@ -54,55 +56,39 @@ export const Conference = ({ streamsWithInfo }) => {
   }, [streamsWithInfo]);
   return (
     <div className="w-full h-full bg-black">
-      <div className="">
+      <div style={{ height: "10%" }}>
         <Header />
       </div>
-      <div className="w-full h-5/6 flex">
-        <div className="w-5/6 h-full m-1 ">
-          <VideoList
-            streams={streamsWithInfo
+      <div className="w-full flex" style={{ height: "80%" }}>
+        {role === "Teacher" ? (
+          <TeacherView
+            streamsWithInfo={streamsWithInfo
               .filter(
                 (item) =>
-                  (item.videoSource == "screen" ||
-                    item.videoSource == "camera") &&
-                  item.role === "Student"
+                  item.videoSource == "screen" || item.videoSource == "camera"
               )
               .map((item) => ({
                 ...item,
                 stream:
                   item.videoSource == "screen" ? screenStream : cameraStream,
               }))}
-            classes={{
-              root: "",
-              videoTileParent: "rounded-xl p-6",
-              video: "rounded-xl",
-            }}
           />
-        </div>
-        <div className="w-80">
-          <VideoList
-            streams={streamsWithInfo
+        ) : (
+          <StudentView
+            streamsWithInfo={streamsWithInfo
               .filter(
                 (item) =>
-                  (item.videoSource == "screen" ||
-                    item.videoSource == "camera") &&
-                  item.role === "Teacher"
+                  item.videoSource == "screen" || item.videoSource == "camera"
               )
               .map((item) => ({
                 ...item,
                 stream:
                   item.videoSource == "screen" ? screenStream : cameraStream,
               }))}
-            classes={{
-              videoTileParent: "m-2 rounded-xl",
-              video: "rounded-xl",
-            }}
-            overflow="scroll-x"
-            maxColCount={3}
           />
-        </div>
+        )}
       </div>
-      <div className="bg-black">
+      <div className="bg-black" style={{ height: "10%" }}>
         <ControlBar />
       </div>
     </div>

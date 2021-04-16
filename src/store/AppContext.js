@@ -10,7 +10,7 @@ class AppContextProvider extends Component {
       roomName: "",
       roomId: "",
       displayName: "",
-      role: "",
+      role: "Teacher",
       env: "",
     },
     settings: {
