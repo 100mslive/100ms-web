@@ -23,6 +23,7 @@ function App() {
                     <Conference
                       streams={context.streams}
                       loginInfo={context.loginInfo}
+                      sdk={context.sdk}
                     />
                   );
                 }}

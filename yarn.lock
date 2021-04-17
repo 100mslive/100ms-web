@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@100mslive/100ms-web-sdk@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.2.tgz#5b0c9130dfa36a5322f0a70bba4c1ce2bd14885a"
-  integrity sha512-GMh7n17Cdy6xzoY+65l96u5piYsxulmNi57Yvze85mRebyCpyynoWxqFYAbPVo1yWtObcyMJ7yecWuNbGjnS/w==
+"@100mslive/100ms-web-sdk@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.4.tgz"
+  integrity sha512-AjSXFG3jAdnWr0Fak5R4mSFECUMwQg+2bY1wG5j59kaJMsPlrbmmhCRrbe/jq7eTuJ/Z3sz5eHgeIj5iFcojuQ==
   dependencies:
     jsonwebtoken "^8.5.1"
     loglevel "^1.7.1"
@@ -13,10 +13,10 @@
     sdp-transform "^2.14.1"
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@^0.2.8":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.8.tgz#b82860be031e595c47ba2eca62b7639ef6c14b76"
-  integrity sha512-MmfNQyyO+RG8YtEuwpDvoQqi6VrSzDtPi+znxI3RhyNZuD/aizv/D1YHl38U08rHM4fEwGz/CPOjXfgPaxSjPw==
+"@100mslive/sdk-components@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.npmjs.org/@100mslive/sdk-components/-/sdk-components-0.2.9.tgz"
+  integrity sha512-/K17cX9Xg7kUn+1AqTtTi/mG0uLhxhgu9+kISJOyqvRwEkS/PRMl4yMtMWDBKC1RyY/4IR0WOaAcQkb4gDSBhw==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"
@@ -1995,7 +1995,11 @@
 
 "@types/resize-observer-browser@^0.1.5":
   version "0.1.5"
+<<<<<<< HEAD
+  resolved "https://registry.npmjs.org/@types/resize-observer-browser/-/resize-observer-browser-0.1.5.tgz"
+=======
   resolved "https://registry.yarnpkg.com/@types/resize-observer-browser/-/resize-observer-browser-0.1.5.tgz#36d897708172ac2380cd486da7a3daf1161c1e23"
+>>>>>>> master
   integrity sha512-8k/67Z95Goa6Lznuykxkfhq9YU3l1Qe6LNZmwde1u7802a3x8v44oq0j91DICclxatTr0rNnhXx7+VTIetSrSQ==
 
 "@types/resolve@0.0.8":
@@ -7527,7 +7531,11 @@ lodash.templatesettings@^4.0.0:
 
 lodash.throttle@^4.1.1:
   version "4.1.1"
+<<<<<<< HEAD
+  resolved "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
+=======
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+>>>>>>> master
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
 lodash.toarray@^4.4.0:
@@ -9748,7 +9756,11 @@ react-refresh@^0.8.3:
 
 react-resize-detector@^6.6.5:
   version "6.6.5"
+<<<<<<< HEAD
+  resolved "https://registry.npmjs.org/react-resize-detector/-/react-resize-detector-6.6.5.tgz"
+=======
   resolved "https://registry.yarnpkg.com/react-resize-detector/-/react-resize-detector-6.6.5.tgz#adde70db9c76da09892134b8f6c4dfd351cdd93c"
+>>>>>>> master
   integrity sha512-khKS1IpC2cfx5+6G9HkAU/9CGjDV8woE57pVeH8nP5Ji52yXz6MpQEHEzJZ2obGghWrewN4php8ArxB4yWNqZA==
   dependencies:
     "@types/resize-observer-browser" "^0.1.5"

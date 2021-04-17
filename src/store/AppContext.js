@@ -5,6 +5,7 @@ const AppContext = React.createContext();
 
 class AppContextProvider extends Component {
   state = {
+    sdk: null,
     streams: [],
     loginInfo: {
       token: null,
@@ -75,6 +76,7 @@ class AppContextProvider extends Component {
       }
 
       sdk.join(config, listener);
+      this.setState({ ...this.state, sdk });
 
       window.onunload = function () {
         alert("leaving");
@@ -102,6 +104,7 @@ class AppContextProvider extends Component {
           },
           streams: this.state.streams,
           loginInfo: this.state.loginInfo,
+          sdk: this.state.sdk,
         }}
       >
         {this.props.children}
