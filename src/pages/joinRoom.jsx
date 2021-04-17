@@ -6,8 +6,9 @@ export const JoinRoom = ({ setLoginInfo }) => {
   const history = useHistory();
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("Teacher");
+  const [roomId, setRoomId] = useState("6077d5e1dcee704ca43caea3");
   const join = () => {
-    getToken(username, role)
+    getToken(username, role, roomId)
       .then((token) => {
         setLoginInfo({ token, username, role });
         history.push("/meeting");
@@ -31,6 +32,18 @@ export const JoinRoom = ({ setLoginInfo }) => {
               value={username}
               onChange={(event) => {
                 setUsername(event.target.value);
+              }}
+            ></input>
+          </div>
+          <div className="w-1/3 flex justify-end items-center  ">
+            <span>RoomId:</span>
+          </div>
+          <div className="p-2 w-2/3">
+            <input
+              className="rounded-lg bg-gray-200 w-full p-1"
+              value={roomId}
+              onChange={(event) => {
+                setRoomId(event.target.value);
               }}
             ></input>
           </div>
