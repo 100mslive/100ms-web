@@ -8,15 +8,15 @@ import { useHistory } from "react-router-dom";
 
 export const Conference = ({ streams, loginInfo, sdk }) => {
   const history = useHistory();
+
   //time when user enters room
   const [startTime, setStartTime] = useState(new Date());
   //current time to triger rendering
   const [currentTime, setTime] = useState(startTime);
-  const [isAudioMuted, setAudioMuted] = useState(false);
-  const [isVideoMuted, setVideoMuted] = useState(false);
 
-  if (!loginInfo.token && !sdk) {
+  if (!loginInfo.token || !sdk || !sdk.getLocalPeer()) {
     history.push("/");
+    //return;
   }
 
   //just to update time on header
@@ -59,25 +59,41 @@ export const Conference = ({ streams, loginInfo, sdk }) => {
         // )} */}
       </div>
       <div className="bg-black" style={{ height: "10%" }}>
-        <ControlBar
-          audioButtonOnClick={() => {
-            let peer = sdk.getLocalPeer();
-            console.log(peer);
-            peer.audioTrack.setEnabled(!peer.audioTrack.enabled);
-            setAudioMuted(!isAudioMuted);
-          }}
-          videoButtonOnClick={() => {
-            let peer = sdk.getLocalPeer();
-            peer.videoTrack.setEnabled(!peer.videoTrack.enabled);
-            setVideoMuted(!isVideoMuted);
-          }}
-          leaveButtonOnClick={() => {
-            sdk.leave();
-            history.push("/");
-          }}
-          isAudioMuted={isAudioMuted}
-          isVideoMuted={isVideoMuted}
-        />
+        {sdk && (
+          <ControlBar
+            audioButtonOnClick={() => {
+              let peer = sdk.getLocalPeer();
+              console.log(peer);
+              const isAudioEnabled =
+                sdk.getLocalPeer().audioTrack &&
+                sdk.getLocalPeer().audioTrack.enabled;
+              peer.audioTrack.setEnabled(!isAudioEnabled);
+            }}
+            videoButtonOnClick={() => {
+              let peer = sdk.getLocalPeer();
+              const isVideoEnabled =
+                sdk.getLocalPeer().videoTrack &&
+                sdk.getLocalPeer().videoTrack.enabled;
+              peer.videoTrack.setEnabled(!isVideoEnabled);
+            }}
+            leaveButtonOnClick={() => {
+              sdk.leave();
+              history.push("/");
+            }}
+            isAudioMuted={
+              !(
+                sdk.getLocalPeer().audioTrack &&
+                sdk.getLocalPeer().audioTrack.enabled
+              )
+            }
+            isVideoMuted={
+              !(
+                sdk.getLocalPeer().videoTrack &&
+                sdk.getLocalPeer().videoTrack.enabled
+              )
+            }
+          />
+        )}
       </div>
     </div>
   );
