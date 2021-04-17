@@ -1995,7 +1995,11 @@
 
 "@types/resize-observer-browser@^0.1.5":
   version "0.1.5"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/@types/resize-observer-browser/-/resize-observer-browser-0.1.5.tgz"
+=======
+  resolved "https://registry.yarnpkg.com/@types/resize-observer-browser/-/resize-observer-browser-0.1.5.tgz#36d897708172ac2380cd486da7a3daf1161c1e23"
+>>>>>>> master
   integrity sha512-8k/67Z95Goa6Lznuykxkfhq9YU3l1Qe6LNZmwde1u7802a3x8v44oq0j91DICclxatTr0rNnhXx7+VTIetSrSQ==
 
 "@types/resolve@0.0.8":
@@ -7527,7 +7531,11 @@ lodash.templatesettings@^4.0.0:
 
 lodash.throttle@^4.1.1:
   version "4.1.1"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
+=======
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+>>>>>>> master
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
 lodash.toarray@^4.4.0:
@@ -9748,7 +9756,11 @@ react-refresh@^0.8.3:
 
 react-resize-detector@^6.6.5:
   version "6.6.5"
+<<<<<<< HEAD
   resolved "https://registry.npmjs.org/react-resize-detector/-/react-resize-detector-6.6.5.tgz"
+=======
+  resolved "https://registry.yarnpkg.com/react-resize-detector/-/react-resize-detector-6.6.5.tgz#adde70db9c76da09892134b8f6c4dfd351cdd93c"
+>>>>>>> master
   integrity sha512-khKS1IpC2cfx5+6G9HkAU/9CGjDV8woE57pVeH8nP5Ji52yXz6MpQEHEzJZ2obGghWrewN4php8ArxB4yWNqZA==
   dependencies:
     "@types/resize-observer-browser" "^0.1.5"
