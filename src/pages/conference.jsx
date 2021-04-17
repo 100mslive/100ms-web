@@ -12,6 +12,8 @@ export const Conference = ({ streams, loginInfo, sdk }) => {
   const [startTime, setStartTime] = useState(new Date());
   //current time to triger rendering
   const [currentTime, setTime] = useState(startTime);
+  const [isAudioMuted, setAudioMuted] = useState(false);
+  const [isVideoMuted, setVideoMuted] = useState(false);
 
   if (!loginInfo.token && !sdk) {
     history.push("/");
@@ -62,23 +64,19 @@ export const Conference = ({ streams, loginInfo, sdk }) => {
             let peer = sdk.getLocalPeer();
             console.log(peer);
             peer.audioTrack.setEnabled(!peer.audioTrack.enabled);
+            setAudioMuted(!isAudioMuted);
           }}
           videoButtonOnClick={() => {
             let peer = sdk.getLocalPeer();
             peer.videoTrack.setEnabled(!peer.videoTrack.enabled);
+            setVideoMuted(!isVideoMuted);
           }}
           leaveButtonOnClick={() => {
             sdk.leave();
             history.push("/");
           }}
-          isAudioMuted={
-            sdk.getLocalPeer().audioTrack &&
-            !sdk.getLocalPeer().audioTrack.enabled
-          }
-          isVideoMuted={
-            sdk.getLocalPeer().videoTrack &&
-            !sdk.getLocalPeer().videoTrack.enabled
-          }
+          isAudioMuted={isAudioMuted}
+          isVideoMuted={isVideoMuted}
         />
       </div>
     </div>
