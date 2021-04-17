@@ -1,83 +1,102 @@
 import React, { Component } from "react";
-import { streamsWithInfo } from "./data";
+import HMSSdk from "@100mslive/100ms-web-sdk";
 
 const AppContext = React.createContext();
 
 class AppContextProvider extends Component {
   state = {
-    client: null,
+    streams: [],
     loginInfo: {
-      roomName: "",
-      roomId: "",
-      displayName: "",
-      role: "Teacher",
-      env: "",
-    },
-    settings: {
-      selectedAudioDevice: "",
-      selectedVideoDevice: "",
-      resolution: "qvga",
-      bandwidth: 256,
-      codec: "vp8",
-      frameRate: 30,
-      isDevMode: false,
-      shouldApplyConstraints: false,
-    },
-    roomState: {
-      screenSharingEnabled: false,
-      localStream: null,
-      localScreen: null,
-      audioMuted: false,
-      videoMuted: false,
-      mode: "",
-      pinned: false,
-      streamsInfo: [],
-      pinned: false,
-      streamsWithInfo: streamsWithInfo,
+      token: null,
+      username: "",
+      role: "",
     },
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.loginInfo.token !== this.state.loginInfo.token) {
+      let { username, role, token } = this.state.loginInfo;
+      const sdk = new HMSSdk();
+      const config = {
+        userName: username,
+        authToken: token,
+        metaData: role,
+      };
+      const listener = {
+        onJoin: (room) => {
+          console.log(`[APP]: Joined room`, room);
+        },
+
+        onRoomUpdate: (type, room) => {
+          console.log(
+            `[APP]: onRoomUpdate with type ${type} and ${JSON.stringify(
+              room,
+              null,
+              2
+            )}`
+          );
+        },
+
+        onPeerUpdate: (type, peer) => {
+          console.log(`[APP]: onPeerUpdate with type ${type} and ${peer}`);
+        },
+
+        onTrackUpdate: (type, track) => {
+          console.log(`[APP]: onTrackUpdate with type ${type}`, track);
+
+          const newStreams = sdk
+            .getPeers()
+            .filter((peer) => Boolean(peer.videoTrack))
+            .map((peer) => {
+              console.log("PEER", peer);
+              return {
+                stream: peer.videoTrack.stream.nativeStream,
+                peer: {
+                  id: peer.peerId,
+                  displayName: peer.name || peer.peerId,
+                },
+                videoSource: "camera",
+                audioLevel: 0,
+                isLocal: peer.isLocal,
+              };
+            });
+          console.log(newStreams);
+          this.setState({ ...this.state, streams: newStreams });
+        },
+
+        onError: (error) => {
+          console.log("ERROR", error);
+        },
+      };
+
+      sdk.join(config, listener);
+
+      window.onunload = function () {
+        alert("leaving");
+        sdk.leave();
+      };
+    }
+  }
+
   render() {
     return (
       <AppContext.Provider
         value={{
+          setStreams: (streams) => {
+            this.setState({ ...this.state, streams });
+          },
+          setLoginInfo: (info) => {
+            this.setState({
+              ...this.state,
+              loginInfo: { ...this.state.loginInfo, ...info },
+            });
+            console.log({
+              ...this.state,
+              loginInfo: { ...this.state.loginInfo, ...info },
+            });
+          },
+          streams: this.state.streams,
           loginInfo: this.state.loginInfo,
-          settings: this.state.settings,
-          client: this.state.client,
-          streamsWithInfo: this.state.roomState.streamsWithInfo,
-          localStreamError: this.state.localStreamError,
-          roomState: this.state.roomState,
-
-          setSettings: (settings, cb) => {
-            this.setState(
-              {
-                settings: { ...this.state.settings, ...settings },
-              },
-              () => {
-                cb && cb();
-              }
-            );
-          },
-          setLoginInfo: (loginInfo) => {
-            this.setState({
-              loginInfo: { ...this.state.loginInfo, ...loginInfo },
-            });
-            if (loginInfo.displayName) {
-              localStorage.setItem(
-                "loginInfo.displayName",
-                loginInfo.displayName
-              );
-            }
-          },
-          setClient: (client) => {
-            this.setState({
-              client: client,
-            });
-          },
-          setRoomState: (roomState) => {
-            this.setState({
-              roomState: { ...this.state.roomState, ...roomState },
-            });
-          },
         }}
       >
         {this.props.children}
