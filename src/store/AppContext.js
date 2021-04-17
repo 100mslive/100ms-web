@@ -25,6 +25,7 @@ class AppContextProvider extends Component {
       const listener = {
         onJoin: (room) => {
           console.log(`[APP]: Joined room`, room);
+          updatePeerState();
         },
 
         onRoomUpdate: (type, room) => {
@@ -39,35 +40,39 @@ class AppContextProvider extends Component {
 
         onPeerUpdate: (type, peer) => {
           console.log(`[APP]: onPeerUpdate with type ${type} and ${peer}`);
+          updatePeerState();
         },
 
         onTrackUpdate: (type, track) => {
           console.log(`[APP]: onTrackUpdate with type ${type}`, track);
-
-          const newStreams = sdk
-            .getPeers()
-            .filter((peer) => Boolean(peer.videoTrack))
-            .map((peer) => {
-              console.log("PEER", peer);
-              return {
-                stream: peer.videoTrack.stream.nativeStream,
-                peer: {
-                  id: peer.peerId,
-                  displayName: peer.name || peer.peerId,
-                },
-                videoSource: "camera",
-                audioLevel: 0,
-                isLocal: peer.isLocal,
-              };
-            });
-          console.log(newStreams);
-          this.setState({ ...this.state, streams: newStreams });
+          updatePeerState();
         },
 
         onError: (error) => {
           console.log("ERROR", error);
         },
       };
+      const _this = this;
+
+      function updatePeerState() {
+        const newStreams = sdk
+          .getPeers()
+          .filter((peer) => Boolean(peer.videoTrack))
+          .map((peer) => {
+            console.log("PEER", peer);
+            return {
+              stream: peer.videoTrack.stream.nativeStream,
+              peer: {
+                id: peer.peerId,
+                displayName: peer.name || peer.peerId,
+              },
+              videoSource: "camera",
+              audioLevel: 0,
+              isLocal: peer.isLocal,
+            };
+          });
+        _this.setState({ ..._this.state, streams: newStreams });
+      }
 
       sdk.join(config, listener);
 
