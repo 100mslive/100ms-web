@@ -13,15 +13,15 @@ export const TeacherView = ({ streamsWithInfo }) => {
           streams={streamsWithInfo}
           classes={{
             root: "",
-            videoTileParent: " p-6 rounded-xl",
+            videoTileParent: " p-2 rounded-xl",
             video: "rounded-xl",
           }}
           showAudioMuteStatus={true}
           allowRemoteMute={true}
         />
       </div>
-      <div className="w-1/3 p-6">
-        {/* <VideoList
+
+      {/* <VideoList
           streams={streamsWithInfo.filter((peer) => peer.role === "Teacher")}
           classes={{
             videoTileParent: "p-5 rounded-xl",
@@ -31,7 +31,6 @@ export const TeacherView = ({ streamsWithInfo }) => {
           maxTileCount={4}
           showAudioMuteStatus={false}
         /> */}
-      </div>
     </React.Fragment>
   );
 };

@@ -1,10 +1,11 @@
-export default async function getToken(username, role) {
+export default async function getToken(username, role, roomId) {
   const response = await fetch("https://100ms-services.vercel.app/api/token", {
     method: "POST",
     body: JSON.stringify({
       env: "qa-in",
       role: role,
-      room_id: "6077d5e1dcee704ca43caea3",
+      room_id: roomId,
+      //room_id: "6077d5e1dcee704ca43caea3",
       user_name: username,
     }),
   });
