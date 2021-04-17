@@ -13,7 +13,7 @@ export const TeacherView = ({ streamsWithInfo }) => {
           streams={streamsWithInfo}
           classes={{
             root: "",
-            videoTileParent: " p-2 rounded-3xl",
+            //videoTileParent: " p-2 rounded-3xl",
             //video: "rounded-3xl",
           }}
           showAudioMuteStatus={true}

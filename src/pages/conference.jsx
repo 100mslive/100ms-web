@@ -8,12 +8,32 @@ import { useHistory } from "react-router-dom";
 
 export const Conference = ({ streams, loginInfo }) => {
   const history = useHistory();
+  //time when user enters room
+  const [startTime, setStartTime] = useState(new Date());
+  //current time to triger rendering
+  const [currentTime, setTime] = useState(startTime);
+
   if (!loginInfo.token) {
     history.push("/");
   }
+
+  //just to update time on header
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   return (
     <div className="w-full h-full bg-black">
-      <div style={{ height: "10%" }}>{/* <Header /> */}</div>
+      <div style={{ height: "10%" }}>
+        <Header
+          peer={{ displayName: loginInfo.username }}
+          time={Math.floor((currentTime - startTime) / 1000)}
+        />
+      </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {streams && streams.length > 0 && (
           <TeacherView streamsWithInfo={streams} />
