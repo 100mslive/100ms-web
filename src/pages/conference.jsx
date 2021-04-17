@@ -6,7 +6,7 @@ import { TeacherView } from "../views/teacherView";
 import { StudentView } from "../views/studentView";
 import { useHistory } from "react-router-dom";
 
-export const Conference = ({ streams, loginInfo }) => {
+export const Conference = ({ streams, loginInfo, sdk }) => {
   const history = useHistory();
   //time when user enters room
   const [startTime, setStartTime] = useState(new Date());
@@ -59,14 +59,18 @@ export const Conference = ({ streams, loginInfo }) => {
       <div className="bg-black" style={{ height: "10%" }}>
         <ControlBar
           audioButtonOnClick={() => {
-            alert("audio toggle here");
+            let peer = sdk.getLocalPeer();
+            peer.audioTrack.setEnabled(!peer.audioTrack.enabled);
           }}
           videoButtonOnClick={() => {
-            alert("video toggle here");
+            let peer = sdk.getLocalPeer();
+            console.log(peer.videoTrack.setEnabled(!peer.videoTrack.enabled));
           }}
           leaveButtonOnClick={() => {
             alert("left room");
           }}
+          isAudioMuted={!sdk.getLocalPeer().audioTrack.enabled}
+          isVideoMuted={!sdk.getLocalPeer().videoTrack.enabled}
         />
       </div>
     </div>
