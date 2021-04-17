@@ -13,9 +13,7 @@ export const Conference = ({ streams, loginInfo }) => {
   }
   return (
     <div className="w-full h-full bg-black">
-      <div style={{ height: "10%" }}>
-        <Header />
-      </div>
+      <div style={{ height: "10%" }}>{/* <Header /> */}</div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {streams && streams.length > 0 && (
           <TeacherView streamsWithInfo={streams} />
@@ -39,7 +37,17 @@ export const Conference = ({ streams, loginInfo }) => {
         // )} */}
       </div>
       <div className="bg-black" style={{ height: "10%" }}>
-        <ControlBar />
+        <ControlBar
+          audioButtonOnClick={() => {
+            alert("audio toggle here");
+          }}
+          videoButtonOnClick={() => {
+            alert("video toggle here");
+          }}
+          leaveButtonOnClick={() => {
+            alert("left room");
+          }}
+        />
       </div>
     </div>
   );
