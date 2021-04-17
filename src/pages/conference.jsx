@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import HMSSdk from "@100mslive/100ms-web-sdk";
 import { AppContext } from "../store/AppContext";
 import { Header, ControlBar } from "@100mslive/sdk-components";
@@ -6,18 +6,21 @@ import { TeacherView } from "../views/teacherView";
 import { StudentView } from "../views/studentView";
 import { useHistory } from "react-router-dom";
 
-export const Conference = ({ streams, loginInfo, sdk }) => {
+export const Conference = () => {
   const history = useHistory();
+  const context = useContext(AppContext);
+  const { streams, loginInfo, sdk } = context;
 
   //time when user enters room
   const [startTime, setStartTime] = useState(new Date());
   //current time to triger rendering
   const [currentTime, setTime] = useState(startTime);
 
-  if (!loginInfo.token || !sdk || !sdk.getLocalPeer()) {
+  if (!loginInfo.token) {
     history.push("/");
-    //return;
   }
+
+  console.log(context, "here");
 
   //just to update time on header
   useEffect(() => {
@@ -28,6 +31,7 @@ export const Conference = ({ streams, loginInfo, sdk }) => {
       clearInterval(interval);
     };
   }, []);
+
   return (
     <div className="w-full h-full bg-black">
       <div style={{ height: "10%" }}>
