@@ -13,7 +13,7 @@ export const Conference = ({ streams, loginInfo, sdk }) => {
   //current time to triger rendering
   const [currentTime, setTime] = useState(startTime);
 
-  if (!loginInfo.token) {
+  if (!loginInfo.token && !sdk) {
     history.push("/");
   }
 
@@ -60,17 +60,25 @@ export const Conference = ({ streams, loginInfo, sdk }) => {
         <ControlBar
           audioButtonOnClick={() => {
             let peer = sdk.getLocalPeer();
+            console.log(peer);
             peer.audioTrack.setEnabled(!peer.audioTrack.enabled);
           }}
           videoButtonOnClick={() => {
             let peer = sdk.getLocalPeer();
-            console.log(peer.videoTrack.setEnabled(!peer.videoTrack.enabled));
+            peer.videoTrack.setEnabled(!peer.videoTrack.enabled);
           }}
           leaveButtonOnClick={() => {
-            alert("left room");
+            sdk.leave();
+            history.push("/");
           }}
-          isAudioMuted={!sdk.getLocalPeer().audioTrack.enabled}
-          isVideoMuted={!sdk.getLocalPeer().videoTrack.enabled}
+          isAudioMuted={
+            sdk.getLocalPeer().audioTrack &&
+            !sdk.getLocalPeer().audioTrack.enabled
+          }
+          isVideoMuted={
+            sdk.getLocalPeer().videoTrack &&
+            !sdk.getLocalPeer().videoTrack.enabled
+          }
         />
       </div>
     </div>
