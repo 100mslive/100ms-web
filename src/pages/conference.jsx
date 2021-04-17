@@ -37,7 +37,17 @@ export const Conference = ({ streams, loginInfo }) => {
         // )} */}
       </div>
       <div className="bg-black" style={{ height: "10%" }}>
-        <ControlBar />
+        <ControlBar
+          audioButtonOnClick={() => {
+            alert("audio toggle here");
+          }}
+          videoButtonOnClick={() => {
+            alert("video toggle here");
+          }}
+          leaveButtonOnClick={() => {
+            alert("left room");
+          }}
+        />
       </div>
     </div>
   );
