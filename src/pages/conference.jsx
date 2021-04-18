@@ -28,7 +28,7 @@ export const Conference = () => {
     }, 1000);
     return () => {
       clearInterval(interval);
-      sdk.leave();
+      if (sdk) sdk.leave();
     };
   }, []);
   return (
