@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHMSRoom } from '@100mslive/sdk-components';
+import LogRocket from "logrocket";
 
 const AppContext = React.createContext();
 
@@ -24,6 +25,10 @@ const AppContextProvider = ({ children }) => {
     const listener = {
       onJoin: (room) => {
         console.log(`[APP]: Joined room`, room);
+        LogRocket.identify(sdk.localPeer.peerId, {
+          name: username,
+          role, token
+        });
         updatePeerState();
       },
 
