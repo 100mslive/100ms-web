@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import HMSSdk from "@100mslive/100ms-web-sdk";
+import { useHMSRoom } from '@100mslive/sdk-components';
 
 const AppContext = React.createContext();
 
 const AppContextProvider = ({ children }) => {
   const [state, setState] = useState({
-    sdk: null,
     streams: [],
     loginInfo: {
       token: null,
@@ -17,7 +16,6 @@ const AppContextProvider = ({ children }) => {
   useEffect(() => {
     let { username, role, token } = state.loginInfo;
     if (!token) return;
-    const sdk = new HMSSdk();
     const config = {
       userName: username,
       authToken: token,
@@ -56,8 +54,7 @@ const AppContextProvider = ({ children }) => {
     const _this = this;
 
     function updatePeerState() {
-      const newStreams = sdk
-        .getPeers()
+      const newStreams = useHMSRoom.peers
         .filter((peer) => Boolean(peer.videoTrack))
         .map((peer) => {
           console.log("PEER", peer);
@@ -75,14 +72,9 @@ const AppContextProvider = ({ children }) => {
       setState((prevState) => ({ ...prevState, streams: newStreams }));
     }
 
-    sdk.join(config, listener);
-    console.log(sdk, "set here");
-    setState((prevState) => ({ ...prevState, sdk }));
+    useHMSRoom.join(config, listener);
+    console.log("JOIN CALLED");
 
-    window.onunload = function () {
-      alert("leaving");
-      sdk.leave();
-    };
   }, [state.loginInfo.token]);
 
   return (
@@ -103,7 +95,6 @@ const AppContextProvider = ({ children }) => {
         },
         streams: state.streams,
         loginInfo: state.loginInfo,
-        sdk: state.sdk,
       }}
     >
       {children}

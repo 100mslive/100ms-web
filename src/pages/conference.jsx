@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import HMSSdk from "@100mslive/100ms-web-sdk";
 import { AppContext } from "../store/AppContext";
-import { Header, ControlBar } from "@100mslive/sdk-components";
+import { Header, ControlBar, useHMSRoom } from "@100mslive/sdk-components";
 import { TeacherView } from "../views/teacherView";
 import { StudentView } from "../views/studentView";
 import { useHistory } from "react-router-dom";
@@ -9,7 +8,7 @@ import { useHistory } from "react-router-dom";
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { streams, loginInfo, sdk } = context;
+  const { streams, loginInfo } = context;
 
   //time when user enters room
   const [startTime, setStartTime] = useState(new Date());
@@ -28,7 +27,7 @@ export const Conference = () => {
     }, 1000);
     return () => {
       clearInterval(interval);
-      sdk.leave();
+      useHMSRoom.leave();
     };
   }, []);
   return (
@@ -62,41 +61,39 @@ export const Conference = () => {
         // )} */}
       </div>
       <div className="bg-black" style={{ height: "10%" }}>
-        {sdk && (
-          <ControlBar
-            audioButtonOnClick={() => {
-              let peer = sdk.getLocalPeer();
-              console.log(peer);
-              const isAudioEnabled =
-                sdk.getLocalPeer().audioTrack &&
-                sdk.getLocalPeer().audioTrack.enabled;
-              peer.audioTrack.setEnabled(!isAudioEnabled);
-            }}
-            videoButtonOnClick={() => {
-              let peer = sdk.getLocalPeer();
-              const isVideoEnabled =
-                sdk.getLocalPeer().videoTrack &&
-                sdk.getLocalPeer().videoTrack.enabled;
-              peer.videoTrack.setEnabled(!isVideoEnabled);
-            }}
-            leaveButtonOnClick={() => {
-              sdk.leave();
-              history.push("/");
-            }}
-            isAudioMuted={
-              !(
-                sdk.getLocalPeer().audioTrack &&
-                sdk.getLocalPeer().audioTrack.enabled
-              )
-            }
-            isVideoMuted={
-              !(
-                sdk.getLocalPeer().videoTrack &&
-                sdk.getLocalPeer().videoTrack.enabled
-              )
-            }
-          />
-        )}
+        <ControlBar
+          audioButtonOnClick={() => {
+            let peer = useHMSRoom.localPeer;
+            console.log(peer);
+            const isAudioEnabled =
+              localPeer.audioTrack &&
+              localPeer.audioTrack.enabled;
+            useHMSRoom.toggleMute(!isAudioEnabled);
+          }}
+          videoButtonOnClick={() => {
+            let peer = useHMSRoom.localPeer;
+            const isVideoEnabled =
+              localPeer.videoTrack &&
+              localPeer.videoTrack.enabled;
+            useHMSRoom.toggleMute(!isVideoEnabled);
+          }}
+          leaveButtonOnClick={() => {
+            useHMSRoom.leave();
+            history.push("/");
+          }}
+          isAudioMuted={
+            !(
+              useHMSRoom.localPeer.audioTrack &&
+              useHMSRoom.localPeer.audioTrack.enabled
+            )
+          }
+          isVideoMuted={
+            !(
+              useHMSRoom.localPeer.videoTrack &&
+              useHMSRoom.localPeer.videoTrack.enabled
+            )
+          }
+        />
       </div>
     </div>
   );
