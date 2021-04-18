@@ -29,7 +29,8 @@ const AppContextProvider = ({ children }) => {
         console.log(`[APP]: Joined room`, room);
         LogRocket.identify(sdk.localPeer.peerId, {
           name: username,
-          role, token
+          role,
+          token,
         });
         updatePeerState();
       },
