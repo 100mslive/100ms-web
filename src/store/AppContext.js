@@ -25,7 +25,7 @@ const AppContextProvider = ({ children }) => {
     const listener = {
       onJoin: (room) => {
         console.log(`[APP]: Joined room`, room);
-        LogRocket.identify(sdk.localPeer.peerId, {
+        LogRocket.identify(useHMSRoom.localPeer.peerId, {
           name: username,
           role, token
         });

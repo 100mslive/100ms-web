@@ -66,15 +66,15 @@ export const Conference = () => {
             let peer = useHMSRoom.localPeer;
             console.log(peer);
             const isAudioEnabled =
-              localPeer.audioTrack &&
-              localPeer.audioTrack.enabled;
+              peer.audioTrack &&
+              peer.audioTrack.enabled;
             useHMSRoom.toggleMute(!isAudioEnabled);
           }}
           videoButtonOnClick={() => {
             let peer = useHMSRoom.localPeer;
             const isVideoEnabled =
-              localPeer.videoTrack &&
-              localPeer.videoTrack.enabled;
+              peer.videoTrack &&
+              peer.videoTrack.enabled;
             useHMSRoom.toggleMute(!isVideoEnabled);
           }}
           leaveButtonOnClick={() => {

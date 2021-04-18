@@ -16,11 +16,11 @@ function App() {
               <CreateRoom />
             </Route> */}
 
-              <Route path="/meeting">
-                <Conference />
-              </Route>
-              <Route path="/">
-                <JoinRoom />;
+            <Route path="/meeting">
+              <Conference />
+            </Route>
+            <Route path="/">
+              <JoinRoom />;
             </Route>
             </Switch>
           </Router>
