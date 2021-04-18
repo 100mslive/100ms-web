@@ -26,6 +26,7 @@ export const Conference = ({ streams, loginInfo, sdk }) => {
     }, 1000);
     return () => {
       clearInterval(interval);
+      sdk.leave();
     };
   }, []);
   return (
