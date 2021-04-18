@@ -83,6 +83,7 @@ export const Conference = () => {
               sdk.leave();
               history.push("/");
             }}
+            screenshareButtonOnClick={() => {}}
             isAudioMuted={
               !(
                 sdk.getLocalPeer().audioTrack &&
