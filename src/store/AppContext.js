@@ -58,14 +58,12 @@ const AppContextProvider = ({ children }) => {
         console.log("ERROR", error);
       },
     };
-    const _this = this;
 
     function updatePeerState() {
       const newStreams = sdk
         .getPeers()
         .filter((peer) => Boolean(peer.videoTrack))
         .map((peer) => {
-          console.log("PEER", peer);
           return {
             stream: peer.videoTrack.stream.nativeStream,
             peer: {
