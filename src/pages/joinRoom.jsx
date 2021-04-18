@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { AppContext } from "../store/AppContext";
 import getToken from "../utlis/index";
 
-export const JoinRoom = ({ setLoginInfo }) => {
+export const JoinRoom = () => {
   const history = useHistory();
+  const { setLoginInfo } = useContext(AppContext);
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("Teacher");
   const [roomId, setRoomId] = useState("6077d5e1dcee704ca43caea3");

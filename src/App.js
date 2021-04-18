@@ -17,24 +17,10 @@ function App() {
             </Route> */}
 
             <Route path="/meeting">
-              <AppContext.Consumer>
-                {(context) => {
-                  return (
-                    <Conference
-                      streams={context.streams}
-                      loginInfo={context.loginInfo}
-                      sdk={context.sdk}
-                    />
-                  );
-                }}
-              </AppContext.Consumer>
+              <Conference />
             </Route>
             <Route path="/">
-              <AppContext.Consumer>
-                {(context) => {
-                  return <JoinRoom setLoginInfo={context.setLoginInfo} />;
-                }}
-              </AppContext.Consumer>
+              <JoinRoom />;
             </Route>
           </Switch>
         </Router>
