@@ -18,9 +18,8 @@ export const Conference = () => {
 
   if (!loginInfo.token) {
     history.push("/");
+    //return;
   }
-
-  console.log(context, "here");
 
   //just to update time on header
   useEffect(() => {
@@ -29,9 +28,9 @@ export const Conference = () => {
     }, 1000);
     return () => {
       clearInterval(interval);
+      sdk.leave();
     };
   }, []);
-
   return (
     <div className="w-full h-full bg-black">
       <div style={{ height: "10%" }}>
