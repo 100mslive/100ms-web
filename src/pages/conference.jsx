@@ -34,7 +34,7 @@ export const Conference = () => {
 
   return (
     <div className="w-full h-full bg-black">
-      <div style={{ height: "10%" }}>
+      <div style={{ height: "8%" }}>
         <Header
           peer={{ displayName: loginInfo.username }}
           time={Math.floor((currentTime - startTime) / 1000)}
