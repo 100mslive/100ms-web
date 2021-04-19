@@ -100,7 +100,7 @@ const AppContextProvider = ({ children }) => {
       alert("leaving");
       sdk.leave();
     };
-  }, [state.loginInfo.token]);
+  }, [state.loginInfo]);
 
   return (
     <AppContext.Provider
