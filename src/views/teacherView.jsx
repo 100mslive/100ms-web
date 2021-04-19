@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Header,
-  VideoList,
-  VideoTile,
-  ControlBar,
-} from "@100mslive/sdk-components";
+import { VideoList } from "@100mslive/sdk-components";
 export const TeacherView = ({ streamsWithInfo }) => {
   return (
     <React.Fragment>

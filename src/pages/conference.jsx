@@ -6,30 +6,29 @@ import { useHistory } from "react-router-dom";
 
 export const Conference = () => {
   const history = useHistory();
-  const context = useContext(AppContext);
-  const { streams, loginInfo, sdk } = context;
+  const {
+    streams,
+    loginInfo,
+    sdk,
+    addVideoTrack,
+    removeVideoTrack,
+  } = useContext(AppContext);
 
-  //time when user enters room
-  const [startTime, setStartTime] = useState(new Date());
-  //current time to triger rendering
-  const [currentTime, setTime] = useState(startTime);
+  const [isScreenShareEnabled, setScreenShareEnabled] = useState(false);
+  const [isAudioEnabled, setAudioEnabled] = useState(true);
+  const [isVideoEnabled, setVideoEnabled] = useState(true);
 
   if (!loginInfo.token) {
     history.push("/");
   }
-
   useEffect(() => {
-    return () => {
-      if (sdk) sdk.leave();
-    };
-  }, []);
+    console.log("sdk changed");
+  }, [sdk]);
+
   return (
     <div className="w-full h-full bg-black">
       <div style={{ height: "10%" }}>
-        <Header
-          peer={{ displayName: loginInfo.username }}
-          time={Math.floor((currentTime - startTime) / 1000)}
-        />
+        <Header />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {streams && streams.length > 0 && (
@@ -41,36 +40,42 @@ export const Conference = () => {
           <ControlBar
             audioButtonOnClick={() => {
               let peer = sdk.getLocalPeer();
-              console.log(peer);
-              const isAudioEnabled =
-                sdk.getLocalPeer().audioTrack &&
-                sdk.getLocalPeer().audioTrack.enabled;
-              peer.audioTrack.setEnabled(!isAudioEnabled);
+
+              setAudioEnabled((isAudioEnabled) => {
+                peer.audioTrack.setEnabled(!isAudioEnabled);
+                return !isAudioEnabled;
+              });
             }}
             videoButtonOnClick={() => {
               let peer = sdk.getLocalPeer();
-              const isVideoEnabled =
-                sdk.getLocalPeer().videoTrack &&
-                sdk.getLocalPeer().videoTrack.enabled;
-              peer.videoTrack.setEnabled(!isVideoEnabled);
+              setVideoEnabled((isVideoEnabled) => {
+                peer.videoTrack.setEnabled(!isVideoEnabled);
+                return !isVideoEnabled;
+              });
             }}
             leaveButtonOnClick={() => {
               sdk.leave();
               history.push("/");
             }}
-            screenshareButtonOnClick={() => {}}
-            isAudioMuted={
-              !(
-                sdk.getLocalPeer().audioTrack &&
-                sdk.getLocalPeer().audioTrack.enabled
-              )
-            }
-            isVideoMuted={
-              !(
-                sdk.getLocalPeer().videoTrack &&
-                sdk.getLocalPeer().videoTrack.enabled
-              )
-            }
+            screenshareButtonOnClick={async () => {
+              if (!isScreenShareEnabled) {
+                await sdk.startScreenShare(async () => {
+                  setScreenShareEnabled(false);
+                  let screenShare = sdk.getLocalPeer().auxiliaryTracks[0];
+                  removeVideoTrack(screenShare, sdk.getLocalPeer());
+                  await sdk.stopScreenShare();
+                });
+                let screenShare = sdk.getLocalPeer().auxiliaryTracks[0];
+                addVideoTrack(screenShare, sdk.getLocalPeer());
+              } else {
+                let screenShare = sdk.getLocalPeer().auxiliaryTracks[0];
+                removeVideoTrack(screenShare, sdk.getLocalPeer());
+                await sdk.stopScreenShare();
+              }
+              setScreenShareEnabled((prevState) => !prevState);
+            }}
+            isAudioMuted={!isAudioEnabled}
+            isVideoMuted={!isVideoEnabled}
           />
         )}
       </div>
