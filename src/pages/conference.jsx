@@ -6,20 +6,25 @@ import { useHistory } from "react-router-dom";
 
 export const Conference = () => {
   const history = useHistory();
-  const context = useContext(AppContext);
-  const { streams, loginInfo, sdk, addVideoTrack, removeVideoTrack } = context;
+  const {
+    streams,
+    loginInfo,
+    sdk,
+    addVideoTrack,
+    removeVideoTrack,
+  } = useContext(AppContext);
 
   const [isScreenShareEnabled, setScreenShareEnabled] = useState(false);
+  const [isAudioEnabled, setAudioEnabled] = useState(true);
+  const [isVideoEnabled, setVideoEnabled] = useState(true);
 
   if (!loginInfo.token) {
     history.push("/");
   }
-
   useEffect(() => {
-    return () => {
-      if (sdk) sdk.leave();
-    };
-  }, []);
+    console.log("sdk changed");
+  }, [sdk]);
+
   return (
     <div className="w-full h-full bg-black">
       <div style={{ height: "10%" }}>
@@ -35,18 +40,18 @@ export const Conference = () => {
           <ControlBar
             audioButtonOnClick={() => {
               let peer = sdk.getLocalPeer();
-              console.log(peer);
-              const isAudioEnabled =
-                sdk.getLocalPeer().audioTrack &&
-                sdk.getLocalPeer().audioTrack.enabled;
-              peer.audioTrack.setEnabled(!isAudioEnabled);
+
+              setAudioEnabled((isAudioEnabled) => {
+                peer.audioTrack.setEnabled(!isAudioEnabled);
+                return !isAudioEnabled;
+              });
             }}
             videoButtonOnClick={() => {
               let peer = sdk.getLocalPeer();
-              const isVideoEnabled =
-                sdk.getLocalPeer().videoTrack &&
-                sdk.getLocalPeer().videoTrack.enabled;
-              peer.videoTrack.setEnabled(!isVideoEnabled);
+              setVideoEnabled((isVideoEnabled) => {
+                peer.videoTrack.setEnabled(!isVideoEnabled);
+                return !isVideoEnabled;
+              });
             }}
             leaveButtonOnClick={() => {
               sdk.leave();
@@ -69,18 +74,8 @@ export const Conference = () => {
               }
               setScreenShareEnabled((prevState) => !prevState);
             }}
-            isAudioMuted={
-              !(
-                sdk.getLocalPeer().audioTrack &&
-                sdk.getLocalPeer().audioTrack.enabled
-              )
-            }
-            isVideoMuted={
-              !(
-                sdk.getLocalPeer().videoTrack &&
-                sdk.getLocalPeer().videoTrack.enabled
-              )
-            }
+            isAudioMuted={!isAudioEnabled}
+            isVideoMuted={!isVideoEnabled}
           />
         )}
       </div>
