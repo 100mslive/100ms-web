@@ -74,8 +74,6 @@ const AppContextProvider = ({ children }) => {
 
       onPeerUpdate: (type, peer) => {
         console.log(`[APP]: onPeerUpdate with type ${type} and ${peer}`);
-
-        //updatePeerState();
       },
 
       onTrackUpdate: (type, track, peer) => {
@@ -87,7 +85,6 @@ const AppContextProvider = ({ children }) => {
             removeVideoTrack(track, peer);
           }
         }
-        //updatePeerState();
       },
 
       onError: (error) => {
