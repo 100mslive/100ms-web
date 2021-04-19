@@ -4,7 +4,7 @@ import { Header, ControlBar } from "@100mslive/sdk-components";
 import { TeacherView } from "../views/teacherView";
 import { StudentView } from "../views/studentView";
 import { useHistory } from "react-router-dom";
-import { useHMSRoom } from '../store/HMSContext';
+import { useHMSRoom } from '@100mslive/sdk-components';
 
 export const Conference = () => {
   const history = useHistory();

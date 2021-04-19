@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LogRocket from "logrocket";
-import { useHMSRoom } from './HMSContext';
+import { useHMSRoom } from '@100mslive/sdk-components';
 
 const AppContext = React.createContext();
 

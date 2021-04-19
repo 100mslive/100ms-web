@@ -5,7 +5,7 @@ import {
   VideoTile,
   ControlBar,
 } from "@100mslive/sdk-components";
-import { useHMSRoom } from '../store/HMSContext';
+import { useHMSRoom } from '@100mslive/sdk-components';
 
 export const TeacherView = () => {
 
