@@ -7,12 +7,9 @@ import { useHistory } from "react-router-dom";
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { streams, loginInfo, sdk } = context;
+  const { streams, loginInfo, sdk, addVideoTrack, removeVideoTrack } = context;
 
-  //time when user enters room
-  const [startTime, setStartTime] = useState(new Date());
-  //current time to triger rendering
-  const [currentTime, setTime] = useState(startTime);
+  const [isScreenShareEnabled, setScreenShareEnabled] = useState(false);
 
   if (!loginInfo.token) {
     history.push("/");
@@ -26,10 +23,7 @@ export const Conference = () => {
   return (
     <div className="w-full h-full bg-black">
       <div style={{ height: "10%" }}>
-        <Header
-          peer={{ displayName: loginInfo.username }}
-          time={Math.floor((currentTime - startTime) / 1000)}
-        />
+        <Header />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {streams && streams.length > 0 && (
@@ -58,7 +52,23 @@ export const Conference = () => {
               sdk.leave();
               history.push("/");
             }}
-            screenshareButtonOnClick={() => {}}
+            screenshareButtonOnClick={async () => {
+              if (!isScreenShareEnabled) {
+                await sdk.startScreenShare(async () => {
+                  setScreenShareEnabled(false);
+                  let screenShare = sdk.getLocalPeer().auxiliaryTracks[0];
+                  removeVideoTrack(screenShare, sdk.getLocalPeer());
+                  await sdk.stopScreenShare();
+                });
+                let screenShare = sdk.getLocalPeer().auxiliaryTracks[0];
+                addVideoTrack(screenShare, sdk.getLocalPeer());
+              } else {
+                let screenShare = sdk.getLocalPeer().auxiliaryTracks[0];
+                removeVideoTrack(screenShare, sdk.getLocalPeer());
+                await sdk.stopScreenShare();
+              }
+              setScreenShareEnabled((prevState) => !prevState);
+            }}
             isAudioMuted={
               !(
                 sdk.getLocalPeer().audioTrack &&
