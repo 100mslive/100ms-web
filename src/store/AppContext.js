@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useHMSRoom } from '@100mslive/sdk-components';
+import { HMSContext, useHMSRoom } from '@100mslive/sdk-components';
 import LogRocket from "logrocket";
 
 const AppContext = React.createContext();
 
 const AppContextProvider = ({ children }) => {
+  const { join, leave, localPeer, peers, toggleMute } = useHMSRoom();
+  
   const [state, setState] = useState({
     streams: [],
     loginInfo: {
@@ -25,7 +27,7 @@ const AppContextProvider = ({ children }) => {
     const listener = {
       onJoin: (room) => {
         console.log(`[APP]: Joined room`, room);
-        LogRocket.identify(useHMSRoom.localPeer.peerId, {
+        LogRocket.identify(localPeer.peerId, {
           name: username,
           role, token
         });
@@ -59,7 +61,7 @@ const AppContextProvider = ({ children }) => {
     const _this = this;
 
     function updatePeerState() {
-      const newStreams = useHMSRoom.peers
+      const newStreams = peers
         .filter((peer) => Boolean(peer.videoTrack))
         .map((peer) => {
           console.log("PEER", peer);
@@ -77,7 +79,7 @@ const AppContextProvider = ({ children }) => {
       setState((prevState) => ({ ...prevState, streams: newStreams }));
     }
 
-    useHMSRoom.join(config, listener);
+    join(config, listener);
     console.log("JOIN CALLED");
 
   }, [state.loginInfo.token]);

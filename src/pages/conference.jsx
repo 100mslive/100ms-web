@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { Header, ControlBar, useHMSRoom } from "@100mslive/sdk-components";
+import { Header, ControlBar, HMSContext, useHMSRoom } from "@100mslive/sdk-components";
 import { TeacherView } from "../views/teacherView";
 import { StudentView } from "../views/studentView";
 import { useHistory } from "react-router-dom";
@@ -9,6 +9,8 @@ export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
   const { streams, loginInfo } = context;
+
+  const { join, leave, localPeer, peers, toggleMute } = useHMSRoom();
 
   //time when user enters room
   const [startTime, setStartTime] = useState(new Date());
@@ -27,7 +29,7 @@ export const Conference = () => {
     }, 1000);
     return () => {
       clearInterval(interval);
-      useHMSRoom.leave();
+      leave();
     };
   }, []);
   return (
@@ -63,34 +65,34 @@ export const Conference = () => {
       <div className="bg-black" style={{ height: "10%" }}>
         <ControlBar
           audioButtonOnClick={() => {
-            let peer = useHMSRoom.localPeer;
+            let peer = localPeer;
             console.log(peer);
             const isAudioEnabled =
               peer.audioTrack &&
               peer.audioTrack.enabled;
-            useHMSRoom.toggleMute(!isAudioEnabled);
+            toggleMute(!isAudioEnabled);
           }}
           videoButtonOnClick={() => {
-            let peer = useHMSRoom.localPeer;
+            let peer = localPeer;
             const isVideoEnabled =
               peer.videoTrack &&
               peer.videoTrack.enabled;
-            useHMSRoom.toggleMute(!isVideoEnabled);
+            toggleMute(!isVideoEnabled);
           }}
           leaveButtonOnClick={() => {
-            useHMSRoom.leave();
+            leave();
             history.push("/");
           }}
           isAudioMuted={
             !(
-              useHMSRoom.localPeer.audioTrack &&
-              useHMSRoom.localPeer.audioTrack.enabled
+              localPeer.audioTrack &&
+              localPeer.audioTrack.enabled
             )
           }
           isVideoMuted={
             !(
-              useHMSRoom.localPeer.videoTrack &&
-              useHMSRoom.localPeer.videoTrack.enabled
+              localPeer.videoTrack &&
+              localPeer.videoTrack.enabled
             )
           }
         />

@@ -1,4 +1,4 @@
-import { Thing, Avatar, Header, HMSRoomProvider } from "@100mslive/sdk-components";
+import { Thing, Avatar, Header, HMSContext, HMSRoomProvider } from "@100mslive/sdk-components";
 import { JoinRoom } from "./pages/joinRoom.jsx";
 import { CreateRoom } from "./pages/createRoom.jsx";
 import { Conference } from "./pages/conference.jsx";
