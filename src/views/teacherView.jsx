@@ -5,11 +5,31 @@ import {
   VideoTile,
   ControlBar,
 } from "@100mslive/sdk-components";
-export const TeacherView = ({ streamsWithInfo }) => {
+import { useHMSRoom } from '../store/HMSContext';
+
+export const TeacherView = () => {
+
+  const { peers } = useHMSRoom();
+
+  const streamsWithInfo = peers && peers.length>0 && peers[0] && peers
+    .filter((peer) => Boolean(peer.videoTrack))
+    .map((peer) => {
+      return {
+        stream: peer.videoTrack.stream.nativeStream,
+        peer: {
+          id: peer.peerId,
+          displayName: peer.name || peer.peerId,
+        },
+        videoSource: "camera",
+        audioLevel: 0,
+        isLocal: peer.isLocal,
+      };
+    });
+
   return (
     <React.Fragment>
       <div className="w-full h-full ">
-        <VideoList
+        {streamsWithInfo && <VideoList
           streams={streamsWithInfo}
           classes={{
             root: "",
@@ -18,8 +38,8 @@ export const TeacherView = ({ streamsWithInfo }) => {
           }}
           showAudioMuteStatus={true}
           allowRemoteMute={true}
-          //maxTileCount={9}
-        />
+        //maxTileCount={9}
+        />}
       </div>
 
       {/* <VideoList

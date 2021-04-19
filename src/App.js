@@ -1,9 +1,10 @@
-import { Thing, Avatar, Header, HMSContext, HMSRoomProvider } from "@100mslive/sdk-components";
+import { Thing, Avatar, Header } from "@100mslive/sdk-components";
 import { JoinRoom } from "./pages/joinRoom.jsx";
 import { CreateRoom } from "./pages/createRoom.jsx";
 import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { AppContext, AppContextProvider } from "./store/AppContext.js";
+import { HMSRoomProvider } from './store/HMSContext';
 
 function App() {
   return (

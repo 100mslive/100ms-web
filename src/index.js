@@ -11,8 +11,6 @@ if (process.env.NODE_ENV === "production") {
   setupLogRocketReact(LogRocket);
 }
 
-console.log(App);
-
 ReactDOM.render(
   <React.StrictMode>
     <App />

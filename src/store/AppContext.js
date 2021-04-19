@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { HMSContext, useHMSRoom } from '@100mslive/sdk-components';
 import LogRocket from "logrocket";
+import { useHMSRoom } from './HMSContext';
 
 const AppContext = React.createContext();
 
 const AppContextProvider = ({ children }) => {
-  const { join, leave, localPeer, peers, toggleMute } = useHMSRoom();
-  
+  const { join, localPeer } = useHMSRoom();
+
   const [state, setState] = useState({
-    streams: [],
     loginInfo: {
       token: null,
       username: "",
@@ -27,11 +26,6 @@ const AppContextProvider = ({ children }) => {
     const listener = {
       onJoin: (room) => {
         console.log(`[APP]: Joined room`, room);
-        LogRocket.identify(localPeer.peerId, {
-          name: username,
-          role, token
-        });
-        updatePeerState();
       },
 
       onRoomUpdate: (type, room) => {
@@ -46,12 +40,10 @@ const AppContextProvider = ({ children }) => {
 
       onPeerUpdate: (type, peer) => {
         console.log(`[APP]: onPeerUpdate with type ${type} and ${peer}`);
-        updatePeerState();
       },
 
       onTrackUpdate: (type, track) => {
         console.log(`[APP]: onTrackUpdate with type ${type}`, track);
-        updatePeerState();
       },
 
       onError: (error) => {
@@ -60,36 +52,22 @@ const AppContextProvider = ({ children }) => {
     };
     const _this = this;
 
-    function updatePeerState() {
-      const newStreams = peers
-        .filter((peer) => Boolean(peer.videoTrack))
-        .map((peer) => {
-          console.log("PEER", peer);
-          return {
-            stream: peer.videoTrack.stream.nativeStream,
-            peer: {
-              id: peer.peerId,
-              displayName: peer.name || peer.peerId,
-            },
-            videoSource: "camera",
-            audioLevel: 0,
-            isLocal: peer.isLocal,
-          };
-        });
-      setState((prevState) => ({ ...prevState, streams: newStreams }));
-    }
-
     join(config, listener);
     console.log("JOIN CALLED");
 
   }, [state.loginInfo.token]);
 
+  useEffect(() => {
+    localPeer && LogRocket.identify(localPeer.peerId, {
+      name: state.loginInfo.username,
+      role: state.loginInfo.role,
+      token: state.loginInfo.token
+    });
+  }, [localPeer]);
+
   return (
     <AppContext.Provider
       value={{
-        setStreams: (streams) => {
-          setState({ ...state, streams });
-        },
         setLoginInfo: (info) => {
           setState({
             ...state,
@@ -100,7 +78,6 @@ const AppContextProvider = ({ children }) => {
             loginInfo: { ...state.loginInfo, ...info },
           });
         },
-        streams: state.streams,
         loginInfo: state.loginInfo,
       }}
     >

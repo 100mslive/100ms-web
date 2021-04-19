@@ -1,16 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { Header, ControlBar, HMSContext, useHMSRoom } from "@100mslive/sdk-components";
+import { Header, ControlBar } from "@100mslive/sdk-components";
 import { TeacherView } from "../views/teacherView";
 import { StudentView } from "../views/studentView";
 import { useHistory } from "react-router-dom";
+import { useHMSRoom } from '../store/HMSContext';
 
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { streams, loginInfo } = context;
+  const { loginInfo } = context;
 
-  const { join, leave, localPeer, peers, toggleMute } = useHMSRoom();
+  const { leave, localPeer, toggleMute } = useHMSRoom();
 
   //time when user enters room
   const [startTime, setStartTime] = useState(new Date());
@@ -41,9 +42,7 @@ export const Conference = () => {
         />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
-        {streams && streams.length > 0 && (
-          <TeacherView streamsWithInfo={streams} />
-        )}
+        <TeacherView />
         {/* // ) : (
         //   <StudentView
         //     streamsWithInfo={streamsWithInfo
@@ -65,31 +64,22 @@ export const Conference = () => {
       <div className="bg-black" style={{ height: "10%" }}>
         <ControlBar
           audioButtonOnClick={() => {
-            let peer = localPeer;
-            console.log(peer);
-            const isAudioEnabled =
-              peer.audioTrack &&
-              peer.audioTrack.enabled;
-            toggleMute(!isAudioEnabled);
+            toggleMute(localPeer.audioTrack);
           }}
           videoButtonOnClick={() => {
-            let peer = localPeer;
-            const isVideoEnabled =
-              peer.videoTrack &&
-              peer.videoTrack.enabled;
-            toggleMute(!isVideoEnabled);
+            toggleMute(localPeer.videoTrack);
           }}
           leaveButtonOnClick={() => {
             leave();
             history.push("/");
           }}
-          isAudioMuted={
+          isAudioMuted={localPeer &&
             !(
               localPeer.audioTrack &&
               localPeer.audioTrack.enabled
             )
           }
-          isVideoMuted={
+          isVideoMuted={localPeer &&
             !(
               localPeer.videoTrack &&
               localPeer.videoTrack.enabled
