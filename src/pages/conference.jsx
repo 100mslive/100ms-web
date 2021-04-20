@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import { Header, ControlBar } from "@100mslive/sdk-components";
 import { TeacherView } from "../views/teacherView";
-import { StudentView } from "../views/studentView";
 import { useHistory } from "react-router-dom";
 import { useHMSRoom } from '@100mslive/sdk-components';
 
@@ -15,10 +14,7 @@ export const Conference = () => {
 
   if (!loginInfo.token) {
     history.push("/");
-    //return;
   }
-
-  //just to update time on header
   useEffect(() => {
     return () => {
       leave();

@@ -1,6 +1,5 @@
-import { Thing, Avatar, Header } from "@100mslive/sdk-components";
 import { JoinRoom } from "./pages/joinRoom.jsx";
-import { CreateRoom } from "./pages/createRoom.jsx";
+
 import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { AppContext, AppContextProvider } from "./store/AppContext.js";

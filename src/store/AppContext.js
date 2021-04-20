@@ -15,6 +15,33 @@ const AppContextProvider = ({ children }) => {
     },
   });
 
+  function addVideoTrack(track, peer) {
+    setState((prevState) => {
+      const streams = [...prevState.streams];
+      streams.push({
+        stream: track.stream.nativeStream,
+        peer: {
+          id: peer.peerId,
+          displayName: peer.name || peer.peerId,
+        },
+        videoSource: "camera",
+        audioLevel: 0,
+        isLocal: peer.isLocal,
+      });
+      return { ...prevState, streams };
+    });
+  }
+
+  function removeVideoTrack(track, peer) {
+    setState((prevState) => {
+      const streams = prevState.streams.filter(
+        (stream) => stream.stream.id !== track.stream.id
+      );
+
+      return { ...prevState, streams };
+    });
+  }
+
   useEffect(() => {
     let { username, role, token } = state.loginInfo;
     if (!token) return;
@@ -42,7 +69,7 @@ const AppContextProvider = ({ children }) => {
         console.log(`[APP]: onPeerUpdate with type ${type} and ${peer}`);
       },
 
-      onTrackUpdate: (type, track) => {
+      onTrackUpdate: (type, track, peer) => {
         console.log(`[APP]: onTrackUpdate with type ${type}`, track);
       },
 
