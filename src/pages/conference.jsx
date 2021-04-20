@@ -11,12 +11,7 @@ export const Conference = () => {
   const context = useContext(AppContext);
   const { loginInfo } = context;
 
-  const { leave, localPeer, toggleMute } = useHMSRoom();
-
-  //time when user enters room
-  const [startTime, setStartTime] = useState(new Date());
-  //current time to triger rendering
-  const [currentTime, setTime] = useState(startTime);
+  const { leave, localPeer, toggleMute, toggleScreenShare } = useHMSRoom();
 
   if (!loginInfo.token) {
     history.push("/");
@@ -25,21 +20,13 @@ export const Conference = () => {
 
   //just to update time on header
   useEffect(() => {
-    let interval = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
     return () => {
-      clearInterval(interval);
       leave();
     };
   }, []);
   return (
     <div className="w-full h-full bg-black">
       <div style={{ height: "10%" }}>
-        <Header
-          peer={{ displayName: loginInfo.username }}
-          time={Math.floor((currentTime - startTime) / 1000)}
-        />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         <TeacherView />
@@ -73,6 +60,7 @@ export const Conference = () => {
             leave();
             history.push("/");
           }}
+          screenshareButtonOnClick={() => toggleScreenShare()}
           isAudioMuted={localPeer &&
             !(
               localPeer.audioTrack &&

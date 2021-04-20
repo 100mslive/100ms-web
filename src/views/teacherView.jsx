@@ -11,13 +11,15 @@ export const TeacherView = () => {
 
   const { peers } = useHMSRoom();
 
-  const streamsWithInfo = peers && peers.length>0 && peers[0] && peers
+  console.log("PEERS ARE ", peers);
+
+  const videoStreamsWithInfo = peers && peers.length>0 && peers[0] && peers
     .filter((peer) => Boolean(peer.videoTrack))
     .map((peer) => {
       return {
         stream: peer.videoTrack.stream.nativeStream,
         peer: {
-          id: peer.peerId,
+          id: peer.videoTrack.stream.id,
           displayName: peer.name || peer.peerId,
         },
         videoSource: "camera",
@@ -26,10 +28,33 @@ export const TeacherView = () => {
       };
     });
 
+  const screenShareStreamsWithInfo = peers && peers.length>0 && peers[0] && peers
+    .filter((peer) => Boolean(peer.auxiliaryTracks) && Boolean(peer.auxiliaryTracks.length>0))
+    .map((peer) => {
+      return {
+        stream: peer.auxiliaryTracks[0].stream.nativeStream,
+        peer: {
+          id: peer.auxiliaryTracks[0].stream.id,
+          displayName: peer.name || peer.peerId,
+        },
+        videoSource: "camera",
+        audioLevel: 0,
+        isLocal: peer.isLocal,
+      }
+    });
+  
+  let streamsWithInfo = [];
+
+  if (videoStreamsWithInfo && videoStreamsWithInfo.length>0)
+    streamsWithInfo = [...streamsWithInfo, ...videoStreamsWithInfo];
+
+  if (screenShareStreamsWithInfo && screenShareStreamsWithInfo.length>0)
+    streamsWithInfo = [...streamsWithInfo, ...screenShareStreamsWithInfo];
+
   return (
     <React.Fragment>
       <div className="w-full h-full ">
-        {streamsWithInfo && <VideoList
+        {streamsWithInfo && streamsWithInfo.length>0 && <VideoList
           streams={streamsWithInfo}
           classes={{
             root: "",
