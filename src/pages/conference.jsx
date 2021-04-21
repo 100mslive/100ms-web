@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { Header, ControlBar } from "@100mslive/sdk-components";
+import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
 import { useHMSRoom } from '@100mslive/sdk-components';
@@ -10,7 +10,7 @@ export const Conference = () => {
   const context = useContext(AppContext);
   const { loginInfo } = context;
 
-  const { leave, localPeer, toggleMute, toggleScreenShare } = useHMSRoom();
+  const { leave, localPeer, toggleMute, toggleScreenShare, peers } = useHMSRoom();
 
   if (!loginInfo.token) {
     history.push("/");
@@ -20,9 +20,24 @@ export const Conference = () => {
       leave();
     };
   }, []);
+
+  const participants = (peers && peers.length > 0 && peers[0]) ?
+    peers.filter(participant => participant.name && participant.videoTrack)
+      .map(participant => {
+        console.log("PARTICIPANT IS ", participant);
+        return ({
+          peer: {
+            displayName: participant.name,
+            id: participant.id
+          }
+        })
+      })
+    : [];
+
   return (
     <div className="w-full h-full bg-black">
-      <div style={{ height: "10%" }}>
+      <div style={{ padding: "25px", height: "10%" }}>
+        <Header rightComponents={[<ParticipantList participantList={participants} />]} />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         <TeacherView />

@@ -6,7 +6,7 @@ import getToken from "../utlis/index";
 export const JoinRoom = () => {
   const history = useHistory();
   const { setLoginInfo } = useContext(AppContext);
-  const [username, setUsername] = useState("Aditya Gupta");
+  const [username, setUsername] = useState("");
   const [role, setRole] = useState("Teacher");
   const [roomId, setRoomId] = useState("607d781cdcee704ca43cafb9");
   const join = () => {
