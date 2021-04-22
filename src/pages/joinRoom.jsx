@@ -63,7 +63,6 @@ export const JoinRoom = () => {
               }}
             >
               <option value="Teacher">Teacher</option>
-              <option value="Student">Student</option>
             </select>
           </div>
           <div className="w-full flex justify-end m-2">
