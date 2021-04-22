@@ -11,13 +11,13 @@ export const TeacherView = () => {
 
   useEffect(()=>{
     setTimeout(()=>{
-      console.debug("App: Old streams info ");
-      console.debug("App: Re-rendering video list with new peers ", peers);
+      console.debug("app: Old streams info ");
+      console.debug("app: Re-rendering video list with new peers ", peers);
       const videoStreamsWithInfo = peers && peers.length>0 && peers[0]?peers
       .filter((peer) => Boolean(peer.videoTrack && peer.audioTrack))
       .map((peer) => {
-        console.debug("App: Camera video track", peer.videoTrack);
-        console.debug("App: Camera audio track", peer.audioTrack);
+        console.debug("app: Camera video track", peer.videoTrack);
+        console.debug("app: Camera audio track", peer.audioTrack);
         return {
           videoTrack: peer.videoTrack.nativeTrack,
           audioTrack: peer.audioTrack.nativeTrack,
@@ -30,13 +30,13 @@ export const TeacherView = () => {
           isLocal: peer.isLocal,
         };
       }):[];
-      console.debug("App: Computed streams info ", videoStreamsWithInfo);
+      console.debug("app: Computed streams info ", videoStreamsWithInfo);
   
     const screenShareStreamsWithInfo = peers && peers.length>0 && peers[0]?peers
       .filter((peer) => Boolean(peer.auxiliaryTracks) && Boolean(peer.auxiliaryTracks.length>0) && Boolean(peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='audio')) && Boolean(peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='video')))
       .map((peer) => {
-        console.debug("App: Screenshare video track", peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='video'));
-        console.debug("App: Screenshare audio track", peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='audio'));
+        console.debug("app: Screenshare video track", peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='video'));
+        console.debug("app: Screenshare audio track", peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='audio'));
         return {
           videoTrack: peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='video').nativeTrack,
           audioTrack: peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='audio').nativeTrack,
@@ -49,14 +49,14 @@ export const TeacherView = () => {
           isLocal: peer.isLocal,
         }
       }):[];
-      console.debug("App: Computed streams info ", screenShareStreamsWithInfo);
+      console.debug("app: Computed streams info ", screenShareStreamsWithInfo);
       setStreamsWithInfo([...videoStreamsWithInfo, ...screenShareStreamsWithInfo]);  
     },100)
     //TODO remove this hack of waiting for 100ms. We need a callback for when peer gets updated. This is because mute is delayed.
   },[peers]);
 
   useEffect(()=>{
-    console.debug("App: Streams with info", streamsWithInfo);
+    console.debug("app: Streams with info", streamsWithInfo);
 
   },[streamsWithInfo])
 

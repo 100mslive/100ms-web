@@ -16,7 +16,7 @@ export const JoinRoom = () => {
         history.push("/meeting");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         alert("Unable to genrate token");
       });
   };
