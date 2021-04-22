@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
+import { Header, ControlBar } from "@100mslive/sdk-components";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
 import { useHMSRoom } from '@100mslive/sdk-components';
@@ -37,7 +37,7 @@ export const Conference = () => {
   return (
     <div className="w-full h-full bg-black">
       <div style={{ padding: "25px", height: "10%" }}>
-        <Header rightComponents={[<ParticipantList participantList={participants} />]} />
+        {/* <Header rightComponents={[<ParticipantList participantList={participants} />]} /> */}
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         <TeacherView />

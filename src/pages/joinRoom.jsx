@@ -13,7 +13,7 @@ export const JoinRoom = () => {
     getToken(username, role, roomId)
       .then((token) => {
         setLoginInfo({ token, username, role });
-        history.push("/meeting");
+        history.push("/preview");
       })
       .catch((error) => {
         console.log(error);

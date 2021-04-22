@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@100mslive/100ms-web-sdk@^0.0.9-1":
+"@100mslive/100ms-web-sdk@0.0.9-1":
   "integrity" "sha512-1iAhgxpUrWkO2XhCoQxttGI6zevGwnD697eDapKpuqpTpfmbDKc6PzeNvUHxK3ALYCVA5NAxnu0iw5KUs59qiw=="
   "resolved" "https://registry.npmjs.org/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.9-1.tgz"
   "version" "0.0.9-1"
@@ -13,12 +13,12 @@
     "sdp-transform" "^2.14.1"
     "uuid" "^8.3.2"
 
-"@100mslive/sdk-components@0.2.14-3":
-  "integrity" "sha512-8pYWE4V789FyP15Qd+FgdC2YB8HDw9lxYZfnGEvLV787DS6Cloeyv0CHfKE/Wz0+qJCrSN2RJ0RLP/LhTfNTZQ=="
-  "resolved" "https://registry.npmjs.org/@100mslive/sdk-components/-/sdk-components-0.2.14-3.tgz"
-  "version" "0.2.14-3"
+"@100mslive/sdk-components@0.0.1-1":
+  "integrity" "sha512-ECBzXC3kibA5TaeKESuwNLzDtQaaOl9DJONqlo45cioZQpeimeT7gijb/N62+GjilHrApIRHwrw6spwpDRly6Q=="
+  "resolved" "https://registry.npmjs.org/@100mslive/sdk-components/-/sdk-components-0.0.1-1.tgz"
+  "version" "0.0.1-1"
   dependencies:
-    "@100mslive/100ms-web-sdk" "^0.0.9-1"
+    "@100mslive/100ms-web-sdk" "0.0.9-1"
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"
     "@fortawesome/react-fontawesome" "^0.1.14"
