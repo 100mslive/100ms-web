@@ -16,8 +16,8 @@ const PreviewScreen = () => {
 
     const goBack = () => {
         // alert("Go Back Clicked!");
-        leave();
-        history.push("/");
+        // leave();
+        // history.push("/");
     }
 
     return (
