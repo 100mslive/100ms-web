@@ -1,83 +1,90 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { Header, ControlBar } from "@100mslive/sdk-components";
+import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
+import { useHMSRoom } from '@100mslive/sdk-components';
 
 export const Conference = () => {
   const history = useHistory();
-  const {
-    streams,
-    loginInfo,
-    sdk,
-    addVideoTrack,
-    removeVideoTrack,
-  } = useContext(AppContext);
+  const context = useContext(AppContext);
+  const { loginInfo } = context;
 
-  const [isScreenShareEnabled, setScreenShareEnabled] = useState(false);
-  const [isAudioEnabled, setAudioEnabled] = useState(true);
-  const [isVideoEnabled, setVideoEnabled] = useState(true);
+  const { leave, localPeer, toggleMute, toggleScreenShare, peers } = useHMSRoom();
 
   if (!loginInfo.token) {
     history.push("/");
   }
   useEffect(() => {
-    console.log("sdk changed");
-  }, [sdk]);
+    return () => {
+      leave();
+    };
+  }, []);
+
+  const participants = (peers && peers.length > 0 && peers[0]) ?
+    peers.filter(participant => participant.name && participant.videoTrack)
+      .map(participant => {
+        console.debug("app: Participant is ", participant);
+        return ({
+          peer: {
+            displayName: participant.name,
+            id: participant.id
+          }
+        })
+      })
+    : [];
 
   return (
     <div className="w-full h-full bg-black">
-      <div style={{ height: "10%" }}>
-        <Header />
+      <div style={{ padding: "25px", height: "10%" }}>
+        <Header rightComponents={[<ParticipantList participantList={participants} />]} />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
-        {streams && streams.length > 0 && (
-          <TeacherView streamsWithInfo={streams} />
-        )}
+        <TeacherView />
+        {/* // ) : (
+        //   <StudentView
+        //     streamsWithInfo={streamsWithInfo
+        //       .filter(
+        //         (item) =>
+        //           item.videoSource == "screen" || item.videoSource == "camera"
+        //       )
+        //       .map((item) => ({
+        //         ...item,
+        //         stream: !item.isVideoMuted
+        //           ? item.videoSource == "screen"
+        //             ? screenStream
+        //             : cameraStream
+        //           : new MediaStream(),
+        //       }))}
+        //   />
+        // )} */}
       </div>
       <div className="bg-black" style={{ height: "10%" }}>
-        {sdk && (
-          <ControlBar
-            audioButtonOnClick={() => {
-              let peer = sdk.getLocalPeer();
-
-              setAudioEnabled((isAudioEnabled) => {
-                peer.audioTrack.setEnabled(!isAudioEnabled);
-                return !isAudioEnabled;
-              });
-            }}
-            videoButtonOnClick={() => {
-              let peer = sdk.getLocalPeer();
-              setVideoEnabled((isVideoEnabled) => {
-                peer.videoTrack.setEnabled(!isVideoEnabled);
-                return !isVideoEnabled;
-              });
-            }}
-            leaveButtonOnClick={() => {
-              sdk.leave();
-              history.push("/");
-            }}
-            screenshareButtonOnClick={async () => {
-              if (!isScreenShareEnabled) {
-                await sdk.startScreenShare(async () => {
-                  setScreenShareEnabled(false);
-                  let screenShare = sdk.getLocalPeer().auxiliaryTracks[0];
-                  removeVideoTrack(screenShare, sdk.getLocalPeer());
-                  await sdk.stopScreenShare();
-                });
-                let screenShare = sdk.getLocalPeer().auxiliaryTracks[0];
-                addVideoTrack(screenShare, sdk.getLocalPeer());
-              } else {
-                let screenShare = sdk.getLocalPeer().auxiliaryTracks[0];
-                removeVideoTrack(screenShare, sdk.getLocalPeer());
-                await sdk.stopScreenShare();
-              }
-              setScreenShareEnabled((prevState) => !prevState);
-            }}
-            isAudioMuted={!isAudioEnabled}
-            isVideoMuted={!isVideoEnabled}
-          />
-        )}
+        <ControlBar
+          audioButtonOnClick={() => {
+            toggleMute(localPeer.audioTrack);
+          }}
+          videoButtonOnClick={() => {
+            toggleMute(localPeer.videoTrack);
+          }}
+          leaveButtonOnClick={() => {
+            leave();
+            history.push("/");
+          }}
+          screenshareButtonOnClick={() => toggleScreenShare()}
+          isAudioMuted={localPeer &&
+            !(
+              localPeer.audioTrack &&
+              localPeer.audioTrack.enabled
+            )
+          }
+          isVideoMuted={localPeer &&
+            !(
+              localPeer.videoTrack &&
+              localPeer.videoTrack.enabled
+            )
+          }
+        />
       </div>
     </div>
   );

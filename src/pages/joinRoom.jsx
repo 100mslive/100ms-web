@@ -8,7 +8,7 @@ export const JoinRoom = () => {
   const { setLoginInfo } = useContext(AppContext);
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("Teacher");
-  const [roomId, setRoomId] = useState("6077d5e1dcee704ca43caea3");
+  const [roomId, setRoomId] = useState("607d781cdcee704ca43cafb9");
   const join = () => {
     getToken(username, role, roomId)
       .then((token) => {
@@ -16,7 +16,7 @@ export const JoinRoom = () => {
         history.push("/meeting");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         alert("Unable to genrate token");
       });
   };
@@ -63,7 +63,6 @@ export const JoinRoom = () => {
               }}
             >
               <option value="Teacher">Teacher</option>
-              <option value="Student">Student</option>
             </select>
           </div>
           <div className="w-full flex justify-end m-2">

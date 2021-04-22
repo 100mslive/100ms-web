@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { HMSSdk, HMSTrackUpdate, HMSTrackType } from "@100mslive/100ms-web-sdk";
 import LogRocket from "logrocket";
+import { useHMSRoom } from '@100mslive/sdk-components';
 
 const AppContext = React.createContext();
 
 const AppContextProvider = ({ children }) => {
+  const { join, localPeer } = useHMSRoom();
+
   const [state, setState] = useState({
-    sdk: null,
-    streams: [],
     loginInfo: {
       token: null,
       username: "",
@@ -45,7 +45,6 @@ const AppContextProvider = ({ children }) => {
   useEffect(() => {
     let { username, role, token } = state.loginInfo;
     if (!token) return;
-    const sdk = new HMSSdk();
     const config = {
       userName: username,
       authToken: token,
@@ -53,18 +52,12 @@ const AppContextProvider = ({ children }) => {
     };
     const listener = {
       onJoin: (room) => {
-        console.log(`[APP]: Joined room`, room);
-        LogRocket.identify(sdk.localPeer.peerId, {
-          name: username,
-          role,
-          token,
-        });
-        addVideoTrack(sdk.localPeer.videoTrack, sdk.localPeer);
+        console.debug(`app: Joined room`, room);
       },
 
       onRoomUpdate: (type, room) => {
-        console.log(
-          `[APP]: onRoomUpdate with type ${type} and ${JSON.stringify(
+        console.debug(
+          `app: onRoomUpdate with type ${type} and ${JSON.stringify(
             room,
             null,
             2
@@ -73,43 +66,35 @@ const AppContextProvider = ({ children }) => {
       },
 
       onPeerUpdate: (type, peer) => {
-        console.log(`[APP]: onPeerUpdate with type ${type} and ${peer}`);
+        console.debug(`app: onPeerUpdate with type ${type} and ${peer}`);
       },
 
       onTrackUpdate: (type, track, peer) => {
-        console.log(`[APP]: onTrackUpdate with type ${type}`, track);
-        if (type === HMSTrackUpdate.TRACK_ADDED) {
-          if (track.type === HMSTrackType.VIDEO) addVideoTrack(track, peer);
-        } else if (type === HMSTrackUpdate.TRACK_REMOVED) {
-          if (track.type === HMSTrackType.VIDEO) {
-            removeVideoTrack(track, peer);
-          }
-        }
+        console.debug(`app: onTrackUpdate with type ${type}`, track);
       },
 
       onError: (error) => {
-        console.log("ERROR", error);
+        console.error("app: error", error);
       },
     };
+    const _this = this;
 
-    sdk.join(config, listener);
-    console.log(sdk, "set here");
-    setState((prevState) => ({ ...prevState, sdk }));
+    join(config, listener);
+    console.debug("app: Join called");
 
-    window.onunload = function () {
-      alert("leaving");
-      sdk.leave();
-    };
-  }, [state.loginInfo]);
+  }, [state.loginInfo.token]);
+
+  useEffect(() => {
+    localPeer && LogRocket.identify(localPeer.peerId, {
+      name: state.loginInfo.username,
+      role: state.loginInfo.role,
+      token: state.loginInfo.token
+    });
+  }, [localPeer]);
 
   return (
     <AppContext.Provider
       value={{
-        setStreams: (streams) => {
-          setState({ ...state, streams });
-        },
-        addVideoTrack,
-        removeVideoTrack,
         setLoginInfo: (info) => {
           setState({
             ...state,
@@ -120,9 +105,7 @@ const AppContextProvider = ({ children }) => {
             loginInfo: { ...state.loginInfo, ...info },
           });
         },
-        streams: state.streams,
         loginInfo: state.loginInfo,
-        sdk: state.sdk,
       }}
     >
       {children}
