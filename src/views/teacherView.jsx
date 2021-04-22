@@ -16,8 +16,11 @@ export const TeacherView = () => {
   const videoStreamsWithInfo = peers && peers.length>0 && peers[0] && peers
     .filter((peer) => Boolean(peer.videoTrack))
     .map((peer) => {
+      console.log("Camera video track", peer.videoTrack);
+      console.log("Camera audio track", peer.audioTrack);
       return {
-        stream: peer.videoTrack.stream.nativeStream,
+        videoTrack: peer.videoTrack.nativeTrack,
+        audioTrack: peer.audioTrack.nativeTrack,
         peer: {
           id: peer.videoTrack.stream.id,
           displayName: peer.name || peer.peerId,
@@ -31,8 +34,11 @@ export const TeacherView = () => {
   const screenShareStreamsWithInfo = peers && peers.length>0 && peers[0] && peers
     .filter((peer) => Boolean(peer.auxiliaryTracks) && Boolean(peer.auxiliaryTracks.length>0))
     .map((peer) => {
+      console.log("Screenshare video track", peer.auxiliaryTracks.find(track => track.type==='video'));
+      console.log("Screenshare audio track", peer.auxiliaryTracks.find(track => track.type==='audio'));
       return {
-        stream: peer.auxiliaryTracks[0].stream.nativeStream,
+        videoTrack: peer.auxiliaryTracks.find(track => track.type==='video').nativeTrack,
+        audioTrack: peer.auxiliaryTracks.find(track => track.type==='audio').nativeTrack,
         peer: {
           id: peer.auxiliaryTracks[0].stream.id,
           displayName: peer.name || peer.peerId,
