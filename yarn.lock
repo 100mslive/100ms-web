@@ -13,10 +13,10 @@
     sdp-transform "^2.14.1"
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@0.0.1-8":
-  version "0.0.1-8"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.0.1-8.tgz#ecc8103cb1e78db6905d8794aa08daaee98b5263"
-  integrity sha512-dmfRm13AdHdnvd6utUbLBd5hcHwpsrkYbbZvKI8LfLJHRxm39D/eq8MuiSJNGQ1rwIGk+PlL0gA1Lx9Zn9wfPA==
+"@100mslive/sdk-components@0.2.14-998":
+  version "0.2.14-998"
+  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.14-998.tgz#715329964f409d74005b6db4eb7f91e2c6309a99"
+  integrity sha512-0os8t1B0DILKncIOe/fo/atHw1pXEM7K//6J5Ote+zpu3ETJPVTLhPnmW/r6V9529Y4KJPK55qjZeh5+nLi6AQ==
   dependencies:
     "@100mslive/100ms-web-sdk" "0.0.9-3"
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
