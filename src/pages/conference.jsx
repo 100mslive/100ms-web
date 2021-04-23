@@ -8,9 +8,9 @@ import { useHMSRoom } from '@100mslive/sdk-components';
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo, setLoginInfo } = context;
+  const { loginInfo, setLoginInfo, isConnected } = context;
 
-  const {localPeer, toggleMute, toggleScreenShare, peers } = useHMSRoom();
+  const {localPeer, toggleMute, toggleScreenShare, peers, leave } = useHMSRoom();
 
   if (!loginInfo.token) {
     history.push("/");
