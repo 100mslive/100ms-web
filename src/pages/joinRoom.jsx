@@ -10,15 +10,7 @@ export const JoinRoom = () => {
   const [role, setRole] = useState("Teacher");
   const [roomId, setRoomId] = useState("607d781cdcee704ca43cafb9");
   const join = () => {
-    getToken(username, role, roomId)
-      .then((token) => {
-        setLoginInfo({ token, username, role });
-        history.push("/preview");
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Unable to genrate token");
-      });
+    history.push("/preview");
   };
   return (
     <div className=" flex justify-center items-center w-full h-full text-white">
