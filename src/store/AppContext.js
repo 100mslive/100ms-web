@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LogRocket from "logrocket";
-import { useHMSRoom } from '@100mslive/sdk-components';
+import { useHMSRoom } from "@100mslive/sdk-components";
 
 const AppContext = React.createContext();
 
@@ -81,15 +81,15 @@ const AppContextProvider = ({ children }) => {
 
     join(config, listener);
     console.debug("app: Join called");
-
   }, [state.loginInfo.token]);
 
   useEffect(() => {
-    localPeer && LogRocket.identify(localPeer.peerId, {
-      name: state.loginInfo.username,
-      role: state.loginInfo.role,
-      token: state.loginInfo.token
-    });
+    localPeer &&
+      LogRocket.identify(localPeer.peerId, {
+        name: state.loginInfo.username,
+        role: state.loginInfo.role,
+        token: state.loginInfo.token,
+      });
   }, [localPeer]);
 
   return (

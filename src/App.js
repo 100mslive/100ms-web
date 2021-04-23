@@ -3,7 +3,7 @@ import { JoinRoom } from "./pages/joinRoom.jsx";
 import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { AppContext, AppContextProvider } from "./store/AppContext.js";
-import { HMSRoomProvider } from '@100mslive/sdk-components';
+import { HMSRoomProvider } from "@100mslive/sdk-components";
 
 function App() {
   return (
@@ -16,12 +16,12 @@ function App() {
               <CreateRoom />
             </Route> */}
 
-            <Route path="/meeting">
-              <Conference />
-            </Route>
-            <Route path="/">
-              <JoinRoom />;
-            </Route>
+              <Route path="/meeting">
+                <Conference />
+              </Route>
+              <Route path="/">
+                <JoinRoom />;
+              </Route>
             </Switch>
           </Router>
         </AppContextProvider>
