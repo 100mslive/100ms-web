@@ -27,11 +27,9 @@ export const TeacherView = () => {
           videoSource: "camera",
           audioLevel: 0,
           isLocal: peer.isLocal,
-          isVideoMuted:peer.isLocal?!!!peer.videoTrack.nativeTrack.enabled:peer.videoTrack.nativeTrack.muted, //TODO this is a hack until proper flag comes in
-          isAudioMuted:peer.isLocal?!!!peer.audioTrack.nativeTrack.enabled:peer.audioTrack.nativeTrack.muted, //TODO this is a hack until proper flag comes in. Doesn't work
         };
       }):[];
-      console.debug("app: Computed streams info ", videoStreamsWithInfo);
+      console.debug("app: Computed camera streams info ", videoStreamsWithInfo);
   
     const screenShareStreamsWithInfo = peers && peers.length>0 && peers[0]?peers
       .filter((peer) => Boolean(peer.auxiliaryTracks) && Boolean(peer.auxiliaryTracks.length>0) && (Boolean(peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='audio')) || Boolean(peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='video'))))
@@ -50,7 +48,7 @@ export const TeacherView = () => {
           isLocal: peer.isLocal,
         }
       }):[];
-      console.debug("app: Computed streams info ", screenShareStreamsWithInfo);
+      console.debug("app: Computed screenshare streams info ", screenShareStreamsWithInfo);
       setStreamsWithInfo([...videoStreamsWithInfo, ...screenShareStreamsWithInfo]);  
   },[peers]);
 
