@@ -17,7 +17,7 @@ export const JoinRoom = () => {
       })
       .catch((error) => {
         console.error(error);
-        alert("Unable to genrate token");
+        alert("Unable to generate token");
       });
   };
   return (

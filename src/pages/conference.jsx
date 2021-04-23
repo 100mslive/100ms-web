@@ -8,9 +8,9 @@ import { useHMSRoom } from '@100mslive/sdk-components';
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo } = context;
+  const { loginInfo, isConnected, leave } = context;
 
-  const { leave, localPeer, toggleMute, toggleScreenShare, peers } = useHMSRoom();
+  const {localPeer, toggleMute, toggleScreenShare, peers } = useHMSRoom();
 
   if (!loginInfo.token) {
     history.push("/");
@@ -37,7 +37,7 @@ export const Conference = () => {
   return (
     <div className="w-full h-full bg-black">
       <div style={{ padding: "25px", height: "10%" }}>
-        <Header rightComponents={[<ParticipantList participantList={participants} />]} />
+        <Header rightComponents={[<ParticipantList key={0} participantList={participants} />]} />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         <TeacherView />
@@ -60,7 +60,7 @@ export const Conference = () => {
         // )} */}
       </div>
       <div className="bg-black" style={{ height: "10%" }}>
-        <ControlBar
+        {isConnected && <ControlBar
           audioButtonOnClick={() => {
             toggleMute(localPeer.audioTrack);
           }}
@@ -84,7 +84,7 @@ export const Conference = () => {
               localPeer.videoTrack.enabled
             )
           }
-        />
+        />}
       </div>
     </div>
   );
