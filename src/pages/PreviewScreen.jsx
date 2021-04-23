@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from "react-router-dom";
-import { Preview, useHMSRoom } from '@100mslive/sdk-components';
+import { Header, Preview } from '@100mslive/sdk-components';
 import { AppContext } from '../store/AppContext';
+import getToken from "../utlis/index";
 
 const PreviewScreen = () => {
     const history = useHistory();
     const context = useContext(AppContext);
+    const { loginInfo, setLoginInfo } = context;
 
     const join = () => {
-        getToken(username, role, roomId)
+        getToken(loginInfo.username, loginInfo.role, loginInfo.roomId)
             .then((token) => {
-                setLoginInfo({ token, username, role });
+                setLoginInfo({ token });
                 history.push("/meeting");
             })
             .catch((error) => {
                 console.log(error);
-                alert("Unable to genrate token");
+                alert("Unable to generate token");
             });
     };
 
@@ -24,9 +26,9 @@ const PreviewScreen = () => {
     }
 
     return (
-        <div className="w-screen h-screen flex justify-center items-center">
+        <div className="w-screen h-screen flex items-center justify-center">
             <Preview
-                name={context.}
+                name={loginInfo.username}
                 joinOnClick={join}
                 goBackOnClick={goBack}
             />

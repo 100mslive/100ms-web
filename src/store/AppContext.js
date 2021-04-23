@@ -12,6 +12,7 @@ const AppContextProvider = ({ children }) => {
       token: null,
       username: "",
       role: "",
+      roomId: ""
     },
   });
 
@@ -52,12 +53,12 @@ const AppContextProvider = ({ children }) => {
     };
     const listener = {
       onJoin: (room) => {
-        console.log(`[APP]: Joined room`, room);
+        console.debug(`app: Joined room`, room);
       },
 
       onRoomUpdate: (type, room) => {
-        console.log(
-          `[APP]: onRoomUpdate with type ${type} and ${JSON.stringify(
+        console.debug(
+          `app: onRoomUpdate with type ${type} and ${JSON.stringify(
             room,
             null,
             2
@@ -66,21 +67,21 @@ const AppContextProvider = ({ children }) => {
       },
 
       onPeerUpdate: (type, peer) => {
-        console.log(`[APP]: onPeerUpdate with type ${type} and ${peer}`);
+        console.debug(`app: onPeerUpdate with type ${type} and ${peer}`);
       },
 
       onTrackUpdate: (type, track, peer) => {
-        console.log(`[APP]: onTrackUpdate with type ${type}`, track);
+        console.debug(`app: onTrackUpdate with type ${type}`, track);
       },
 
       onError: (error) => {
-        console.log("ERROR", error);
+        console.error("app: error", error);
       },
     };
     const _this = this;
 
     join(config, listener);
-    console.log("JOIN CALLED");
+    console.debug("app: Join called");
 
   }, [state.loginInfo.token]);
 

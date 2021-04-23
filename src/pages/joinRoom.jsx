@@ -10,6 +10,7 @@ export const JoinRoom = () => {
   const [role, setRole] = useState("Teacher");
   const [roomId, setRoomId] = useState("607d781cdcee704ca43cafb9");
   const join = () => {
+    setLoginInfo({username: username, role: role, roomId: roomId});
     history.push("/preview");
   };
   return (
@@ -55,7 +56,6 @@ export const JoinRoom = () => {
               }}
             >
               <option value="Teacher">Teacher</option>
-              <option value="Student">Student</option>
             </select>
           </div>
           <div className="w-full flex justify-end m-2">
