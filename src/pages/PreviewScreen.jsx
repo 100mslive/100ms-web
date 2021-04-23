@@ -26,13 +26,19 @@ const PreviewScreen = () => {
     }
 
     return (
-        <div className="w-screen h-screen flex items-center justify-center">
-            <Preview
-                name={loginInfo.username}
-                joinOnClick={join}
-                goBackOnClick={goBack}
-            />
+        <div>
+            <div style={{ padding: "25px", height: "10%" }}>
+                <Header />
+            </div>
+            <div className="flex justify-center items-center">
+                <Preview
+                    name={loginInfo.username}
+                    joinOnClick={join}
+                    goBackOnClick={goBack}
+                />
+            </div>
         </div>
+
 
     )
 };
