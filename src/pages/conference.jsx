@@ -8,7 +8,7 @@ import { useHMSRoom } from "@100mslive/sdk-components";
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo } = context;
+  const { loginInfo, isChatOpen, toggleChat } = context;
 
   const {
     leave,
@@ -89,10 +89,9 @@ export const Conference = () => {
           isVideoMuted={
             localPeer && !(localPeer.videoTrack && localPeer.videoTrack.enabled)
           }
-          messages={[]}
-          onSend={(message) => {
-            alert(message);
-            sendMessage(message);
+          isChatOpen={isChatOpen}
+          chatButtonOnClick={() => {
+            toggleChat();
           }}
         />
       </div>

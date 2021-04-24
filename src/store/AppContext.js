@@ -13,6 +13,7 @@ const AppContextProvider = ({ children }) => {
       username: "",
       role: "",
     },
+    isChatOpen: false,
   });
 
   function addVideoTrack(track, peer) {
@@ -105,7 +106,11 @@ const AppContextProvider = ({ children }) => {
             loginInfo: { ...state.loginInfo, ...info },
           });
         },
+        toggleChat: () => {
+          setState({ ...state, isChatOpen: !state.isChatOpen });
+        },
         loginInfo: state.loginInfo,
+        isChatOpen: state.isChatOpen,
       }}
     >
       {children}
