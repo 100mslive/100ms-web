@@ -13,25 +13,25 @@ export const TeacherView = () => {
       console.debug("app: Old streams info ");
       console.debug("app: Re-rendering video list with new peers ", peers);
       const videoStreamsWithInfo = peers && peers.length>0 && peers[0]?peers
-      .filter((peer) => Boolean(peer.videoTrack && peer.audioTrack))
+      .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
       .map((peer) => {
         console.debug("app: Camera video track", peer.videoTrack);
         console.debug("app: Camera audio track", peer.audioTrack);
         return {
-          videoTrack: peer.videoTrack.nativeTrack,
-          audioTrack: peer.audioTrack.nativeTrack,
+          videoTrack: peer.videoTrack?peer.videoTrack.nativeTrack:undefined,
+          audioTrack: peer.audioTrack?peer.audioTrack.nativeTrack:undefined,
           peer: {
-            id: peer.videoTrack.stream.id,
+            id: peer.videoTrack?peer.videoTrack.stream.id:peer.audioTrack.stream.id,
             displayName: peer.name || peer.peerId,
           },
           videoSource: "camera",
           audioLevel: 0,
           isLocal: peer.isLocal,
-          isVideoMuted:peer.isLocal?!!!peer.videoTrack.nativeTrack.enabled:peer.videoTrack.nativeTrack.muted, //TODO this is a hack until proper flag comes in
-          isAudioMuted:peer.isLocal?!!!peer.audioTrack.nativeTrack.enabled:peer.audioTrack.nativeTrack.muted, //TODO this is a hack until proper flag comes in. Doesn't work
+          isVideoMuted:peer.videoTrack?(peer.isLocal?!!!peer.videoTrack.nativeTrack.enabled:peer.videoTrack.nativeTrack.muted): false, //TODO this is a hack until proper flag comes in
+          isAudioMuted:peer.audioTrack?(peer.isLocal && peer.audioTrack?!!!peer.audioTrack.nativeTrack.enabled:peer.audioTrack.nativeTrack.muted): false, //TODO this is a hack until proper flag comes in. Doesn't work
         };
       }):[];
-      console.debug("app: Computed streams info ", videoStreamsWithInfo);
+      console.debug("app: Computed camera streams info ", videoStreamsWithInfo);
   
     const screenShareStreamsWithInfo = peers && peers.length>0 && peers[0]?peers
       .filter((peer) => Boolean(peer.auxiliaryTracks) && Boolean(peer.auxiliaryTracks.length>0) && (Boolean(peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='audio')) || Boolean(peer.auxiliaryTracks.find(track => track.nativeTrack.kind==='video'))))
@@ -50,7 +50,7 @@ export const TeacherView = () => {
           isLocal: peer.isLocal,
         }
       }):[];
-      console.debug("app: Computed streams info ", screenShareStreamsWithInfo);
+      console.debug("app: Computed screenshare streams info ", screenShareStreamsWithInfo);
       setStreamsWithInfo([...videoStreamsWithInfo, ...screenShareStreamsWithInfo]);  
   },[peers]);
 

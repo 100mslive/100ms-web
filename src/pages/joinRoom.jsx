@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
-import getToken from "../utlis/index";
 
 export const JoinRoom = () => {
   const history = useHistory();
@@ -56,6 +55,7 @@ export const JoinRoom = () => {
               }}
             >
               <option value="Teacher">Teacher</option>
+              <option value="Student">Student</option>
             </select>
           </div>
           <div className="w-full flex justify-end m-2">

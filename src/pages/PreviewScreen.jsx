@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from "react-router-dom";
-import { Header, Preview } from '@100mslive/sdk-components';
+import { Header, Preview, useHMSRoom } from '@100mslive/sdk-components';
 import { AppContext } from '../store/AppContext';
 import getToken from "../utlis/index";
 
@@ -8,6 +8,7 @@ const PreviewScreen = () => {
     const history = useHistory();
     const context = useContext(AppContext);
     const { loginInfo, setLoginInfo } = context;
+    const { toggleMute } = useHMSRoom();
 
     const join = () => {
         getToken(loginInfo.username, loginInfo.role, loginInfo.roomId)
@@ -35,6 +36,7 @@ const PreviewScreen = () => {
                     name={loginInfo.username}
                     joinOnClick={join}
                     goBackOnClick={goBack}
+                    toggleMute={toggleMute}
                 />
             </div>
         </div>
