@@ -9,7 +9,7 @@ import { useHMSRoom } from "@100mslive/sdk-components";
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo, isChatOpen, toggleChat } = context;
+  const { loginInfo, isChatOpen, toggleChat, isConnected } = context;
 
   const {
     leave,
@@ -48,11 +48,12 @@ export const Conference = () => {
     <div className="w-full h-full bg-black">
       <div style={{ padding: "25px", height: "10%" }}>
         <Header
-          rightComponents={[<ParticipantList participantList={participants} />]}
+          rightComponents={[
+            <ParticipantList key={0} participantList={participants} />,
+          ]}
         />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
-        {/* <ScreenShareView /> */}
         <TeacherView />
         {/* // ) : (
         //   <StudentView
@@ -73,29 +74,33 @@ export const Conference = () => {
         // )} */}
       </div>
       <div className="bg-black" style={{ height: "10%" }}>
-        <ControlBar
-          audioButtonOnClick={() => {
-            toggleMute(localPeer.audioTrack);
-          }}
-          videoButtonOnClick={() => {
-            toggleMute(localPeer.videoTrack);
-          }}
-          leaveButtonOnClick={() => {
-            leave();
-            history.push("/");
-          }}
-          screenshareButtonOnClick={() => toggleScreenShare()}
-          isAudioMuted={
-            localPeer && !(localPeer.audioTrack && localPeer.audioTrack.enabled)
-          }
-          isVideoMuted={
-            localPeer && !(localPeer.videoTrack && localPeer.videoTrack.enabled)
-          }
-          isChatOpen={isChatOpen}
-          chatButtonOnClick={() => {
-            toggleChat();
-          }}
-        />
+        {isConnected && (
+          <ControlBar
+            audioButtonOnClick={() => {
+              toggleMute(localPeer.audioTrack);
+            }}
+            videoButtonOnClick={() => {
+              toggleMute(localPeer.videoTrack);
+            }}
+            leaveButtonOnClick={() => {
+              leave();
+              history.push("/");
+            }}
+            screenshareButtonOnClick={() => toggleScreenShare()}
+            isAudioMuted={
+              localPeer &&
+              !(localPeer.audioTrack && localPeer.audioTrack.enabled)
+            }
+            isVideoMuted={
+              localPeer &&
+              !(localPeer.videoTrack && localPeer.videoTrack.enabled)
+            }
+            isChatOpen={isChatOpen}
+            chatButtonOnClick={() => {
+              toggleChat();
+            }}
+          />
+        )}
       </div>
     </div>
   );

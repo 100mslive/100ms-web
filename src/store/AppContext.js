@@ -5,8 +5,9 @@ import { useHMSRoom } from "@100mslive/sdk-components";
 const AppContext = React.createContext();
 
 const AppContextProvider = ({ children }) => {
-  const { join, localPeer } = useHMSRoom();
+  const { join, localPeer, leave } = useHMSRoom();
 
+  //TODO refactor into multiple states
   const [state, setState] = useState({
     loginInfo: {
       token: null,
@@ -15,34 +16,14 @@ const AppContextProvider = ({ children }) => {
     },
     isChatOpen: false,
   });
+  //TODO this should be exposed from hook and should be a status
+  const [isConnected, setIsConnected] = useState(false);
 
-  function addVideoTrack(track, peer) {
-    setState((prevState) => {
-      const streams = [...prevState.streams];
-      streams.push({
-        stream: track.stream.nativeStream,
-        peer: {
-          id: peer.peerId,
-          displayName: peer.name || peer.peerId,
-        },
-        videoSource: "camera",
-        audioLevel: 0,
-        isLocal: peer.isLocal,
-      });
-      return { ...prevState, streams };
-    });
-  }
-
-  function removeVideoTrack(track, peer) {
-    setState((prevState) => {
-      const streams = prevState.streams.filter(
-        (stream) => stream.stream.id !== track.stream.id
-      );
-
-      return { ...prevState, streams };
-    });
-  }
-
+  const modifiedLeave = () => {
+    //TODO shoudl be moved to hook
+    setIsConnected(false);
+    leave();
+  };
   useEffect(() => {
     let { username, role, token } = state.loginInfo;
     if (!token) return;
@@ -54,6 +35,7 @@ const AppContextProvider = ({ children }) => {
     const listener = {
       onJoin: (room) => {
         console.debug(`app: Joined room`, room);
+        setIsConnected(true);
       },
 
       onRoomUpdate: (type, room) => {
@@ -111,6 +93,9 @@ const AppContextProvider = ({ children }) => {
         },
         loginInfo: state.loginInfo,
         isChatOpen: state.isChatOpen,
+
+        isConnected: isConnected,
+        leave: modifiedLeave,
       }}
     >
       {children}
