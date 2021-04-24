@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { VideoList } from "@100mslive/sdk-components";
+import React, { useEffect, useState, useContext } from "react";
+import { VideoList, ChatBox } from "@100mslive/sdk-components";
 import { useHMSRoom } from "@100mslive/sdk-components";
+import { AppContext } from "../store/AppContext";
 
 export const TeacherView = () => {
+  const { isChatOpen, toggleChat } = useContext(AppContext);
   const { peers } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
 
@@ -109,19 +111,32 @@ export const TeacherView = () => {
 
   return (
     <React.Fragment>
-      <div className="w-full h-full ">
-        {streamsWithInfo && streamsWithInfo.length > 0 && (
-          <VideoList
-            streams={streamsWithInfo}
-            classes={{
-              root: "",
-              videoTileParent: " p-4 rounded-lg",
-              //video: "rounded-3xl",
-            }}
-            showAudioMuteStatus={true}
-            allowRemoteMute={true}
-            //maxTileCount={9}
-          />
+      <div className="w-full h-full flex">
+        <div className={isChatOpen ? "w-8/10 h-full" : "w-full h-full"}>
+          {streamsWithInfo && streamsWithInfo.length > 0 && (
+            <VideoList
+              streams={streamsWithInfo}
+              classes={{
+                root: "",
+                videoTileParent: " p-4 rounded-lg",
+                //video: "rounded-3xl",
+              }}
+              showAudioMuteStatus={true}
+              allowRemoteMute={true}
+              //maxTileCount={9}
+            />
+          )}
+        </div>
+        {isChatOpen && (
+          <div className="flex items-end p-2 w-2/10 h-full">
+            <div className="w-full h-5/6">
+              <ChatBox
+                messages={[]}
+                onSend={(message) => {}}
+                onClose={toggleChat}
+              />
+            </div>
+          </div>
         )}
       </div>
 

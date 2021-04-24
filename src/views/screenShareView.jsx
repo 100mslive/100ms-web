@@ -1,113 +1,51 @@
 import React, { useEffect, useState, useContext } from "react";
-import { VideoList, ChatBox } from "@100mslive/sdk-components";
+import { VideoList, ChatBox, VideoTile } from "@100mslive/sdk-components";
 import { useHMSRoom } from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
+import {
+  HMSPeerToScreenStreamWitnInfo,
+  HMSPeertoCamerStreamWithInfo,
+  isScreenSharing,
+} from "../utlis/index";
 
 export const ScreenShareView = () => {
-  const { peers } = useHMSRoom();
   const { isChatOpen, toggleChat } = useContext(AppContext);
+  const { peers } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
-  const isScreenShared =
-    peers && peers.length > 0 && peers[0]
-      ? peers.some(
-          (peer) =>
-            Boolean(peer.auxiliaryTracks) &&
-            Boolean(peer.auxiliaryTracks.length > 0) &&
-            Boolean(
-              peer.auxiliaryTracks.find(
-                (track) => track.nativeTrack.kind === "audio"
-              )
-            ) &&
-            Boolean(
-              peer.auxiliaryTracks.find(
-                (track) => track.nativeTrack.kind === "video"
-              )
-            )
-        )
-      : false;
+  const [screenStream, setScreenStream] = useState(null);
+  const [cameraStream, setCameraStream] = useState(null);
 
-  console.log("screenshare status", isScreenShared);
   useEffect(() => {
-    setTimeout(() => {
-      console.debug("app: Old streams info ");
-      console.debug("app: Re-rendering video list with new peers ", peers);
-      const videoStreamsWithInfo =
-        peers && peers.length > 0 && peers[0]
-          ? peers
-              .filter((peer) => Boolean(peer.videoTrack && peer.audioTrack))
-              .map((peer) => {
-                console.debug("app: Camera video track", peer.videoTrack);
-                console.debug("app: Camera audio track", peer.audioTrack);
-                return {
-                  videoTrack: peer.videoTrack.nativeTrack,
-                  audioTrack: peer.audioTrack.nativeTrack,
-                  peer: {
-                    id: peer.videoTrack.stream.id,
-                    displayName: peer.name || peer.peerId,
-                  },
-                  videoSource: "camera",
-                  audioLevel: 0,
-                  isLocal: peer.isLocal,
-                };
-              })
-          : [];
-      console.debug("app: Computed streams info ", videoStreamsWithInfo);
+    if (!(peers && peers.length > 0 && peers[0])) return;
 
-      const screenShareStreamsWithInfo =
-        peers && peers.length > 0 && peers[0]
-          ? peers
-              .filter(
-                (peer) =>
-                  Boolean(peer.auxiliaryTracks) &&
-                  Boolean(peer.auxiliaryTracks.length > 0) &&
-                  Boolean(
-                    peer.auxiliaryTracks.find(
-                      (track) => track.nativeTrack.kind === "audio"
-                    )
-                  ) &&
-                  Boolean(
-                    peer.auxiliaryTracks.find(
-                      (track) => track.nativeTrack.kind === "video"
-                    )
-                  )
-              )
-              .map((peer) => {
-                console.debug(
-                  "app: Screenshare video track",
-                  peer.auxiliaryTracks.find(
-                    (track) => track.nativeTrack.kind === "video"
-                  )
-                );
-                console.debug(
-                  "app: Screenshare audio track",
-                  peer.auxiliaryTracks.find(
-                    (track) => track.nativeTrack.kind === "audio"
-                  )
-                );
-                return {
-                  videoTrack: peer.auxiliaryTracks.find(
-                    (track) => track.nativeTrack.kind === "video"
-                  ).nativeTrack,
-                  audioTrack: peer.auxiliaryTracks.find(
-                    (track) => track.nativeTrack.kind === "audio"
-                  ).nativeTrack,
-                  peer: {
-                    id: peer.auxiliaryTracks[0].stream.id,
-                    displayName: peer.name || peer.peerId,
-                  },
-                  videoSource: "camera",
-                  audioLevel: 0,
-                  isLocal: peer.isLocal,
-                };
-              })
-          : [];
-      console.debug("app: Computed streams info ", screenShareStreamsWithInfo);
-      setStreamsWithInfo([
-        ...videoStreamsWithInfo,
-        ...screenShareStreamsWithInfo,
-      ]);
-    }, 100);
-    //TODO remove this hack of waiting for 100ms. We need a callback for when peer gets updated. This is because mute is delayed.
+    console.debug("app: Old streams info ");
+    console.debug("app: Re-rendering video list with new peers ", peers);
+
+    const index = peers.findIndex(isScreenSharing);
+
+    const screenSharingPeer = peers[index];
+    let remPeers = [...peers];
+    if (index !== -1) remPeers.splice(index, 1);
+    console.log("screen shared by", screenSharingPeer);
+    setScreenStream(HMSPeerToScreenStreamWitnInfo(screenSharingPeer));
+    setCameraStream(HMSPeertoCamerStreamWithInfo(screenSharingPeer));
+    const videoStreamsWithInfo = remPeers
+      .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
+      .map(HMSPeertoCamerStreamWithInfo);
+    console.debug("app: Computed camera streams info ", videoStreamsWithInfo);
+
+    const screenShareStreamsWithInfo = remPeers
+      .filter(isScreenSharing)
+      .map(HMSPeerToScreenStreamWitnInfo);
+
+    console.debug(
+      "app: Computed screenshare streams info ",
+      screenShareStreamsWithInfo
+    );
+    setStreamsWithInfo([
+      ...videoStreamsWithInfo,
+      ...screenShareStreamsWithInfo,
+    ]);
   }, [peers]);
 
   useEffect(() => {
@@ -116,33 +54,59 @@ export const ScreenShareView = () => {
 
   return (
     <React.Fragment>
-      <div className="h-full  w-full flex">
-        <div className={isChatOpen ? "w-8/10" : "w-full"}>
-          {streamsWithInfo && streamsWithInfo.length > 0 && (
-            <VideoList
-              streams={streamsWithInfo}
-              classes={{
-                root: "",
-                videoTileParent: " p-4 rounded-lg",
-                //video: "rounded-3xl",
-              }}
+      <div className="w-full h-full flex">
+        <div className="w-8/10 h-full">
+          {screenStream && (
+            <VideoTile
+              audioTrack={screenStream.audioTrack}
+              videoTrack={screenStream.videoTrack}
+              peer={screenStream.peer}
+              videoSource="screen"
+              aspectRatio={{ width: 16, height: 9 }}
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               //maxTileCount={9}
             />
           )}
         </div>
-        {isChatOpen && (
-          <div className="flex items-end p-2 w-2/10 h-full">
-            <div className="w-full h-5/6">
+
+        <div className="flex flex-wrap p-2 w-2/10 h-full">
+          <div className="w-full h-1/3">
+            {cameraStream && (
+              <VideoTile
+                audioTrack={cameraStream.audioTrack}
+                videoTrack={cameraStream.videoTrack}
+                peer={cameraStream.peer}
+                aspectRatio={{ width: 1, height: 1 }}
+                showAudioMuteStatus={true}
+                allowRemoteMute={true}
+                //maxTileCount={9}
+              />
+            )}
+          </div>
+          <div className="w-full h-2/3 pt-3">
+            {isChatOpen ? (
               <ChatBox
                 messages={[]}
                 onSend={(message) => {}}
                 onClose={toggleChat}
               />
-            </div>
+            ) : (
+              streamsWithInfo &&
+              streamsWithInfo.length > 0 && (
+                <VideoList
+                  streams={streamsWithInfo}
+                  classes={{
+                    videoTileParent: " p-1 rounded-lg",
+                  }}
+                  showAudioMuteStatus={true}
+                  allowRemoteMute={true}
+                  maxColCount={2}
+                />
+              )
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       {/* <VideoList

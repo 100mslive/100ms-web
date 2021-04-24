@@ -15,6 +15,7 @@ const AppContextProvider = ({ children }) => {
       role: "",
     },
     isChatOpen: false,
+    isScreenShared: false,
   });
   //TODO this should be exposed from hook and should be a status
   const [isConnected, setIsConnected] = useState(false);

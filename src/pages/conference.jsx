@@ -5,10 +5,12 @@ import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
 import { useHMSRoom } from "@100mslive/sdk-components";
+import { isScreenSharing } from "../utlis/index";
 
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
+  const [isScreenShared, setScreenShared] = useState(false);
   const { loginInfo, isChatOpen, toggleChat, isConnected } = context;
 
   const {
@@ -54,7 +56,8 @@ export const Conference = () => {
         />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
-        <TeacherView />
+        {console.log(peers, "all peers here")}
+        {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
         {/* // ) : (
         //   <StudentView
         //     streamsWithInfo={streamsWithInfo
