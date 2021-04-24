@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
+import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
 import { useHMSRoom } from "@100mslive/sdk-components";
@@ -51,6 +52,7 @@ export const Conference = () => {
         />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
+        {/* <ScreenShareView /> */}
         <TeacherView />
         {/* // ) : (
         //   <StudentView

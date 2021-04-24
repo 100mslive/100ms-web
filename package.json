@@ -1,6 +1,6 @@
 {
   "name": "edtech_template",
-  "version": "0.2.14-998",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@100mslive/sdk-components": "0.2.14-99982",
