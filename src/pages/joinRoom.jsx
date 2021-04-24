@@ -17,7 +17,7 @@ export const JoinRoom = () => {
       })
       .catch((error) => {
         console.error(error);
-        alert("Unable to genrate token");
+        alert("Unable to generate token");
       });
   };
   return (
@@ -63,6 +63,7 @@ export const JoinRoom = () => {
               }}
             >
               <option value="Teacher">Teacher</option>
+              <option value="Student">Student</option>
             </select>
           </div>
           <div className="w-full flex justify-end m-2">
