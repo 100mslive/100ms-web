@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { VideoList, ChatBox } from "@100mslive/sdk-components";
 import { useHMSRoom } from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
+import { isScreenSharing } from "../utlis";
 
 export const TeacherView = () => {
   const { isChatOpen, toggleChat } = useContext(AppContext);
@@ -41,59 +42,43 @@ export const TeacherView = () => {
 
     const screenShareStreamsWithInfo =
       peers && peers.length > 0 && peers[0]
-        ? peers
-            .filter(
-              (peer) =>
-                Boolean(peer.auxiliaryTracks) &&
-                Boolean(peer.auxiliaryTracks.length > 0) &&
-                (Boolean(
-                  peer.auxiliaryTracks.find(
+        ? peers.filter(isScreenSharing).map((peer) => {
+            console.debug(
+              "app: Screenshare video track",
+              peer.auxiliaryTracks.find(
+                (track) => track.nativeTrack.kind === "video"
+              )
+            );
+            console.debug(
+              "app: Screenshare audio track",
+              peer.auxiliaryTracks.find(
+                (track) => track.nativeTrack.kind === "audio"
+              )
+            );
+            return {
+              videoTrack: peer.auxiliaryTracks.find(
+                (track) => track.nativeTrack.kind === "video"
+              )
+                ? peer.auxiliaryTracks.find(
+                    (track) => track.nativeTrack.kind === "video"
+                  ).nativeTrack
+                : undefined,
+              audioTrack: peer.auxiliaryTracks.find(
+                (track) => track.nativeTrack.kind === "audio"
+              )
+                ? peer.auxiliaryTracks.find(
                     (track) => track.nativeTrack.kind === "audio"
-                  )
-                ) ||
-                  Boolean(
-                    peer.auxiliaryTracks.find(
-                      (track) => track.nativeTrack.kind === "video"
-                    )
-                  ))
-            )
-            .map((peer) => {
-              console.debug(
-                "app: Screenshare video track",
-                peer.auxiliaryTracks.find(
-                  (track) => track.nativeTrack.kind === "video"
-                )
-              );
-              console.debug(
-                "app: Screenshare audio track",
-                peer.auxiliaryTracks.find(
-                  (track) => track.nativeTrack.kind === "audio"
-                )
-              );
-              return {
-                videoTrack: peer.auxiliaryTracks.find(
-                  (track) => track.nativeTrack.kind === "video"
-                )
-                  ? peer.auxiliaryTracks.find(
-                      (track) => track.nativeTrack.kind === "video"
-                    ).nativeTrack
-                  : undefined,
-                audioTrack: peer.auxiliaryTracks.find(
-                  (track) => track.nativeTrack.kind === "audio"
-                )
-                  ? peer.auxiliaryTracks.find(
-                      (track) => track.nativeTrack.kind === "audio"
-                    ).nativeTrack
-                  : undefined,
-                peer: {
-                  id: peer.auxiliaryTracks[0].stream.id,
-                  displayName: peer.name || peer.peerId,
-                },
-                videoSource: "camera",
-                audioLevel: 0,
-                isLocal: peer.isLocal,
-              };
-            })
+                  ).nativeTrack
+                : undefined,
+              peer: {
+                id: peer.auxiliaryTracks[0].stream.id,
+                displayName: peer.name || peer.peerId,
+              },
+              videoSource: "camera",
+              audioLevel: 0,
+              isLocal: peer.isLocal,
+            };
+          })
         : [];
     console.debug(
       "app: Computed screenshare streams info ",

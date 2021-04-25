@@ -10,7 +10,7 @@ import { isScreenSharing } from "../utlis/index";
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const [isScreenShared, setScreenShared] = useState(false);
+
   const { loginInfo, isChatOpen, toggleChat, isConnected } = context;
 
   const {
@@ -56,7 +56,6 @@ export const Conference = () => {
         />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
-        {console.log(peers, "all peers here")}
         {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
         {/* // ) : (
         //   <StudentView
