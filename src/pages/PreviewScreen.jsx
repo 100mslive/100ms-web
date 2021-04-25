@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { Header, Preview, useHMSRoom } from '@100mslive/sdk-components';
 import { AppContext } from '../store/AppContext';
@@ -25,6 +25,11 @@ const PreviewScreen = () => {
     const goBack = () => {
         history.push("/");
     }
+
+    useEffect(() => {
+        if (loginInfo.username === "")
+            history.push("/");
+    }, [loginInfo.username])
 
     return (
         <div>
