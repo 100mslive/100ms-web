@@ -13,10 +13,10 @@
     sdp-transform "^2.14.1"
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@0.0.1-18":
-  version "0.0.1-18"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.0.1-18.tgz#b565e89bf6c1bdc4c91594ce5243c5e1f6d0f229"
-  integrity sha512-Bg2bme9BEPxAocmnINB302sqWi9XKvYrhAWuQBYYw8xSZDPYrLbPw5SfSUrbs//uZw0YB2bdT5mIynPcStAkaQ==
+"@100mslive/sdk-components@0.0.1-20":
+  version "0.0.1-20"
+  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.0.1-20.tgz#a8da616445e02567c533f22886533f44b597fbb3"
+  integrity sha512-/dH5bR7LzxH9+HCb2gS1gAdf4xmtnkjAAtRUkJeU/S4fRPDSpLF9NLnIBNvCHLSVlP+BekPFIMqDzHePVk9owA==
   dependencies:
     "@100mslive/100ms-web-sdk" "0.0.9"
     "@material-ui/core" "^4.11.3"
