@@ -42,6 +42,7 @@ const PreviewScreen = () => {
                     joinOnClick={join}
                     goBackOnClick={goBack}
                     toggleMute={toggleMute}
+                    messageOnClose={goBack}
                 />
             </div>
         </div>
