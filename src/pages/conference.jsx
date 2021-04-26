@@ -10,7 +10,8 @@ export const Conference = () => {
   const context = useContext(AppContext);
   const { loginInfo, isConnected, leave } = context;
 
-  const {localPeer, toggleMute, toggleScreenShare, peers } = useHMSRoom();
+  const { localPeer, toggleMute, toggleScreenShare, peers, audioMuted, videoMuted } = useHMSRoom();
+  const [participants, setParticipants] = useState([]);
 
   if (!loginInfo.token) {
     history.push("/");
@@ -21,18 +22,20 @@ export const Conference = () => {
     };
   }, []);
 
-  const participants = (peers && peers.length > 0 && peers[0]) ?
-    peers.filter(participant => participant.name && participant.videoTrack)
-      .map(participant => {
-        console.debug("app: Participant is ", participant);
-        return ({
-          peer: {
-            displayName: participant.name,
-            id: participant.id
-          }
+  useEffect(() => {
+    setParticipants((peers && peers.length > 0 && peers[0]) ?
+      peers.filter(participant => participant.name && participant.videoTrack)
+        .map(participant => {
+          console.debug("app: Participant is ", participant);
+          return ({
+            peer: {
+              displayName: participant.name,
+              id: participant.id
+            }
+          })
         })
-      })
-    : [];
+      : []);
+  }, [peers]);
 
   return (
     <div className="w-full h-full bg-black">
@@ -61,29 +64,15 @@ export const Conference = () => {
       </div>
       <div className="bg-black" style={{ height: "10%" }}>
         {isConnected && <ControlBar
-          audioButtonOnClick={() => {
-            toggleMute(localPeer.audioTrack);
-          }}
-          videoButtonOnClick={() => {
-            toggleMute(localPeer.videoTrack);
-          }}
+          audioButtonOnClick={() => toggleMute('audio')}
+          videoButtonOnClick={() => toggleMute('video')}
           leaveButtonOnClick={() => {
             leave();
             history.push("/");
           }}
           screenshareButtonOnClick={() => toggleScreenShare()}
-          isAudioMuted={localPeer &&
-            !(
-              localPeer.audioTrack &&
-              localPeer.audioTrack.enabled
-            )
-          }
-          isVideoMuted={localPeer &&
-            !(
-              localPeer.videoTrack &&
-              localPeer.videoTrack.enabled
-            )
-          }
+          isAudioMuted={audioMuted}
+          isVideoMuted={videoMuted}
         />}
       </div>
     </div>

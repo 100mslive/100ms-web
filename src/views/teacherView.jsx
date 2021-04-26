@@ -27,6 +27,8 @@ export const TeacherView = () => {
           videoSource: "camera",
           audioLevel: 0,
           isLocal: peer.isLocal,
+          isVideoMuted:peer.videoTrack?(peer.isLocal?!!!peer.videoTrack.nativeTrack.enabled:peer.videoTrack.nativeTrack.muted): false, //TODO this is a hack until proper flag comes in
+          isAudioMuted:peer.audioTrack?(peer.isLocal && peer.audioTrack?!!!peer.audioTrack.nativeTrack.enabled:peer.audioTrack.nativeTrack.muted): false, //TODO this is a hack until proper flag comes in. Doesn't work
         };
       }):[];
       console.debug("app: Computed camera streams info ", videoStreamsWithInfo);

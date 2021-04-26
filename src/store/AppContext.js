@@ -13,6 +13,7 @@ const AppContextProvider = ({ children }) => {
       token: null,
       username: "",
       role: "",
+      roomId: ""
     },
   });
   //TODO this should be exposed from hook and should be a status
