@@ -31,7 +31,7 @@ const PreviewScreen = () => {
             history.push("/");
     }, [loginInfo.username])
 
-    return (
+    return (loginInfo.username ?
         <div>
             <div style={{ padding: "25px", height: "10%" }}>
                 <Header />
@@ -45,8 +45,8 @@ const PreviewScreen = () => {
                 />
             </div>
         </div>
-
-
+        :
+        null
     )
 };
 
