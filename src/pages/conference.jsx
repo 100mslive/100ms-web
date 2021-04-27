@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
+import {
+  Header,
+  ControlBar,
+  ParticipantList,
+  Settings,
+} from "@100mslive/sdk-components";
 import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
@@ -11,7 +16,14 @@ export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
 
-  const { loginInfo, isChatOpen, toggleChat, isConnected } = context;
+  const {
+    loginInfo,
+    isChatOpen,
+    toggleChat,
+    isConnected,
+    maxTileCount,
+    setMaxTileCount,
+  } = context;
 
   const {
     leave,
@@ -78,6 +90,8 @@ export const Conference = () => {
       <div className="bg-black" style={{ height: "10%" }}>
         {isConnected && (
           <ControlBar
+            maxTileCount={maxTileCount}
+            setMaxTileCount={setMaxTileCount}
             audioButtonOnClick={() => {
               toggleMute(localPeer.audioTrack);
             }}

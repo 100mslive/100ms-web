@@ -5,7 +5,7 @@ import { AppContext } from "../store/AppContext";
 import { isScreenSharing } from "../utlis";
 
 export const TeacherView = () => {
-  const { isChatOpen, toggleChat } = useContext(AppContext);
+  const { isChatOpen, toggleChat, maxTileCount } = useContext(AppContext);
   const { peers, messages, sendMessage } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
 
@@ -108,7 +108,7 @@ export const TeacherView = () => {
               }}
               showAudioMuteStatus={true}
               allowRemoteMute={true}
-              //maxTileCount={9}
+              maxTileCount={maxTileCount}
             />
           )}
         </div>

@@ -16,6 +16,7 @@ const AppContextProvider = ({ children }) => {
     },
     isChatOpen: false,
     isScreenShared: false,
+    maxTileCount: 8,
   });
   //TODO this should be exposed from hook and should be a status
   const [isConnected, setIsConnected] = useState(false);
@@ -92,9 +93,12 @@ const AppContextProvider = ({ children }) => {
         toggleChat: () => {
           setState({ ...state, isChatOpen: !state.isChatOpen });
         },
+        setMaxTileCount: (count) => {
+          setState((prevState) => ({ ...prevState, maxTileCount: count }));
+        },
         loginInfo: state.loginInfo,
         isChatOpen: state.isChatOpen,
-
+        maxTileCount: state.maxTileCount,
         isConnected: isConnected,
         leave: modifiedLeave,
       }}
