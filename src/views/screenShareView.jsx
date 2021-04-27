@@ -14,6 +14,7 @@ const TransformVideoTileSizes = (
   cameraStream,
   toggleChat
 ) => {
+  const { peers, messages, sendMessage } = useHMSRoom();
   if (streamsWithInfo.length == 0) {
     return (
       <>
@@ -39,8 +40,8 @@ const TransformVideoTileSizes = (
         {isChatOpen && (
           <div className="w-full h-2/3 pt-3 transition-height duration-500 ease-in-out">
             <ChatBox
-              messages={[]}
-              onSend={(message) => {}}
+              messages={messages}
+              onSend={sendMessage}
               onClose={toggleChat}
             />
           </div>
@@ -75,8 +76,8 @@ const TransformVideoTileSizes = (
         >
           {isChatOpen ? (
             <ChatBox
-              messages={[]}
-              onSend={(message) => {}}
+              messages={messages}
+              onSend={sendMessage}
               onClose={toggleChat}
             />
           ) : (
@@ -89,7 +90,7 @@ const TransformVideoTileSizes = (
                 }}
                 showAudioMuteStatus={true}
                 allowRemoteMute={true}
-                maxColCount={2}
+                maxColCount={1}
               />
             )
           )}
@@ -116,8 +117,8 @@ const TransformVideoTileSizes = (
         <div className="w-full h-2/3 pt-3">
           {isChatOpen ? (
             <ChatBox
-              messages={[]}
-              onSend={(message) => {}}
+              messages={messages}
+              onSend={sendMessage}
               onClose={toggleChat}
             />
           ) : (
@@ -141,7 +142,7 @@ const TransformVideoTileSizes = (
 
 export const ScreenShareView = () => {
   const { isChatOpen, toggleChat } = useContext(AppContext);
-  const { peers } = useHMSRoom();
+  const { peers, messages, sendMessage } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
   const [screenStream, setScreenStream] = useState(null);
   const [cameraStream, setCameraStream] = useState(null);

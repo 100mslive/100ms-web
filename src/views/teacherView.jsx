@@ -6,7 +6,7 @@ import { isScreenSharing } from "../utlis";
 
 export const TeacherView = () => {
   const { isChatOpen, toggleChat } = useContext(AppContext);
-  const { peers } = useHMSRoom();
+  const { peers, messages, sendMessage } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
 
   useEffect(() => {
@@ -116,8 +116,8 @@ export const TeacherView = () => {
           <div className="flex items-end p-2 w-2/10 h-full">
             <div className="w-full h-5/6">
               <ChatBox
-                messages={[]}
-                onSend={(message) => {}}
+                messages={messages}
+                onSend={sendMessage}
                 onClose={toggleChat}
               />
             </div>
