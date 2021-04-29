@@ -26,7 +26,11 @@ const AppContextProvider = ({ children }) => {
     //TODO shoudl be moved to hook
     setIsConnected(false);
     leave();
+<<<<<<< HEAD
   };
+=======
+  }
+>>>>>>> main
   useEffect(() => {
     let { username, role, token } = state.loginInfo;
     if (!token) return;
@@ -98,10 +102,15 @@ const AppContextProvider = ({ children }) => {
           setState((prevState) => ({ ...prevState, maxTileCount: count }));
         },
         loginInfo: state.loginInfo,
+<<<<<<< HEAD
         isChatOpen: state.isChatOpen,
         maxTileCount: state.maxTileCount,
         isConnected: isConnected,
         leave: modifiedLeave,
+=======
+        isConnected: isConnected,
+        leave:modifiedLeave
+>>>>>>> main
       }}
     >
       {children}

@@ -15,6 +15,7 @@ import { isScreenSharing } from "../utlis/index";
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
+<<<<<<< HEAD
 
   const {
     loginInfo,
@@ -36,6 +37,11 @@ export const Conference = () => {
     videoMuted,
   } = useHMSRoom();
   const [participants, setParticipants] = useState([]);
+=======
+  const { loginInfo, isConnected, leave } = context;
+
+  const {localPeer, toggleMute, toggleScreenShare, peers } = useHMSRoom();
+>>>>>>> main
 
   if (!loginInfo.token) {
     history.push("/");
@@ -66,11 +72,15 @@ export const Conference = () => {
   return (
     <div className="w-full h-full bg-black">
       <div style={{ padding: "25px", height: "10%" }}>
+<<<<<<< HEAD
         <Header
           rightComponents={[
             <ParticipantList key={0} participantList={participants} />,
           ]}
         />
+=======
+        <Header rightComponents={[<ParticipantList key={0} participantList={participants} />]} />
+>>>>>>> main
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
@@ -93,6 +103,7 @@ export const Conference = () => {
         // )} */}
       </div>
       <div className="bg-black" style={{ height: "10%" }}>
+<<<<<<< HEAD
         {isConnected && (
           <ControlBar
             maxTileCount={maxTileCount}
@@ -112,6 +123,33 @@ export const Conference = () => {
             }}
           />
         )}
+=======
+        {isConnected && <ControlBar
+          audioButtonOnClick={() => {
+            toggleMute(localPeer.audioTrack);
+          }}
+          videoButtonOnClick={() => {
+            toggleMute(localPeer.videoTrack);
+          }}
+          leaveButtonOnClick={() => {
+            leave();
+            history.push("/");
+          }}
+          screenshareButtonOnClick={() => toggleScreenShare()}
+          isAudioMuted={localPeer &&
+            !(
+              localPeer.audioTrack &&
+              localPeer.audioTrack.enabled
+            )
+          }
+          isVideoMuted={localPeer &&
+            !(
+              localPeer.videoTrack &&
+              localPeer.videoTrack.enabled
+            )
+          }
+        />}
+>>>>>>> main
       </div>
     </div>
   );
