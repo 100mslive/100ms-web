@@ -1,5 +1,5 @@
 import { JoinRoom } from "./pages/joinRoom.jsx";
-
+import PreviewScreen from "./pages/PreviewScreen";
 import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { AppContext, AppContextProvider } from "./store/AppContext.js";
@@ -15,7 +15,9 @@ function App() {
               {/* <Route path="/createRoom">
               <CreateRoom />
             </Route> */}
-
+              <Route path="/preview">
+                <PreviewScreen />
+              </Route>
               <Route path="/meeting">
                 <Conference />
               </Route>

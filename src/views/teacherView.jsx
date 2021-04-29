@@ -35,6 +35,16 @@ export const TeacherView = () => {
                 videoSource: "camera",
                 audioLevel: 0,
                 isLocal: peer.isLocal,
+                isVideoMuted: peer.videoTrack
+                  ? peer.isLocal
+                    ? !!!peer.videoTrack.nativeTrack.enabled
+                    : peer.videoTrack.nativeTrack.muted
+                  : false, //TODO this is a hack until proper flag comes in
+                isAudioMuted: peer.audioTrack
+                  ? peer.isLocal && peer.audioTrack
+                    ? !!!peer.audioTrack.nativeTrack.enabled
+                    : peer.audioTrack.nativeTrack.muted
+                  : false, //TODO this is a hack until proper flag comes in. Doesn't work
               };
             })
         : [];
@@ -42,43 +52,59 @@ export const TeacherView = () => {
 
     const screenShareStreamsWithInfo =
       peers && peers.length > 0 && peers[0]
-        ? peers.filter(isScreenSharing).map((peer) => {
-            console.debug(
-              "app: Screenshare video track",
-              peer.auxiliaryTracks.find(
-                (track) => track.nativeTrack.kind === "video"
-              )
-            );
-            console.debug(
-              "app: Screenshare audio track",
-              peer.auxiliaryTracks.find(
-                (track) => track.nativeTrack.kind === "audio"
-              )
-            );
-            return {
-              videoTrack: peer.auxiliaryTracks.find(
-                (track) => track.nativeTrack.kind === "video"
-              )
-                ? peer.auxiliaryTracks.find(
-                    (track) => track.nativeTrack.kind === "video"
-                  ).nativeTrack
-                : undefined,
-              audioTrack: peer.auxiliaryTracks.find(
-                (track) => track.nativeTrack.kind === "audio"
-              )
-                ? peer.auxiliaryTracks.find(
+        ? peers
+            .filter(
+              (peer) =>
+                Boolean(peer.auxiliaryTracks) &&
+                Boolean(peer.auxiliaryTracks.length > 0) &&
+                (Boolean(
+                  peer.auxiliaryTracks.find(
                     (track) => track.nativeTrack.kind === "audio"
-                  ).nativeTrack
-                : undefined,
-              peer: {
-                id: peer.auxiliaryTracks[0].stream.id,
-                displayName: peer.name || peer.peerId,
-              },
-              videoSource: "camera",
-              audioLevel: 0,
-              isLocal: peer.isLocal,
-            };
-          })
+                  )
+                ) ||
+                  Boolean(
+                    peer.auxiliaryTracks.find(
+                      (track) => track.nativeTrack.kind === "video"
+                    )
+                  ))
+            )
+            .map((peer) => {
+              console.debug(
+                "app: Screenshare video track",
+                peer.auxiliaryTracks.find(
+                  (track) => track.nativeTrack.kind === "video"
+                )
+              );
+              console.debug(
+                "app: Screenshare audio track",
+                peer.auxiliaryTracks.find(
+                  (track) => track.nativeTrack.kind === "audio"
+                )
+              );
+              return {
+                videoTrack: peer.auxiliaryTracks.find(
+                  (track) => track.nativeTrack.kind === "video"
+                )
+                  ? peer.auxiliaryTracks.find(
+                      (track) => track.nativeTrack.kind === "video"
+                    ).nativeTrack
+                  : undefined,
+                audioTrack: peer.auxiliaryTracks.find(
+                  (track) => track.nativeTrack.kind === "audio"
+                )
+                  ? peer.auxiliaryTracks.find(
+                      (track) => track.nativeTrack.kind === "audio"
+                    ).nativeTrack
+                  : undefined,
+                peer: {
+                  id: peer.auxiliaryTracks[0].stream.id,
+                  displayName: peer.name || peer.peerId,
+                },
+                videoSource: "camera",
+                audioLevel: 0,
+                isLocal: peer.isLocal,
+              };
+            })
         : [];
     console.debug(
       "app: Computed screenshare streams info ",

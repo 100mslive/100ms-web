@@ -13,6 +13,7 @@ const AppContextProvider = ({ children }) => {
       token: null,
       username: "",
       role: "",
+      roomId: "",
     },
     isChatOpen: false,
     isScreenShared: false,
