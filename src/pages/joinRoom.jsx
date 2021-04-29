@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
-import getToken from "../utlis/index";
 
 export const JoinRoom = () => {
   const history = useHistory();
@@ -10,15 +9,8 @@ export const JoinRoom = () => {
   const [role, setRole] = useState("Teacher");
   const [roomId, setRoomId] = useState("607d781cdcee704ca43cafb9");
   const join = () => {
-    getToken(username, role, roomId)
-      .then((token) => {
-        setLoginInfo({ token, username, role });
-        history.push("/meeting");
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Unable to generate token");
-      });
+    setLoginInfo({username: username, role: role, roomId: roomId});
+    history.push("/preview");
   };
   return (
     <div className=" flex justify-center items-center w-full h-full text-white">

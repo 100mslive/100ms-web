@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LogRocket from "logrocket";
-import { useHMSRoom } from '@100mslive/sdk-components';
+import { useHMSRoom } from "@100mslive/sdk-components";
 
 const AppContext = React.createContext();
 
@@ -13,7 +13,11 @@ const AppContextProvider = ({ children }) => {
       token: null,
       username: "",
       role: "",
+      roomId: "",
     },
+    isChatOpen: false,
+    isScreenShared: false,
+    maxTileCount: 8,
   });
   //TODO this should be exposed from hook and should be a status
   const [isConnected, setIsConnected] = useState(false);
@@ -22,7 +26,7 @@ const AppContextProvider = ({ children }) => {
     //TODO shoudl be moved to hook
     setIsConnected(false);
     leave();
-  }
+  };
   useEffect(() => {
     let { username, role, token } = state.loginInfo;
     if (!token) return;
@@ -63,15 +67,15 @@ const AppContextProvider = ({ children }) => {
 
     join(config, listener);
     console.debug("app: Join called");
-
   }, [state.loginInfo.token]);
 
   useEffect(() => {
-    localPeer && LogRocket.identify(localPeer.peerId, {
-      name: state.loginInfo.username,
-      role: state.loginInfo.role,
-      token: state.loginInfo.token
-    });
+    localPeer &&
+      LogRocket.identify(localPeer.peerId, {
+        name: state.loginInfo.username,
+        role: state.loginInfo.role,
+        token: state.loginInfo.token,
+      });
   }, [localPeer]);
 
   return (
@@ -87,9 +91,17 @@ const AppContextProvider = ({ children }) => {
             loginInfo: { ...state.loginInfo, ...info },
           });
         },
+        toggleChat: () => {
+          setState({ ...state, isChatOpen: !state.isChatOpen });
+        },
+        setMaxTileCount: (count) => {
+          setState((prevState) => ({ ...prevState, maxTileCount: count }));
+        },
         loginInfo: state.loginInfo,
+        isChatOpen: state.isChatOpen,
+        maxTileCount: state.maxTileCount,
         isConnected: isConnected,
-        leave:modifiedLeave
+        leave: modifiedLeave,
       }}
     >
       {children}

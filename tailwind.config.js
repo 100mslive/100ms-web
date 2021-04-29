@@ -3,6 +3,13 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      transitionProperty: {
+        height: "height",
+      },
+      width: {
+        "8/10": "80%",
+        "2/10": "20%",
+      },
       textColor: "#FFFFFF",
       colors: {
         blue: {
