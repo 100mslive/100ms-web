@@ -50,7 +50,6 @@ export const Conference = () => {
     setParticipants(
       peers && peers.length > 0 && peers[0]
         ? peers
-            .filter((participant) => participant.name && participant.videoTrack)
             .map((participant) => {
               console.debug("app: Participant is ", participant);
               return {
