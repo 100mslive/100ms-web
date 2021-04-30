@@ -204,6 +204,7 @@ export const ScreenShareView = () => {
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               isLocal={screenStream.isLocal}
+              objectFit="contain"
               //maxTileCount={9}
             />
           )}
