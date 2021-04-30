@@ -194,7 +194,7 @@ export const ScreenShareView = () => {
     <React.Fragment>
       <div className="w-full h-full flex">
         <div className="w-8/10 h-full">
-          {screenStream && (
+          {screenStream && screenStream.videoTrack && (
             <VideoTile
               audioTrack={screenStream.audioTrack}
               videoTrack={screenStream.videoTrack}
@@ -203,7 +203,7 @@ export const ScreenShareView = () => {
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               isLocal={screenStream.isLocal}
-
+              objectFit="contain"
               //maxTileCount={9}
             />
           )}
