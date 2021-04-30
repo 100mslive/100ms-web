@@ -39,7 +39,7 @@ export const HMSPeerToScreenStreamWitnInfo = (peer) => {
           .nativeTrack
       : undefined,
     peer: {
-      id: peer.auxiliaryTracks[0].stream.id,
+      id: peer.peerId,
       displayName: peer.name || peer.peerId,
     },
     videoSource: "screen",
@@ -55,9 +55,7 @@ export const HMSPeertoCamerStreamWithInfo = (peer) => {
     videoTrack: peer.videoTrack ? peer.videoTrack.nativeTrack : undefined,
     audioTrack: peer.audioTrack ? peer.audioTrack.nativeTrack : undefined,
     peer: {
-      id: peer.videoTrack
-        ? peer.videoTrack.stream.id
-        : peer.audioTrack.stream.id,
+      id: peer.peerId,
       displayName: peer.name || peer.peerId,
     },
     videoSource: "camera",
@@ -73,15 +71,13 @@ export const isScreenSharing = (peer) =>
   (Boolean(
     peer.auxiliaryTracks.find(
       (track) =>
-        track.nativeTrack.kind === "audio" &&
-        track.nativeTrack.readyState !== "ended"
+        track.nativeTrack.kind === "audio"
     )
   ) ||
     Boolean(
       peer.auxiliaryTracks.find(
         (track) =>
           track.nativeTrack.kind === "video" &&
-          track.nativeTrack.readyState !== "ended" &&
           track.source == "screen"
       )
     ));
