@@ -9,10 +9,10 @@
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@0.2.15-78":
-  version "0.2.15-78"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.15-78.tgz#8a4a4ade0b3a8a74689471a0d728dc80477c1ed6"
-  integrity sha512-4daEyd6+0hyUWxxZxTebEpVu1wWVFxEJACYuul3bZAz9f47//BFqO/96R5XEd9Zxq6nDuSxpGL+5gToVJuSSpg==
+"@100mslive/sdk-components@0.2.15-79":
+  version "0.2.15-79"
+  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.15-79.tgz#6085015e46cf74d00973f602acfc13fa96c98d26"
+  integrity sha512-I/xyHIZsgw2aKl/seLYwl5ffFMWfAOOSc8V2mvoSmwDmyhm6GfscQVI4koWO0GkkNINVsjle3Os7k6ZRanyyZQ==
   dependencies:
     "@100mslive/100ms-web-sdk" "0.0.12-4"
     "@material-ui/core" "^4.11.3"
