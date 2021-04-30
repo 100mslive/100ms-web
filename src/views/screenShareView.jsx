@@ -200,7 +200,6 @@ export const ScreenShareView = () => {
               videoTrack={screenStream.videoTrack}
               peer={screenStream.peer}
               videoSource="screen"
-              aspectRatio={{ width: 16, height: 9 }}
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               isLocal={screenStream.isLocal}
