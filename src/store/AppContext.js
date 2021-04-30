@@ -14,6 +14,8 @@ const AppContextProvider = ({ children }) => {
       username: "",
       role: "",
       roomId: "",
+      audioMuted:false,
+      videoMuted:false,
     },
     isChatOpen: false,
     isScreenShared: false,

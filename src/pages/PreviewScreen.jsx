@@ -10,10 +10,10 @@ const PreviewScreen = () => {
     const { loginInfo, setLoginInfo } = context;
     const { toggleMute } = useHMSRoom();
 
-    const join = () => {
+    const join = ({audioMuted=false, videoMuted=false}) => {
         getToken(loginInfo.username, loginInfo.role, loginInfo.roomId)
             .then((token) => {
-                setLoginInfo({ token });
+                setLoginInfo({ token , audioMuted, videoMuted});
                 history.push("/meeting");
             })
             .catch((error) => {
@@ -41,7 +41,6 @@ const PreviewScreen = () => {
                     name={loginInfo.username}
                     joinOnClick={join}
                     goBackOnClick={goBack}
-                    toggleMute={toggleMute}
                     messageOnClose={goBack}
                 />
             </div>
