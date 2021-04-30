@@ -81,6 +81,7 @@ export const isScreenSharing = (peer) =>
       peer.auxiliaryTracks.find(
         (track) =>
           track.nativeTrack.kind === "video" &&
-          track.nativeTrack.readyState !== "ended"
+          track.nativeTrack.readyState !== "ended" &&
+          track.source == "screen"
       )
     ));
