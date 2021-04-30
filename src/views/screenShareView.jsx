@@ -54,7 +54,7 @@ const TransformVideoTileSizes = (
         <div
           className={`w-full p-1 ${
             isChatOpen ? "h-1/3" : "h-1/2"
-          } transition-height duration-500 ease-in-out`}
+          } transition-height duration-500 ease-in-out `}
         >
           {cameraStream && (
             <VideoTile
@@ -72,27 +72,27 @@ const TransformVideoTileSizes = (
         <div
           className={`w-full  p-1 ${
             isChatOpen ? "h-2/3" : "h-1/2"
-          } transition-height duration-200 ease-in-out`}
+          } transition-height duration-200 ease-in-out relative`}
         >
-          {isChatOpen ? (
-            <ChatBox
-              messages={messages}
-              onSend={sendMessage}
-              onClose={toggleChat}
-            />
-          ) : (
-            streamsWithInfo &&
-            streamsWithInfo.length > 0 && (
-              <VideoList
-                streams={streamsWithInfo}
-                classes={{
-                  videoTileParent: "rounded-lg",
-                }}
-                showAudioMuteStatus={true}
-                allowRemoteMute={true}
-                maxColCount={1}
+          {isChatOpen && (
+            <div className="w-full h-full absolute z-10">
+              <ChatBox
+                messages={messages}
+                onSend={sendMessage}
+                onClose={toggleChat}
               />
-            )
+            </div>
+          )}
+          {streamsWithInfo && streamsWithInfo.length > 0 && (
+            <VideoList
+              streams={streamsWithInfo}
+              classes={{
+                videoTileParent: "rounded-lg",
+              }}
+              showAudioMuteStatus={true}
+              allowRemoteMute={true}
+              maxColCount={1}
+            />
           )}
         </div>
       </>
@@ -114,26 +114,26 @@ const TransformVideoTileSizes = (
             />
           )}
         </div>
-        <div className="w-full h-2/3 pt-3">
-          {isChatOpen ? (
-            <ChatBox
-              messages={messages}
-              onSend={sendMessage}
-              onClose={toggleChat}
-            />
-          ) : (
-            streamsWithInfo &&
-            streamsWithInfo.length > 0 && (
-              <VideoList
-                streams={streamsWithInfo}
-                classes={{
-                  videoTileParent: "rounded-lg px-1",
-                }}
-                showAudioMuteStatus={true}
-                allowRemoteMute={true}
-                maxColCount={2}
+        <div className="w-full h-2/3 pt-3 relative">
+          {isChatOpen && (
+            <div className="w-full h-full absolute z-10">
+              <ChatBox
+                messages={messages}
+                onSend={sendMessage}
+                onClose={toggleChat}
               />
-            )
+            </div>
+          )}
+          {streamsWithInfo && streamsWithInfo.length > 0 && (
+            <VideoList
+              streams={streamsWithInfo}
+              classes={{
+                videoTileParent: "rounded-lg px-1",
+              }}
+              showAudioMuteStatus={true}
+              allowRemoteMute={true}
+              maxColCount={2}
+            />
           )}
         </div>
       </>
@@ -203,7 +203,7 @@ export const ScreenShareView = () => {
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               isLocal={screenStream.isLocal}
-              objectFit="contain"
+
               //maxTileCount={9}
             />
           )}
