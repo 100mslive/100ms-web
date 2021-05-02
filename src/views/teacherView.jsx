@@ -117,6 +117,7 @@ export const TeacherView = () => {
           {streamsWithInfo && streamsWithInfo.length > 0 && (
             <VideoList
               streams={streamsWithInfo}
+              aspectRatio={{width:1, height:1}}
               classes={{
                 root: "",
                 videoTileParent: " p-4 rounded-lg",
