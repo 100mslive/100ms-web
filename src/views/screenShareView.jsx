@@ -15,15 +15,15 @@ const TransformVideoTileSizes = (
   toggleChat
 ) => {
   const { peers, messages, sendMessage } = useHMSRoom();
-  if (streamsWithInfo.length == 0) {
     return (
       <>
         <div
-          className={`w-full ${
-            isChatOpen ? "h-1/4" : "h-full"
-          } transition-height duration-500 ease-in-out`}
+          className={`w-full h-full relative `}
         >
-          {cameraStream && (
+          <div className={`w-full flex flex-col h-full`}>
+          <div className="w-full relative overflow-hidden" style={{paddingTop:`${(cameraStream && !isChatOpen)?'100%':'0'}`}}>
+          {cameraStream && !isChatOpen && (
+            <div className="absolute left-0 top-0 w-full h-full">
             <VideoTile
               audioTrack={cameraStream.audioTrack}
               videoTrack={cameraStream.videoTrack}
@@ -32,112 +32,38 @@ const TransformVideoTileSizes = (
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               isLocal={cameraStream.isLocal}
-              //maxTileCount={9}
             />
+            </div>
           )}
-        </div>
-
-        {isChatOpen && (
-          <div className="w-full h-2/3 pt-3 transition-height duration-500 ease-in-out">
-            <ChatBox
-              messages={messages}
-              onSend={sendMessage}
-              onClose={toggleChat}
-            />
           </div>
-        )}
-      </>
-    );
-  } else if (streamsWithInfo.length == 1) {
-    return (
-      <>
-        <div
-          className={`w-full p-1 ${
-            isChatOpen ? "h-1/3" : "h-1/2"
-          } transition-height duration-500 ease-in-out `}
-        >
-          {cameraStream && (
-            <VideoTile
-              audioTrack={cameraStream.audioTrack}
-              videoTrack={cameraStream.videoTrack}
-              peer={cameraStream.peer}
-              aspectRatio={{ width: 1, height: 1 }}
-              showAudioMuteStatus={true}
-              allowRemoteMute={true}
-              isLocal={cameraStream.isLocal}
-              //maxTileCount={9}
-            />
-          )}
-        </div>
-        <div
-          className={`w-full  p-1 ${
-            isChatOpen ? "h-2/3" : "h-1/2"
-          } transition-height duration-200 ease-in-out relative`}
-        >
-          {isChatOpen && (
-            <div className="w-full h-full absolute z-10">
-              <ChatBox
-                messages={messages}
-                onSend={sendMessage}
-                onClose={toggleChat}
-              />
-            </div>
-          )}
+          <div className={`w-full relative ${isChatOpen?'h-1/3':'flex-grow'}`}>
           {streamsWithInfo && streamsWithInfo.length > 0 && (
             <VideoList
-              streams={streamsWithInfo}
+              streams={isChatOpen?[cameraStream, ...streamsWithInfo]:streamsWithInfo}
               classes={{
-                videoTileParent: "rounded-lg",
-              }}
-              showAudioMuteStatus={true}
-              allowRemoteMute={true}
-              maxColCount={1}
-            />
-          )}
-        </div>
-      </>
-    );
-  } else
-    return (
-      <>
-        <div className="w-full h-1/3">
-          {cameraStream && (
-            <VideoTile
-              audioTrack={cameraStream.audioTrack}
-              videoTrack={cameraStream.videoTrack}
-              peer={cameraStream.peer}
-              aspectRatio={{ width: 1, height: 1 }}
-              showAudioMuteStatus={true}
-              allowRemoteMute={true}
-              isLocal={cameraStream.isLocal}
-              //maxTileCount={9}
-            />
-          )}
-        </div>
-        <div className="w-full h-2/3 pt-3 relative">
-          {isChatOpen && (
-            <div className="w-full h-full absolute z-10">
-              <ChatBox
-                messages={messages}
-                onSend={sendMessage}
-                onClose={toggleChat}
-              />
-            </div>
-          )}
-          {streamsWithInfo && streamsWithInfo.length > 0 && (
-            <VideoList
-              streams={streamsWithInfo}
-              classes={{
-                videoTileParent: "rounded-lg px-1",
+                videoTileParent: "rounded-lg p-2",
               }}
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               maxColCount={2}
+              aspectRatio={{width:1,height:1}}
+              overflow='scroll-x'
             />
+          )}
+          </div>
+        </div>
+        {isChatOpen && (
+            <div className="h-2/3 w-full absolute z-10 bottom-0 right-0">
+              <ChatBox
+                messages={messages}
+                onSend={sendMessage}
+                onClose={toggleChat}
+              />
+            </div>
           )}
         </div>
       </>
-    );
+    )
 };
 
 export const ScreenShareView = () => {
