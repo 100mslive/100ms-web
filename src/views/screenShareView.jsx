@@ -41,7 +41,7 @@ const TransformVideoTileSizes = (
             <VideoList
               streams={isChatOpen?[cameraStream, ...streamsWithInfo]:streamsWithInfo}
               classes={{
-                videoTileParent: "rounded-lg p-2",
+                videoTileContainer: "rounded-lg p-2",
               }}
               showAudioMuteStatus={true}
               allowRemoteMute={true}
