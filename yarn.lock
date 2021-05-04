@@ -2,19 +2,19 @@
 # yarn lockfile v1
 
 
-"@100mslive/100ms-web-sdk@0.0.12-7":
-  version "0.0.12-7"
-  resolved "https://registry.yarnpkg.com/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.12-7.tgz#243ac324c905a8e92a33484888df4ffc48be23b2"
-  integrity sha512-z3jNHSSP3OJyjfOtuf3/AcemTM+hrhBLlh+1xd2nXLQXEMUWbo8dWTx+yTNR2GDlI9go2Fe6y6DmCdEE3oqv+Q==
+"@100mslive/100ms-web-sdk@0.0.12-8":
+  version "0.0.12-8"
+  resolved "https://registry.yarnpkg.com/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.12-8.tgz#aaacec70f3d1038ef2ffec330501c049aab6e734"
+  integrity sha512-PmnazbJsxOvSBauZ3WN5GW8HE7N8B83NGpLb2n77FENTXECVyk9W6I/ook33v0KhBSpuJR/dQqoLroulM7yTVg==
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@0.2.15-961":
-  version "0.2.15-961"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.15-961.tgz#f822974ad9393c4c4caa9b92f33d5047e8e23ebf"
-  integrity sha512-Pz839aal8uPFGPnhU4AnfzD6Am4+w5wKhLO7rFnmTEXFfvijZwzcw2+fAoodwZFO6bld9x5hmXFMtaJBsxhRGQ==
+"@100mslive/sdk-components@0.2.15-976":
+  version "0.2.15-976"
+  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.15-976.tgz#5a3725418bd02be1014c3728997b2ed60825e265"
+  integrity sha512-c7YOB0mlC5mfhRYZ7Ycm/JXgazA7//KVjjuFsTBTB2DmK21+bYmteTh2aCE8PFcUso3dkW5MnlvuKtqZDd7SBQ==
   dependencies:
-    "@100mslive/100ms-web-sdk" "0.0.12-7"
+    "@100mslive/100ms-web-sdk" "0.0.12-8"
     "@material-ui/core" "^4.11.3"
     autolinker "^3.14.3"
     autoprefixer "^9.8.6"
@@ -1764,6 +1764,7 @@
     loader-utils "^2.0.0"
 
 "@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2":
+  name tailwindcss
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@tailwindcss/postcss7-compat/-/postcss7-compat-2.1.2.tgz#4ae2a3a3c05622ee04307997b0f8bea5c8dbc2b6"
   integrity sha512-bH2kw6uyqLnDMP8wzDUsis5ovrsRzfHEyiL1McADvqlW54g6y0KVHX1xzO7PH8Fl5s0Sq8vDOAp4+3V8MEcZ9g==

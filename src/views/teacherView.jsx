@@ -120,7 +120,7 @@ export const TeacherView = () => {
               aspectRatio={{width:1, height:1}}
               classes={{
                 root: "",
-                videoTileParent: " p-4 rounded-lg",
+                videoTileContainer: " p-4 rounded-lg",
                 //video: "rounded-3xl",
               }}
               showAudioMuteStatus={true}
