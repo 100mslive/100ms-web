@@ -13,7 +13,7 @@ export const StudentView = ({ streamsWithInfo }) => {
           streams={streamsWithInfo.filter((peer) => peer.role === "Teacher")}
           classes={{
             root: "",
-            videoTileParent: " p-6 rounded-xl",
+            videoTileContainer: " p-6 rounded-xl",
             video: "rounded-xl",
           }}
           showAudioMuteStatus={true}
@@ -24,7 +24,7 @@ export const StudentView = ({ streamsWithInfo }) => {
         <VideoList
           streams={streamsWithInfo.filter((peer) => peer.role === "Student")}
           classes={{
-            videoTileParent: "p-3 rounded-xl",
+            videoTileContainer: "p-3 rounded-xl",
             video: "rounded-xl",
           }}
           overflow="scroll-x"

@@ -12,7 +12,8 @@ const TransformVideoTileSizes = (
   streamsWithInfo,
   isChatOpen,
   cameraStream,
-  toggleChat
+  toggleChat,
+  aspectRatio
 ) => {
   const { peers, messages, sendMessage } = useHMSRoom();
     return (
@@ -28,7 +29,7 @@ const TransformVideoTileSizes = (
               audioTrack={cameraStream.audioTrack}
               videoTrack={cameraStream.videoTrack}
               peer={cameraStream.peer}
-              aspectRatio={{ width: 1, height: 1 }}
+              aspectRatio={aspectRatio}
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               isLocal={cameraStream.isLocal}
@@ -41,12 +42,12 @@ const TransformVideoTileSizes = (
             <VideoList
               streams={isChatOpen?[cameraStream, ...streamsWithInfo]:streamsWithInfo}
               classes={{
-                videoTileParent: "rounded-lg p-2",
+                videoTileContainer: "rounded-lg p-2",
               }}
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               maxColCount={2}
-              aspectRatio={{width:1,height:1}}
+              aspectRatio={aspectRatio}
               overflow='scroll-x'
             />
           )}
@@ -67,7 +68,7 @@ const TransformVideoTileSizes = (
 };
 
 export const ScreenShareView = () => {
-  const { isChatOpen, toggleChat } = useContext(AppContext);
+  const { isChatOpen, toggleChat, aspectRatio } = useContext(AppContext);
   const { peers, messages, sendMessage } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
   const [screenStream, setScreenStream] = useState(null);
@@ -140,7 +141,8 @@ export const ScreenShareView = () => {
             streamsWithInfo,
             isChatOpen,
             cameraStream,
-            toggleChat
+            toggleChat,
+            aspectRatio
           )}
         </div>
       </div>
