@@ -33,6 +33,8 @@ const TransformVideoTileSizes = (
               showAudioMuteStatus={true}
               allowRemoteMute={true}
               isLocal={cameraStream.isLocal}
+              isAudioMuted={!(cameraStream.audioTrack && cameraStream.audioTrack.enabled)}
+              isVideoMuted={!(cameraStream.videoTrack && cameraStream.videoTrack.enabled)}
             />
             </div>
           )}
@@ -131,7 +133,8 @@ export const ScreenShareView = () => {
               allowRemoteMute={true}
               isLocal={screenStream.isLocal}
               objectFit="contain"
-              //maxTileCount={9}
+              isAudioMuted={!(screenStream.audioTrack && screenStream.audioTrack.enabled)}
+              isVideoMuted={!(screenStream.videoTrack && screenStream.videoTrack.enabled)}
             />
           )}
         </div>
