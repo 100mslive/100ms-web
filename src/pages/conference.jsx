@@ -49,22 +49,21 @@ export const Conference = () => {
   useEffect(() => {
     setParticipants(
       peers && peers.length > 0 && peers[0]
-        ? peers
-            .map((participant) => {
-              console.debug("app: Participant is ", participant);
-              return {
-                peer: {
-                  displayName: participant.name,
-                  id: participant.id,
-                },
-              };
-            })
+        ? peers.map((participant) => {
+            console.debug("app: Participant is ", participant);
+            return {
+              peer: {
+                displayName: participant.name,
+                id: participant.id,
+              },
+            };
+          })
         : []
     );
   }, [peers]);
 
   return (
-    <div className="w-full h-full bg-black">
+    <div className="w-full h-full dark:bg-black">
       <div style={{ padding: "25px", height: "10%" }}>
         <Header
           rightComponents={[
@@ -92,7 +91,7 @@ export const Conference = () => {
         //   />
         // )} */}
       </div>
-      <div className="bg-black" style={{ height: "10%" }}>
+      <div className="dark:bg-black" style={{ height: "10%" }}>
         {isConnected && (
           <ControlBar
             maxTileCount={maxTileCount}

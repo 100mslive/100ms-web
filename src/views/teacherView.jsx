@@ -5,8 +5,10 @@ import { AppContext } from "../store/AppContext";
 import { isScreenSharing } from "../utlis";
 
 export const TeacherView = () => {
-  const { isChatOpen, toggleChat, maxTileCount, aspectRatio } = useContext(AppContext);
-  console.log("env aspect ratio is", aspectRatio);
+  const { isChatOpen, toggleChat, maxTileCount, aspectRatio } = useContext(
+    AppContext
+  );
+
   const { peers, messages, sendMessage } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
 
@@ -35,7 +37,7 @@ export const TeacherView = () => {
                 },
                 videoSource: "camera",
                 audioLevel: 0,
-                isLocal: peer.isLocal
+                isLocal: peer.isLocal,
               };
             })
         : [];
@@ -118,7 +120,6 @@ export const TeacherView = () => {
           {streamsWithInfo && streamsWithInfo.length > 0 && (
             <VideoList
               streams={streamsWithInfo}
-              aspectRatio={aspectRatio}
               classes={{
                 root: "",
                 videoTileContainer: " p-4 rounded-lg",

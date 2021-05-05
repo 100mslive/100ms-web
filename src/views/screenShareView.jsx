@@ -16,55 +16,62 @@ const TransformVideoTileSizes = (
   aspectRatio
 ) => {
   const { peers, messages, sendMessage } = useHMSRoom();
-    return (
-      <>
-        <div
-          className={`w-full h-full relative `}
-        >
-          <div className={`w-full flex flex-col h-full`}>
-          <div className="w-full relative overflow-hidden" style={{paddingTop:`${(cameraStream && !isChatOpen)?'100%':'0'}`}}>
-          {cameraStream && !isChatOpen && (
-            <div className="absolute left-0 top-0 w-full h-full">
-            <VideoTile
-              audioTrack={cameraStream.audioTrack}
-              videoTrack={cameraStream.videoTrack}
-              peer={cameraStream.peer}
-              aspectRatio={aspectRatio}
-              showAudioMuteStatus={true}
-              allowRemoteMute={true}
-              isLocal={cameraStream.isLocal}
-            />
-            </div>
-          )}
+  return (
+    <>
+      <div className={`w-full h-full relative `}>
+        <div className={`w-full flex flex-col h-full`}>
+          <div
+            className="w-full relative overflow-hidden"
+            style={{
+              paddingTop: `${cameraStream && !isChatOpen ? "100%" : "0"}`,
+            }}
+          >
+            {cameraStream && !isChatOpen && (
+              <div className="absolute left-0 top-0 w-full h-full">
+                <VideoTile
+                  audioTrack={cameraStream.audioTrack}
+                  videoTrack={cameraStream.videoTrack}
+                  peer={cameraStream.peer}
+                  showAudioMuteStatus={true}
+                  allowRemoteMute={true}
+                  isLocal={cameraStream.isLocal}
+                />
+              </div>
+            )}
           </div>
-          <div className={`w-full relative ${isChatOpen?'h-1/3':'flex-grow'}`}>
-          {streamsWithInfo && streamsWithInfo.length > 0 && (
-            <VideoList
-              streams={isChatOpen?[cameraStream, ...streamsWithInfo]:streamsWithInfo}
-              classes={{
-                videoTileContainer: "rounded-lg p-2",
-              }}
-              showAudioMuteStatus={true}
-              allowRemoteMute={true}
-              maxColCount={2}
-              aspectRatio={aspectRatio}
-              overflow='scroll-x'
-            />
-          )}
+          <div
+            className={`w-full relative ${isChatOpen ? "h-1/3" : "flex-grow"}`}
+          >
+            {streamsWithInfo && streamsWithInfo.length > 0 && (
+              <VideoList
+                streams={
+                  isChatOpen
+                    ? [cameraStream, ...streamsWithInfo]
+                    : streamsWithInfo
+                }
+                classes={{
+                  videoTileContainer: "rounded-lg p-2",
+                }}
+                showAudioMuteStatus={true}
+                allowRemoteMute={true}
+                maxColCount={2}
+                overflow="scroll-x"
+              />
+            )}
           </div>
         </div>
         {isChatOpen && (
-            <div className="h-2/3 w-full absolute z-10 bottom-0 right-0">
-              <ChatBox
-                messages={messages}
-                onSend={sendMessage}
-                onClose={toggleChat}
-              />
-            </div>
-          )}
-        </div>
-      </>
-    )
+          <div className="h-2/3 w-full absolute z-10 bottom-0 right-0">
+            <ChatBox
+              messages={messages}
+              onSend={sendMessage}
+              onClose={toggleChat}
+            />
+          </div>
+        )}
+      </div>
+    </>
+  );
 };
 
 export const ScreenShareView = () => {
