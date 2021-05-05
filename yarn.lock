@@ -2,19 +2,19 @@
 # yarn lockfile v1
 
 
-"@100mslive/100ms-web-sdk@0.0.12-12":
-  version "0.0.12-12"
-  resolved "https://registry.yarnpkg.com/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.12-12.tgz#4bcc32778af25a4fcefc6da079b395e5511d69ba"
-  integrity sha512-afht0x1jKtRRRxIw7P/XbnnrwyptrWfTWpE0HFqi4Pi0g1X0n2ENkonP+AbGLjqPRiHe55YpG04ffIrlENJ77g==
+"@100mslive/100ms-web-sdk@0.0.12-15":
+  version "0.0.12-15"
+  resolved "https://registry.yarnpkg.com/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.12-15.tgz#1ebf0537df3c75d1e6184dc3d893d5c67cca7b73"
+  integrity sha512-vsWyAqa4/VOGQWo/aWMJNttUPSA2pCZGwmUw7x/M9C5cKPhIkKomTVdUjlJInAVMP6LVw8hvC0Fbx853sr8mOw==
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@0.2.15-983":
-  version "0.2.15-983"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.15-983.tgz#e55f9da497f9f5551fe5302946de7fdb60959994"
-  integrity sha512-op/DPj2sf+4cngFhzyBMDjEkLppDacF2GfCVKx6Z4ZWH0CIakdgCFCJtGKmB6wsByf2yVC3MdrVYeZdYqKomdA==
+"@100mslive/sdk-components@0.2.16":
+  version "0.2.16"
+  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.16.tgz#a6ab6daaf4cae5549c985d3fa510e3241358b7d1"
+  integrity sha512-5/KrOgISksqUgw+O2FQCSrw6JaJaUdeWUPpjk0AlFPTNBSgrWu9foKTbrW7XFBhn2HE7iSlHsJpa+dtllPRBbg==
   dependencies:
-    "@100mslive/100ms-web-sdk" "0.0.12-12"
+    "@100mslive/100ms-web-sdk" "0.0.12-15"
     "@material-ui/core" "^4.11.3"
     autolinker "^3.14.3"
     autoprefixer "^9.8.6"
