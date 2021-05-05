@@ -6,7 +6,9 @@ const AppContext = React.createContext();
 
 const AppContextProvider = ({ children }) => {
   const { join, localPeer, leave } = useHMSRoom();
-
+  console.log('process.env.REACT_APP_TILE_SHAPE', process.env.REACT_APP_TILE_SHAPE);
+  const {0:width, 1:height} = process.env.REACT_APP_TILE_SHAPE.split('-').map(el => parseInt(el));
+  console.log(width, height);
   //TODO refactor into multiple states
   const [state, setState] = useState({
     loginInfo: {
@@ -20,6 +22,7 @@ const AppContextProvider = ({ children }) => {
     isChatOpen: false,
     isScreenShared: false,
     maxTileCount: 8,
+    aspectRatio:{width, height},
   });
   //TODO this should be exposed from hook and should be a status
   const [isConnected, setIsConnected] = useState(false);
@@ -104,6 +107,7 @@ const AppContextProvider = ({ children }) => {
         maxTileCount: state.maxTileCount,
         isConnected: isConnected,
         leave: modifiedLeave,
+        aspectRatio:state.aspectRatio,
       }}
     >
       {children}
