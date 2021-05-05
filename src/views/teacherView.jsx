@@ -5,7 +5,8 @@ import { AppContext } from "../store/AppContext";
 import { isScreenSharing } from "../utlis";
 
 export const TeacherView = () => {
-  const { isChatOpen, toggleChat, maxTileCount } = useContext(AppContext);
+  const { isChatOpen, toggleChat, maxTileCount, aspectRatio } = useContext(AppContext);
+  console.log("env aspect ratio is", aspectRatio);
   const { peers, messages, sendMessage } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
 
@@ -117,10 +118,10 @@ export const TeacherView = () => {
           {streamsWithInfo && streamsWithInfo.length > 0 && (
             <VideoList
               streams={streamsWithInfo}
-              aspectRatio={{width:1, height:1}}
+              aspectRatio={aspectRatio}
               classes={{
                 root: "",
-                videoTileParent: " p-4 rounded-lg",
+                videoTileContainer: " p-4 rounded-lg",
                 //video: "rounded-3xl",
               }}
               showAudioMuteStatus={true}

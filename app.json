@@ -1,0 +1,30 @@
+{
+  "name": "100ms conference app",
+  "website": "https://100ms.live",
+  "env": {
+    "REACT_APP_TILE_SHAPE": {
+      "description": "Video Tile Shape, takes values of format 1-2"
+    },
+    "REACT_APP_THEME": {
+      "description": "Light or Dark, takes value Ligth|Dark"
+    },
+    "REACT_APP_COLOR": {
+      "description": "Brand Color, takes hex value"
+    },
+    "REACT_APP_LOGO": {
+      "description": "Brand Logo, Take any image url"
+    },
+    "REACT_APP_FONT": {
+      "description": "Font to be used, Takes value Inter|Roboto|Lato|OpenSans|MontSerrat|IBMPlexSans"
+    },
+    "REACT_APP_SHOW_CHAT": {
+      "description": "Allow Chat or not, Takes value True|False"
+    },
+    "REACT_APP_SHOW_SCREENSHARE": {
+      "description": "Allow Screenshare or not , Takes value True|False"
+    },
+    "REACT_APP_VIDEO_AVATAR": {
+      "description": "Takes value None|Initial|Pebble"
+    }
+  }
+}
