@@ -15,7 +15,7 @@ const TransformVideoTileSizes = (
   toggleChat,
   aspectRatio
 ) => {
-  const { peers, messages, sendMessage } = useHMSRoom();
+  const { messages, sendMessage } = useHMSRoom();
   return (
     <>
       <div className={`w-full h-full relative `}>
