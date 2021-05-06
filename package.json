@@ -19,7 +19,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "set PORT=8080 && http-server build",
+    "start": "http-server build",
     "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
