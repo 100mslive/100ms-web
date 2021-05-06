@@ -6,7 +6,7 @@ import { AppContext } from "../store/AppContext";
 export const TeacherView = () => {
   const { isChatOpen, toggleChat, maxTileCount } = useContext(AppContext);
 
-  const { peers, messages, sendMessage } = useHMSRoom();
+  const { peers, messages, speakers, sendMessage } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
 
   useEffect(() => {
@@ -19,6 +19,12 @@ export const TeacherView = () => {
             .map((peer) => {
               console.debug("app: Camera video track", peer.videoTrack);
               console.debug("app: Camera audio track", peer.audioTrack);
+              const peerSpeaker = speakers.find(
+                (speaker) => speaker.peerId === peer.peerId
+              );
+              const isAudioMuted = !(
+                peer.audioTrack && peer.audioTrack.enabled
+              );
               return {
                 videoTrack: peer.videoTrack
                   ? peer.videoTrack.nativeTrack
@@ -34,8 +40,10 @@ export const TeacherView = () => {
                 },
                 videoSource: "camera",
                 isLocal: peer.isLocal,
-                isAudioMuted: !(peer.audioTrack && peer.audioTrack.enabled),
+                isAudioMuted: isAudioMuted,
                 isVideoMuted: !(peer.videoTrack && peer.videoTrack.enabled),
+                audioLevel:
+                  !isAudioMuted && peerSpeaker && peerSpeaker.audioLevel,
               };
             })
         : [];
