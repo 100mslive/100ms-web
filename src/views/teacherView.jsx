@@ -2,12 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { VideoList, ChatBox } from "@100mslive/sdk-components";
 import { useHMSRoom } from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
-import { isScreenSharing } from "../utlis";
 
 export const TeacherView = () => {
-  const { isChatOpen, toggleChat, maxTileCount, aspectRatio } = useContext(
-    AppContext
-  );
+  const { isChatOpen, toggleChat, maxTileCount } = useContext(AppContext);
 
   const { peers, messages, sendMessage } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);

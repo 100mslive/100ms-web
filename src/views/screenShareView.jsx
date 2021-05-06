@@ -15,7 +15,7 @@ const TransformVideoTileSizes = (
   toggleChat,
   aspectRatio
 ) => {
-  const { peers, messages, sendMessage } = useHMSRoom();
+  const { messages, sendMessage } = useHMSRoom();
   return (
     <>
       <div className={`w-full h-full relative `}>
@@ -76,7 +76,7 @@ const TransformVideoTileSizes = (
 
 export const ScreenShareView = () => {
   const { isChatOpen, toggleChat, aspectRatio } = useContext(AppContext);
-  const { peers, messages, sendMessage } = useHMSRoom();
+  const { peers } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
   const [screenStream, setScreenStream] = useState(null);
   const [cameraStream, setCameraStream] = useState(null);

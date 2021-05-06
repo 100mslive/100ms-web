@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import {
-  Header,
-  ControlBar,
-  ParticipantList,
-  Settings,
-} from "@100mslive/sdk-components";
+import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
 import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
@@ -27,8 +22,6 @@ export const Conference = () => {
   } = context;
 
   const {
-    sendMessage,
-    localPeer,
     toggleMute,
     toggleScreenShare,
     peers,
@@ -44,6 +37,7 @@ export const Conference = () => {
     return () => {
       leave();
     };
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

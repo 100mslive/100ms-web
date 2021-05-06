@@ -67,10 +67,10 @@ const AppContextProvider = ({ children }) => {
         console.error("app: error", error);
       },
     };
-    const _this = this;
 
     join(config, listener);
     console.debug("app: Join called");
+    // eslint-disable-next-line
   }, [state.loginInfo.token]);
 
   useEffect(() => {
@@ -80,6 +80,7 @@ const AppContextProvider = ({ children }) => {
         role: state.loginInfo.role,
         token: state.loginInfo.token,
       });
+    // eslint-disable-next-line
   }, [localPeer]);
 
   return (

@@ -69,15 +69,11 @@ export const isScreenSharing = (peer) =>
   Boolean(peer.auxiliaryTracks) &&
   Boolean(peer.auxiliaryTracks.length > 0) &&
   (Boolean(
-    peer.auxiliaryTracks.find(
-      (track) =>
-        track.nativeTrack.kind === "audio"
-    )
+    peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "audio")
   ) ||
     Boolean(
       peer.auxiliaryTracks.find(
         (track) =>
-          track.nativeTrack.kind === "video" &&
-          track.source == "screen"
+          track.nativeTrack.kind === "video" && track.source === "screen"
       )
     ));
