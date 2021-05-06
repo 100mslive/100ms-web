@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "http-server": "^0.12.3",
     "logrocket": "^1.0.15",
     "logrocket-react": "^4.0.1",
     "react": "^17.0.2",
@@ -18,7 +19,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "set PORT=8080 && http-server build",
+    "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
