@@ -15,7 +15,7 @@ const TransformVideoTileSizes = (
   toggleChat,
   aspectRatio
 ) => {
-  const { messages, sendMessage } = useHMSRoom();
+  const { peers, messages, sendMessage } = useHMSRoom();
   return (
     <>
       <div className={`w-full h-full relative `}>
@@ -32,9 +32,20 @@ const TransformVideoTileSizes = (
                   audioTrack={cameraStream.audioTrack}
                   videoTrack={cameraStream.videoTrack}
                   peer={cameraStream.peer}
+                  aspectRatio={aspectRatio}
                   showAudioMuteStatus={true}
                   allowRemoteMute={true}
                   isLocal={cameraStream.isLocal}
+                  isAudioMuted={
+                    !(
+                      cameraStream.audioTrack && cameraStream.audioTrack.enabled
+                    )
+                  }
+                  isVideoMuted={
+                    !(
+                      cameraStream.videoTrack && cameraStream.videoTrack.enabled
+                    )
+                  }
                 />
               </div>
             )}
@@ -138,7 +149,12 @@ export const ScreenShareView = () => {
               allowRemoteMute={true}
               isLocal={screenStream.isLocal}
               objectFit="contain"
-              //maxTileCount={9}
+              isAudioMuted={
+                !(screenStream.audioTrack && screenStream.audioTrack.enabled)
+              }
+              isVideoMuted={
+                !(screenStream.videoTrack && screenStream.videoTrack.enabled)
+              }
             />
           )}
         </div>

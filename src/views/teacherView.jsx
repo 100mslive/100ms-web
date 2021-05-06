@@ -33,8 +33,9 @@ export const TeacherView = () => {
                   displayName: peer.name || peer.peerId,
                 },
                 videoSource: "camera",
-                audioLevel: 0,
                 isLocal: peer.isLocal,
+                isAudioMuted: !(peer.audioTrack && peer.audioTrack.enabled),
+                isVideoMuted: !(peer.videoTrack && peer.videoTrack.enabled),
               };
             })
         : [];

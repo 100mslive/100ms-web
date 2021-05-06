@@ -5,6 +5,7 @@ import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
 import { useHMSRoom } from "@100mslive/sdk-components";
+import { SpeakerTag } from "@100mslive/sdk-components";
 import { isScreenSharing } from "../utlis/index";
 
 export const Conference = () => {
@@ -27,6 +28,7 @@ export const Conference = () => {
     peers,
     audioMuted,
     videoMuted,
+    dominantSpeaker,
   } = useHMSRoom();
   const [participants, setParticipants] = useState([]);
 
@@ -49,6 +51,7 @@ export const Conference = () => {
               peer: {
                 displayName: participant.name,
                 id: participant.id,
+                role: participant.role,
               },
             };
           })
@@ -60,6 +63,12 @@ export const Conference = () => {
     <div className="w-full h-full dark:bg-black">
       <div style={{ padding: "25px", height: "10%" }}>
         <Header
+          centerComponents={[
+            <SpeakerTag
+              name={dominantSpeaker && dominantSpeaker.name}
+              key={0}
+            />,
+          ]}
           rightComponents={[
             <ParticipantList key={0} participantList={participants} />,
           ]}
