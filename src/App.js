@@ -23,7 +23,7 @@ function App() {
           },
         }}
         appBuilder={{
-          theme: process.env.REACT_APP_THEME,
+          theme: process.env.REACT_APP_THEME || "dark",
           enableChat: process.env.REACT_APP_SHOW_CHAT,
           enableScreenShare: process.env.REACT_APP_SHOW_SCREENSHARE,
           logo: process.env.REACT_APP_LOGO,
