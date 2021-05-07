@@ -16,7 +16,7 @@ const PreviewScreen = () => {
         history.push("/meeting");
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Token API Error", error);
         alert("Unable to generate token");
       });
   };
