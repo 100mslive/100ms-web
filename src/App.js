@@ -4,6 +4,7 @@ import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AppContextProvider } from "./store/AppContext.js";
 import { HMSRoomProvider, HMSThemeProvider } from "@100mslive/sdk-components";
+import { shadeColor } from "./utlis/index.jsx";
 
 function App() {
   const { 0: width, 1: height } = process.env.REACT_APP_TILE_SHAPE.split(
@@ -18,6 +19,12 @@ function App() {
               fontFamily: {
                 sans: [process.env.REACT_APP_FONT, "Inter", "sans-serif"],
                 body: [process.env.REACT_APP_FONT, "Inter", "sans-serif"],
+              },
+              colors: {
+                brand: {
+                  main: process.env.REACT_APP_COLOR,
+                  tint: shadeColor(process.env.REACT_APP_COLOR, 30),
+                },
               },
             },
           },
