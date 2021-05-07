@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Header, Preview } from "@100mslive/sdk-components";
+import { Preview } from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
 import getToken from "../utlis/index";
 
@@ -32,9 +32,6 @@ const PreviewScreen = () => {
 
   return loginInfo.username ? (
     <div>
-      <div style={{ padding: "25px", height: "10%" }}>
-        <Header />
-      </div>
       <div className="flex justify-center items-center">
         <Preview
           name={loginInfo.username}

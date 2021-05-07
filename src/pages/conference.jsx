@@ -5,9 +5,22 @@ import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
 import { useHMSRoom } from "@100mslive/sdk-components";
-import { SpeakerTag } from "@100mslive/sdk-components";
 import { isScreenSharing } from "../utlis/index";
+import {VolumeIcon} from "@100mslive/sdk-components"
 
+const SpeakerTag = ({ name }) => {
+  return name ? (
+    <div className={`self-center focus:outline-none text-lg text-white`}>
+      <div className="inline-block">
+        <VolumeIcon />
+      </div>
+      {/* TODO figure out why xs:hidden is needed */}
+      <div className="md:pl-2 xs:hidden md:inline-block">{name}</div>
+    </div>
+  ) : (
+    <></>
+  );
+};
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
@@ -61,7 +74,6 @@ export const Conference = () => {
 
   return (
     <div className="w-full h-full dark:bg-black">
-      <div style={{ padding: "25px", height: "10%" }}>
         <Header
           centerComponents={[
             <SpeakerTag
@@ -72,8 +84,8 @@ export const Conference = () => {
           rightComponents={[
             <ParticipantList key={0} participantList={participants} />,
           ]}
+          classes={{root:'h-16'}}
         />
-      </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
         {/* // ) : (
