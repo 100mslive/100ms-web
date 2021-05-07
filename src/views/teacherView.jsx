@@ -2,11 +2,15 @@ import React, { useEffect, useState, useContext } from "react";
 import { VideoList, ChatBox } from "@100mslive/sdk-components";
 import { useHMSRoom } from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
+import {
+  HMSPeertoCameraStreamWithInfo,
+  HMSPeerToScreenStreamWitnInfo,
+} from "../utlis";
 
 export const TeacherView = () => {
   const { isChatOpen, toggleChat, maxTileCount } = useContext(AppContext);
 
-  const { peers, messages, sendMessage } = useHMSRoom();
+  const { peers, messages, speakers, sendMessage } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
 
   useEffect(() => {
@@ -16,28 +20,7 @@ export const TeacherView = () => {
       peers && peers.length > 0 && peers[0]
         ? peers
             .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
-            .map((peer) => {
-              console.debug("app: Camera video track", peer.videoTrack);
-              console.debug("app: Camera audio track", peer.audioTrack);
-              return {
-                videoTrack: peer.videoTrack
-                  ? peer.videoTrack.nativeTrack
-                  : undefined,
-                audioTrack: peer.audioTrack
-                  ? peer.audioTrack.nativeTrack
-                  : undefined,
-                peer: {
-                  id: peer.videoTrack
-                    ? peer.videoTrack.stream.id
-                    : peer.audioTrack.stream.id,
-                  displayName: peer.name || peer.peerId,
-                },
-                videoSource: "camera",
-                isLocal: peer.isLocal,
-                isAudioMuted: !(peer.audioTrack && peer.audioTrack.enabled),
-                isVideoMuted: !(peer.videoTrack && peer.videoTrack.enabled),
-              };
-            })
+            .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers))
         : [];
     console.debug("app: Computed camera streams info ", videoStreamsWithInfo);
 
@@ -59,43 +42,7 @@ export const TeacherView = () => {
                     )
                   ))
             )
-            .map((peer) => {
-              console.debug(
-                "app: Screenshare video track",
-                peer.auxiliaryTracks.find(
-                  (track) => track.nativeTrack.kind === "video"
-                )
-              );
-              console.debug(
-                "app: Screenshare audio track",
-                peer.auxiliaryTracks.find(
-                  (track) => track.nativeTrack.kind === "audio"
-                )
-              );
-              return {
-                videoTrack: peer.auxiliaryTracks.find(
-                  (track) => track.nativeTrack.kind === "video"
-                )
-                  ? peer.auxiliaryTracks.find(
-                      (track) => track.nativeTrack.kind === "video"
-                    ).nativeTrack
-                  : undefined,
-                audioTrack: peer.auxiliaryTracks.find(
-                  (track) => track.nativeTrack.kind === "audio"
-                )
-                  ? peer.auxiliaryTracks.find(
-                      (track) => track.nativeTrack.kind === "audio"
-                    ).nativeTrack
-                  : undefined,
-                peer: {
-                  id: peer.auxiliaryTracks[0].stream.id,
-                  displayName: peer.name || peer.peerId,
-                },
-                videoSource: "camera",
-                audioLevel: 0,
-                isLocal: peer.isLocal,
-              };
-            })
+            .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers))
         : [];
     console.debug(
       "app: Computed screenshare streams info ",

@@ -15,16 +15,8 @@ export default async function getToken(username, role, roomId) {
   return token;
 }
 
-export const HMSPeerToScreenStreamWitnInfo = (peer) => {
+export const HMSPeerToScreenStreamWitnInfo = (peer, speakers) => {
   if (!peer) return null;
-  console.debug(
-    "app: Screenshare video track",
-    peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "video")
-  );
-  console.debug(
-    "app: Screenshare audio track",
-    peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "audio")
-  );
   const audioTrack = peer.auxiliaryTracks.find(
     (track) => track.nativeTrack.kind === "audio"
   )
@@ -37,6 +29,10 @@ export const HMSPeerToScreenStreamWitnInfo = (peer) => {
     ? peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "video")
         .nativeTrack
     : undefined;
+  const peerSpeaker = speakers.find(
+    (speaker) => speaker.peerId === peer.peerId
+  );
+  const isAudioMuted = !(audioTrack && audioTrack.enabled);
 
   return {
     videoTrack,
@@ -48,14 +44,17 @@ export const HMSPeerToScreenStreamWitnInfo = (peer) => {
     videoSource: "screen",
     audioLevel: 0,
     isLocal: peer.isLocal,
-    isAudioMuted:!(audioTrack && audioTrack.enabled),
-    isVideoMuted:!(videoTrack && videoTrack.enabled),
+    isAudioMuted: isAudioMuted,
+    isVideoMuted: !(videoTrack && videoTrack.enabled),
+    audioLevel: !isAudioMuted && peerSpeaker && peerSpeaker.audioLevel,
   };
 };
-export const HMSPeertoCamerStreamWithInfo = (peer) => {
+export const HMSPeertoCameraStreamWithInfo = (peer, speakers) => {
   if (!peer) return null;
-  console.debug("app: Camera video track", peer.videoTrack);
-  console.debug("app: Camera audio track", peer.audioTrack);
+  const peerSpeaker = speakers.find(
+    (speaker) => speaker.peerId === peer.peerId
+  );
+  const isAudioMuted = !(peer.audioTrack && peer.audioTrack.enabled);
   return {
     videoTrack: peer.videoTrack ? peer.videoTrack.nativeTrack : undefined,
     audioTrack: peer.audioTrack ? peer.audioTrack.nativeTrack : undefined,
@@ -66,8 +65,9 @@ export const HMSPeertoCamerStreamWithInfo = (peer) => {
     videoSource: "camera",
     audioLevel: 0,
     isLocal: peer.isLocal,
-    isAudioMuted:!(peer.audioTrack && peer.audioTrack.enabled),
-    isVideoMuted:!(peer.videoTrack && peer.videoTrack.enabled),
+    isAudioMuted: isAudioMuted,
+    isVideoMuted: !(peer.videoTrack && peer.videoTrack.enabled),
+    audioLevel: !isAudioMuted && peerSpeaker && peerSpeaker.audioLevel,
   };
 };
 

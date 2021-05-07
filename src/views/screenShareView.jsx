@@ -4,7 +4,7 @@ import { useHMSRoom } from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
 import {
   HMSPeerToScreenStreamWitnInfo,
-  HMSPeertoCamerStreamWithInfo,
+  HMSPeertoCameraStreamWithInfo,
   isScreenSharing,
 } from "../utlis/index";
 
@@ -18,7 +18,7 @@ const TransformVideoTileSizes = (
   const { messages, sendMessage } = useHMSRoom();
   return (
     <>
-      <div className={`w-full h-full relative `}>
+      <div className={`w-full h-full relative`}>
         <div className={`w-full flex flex-col h-full`}>
           <div
             className="w-full relative overflow-hidden"
@@ -27,7 +27,7 @@ const TransformVideoTileSizes = (
             }}
           >
             {cameraStream && !isChatOpen && (
-              <div className="absolute left-0 top-0 w-full h-full">
+              <div className="absolute left-0 top-0 w-full h-full p-3">
                 <VideoTile
                   audioTrack={cameraStream.audioTrack}
                   videoTrack={cameraStream.videoTrack}
@@ -46,6 +46,7 @@ const TransformVideoTileSizes = (
                       cameraStream.videoTrack && cameraStream.videoTrack.enabled
                     )
                   }
+                  audioLevel={cameraStream.audioLevel}
                 />
               </div>
             )}
@@ -87,7 +88,7 @@ const TransformVideoTileSizes = (
 
 export const ScreenShareView = () => {
   const { isChatOpen, toggleChat, aspectRatio } = useContext(AppContext);
-  const { peers } = useHMSRoom();
+  const { peers, speakers } = useHMSRoom();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
   const [screenStream, setScreenStream] = useState(null);
   const [cameraStream, setCameraStream] = useState(null);
@@ -106,20 +107,24 @@ export const ScreenShareView = () => {
     if (index !== -1) {
       remPeers.splice(index, 1);
       console.log("screen shared by", screenSharingPeer);
-      setScreenStream(HMSPeerToScreenStreamWitnInfo(screenSharingPeer));
-      setCameraStream(HMSPeertoCamerStreamWithInfo(screenSharingPeer));
+      setScreenStream(
+        HMSPeerToScreenStreamWitnInfo(screenSharingPeer, speakers)
+      );
+      setCameraStream(
+        HMSPeertoCameraStreamWithInfo(screenSharingPeer, speakers)
+      );
     } else {
       setCameraStream(null);
       setScreenStream(null);
     }
     const videoStreamsWithInfo = remPeers
       .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
-      .map(HMSPeertoCamerStreamWithInfo);
+      .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers));
     console.debug("app: Computed camera streams info ", videoStreamsWithInfo);
 
     const screenShareStreamsWithInfo = remPeers
       .filter(isScreenSharing)
-      .map(HMSPeerToScreenStreamWitnInfo);
+      .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers));
 
     console.debug(
       "app: Computed screenshare streams info ",
