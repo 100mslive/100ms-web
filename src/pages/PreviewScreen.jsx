@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Header, Preview } from "@100mslive/sdk-components";
+import { Preview } from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
 import getToken from "../utlis/index";
 

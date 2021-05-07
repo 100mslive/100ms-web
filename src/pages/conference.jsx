@@ -12,7 +12,7 @@ const SpeakerTag = ({ name }) => {
   return name ? (
     <div className={`self-center focus:outline-none text-lg text-white`}>
       <div className="inline-block">
-        {/* <VolumeIcon /> */}
+        <VolumeIcon />
       </div>
       {/* TODO figure out why xs:hidden is needed */}
       <div className="md:pl-2 xs:hidden md:inline-block">{name}</div>
@@ -74,7 +74,6 @@ export const Conference = () => {
 
   return (
     <div className="w-full h-full dark:bg-black">
-      <div style={{ padding: "25px", height: "10%" }}>
         <Header
           centerComponents={[
             <SpeakerTag
@@ -85,8 +84,8 @@ export const Conference = () => {
           rightComponents={[
             <ParticipantList key={0} participantList={participants} />,
           ]}
+          classes={{root:'h-16'}}
         />
-      </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
         {/* // ) : (
