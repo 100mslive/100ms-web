@@ -32,9 +32,6 @@ const PreviewScreen = () => {
 
   return loginInfo.username ? (
     <div>
-      <div style={{ padding: "25px", height: "10%" }}>
-        <Header />
-      </div>
       <div className="flex justify-center items-center">
         <Preview
           name={loginInfo.username}
