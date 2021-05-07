@@ -3,10 +3,10 @@ import { AppContext } from "../store/AppContext";
 import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
 import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useHMSRoom } from "@100mslive/sdk-components";
 import { isScreenSharing } from "../utlis/index";
-import {VolumeIcon} from "@100mslive/sdk-components"
+import { VolumeIcon } from "@100mslive/sdk-components";
 
 const SpeakerTag = ({ name }) => {
   return name ? (
@@ -23,6 +23,7 @@ const SpeakerTag = ({ name }) => {
 };
 export const Conference = () => {
   const history = useHistory();
+  const { roomId: urlRoomId } = useParams();
   const context = useContext(AppContext);
 
   const {
@@ -46,7 +47,7 @@ export const Conference = () => {
   const [participants, setParticipants] = useState([]);
 
   if (!loginInfo.token) {
-    history.push("/");
+    history.push(`/${loginInfo.roomId || urlRoomId || ""}`);
   }
   useEffect(() => {
     return () => {
@@ -74,18 +75,15 @@ export const Conference = () => {
 
   return (
     <div className="w-full h-full dark:bg-black">
-        <Header
-          centerComponents={[
-            <SpeakerTag
-              name={dominantSpeaker && dominantSpeaker.name}
-              key={0}
-            />,
-          ]}
-          rightComponents={[
-            <ParticipantList key={0} participantList={participants} />,
-          ]}
-          classes={{root:'h-16'}}
-        />
+      <Header
+        centerComponents={[
+          <SpeakerTag name={dominantSpeaker && dominantSpeaker.name} key={0} />,
+        ]}
+        rightComponents={[
+          <ParticipantList key={0} participantList={participants} />,
+        ]}
+        classes={{ root: "h-16" }}
+      />
       <div className="w-full flex" style={{ height: "80%" }}>
         {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
         {/* // ) : (

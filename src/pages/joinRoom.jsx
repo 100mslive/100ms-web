@@ -1,16 +1,17 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
 
 export const JoinRoom = () => {
   const history = useHistory();
+  const { roomId: urlRoomId } = useParams();
   const { setLoginInfo } = useContext(AppContext);
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("Teacher");
-  const [roomId, setRoomId] = useState("607d781cdcee704ca43cafb9");
+  const [roomId, setRoomId] = useState(urlRoomId || "607d781cdcee704ca43cafb9");
   const join = () => {
     setLoginInfo({ username: username, role: role, roomId: roomId });
-    history.push("/preview");
+    history.push(`/preview/${roomId}`);
   };
   return (
     <div className=" flex justify-center items-center w-full h-full text-white">
