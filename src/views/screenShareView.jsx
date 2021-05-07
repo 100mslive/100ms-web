@@ -27,7 +27,7 @@ const TransformVideoTileSizes = (
             }}
           >
             {cameraStream && !isChatOpen && (
-              <div className="absolute left-0 top-0 w-full h-full m-3">
+              <div className="absolute left-0 top-0 w-full h-full p-3">
                 <VideoTile
                   audioTrack={cameraStream.audioTrack}
                   videoTrack={cameraStream.videoTrack}
