@@ -60,7 +60,6 @@ export const Conference = () => {
     setParticipants(
       peers && peers.length > 0 && peers[0]
         ? peers.map((participant) => {
-            console.debug("app: Participant is ", participant);
             return {
               peer: {
                 displayName: participant.name,

@@ -14,15 +14,12 @@ export const TeacherView = () => {
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
 
   useEffect(() => {
-    console.debug("app: Old streams info ");
-    console.debug("app: Re-rendering video list with new peers ", peers);
     const videoStreamsWithInfo =
       peers && peers.length > 0 && peers[0]
         ? peers
             .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
             .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers))
         : [];
-    console.debug("app: Computed camera streams info ", videoStreamsWithInfo);
 
     const screenShareStreamsWithInfo =
       peers && peers.length > 0 && peers[0]
@@ -44,19 +41,11 @@ export const TeacherView = () => {
             )
             .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers))
         : [];
-    console.debug(
-      "app: Computed screenshare streams info ",
-      screenShareStreamsWithInfo
-    );
     setStreamsWithInfo([
       ...videoStreamsWithInfo,
       ...screenShareStreamsWithInfo,
     ]);
   }, [peers]);
-
-  useEffect(() => {
-    console.debug("app: Streams with info", streamsWithInfo);
-  }, [streamsWithInfo]);
 
   return (
     <React.Fragment>

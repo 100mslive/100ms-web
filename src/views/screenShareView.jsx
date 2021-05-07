@@ -95,18 +95,12 @@ export const ScreenShareView = () => {
 
   useEffect(() => {
     if (!(peers && peers.length > 0 && peers[0])) return;
-
-    console.debug("app: Old streams info ");
-    console.debug("app: Re-rendering video list with new peers ", peers);
-
     const index = peers.findIndex(isScreenSharing);
-
     const screenSharingPeer = peers[index];
     let remPeers = [...peers];
 
     if (index !== -1) {
       remPeers.splice(index, 1);
-      console.log("screen shared by", screenSharingPeer);
       setScreenStream(
         HMSPeerToScreenStreamWitnInfo(screenSharingPeer, speakers)
       );
@@ -120,25 +114,16 @@ export const ScreenShareView = () => {
     const videoStreamsWithInfo = remPeers
       .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
       .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers));
-    console.debug("app: Computed camera streams info ", videoStreamsWithInfo);
 
     const screenShareStreamsWithInfo = remPeers
       .filter(isScreenSharing)
       .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers));
 
-    console.debug(
-      "app: Computed screenshare streams info ",
-      screenShareStreamsWithInfo
-    );
     setStreamsWithInfo([
       ...videoStreamsWithInfo,
       ...screenShareStreamsWithInfo,
     ]);
   }, [peers]);
-
-  useEffect(() => {
-    console.debug("app: Streams with info", streamsWithInfo);
-  }, [streamsWithInfo]);
 
   return (
     <React.Fragment>
