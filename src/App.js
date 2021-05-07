@@ -24,11 +24,11 @@ function App() {
         }}
         appBuilder={{
           theme: process.env.REACT_APP_THEME || "dark",
-          enableChat: process.env.REACT_APP_SHOW_CHAT,
-          enableScreenShare: process.env.REACT_APP_SHOW_SCREENSHARE,
+          enableChat: process.env.REACT_APP_SHOW_CHAT === "true",
+          enableScreenShare: process.env.REACT_APP_SHOW_SCREENSHARE === "true",
           logo: process.env.REACT_APP_LOGO,
           videoTileAspectRatio: { width, height },
-          showAvatar: process.env.REACT_APP_VIDEO_AVATAR,
+          showAvatar: process.env.REACT_APP_VIDEO_AVATAR === "true",
         }}
       >
         <HMSRoomProvider>
