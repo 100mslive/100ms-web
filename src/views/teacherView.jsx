@@ -71,7 +71,7 @@ export const TeacherView = () => {
                 //video: "rounded-3xl",
               }}
               showAudioMuteStatus={true}
-              allowRemoteMute={true}
+              allowRemoteMute={false}
               maxTileCount={maxTileCount}
             />
           )}

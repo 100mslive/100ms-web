@@ -10,7 +10,7 @@ import {VolumeIcon} from "@100mslive/sdk-components"
 
 const SpeakerTag = ({ name }) => {
   return name ? (
-    <div className={`self-center focus:outline-none text-lg text-white`}>
+    <div className={`self-center focus:outline-none text-lg text-white flex items-center`}>
       <div className="inline-block">
         <VolumeIcon />
       </div>
@@ -74,6 +74,7 @@ export const Conference = () => {
 
   return (
     <div className="w-full h-full dark:bg-black">
+      <div style={{height:'10%'}}>
         <Header
           centerComponents={[
             <SpeakerTag
@@ -86,6 +87,7 @@ export const Conference = () => {
           ]}
           classes={{root:'h-16'}}
         />
+        </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
         {/* // ) : (

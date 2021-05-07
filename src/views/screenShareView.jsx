@@ -34,7 +34,7 @@ const TransformVideoTileSizes = (
                   peer={cameraStream.peer}
                   aspectRatio={aspectRatio}
                   showAudioMuteStatus={true}
-                  allowRemoteMute={true}
+                  allowRemoteMute={false}
                   isLocal={cameraStream.isLocal}
                   isAudioMuted={
                     !(
@@ -65,7 +65,7 @@ const TransformVideoTileSizes = (
                   videoTileContainer: "rounded-lg p-2",
                 }}
                 showAudioMuteStatus={true}
-                allowRemoteMute={true}
+                allowRemoteMute={false}
                 maxColCount={2}
                 overflow="scroll-x"
               />
@@ -150,8 +150,8 @@ export const ScreenShareView = () => {
               videoTrack={screenStream.videoTrack}
               peer={screenStream.peer}
               videoSource="screen"
-              showAudioMuteStatus={true}
-              allowRemoteMute={true}
+              showAudioMuteStatus={false}
+              allowRemoteMute={false}
               isLocal={screenStream.isLocal}
               objectFit="contain"
               isAudioMuted={
