@@ -6,7 +6,7 @@ import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
 import { useHMSRoom } from "@100mslive/sdk-components";
 import { isScreenSharing } from "../utlis/index";
-import {VolumeIcon} from "@100mslive/sdk-components"
+import { VolumeIcon } from "@100mslive/sdk-components";
 
 const SpeakerTag = ({ name }) => {
   return name ? (
@@ -59,7 +59,6 @@ export const Conference = () => {
     setParticipants(
       peers && peers.length > 0 && peers[0]
         ? peers.map((participant) => {
-            console.debug("app: Participant is ", participant);
             return {
               peer: {
                 displayName: participant.name,
@@ -74,18 +73,15 @@ export const Conference = () => {
 
   return (
     <div className="w-full h-full dark:bg-black">
-        <Header
-          centerComponents={[
-            <SpeakerTag
-              name={dominantSpeaker && dominantSpeaker.name}
-              key={0}
-            />,
-          ]}
-          rightComponents={[
-            <ParticipantList key={0} participantList={participants} />,
-          ]}
-          classes={{root:'h-16'}}
-        />
+      <Header
+        centerComponents={[
+          <SpeakerTag name={dominantSpeaker && dominantSpeaker.name} key={0} />,
+        ]}
+        rightComponents={[
+          <ParticipantList key={0} participantList={participants} />,
+        ]}
+        classes={{ root: "h-16" }}
+      />
       <div className="w-full flex" style={{ height: "80%" }}>
         {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
         {/* // ) : (
