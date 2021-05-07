@@ -23,3 +23,34 @@ code {
   min-height: 0;
   min-width: 0;
 }
+
+/* Button.css */
+.hmsui-button-iconOnlyLg svg{
+  @apply h-9 w-auto;
+}
+
+.hmsui-button-iconOnlyMd svg{
+  @apply h-6 w-auto;
+}
+
+.hmsui-button-iconOnlySm svg{
+  @apply h-5 w-auto;
+}
+
+.hmsui-button-rootLg svg{
+  @apply h-6 w-auto;
+}
+
+.hmsui-button-rootMd svg{
+  @apply h-5 w-auto;
+}
+
+.hmsui-button-rootSm svg{
+  @apply h-4 w-auto;
+}
+
+/* VideoTile/index.css */
+.hmsui-videoTile-root:hover .hmsui-videoTileControls-controls {
+  visibility: visible;
+  max-height: 60px;  
+}
