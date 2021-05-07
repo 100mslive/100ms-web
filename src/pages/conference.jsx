@@ -1,18 +1,26 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import {
-  Header,
-  ControlBar,
-  ParticipantList,
-  Settings,
-} from "@100mslive/sdk-components";
+import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
 import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
 import { useHistory } from "react-router-dom";
 import { useHMSRoom } from "@100mslive/sdk-components";
-import {SpeakerTag} from "@100mslive/sdk-components"
 import { isScreenSharing } from "../utlis/index";
+import {VolumeIcon} from "@100mslive/sdk-components"
 
+const SpeakerTag = ({ name }) => {
+  return name ? (
+    <div className={`self-center focus:outline-none text-lg text-white`}>
+      <div className="inline-block">
+        <VolumeIcon />
+      </div>
+      {/* TODO figure out why xs:hidden is needed */}
+      <div className="md:pl-2 xs:hidden md:inline-block">{name}</div>
+    </div>
+  ) : (
+    <></>
+  );
+};
 export const Conference = () => {
   const history = useHistory();
   const context = useContext(AppContext);
@@ -28,8 +36,6 @@ export const Conference = () => {
   } = context;
 
   const {
-    sendMessage,
-    localPeer,
     toggleMute,
     toggleScreenShare,
     peers,
@@ -46,38 +52,40 @@ export const Conference = () => {
     return () => {
       leave();
     };
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     setParticipants(
       peers && peers.length > 0 && peers[0]
-        ? peers
-            .map((participant) => {
-              console.debug("app: Participant is ", participant);
-              return {
-                peer: {
-                  displayName: participant.name,
-                  id: participant.id,
-                  role: participant.role,
-                },
-              };
-            })
+        ? peers.map((participant) => {
+            console.debug("app: Participant is ", participant);
+            return {
+              peer: {
+                displayName: participant.name,
+                id: participant.id,
+                role: participant.role,
+              },
+            };
+          })
         : []
     );
   }, [peers]);
 
   return (
-    <div className="w-full h-full bg-black">
-      <div style={{ padding: "25px", height: "10%" }}>
+    <div className="w-full h-full dark:bg-black">
         <Header
-          centerComponents={
-            [<SpeakerTag name={dominantSpeaker && dominantSpeaker.name} key={0} />]
-          }
+          centerComponents={[
+            <SpeakerTag
+              name={dominantSpeaker && dominantSpeaker.name}
+              key={0}
+            />,
+          ]}
           rightComponents={[
             <ParticipantList key={0} participantList={participants} />,
           ]}
+          classes={{root:'h-16'}}
         />
-      </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
         {/* // ) : (
@@ -98,7 +106,7 @@ export const Conference = () => {
         //   />
         // )} */}
       </div>
-      <div className="bg-black" style={{ height: "10%" }}>
+      <div className="dark:bg-black" style={{ height: "10%" }}>
         {isConnected && (
           <ControlBar
             maxTileCount={maxTileCount}

@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@100mslive/sdk-components": "0.2.16",
+    "@100mslive/sdk-components": "0.2.16-314",
     "@craco/craco": "^6.1.1",
     "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "http-server": "^0.12.3",
     "logrocket": "^1.0.15",
     "logrocket-react": "^4.0.1",
     "react": "^17.0.2",
@@ -18,7 +19,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "http-server build",
+    "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"

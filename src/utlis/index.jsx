@@ -25,19 +25,22 @@ export const HMSPeerToScreenStreamWitnInfo = (peer) => {
     "app: Screenshare audio track",
     peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "audio")
   );
+  const audioTrack = peer.auxiliaryTracks.find(
+    (track) => track.nativeTrack.kind === "audio"
+  )
+    ? peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "audio")
+        .nativeTrack
+    : undefined;
+  const videoTrack = peer.auxiliaryTracks.find(
+    (track) => track.nativeTrack.kind === "video"
+  )
+    ? peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "video")
+        .nativeTrack
+    : undefined;
+
   return {
-    videoTrack: peer.auxiliaryTracks.find(
-      (track) => track.nativeTrack.kind === "video"
-    )
-      ? peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "video")
-          .nativeTrack
-      : undefined,
-    audioTrack: peer.auxiliaryTracks.find(
-      (track) => track.nativeTrack.kind === "audio"
-    )
-      ? peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "audio")
-          .nativeTrack
-      : undefined,
+    videoTrack,
+    audioTrack,
     peer: {
       id: peer.peerId,
       displayName: peer.name || peer.peerId,
@@ -45,6 +48,8 @@ export const HMSPeerToScreenStreamWitnInfo = (peer) => {
     videoSource: "screen",
     audioLevel: 0,
     isLocal: peer.isLocal,
+    isAudioMuted:!(audioTrack && audioTrack.enabled),
+    isVideoMuted:!(videoTrack && videoTrack.enabled),
   };
 };
 export const HMSPeertoCamerStreamWithInfo = (peer) => {
@@ -61,6 +66,8 @@ export const HMSPeertoCamerStreamWithInfo = (peer) => {
     videoSource: "camera",
     audioLevel: 0,
     isLocal: peer.isLocal,
+    isAudioMuted:!(peer.audioTrack && peer.audioTrack.enabled),
+    isVideoMuted:!(peer.videoTrack && peer.videoTrack.enabled),
   };
 };
 
@@ -69,15 +76,11 @@ export const isScreenSharing = (peer) =>
   Boolean(peer.auxiliaryTracks) &&
   Boolean(peer.auxiliaryTracks.length > 0) &&
   (Boolean(
-    peer.auxiliaryTracks.find(
-      (track) =>
-        track.nativeTrack.kind === "audio"
-    )
+    peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "audio")
   ) ||
     Boolean(
       peer.auxiliaryTracks.find(
         (track) =>
-          track.nativeTrack.kind === "video" &&
-          track.source == "screen"
+          track.nativeTrack.kind === "video" && track.source === "screen"
       )
     ));

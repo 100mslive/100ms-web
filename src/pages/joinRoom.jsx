@@ -9,7 +9,7 @@ export const JoinRoom = () => {
   const [role, setRole] = useState("Teacher");
   const [roomId, setRoomId] = useState("607d781cdcee704ca43cafb9");
   const join = () => {
-    setLoginInfo({username: username, role: role, roomId: roomId});
+    setLoginInfo({ username: username, role: role, roomId: roomId });
     history.push("/preview");
   };
   return (
