@@ -13,6 +13,7 @@ const AppContextProvider = ({ children }) => {
       username: "",
       role: "",
       roomId: "",
+      endpoint: "",
       audioMuted: false,
       videoMuted: false,
     },
@@ -29,12 +30,13 @@ const AppContextProvider = ({ children }) => {
     leave();
   };
   useEffect(() => {
-    let { username, role, token } = state.loginInfo;
+    let { username, role, token, endpoint } = state.loginInfo;
     if (!token) return;
     const config = {
       userName: username,
       authToken: token,
       metaData: role,
+      initEndpoint: endpoint,
     };
     const listener = {
       onJoin: (room) => setIsConnected(true),

@@ -45,14 +45,14 @@ function App() {
                 {/* <Route path="/createRoom">
               <CreateRoom />
             </Route> */}
-                <Route path="/preview">
+                <Route path="/preview/:roomId?">
                   <PreviewScreen />
                 </Route>
-                <Route path="/meeting">
+                <Route path="/meeting/:roomId?">
                   <Conference />
                 </Route>
-                <Route path="/">
-                  <JoinRoom />;
+                <Route path="/:roomId?">
+                  <JoinRoom />
                 </Route>
               </Switch>
             </Router>
