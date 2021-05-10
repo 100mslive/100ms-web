@@ -1,0 +1,21 @@
+{
+  "applinks": {
+    "apps": [
+      
+    ],
+    "details": [
+        {
+        "appID": "5N85PP82A9.live.100ms.videoapp",
+        "paths": [
+          "*"
+        ]
+      },
+      {
+        "appID": "5N85PP82A9.com.brytecam.app",
+        "paths": [
+          "*"
+        ]
+      }
+    ]
+  }
+}
