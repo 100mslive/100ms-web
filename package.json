@@ -19,7 +19,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "http-server build",
+    "start": "craco start",
     "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
