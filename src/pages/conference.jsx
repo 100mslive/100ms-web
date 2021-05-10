@@ -3,10 +3,10 @@ import { AppContext } from "../store/AppContext";
 import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
 import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useHMSRoom } from "@100mslive/sdk-components";
 import { isScreenSharing } from "../utlis/index";
-import {VolumeIcon} from "@100mslive/sdk-components"
+import { VolumeIcon } from "@100mslive/sdk-components";
 
 const SpeakerTag = ({ name }) => {
   return name ? (
@@ -23,6 +23,7 @@ const SpeakerTag = ({ name }) => {
 };
 export const Conference = () => {
   const history = useHistory();
+  const { roomId: urlRoomId } = useParams();
   const context = useContext(AppContext);
 
   const {
@@ -46,7 +47,7 @@ export const Conference = () => {
   const [participants, setParticipants] = useState([]);
 
   if (!loginInfo.token) {
-    history.push("/");
+    history.push(`/${loginInfo.roomId || urlRoomId || ""}`);
   }
   useEffect(() => {
     return () => {
@@ -59,7 +60,6 @@ export const Conference = () => {
     setParticipants(
       peers && peers.length > 0 && peers[0]
         ? peers.map((participant) => {
-            console.debug("app: Participant is ", participant);
             return {
               peer: {
                 displayName: participant.name,
