@@ -18,6 +18,9 @@ const AppContextProvider = ({ children }) => {
       roomId: "",
       audioMuted: false,
       videoMuted: false,
+      selectedVideoOutput: 'default',
+      selectedAudioInput: 'default',
+      selectedAudioOutput: 'default'
     },
     isChatOpen: false,
     isScreenShared: false,
@@ -32,13 +35,21 @@ const AppContextProvider = ({ children }) => {
     leave();
   };
   useEffect(() => {
-    let { username, role, token } = state.loginInfo;
+    let { username, role, token, audioMuted, videoMuted, selectedVideoOutput, selectedAudioInput, selectedAudioOutput } = state.loginInfo;
     if (!token) return;
     const config = {
       userName: username,
       authToken: token,
       metaData: role,
+      settings: {
+        isAudioMuted: audioMuted,
+        isVideoMuted: videoMuted,
+        audioInputDeviceId: selectedAudioInput,
+        audioOutputDeviceId: selectedAudioOutput,
+        videoDeviceId: selectedVideoOutput
+      }
     };
+
     const listener = {
       onJoin: (room) => {
         console.debug(`app: Joined room`, room);
@@ -67,7 +78,6 @@ const AppContextProvider = ({ children }) => {
         console.error("app: error", error);
       },
     };
-
     join(config, listener);
     console.debug("app: Join called");
     // eslint-disable-next-line
@@ -94,7 +104,7 @@ const AppContextProvider = ({ children }) => {
           console.log({
             ...state,
             loginInfo: { ...state.loginInfo, ...info },
-          });
+          },"setLoginInfo called");
         },
         toggleChat: () => {
           setState({ ...state, isChatOpen: !state.isChatOpen });
