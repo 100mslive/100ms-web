@@ -6,6 +6,9 @@ const AppContext = React.createContext();
 
 const AppContextProvider = ({ children }) => {
   const { join, localPeer, leave } = useHMSRoom();
+  // console.log('process.env.REACT_APP_TILE_SHAPE', process.env.REACT_APP_TILE_SHAPE);
+  // const {0:width, 1:height} = process.env.REACT_APP_TILE_SHAPE.split('-').map(el => parseInt(el));
+  // console.log(width, height);
   //TODO refactor into multiple states
   const [state, setState] = useState({
     loginInfo: {
@@ -13,7 +16,6 @@ const AppContextProvider = ({ children }) => {
       username: "",
       role: "",
       roomId: "",
-      endpoint: "",
       audioMuted: false,
       videoMuted: false,
     },
@@ -30,23 +32,44 @@ const AppContextProvider = ({ children }) => {
     leave();
   };
   useEffect(() => {
-    let { username, role, token, endpoint } = state.loginInfo;
+    let { username, role, token } = state.loginInfo;
     if (!token) return;
     const config = {
       userName: username,
       authToken: token,
       metaData: role,
-      initEndpoint: endpoint,
     };
     const listener = {
-      onJoin: (room) => setIsConnected(true),
-      onRoomUpdate: (type, room) => {},
-      onPeerUpdate: (type, peer) => {},
-      onTrackUpdate: (type, track, peer) => {},
-      onError: (error) => {},
+      onJoin: (room) => {
+        console.debug(`app: Joined room`, room);
+        setIsConnected(true);
+      },
+
+      onRoomUpdate: (type, room) => {
+        console.debug(
+          `app: onRoomUpdate with type ${type} and ${JSON.stringify(
+            room,
+            null,
+            2
+          )}`
+        );
+      },
+
+      onPeerUpdate: (type, peer) => {
+        console.debug(`app: onPeerUpdate with type ${type} and ${peer}`);
+      },
+
+      onTrackUpdate: (type, track, peer) => {
+        console.debug(`app: onTrackUpdate with type ${type}`, track);
+      },
+
+      onError: (error) => {
+        console.error("app: error", error);
+      },
     };
 
     join(config, listener);
+    console.debug("app: Join called");
     // eslint-disable-next-line
   }, [state.loginInfo.token]);
 
