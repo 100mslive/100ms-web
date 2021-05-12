@@ -30,6 +30,7 @@ const TransformVideoTileSizes = (
               <div className="absolute left-0 top-0 w-full h-full p-3">
                 <VideoTile
                   audioTrack={cameraStream.audioTrack}
+                  hmsVideoTrack={cameraStream.hmsVideoTrack}
                   videoTrack={cameraStream.videoTrack}
                   peer={cameraStream.peer}
                   aspectRatio={aspectRatio}
@@ -132,6 +133,7 @@ export const ScreenShareView = () => {
           {screenStream && screenStream.videoTrack && (
             <VideoTile
               audioTrack={screenStream.audioTrack}
+              hmsVideoTrack={screenStream.hmsVideoTrack}
               videoTrack={screenStream.videoTrack}
               peer={screenStream.peer}
               videoSource="screen"

@@ -36,6 +36,7 @@ export const HMSPeerToScreenStreamWitnInfo = (peer, speakers) => {
 
   return {
     videoTrack,
+    hmsVideoTrack: peer.videoTrack,
     audioTrack,
     peer: {
       id: peer.peerId,
