@@ -16,6 +16,7 @@ const AppContextProvider = ({ children }) => {
       username: "",
       role: "",
       roomId: "",
+      endpoint: "",
       audioMuted: false,
       videoMuted: false,
       selectedVideoOutput: 'default',
@@ -35,12 +36,13 @@ const AppContextProvider = ({ children }) => {
     leave();
   };
   useEffect(() => {
-    let { username, role, token, audioMuted, videoMuted, selectedVideoOutput, selectedAudioInput, selectedAudioOutput } = state.loginInfo;
+    let { username, role, token, endpoint, audioMuted, videoMuted, selectedVideoOutput, selectedAudioInput, selectedAudioOutput } = state.loginInfo;
     if (!token) return;
     const config = {
       userName: username,
       authToken: token,
       metaData: role,
+      initEndpoint: endpoint,
       settings: {
         isAudioMuted: audioMuted,
         isVideoMuted: videoMuted,
@@ -51,35 +53,14 @@ const AppContextProvider = ({ children }) => {
     };
 
     const listener = {
-      onJoin: (room) => {
-        console.debug(`app: Joined room`, room);
-        setIsConnected(true);
-      },
-
-      onRoomUpdate: (type, room) => {
-        console.debug(
-          `app: onRoomUpdate with type ${type} and ${JSON.stringify(
-            room,
-            null,
-            2
-          )}`
-        );
-      },
-
-      onPeerUpdate: (type, peer) => {
-        console.debug(`app: onPeerUpdate with type ${type} and ${peer}`);
-      },
-
-      onTrackUpdate: (type, track, peer) => {
-        console.debug(`app: onTrackUpdate with type ${type}`, track);
-      },
-
-      onError: (error) => {
-        console.error("app: error", error);
-      },
+      onJoin: (room) => setIsConnected(true),
+      onRoomUpdate: (type, room) => {},
+      onPeerUpdate: (type, peer) => {},
+      onTrackUpdate: (type, track, peer) => {},
+      onError: (error) => {},
     };
+
     join(config, listener);
-    console.debug("app: Join called");
     // eslint-disable-next-line
   }, [state.loginInfo.token]);
 
@@ -95,33 +76,33 @@ const AppContextProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{
-        setLoginInfo: (info) => {
-          setState({
-            ...state,
-            loginInfo: { ...state.loginInfo, ...info },
-          });
-          console.log({
-            ...state,
-            loginInfo: { ...state.loginInfo, ...info },
-          },"setLoginInfo called");
-        },
-        toggleChat: () => {
-          setState({ ...state, isChatOpen: !state.isChatOpen });
-        },
-        setMaxTileCount: (count) => {
-          setState((prevState) => ({ ...prevState, maxTileCount: count }));
-        },
-        loginInfo: state.loginInfo,
-        isChatOpen: state.isChatOpen,
-        maxTileCount: state.maxTileCount,
-        isConnected: isConnected,
-        leave: modifiedLeave,
-        aspectRatio: state.aspectRatio,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
+    value={{
+      setLoginInfo: (info) => {
+        setState({
+          ...state,
+          loginInfo: { ...state.loginInfo, ...info },
+        });
+        console.log({
+          ...state,
+          loginInfo: { ...state.loginInfo, ...info },
+        });
+      },
+      toggleChat: () => {
+        setState({ ...state, isChatOpen: !state.isChatOpen });
+      },
+      setMaxTileCount: (count) => {
+        setState((prevState) => ({ ...prevState, maxTileCount: count }));
+      },
+      loginInfo: state.loginInfo,
+      isChatOpen: state.isChatOpen,
+      maxTileCount: state.maxTileCount,
+      isConnected: isConnected,
+      leave: modifiedLeave,
+      aspectRatio: state.aspectRatio,
+    }}
+  >
+    {children}
+  </AppContext.Provider>
   );
 };
 
