@@ -36,6 +36,7 @@ export const HMSPeerToScreenStreamWitnInfo = (peer, speakers) => {
 
   return {
     videoTrack,
+    hmsVideoTrack: peer.videoTrack,
     audioTrack,
     peer: {
       id: peer.peerId,
@@ -57,6 +58,7 @@ export const HMSPeertoCameraStreamWithInfo = (peer, speakers) => {
   const isAudioMuted = !(peer.audioTrack && peer.audioTrack.enabled);
   return {
     videoTrack: peer.videoTrack ? peer.videoTrack.nativeTrack : undefined,
+    hmsVideoTrack: peer.videoTrack,
     audioTrack: peer.audioTrack ? peer.audioTrack.nativeTrack : undefined,
     peer: {
       id: peer.peerId,

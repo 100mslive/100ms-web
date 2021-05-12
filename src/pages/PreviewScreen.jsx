@@ -10,17 +10,21 @@ const PreviewScreen = () => {
   const { loginInfo, setLoginInfo } = context;
   const { roomId: urlRoomId } = useParams();
 
-  const join = ({ audioMuted = false, videoMuted = false }) => {
-    getToken(loginInfo.username, loginInfo.role, loginInfo.roomId)
-      .then((token) => {
-        setLoginInfo({ token, audioMuted, videoMuted });
-        history.push(`/meeting/${loginInfo.roomId}`);
-      })
-      .catch((error) => {
-        console.log("Token API Error", error);
-        alert("Unable to generate token");
-      });
-  };
+    const join = ({audioMuted, videoMuted}) => {
+        getToken(loginInfo.username, loginInfo.role, loginInfo.roomId)
+            .then((token) => {
+                setLoginInfo({ token , audioMuted, videoMuted});
+                history.push(`/meeting/${loginInfo.roomId}`);
+            })
+            .catch((error) => {
+                console.log("Token API Error", error);
+                alert("Unable to generate token");
+            });
+    };
+
+  const getDevices = ({selectedVideoOutput, selectedAudioInput, selectedAudioOutput}) => {
+    setLoginInfo({selectedVideoOutput, selectedAudioInput, selectedAudioOutput});
+  }
 
   const goBack = () => {
     history.push(`/${loginInfo.roomId || urlRoomId || ""}`);
@@ -38,6 +42,7 @@ const PreviewScreen = () => {
         <Preview
           name={loginInfo.username}
           joinOnClick={join}
+          getDevices={getDevices}
           goBackOnClick={goBack}
           messageOnClose={goBack}
         />
