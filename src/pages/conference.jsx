@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { Header, ControlBar, ParticipantList } from "@100mslive/sdk-components";
+import { Header, ControlBar, ParticipantList, Button, HangUpIcon } from "@100mslive/sdk-components";
 import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
 import { useHistory, useParams } from "react-router-dom";
@@ -111,14 +111,24 @@ export const Conference = () => {
       <div className="dark:bg-black" style={{ height: "10%" }}>
         {isConnected && (
           <ControlBar
+          rightComponents = {[
+            <Button
+              shape="rectangle"
+              variant={'danger'}
+              onClick={() => {
+                leave();
+                history.push("/");
+              }}
+              size="lg"
+            >
+              <HangUpIcon className="mr-2" />
+              Leave room
+            </Button>,
+          ]}        
             maxTileCount={maxTileCount}
             setMaxTileCount={setMaxTileCount}
             audioButtonOnClick={() => toggleMute("audio")}
             videoButtonOnClick={() => toggleMute("video")}
-            leaveButtonOnClick={() => {
-              leave();
-              history.push("/");
-            }}
             screenshareButtonOnClick={() => toggleScreenShare()}
             isAudioMuted={audioMuted}
             isVideoMuted={videoMuted}

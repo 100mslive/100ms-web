@@ -16,6 +16,9 @@ const AppContextProvider = ({ children }) => {
       endpoint: "",
       audioMuted: false,
       videoMuted: false,
+      selectedVideoOutput: 'default',
+      selectedAudioInput: 'default',
+      selectedAudioOutput: 'default'
     },
     isChatOpen: false,
     isScreenShared: false,
@@ -30,14 +33,22 @@ const AppContextProvider = ({ children }) => {
     leave();
   };
   useEffect(() => {
-    let { username, role, token, endpoint } = state.loginInfo;
+    let { username, role, token, endpoint, audioMuted, videoMuted, selectedVideoOutput, selectedAudioInput, selectedAudioOutput } = state.loginInfo;
     if (!token) return;
     const config = {
       userName: username,
       authToken: token,
       metaData: role,
       initEndpoint: endpoint,
+      settings: {
+        isAudioMuted: audioMuted,
+        isVideoMuted: videoMuted,
+        audioInputDeviceId: selectedAudioInput,
+        audioOutputDeviceId: selectedAudioOutput,
+        videoDeviceId: selectedVideoOutput
+      }
     };
+
     const listener = {
       onJoin: (room) => setIsConnected(true),
       onRoomUpdate: (type, room) => {},
@@ -62,33 +73,33 @@ const AppContextProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{
-        setLoginInfo: (info) => {
-          setState({
-            ...state,
-            loginInfo: { ...state.loginInfo, ...info },
-          });
-          console.log({
-            ...state,
-            loginInfo: { ...state.loginInfo, ...info },
-          });
-        },
-        toggleChat: () => {
-          setState({ ...state, isChatOpen: !state.isChatOpen });
-        },
-        setMaxTileCount: (count) => {
-          setState((prevState) => ({ ...prevState, maxTileCount: count }));
-        },
-        loginInfo: state.loginInfo,
-        isChatOpen: state.isChatOpen,
-        maxTileCount: state.maxTileCount,
-        isConnected: isConnected,
-        leave: modifiedLeave,
-        aspectRatio: state.aspectRatio,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
+    value={{
+      setLoginInfo: (info) => {
+        setState({
+          ...state,
+          loginInfo: { ...state.loginInfo, ...info },
+        });
+        console.log({
+          ...state,
+          loginInfo: { ...state.loginInfo, ...info },
+        });
+      },
+      toggleChat: () => {
+        setState({ ...state, isChatOpen: !state.isChatOpen });
+      },
+      setMaxTileCount: (count) => {
+        setState((prevState) => ({ ...prevState, maxTileCount: count }));
+      },
+      loginInfo: state.loginInfo,
+      isChatOpen: state.isChatOpen,
+      maxTileCount: state.maxTileCount,
+      isConnected: isConnected,
+      leave: modifiedLeave,
+      aspectRatio: state.aspectRatio,
+    }}
+  >
+    {children}
+  </AppContext.Provider>
   );
 };
 
