@@ -14,47 +14,43 @@ import {
 
 export const TeacherView = () => {
   const { isChatOpen, toggleChat, maxTileCount } = useContext(AppContext);
-
   const { peers } = useHMSRoom();
   const { messages, sendMessage } = useHMSMessage();
   const { speakers } = useHMSSpeaker();
-  const [streamsWithInfo, setStreamsWithInfo] = useState([]);
+  const videoStreamsWithInfo =
+    peers && peers.length > 0 && peers[0]
+      ? peers
+          .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
+          .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers))
+      : [];
+
+  const screenShareStreamsWithInfo =
+    peers && peers.length > 0 && peers[0]
+      ? peers
+          .filter(
+            (peer) =>
+              Boolean(peer.auxiliaryTracks) &&
+              Boolean(peer.auxiliaryTracks.length > 0) &&
+              (Boolean(
+                peer.auxiliaryTracks.find(
+                  (track) => track.nativeTrack.kind === "audio"
+                )
+              ) ||
+                Boolean(
+                  peer.auxiliaryTracks.find(
+                    (track) => track.nativeTrack.kind === "video"
+                  )
+                ))
+          )
+          .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers))
+      : [];
+
+  const streamsWithInfo = [
+    ...videoStreamsWithInfo,
+    ...screenShareStreamsWithInfo,
+  ];
 
   console.log("APP Speakers: ", speakers);
-
-  useEffect(() => {
-    const videoStreamsWithInfo =
-      peers && peers.length > 0 && peers[0]
-        ? peers
-            .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
-            .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers))
-        : [];
-
-    const screenShareStreamsWithInfo =
-      peers && peers.length > 0 && peers[0]
-        ? peers
-            .filter(
-              (peer) =>
-                Boolean(peer.auxiliaryTracks) &&
-                Boolean(peer.auxiliaryTracks.length > 0) &&
-                (Boolean(
-                  peer.auxiliaryTracks.find(
-                    (track) => track.nativeTrack.kind === "audio"
-                  )
-                ) ||
-                  Boolean(
-                    peer.auxiliaryTracks.find(
-                      (track) => track.nativeTrack.kind === "video"
-                    )
-                  ))
-            )
-            .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers))
-        : [];
-    setStreamsWithInfo([
-      ...videoStreamsWithInfo,
-      ...screenShareStreamsWithInfo,
-    ]);
-  }, [peers]);
 
   return (
     <React.Fragment>
