@@ -57,6 +57,7 @@ const AppContextProvider = ({ children }) => {
       onError: (error) => {},
     };
 
+    console.log("joining room, calling join from useHMSRoom")
     join(config, listener);
     // eslint-disable-next-line
   }, [state.loginInfo.token]);
