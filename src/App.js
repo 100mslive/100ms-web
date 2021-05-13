@@ -3,8 +3,9 @@ import PreviewScreen from "./pages/PreviewScreen";
 import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AppContextProvider } from "./store/AppContext.js";
-import { HMSRoomProvider, HMSThemeProvider } from "@100mslive/sdk-components";
+import { HMSRoomProvider, HMSThemeProvider, Join } from "@100mslive/sdk-components";
 import { shadeColor } from "./utlis/index.jsx";
+import { BotMode } from "./pages/botMode.jsx";
 
 function App() {
   const { 0: width, 1: height } = process.env.REACT_APP_TILE_SHAPE.split(
@@ -50,6 +51,9 @@ function App() {
                 </Route>
                 <Route path="/meeting/:roomId?">
                   <Conference />
+                </Route>
+                <Route path="/ls/:roomId/:endpoint">
+                  <BotMode />
                 </Route>
                 <Route path="/:roomId?">
                   <JoinRoom />
