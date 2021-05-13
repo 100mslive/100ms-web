@@ -20,7 +20,7 @@ export const BotMode = () => {
                 username: username,
                 role: role,
                 roomId: roomId,
-                endpoint: endpoint + "/init/",
+                endpoint: "https://"+endpoint + ".100ms.live/init",
                 audioMuted: true,
                 videoMuted: true,
                 selectedVideoOutput: 'default',
