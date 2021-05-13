@@ -4,7 +4,7 @@ import { AppContext } from "../store/AppContext";
 import getToken from "../utlis/index";
 
 const username = "live-stream-bot";
-const role = "viewer"
+const role = "Viewer"
 
 export const BotMode = () => {
     const history = useHistory();
