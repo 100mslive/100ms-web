@@ -1,10 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
-import { VideoList, ChatBox, VideoTile } from "@100mslive/sdk-components";
-import { useHMSRoom } from "@100mslive/sdk-components";
+import {
+  ChatBox,
+  useHMSMessage,
+  useHMSRoom,
+  useHMSSpeaker,
+  VideoList,
+  VideoTile,
+} from "@100mslive/sdk-components";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../store/AppContext";
 import {
-  HMSPeerToScreenStreamWitnInfo,
   HMSPeertoCameraStreamWithInfo,
+  HMSPeerToScreenStreamWitnInfo,
   isScreenSharing,
 } from "../utlis/index";
 
@@ -15,7 +21,7 @@ const TransformVideoTileSizes = (
   toggleChat,
   aspectRatio
 ) => {
-  const { messages, sendMessage } = useHMSRoom();
+  const { messages, sendMessage } = useHMSMessage();
   return (
     <>
       <div className={`w-full h-full relative`}>
@@ -89,7 +95,8 @@ const TransformVideoTileSizes = (
 
 export const ScreenShareView = () => {
   const { isChatOpen, toggleChat, aspectRatio } = useContext(AppContext);
-  const { peers, speakers } = useHMSRoom();
+  const { peers } = useHMSRoom();
+  const { speakers } = useHMSSpeaker();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
   const [screenStream, setScreenStream] = useState(null);
   const [cameraStream, setCameraStream] = useState(null);

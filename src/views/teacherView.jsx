@@ -1,6 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
-import { VideoList, ChatBox } from "@100mslive/sdk-components";
-import { useHMSRoom } from "@100mslive/sdk-components";
+import {
+  ChatBox,
+  useHMSMessage,
+  useHMSRoom,
+  useHMSSpeaker,
+  VideoList,
+} from "@100mslive/sdk-components";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../store/AppContext";
 import {
   HMSPeertoCameraStreamWithInfo,
@@ -9,40 +14,17 @@ import {
 
 export const TeacherView = () => {
   const { isChatOpen, toggleChat, maxTileCount } = useContext(AppContext);
-
-  const { peers, messages, speakers, sendMessage } = useHMSRoom();
-  const videoStreamsWithInfo =
-  peers && peers.length > 0 && peers[0]
-    ? peers
-        .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
-        .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers))
-    : [];
-
-  const screenShareStreamsWithInfo =
+  const { peers } = useHMSRoom();
+  const { messages, sendMessage } = useHMSMessage();
+  const { speakers } = useHMSSpeaker();
+  const streamsWithInfo =
     peers && peers.length > 0 && peers[0]
       ? peers
-          .filter(
-            (peer) =>
-              Boolean(peer.auxiliaryTracks) &&
-              Boolean(peer.auxiliaryTracks.length > 0) &&
-              (Boolean(
-                peer.auxiliaryTracks.find(
-                  (track) => track.nativeTrack.kind === "audio"
-                )
-              ) ||
-                Boolean(
-                  peer.auxiliaryTracks.find(
-                    (track) => track.nativeTrack.kind === "video"
-                  )
-                ))
-          )
-          .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers))
+          .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
+          .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers))
       : [];
 
-    const streamsWithInfo = [
-      ...videoStreamsWithInfo,
-      ...screenShareStreamsWithInfo,
-    ];
+  console.log("APP Speakers: ", speakers);
 
   return (
     <React.Fragment>

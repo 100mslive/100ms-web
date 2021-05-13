@@ -60,7 +60,6 @@ export const HMSPeertoCameraStreamWithInfo = (peer, speakers) => {
       displayName: peer.name || peer.peerId,
     },
     videoSource: "camera",
-    audioLevel: 0,
     isLocal: peer.isLocal,
     isAudioMuted: isAudioMuted,
     isVideoMuted: !(peer.videoTrack && peer.videoTrack.enabled),
