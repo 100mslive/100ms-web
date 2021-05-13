@@ -5,7 +5,6 @@ export default async function getToken(username, role, roomId) {
       env: "qa-in",
       role: role,
       room_id: roomId,
-      //room_id: "6077d5e1dcee704ca43caea3",
       user_name: username,
     }),
   });
@@ -17,18 +16,14 @@ export default async function getToken(username, role, roomId) {
 
 export const HMSPeerToScreenStreamWitnInfo = (peer, speakers) => {
   if (!peer) return null;
-  const audioTrack = peer.auxiliaryTracks.find(
-    (track) => track.nativeTrack.kind === "audio"
-  )
-    ? peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "audio")
-        .nativeTrack
-    : undefined;
-  const videoTrack = peer.auxiliaryTracks.find(
-    (track) => track.nativeTrack.kind === "video"
-  )
-    ? peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "video")
-        .nativeTrack
-    : undefined;
+  const hmsAudioTrack = peer.auxiliaryTracks.find(
+    (track) => track.type === "audio"
+  );
+  const audioTrack = hmsAudioTrack && hmsAudioTrack.nativeTrack;
+  const hmsVideoTrack = peer.auxiliaryTracks.find(
+    (track) => track.type === "video" && track.source === "screen"
+  );
+  const videoTrack = hmsVideoTrack && hmsVideoTrack.nativeTrack;
   const peerSpeaker = speakers.find(
     (speaker) => speaker.peerId === peer.peerId
   );
@@ -36,7 +31,7 @@ export const HMSPeerToScreenStreamWitnInfo = (peer, speakers) => {
 
   return {
     videoTrack,
-    hmsVideoTrack: peer.videoTrack,
+    hmsVideoTrack,
     audioTrack,
     peer: {
       id: peer.peerId,
@@ -50,6 +45,7 @@ export const HMSPeerToScreenStreamWitnInfo = (peer, speakers) => {
     audioLevel: !isAudioMuted && peerSpeaker && peerSpeaker.audioLevel,
   };
 };
+
 export const HMSPeertoCameraStreamWithInfo = (peer, speakers) => {
   if (!peer) return null;
   const peerSpeaker = speakers.find(
