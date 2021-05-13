@@ -1,13 +1,14 @@
 import {
   ParticipantList,
   useHMSRoom,
+  useHMSSpeaker,
   VolumeIcon,
 } from "@100mslive/sdk-components";
 import React from "react";
 import { Header } from "@100mslive/sdk-components";
 
 const SpeakerTag = () => {
-  const { dominantSpeaker } = useHMSRoom();
+  const { dominantSpeaker } = useHMSSpeaker();
   return dominantSpeaker && dominantSpeaker.name ? (
     <div
       className={`self-center focus:outline-none text-lg text-white flex items-center`}
