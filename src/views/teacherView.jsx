@@ -1,6 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
-import { VideoList, ChatBox } from "@100mslive/sdk-components";
-import { useHMSRoom } from "@100mslive/sdk-components";
+import {
+  ChatBox,
+  useHMSMessage,
+  useHMSRoom,
+  useHMSSpeaker,
+  VideoList,
+} from "@100mslive/sdk-components";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../store/AppContext";
 import {
   HMSPeertoCameraStreamWithInfo,
@@ -10,8 +15,12 @@ import {
 export const TeacherView = () => {
   const { isChatOpen, toggleChat, maxTileCount } = useContext(AppContext);
 
-  const { peers, messages, speakers, sendMessage } = useHMSRoom();
+  const { peers } = useHMSRoom();
+  const { messages, sendMessage } = useHMSMessage();
+  const { speakers } = useHMSSpeaker();
   const [streamsWithInfo, setStreamsWithInfo] = useState([]);
+
+  console.log("APP Speakers: ", speakers);
 
   useEffect(() => {
     const videoStreamsWithInfo =

@@ -1,16 +1,25 @@
-import React, { useEffect, useState, useContext } from "react";
+import {
+  Button,
+  ControlBar,
+  HangUpIcon,
+  Header,
+  ParticipantList,
+  useHMSRoom,
+  useHMSSpeaker,
+  VolumeIcon,
+} from "@100mslive/sdk-components";
+import React, { useContext, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
-import { Header, ControlBar, ParticipantList, Button, HangUpIcon } from "@100mslive/sdk-components";
+import { isScreenSharing } from "../utlis/index";
 import { ScreenShareView } from "../views/screenShareView";
 import { TeacherView } from "../views/teacherView";
-import { useHistory, useParams } from "react-router-dom";
-import { useHMSRoom } from "@100mslive/sdk-components";
-import { isScreenSharing } from "../utlis/index";
-import { VolumeIcon } from "@100mslive/sdk-components";
 
 const SpeakerTag = ({ name }) => {
   return name ? (
-    <div className={`self-center focus:outline-none text-lg text-white flex items-center`}>
+    <div
+      className={`self-center focus:outline-none text-lg text-white flex items-center`}
+    >
       <div className="inline-block">
         <VolumeIcon />
       </div>
@@ -36,14 +45,9 @@ export const Conference = () => {
     leave,
   } = context;
 
-  const {
-    toggleMute,
-    toggleScreenShare,
-    peers,
-    audioMuted,
-    videoMuted,
-    dominantSpeaker,
-  } = useHMSRoom();
+  const { toggleMute, toggleScreenShare, peers, audioMuted, videoMuted } =
+    useHMSRoom();
+  const { dominantSpeaker } = useHMSSpeaker();
   const [participants, setParticipants] = useState([]);
 
   if (!loginInfo.token) {
@@ -74,7 +78,7 @@ export const Conference = () => {
 
   return (
     <div className="w-full h-full dark:bg-black">
-      <div style={{height:'10%'}}>
+      <div style={{ height: "10%" }}>
         <Header
           centerComponents={[
             <SpeakerTag
@@ -85,46 +89,29 @@ export const Conference = () => {
           rightComponents={[
             <ParticipantList key={0} participantList={participants} />,
           ]}
-          classes={{root:'h-16'}}
+          classes={{ root: "h-16" }}
         />
-        </div>
+      </div>
       <div className="w-full flex" style={{ height: "80%" }}>
         {peers.some(isScreenSharing) ? <ScreenShareView /> : <TeacherView />}
-        {/* // ) : (
-        //   <StudentView
-        //     streamsWithInfo={streamsWithInfo
-        //       .filter(
-        //         (item) =>
-        //           item.videoSource == "screen" || item.videoSource == "camera"
-        //       )
-        //       .map((item) => ({
-        //         ...item,
-        //         stream: !item.isVideoMuted
-        //           ? item.videoSource == "screen"
-        //             ? screenStream
-        //             : cameraStream
-        //           : new MediaStream(),
-        //       }))}
-        //   />
-        // )} */}
       </div>
       <div className="dark:bg-black" style={{ height: "10%" }}>
         {isConnected && (
           <ControlBar
-          rightComponents = {[
-            <Button
-              shape="rectangle"
-              variant={'danger'}
-              onClick={() => {
-                leave();
-                history.push("/");
-              }}
-              size="lg"
-            >
-              <HangUpIcon className="mr-2" />
-              Leave room
-            </Button>,
-          ]}        
+            rightComponents={[
+              <Button
+                shape="rectangle"
+                variant={"danger"}
+                onClick={() => {
+                  leave();
+                  history.push("/");
+                }}
+                size="lg"
+              >
+                <HangUpIcon className="mr-2" />
+                Leave room
+              </Button>,
+            ]}
             maxTileCount={maxTileCount}
             setMaxTileCount={setMaxTileCount}
             audioButtonOnClick={() => toggleMute("audio")}
