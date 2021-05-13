@@ -10,7 +10,7 @@ export const BotMode = () => {
     const history = useHistory();
     const { endpoint, roomId } = useParams();
     const { setLoginInfo } = useContext(AppContext);
-    if (!endpoint || !endpoint) {
+    if (!endpoint || !roomId) {
         history.push("/")
     }
     getToken(username, role, roomId)
@@ -20,7 +20,7 @@ export const BotMode = () => {
                 username: username,
                 role: role,
                 roomId: roomId,
-                endpoint: endpoint,
+                endpoint: endpoint + "/init/",
                 audioMuted: true,
                 videoMuted: true,
                 selectedVideoOutput: 'default',
