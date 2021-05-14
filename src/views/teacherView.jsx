@@ -1,24 +1,17 @@
-import {
-  useHMSRoom,
-  useHMSSpeaker,
-  VideoList,
-} from "@100mslive/sdk-components";
+import { useHMSRoom, VideoList } from "@100mslive/sdk-components";
 import React, { useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import {
-  HMSPeertoCameraStreamWithInfo,
-} from "../utlis";
-import {ChatView} from './chatView';
+import { HMSPeertoCameraStreamWithInfo } from "../utlis";
+import { ChatView } from "./chatView";
 
-export const TeacherView = ({isChatOpen, toggleChat}) => {
+export const TeacherView = ({ isChatOpen, toggleChat }) => {
   const { maxTileCount } = useContext(AppContext);
   const { peers } = useHMSRoom();
-  const { speakers } = useHMSSpeaker();
   const streamsWithInfo =
     peers && peers.length > 0 && peers[0]
       ? peers
           .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
-          .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers))
+          .map((peer) => HMSPeertoCameraStreamWithInfo(peer))
       : [];
 
   return (
