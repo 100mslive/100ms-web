@@ -8,15 +8,12 @@ import { useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory } from "react-router-dom";
 
-export const ConferenceFooter = ({isChatOpen, toggleChat}) => {
+export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const { toggleMute, toggleScreenShare, localPeer } = useHMSRoom();
-  const {
-    isConnected,
-    leave,
-    maxTileCount,
-    setMaxTileCount,
-  } = useContext(AppContext);
+  const { isConnected, leave, maxTileCount, setMaxTileCount } =
+    useContext(AppContext);
   const history = useHistory();
+
   return (
     <>
       {isConnected && (
@@ -39,13 +36,11 @@ export const ConferenceFooter = ({isChatOpen, toggleChat}) => {
           setMaxTileCount={setMaxTileCount}
           audioButtonOnClick={async () => await toggleMute("audio")}
           videoButtonOnClick={async () => await toggleMute("video")}
-          screenshareButtonOnClick={() => toggleScreenShare()}
+          screenshareButtonOnClick={toggleScreenShare}
           isAudioMuted={!(localPeer.audioTrack && localPeer.audioTrack.enabled)}
           isVideoMuted={!(localPeer.videoTrack && localPeer.videoTrack.enabled)}
           isChatOpen={isChatOpen}
-          chatButtonOnClick={() => {
-            toggleChat();
-          }}
+          chatButtonOnClick={toggleChat}
         />
       )}
     </>

@@ -9,10 +9,9 @@
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@0.2.16-3201":
-  version "0.2.16-3201"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.16-3201.tgz#d487a55892680e9d64ea3e8294475c17847bee91"
-  integrity sha512-mgl92MMVjNnZk4ATsg6xN13o4OLyYDpYqdvHNQCUsew+AXzFxRayzqkNiYPRlpx4FnRdTMRFKSZxBcmas0vUkw==
+"@100mslive/sdk-components@file:100mslive-sdk-components-v0.2.16-320104.tgz":
+  version "0.2.16-320104"
+  resolved "file:100mslive-sdk-components-v0.2.16-320104.tgz#9a1ccbeece2dfd3230a0dba94ed6dae646e950e9"
   dependencies:
     "@100mslive/100ms-web-sdk" "0.0.12-26"
     "@material-ui/core" "^4.11.3"
@@ -5336,7 +5335,7 @@ file-loader@6.1.1:
 
 file-uri-to-path@1.0.0:
   version "1.0.0"
-  resolved "https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz#553a7b8446ff6f684359c445f1e37a05dacc33dd"
   integrity sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==
 
 filesize@6.1.0:

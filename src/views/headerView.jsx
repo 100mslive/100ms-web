@@ -1,11 +1,11 @@
 import {
+  Header,
   ParticipantList,
   useHMSRoom,
   useHMSSpeaker,
   VolumeIcon,
 } from "@100mslive/sdk-components";
 import React from "react";
-import { Header } from "@100mslive/sdk-components";
 
 const SpeakerTag = () => {
   const { dominantSpeaker } = useHMSSpeaker();
@@ -40,7 +40,6 @@ const Participants = () => {
           };
         })
       : [];
-  console.log(participants);
 
   return (
     <>
