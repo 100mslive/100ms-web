@@ -81,6 +81,40 @@ export const isScreenSharing = (peer) =>
       )
     ));
 
+export const getStreamsInfo = ({peers, speakers}) => {
+  let streamsWithInfo = null;
+  let screenStream = null;
+  let cameraStream = null;
+
+  if (!(peers && peers.length > 0 && peers[0])) {
+    return {streamsWithInfo, screenStream, cameraStream};
+  }
+
+  const index = peers.findIndex(isScreenSharing);
+  const screenSharingPeer = peers[index];
+  let remPeers = [...peers];
+
+  if (index !== -1) {
+    remPeers.splice(index, 1);
+    screenStream = HMSPeerToScreenStreamWitnInfo(screenSharingPeer, speakers);
+    cameraStream = HMSPeertoCameraStreamWithInfo(screenSharingPeer, speakers);
+  } 
+
+  const videoStreamsWithInfo = remPeers
+    .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
+    .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers));
+
+  const screenShareStreamsWithInfo = remPeers
+    .filter(isScreenSharing)
+    .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers));
+
+  streamsWithInfo = [
+    ...videoStreamsWithInfo,
+    ...screenShareStreamsWithInfo,
+  ];
+  return {streamsWithInfo, screenStream, cameraStream}
+};
+
 export function shadeColor(color, percent) {
   var R = parseInt(color.substring(1, 3), 16);
   var G = parseInt(color.substring(3, 5), 16);

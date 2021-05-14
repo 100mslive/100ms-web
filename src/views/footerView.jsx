@@ -8,13 +8,11 @@ import { useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory } from "react-router-dom";
 
-export const ConferenceFooter = () => {
+export const ConferenceFooter = ({isChatOpen, toggleChat}) => {
   const { toggleMute, toggleScreenShare, localPeer } = useHMSRoom();
   const {
-    toggleChat,
     isConnected,
     leave,
-    isChatOpen,
     maxTileCount,
     setMaxTileCount,
   } = useContext(AppContext);
