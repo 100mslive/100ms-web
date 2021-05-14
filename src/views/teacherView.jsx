@@ -1,21 +1,18 @@
 import {
-  ChatBox,
-  useHMSMessage,
   useHMSRoom,
   useHMSSpeaker,
   VideoList,
 } from "@100mslive/sdk-components";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import {
   HMSPeertoCameraStreamWithInfo,
-  HMSPeerToScreenStreamWitnInfo,
 } from "../utlis";
+import {ChatView} from './chatView';
 
-export const TeacherView = () => {
-  const { isChatOpen, toggleChat, maxTileCount } = useContext(AppContext);
+export const TeacherView = ({isChatOpen, toggleChat}) => {
+  const { maxTileCount } = useContext(AppContext);
   const { peers } = useHMSRoom();
-  const { messages, sendMessage } = useHMSMessage();
   const { speakers } = useHMSSpeaker();
   const streamsWithInfo =
     peers && peers.length > 0 && peers[0]
@@ -23,8 +20,6 @@ export const TeacherView = () => {
           .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
           .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers))
       : [];
-
-  console.log("APP Speakers: ", speakers);
 
   return (
     <React.Fragment>
@@ -47,26 +42,11 @@ export const TeacherView = () => {
         {isChatOpen && (
           <div className="flex items-end p-2 w-2/10 h-full">
             <div className="w-full h-5/6">
-              <ChatBox
-                messages={messages}
-                onSend={sendMessage}
-                onClose={toggleChat}
-              />
+              <ChatView toggleChat={toggleChat}></ChatView>
             </div>
           </div>
         )}
       </div>
-
-      {/* <VideoList
-          streams={streamsWithInfo.filter((peer) => peer.role === "Teacher")}
-          classes={{
-            videoTileParent: "p-5 rounded-xl",
-            video: "rounded-xl",
-          }}
-          overflow="scroll-x"
-          maxTileCount={4}
-          showAudioMuteStatus={false}
-        /> */}
     </React.Fragment>
   );
 };

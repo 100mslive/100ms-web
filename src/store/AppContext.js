@@ -65,6 +65,7 @@ const AppContextProvider = ({ children }) => {
       onPeerUpdate: (type, peer) => {},
       onTrackUpdate: (type, track, peer) => {},
       onError: (error) => {},
+      onMessageReceived:(message)=>{}
     };
 
     join(config, listener);
