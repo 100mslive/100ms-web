@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useContext } from "react";
-import { VideoList, ChatBox, VideoTile } from "@100mslive/sdk-components";
-import { useHMSRoom } from "@100mslive/sdk-components";
-import { AppContext } from "../store/AppContext";
 import {
-  HMSPeerToScreenStreamWitnInfo,
-  HMSPeertoCameraStreamWithInfo,
-  isScreenSharing,
+  useHMSRoom,
+  useHMSSpeaker,
+  VideoList,
+  VideoTile,
+} from "@100mslive/sdk-components";
+import React from "react";
+import {
+  getStreamsInfo
 } from "../utlis/index";
+import {ChatView} from './chatView';
 
-const TransformVideoTileSizes = (
+const SidePane = ({
   streamsWithInfo,
   isChatOpen,
   cameraStream,
   toggleChat,
-  aspectRatio
-) => {
-  const { messages, sendMessage } = useHMSRoom();
+}) => {
   return (
     <>
       <div className={`w-full h-full relative`}>
@@ -23,17 +23,16 @@ const TransformVideoTileSizes = (
           <div
             className="w-full relative overflow-hidden"
             style={{
-              paddingTop: `${cameraStream && !isChatOpen ? "100%" : "0"}`,
+              paddingTop: `${cameraStream ? "100%" : "0"}`,
             }}
           >
-            {cameraStream && !isChatOpen && (
+            {cameraStream && (
               <div className="absolute left-0 top-0 w-full h-full p-3">
                 <VideoTile
                   audioTrack={cameraStream.audioTrack}
                   hmsVideoTrack={cameraStream.hmsVideoTrack}
                   videoTrack={cameraStream.videoTrack}
                   peer={cameraStream.peer}
-                  aspectRatio={aspectRatio}
                   showAudioMuteStatus={true}
                   allowRemoteMute={false}
                   isLocal={cameraStream.isLocal}
@@ -74,11 +73,9 @@ const TransformVideoTileSizes = (
           </div>
         </div>
         {isChatOpen && (
-          <div className="h-2/3 w-full absolute z-10 bottom-0 right-0">
-            <ChatBox
-              messages={messages}
-              onSend={sendMessage}
-              onClose={toggleChat}
+          <div className="h-2/3 w-full absolute z-40 bottom-0 right-0">
+            <ChatView
+              toggleChat={toggleChat}
             />
           </div>
         )}
@@ -87,44 +84,11 @@ const TransformVideoTileSizes = (
   );
 };
 
-export const ScreenShareView = () => {
-  const { isChatOpen, toggleChat, aspectRatio } = useContext(AppContext);
-  const { peers, speakers } = useHMSRoom();
-  const [streamsWithInfo, setStreamsWithInfo] = useState([]);
-  const [screenStream, setScreenStream] = useState(null);
-  const [cameraStream, setCameraStream] = useState(null);
+export const ScreenShareView = ({isChatOpen, toggleChat}) => {
+  const { peers } = useHMSRoom();
+  const { speakers } = useHMSSpeaker();
 
-  useEffect(() => {
-    if (!(peers && peers.length > 0 && peers[0])) return;
-    const index = peers.findIndex(isScreenSharing);
-    const screenSharingPeer = peers[index];
-    let remPeers = [...peers];
-
-    if (index !== -1) {
-      remPeers.splice(index, 1);
-      setScreenStream(
-        HMSPeerToScreenStreamWitnInfo(screenSharingPeer, speakers)
-      );
-      setCameraStream(
-        HMSPeertoCameraStreamWithInfo(screenSharingPeer, speakers)
-      );
-    } else {
-      setCameraStream(null);
-      setScreenStream(null);
-    }
-    const videoStreamsWithInfo = remPeers
-      .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
-      .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers));
-
-    const screenShareStreamsWithInfo = remPeers
-      .filter(isScreenSharing)
-      .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers));
-
-    setStreamsWithInfo([
-      ...videoStreamsWithInfo,
-      ...screenShareStreamsWithInfo,
-    ]);
-  }, [peers]);
+  const {streamsWithInfo, screenStream, cameraStream} = getStreamsInfo({peers, speakers}); 
 
   return (
     <React.Fragment>
@@ -152,26 +116,9 @@ export const ScreenShareView = () => {
         </div>
 
         <div className="flex flex-wrap overflow-hidden p-2 w-2/10 h-full ">
-          {TransformVideoTileSizes(
-            streamsWithInfo,
-            isChatOpen,
-            cameraStream,
-            toggleChat,
-            aspectRatio
-          )}
+          <SidePane streamsWithInfo={streamsWithInfo} isChatOpen={isChatOpen} cameraStream={cameraStream} toggleChat={toggleChat}/>
         </div>
       </div>
-
-      {/* <VideoList
-          streams={streamsWithInfo.filter((peer) => peer.role === "Teacher")}
-          classes={{
-            videoTileParent: "p-5 rounded-xl",
-            video: "rounded-xl",
-          }}
-          overflow="scroll-x"
-          maxTileCount={4}
-          showAudioMuteStatus={false}
-        /> */}
     </React.Fragment>
   );
 };
