@@ -1,4 +1,8 @@
-import { useHMSRoom, VideoList } from "@100mslive/sdk-components";
+import {
+  useHMSRoom,
+  VideoList,
+  audioLevelEmitter,
+} from "@100mslive/sdk-components";
 import React, { useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import { HMSPeertoCameraStreamWithInfo } from "../utlis";
@@ -29,6 +33,7 @@ export const TeacherView = ({ isChatOpen, toggleChat }) => {
               showAudioMuteStatus={true}
               allowRemoteMute={false}
               maxTileCount={maxTileCount}
+              audioLevelEmitter={audioLevelEmitter}
             />
           )}
         </div>

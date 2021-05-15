@@ -1,4 +1,9 @@
-import { useHMSRoom, VideoList, VideoTile } from "@100mslive/sdk-components";
+import {
+  useHMSRoom,
+  VideoList,
+  VideoTile,
+  audioLevelEmitter,
+} from "@100mslive/sdk-components";
 import React from "react";
 import { getStreamsInfo } from "../utlis/index";
 import { ChatView } from "./chatView";
@@ -40,6 +45,7 @@ const SidePane = ({
                     )
                   }
                   audioLevel={cameraStream.audioLevel}
+                  audioLevelEmitter={audioLevelEmitter}
                 />
               </div>
             )}
@@ -61,6 +67,7 @@ const SidePane = ({
                 allowRemoteMute={false}
                 maxColCount={2}
                 overflow="scroll-x"
+                audioLevelEmitter={audioLevelEmitter}
               />
             )}
           </div>
