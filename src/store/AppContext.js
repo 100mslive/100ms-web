@@ -20,7 +20,7 @@ const AppContextProvider = ({ children }) => {
       selectedAudioInput: "default",
       selectedAudioOutput: "default",
     },
-    maxTileCount: 8,
+    maxTileCount: 9,
   });
   //TODO this should be exposed from hook and should be a status
   const [isConnected, setIsConnected] = useState(false);

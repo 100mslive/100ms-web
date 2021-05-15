@@ -7,7 +7,7 @@ import getToken from "../utlis/index";
 const PreviewScreen = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo, setLoginInfo } = context;
+  const { loginInfo, setLoginInfo, setMaxTileCount } = context;
   const { roomId: urlRoomId } = useParams();
 
     const join = ({audioMuted, videoMuted}) => {
@@ -22,11 +22,12 @@ const PreviewScreen = () => {
             });
     };
 
-  const onChange = ({selectedVideoInput, selectedAudioInput, selectedAudioOutput, ...props}) => {
+  const onChange = ({selectedVideoInput, selectedAudioInput, selectedAudioOutput, maxTileCount}) => {
     console.debug("app: Selected Video Input", selectedVideoInput);
     console.debug("app: Selected Audio Input", selectedVideoInput);
     console.debug("app: Selected Audio Output", selectedAudioOutput);
     setLoginInfo({selectedVideoInput, selectedAudioInput, selectedAudioOutput});
+    setMaxTileCount(maxTileCount);
   }
 
   const goBack = () => {
