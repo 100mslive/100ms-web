@@ -22,8 +22,11 @@ const PreviewScreen = () => {
             });
     };
 
-  const getDevices = ({selectedVideoOutput, selectedAudioInput, selectedAudioOutput}) => {
-    setLoginInfo({selectedVideoOutput, selectedAudioInput, selectedAudioOutput});
+  const onChange = ({selectedVideoInput, selectedAudioInput, selectedAudioOutput, ...props}) => {
+    console.debug("app: Selected Video Input", selectedVideoInput);
+    console.debug("app: Selected Audio Input", selectedVideoInput);
+    console.debug("app: Selected Audio Output", selectedAudioOutput);
+    setLoginInfo({selectedVideoInput, selectedAudioInput, selectedAudioOutput});
   }
 
   const goBack = () => {
@@ -42,9 +45,9 @@ const PreviewScreen = () => {
         <Preview
           name={loginInfo.username}
           joinOnClick={join}
-          getDevices={getDevices}
           goBackOnClick={goBack}
           messageOnClose={goBack}
+          onChange={onChange}
         />
       </div>
     </div>
