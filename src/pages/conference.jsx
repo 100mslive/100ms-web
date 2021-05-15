@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
 import { ConferenceHeader } from "../views/headerView";
@@ -10,7 +10,9 @@ export const Conference = () => {
   const { roomId: urlRoomId } = useParams();
   const context = useContext(AppContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const toggleChat = () => {setIsChatOpen(!isChatOpen)};
+  const toggleChat = useCallback(() => {
+    setIsChatOpen((open) => !open);
+  }, []);
 
   const { loginInfo, leave } = context;
 
@@ -30,10 +32,10 @@ export const Conference = () => {
         <ConferenceHeader />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
-        <ConferenceMainView isChatOpen={isChatOpen} toggleChat={toggleChat}/>
+        <ConferenceMainView isChatOpen={isChatOpen} toggleChat={toggleChat} />
       </div>
       <div className="dark:bg-black" style={{ height: "10%" }}>
-        <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat}/>
+        <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
       </div>
     </div>
   );
