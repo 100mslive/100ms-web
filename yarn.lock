@@ -9,10 +9,10 @@
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@0.2.16-37":
-  version "0.2.16-37"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.16-37.tgz#3cd607663bde2fc366aabfd92efe60d26c217718"
-  integrity sha512-9ElYSQem6DEusOXg45mui/FqwEBF6+7TRnwzFah00An9Rx/vXdt6S0fOqVyRPAim7xqRZkeOpol/Rd4lobP2ZQ==
+"@100mslive/sdk-components@0.2.16-3213":
+  version "0.2.16-3213"
+  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.16-3213.tgz#c7514294f4719734698eadf1270f5ce9af4de862"
+  integrity sha512-XyynjdNEO5hnPu1P76DXEo3oz2xFNNrjvKFNCaOdVi177gIyCVwQCjr8sNekXT0hEKThK9AED+ffQPzzcaZOoA==
   dependencies:
     "@100mslive/100ms-web-sdk" "0.0.12-26"
     "@material-ui/core" "^4.11.3"
@@ -9952,7 +9952,7 @@ react-dev-utils@^11.0.3:
 
 react-dom@^17.0.2:
   version "17.0.2"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
   integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
   dependencies:
     loose-envify "^1.1.0"
@@ -10138,7 +10138,7 @@ react-transition-group@^4.4.0:
 
 react@^17.0.2:
   version "17.0.2"
-  resolved "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
   dependencies:
     loose-envify "^1.1.0"

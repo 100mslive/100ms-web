@@ -7,7 +7,7 @@ import getToken from "../utlis/index";
 const PreviewScreen = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo, setLoginInfo } = context;
+  const { loginInfo, setLoginInfo, setMaxTileCount } = context;
   const { roomId: urlRoomId } = useParams();
 
     const join = ({audioMuted, videoMuted}) => {
@@ -22,8 +22,12 @@ const PreviewScreen = () => {
             });
     };
 
-  const getDevices = ({selectedVideoOutput, selectedAudioInput, selectedAudioOutput}) => {
-    setLoginInfo({selectedVideoOutput, selectedAudioInput, selectedAudioOutput});
+  const onChange = ({selectedVideoInput, selectedAudioInput, selectedAudioOutput, maxTileCount}) => {
+    console.debug("app: Selected Video Input", selectedVideoInput);
+    console.debug("app: Selected Audio Input", selectedVideoInput);
+    console.debug("app: Selected Audio Output", selectedAudioOutput);
+    setLoginInfo({selectedVideoInput, selectedAudioInput, selectedAudioOutput});
+    setMaxTileCount(maxTileCount);
   }
 
   const goBack = () => {
@@ -42,9 +46,9 @@ const PreviewScreen = () => {
         <Preview
           name={loginInfo.username}
           joinOnClick={join}
-          getDevices={getDevices}
           goBackOnClick={goBack}
           messageOnClose={goBack}
+          onChange={onChange}
         />
       </div>
     </div>
