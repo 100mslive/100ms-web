@@ -21,7 +21,7 @@
   "scripts": {
     "start": "http-server build",
     "dev": "craco start",
-    "build": "craco build",
+    "build": "craco build --profile",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
