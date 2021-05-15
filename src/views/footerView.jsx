@@ -1,8 +1,10 @@
 import {
   useHMSRoom,
-  Button,
   ControlBar,
   HangUpIcon,
+  TwButton,
+  ShareScreenIcon,
+  ChatIcon,
 } from "@100mslive/sdk-components";
 import { useContext } from "react";
 import { AppContext } from "../store/AppContext";
@@ -44,10 +46,31 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       {isConnected && (
         <ControlBar
           leftComponents={[
-            <SettingsView key={0}/>
+            <SettingsView key={0}/>,
+            <TwButton
+            iconOnly
+            variant={'no-fill'}
+            iconSize="md"
+            shape={'rectangle'}
+            onClick={toggleScreenShare}
+            key={1}
+          >
+            <ShareScreenIcon />
+          </TwButton>,
+          <TwButton
+            iconOnly
+            variant={'no-fill'}
+            iconSize='md'
+            shape={'rectangle'}
+            onClick={toggleChat}
+            active={isChatOpen}
+            key={2}
+          >
+            <ChatIcon />
+          </TwButton>,      
           ]}
           rightComponents={[
-            <Button
+            <TwButton
               shape="rectangle"
               variant={"danger"}
               onClick={() => {
@@ -58,15 +81,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             >
               <HangUpIcon className="mr-2" />
               Leave room
-            </Button>,
+            </TwButton>,
           ]}
           audioButtonOnClick={async () => await toggleMute("audio")}
           videoButtonOnClick={async () => await toggleMute("video")}
-          screenshareButtonOnClick={toggleScreenShare}
           isAudioMuted={!(localPeer.audioTrack && localPeer.audioTrack.enabled)}
           isVideoMuted={!(localPeer.videoTrack && localPeer.videoTrack.enabled)}
-          isChatOpen={isChatOpen}
-          chatButtonOnClick={toggleChat}
         />
       )}
     </>
