@@ -1,4 +1,4 @@
-import { VideoList } from "@100mslive/sdk-components";
+import { VideoList, audioLevelEmitter } from "@100mslive/sdk-components";
 import React from "react";
 export const StudentView = ({ streamsWithInfo }) => {
   return (
@@ -13,6 +13,7 @@ export const StudentView = ({ streamsWithInfo }) => {
           }}
           showAudioMuteStatus={true}
           allowRemoteMute={false}
+          audioLevelEmitter={audioLevelEmitter}
         />
       </div>
       <div className=" p-6" style={{ width: "25%" }}>
@@ -26,6 +27,7 @@ export const StudentView = ({ streamsWithInfo }) => {
           maxTileCount={8}
           showAudioMuteStatus={true}
           allowRemoteMute={false}
+          audioLevelEmitter={audioLevelEmitter}
         />
       </div>
     </React.Fragment>

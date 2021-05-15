@@ -14,7 +14,7 @@ export default async function getToken(username, role, roomId) {
   return token;
 }
 
-export const HMSPeerToScreenStreamWitnInfo = (peer, speakers) => {
+export const HMSPeerToScreenStreamWitnInfo = (peer, speakers = []) => {
   if (!peer) return null;
   const hmsAudioTrack = peer.auxiliaryTracks.find(
     (track) => track.type === "audio"
@@ -45,7 +45,7 @@ export const HMSPeerToScreenStreamWitnInfo = (peer, speakers) => {
   };
 };
 
-export const HMSPeertoCameraStreamWithInfo = (peer, speakers) => {
+export const HMSPeertoCameraStreamWithInfo = (peer, speakers = []) => {
   if (!peer) return null;
   const peerSpeaker = speakers.find(
     (speaker) => speaker.peerId === peer.peerId
@@ -81,13 +81,13 @@ export const isScreenSharing = (peer) =>
       )
     ));
 
-export const getStreamsInfo = ({peers, speakers}) => {
+export const getStreamsInfo = ({ peers, speakers = [] }) => {
   let streamsWithInfo = null;
   let screenStream = null;
   let cameraStream = null;
 
   if (!(peers && peers.length > 0 && peers[0])) {
-    return {streamsWithInfo, screenStream, cameraStream};
+    return { streamsWithInfo, screenStream, cameraStream };
   }
 
   const index = peers.findIndex(isScreenSharing);
@@ -98,7 +98,7 @@ export const getStreamsInfo = ({peers, speakers}) => {
     remPeers.splice(index, 1);
     screenStream = HMSPeerToScreenStreamWitnInfo(screenSharingPeer, speakers);
     cameraStream = HMSPeertoCameraStreamWithInfo(screenSharingPeer, speakers);
-  } 
+  }
 
   const videoStreamsWithInfo = remPeers
     .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
@@ -108,11 +108,8 @@ export const getStreamsInfo = ({peers, speakers}) => {
     .filter(isScreenSharing)
     .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers));
 
-  streamsWithInfo = [
-    ...videoStreamsWithInfo,
-    ...screenShareStreamsWithInfo,
-  ];
-  return {streamsWithInfo, screenStream, cameraStream}
+  streamsWithInfo = [...videoStreamsWithInfo, ...screenShareStreamsWithInfo];
+  return { streamsWithInfo, screenStream, cameraStream };
 };
 
 export function shadeColor(color, percent) {
