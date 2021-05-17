@@ -1,14 +1,12 @@
 import {
   useHMSRoom,
-  useHMSSpeaker,
   VideoList,
   VideoTile,
+  audioLevelEmitter,
 } from "@100mslive/sdk-components";
 import React from "react";
-import {
-  getStreamsInfo
-} from "../utlis/index";
-import {ChatView} from './chatView';
+import { getStreamsInfo } from "../utlis/index";
+import { ChatView } from "./chatView";
 
 const SidePane = ({
   streamsWithInfo,
@@ -47,6 +45,7 @@ const SidePane = ({
                     )
                   }
                   audioLevel={cameraStream.audioLevel}
+                  audioLevelEmitter={audioLevelEmitter}
                 />
               </div>
             )}
@@ -68,15 +67,14 @@ const SidePane = ({
                 allowRemoteMute={false}
                 maxColCount={2}
                 overflow="scroll-x"
+                audioLevelEmitter={audioLevelEmitter}
               />
             )}
           </div>
         </div>
         {isChatOpen && (
           <div className="h-2/3 w-full absolute z-40 bottom-0 right-0">
-            <ChatView
-              toggleChat={toggleChat}
-            />
+            <ChatView toggleChat={toggleChat} />
           </div>
         )}
       </div>
@@ -84,17 +82,18 @@ const SidePane = ({
   );
 };
 
-export const ScreenShareView = ({isChatOpen, toggleChat}) => {
+export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const { peers } = useHMSRoom();
-  const { speakers } = useHMSSpeaker();
 
-  const {streamsWithInfo, screenStream, cameraStream} = getStreamsInfo({peers, speakers}); 
+  const { streamsWithInfo, screenStream, cameraStream } = getStreamsInfo({
+    peers,
+  });
 
   return (
     <React.Fragment>
       <div className="w-full h-full flex">
         <div className="w-8/10 h-full">
-          {screenStream && screenStream.videoTrack && (
+          {screenStream && screenStream.videoTrack && screenStream.hmsVideoTrack && (
             <VideoTile
               audioTrack={screenStream.audioTrack}
               hmsVideoTrack={screenStream.hmsVideoTrack}
@@ -116,7 +115,12 @@ export const ScreenShareView = ({isChatOpen, toggleChat}) => {
         </div>
 
         <div className="flex flex-wrap overflow-hidden p-2 w-2/10 h-full ">
-          <SidePane streamsWithInfo={streamsWithInfo} isChatOpen={isChatOpen} cameraStream={cameraStream} toggleChat={toggleChat}/>
+          <SidePane
+            streamsWithInfo={streamsWithInfo}
+            isChatOpen={isChatOpen}
+            cameraStream={cameraStream}
+            toggleChat={toggleChat}
+          />
         </div>
       </div>
     </React.Fragment>

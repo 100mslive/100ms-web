@@ -16,13 +16,11 @@ const AppContextProvider = ({ children }) => {
       endpoint: "",
       audioMuted: false,
       videoMuted: false,
-      selectedVideoOutput: "default",
+      selectedVideoInput: "default",
       selectedAudioInput: "default",
       selectedAudioOutput: "default",
     },
-    isChatOpen: false,
-    isScreenShared: false,
-    maxTileCount: 8,
+    maxTileCount: 9,
   });
   //TODO this should be exposed from hook and should be a status
   const [isConnected, setIsConnected] = useState(false);
@@ -40,7 +38,7 @@ const AppContextProvider = ({ children }) => {
       endpoint,
       audioMuted,
       videoMuted,
-      selectedVideoOutput,
+      selectedVideoInput,
       selectedAudioInput,
       selectedAudioOutput,
     } = state.loginInfo;
@@ -55,7 +53,7 @@ const AppContextProvider = ({ children }) => {
         isVideoMuted: videoMuted,
         audioInputDeviceId: selectedAudioInput,
         audioOutputDeviceId: selectedAudioOutput,
-        videoDeviceId: selectedVideoOutput,
+        videoDeviceId: selectedVideoInput,
       },
     };
 
@@ -67,7 +65,7 @@ const AppContextProvider = ({ children }) => {
       onError: (error) => {},
       onMessageReceived:(message)=>{}
     };
-
+    console.debug("app: Config is", config);
     join(config, listener);
     // eslint-disable-next-line
   }, [state.loginInfo.token]);
@@ -95,18 +93,13 @@ const AppContextProvider = ({ children }) => {
             loginInfo: { ...state.loginInfo, ...info },
           });
         },
-        toggleChat: () => {
-          setState({ ...state, isChatOpen: !state.isChatOpen });
-        },
         setMaxTileCount: (count) => {
           setState((prevState) => ({ ...prevState, maxTileCount: count }));
         },
         loginInfo: state.loginInfo,
-        isChatOpen: state.isChatOpen,
         maxTileCount: state.maxTileCount,
         isConnected: isConnected,
         leave: modifiedLeave,
-        aspectRatio: state.aspectRatio,
       }}
     >
       {children}
