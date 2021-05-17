@@ -93,7 +93,7 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
     <React.Fragment>
       <div className="w-full h-full flex">
         <div className="w-8/10 h-full">
-          {screenStream && screenStream.videoTrack && (
+          {screenStream && screenStream.videoTrack && screenStream.hmsVideoTrack && (
             <VideoTile
               audioTrack={screenStream.audioTrack}
               hmsVideoTrack={screenStream.hmsVideoTrack}
