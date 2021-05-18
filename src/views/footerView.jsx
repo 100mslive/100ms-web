@@ -5,6 +5,7 @@ import {
   TwButton,
   ShareScreenIcon,
   ChatIcon,
+  VerticalDivider,
 } from "@100mslive/sdk-components";
 import { useContext } from "react";
 import { AppContext } from "../store/AppContext";
@@ -28,7 +29,7 @@ const SettingsView = () => {
           <Settings
           initialValues={{maxTileCount, selectedVideoInput, selectedAudioInput}}
           onChange={onChange}
-        />,                  
+        />                  
     </>
   )
 }
@@ -47,6 +48,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         <ControlBar
           leftComponents={[
             <SettingsView key={0}/>,
+            <VerticalDivider />,
             <TwButton
             iconOnly
             variant={'no-fill'}
@@ -57,7 +59,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           >
             <ShareScreenIcon />
           </TwButton>,
-          <TwButton
+    <VerticalDivider />,
+    <TwButton
             iconOnly
             variant={'no-fill'}
             iconSize='md'
@@ -71,17 +74,17 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           ]}
           rightComponents={[
             <TwButton
-              shape="rectangle"
-              variant={"danger"}
-              onClick={() => {
-                leave();
-                history.push("/");
-              }}
-              size="lg"
-            >
+            size='md'
+            shape={'rectangle'}
+            variant={'danger'}
+            onClick={() => {
+              leave();
+              history.push("/");
+            }}
+          >
               <HangUpIcon className="mr-2" />
               Leave room
-            </TwButton>,
+          </TwButton>
           ]}
           audioButtonOnClick={async () => await toggleMute("audio")}
           videoButtonOnClick={async () => await toggleMute("video")}
