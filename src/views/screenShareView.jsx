@@ -31,8 +31,8 @@ const SidePane = ({
                   hmsVideoTrack={cameraStream.hmsVideoTrack}
                   videoTrack={cameraStream.videoTrack}
                   peer={cameraStream.peer}
-                  showAudioMuteStatus={true}
-                  allowRemoteMute={false}
+                  showAudioMuteStatus
+                  allowRemoteMute
                   isLocal={cameraStream.isLocal}
                   isAudioMuted={
                     !(
@@ -64,7 +64,7 @@ const SidePane = ({
                   videoTileContainer: "rounded-lg p-2",
                 }}
                 showAudioMuteStatus={true}
-                allowRemoteMute={false}
+                allowRemoteMute
                 maxColCount={2}
                 overflow="scroll-x"
                 audioLevelEmitter={audioLevelEmitter}
