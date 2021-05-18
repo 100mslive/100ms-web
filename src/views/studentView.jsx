@@ -1,34 +1,77 @@
-import { VideoList, audioLevelEmitter } from "@100mslive/sdk-components";
+import {
+  VideoList,
+  audioLevelEmitter,
+  useHMSRoom,
+} from "@100mslive/sdk-components";
 import React from "react";
-export const StudentView = ({ streamsWithInfo }) => {
+import { HMSPeertoCameraStreamWithInfo } from "../utlis";
+import { ChatView } from "./chatView";
+import { AppContext } from "../store/AppContext";
+export const StudentView = ({ isChatOpen, toggleChat }) => {
+  const { maxTileCount } = useContext(AppContext);
+  const { peers } = useHMSRoom();
+  const streamsWithInfo =
+    peers && peers.length > 0 && peers[0]
+      ? peers
+          .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
+          .map((peer) => HMSPeertoCameraStreamWithInfo(peer))
+      : [];
   return (
     <React.Fragment>
       <div className=" h-full  " style={{ width: "75%" }}>
-        <VideoList
-          streams={streamsWithInfo.filter((peer) => peer.role === "Teacher")}
-          classes={{
-            root: "",
-            videoTileContainer: " p-6 rounded-xl",
-            video: "rounded-xl",
-          }}
-          showAudioMuteStatus={true}
-          allowRemoteMute={false}
-          audioLevelEmitter={audioLevelEmitter}
-        />
+        {streamsWithInfo &&
+          streamsWithInfo.filter((peer) => peer.role === "Teacher").length >
+            0 && (
+            <VideoList
+              streams={streamsWithInfo.filter(
+                (peer) => peer.role === "Teacher"
+              )}
+              classes={{
+                root: "",
+                videoTileContainer: " p-4 rounded-lg",
+                //video: "rounded-3xl",
+              }}
+              showAudioMuteStatus={true}
+              allowRemoteMute={false}
+              maxTileCount={2}
+              audioLevelEmitter={audioLevelEmitter}
+            />
+          )}
       </div>
-      <div className=" p-6" style={{ width: "25%" }}>
-        <VideoList
-          streams={streamsWithInfo.filter((peer) => peer.role === "Student")}
-          classes={{
-            videoTileContainer: "p-3 rounded-xl",
-            video: "rounded-xl",
-          }}
-          overflow="scroll-x"
-          maxTileCount={8}
-          showAudioMuteStatus={true}
-          allowRemoteMute={false}
-          audioLevelEmitter={audioLevelEmitter}
-        />
+      <div className="flex flex-col" style={{ width: "25%" }}>
+        <div
+          className={
+            isChatOpen
+              ? "flex items-end w-full  h-1/2"
+              : "flex items-end w-full  h-full"
+          }
+        >
+          {streamsWithInfo &&
+            streamsWithInfo.filter((peer) => peer.role === "Student").length >
+              0 && (
+              <VideoList
+                streams={streamsWithInfo.filter(
+                  (peer) => peer.role === "Student"
+                )}
+                classes={{
+                  root: "",
+                  videoTileContainer: "p-2 rounded-lg",
+                  //video: "rounded-3xl",
+                }}
+                showAudioMuteStatus={true}
+                allowRemoteMute={false}
+                maxTileCount={maxTileCount}
+                audioLevelEmitter={audioLevelEmitter}
+              />
+            )}
+        </div>
+        {isChatOpen && (
+          <div className="flex h-1/2 items-end p-2">
+            <div className="w-full h-full">
+              <ChatView toggleChat={toggleChat}></ChatView>
+            </div>
+          </div>
+        )}
       </div>
     </React.Fragment>
   );

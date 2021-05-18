@@ -64,6 +64,7 @@ export const HMSPeertoCameraStreamWithInfo = (peer, speakers = []) => {
     isAudioMuted: isAudioMuted,
     isVideoMuted: !(peer.videoTrack && peer.videoTrack.enabled),
     audioLevel: !isAudioMuted && peerSpeaker && peerSpeaker.audioLevel,
+    role: peer.role,
   };
 };
 
@@ -80,6 +81,8 @@ export const isScreenSharing = (peer) =>
           track.nativeTrack.kind === "video" && track.source === "screen"
       )
     ));
+
+export const isTeacher = (peer) => peer.isLocal && peer.role === "Teacher";
 
 export const getStreamsInfo = ({ peers, speakers = [] }) => {
   let streamsWithInfo = null;
