@@ -11,13 +11,13 @@ const SpeakerTag = () => {
   const { dominantSpeaker } = useHMSSpeaker();
   return dominantSpeaker && dominantSpeaker.name ? (
     <div
-      className={`self-center focus:outline-none text-lg text-white flex items-center`}
+      className={`self-center focus:outline-none text-lg flex items-center`}
     >
       <div className="inline-block">
         <VolumeIcon />
       </div>
       {/* TODO figure out why xs:hidden is needed */}
-      <div className="md:pl-2 xs:hidden md:inline-block">
+      <div className="md:pl-1 xs:hidden md:inline-block">
         {dominantSpeaker.name}
       </div>
     </div>
