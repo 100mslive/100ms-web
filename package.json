@@ -1,9 +1,9 @@
 {
-  "name": "edtech_template",
+  "name": "100ms_edtech_template",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@100mslive/sdk-components": "^0.2.16-452",
+    "@100mslive/sdk-components": "^0.2.16-46",
     "@craco/craco": "^6.1.1",
     "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.4",

@@ -1,5 +1,5 @@
 export default async function getToken(username, role, roomId) {
-  const response = await fetch("https://100ms-services.vercel.app/api/token", {
+  const response = await fetch(process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT, {
     method: "POST",
     body: JSON.stringify({
       env: "qa-in",

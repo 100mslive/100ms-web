@@ -13,10 +13,7 @@ export const JoinRoom = () => {
   };
   return (
     <div className=" flex justify-center items-center w-full h-full text-white">
-      <Join
-        initialValues={{ roomId, endpoint: "qa-in2" }}
-        submitOnClick={join}
-      />
+      <Join initialValues={{ roomId }} submitOnClick={join} />
     </div>
   );
 };
