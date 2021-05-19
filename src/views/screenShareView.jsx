@@ -21,7 +21,9 @@ const SidePane = ({
           <div
             className="w-full relative overflow-hidden"
             style={{
-              paddingTop: `${cameraStream && cameraStream.role === "Student" ? "100%" : "0"}`,
+              paddingTop: `${
+                cameraStream && cameraStream.role === "Student" ? "100%" : "0"
+              }`,
             }}
           >
             {cameraStream && cameraStream.role === "Student" && (
@@ -50,9 +52,7 @@ const SidePane = ({
               </div>
             )}
           </div>
-          <div
-            className={`w-full relative ${isChatOpen ? "h-1/3" : "h-full"}`}
-          >
+          <div className={`w-full relative ${isChatOpen ? "h-1/3" : "h-full"}`}>
             {streamsWithInfo && streamsWithInfo.length > 0 && (
               <VideoList
                 streams={
@@ -88,31 +88,33 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const { streamsWithInfo, screenStream, cameraStream } = getStreamsInfo({
     peers,
   });
- 
-  cameraStream.role==="Teacher" && streamsWithInfo.unshift(cameraStream);
+
+  cameraStream.role === "Teacher" && streamsWithInfo.unshift(cameraStream);
   return (
     <React.Fragment>
       <div className="w-full h-full flex">
         <div className="w-8/10 h-full">
-          {screenStream && screenStream.videoTrack && screenStream.hmsVideoTrack && (
-            <VideoTile
-              audioTrack={screenStream.audioTrack}
-              hmsVideoTrack={screenStream.hmsVideoTrack}
-              videoTrack={screenStream.videoTrack}
-              peer={screenStream.peer}
-              videoSource="screen"
-              showAudioMuteStatus={false}
-              allowRemoteMute={false}
-              isLocal={screenStream.isLocal}
-              objectFit="contain"
-              isAudioMuted={
-                !(screenStream.audioTrack && screenStream.audioTrack.enabled)
-              }
-              isVideoMuted={
-                !(screenStream.videoTrack && screenStream.videoTrack.enabled)
-              }
-            />
-          )}
+          {screenStream &&
+            screenStream.videoTrack &&
+            screenStream.hmsVideoTrack && (
+              <VideoTile
+                audioTrack={screenStream.audioTrack}
+                hmsVideoTrack={screenStream.hmsVideoTrack}
+                videoTrack={screenStream.videoTrack}
+                peer={screenStream.peer}
+                videoSource="screen"
+                showAudioMuteStatus={false}
+                allowRemoteMute={false}
+                isLocal={screenStream.isLocal}
+                objectFit="contain"
+                isAudioMuted={
+                  !(screenStream.audioTrack && screenStream.audioTrack.enabled)
+                }
+                isVideoMuted={
+                  !(screenStream.videoTrack && screenStream.videoTrack.enabled)
+                }
+              />
+            )}
         </div>
 
         <div className="flex flex-wrap overflow-hidden p-2 w-2/10 h-full ">
