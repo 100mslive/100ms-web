@@ -32,8 +32,8 @@ export const TeacherView = ({ isChatOpen, toggleChat }) => {
                 videoTileContainer: " p-4 rounded-lg",
                 //video: "rounded-3xl",
               }}
-              showAudioMuteStatus={true}
-              allowRemoteMute={false}
+              showAudioMuteStatus
+              allowRemoteMute
               maxTileCount={maxTileCount}
               audioLevelEmitter={audioLevelEmitter}
             />
