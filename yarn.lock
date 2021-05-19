@@ -9,7 +9,7 @@
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@^0.2.16-453":
+"@100mslive/sdk-components@^0.2.16-46":
   version "0.2.16-453"
   resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.16-453.tgz#d64e2e80c10e4fd9904712e56c354f8f77ea360d"
   integrity sha512-wT7Sjt3pQcn7est1AHc+3dEptc2DQ6Ae5uGZ/qZFJ5Jg2BG+r0+Vy7Zl0j4RMzERE4Jut7nYLd/8l7HbcsXG+w==
