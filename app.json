@@ -25,6 +25,9 @@
     },
     "REACT_APP_VIDEO_AVATAR": {
       "description": "Takes value None|Initial|Pebble"
+    },
+    "REACT_TOKEN_GENERATION_ENDPOINT": {
+      "description": "API url where your 100ms token generation service is hosted"
     }
   }
 }
