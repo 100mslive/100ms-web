@@ -18,7 +18,7 @@ export const StudentView = ({ isChatOpen, toggleChat }) => {
       : [];
   return (
     <React.Fragment>
-      <div className=" h-full  " style={{ width: "75%" }}>
+      <div className=" h-full  " style={{ width: "80%" }}>
         {streamsWithInfo &&
           streamsWithInfo.filter((peer) => peer.role === "Teacher").length >
             0 && (
@@ -38,11 +38,11 @@ export const StudentView = ({ isChatOpen, toggleChat }) => {
             />
           )}
       </div>
-      <div className="flex flex-col" style={{ width: "25%" }}>
+      <div className="flex flex-col" style={{ width: "20%" }}>
         <div
           className={
             isChatOpen
-              ? "flex items-end w-full  h-1/2"
+              ? "flex items-end w-full  h-1/3"
               : "flex items-end w-full  h-full"
           }
         >
@@ -61,12 +61,13 @@ export const StudentView = ({ isChatOpen, toggleChat }) => {
                 showAudioMuteStatus={true}
                 allowRemoteMute={false}
                 maxTileCount={maxTileCount}
+                maxColCount={2}
                 audioLevelEmitter={audioLevelEmitter}
               />
             )}
         </div>
         {isChatOpen && (
-          <div className="flex h-1/2 items-end p-2">
+          <div className="flex h-2/3 items-end p-2">
             <div className="w-full h-full">
               <ChatView toggleChat={toggleChat}></ChatView>
             </div>

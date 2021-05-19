@@ -5,7 +5,7 @@ import {
   audioLevelEmitter,
 } from "@100mslive/sdk-components";
 import React from "react";
-import { getStreamsInfo } from "../utlis/index";
+import { getStreamsInfo, isTeacher } from "../utlis/index";
 import { ChatView } from "./chatView";
 
 const SidePane = ({
@@ -21,10 +21,10 @@ const SidePane = ({
           <div
             className="w-full relative overflow-hidden"
             style={{
-              paddingTop: `${cameraStream ? "100%" : "0"}`,
+              paddingTop: `${cameraStream && cameraStream.role === "Student" ? "100%" : "0"}`,
             }}
           >
-            {cameraStream && (
+            {cameraStream && cameraStream.role === "Student" && (
               <div className="absolute left-0 top-0 w-full h-full p-3">
                 <VideoTile
                   audioTrack={cameraStream.audioTrack}
@@ -51,7 +51,7 @@ const SidePane = ({
             )}
           </div>
           <div
-            className={`w-full relative ${isChatOpen ? "h-1/3" : "flex-grow"}`}
+            className={`w-full relative ${isChatOpen ? "h-1/3" : "h-full"}`}
           >
             {streamsWithInfo && streamsWithInfo.length > 0 && (
               <VideoList
@@ -88,7 +88,8 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const { streamsWithInfo, screenStream, cameraStream } = getStreamsInfo({
     peers,
   });
-
+ 
+  cameraStream.role==="Teacher" && streamsWithInfo.unshift(cameraStream);
   return (
     <React.Fragment>
       <div className="w-full h-full flex">

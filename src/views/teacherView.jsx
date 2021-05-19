@@ -19,7 +19,7 @@ export const TeacherView = ({ isChatOpen, toggleChat }) => {
       : [];
   return (
     <React.Fragment>
-      <div className=" h-full  " style={{ width: "75%" }}>
+      <div className=" h-full  " style={{ width: "80%" }}>
         {streamsWithInfo &&
           streamsWithInfo.filter((peer) => peer.role === "Student").length >
             0 && (
@@ -39,7 +39,7 @@ export const TeacherView = ({ isChatOpen, toggleChat }) => {
             />
           )}
       </div>
-      <div className="flex flex-col" style={{ width: "25%" }}>
+      <div className="flex flex-col" style={{ width: "20%" }}>
         <div
           className={
             isChatOpen
