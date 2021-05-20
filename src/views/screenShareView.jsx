@@ -9,6 +9,7 @@ import { getStreamsInfo, isTeacher } from "../utlis/index";
 import { ChatView } from "./chatView";
 
 const SidePane = ({
+  showCameraStream,
   streamsWithInfo,
   isChatOpen,
   cameraStream,
@@ -21,12 +22,10 @@ const SidePane = ({
           <div
             className="w-full relative overflow-hidden"
             style={{
-              paddingTop: `${
-                cameraStream && cameraStream.role === "Student" ? "100%" : "0"
-              }`,
+              paddingTop: `${cameraStream && showCameraStream ? "100%" : "0"}`,
             }}
           >
-            {cameraStream && cameraStream.role === "Student" && (
+            {cameraStream && showCameraStream && (
               <div className="absolute left-0 top-0 w-full h-full p-3">
                 <VideoTile
                   audioTrack={cameraStream.audioTrack}
@@ -88,8 +87,11 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const { streamsWithInfo, screenStream, cameraStream } = getStreamsInfo({
     peers,
   });
+  let showCameraStream =
+    (!peers.some(isTeacher) && cameraStream.role === "Teacher") ||
+    cameraStream.role === "Student";
+  if (!showCameraStream) streamsWithInfo.unshift(cameraStream);
 
-  cameraStream.role === "Teacher" && streamsWithInfo.unshift(cameraStream);
   return (
     <React.Fragment>
       <div className="w-full h-full flex">
@@ -119,6 +121,7 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
 
         <div className="flex flex-wrap overflow-hidden p-2 w-2/10 h-full ">
           <SidePane
+            showCameraStream={showCameraStream}
             streamsWithInfo={streamsWithInfo}
             isChatOpen={isChatOpen}
             cameraStream={cameraStream}

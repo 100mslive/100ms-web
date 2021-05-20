@@ -1,14 +1,17 @@
 export default async function getToken(username, role, roomId, env) {
-  const response = await fetch(process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT, {
-    method: "POST",
-    //TODO remove env
-    body: JSON.stringify({
-      env: env==='https://prod-init.100ms.live/init'?'prod-in':'qa-in',
-      role: role,
-      room_id: roomId,
-      user_name: username,
-    }),
-  });
+  const response = await fetch(
+    process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT,
+    {
+      method: "POST",
+      //TODO remove env
+      body: JSON.stringify({
+        env: env === "https://prod-init.100ms.live/init" ? "prod-in" : "qa-in",
+        role: role,
+        room_id: roomId,
+        user_name: username,
+      }),
+    }
+  );
 
   const { token } = await response.json();
 
@@ -86,7 +89,7 @@ export const isScreenSharing = (peer) =>
 export const isTeacher = (peer) => peer.isLocal && peer.role === "Teacher";
 
 export const getStreamsInfo = ({ peers, speakers = [] }) => {
-  let streamsWithInfo = null;
+  let listStreams = null;
   let screenStream = null;
   let cameraStream = null;
 
@@ -104,15 +107,24 @@ export const getStreamsInfo = ({ peers, speakers = [] }) => {
     cameraStream = HMSPeertoCameraStreamWithInfo(screenSharingPeer, speakers);
   }
 
-  const videoStreamsWithInfo = remPeers
+  let videoStreamsWithInfo = remPeers
     .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
     .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers));
 
-  const screenShareStreamsWithInfo = remPeers
+  let screenShareStreamsWithInfo = remPeers
     .filter(isScreenSharing)
     .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers));
 
-  streamsWithInfo = [...videoStreamsWithInfo, ...screenShareStreamsWithInfo];
+  listStreams = [...videoStreamsWithInfo, ...screenShareStreamsWithInfo];
+  let streamsWithInfo = [];
+  for (let peer of listStreams) {
+    if (peer.role === "Student") {
+      streamsWithInfo.push(peer);
+    } else {
+      streamsWithInfo.unshift(peer);
+    }
+  }
+
   return { streamsWithInfo, screenStream, cameraStream };
 };
 
