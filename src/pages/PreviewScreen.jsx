@@ -11,7 +11,7 @@ const PreviewScreen = () => {
   const { roomId: urlRoomId } = useParams();
 
     const join = ({audioMuted, videoMuted}) => {
-        getToken(loginInfo.username, loginInfo.role, loginInfo.roomId)
+        getToken(loginInfo.username, loginInfo.role, loginInfo.roomId, loginInfo.endpoint)
             .then((token) => {
                 setLoginInfo({ token , audioMuted, videoMuted});
                 history.push(`/meeting/${loginInfo.roomId}`);
