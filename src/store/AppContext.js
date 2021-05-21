@@ -13,7 +13,8 @@ const AppContextProvider = ({ children }) => {
       username: "",
       role: "",
       roomId: "",
-      endpoint: "",
+      endpoint:process.env.REACT_APP_INIT_ENDPOINT,
+      env:process.env.REACT_APP_ENV,
       audioMuted: false,
       videoMuted: false,
       selectedVideoInput: "default",
@@ -26,7 +27,7 @@ const AppContextProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   const modifiedLeave = () => {
-    //TODO shoudl be moved to hook
+    //TODO should be moved to hook
     setIsConnected(false);
     leave();
   };
