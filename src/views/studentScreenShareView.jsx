@@ -1,11 +1,9 @@
 import {
-  useHMSRoom,
   VideoList,
   VideoTile,
-  audioLevelEmitter,
 } from "@100mslive/sdk-components";
 import React from "react";
-import { getStreamsInfo, isTeacher } from "../utlis/index";
+import { getStreamsInfo, isTeacher } from "../common/utils";
 import { ChatView } from "./chatView";
 
 const SidePane = ({

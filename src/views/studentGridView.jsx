@@ -1,10 +1,7 @@
 import {
   VideoList,
-  audioLevelEmitter,
-  useHMSRoom,
 } from "@100mslive/sdk-components";
 import React, { useContext } from "react";
-import { HMSPeertoCameraStreamWithInfo } from "../utlis";
 import { ChatView } from "./chatView";
 import { AppContext } from "../store/AppContext";
 export const StudentGridView = ({ isChatOpen, toggleChat }) => {

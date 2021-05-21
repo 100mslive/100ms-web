@@ -15,9 +15,9 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
   const smallTilePeers = useMemo(() => peers.filter(peer => peer.id !== peerPresenting.id),
         [peers, peerPresenting]);
-  
-  const amITeacher = localPeer.role === "Teacher";
-  const isPresenterTeacher = peerPresenting.role === "Teacher";
+
+  const amITeacher = localPeer.role === ROLES.TEACHER;
+  const isPresenterTeacher = peerPresenting.role === ROLES.TEACHER;
   const amIPresenting = localPeer.id === peerPresenting.id;
   const showPresenterInSmallTile = amIPresenting || (amITeacher && isPresenterTeacher);
 

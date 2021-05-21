@@ -5,7 +5,7 @@ import {
 } from "@100mslive/sdk-components";
 import React, { useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { HMSPeertoCameraStreamWithInfo } from "../utlis";
+import { HMSPeertoCameraStreamWithInfo } from "../common/utils";
 import { ChatView } from "./chatView";
 
 export const TeacherGridView = ({ isChatOpen, toggleChat }) => {
