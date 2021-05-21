@@ -1,17 +1,15 @@
 export default async function getToken(username, role, roomId, env) {
-  const response = await fetch(
-    process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT,
-    {
-      method: "POST",
-      //TODO remove env
-      body: JSON.stringify({
-        env: env === "https://prod-init.100ms.live/init" ? "prod-in" : "qa-in",
-        role: role,
-        room_id: roomId,
-        user_name: username,
-      }),
-    }
-  );
+  const response = await fetch(process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT, {
+    method: "POST",
+    //TODO remove env
+    body: JSON.stringify({
+      env: process.env.REACT_APP_ENV,
+      role: role,
+      room_id: roomId,
+      user_id: username,
+      env:env
+    }),
+  });
 
   const { token } = await response.json();
 
