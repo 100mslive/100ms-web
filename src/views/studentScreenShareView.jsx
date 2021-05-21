@@ -81,7 +81,7 @@ const SidePane = ({
   );
 };
 
-export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
+export const StudentScreenShareView = ({ isChatOpen, toggleChat }) => {
   const { peers } = useHMSRoom();
   const getLocalPeerID = (peers) => {
     for (let peer of peers) {
@@ -100,7 +100,6 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
     showCameraStream = false;
     streamsWithInfo.push(cameraStream);
   }
-  console.log("check", cameraStream, getLocalPeerID(peers));
   return (
     <React.Fragment>
       <div className="w-full h-full flex">
