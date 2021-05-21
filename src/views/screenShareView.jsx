@@ -3,6 +3,7 @@ import {
   VideoList,
   VideoTile,
   selectPeers,
+  selectLocalPeer,
   selectPeerScreenSharing,
 } from "@100mslive/sdk-components";
 import React, {useMemo} from "react";
@@ -10,11 +11,27 @@ import { ChatView } from "./chatView";
 
 export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const peers = useHMSStore(selectPeers);
-  const peerScreenSharing = useHMSStore(selectPeerScreenSharing);
+  const localPeer = useHMSStore(selectLocalPeer);
+  const peerPresenting = useHMSStore(selectPeerScreenSharing);
+  const smallTilePeers = useMemo(() => peers.filter(peer => peer.id !== peerPresenting.id),
+        [peers, peerPresenting]);
+  
+  const amITeacher = localPeer.role === "Teacher";
+  const isPresenterTeacher = peerPresenting.role === "Teacher";
+  const amIPresenting = localPeer.id === peerPresenting.id;
+  const showPresenterInSmallTile = amIPresenting || (amITeacher && isPresenterTeacher);
+
+  if (showPresenterInSmallTile) {
+      if (amIPresenting) { // put presenter on first page
+          smallTilePeers.push(peerPresenting);
+      } else {  // put on first page
+          smallTilePeers.unshift(peerPresenting);
+      }
+  }
 
   const ScreenShareComponent = <div className="w-8/10 h-full">
-    {peerScreenSharing && (
-        <VideoTile peer={peerScreenSharing} showScreen={true} objectFit="contain"/>
+    {peerPresenting && (
+        <VideoTile peer={peerPresenting} showScreen={true} objectFit="contain"/>
     )}
   </div>
 
@@ -26,8 +43,8 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
             <SidePane
                 isChatOpen={isChatOpen}
                 toggleChat={toggleChat}
-                peerScreenSharing={peerScreenSharing}
-                allPeers={peers}
+                peerScreenSharing={!showPresenterInSmallTile && peerPresenting}
+                smallTilePeers={smallTilePeers}
             />
           </div>
         </div>
@@ -35,16 +52,16 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   );
 };
 
+// Sidepane will show the camera stream of the main peer who is screensharing
+// and both camera + screen(if applicable) of others
 const SidePane = ({
   isChatOpen,
   toggleChat,
-  peerScreenSharing,
-  allPeers
+  peerScreenSharing,  // the peer who is screensharing
+  smallTilePeers
 }) => {
-  const remainingPeers = useMemo(() => allPeers.filter(peer => peer.id !== peerScreenSharing.id),
-      [allPeers, peerScreenSharing]);
-
-  const PeerScreenSharingView = <div className="w-full relative overflow-hidden"
+  
+  const LargeTilePeerView = <div className="w-full relative overflow-hidden"
       style={{
         paddingTop: `${peerScreenSharing ? "100%" : "0"}`,
       }}>
@@ -58,10 +75,10 @@ const SidePane = ({
   // The main screen is already being shown
   const shouldShowScreen = (peer) => peer.id !== peerScreenSharing.id;
 
-  const RemainingPeersView = <div className={`w-full relative ${isChatOpen ? "h-1/3" : "flex-grow"}`}>
-    {remainingPeers && (
+  const SmallTilePeersView = <div className={`w-full relative ${isChatOpen ? "h-1/3" : "flex-grow"}`}>
+    {smallTilePeers && (
         <VideoList
-            peers={isChatOpen ? [peerScreenSharing, ...remainingPeers] : remainingPeers}
+            peers={isChatOpen ? [peerScreenSharing, ...smallTilePeers] : smallTilePeers}
             showScreen={shouldShowScreen}
             classes={{videoTileContainer: "rounded-lg p-2"}}
             maxColCount={2}
@@ -78,8 +95,8 @@ const SidePane = ({
     <>
       <div className={`w-full h-full relative`}>
         <div className={`w-full flex flex-col h-full`}>
-          <PeerScreenSharingView/>
-          <RemainingPeersView/>
+          <LargeTilePeerView/>
+          <SmallTilePeersView/>
         </div>
         <CustomChatView/>
       </div>

@@ -18,7 +18,6 @@ const PreviewScreen = () => {
           })
           .catch((error) => {
               console.log("Token API Error", error);
-              alert("Unable to generate token");
           });
   };
 

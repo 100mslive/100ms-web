@@ -48,11 +48,28 @@ export const HMSPeertoCameraStreamWithInfo = (peer, speakers = []) => {
     isAudioMuted: isAudioMuted,
     isVideoMuted: !(peer.videoTrack && peer.videoTrack.enabled),
     audioLevel: !isAudioMuted && peerSpeaker && peerSpeaker.audioLevel,
+    role: peer.role,
   };
 };
 
+export const isScreenSharing = (peer) =>
+  peer &&
+  Boolean(peer.auxiliaryTracks) &&
+  Boolean(peer.auxiliaryTracks.length > 0) &&
+  (Boolean(
+    peer.auxiliaryTracks.find((track) => track.nativeTrack.kind === "audio")
+  ) ||
+    Boolean(
+      peer.auxiliaryTracks.find(
+        (track) =>
+          track.nativeTrack.kind === "video" && track.source === "screen"
+      )
+    ));
+
+export const isTeacher = (peer) => peer.isLocal && peer.role === "Teacher";
+
 export const getStreamsInfo = ({ peers, speakers = [] }) => {
-  let streamsWithInfo = null;
+  let listStreams = null;
   let screenStream = null;
   let cameraStream = null;
 
@@ -70,15 +87,24 @@ export const getStreamsInfo = ({ peers, speakers = [] }) => {
     cameraStream = HMSPeertoCameraStreamWithInfo(screenSharingPeer, speakers);
   }
 
-  const videoStreamsWithInfo = remPeers
+  let videoStreamsWithInfo = remPeers
     .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
     .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers));
 
-  const screenShareStreamsWithInfo = remPeers
+  let screenShareStreamsWithInfo = remPeers
     .filter(isScreenSharing)
     .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers));
 
-  streamsWithInfo = [...videoStreamsWithInfo, ...screenShareStreamsWithInfo];
+  listStreams = [...videoStreamsWithInfo, ...screenShareStreamsWithInfo];
+  let streamsWithInfo = [];
+  for (let peer of listStreams) {
+    if (peer.role === "Student") {
+      streamsWithInfo.push(peer);
+    } else {
+      streamsWithInfo.unshift(peer);
+    }
+  }
+
   return { streamsWithInfo, screenStream, cameraStream };
 };
 
