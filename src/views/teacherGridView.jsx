@@ -8,7 +8,7 @@ import { AppContext } from "../store/AppContext";
 import { HMSPeertoCameraStreamWithInfo } from "../utlis";
 import { ChatView } from "./chatView";
 
-export const TeacherView = ({ isChatOpen, toggleChat }) => {
+export const TeacherGridView = ({ isChatOpen, toggleChat }) => {
   const { maxTileCount } = useContext(AppContext);
   const { peers } = useHMSRoom();
   const streamsWithInfo =
@@ -17,6 +17,7 @@ export const TeacherView = ({ isChatOpen, toggleChat }) => {
           .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
           .map((peer) => HMSPeertoCameraStreamWithInfo(peer))
       : [];
+      console.log("rendering teacher grid view")
   return (
     <React.Fragment>
       <div className=" h-full  " style={{ width: "80%" }}>

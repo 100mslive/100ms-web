@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { HMSPeertoCameraStreamWithInfo } from "../utlis";
 import { ChatView } from "./chatView";
 import { AppContext } from "../store/AppContext";
-export const StudentView = ({ isChatOpen, toggleChat }) => {
+export const StudentGridView = ({ isChatOpen, toggleChat }) => {
   const { maxTileCount } = useContext(AppContext);
   const { peers } = useHMSRoom();
   const streamsWithInfo =
