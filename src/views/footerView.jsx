@@ -6,9 +6,7 @@ import {
   ShareScreenIcon,
   ChatIcon,
   VerticalDivider,
-  selectLocalPeer,
   useHMSActions,
-  selectLocalMediaSettings,
   selectIsLocalScreenShared,
   selectIsLocalAudioEnabled,
   selectIsLocalVideoEnabled,
@@ -20,11 +18,6 @@ import {Settings} from "@100mslive/sdk-components";
 
 const SettingsView = () => {
   const {maxTileCount, setMaxTileCount} = useContext(AppContext);
-  const mediaSettings = useHMSStore(selectLocalMediaSettings);
-
-  const selectedVideoInput = mediaSettings.videoInputDeviceId;
-  const selectedAudioInput = mediaSettings.audioInputDeviceId;
-
   console.log(maxTileCount);
   const onChange = ({maxTileCount:newMaxTileCount, ...props}) => {
     setMaxTileCount(newMaxTileCount);
@@ -32,7 +25,6 @@ const SettingsView = () => {
   return (
     <>
           <Settings
-          initialValues={{maxTileCount, selectedVideoInput, selectedAudioInput}}
           onChange={onChange}
         />                  
     </>
@@ -47,7 +39,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const { isConnected, leave } = useContext(AppContext);
   const history = useHistory();
 
-  const toggleScreenShare = () => {
+    const toggleScreenShare = () => {
     if (isScreenShared) {
       hmsActions.stopScreenShare();
     } else {

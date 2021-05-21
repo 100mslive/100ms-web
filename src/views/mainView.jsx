@@ -1,22 +1,19 @@
 import {selectLocalPeer, selectIsSomeoneScreenSharing, useHMSStore} from "@100mslive/sdk-components";
-import { TeacherScreenShareView } from "./teacherScreenShareView";
-import { StudentScreenShareView } from './studentScreenShareView'
 import { TeacherGridView } from "./teacherGridView";
 import { StudentGridView } from "./studentGridView";
+import {ScreenShareView} from "./screenShareView";
 
 export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
   const localPeer = useHMSStore(selectLocalPeer);
   const isSomeoneScreenSharing = useHMSStore(selectIsSomeoneScreenSharing);
 
-  let ViewComponent = null;
+  const amITeacher = localPeer.role === ROLES.TEACHER;
+  let ViewComponent;
 
-  switch (localPeer.role) {
-    case ROLES.TEACHER:
-      ViewComponent = isSomeoneScreenSharing ? TeacherScreenShareView : TeacherGridView;
-      break;
-    case ROLES.STUDENT:
-      ViewComponent = isSomeoneScreenSharing ? StudentScreenShareView : StudentGridView;
-      break;
+  if (isSomeoneScreenSharing) {
+    ViewComponent = ScreenShareView;
+  } else {
+    ViewComponent = amITeacher ? TeacherGridView : StudentGridView;
   }
 
   return ViewComponent && <ViewComponent isChatOpen={isChatOpen} toggleChat={toggleChat} />;

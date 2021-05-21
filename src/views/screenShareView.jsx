@@ -22,7 +22,7 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const showPresenterInSmallTile = amIPresenting || (amITeacher && isPresenterTeacher);
 
   if (showPresenterInSmallTile) {
-      if (amIPresenting) { // put presenter on first page
+      if (amIPresenting) { // put presenter on last page
           smallTilePeers.push(peerPresenting);
       } else {  // put on first page
           smallTilePeers.unshift(peerPresenting);

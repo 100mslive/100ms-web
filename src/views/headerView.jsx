@@ -27,23 +27,12 @@ const SpeakerTag = () => {
   );
 };
 
-const Participants = () => {
-  const participants = useHMSStore(selectPeersWithMuteStatus);
-  return (
-    <>
-      {participants !== undefined && participants.length && (
-        <ParticipantList participantList={participants} />
-      )}
-    </>
-  );
-};
-
 export const ConferenceHeader = () => {
   return (
     <>
       <Header
         centerComponents={[<SpeakerTag key={0} />]}
-        rightComponents={[<Participants key={0} />]}
+        rightComponents={[<ParticipantList key={0} />]}
         classes={{ root: "h-16" }}
       />
     </>
