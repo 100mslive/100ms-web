@@ -11,14 +11,15 @@ const PreviewScreen = () => {
   const { roomId: urlRoomId } = useParams();
 
     const join = ({audioMuted, videoMuted}) => {
-        getToken(loginInfo.username, loginInfo.role, loginInfo.roomId, loginInfo.endpoint)
+      console.log(loginInfo);
+        getToken(loginInfo.username, loginInfo.role, loginInfo.roomId, loginInfo.env)
             .then((token) => {
+                console.log(token);
                 setLoginInfo({ token , audioMuted, videoMuted});
                 history.push(`/meeting/${loginInfo.roomId}`);
             })
             .catch((error) => {
                 console.log("Token API Error", error);
-                alert("Unable to generate token");
             });
     };
 
