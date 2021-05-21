@@ -60,7 +60,7 @@ const SidePane = ({
                     : streamsWithInfo
                 }
                 classes={{
-                  videoTileContainer: "rounded-lg p-2",
+                  videoTileContainer: "rounded-lg p-2.5",
                 }}
                 showAudioMuteStatus={true}
                 allowRemoteMute
