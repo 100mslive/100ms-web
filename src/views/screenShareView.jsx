@@ -1,8 +1,8 @@
 import {
-  useHMSRoom,
+  useHMSStore,
   VideoList,
   VideoTile,
-  audioLevelEmitter,
+  selectPeers,
 } from "@100mslive/sdk-components";
 import React from "react";
 import { getStreamsInfo } from "../utlis/index";
@@ -45,7 +45,6 @@ const SidePane = ({
                     )
                   }
                   audioLevel={cameraStream.audioLevel}
-                  audioLevelEmitter={audioLevelEmitter}
                 />
               </div>
             )}
@@ -67,7 +66,6 @@ const SidePane = ({
                 allowRemoteMute
                 maxColCount={2}
                 overflow="scroll-x"
-                audioLevelEmitter={audioLevelEmitter}
               />
             )}
           </div>
@@ -83,7 +81,7 @@ const SidePane = ({
 };
 
 export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
-  const { peers } = useHMSRoom();
+  const peers = useHMSStore(selectPeers);
 
   const { streamsWithInfo, screenStream, cameraStream } = getStreamsInfo({
     peers,

@@ -1,11 +1,17 @@
 import {
-  useHMSRoom,
+  useHMSStore,
   ControlBar,
   HangUpIcon,
   TwButton,
   ShareScreenIcon,
   ChatIcon,
   VerticalDivider,
+  selectLocalPeer,
+  useHMSActions,
+  selectLocalMediaSettings,
+  selectIsLocalScreenShared,
+  selectIsLocalAudioEnabled,
+  selectIsLocalVideoEnabled,
 } from "@100mslive/sdk-components";
 import { useContext } from "react";
 import { AppContext } from "../store/AppContext";
@@ -14,11 +20,10 @@ import {Settings} from "@100mslive/sdk-components";
 
 const SettingsView = () => {
   const {maxTileCount, setMaxTileCount} = useContext(AppContext);
-  const {localPeer} = useHMSRoom();
+  const mediaSettings = useHMSStore(selectLocalMediaSettings);
 
-  //TODO implement HMSLocalPeer to avoid type errors
-  const selectedVideoInput = localPeer && localPeer.videoTrack && localPeer.videoTrack.settings && localPeer.videoTrack.settings.deviceId;
-  const selectedAudioInput = localPeer && localPeer.audioTrack && localPeer.audioTrack.settings && localPeer.audioTrack.settings.deviceId;
+  const selectedVideoInput = mediaSettings.videoInputDeviceId;
+  const selectedAudioInput = mediaSettings.audioInputDeviceId;
 
   console.log(maxTileCount);
   const onChange = ({maxTileCount:newMaxTileCount, ...props}) => {
@@ -35,12 +40,20 @@ const SettingsView = () => {
 }
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
-  const { toggleMute, toggleScreenShare, localPeer } = useHMSRoom();
-  const {
-    isConnected,
-    leave,
-  } = useContext(AppContext);
+  const isScreenShared = useHMSStore(selectIsLocalScreenShared);
+  const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
+  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoEnabled);
+  const hmsActions = useHMSActions();
+  const { isConnected, leave } = useContext(AppContext);
   const history = useHistory();
+
+  const toggleScreenShare = () => {
+    if (isScreenShared) {
+      hmsActions.stopScreenShare();
+    } else {
+      hmsActions.startScreenShare();
+    }
+  }
 
   return (
     <>
@@ -86,10 +99,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               Leave room
           </TwButton>
           ]}
-          audioButtonOnClick={async () => await toggleMute("audio")}
-          videoButtonOnClick={async () => await toggleMute("video")}
-          isAudioMuted={!(localPeer.audioTrack && localPeer.audioTrack.enabled)}
-          isVideoMuted={!(localPeer.videoTrack && localPeer.videoTrack.enabled)}
+          audioButtonOnClick={() => hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)}
+          videoButtonOnClick={() => hmsActions.setLocalAudioEnabled(!isLocalVideoEnabled)}
+          isAudioMuted={!isLocalAudioEnabled}
+          isVideoMuted={!isLocalVideoEnabled}
         />
       )}
     </>

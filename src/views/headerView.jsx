@@ -1,14 +1,15 @@
 import {
   Header,
   ParticipantList,
-  useHMSRoom,
-  useHMSSpeaker,
+  useHMSStore,
   VolumeIcon,
+  selectDominantPeer,
+  selectPeersWithMuteStatus,
 } from "@100mslive/sdk-components";
 import React from "react";
 
 const SpeakerTag = () => {
-  const { dominantSpeaker } = useHMSSpeaker();
+  const dominantSpeaker = useHMSStore(selectDominantPeer);
   return dominantSpeaker && dominantSpeaker.name ? (
     <div
       className={`self-center focus:outline-none text-lg flex items-center`}
@@ -27,20 +28,7 @@ const SpeakerTag = () => {
 };
 
 const Participants = () => {
-  const { peers } = useHMSRoom();
-  const participants =
-    peers && peers.length > 0 && peers[0]
-      ? peers.map((participant) => {
-          return {
-            peer: {
-              displayName: participant.name,
-              id: participant.id,
-              role: participant.role,
-            },
-          };
-        })
-      : [];
-
+  const participants = useHMSStore(selectPeersWithMuteStatus);
   return (
     <>
       {participants !== undefined && participants.length && (

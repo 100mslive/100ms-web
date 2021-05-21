@@ -1,7 +1,7 @@
 import {
-  useHMSRoom,
+  useHMSStore,
   VideoList,
-  audioLevelEmitter,
+  selectPeers
 } from "@100mslive/sdk-components";
 import React, { useContext } from "react";
 import { AppContext } from "../store/AppContext";
@@ -10,7 +10,7 @@ import { ChatView } from "./chatView";
 
 export const TeacherView = ({ isChatOpen, toggleChat }) => {
   const { maxTileCount } = useContext(AppContext);
-  const { peers } = useHMSRoom();
+  const peers = useHMSStore(selectPeers);
   const streamsWithInfo =
     peers && peers.length > 0 && peers[0]
       ? peers
@@ -33,7 +33,6 @@ export const TeacherView = ({ isChatOpen, toggleChat }) => {
               showAudioMuteStatus
               allowRemoteMute
               maxTileCount={maxTileCount}
-              audioLevelEmitter={audioLevelEmitter}
             />
           )}
         </div>
