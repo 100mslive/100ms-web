@@ -17,7 +17,7 @@ export const TeacherGridView = ({ isChatOpen, toggleChat }) => {
           .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
           .map((peer) => HMSPeertoCameraStreamWithInfo(peer))
       : [];
-      console.log("rendering teacher grid view")
+  console.log("rendering teacher grid view");
   return (
     <React.Fragment>
       <div className=" h-full  " style={{ width: "80%" }}>
@@ -30,7 +30,7 @@ export const TeacherGridView = ({ isChatOpen, toggleChat }) => {
               )}
               classes={{
                 root: "",
-                videoTileContainer: " p-4 rounded-lg",
+                videoTileContainer: " p-2.5 rounded-lg",
                 //video: "rounded-3xl",
               }}
               showAudioMuteStatus
@@ -57,7 +57,7 @@ export const TeacherGridView = ({ isChatOpen, toggleChat }) => {
                 )}
                 classes={{
                   root: "",
-                  videoTileContainer: "p-2 rounded-lg",
+                  videoTileContainer: "p-2.5 rounded-lg",
                   //video: "rounded-3xl",
                 }}
                 showAudioMuteStatus={true}

@@ -28,7 +28,7 @@ export const StudentGridView = ({ isChatOpen, toggleChat }) => {
               )}
               classes={{
                 root: "",
-                videoTileContainer: " p-4 rounded-lg",
+                videoTileContainer: " p-2.5 rounded-lg",
                 //video: "rounded-3xl",
               }}
               showAudioMuteStatus={true}
@@ -55,7 +55,7 @@ export const StudentGridView = ({ isChatOpen, toggleChat }) => {
                 )}
                 classes={{
                   root: "",
-                  videoTileContainer: "p-2 rounded-lg",
+                  videoTileContainer: "p-2.5 rounded-lg",
                   //video: "rounded-3xl",
                 }}
                 showAudioMuteStatus={true}
