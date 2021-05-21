@@ -1,4 +1,6 @@
 export default async function getToken(username, role, roomId, env) {
+  console.log(username, role, roomId, env);
+  console.log(process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT);
   const response = await fetch(process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT, {
     method: "POST",
     //TODO remove env
