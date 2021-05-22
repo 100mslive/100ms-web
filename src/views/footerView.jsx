@@ -39,12 +39,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const { isConnected, leave } = useContext(AppContext);
   const history = useHistory();
 
-    const toggleScreenShare = () => {
-    if (isScreenShared) {
-      hmsActions.stopScreenShare();
-    } else {
-      hmsActions.startScreenShare();
-    }
+  const toggleScreenShare = () => {
+      hmsActions.setScreenShareEnabled(!isScreenShared);
   }
 
   return (
