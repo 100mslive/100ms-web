@@ -19,7 +19,7 @@ import {Settings} from "@100mslive/sdk-components";
 const SettingsView = () => {
   const {maxTileCount, setMaxTileCount} = useContext(AppContext);
   console.log(maxTileCount);
-  const onChange = ({maxTileCount:newMaxTileCount, ...props}) => {
+  const onChange = ({maxTileCount:newMaxTileCount}) => {
     setMaxTileCount(newMaxTileCount);
   }
   return (
@@ -92,7 +92,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           </TwButton>
           ]}
           audioButtonOnClick={() => hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)}
-          videoButtonOnClick={() => hmsActions.setLocalAudioEnabled(!isLocalVideoEnabled)}
+          videoButtonOnClick={() => hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled)}
           isAudioMuted={!isLocalAudioEnabled}
           isVideoMuted={!isLocalVideoEnabled}
         />

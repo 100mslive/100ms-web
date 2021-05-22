@@ -2,6 +2,7 @@ import {selectLocalPeer, selectIsSomeoneScreenSharing, useHMSStore} from "@100ms
 import { TeacherGridView } from "./teacherGridView";
 import { StudentGridView } from "./studentGridView";
 import {ScreenShareView} from "./screenShareView";
+import {ROLES} from "../common/roles";
 
 export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
   const localPeer = useHMSStore(selectLocalPeer);

@@ -4,7 +4,6 @@ import {
   useHMSStore,
   VolumeIcon,
   selectDominantPeer,
-  selectPeersWithMuteStatus,
 } from "@100mslive/sdk-components";
 import React from "react";
 

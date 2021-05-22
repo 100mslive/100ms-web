@@ -8,6 +8,7 @@ import {
 } from "@100mslive/sdk-components";
 import React, {useMemo} from "react";
 import { ChatView } from "./chatView";
+import {ROLES} from "../common/roles";
 
 export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const peers = useHMSStore(selectPeers);
