@@ -29,6 +29,11 @@ const AppContextProvider = ({ children }) => {
     maxTileCount: 9,
   });
 
+  const customLeave = () => {
+    console.log("User is leaving the room");
+    hmsActions.leave();
+  }
+
   useEffect(() => {
     if (!state.loginInfo.token) return;
     hmsActions.join(convertLoginInfoToJoinConfig(state.loginInfo));
@@ -38,7 +43,7 @@ const AppContextProvider = ({ children }) => {
   useEffect(() => {
     localPeer && setUpLogRocket(state.loginInfo, localPeer)
     // eslint-disable-next-line
-  }, [localPeer.peerId, localPeer.audioTrack, localPeer.videoTrack]);
+  }, [localPeer?.id]);
 
   // deep set with clone so react re renders on any change
   const deepSetLoginInfo = (loginInfo) => {
@@ -62,7 +67,7 @@ const AppContextProvider = ({ children }) => {
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
         isConnected: isConnected,
-        leave: hmsActions.leave,
+        leave: customLeave,
       }}
     >
       {children}

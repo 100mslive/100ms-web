@@ -5,7 +5,7 @@ import {
 import React, { useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import {ROLES} from "../common/roles";
-import {GridCenterView, GridSidePaneView} from "./gridView";
+import {GridCenterView, GridSidePaneView} from "./components/gridView";
 
 export const StudentGridView = ({ isChatOpen, toggleChat }) => {
     const { maxTileCount } = useContext(AppContext);

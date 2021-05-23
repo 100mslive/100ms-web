@@ -3,7 +3,7 @@
 // useNotifications hook will give the notification, to know if you're connected
 // this can be done const isConnected = useStore(selectIsRoomConnected)
 export default async function getToken(username, role, roomId, env) {
-    console.log(username, role, roomId, env);
+    console.log(username, role, roomId, process.env.REACT_APP_ENV);
     console.log(process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT);
     const response = await fetch(process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT, {
         method: "POST",

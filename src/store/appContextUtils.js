@@ -19,11 +19,9 @@ export const convertLoginInfoToJoinConfig = (loginInfo) => {
 }
 
 export const setUpLogRocket = (loginInfo, localPeer) => {
-    LogRocket.identify(localPeer.peerId, {
+    LogRocket.identify(localPeer.id, {
         name: loginInfo.username,
         role: loginInfo.role,
         token: loginInfo.token,
-        audioTrack: localPeer.audioTrack,
-        videoTrack: localPeer.videoTrack,
     });
 }

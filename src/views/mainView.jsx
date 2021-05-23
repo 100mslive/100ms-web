@@ -8,6 +8,10 @@ export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
   const localPeer = useHMSStore(selectLocalPeer);
   const isSomeoneScreenSharing = useHMSStore(selectIsSomeoneScreenSharing);
 
+  if (!localPeer) {  // we don't know the role yet to decide how to render UI
+    return null;
+  }
+
   const amITeacher = localPeer.role === ROLES.TEACHER;
   let ViewComponent;
 

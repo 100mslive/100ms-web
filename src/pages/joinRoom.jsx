@@ -8,7 +8,7 @@ export const JoinRoom = () => {
   const { roomId } = useParams();
   const { setLoginInfo } = useContext(AppContext);
   const join = (values) => {
-    setLoginInfo(values);
+    setLoginInfo(values); // send to preview screen
     history.push(`/preview/${values.roomId}`);
   };
   return (

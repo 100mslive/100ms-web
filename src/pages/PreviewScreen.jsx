@@ -14,6 +14,7 @@ const PreviewScreen = () => {
       getToken(loginInfo.username, loginInfo.role, loginInfo.roomId, loginInfo.endpoint)
           .then((token) => {
               setLoginInfo({ token , audioMuted, videoMuted});
+              // send to meeting room now
               history.push(`/meeting/${loginInfo.roomId}`);
           })
           .catch((error) => {

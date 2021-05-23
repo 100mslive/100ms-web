@@ -3,12 +3,12 @@ import {
   ParticipantList,
   useHMSStore,
   VolumeIcon,
-  selectDominantPeer,
+  selectDominantSpeakerName,
 } from "@100mslive/sdk-components";
 import React from "react";
 
 const SpeakerTag = () => {
-  const dominantSpeaker = useHMSStore(selectDominantPeer);
+  const dominantSpeaker = useHMSStore(selectDominantSpeakerName);
   return dominantSpeaker && dominantSpeaker.name ? (
     <div
       className={`self-center focus:outline-none text-lg flex items-center`}

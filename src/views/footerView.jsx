@@ -49,43 +49,43 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         <ControlBar
           leftComponents={[
             <SettingsView key={0}/>,
-            <VerticalDivider />,
+            <VerticalDivider key={1}/>,
+            <TwButton key={2}
+              iconOnly
+              variant={'no-fill'}
+              iconSize="md"
+              shape={'rectangle'}
+              onClick={toggleScreenShare}
+              >
+                <ShareScreenIcon/>
+            </TwButton>,
+            <VerticalDivider key={3}/>,
             <TwButton
-            iconOnly
-            variant={'no-fill'}
-            iconSize="md"
-            shape={'rectangle'}
-            onClick={toggleScreenShare}
-            key={1}
-          >
-            <ShareScreenIcon />
-          </TwButton>,
-    <VerticalDivider />,
-    <TwButton
-            iconOnly
-            variant={'no-fill'}
-            iconSize='md'
-            shape={'rectangle'}
-            onClick={toggleChat}
-            active={isChatOpen}
-            key={2}
-          >
-            <ChatIcon />
-          </TwButton>,      
+              key={4}
+              iconOnly
+              variant={'no-fill'}
+              iconSize='md'
+              shape={'rectangle'}
+              onClick={toggleChat}
+              active={isChatOpen}
+              >
+                <ChatIcon />
+            </TwButton>,
           ]}
           rightComponents={[
             <TwButton
-            size='md'
-            shape={'rectangle'}
-            variant={'danger'}
-            onClick={() => {
-              leave();
-              history.push("/");
-            }}
-          >
+                key={0}
+                size='md'
+                shape={'rectangle'}
+                variant={'danger'}
+                onClick={() => {
+                  leave();
+                  history.push("/");
+                }}
+            >
               <HangUpIcon className="mr-2" />
               Leave room
-          </TwButton>
+            </TwButton>
           ]}
           audioButtonOnClick={() => hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)}
           videoButtonOnClick={() => hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled)}
