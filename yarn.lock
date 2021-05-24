@@ -2,24 +2,25 @@
 # yarn lockfile v1
 
 
-"@100mslive/100ms-web-sdk@0.0.12-34":
-  version "0.0.12-34"
-  resolved "https://registry.yarnpkg.com/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.12-34.tgz#afe11a9e00961601e256ed8cd112171932223bb2"
-  integrity sha512-VtIVc82A3BNCcWYx1qzpBIsaVIkhSQSvguDVWXW4aVIMi63coqS9SPcGDSQ6deuBEAZ2Sy+cF5dl6firsKpVZw==
+"@100mslive/100ms-web-sdk@^0.0.12-35":
+  version "0.0.12-35"
+  resolved "https://registry.yarnpkg.com/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.12-35.tgz#9e9e2f3d6808c8842cbb58d2b9b2c32bb3c308a8"
+  integrity sha512-Feuit6in0tAvFmojEKujqjtZggQditzDYLvKr05xhUwRJS3jwlelwN3ANhETI2gis5KZf9Jn+nh8w+jtVnXRIw==
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@^0.2.16-467":
-  version "0.2.16-467"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.2.16-467.tgz#82664c3eef6967075a590a83effeb8b5ba500ef0"
-  integrity sha512-S6fXHTPHbd/yOKDzxz1wzvgSuRRVQqrp9TaJOx7j/cZJSZIQlZ4VLhWzh5xU2PQvq5smICVnE6qEjWJki5Xo0Q==
+"@100mslive/sdk-components@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.3.4.tgz#1f0a3763890fe560b064e9b778f4be1ab13e16a7"
+  integrity sha512-xyzPFm9ZhvyW6oQM55ZsjwuACOP66C7OMLdky4a8CPQJSzMS7pd938jpcyDW8v/hieAx0cTugmJM6mSfva1K/w==
   dependencies:
-    "@100mslive/100ms-web-sdk" "0.0.12-34"
+    "@100mslive/100ms-web-sdk" "^0.0.12-35"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autolinker "^3.14.3"
     autoprefixer "^9.8.6"
     clsx "^1.1.1"
+    immer "^9.0.2"
     lodash "^4.17.21"
     lodash-es "^4.17.21"
     postcss "^7.0.35"
@@ -29,9 +30,12 @@
     react-markdown "^6.0.0"
     react-resize-detector "^6.6.5"
     remark-gfm "^1.0.0"
+    reselect "^4.0.0"
+    reselect-tools "^0.0.7"
     tailwind-percentage-heights-plugin "^0.1.4"
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
+    zustand "^3.5.1"
 
 "@babel/code-frame@7.10.4":
   version "7.10.4"
@@ -6137,6 +6141,11 @@ immer@8.0.1:
   resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
   integrity sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA==
 
+immer@^9.0.2:
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.2.tgz#83e4593df9914acaecfd9fac6a8601ef44d883fc"
+  integrity sha512-mkcmzLtIfSp40vAqteRr1MbWNSoI7JE+/PB36FNPoSfJ9RQRmNKuTYCjKkyXyuq3Dgn07HuJBrwJd4ZSk2yUbw==
+
 import-cwd@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/import-cwd/-/import-cwd-2.1.0.tgz#aa6cf36e722761285cb371ec6519f53e2435b0a9"
@@ -10452,6 +10461,18 @@ requires-port@^1.0.0:
   resolved "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
+reselect-tools@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/reselect-tools/-/reselect-tools-0.0.7.tgz#bff19df422ebebd1a7c322262db94a554f6b44ed"
+  integrity sha512-+RGguS8ph21y04l6YwQwL+VfJ/c0qyZKCkhCd5ZwbNJ/lklsJml3CIim+uaG/t+7jYZQcwDW4bk5+VzTeuzwtw==
+  dependencies:
+    reselect "4.0.0"
+
+reselect@4.0.0, reselect@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
+  integrity sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
+
 resize-observer-polyfill@^1.5.1:
   version "1.5.1"
   resolved "https://registry.npmjs.org/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz"
@@ -12782,6 +12803,11 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.5.1.tgz#28970280e830924b185ce064061231957398c1d0"
+  integrity sha512-7J56Ve814z4zap71iaKFD+t65LFI//jEq/Vf55BTSVqJZCm+w9rov8OMBg+YSwIPQk54bfoIWHTrOWuAbpEDMw==
 
 zwitch@^1.0.0:
   version "1.0.5"
