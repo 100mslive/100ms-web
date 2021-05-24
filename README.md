@@ -29,14 +29,14 @@ cp example.env .env
 
 ### Room creation and Token generation
 
-Create your room creation and token generation service [following the instructions in this repo](https://github.com/100mslive/100ms-server-python-flask)
+Create your room creation and token generation service [following the instructions here](https://app.gitbook.com/@100ms/s/100ms-v2/server-side/100ms-quickstart-app-server)
 
-Update the `TOKEN_ENDPOINT` in `.env` file with your token generation service endpoint (eg. `https://localhost:5000/client-side`)
+Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with your token generation service endpoint (eg. `https://ms-services-qa-in-m5yklnv1nlsd.runkit.sh/`)
 
 Then start the app with:
 
 ```bash
-npm start
+npm run dev
 ```
 
 The app should now be up and running at http://localhost:3000 🚀
