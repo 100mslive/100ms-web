@@ -4,7 +4,7 @@ import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AppContextProvider } from "./store/AppContext.js";
 import { HMSRoomProvider, HMSThemeProvider } from "@100mslive/sdk-components";
-import { shadeColor } from "./utlis/index.jsx";
+import { shadeColor } from "./common/utils";
 
 function App() {
   const { 0: width, 1: height } = process.env.REACT_APP_TILE_SHAPE.split(

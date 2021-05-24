@@ -1,33 +1,25 @@
-import { useHMSRoom } from "@100mslive/sdk-components";
-import { TeacherScreenShareView } from "./teacherScreenShareView";
-import { StudentScreenShareView } from './studentScreenShareView'
+import {selectLocalPeer, selectIsSomeoneScreenSharing, useHMSStore} from "@100mslive/sdk-components";
 import { TeacherGridView } from "./teacherGridView";
-import { isScreenSharing, isTeacher } from "../utlis/index";
 import { StudentGridView } from "./studentGridView";
+import {ScreenShareView} from "./screenShareView";
+import {ROLES} from "../common/roles";
 
 export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
-  const { peers } = useHMSRoom();
-  const getView = (peers) =>{
-    switch(peers.some(isTeacher)){
-      case true:
-        switch(peers.some(isScreenSharing)){
-          case true:
-            return <TeacherScreenShareView isChatOpen={isChatOpen} toggleChat={toggleChat} />
-          case false:
-            return <TeacherGridView isChatOpen={isChatOpen} toggleChat={toggleChat} />
-        }
-      case false:
-        switch(peers.some(isScreenSharing)){
-          case true:
-            return <StudentScreenShareView isChatOpen={isChatOpen} toggleChat={toggleChat} />
-          case false:
-            return <StudentGridView isChatOpen={isChatOpen} toggleChat={toggleChat} />
-        }
-    }
+  const localPeer = useHMSStore(selectLocalPeer);
+  const isSomeoneScreenSharing = useHMSStore(selectIsSomeoneScreenSharing);
+
+  if (!localPeer) {  // we don't know the role yet to decide how to render UI
+    return null;
   }
-  return (
-    <>
-      {getView(peers)}
-    </>
-  );
+
+  const amITeacher = localPeer.role === ROLES.TEACHER;
+  let ViewComponent;
+
+  if (isSomeoneScreenSharing) {
+    ViewComponent = ScreenShareView;
+  } else {
+    ViewComponent = amITeacher ? TeacherGridView : StudentGridView;
+  }
+
+  return ViewComponent && <ViewComponent isChatOpen={isChatOpen} toggleChat={toggleChat} />;
 };

@@ -1,106 +1,73 @@
 import React, { useState, useEffect } from "react";
-import LogRocket from "logrocket";
-import { useHMSRoom } from "@100mslive/sdk-components";
+import { useHMSActions, useHMSStore } from "@100mslive/sdk-components";
+import { selectLocalPeer, selectIsConnectedToRoom } from "@100mslive/sdk-components";
+import {convertLoginInfoToJoinConfig, setUpLogRocket} from "./appContextUtils";
 
-const AppContext = React.createContext();
+const AppContext = React.createContext(null);
+
+const initialLoginInfo = {
+  token: null,
+  username: "",
+  role: "",
+  roomId: "",
+  endpoint:process.env.REACT_APP_INIT_ENDPOINT,
+  env:process.env.REACT_APP_ENV,
+  audioMuted: false,
+  videoMuted: false,
+  selectedVideoInput: "default",
+  selectedAudioInput: "default",
+  selectedAudioOutput: "default",
+}
 
 const AppContextProvider = ({ children }) => {
-  const { join, localPeer, leave } = useHMSRoom();
-  //TODO refactor into multiple states
+  const hmsActions = useHMSActions();
+  const localPeer = useHMSStore(selectLocalPeer);
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
+
   const [state, setState] = useState({
-    loginInfo: {
-      token: null,
-      username: "",
-      role: "",
-      roomId: "",
-      endpoint:process.env.REACT_APP_INIT_ENDPOINT,
-      env:process.env.REACT_APP_ENV,
-      audioMuted: false,
-      videoMuted: false,
-      selectedVideoInput: "default",
-      selectedAudioInput: "default",
-      selectedAudioOutput: "default",
-    },
+    loginInfo: initialLoginInfo,
     maxTileCount: 9,
   });
-  //TODO this should be exposed from hook and should be a status
-  const [isConnected, setIsConnected] = useState(false);
 
-  const modifiedLeave = () => {
-    //TODO should be moved to hook
-    setIsConnected(false);
-    leave();
-  };
-  useEffect(() => {
-    let {
-      username,
-      role,
-      token,
-      endpoint,
-      audioMuted,
-      videoMuted,
-      selectedVideoInput,
-      selectedAudioInput,
-      selectedAudioOutput,
-    } = state.loginInfo;
-    if (!token) return;
-    const config = {
-      userName: username,
-      authToken: token,
-      metaData: role,
-      initEndpoint: endpoint,
-      settings: {
-        isAudioMuted: audioMuted,
-        isVideoMuted: videoMuted,
-        audioInputDeviceId: selectedAudioInput,
-        audioOutputDeviceId: selectedAudioOutput,
-        videoDeviceId: selectedVideoInput,
-      },
-    };
-
-    const listener = {
-      onJoin: (room) => setIsConnected(true),
-      onRoomUpdate: (type, room) => {},
-      onPeerUpdate: (type, peer) => {},
-      onTrackUpdate: (type, track, peer) => {},
-      onError: (error) => {},
-      onMessageReceived:(message)=>{}
-    };
-    console.debug("app: Config is", config);
-    join(config, listener);
-    // eslint-disable-next-line
-  }, [state.loginInfo.token]);
+  const customLeave = () => {
+    console.log("User is leaving the room");
+    hmsActions.leave();
+  }
 
   useEffect(() => {
-    localPeer &&
-      LogRocket.identify(localPeer.peerId, {
-        name: state.loginInfo.username,
-        role: state.loginInfo.role,
-        token: state.loginInfo.token,
-      });
+    if (!state.loginInfo.token) return;
+    hmsActions.join(convertLoginInfoToJoinConfig(state.loginInfo));
     // eslint-disable-next-line
-  }, [localPeer]);
+  }, [state.loginInfo.token]); // to avoid calling join again, call it only when token is changed
+
+  useEffect(() => {
+    localPeer && setUpLogRocket(state.loginInfo, localPeer)
+    // eslint-disable-next-line
+  }, [localPeer?.id]);
+
+  // deep set with clone so react re renders on any change
+  const deepSetLoginInfo = (loginInfo) => {
+    const newState = {
+      ...state,
+      loginInfo: { ...state.loginInfo, ...loginInfo },
+    }
+    setState(newState);
+    console.log(newState); // note: component won't reflect changes at time of this log
+  }
+
+  const deepSetMaxTiles = (maxTiles) => {
+    setState((prevState) => ({ ...prevState, maxTileCount: maxTiles }));
+  }
 
   return (
     <AppContext.Provider
       value={{
-        setLoginInfo: (info) => {
-          setState({
-            ...state,
-            loginInfo: { ...state.loginInfo, ...info },
-          });
-          console.log({
-            ...state,
-            loginInfo: { ...state.loginInfo, ...info },
-          });
-        },
-        setMaxTileCount: (count) => {
-          setState((prevState) => ({ ...prevState, maxTileCount: count }));
-        },
+        setLoginInfo: deepSetLoginInfo,
+        setMaxTileCount: deepSetMaxTiles,
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
         isConnected: isConnected,
-        leave: modifiedLeave,
+        leave: customLeave,
       }}
     >
       {children}
