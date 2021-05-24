@@ -1,14 +1,14 @@
 import {
   Header,
   ParticipantList,
-  useHMSRoom,
-  useHMSSpeaker,
+  useHMSStore,
   VolumeIcon,
+  selectDominantSpeakerName,
 } from "@100mslive/sdk-components";
 import React from "react";
 
 const SpeakerTag = () => {
-  const { dominantSpeaker } = useHMSSpeaker();
+  const dominantSpeaker = useHMSStore(selectDominantSpeakerName);
   return dominantSpeaker && dominantSpeaker.name ? (
     <div
       className={`self-center focus:outline-none text-lg flex items-center`}
@@ -26,36 +26,12 @@ const SpeakerTag = () => {
   );
 };
 
-const Participants = () => {
-  const { peers } = useHMSRoom();
-  const participants =
-    peers && peers.length > 0 && peers[0]
-      ? peers.map((participant) => {
-          return {
-            peer: {
-              displayName: participant.name,
-              id: participant.id,
-              role: participant.role,
-            },
-          };
-        })
-      : [];
-
-  return (
-    <>
-      {participants !== undefined && participants.length && (
-        <ParticipantList participantList={participants} />
-      )}
-    </>
-  );
-};
-
 export const ConferenceHeader = () => {
   return (
     <>
       <Header
         centerComponents={[<SpeakerTag key={0} />]}
-        rightComponents={[<Participants key={0} />]}
+        rightComponents={[<ParticipantList key={0} />]}
         classes={{ root: "h-16" }}
       />
     </>
