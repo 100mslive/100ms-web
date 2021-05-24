@@ -10,9 +10,7 @@ import React from "react";
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeakerName);
   return dominantSpeaker && dominantSpeaker.name ? (
-    <div
-      className={`self-center focus:outline-none text-lg flex items-center`}
-    >
+    <div className={`self-center focus:outline-none text-lg flex items-center`}>
       <div className="inline-block">
         <VolumeIcon />
       </div>

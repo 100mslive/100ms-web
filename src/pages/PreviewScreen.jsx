@@ -10,25 +10,39 @@ const PreviewScreen = () => {
   const { loginInfo, setLoginInfo, setMaxTileCount } = context;
   const { roomId: urlRoomId } = useParams();
 
-  const join = ({audioMuted, videoMuted}) => {
-      getToken(loginInfo.username, loginInfo.role, loginInfo.roomId, loginInfo.endpoint)
-          .then((token) => {
-              setLoginInfo({ token , audioMuted, videoMuted});
-              // send to meeting room now
-              history.push(`/meeting/${loginInfo.roomId}`);
-          })
-          .catch((error) => {
-              console.log("Token API Error", error);
-          });
+  const join = ({ audioMuted, videoMuted }) => {
+    getToken(
+      loginInfo.username,
+      loginInfo.role,
+      loginInfo.roomId,
+      loginInfo.endpoint
+    )
+      .then((token) => {
+        setLoginInfo({ token, audioMuted, videoMuted });
+        // send to meeting room now
+        history.push(`/meeting/${loginInfo.roomId}`);
+      })
+      .catch((error) => {
+        console.log("Token API Error", error);
+      });
   };
 
-  const onChange = ({selectedVideoInput, selectedAudioInput, selectedAudioOutput, maxTileCount}) => {
+  const onChange = ({
+    selectedVideoInput,
+    selectedAudioInput,
+    selectedAudioOutput,
+    maxTileCount,
+  }) => {
     console.debug("app: Selected Video Input", selectedVideoInput);
     console.debug("app: Selected Audio Input", selectedVideoInput);
     console.debug("app: Selected Audio Output", selectedAudioOutput);
-    setLoginInfo({selectedVideoInput, selectedAudioInput, selectedAudioOutput});
+    setLoginInfo({
+      selectedVideoInput,
+      selectedAudioInput,
+      selectedAudioOutput,
+    });
     setMaxTileCount(maxTileCount);
-  }
+  };
 
   const goBack = () => {
     history.push(`/${loginInfo.roomId || urlRoomId || ""}`);

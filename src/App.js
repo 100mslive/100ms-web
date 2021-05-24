@@ -1,3 +1,4 @@
+import React from "react";
 import { JoinRoom } from "./pages/joinRoom.jsx";
 import PreviewScreen from "./pages/PreviewScreen";
 import { Conference } from "./pages/conference.jsx";

@@ -1,0 +1,42 @@
+{
+  "name": "@100mslive/hms-edtech-template",
+  "version": "0.1.2",
+  "description": "100ms Edtech Template as a component.",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "prepare:style": "cd ../../../ && yarn build:style && mv tailwind.css src/packages/hms-edtech-template && cd src/packages/hms-edtech-template",
+    "build": "NODE_ENV=production yarn prepare:style && rm -rf dist && rollup -c",
+    "prepare": "yarn build"
+  },
+  "author": "eswar-clynn",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "dependencies": {
+    "@100mslive/sdk-components": "^0.3.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "@babel/preset-react": "^7.13.13",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-image": "^2.0.6",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.3.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "rollup": "^2.49.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.0",
+    "tailwindcss": "^2.1.2"
+  }
+}
