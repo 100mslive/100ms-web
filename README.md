@@ -18,7 +18,7 @@ Once cloned, open the terminal in the project directory, and install dependencie
 
 ```bash
 cd 100ms-web-v2
-npm install
+yarn
 ```
 
 Create a new file `.env` and copy the values from `example.env`
@@ -36,7 +36,7 @@ Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with your token 
 Then start the app with:
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 The app should now be up and running at http://localhost:3000 🚀
