@@ -31,7 +31,7 @@ cp example.env .env
 
 Create your room creation and token generation service [following the instructions here](https://100ms.gitbook.io/100ms-v2/server-side/100ms-quickstart-app-server)
 
-Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with your token generation service endpoint (eg. `https://ms-services-qa-in-m5yklnv1nlsd.runkit.sh/`)
+Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with your token generation service endpoint (eg. `https://ms-services-qa-in-m5yklnv1nlsd.runkit.sh/api/token`) (Remember to append the /api/token at the end)
 
 Then start the app with:
 
