@@ -1,6 +1,6 @@
 # ⚠️[Experimental]⚠️ 100ms 2.0 Sample React App
 
-This is an example web app to demo 100ms' web SDK
+This is an example React app to demo 100ms' React SDK
 
 ## Prerequisites
 
