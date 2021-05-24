@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useHMSActions, useHMSStore } from "@100mslive/sdk-components";
-import { selectLocalPeer, selectIsConnectedToRoom } from "@100mslive/sdk-components";
-import {convertLoginInfoToJoinConfig, setUpLogRocket} from "./appContextUtils";
+import {
+  selectLocalPeer,
+  selectIsConnectedToRoom,
+} from "@100mslive/sdk-components";
+import {
+  convertLoginInfoToJoinConfig,
+  setUpLogRocket,
+} from "./appContextUtils";
 
 const AppContext = React.createContext(null);
 
@@ -10,14 +16,14 @@ const initialLoginInfo = {
   username: "",
   role: "",
   roomId: "",
-  endpoint:process.env.REACT_APP_INIT_ENDPOINT,
-  env:process.env.REACT_APP_ENV,
+  endpoint: process.env.REACT_APP_INIT_ENDPOINT,
+  env: process.env.REACT_APP_ENV,
   audioMuted: false,
   videoMuted: false,
   selectedVideoInput: "default",
   selectedAudioInput: "default",
   selectedAudioOutput: "default",
-}
+};
 
 const AppContextProvider = ({ children }) => {
   const hmsActions = useHMSActions();
@@ -32,7 +38,7 @@ const AppContextProvider = ({ children }) => {
   const customLeave = () => {
     console.log("User is leaving the room");
     hmsActions.leave();
-  }
+  };
 
   useEffect(() => {
     if (!state.loginInfo.token) return;
@@ -41,7 +47,7 @@ const AppContextProvider = ({ children }) => {
   }, [state.loginInfo.token]); // to avoid calling join again, call it only when token is changed
 
   useEffect(() => {
-    localPeer && setUpLogRocket(state.loginInfo, localPeer)
+    localPeer && setUpLogRocket(state.loginInfo, localPeer);
     // eslint-disable-next-line
   }, [localPeer?.id]);
 
@@ -50,14 +56,16 @@ const AppContextProvider = ({ children }) => {
     const newState = {
       ...state,
       loginInfo: { ...state.loginInfo, ...loginInfo },
-    }
+    };
     setState(newState);
     console.log(newState); // note: component won't reflect changes at time of this log
-  }
+  };
 
   const deepSetMaxTiles = (maxTiles) => {
     setState((prevState) => ({ ...prevState, maxTileCount: maxTiles }));
-  }
+  };
+
+  window.onunload = () => customLeave();
 
   return (
     <AppContext.Provider
