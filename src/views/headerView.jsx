@@ -8,8 +8,8 @@ import {
 import React from "react";
 
 const SpeakerTag = () => {
-  const dominantSpeaker = useHMSStore(selectDominantSpeakerName);
-  return dominantSpeaker && dominantSpeaker.name ? (
+  const dominantSpeakerName = useHMSStore(selectDominantSpeakerName);
+  return dominantSpeakerName ? (
     <div
       className={`self-center focus:outline-none text-lg flex items-center`}
     >
@@ -18,7 +18,7 @@ const SpeakerTag = () => {
       </div>
       {/* TODO figure out why xs:hidden is needed */}
       <div className="md:pl-1 xs:hidden md:inline-block">
-        {dominantSpeaker.name}
+        {dominantSpeakerName}
       </div>
     </div>
   ) : (
