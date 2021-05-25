@@ -11,7 +11,7 @@ import {
   selectIsLocalAudioEnabled,
   selectIsLocalVideoDisplayEnabled
 } from "@100mslive/sdk-components";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
 import { Settings } from "@100mslive/sdk-components";
@@ -56,9 +56,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const history = useHistory();
   const params = useParams();
 
-  const toggleScreenShare = () => {
+  const toggleScreenShare = useCallback(() => {
     hmsActions.setScreenShareEnabled(!isScreenShared);
-  };
+  }, [hmsActions, isScreenShared]);
 
   return (
     <>
