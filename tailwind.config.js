@@ -14,6 +14,9 @@ module.exports = {
         "8/10": "80%",
         "2/10": "20%",
       },
+      padding: {
+        2.5: "10px",
+      },
       textColor: "#FFFFFF",
       colors: {
         blue: {

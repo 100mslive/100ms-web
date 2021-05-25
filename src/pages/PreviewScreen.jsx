@@ -2,28 +2,32 @@ import React, { useContext, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Preview } from "@100mslive/sdk-components";
 import { AppContext } from "../store/AppContext";
-import getToken from "../utlis/index";
+import getToken from "../services/tokenService";
 
 const PreviewScreen = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo, setLoginInfo } = context;
+  const { loginInfo, setLoginInfo, setMaxTileCount } = context;
   const { roomId: urlRoomId } = useParams();
 
-    const join = ({audioMuted, videoMuted}) => {
-        getToken(loginInfo.username, loginInfo.role, loginInfo.roomId)
-            .then((token) => {
-                setLoginInfo({ token , audioMuted, videoMuted});
-                history.push(`/meeting/${loginInfo.roomId}`);
-            })
-            .catch((error) => {
-                console.log("Token API Error", error);
-                alert("Unable to generate token");
-            });
-    };
+  const join = ({audioMuted, videoMuted}) => {
+      getToken(loginInfo.username, loginInfo.role, loginInfo.roomId, loginInfo.endpoint)
+          .then((token) => {
+              setLoginInfo({ token , audioMuted, videoMuted});
+              // send to meeting room now
+              history.push(`/meeting/${loginInfo.roomId}`);
+          })
+          .catch((error) => {
+              console.log("Token API Error", error);
+          });
+  };
 
-  const getDevices = ({selectedVideoOutput, selectedAudioInput, selectedAudioOutput}) => {
-    setLoginInfo({selectedVideoOutput, selectedAudioInput, selectedAudioOutput});
+  const onChange = ({selectedVideoInput, selectedAudioInput, selectedAudioOutput, maxTileCount}) => {
+    console.debug("app: Selected Video Input", selectedVideoInput);
+    console.debug("app: Selected Audio Input", selectedVideoInput);
+    console.debug("app: Selected Audio Output", selectedAudioOutput);
+    setLoginInfo({selectedVideoInput, selectedAudioInput, selectedAudioOutput});
+    setMaxTileCount(maxTileCount);
   }
 
   const goBack = () => {
@@ -42,9 +46,9 @@ const PreviewScreen = () => {
         <Preview
           name={loginInfo.username}
           joinOnClick={join}
-          getDevices={getDevices}
           goBackOnClick={goBack}
           messageOnClose={goBack}
+          onChange={onChange}
         />
       </div>
     </div>

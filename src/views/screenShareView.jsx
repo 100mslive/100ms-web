@@ -1,177 +1,144 @@
-import React, { useEffect, useState, useContext } from "react";
-import { VideoList, ChatBox, VideoTile } from "@100mslive/sdk-components";
-import { useHMSRoom } from "@100mslive/sdk-components";
-import { AppContext } from "../store/AppContext";
 import {
-  HMSPeerToScreenStreamWitnInfo,
-  HMSPeertoCameraStreamWithInfo,
-  isScreenSharing,
-} from "../utlis/index";
+  useHMSStore,
+  useHMSActions,
+  VideoList,
+  VideoTile,
+  selectPeers,
+  selectLocalPeer,
+  selectPeerScreenSharing,
+  ScreenShareDisplay,
+} from "@100mslive/sdk-components";
+import React, { useMemo } from "react";
+import { ChatView } from "./components/chatView";
+import { ROLES } from "../common/roles";
 
-const TransformVideoTileSizes = (
-  streamsWithInfo,
-  isChatOpen,
-  cameraStream,
-  toggleChat,
-  aspectRatio
-) => {
-  const { messages, sendMessage } = useHMSRoom();
-  return (
-    <>
-      <div className={`w-full h-full relative`}>
-        <div className={`w-full flex flex-col h-full`}>
-          <div
-            className="w-full relative overflow-hidden"
-            style={{
-              paddingTop: `${cameraStream && !isChatOpen ? "100%" : "0"}`,
-            }}
-          >
-            {cameraStream && !isChatOpen && (
-              <div className="absolute left-0 top-0 w-full h-full p-3">
-                <VideoTile
-                  audioTrack={cameraStream.audioTrack}
-                  hmsVideoTrack={cameraStream.hmsVideoTrack}
-                  videoTrack={cameraStream.videoTrack}
-                  peer={cameraStream.peer}
-                  aspectRatio={aspectRatio}
-                  showAudioMuteStatus={true}
-                  allowRemoteMute={false}
-                  isLocal={cameraStream.isLocal}
-                  isAudioMuted={
-                    !(
-                      cameraStream.audioTrack && cameraStream.audioTrack.enabled
-                    )
-                  }
-                  isVideoMuted={
-                    !(
-                      cameraStream.videoTrack && cameraStream.videoTrack.enabled
-                    )
-                  }
-                  audioLevel={cameraStream.audioLevel}
-                />
-              </div>
-            )}
-          </div>
-          <div
-            className={`w-full relative ${isChatOpen ? "h-1/3" : "flex-grow"}`}
-          >
-            {streamsWithInfo && streamsWithInfo.length > 0 && (
-              <VideoList
-                streams={
-                  isChatOpen
-                    ? [cameraStream, ...streamsWithInfo]
-                    : streamsWithInfo
-                }
-                classes={{
-                  videoTileContainer: "rounded-lg p-2",
-                }}
-                showAudioMuteStatus={true}
-                allowRemoteMute={false}
-                maxColCount={2}
-                overflow="scroll-x"
-              />
-            )}
-          </div>
-        </div>
-        {isChatOpen && (
-          <div className="h-2/3 w-full absolute z-10 bottom-0 right-0">
-            <ChatBox
-              messages={messages}
-              onSend={sendMessage}
-              onClose={toggleChat}
+export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
+  const peers = useHMSStore(selectPeers);
+  const localPeer = useHMSStore(selectLocalPeer);
+  const peerPresenting = useHMSStore(selectPeerScreenSharing);
+  const hmsActions = useHMSActions();
+  const smallTilePeers = useMemo(
+    () => peers.filter((peer) => peer.id !== peerPresenting.id),
+    [peers, peerPresenting]
+  );
+
+  const amITeacher = localPeer.role === ROLES.TEACHER;
+  const isPresenterTeacher = peerPresenting.role === ROLES.TEACHER;
+  const amIPresenting = localPeer.id === peerPresenting.id;
+  const showPresenterInSmallTile =
+    amIPresenting || (amITeacher && isPresenterTeacher);
+
+  if (
+    showPresenterInSmallTile &&
+    !smallTilePeers.some((peer) => peer.id === peerPresenting.id)
+  ) {
+    if (amIPresenting) {
+      // put presenter on last page
+      smallTilePeers.push(peerPresenting);
+    } else {
+      // put on first page
+      smallTilePeers.unshift(peerPresenting);
+    }
+  }
+
+  const ScreenShareComponent = () => (
+    <div className="w-8/10 h-full">
+      {peerPresenting &&
+        (amIPresenting ? (
+          <div className="object-contain h-full">
+            <ScreenShareDisplay
+              stopScreenShare={() => {
+                hmsActions.stopScreenShare();
+              }}
+              classes={{ rootBg: "h-full" }}
             />
           </div>
-        )}
-      </div>
-    </>
+        ) : (
+          <VideoTile
+            peer={peerPresenting}
+            showScreen={true}
+            objectFit="contain"
+          />
+        ))}
+    </div>
   );
-};
-
-export const ScreenShareView = () => {
-  const { isChatOpen, toggleChat, aspectRatio } = useContext(AppContext);
-  const { peers, speakers } = useHMSRoom();
-  const [streamsWithInfo, setStreamsWithInfo] = useState([]);
-  const [screenStream, setScreenStream] = useState(null);
-  const [cameraStream, setCameraStream] = useState(null);
-
-  useEffect(() => {
-    if (!(peers && peers.length > 0 && peers[0])) return;
-    const index = peers.findIndex(isScreenSharing);
-    const screenSharingPeer = peers[index];
-    let remPeers = [...peers];
-
-    if (index !== -1) {
-      remPeers.splice(index, 1);
-      setScreenStream(
-        HMSPeerToScreenStreamWitnInfo(screenSharingPeer, speakers)
-      );
-      setCameraStream(
-        HMSPeertoCameraStreamWithInfo(screenSharingPeer, speakers)
-      );
-    } else {
-      setCameraStream(null);
-      setScreenStream(null);
-    }
-    const videoStreamsWithInfo = remPeers
-      .filter((peer) => Boolean(peer.videoTrack || peer.audioTrack))
-      .map((peer) => HMSPeertoCameraStreamWithInfo(peer, speakers));
-
-    const screenShareStreamsWithInfo = remPeers
-      .filter(isScreenSharing)
-      .map((peer) => HMSPeerToScreenStreamWitnInfo(peer, speakers));
-
-    setStreamsWithInfo([
-      ...videoStreamsWithInfo,
-      ...screenShareStreamsWithInfo,
-    ]);
-  }, [peers]);
 
   return (
     <React.Fragment>
       <div className="w-full h-full flex">
-        <div className="w-8/10 h-full">
-          {screenStream && screenStream.videoTrack && (
-            <VideoTile
-              audioTrack={screenStream.audioTrack}
-              hmsVideoTrack={screenStream.hmsVideoTrack}
-              videoTrack={screenStream.videoTrack}
-              peer={screenStream.peer}
-              videoSource="screen"
-              showAudioMuteStatus={false}
-              allowRemoteMute={false}
-              isLocal={screenStream.isLocal}
-              objectFit="contain"
-              isAudioMuted={
-                !(screenStream.audioTrack && screenStream.audioTrack.enabled)
-              }
-              isVideoMuted={
-                !(screenStream.videoTrack && screenStream.videoTrack.enabled)
-              }
-            />
-          )}
-        </div>
-
+        <ScreenShareComponent />
         <div className="flex flex-wrap overflow-hidden p-2 w-2/10 h-full ">
-          {TransformVideoTileSizes(
-            streamsWithInfo,
-            isChatOpen,
-            cameraStream,
-            toggleChat,
-            aspectRatio
-          )}
+          <SidePane
+            isChatOpen={isChatOpen}
+            toggleChat={toggleChat}
+            peerScreenSharing={showPresenterInSmallTile ? null : peerPresenting}
+            smallTilePeers={smallTilePeers}
+          />
         </div>
       </div>
+    </React.Fragment>
+  );
+};
 
-      {/* <VideoList
-          streams={streamsWithInfo.filter((peer) => peer.role === "Teacher")}
-          classes={{
-            videoTileParent: "p-5 rounded-xl",
-            video: "rounded-xl",
-          }}
-          overflow="scroll-x"
-          maxTileCount={4}
-          showAudioMuteStatus={false}
-        /> */}
+// Sidepane will show the camera stream of the main peer who is screensharing
+// and both camera + screen(if applicable) of others
+export const SidePane = ({
+  isChatOpen,
+  toggleChat,
+  peerScreenSharing, // the peer who is screensharing
+  smallTilePeers,
+}) => {
+  const LargeTilePeerView = () => (
+    <div
+      className="w-full relative overflow-hidden"
+      style={{
+        paddingTop: `${peerScreenSharing ? "100%" : "0"}`,
+      }}
+    >
+      {peerScreenSharing && (
+        <div className="absolute left-0 top-0 w-full h-full p-3">
+          <VideoTile peer={peerScreenSharing} />
+        </div>
+      )}
+    </div>
+  );
+
+  // The main screen is already being shown
+  const shouldShowScreen = (peer) =>
+    peerScreenSharing && peer.id !== peerScreenSharing.id;
+
+  const SmallTilePeersView = () => {
+    return (
+      <div className={`w-full relative ${isChatOpen ? "h-1/3" : "flex-grow"}`}>
+        {smallTilePeers && smallTilePeers.length > 0 && (
+          <VideoList
+            peers={smallTilePeers}
+            showScreenFn={shouldShowScreen}
+            classes={{ videoTileContainer: "rounded-lg " }}
+            maxColCount={2}
+            overflow="scroll-x"
+          />
+        )}
+      </div>
+    );
+  };
+
+  const CustomChatView = () =>
+    isChatOpen && (
+      <div className="h-2/3 w-full absolute z-40 bottom-0 right-0">
+        <ChatView toggleChat={toggleChat} />
+      </div>
+    );
+
+  return (
+    <React.Fragment>
+      <div className={`w-full h-full relative`}>
+        <div className={`w-full flex flex-col h-full`}>
+          <LargeTilePeerView />
+          <SmallTilePeersView />
+        </div>
+        <CustomChatView />
+      </div>
     </React.Fragment>
   );
 };
