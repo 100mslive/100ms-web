@@ -97,7 +97,7 @@ export const SidePane = ({
     >
       {peerScreenSharing && (
         <div className="absolute left-0 top-0 w-full h-full p-3">
-          <VideoTile peer={peerScreenSharing} />
+          <VideoTile peer={peerScreenSharing} compact={true} />
         </div>
       )}
     </div>
@@ -117,6 +117,7 @@ export const SidePane = ({
             classes={{ videoTileContainer: "rounded-lg " }}
             maxColCount={2}
             overflow="scroll-x"
+            compact={true}
           />
         )}
       </div>

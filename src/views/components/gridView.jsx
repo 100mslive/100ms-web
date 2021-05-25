@@ -51,7 +51,7 @@ export const GridSidePaneView = ({
             }}
             maxTileCount={maxTileCount}
             maxColCount={2}
-            compact={peers.length > 2}
+            compact={true}
           />
         )}
       </div>
