@@ -13,7 +13,7 @@ import {
 } from "@100mslive/sdk-components";
 import { useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Settings } from "@100mslive/sdk-components";
 
 const SettingsView = () => {
