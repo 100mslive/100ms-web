@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import { useHMSActions, useHMSStore } from "@100mslive/sdk-components";
 import { selectLocalPeer, selectIsConnectedToRoom } from "@100mslive/sdk-components";
 import {convertLoginInfoToJoinConfig, setUpLogRocket} from "./appContextUtils";
@@ -29,10 +29,10 @@ const AppContextProvider = ({ children }) => {
     maxTileCount: 9,
   });
 
-  const customLeave = () => {
+  const customLeave = useCallback(() => {
     console.log("User is leaving the room");
     hmsActions.leave();
-  }
+  }, [hmsActions])
 
   useEffect(() => {
     if (!state.loginInfo.token) return;
