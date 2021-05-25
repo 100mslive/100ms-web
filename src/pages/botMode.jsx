@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
-import getToken from "../utlis/index";
+import getToken from "../services/tokenService";
 
 const username = "beam-bot";
 const role = "Viewer"
