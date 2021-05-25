@@ -1,10 +1,12 @@
 import {
   useHMSStore,
+  useHMSActions,
   VideoList,
   VideoTile,
   selectPeers,
   selectLocalPeer,
   selectPeerScreenSharing,
+  ScreenShareDisplay,
 } from "@100mslive/sdk-components";
 import React, { useMemo } from "react";
 import { ChatView } from "./components/chatView";
@@ -14,6 +16,7 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
+  const hmsActions = useHMSActions();
   const smallTilePeers = useMemo(
     () => peers.filter((peer) => peer.id !== peerPresenting.id),
     [peers, peerPresenting]
@@ -40,13 +43,23 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
 
   const ScreenShareComponent = () => (
     <div className="w-8/10 h-full">
-      {peerPresenting && (
-        <VideoTile
-          peer={peerPresenting}
-          showScreen={true}
-          objectFit="contain"
-        />
-      )}
+      {peerPresenting &&
+        (amIPresenting ? (
+          <div className="object-contain h-full">
+            <ScreenShareDisplay
+              stopScreenShare={() => {
+                hmsActions.stopScreenShare();
+              }}
+              classes={{ rootBg: "h-full" }}
+            />
+          </div>
+        ) : (
+          <VideoTile
+            peer={peerPresenting}
+            showScreen={true}
+            objectFit="contain"
+          />
+        ))}
     </div>
   );
 
@@ -101,7 +114,7 @@ export const SidePane = ({
           <VideoList
             peers={smallTilePeers}
             showScreenFn={shouldShowScreen}
-            classes={{ videoTileContainer: "rounded-lg p-2" }}
+            classes={{ videoTileContainer: "rounded-lg " }}
             maxColCount={2}
             overflow="scroll-x"
           />
