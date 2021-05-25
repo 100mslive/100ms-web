@@ -4,7 +4,7 @@ import {
   useHMSStore,
   VolumeIcon,
   selectDominantSpeakerName,
-} from "@100mslive/sdk-components";
+} from "@100mslive/hms-video-react";
 import React from "react";
 
 const SpeakerTag = () => {

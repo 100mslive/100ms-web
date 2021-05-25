@@ -7,7 +7,7 @@ import {
   selectLocalPeer,
   selectPeerScreenSharing,
   ScreenShareDisplay,
-} from "@100mslive/sdk-components";
+} from "@100mslive/hms-video-react";
 import React, { useMemo } from "react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";

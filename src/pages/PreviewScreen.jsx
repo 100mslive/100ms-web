@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { Preview } from "@100mslive/sdk-components";
+import { Preview } from "@100mslive/hms-video-react";
 import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
 

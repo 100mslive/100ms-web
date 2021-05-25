@@ -1,4 +1,4 @@
-import { selectPeers, useHMSStore } from "@100mslive/sdk-components";
+import { selectPeers, useHMSStore } from "@100mslive/hms-video-react";
 import React, { useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import { ROLES } from "../common/roles";
