@@ -1,4 +1,4 @@
-import { VideoList } from "@100mslive/sdk-components";
+import { VideoList, FirstPersonDisplay } from "@100mslive/sdk-components";
 import React from "react";
 import { ChatView } from "./chatView";
 
@@ -6,17 +6,19 @@ import { ChatView } from "./chatView";
 export const GridCenterView = ({ peers, maxTileCount, allowRemoteMute }) => {
   return (
     <div className=" h-full  " style={{ width: "80%" }}>
-      {peers && peers.length > 0 && (
+      {peers && peers.length > 0 ? (
         <VideoList
           peers={peers}
           classes={{
             root: "",
-            videoTileContainer: " p-2.5 rounded-lg",
+            videoTileContainer: "rounded-lg",
             //video: "rounded-3xl",
           }}
           maxTileCount={maxTileCount}
           allowRemoteMute={allowRemoteMute}
         />
+      ) : (
+        <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
       )}
     </div>
   );
@@ -43,11 +45,12 @@ export const GridSidePaneView = ({
             peers={peers}
             classes={{
               root: "",
-              videoTileContainer: "p-2.5 rounded-lg",
+              videoTileContainer: "rounded-lg",
               //video: "rounded-3xl",
             }}
             maxTileCount={maxTileCount}
             maxColCount={2}
+            compact={peers.length > 2}
           />
         )}
       </div>

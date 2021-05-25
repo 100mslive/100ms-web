@@ -13,7 +13,7 @@ export const StudentGridView = ({ isChatOpen, toggleChat }) => {
     <React.Fragment>
       <GridCenterView
         peers={teacherPeers}
-        maxTileCount={2}
+        maxTileCount={maxTileCount}
         allowRemoteMute={false}
       ></GridCenterView>
       <GridSidePaneView

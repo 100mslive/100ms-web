@@ -1,3 +1,4 @@
+import React from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -13,15 +14,32 @@ import {
 } from "@100mslive/sdk-components";
 import { useContext } from "react";
 import { AppContext } from "../store/AppContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Settings } from "@100mslive/sdk-components";
-import React from "react";
 
 const SettingsView = () => {
-  const { maxTileCount, setMaxTileCount } = useContext(AppContext);
-  console.log(maxTileCount);
-  const onChange = ({ maxTileCount: newMaxTileCount }) => {
+  const hmsActions = useHMSActions();
+  const {
+    loginInfo: { selectedAudioInput, selectedVideoInput },
+    setLoginInfo,
+    setMaxTileCount,
+  } = useContext(AppContext);
+
+  const onChange = ({
+    maxTileCount: newMaxTileCount,
+    selectedVideoInput: newSelectedVideoInput,
+    selectedAudioInput: newSelectedAudioInput,
+  }) => {
     setMaxTileCount(newMaxTileCount);
+    if (selectedAudioInput !== newSelectedAudioInput) {
+      hmsActions.setAudioSettings({ deviceId: newSelectedAudioInput });
+      setLoginInfo({ selectedAudioInput: newSelectedAudioInput });
+    }
+
+    if (selectedVideoInput !== newSelectedVideoInput) {
+      hmsActions.setVideoSettings({ deviceId: newSelectedVideoInput });
+      setLoginInfo({ selectedVideoInput: newSelectedVideoInput });
+    }
   };
   return (
     <>
@@ -37,6 +55,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
   const history = useHistory();
+  const params = useParams();
 
   const toggleScreenShare = () => {
     hmsActions.setScreenShareEnabled(!isScreenShared);
@@ -80,7 +99,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               variant={"danger"}
               onClick={() => {
                 leave();
-                history.push("/");
+                history.push("/leave/" + params.roomId);
               }}
             >
               <HangUpIcon className="mr-2" />

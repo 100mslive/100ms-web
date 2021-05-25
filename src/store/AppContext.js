@@ -65,6 +65,8 @@ const AppContextProvider = ({ children }) => {
     setState((prevState) => ({ ...prevState, maxTileCount: maxTiles }));
   };
 
+  window.onunload = () => customLeave();
+
   return (
     <AppContext.Provider
       value={{
