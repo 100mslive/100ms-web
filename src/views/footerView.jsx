@@ -54,6 +54,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
   const history = useHistory();
+  const params = useParams();
 
   const toggleScreenShare = () => {
     hmsActions.setScreenShareEnabled(!isScreenShared);
@@ -97,7 +98,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               variant={"danger"}
               onClick={() => {
                 leave();
-                history.push("/");
+                history.push("/leave/" + params.roomId);
               }}
             >
               <HangUpIcon className="mr-2" />
