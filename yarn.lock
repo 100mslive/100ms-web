@@ -9,10 +9,10 @@
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/sdk-components@0.3.45":
-  version "0.3.45"
-  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.3.45.tgz#0cb6ec972e9c958862da4286355c08dfcd94ed88"
-  integrity sha512-1w/hHe7iaB6KoA2LM+mVR1YhqGWBS9WfevNTZTsDCU/rS+UUQMeMopf0C5ZBC72EUddv0W9XDX2QS1j1W+Qv4Q==
+"@100mslive/sdk-components@0.3.46":
+  version "0.3.46"
+  resolved "https://registry.yarnpkg.com/@100mslive/sdk-components/-/sdk-components-0.3.46.tgz#e63b64e17015dde4cc0644cdf18aa581b164fa7b"
+  integrity sha512-Omb6X+eH+zaR8A922wBj539D22720p7GS6sfVgWShvM4gYaBTcJyrNTr3PxmcIe2FHuVrhklizkbKgSXGsuQig==
   dependencies:
     "@100mslive/100ms-web-sdk" "^0.0.12-35"
     "@material-ui/core" "^4.11.3"
@@ -1769,6 +1769,7 @@
     loader-utils "^2.0.0"
 
 "@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2":
+  name tailwindcss
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@tailwindcss/postcss7-compat/-/postcss7-compat-2.1.2.tgz#4ae2a3a3c05622ee04307997b0f8bea5c8dbc2b6"
   integrity sha512-bH2kw6uyqLnDMP8wzDUsis5ovrsRzfHEyiL1McADvqlW54g6y0KVHX1xzO7PH8Fl5s0Sq8vDOAp4+3V8MEcZ9g==
