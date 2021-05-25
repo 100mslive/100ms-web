@@ -11,10 +11,20 @@ import {
 } from "@100mslive/sdk-components";
 import { shadeColor } from "./common/utils";
 
-function App() {
-  const { 0: width, 1: height } = process.env.REACT_APP_TILE_SHAPE.split(
-    "-"
-  ).map((el) => parseInt(el));
+export function EdtechComponent({
+  tileShape = "1-1",
+  font = "Roboto",
+  color = "#2F80FF",
+  theme = "dark",
+  showChat = "true",
+  showScreenshare = "true",
+  logo = "",
+  videoAvatar = "true",
+  avatarType = "initial",
+}) {
+  const { 0: width, 1: height } = tileShape
+    .split("-")
+    .map((el) => parseInt(el));
   return (
     <div className="w-full h-screen dark:bg-black">
       <HMSThemeProvider
@@ -22,26 +32,26 @@ function App() {
           theme: {
             extend: {
               fontFamily: {
-                sans: [process.env.REACT_APP_FONT, "Inter", "sans-serif"],
-                body: [process.env.REACT_APP_FONT, "Inter", "sans-serif"],
+                sans: [font, "Inter", "sans-serif"],
+                body: [font, "Inter", "sans-serif"],
               },
               colors: {
                 brand: {
-                  main: process.env.REACT_APP_COLOR,
-                  tint: shadeColor(process.env.REACT_APP_COLOR, 30),
+                  main: color,
+                  tint: shadeColor(color, 30),
                 },
               },
             },
           },
         }}
         appBuilder={{
-          theme: process.env.REACT_APP_THEME || "dark",
-          enableChat: process.env.REACT_APP_SHOW_CHAT === "true",
-          enableScreenShare: process.env.REACT_APP_SHOW_SCREENSHARE === "true",
-          logo: process.env.REACT_APP_LOGO,
+          theme: theme || "dark",
+          enableChat: showChat === "true",
+          enableScreenShare: showScreenshare === "true",
+          logo: logo,
           videoTileAspectRatio: { width, height },
-          showAvatar: process.env.REACT_APP_VIDEO_AVATAR === "true",
-          avatarType: "pebble",
+          showAvatar: videoAvatar === "true",
+          avatarType: avatarType,
         }}
       >
         <HMSRoomProvider>
@@ -82,4 +92,18 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <EdtechComponent
+      tileShape={process.env.REACT_APP_TILE_SHAPE}
+      theme={process.env.REACT_APP_THEME}
+      color={process.env.REACT_APP_COLOR}
+      logo={process.env.REACT_APP_LOGO}
+      font={process.env.REACT_APP_FONT}
+      showChat={process.env.REACT_APP_SHOW_CHAT}
+      showScreenshare={process.env.REACT_APP_SHOW_SCREENSHARE}
+      videoAvatar={process.env.REACT_APP_VIDEO_AVATAR}
+      avatarType={process.env.REACT_APP_AVATAR_TYPE}
+    />
+  );
+}
