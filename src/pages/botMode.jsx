@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
 import getToken from "../utlis/index";
 
-const username = "live-stream-bot";
+const username = "beam-bot";
 const role = "Viewer"
 
 export const BotMode = () => {
