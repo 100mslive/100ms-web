@@ -3,7 +3,11 @@ import PreviewScreen from "./pages/PreviewScreen";
 import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AppContextProvider } from "./store/AppContext.js";
-import { HMSRoomProvider, HMSThemeProvider } from "@100mslive/sdk-components";
+import {
+  HMSRoomProvider,
+  HMSThemeProvider,
+  PostLeaveDisplay,
+} from "@100mslive/sdk-components";
 import { shadeColor } from "./common/utils";
 
 function App() {
@@ -36,6 +40,7 @@ function App() {
           logo: process.env.REACT_APP_LOGO,
           videoTileAspectRatio: { width, height },
           showAvatar: process.env.REACT_APP_VIDEO_AVATAR === "true",
+          avatarType: "pebble",
         }}
       >
         <HMSRoomProvider>
@@ -51,6 +56,19 @@ function App() {
                 <Route path="/meeting/:roomId?">
                   <Conference />
                 </Route>
+                <Route
+                  path="/leave/:roomId"
+                  render={({ history, match }) => (
+                    <PostLeaveDisplay
+                      goToDashboardOnClick={() => {
+                        window.open("https://dashboard.100ms.live/", "_blank");
+                      }}
+                      joinRoomOnClick={() => {
+                        history.push("/" + match.params.roomId);
+                      }}
+                    />
+                  )}
+                ></Route>
                 <Route path="/:roomId?">
                   <JoinRoom />
                 </Route>
