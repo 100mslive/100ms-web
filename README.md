@@ -1,4 +1,4 @@
-# ⚠️[Experimental]⚠️ 100ms 2.0 Sample React App
+# ⚠️[Alpha]⚠️ 100ms 2.0 Sample React App
 
 This is an example React app to demo 100ms' React SDK
 
@@ -40,3 +40,5 @@ yarn dev
 ```
 
 The app should now be up and running at http://localhost:3000 🚀
+![image](https://user-images.githubusercontent.com/5078656/119534649-c60da000-bda4-11eb-9847-f283e2daa06f.png)
+

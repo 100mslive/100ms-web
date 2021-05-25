@@ -10,11 +10,11 @@ import {
   selectIsLocalScreenShared,
   selectIsLocalAudioEnabled,
   selectIsLocalVideoDisplayEnabled
-} from "@100mslive/sdk-components";
+} from "@100mslive/hms-video-react";
 import { useCallback, useContext } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
-import { Settings } from "@100mslive/sdk-components";
+import { Settings } from "@100mslive/hms-video-react";
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
