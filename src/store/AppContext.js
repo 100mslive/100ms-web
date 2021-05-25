@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useHMSActions, useHMSStore } from "@100mslive/sdk-components";
+import { useHMSActions, useHMSStore } from "@100mslive/hms-video-react";
 import {
   selectLocalPeer,
   selectIsConnectedToRoom,
-} from "@100mslive/sdk-components";
+} from "@100mslive/hms-video-react";
 import {
   convertLoginInfoToJoinConfig,
   setUpLogRocket,

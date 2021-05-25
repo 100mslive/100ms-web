@@ -1,4 +1,4 @@
-import { VideoList, FirstPersonDisplay } from "@100mslive/sdk-components";
+import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
 
 import React from "react";
 import { ChatView } from "./chatView";
@@ -51,7 +51,7 @@ export const GridSidePaneView = ({
             }}
             maxTileCount={maxTileCount}
             maxColCount={2}
-            compact={peers.length > 2}
+            compact={true}
           />
         )}
       </div>

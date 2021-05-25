@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
-import { Join } from "@100mslive/sdk-components";
+import { Join } from "@100mslive/hms-video-react";
 
 export const JoinRoom = () => {
   const history = useHistory();

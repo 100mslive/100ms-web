@@ -7,7 +7,7 @@ import {
   selectLocalPeer,
   selectPeerScreenSharing,
   ScreenShareDisplay,
-} from "@100mslive/sdk-components";
+} from "@100mslive/hms-video-react";
 import React, { useMemo } from "react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
@@ -97,7 +97,7 @@ export const SidePane = ({
     >
       {peerScreenSharing && (
         <div className="absolute left-0 top-0 w-full h-full p-3">
-          <VideoTile peer={peerScreenSharing} />
+          <VideoTile peer={peerScreenSharing} compact={true} />
         </div>
       )}
     </div>
@@ -117,6 +117,7 @@ export const SidePane = ({
             classes={{ videoTileContainer: "rounded-lg " }}
             maxColCount={2}
             overflow="scroll-x"
+            compact={true}
           />
         )}
       </div>
