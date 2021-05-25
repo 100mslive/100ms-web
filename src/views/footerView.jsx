@@ -17,9 +17,28 @@ import { useHistory } from "react-router-dom";
 import { Settings } from "@100mslive/sdk-components";
 
 const SettingsView = () => {
-  const { setMaxTileCount } = useContext(AppContext);
-  const onChange = ({ maxTileCount: newMaxTileCount }) => {
+  const hmsActions = useHMSActions();
+  const {
+    loginInfo: { selectedAudioInput, selectedVideoInput },
+    setLoginInfo,
+    setMaxTileCount,
+  } = useContext(AppContext);
+
+  const onChange = ({
+    maxTileCount: newMaxTileCount,
+    selectedVideoInput: newSelectedVideoInput,
+    selectedAudioInput: newSelectedAudioInput,
+  }) => {
     setMaxTileCount(newMaxTileCount);
+    if (selectedAudioInput !== newSelectedAudioInput) {
+      hmsActions.setAudioSettings({ deviceId: newSelectedAudioInput });
+      setLoginInfo({ selectedAudioInput: newSelectedAudioInput });
+    }
+
+    if (selectedVideoInput !== newSelectedVideoInput) {
+      hmsActions.setVideoSettings({ deviceId: newSelectedVideoInput });
+      setLoginInfo({ selectedVideoInput: newSelectedVideoInput });
+    }
   };
   return (
     <>
