@@ -9,7 +9,7 @@ import {
   useHMSActions,
   selectIsLocalScreenShared,
   selectIsLocalAudioEnabled,
-  selectIsLocalVideoEnabled,
+  selectIsLocalVideoDisplayEnabled
 } from "@100mslive/sdk-components";
 import { useContext } from "react";
 import { AppContext } from "../store/AppContext";
@@ -21,13 +21,13 @@ const SettingsView = () => {
   const {
     loginInfo: { selectedAudioInput, selectedVideoInput },
     setLoginInfo,
-    setMaxTileCount,
+    setMaxTileCount
   } = useContext(AppContext);
 
   const onChange = ({
     maxTileCount: newMaxTileCount,
     selectedVideoInput: newSelectedVideoInput,
-    selectedAudioInput: newSelectedAudioInput,
+    selectedAudioInput: newSelectedAudioInput
   }) => {
     setMaxTileCount(newMaxTileCount);
     if (selectedAudioInput !== newSelectedAudioInput) {
@@ -50,7 +50,7 @@ const SettingsView = () => {
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
-  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoEnabled);
+  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
   const history = useHistory();
@@ -88,7 +88,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               active={isChatOpen}
             >
               <ChatIcon />
-            </TwButton>,
+            </TwButton>
           ]}
           rightComponents={[
             <TwButton
@@ -103,7 +103,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             >
               <HangUpIcon className="mr-2" />
               Leave room
-            </TwButton>,
+            </TwButton>
           ]}
           audioButtonOnClick={() =>
             hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)
