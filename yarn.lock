@@ -2,19 +2,19 @@
 # yarn lockfile v1
 
 
-"@100mslive/100ms-web-sdk@^0.0.12-35":
-  version "0.0.12-35"
-  resolved "https://registry.yarnpkg.com/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.12-35.tgz#9e9e2f3d6808c8842cbb58d2b9b2c32bb3c308a8"
-  integrity sha512-Feuit6in0tAvFmojEKujqjtZggQditzDYLvKr05xhUwRJS3jwlelwN3ANhETI2gis5KZf9Jn+nh8w+jtVnXRIw==
+"@100mslive/100ms-web-sdk@^0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@100mslive/100ms-web-sdk/-/100ms-web-sdk-0.0.13.tgz#3434ce8cd9c91e0f49911bfb4ce55d04a655706d"
+  integrity sha512-4vMaqC0E0MrLwoCdmXfdoKezUrHkaqHtPYfgQ358eOrTyJOMPnszaPZYsMsTqowZ3v4zTE9Aa3RV650vpY3Uhw==
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/hms-video-react@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.1.0.tgz#8d9ad8f7439158296314b3c45817dee4ac6f7fe0"
-  integrity sha512-YO1NIwJoIcdcnQ2pF6vjaDdQemFLRNO7rC7odEd+Y4yOGDRijpj2luIQ8TmxME+5H6+v1VMxuPKJzIom0f4/rA==
+"@100mslive/hms-video-react@^0.1.23":
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.1.23.tgz#354e431f2960a2069ab82663e250eb59da0db216"
+  integrity sha512-lBg0PaEPOC1fqiENA4d63NoqGBpmwCBmg88t0/aflpRbCdtVUM6y5Emw2WCHdr0g7Qj1+EbAaGCBwhhcrPgbqA==
   dependencies:
-    "@100mslive/100ms-web-sdk" "^0.0.12-35"
+    "@100mslive/100ms-web-sdk" "^0.0.13"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autolinker "^3.14.3"
