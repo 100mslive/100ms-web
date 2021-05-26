@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useHMSActions, useHMSStore } from "@100mslive/hms-video-react";
 import {
   selectLocalPeer,
-  selectIsConnectedToRoom,
+  selectIsConnectedToRoom
 } from "@100mslive/hms-video-react";
 import {
   convertLoginInfoToJoinConfig,
-  setUpLogRocket,
+  setUpLogRocket
 } from "./appContextUtils";
 
 const AppContext = React.createContext(null);
@@ -22,7 +22,7 @@ const initialLoginInfo = {
   videoMuted: false,
   selectedVideoInput: "default",
   selectedAudioInput: "default",
-  selectedAudioOutput: "default",
+  selectedAudioOutput: "default"
 };
 
 const AppContextProvider = ({ children }) => {
@@ -32,13 +32,13 @@ const AppContextProvider = ({ children }) => {
 
   const [state, setState] = useState({
     loginInfo: initialLoginInfo,
-    maxTileCount: 9,
+    maxTileCount: 9
   });
 
-  const customLeave = () => {
+  const customLeave = useCallback(() => {
     console.log("User is leaving the room");
     hmsActions.leave();
-  };
+  }, [hmsActions]);
 
   useEffect(() => {
     if (!state.loginInfo.token) return;
@@ -52,17 +52,17 @@ const AppContextProvider = ({ children }) => {
   }, [localPeer?.id]);
 
   // deep set with clone so react re renders on any change
-  const deepSetLoginInfo = (loginInfo) => {
+  const deepSetLoginInfo = loginInfo => {
     const newState = {
       ...state,
-      loginInfo: { ...state.loginInfo, ...loginInfo },
+      loginInfo: { ...state.loginInfo, ...loginInfo }
     };
     setState(newState);
     console.log(newState); // note: component won't reflect changes at time of this log
   };
 
-  const deepSetMaxTiles = (maxTiles) => {
-    setState((prevState) => ({ ...prevState, maxTileCount: maxTiles }));
+  const deepSetMaxTiles = maxTiles => {
+    setState(prevState => ({ ...prevState, maxTileCount: maxTiles }));
   };
 
   window.onunload = () => customLeave();
@@ -75,7 +75,7 @@ const AppContextProvider = ({ children }) => {
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
         isConnected: isConnected,
-        leave: customLeave,
+        leave: customLeave
       }}
     >
       {children}
