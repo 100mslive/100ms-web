@@ -13,7 +13,7 @@ const AppContext = React.createContext(null);
 
 const initialLoginInfo = {
   token: null,
-  username: "",
+  userId: "",
   role: "",
   roomId: "",
   endpoint: process.env.REACT_APP_INIT_ENDPOINT,
