@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { Preview } from "@100mslive/sdk-components";
+import { Preview } from "@100mslive/hms-video-react";
 import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
 
@@ -11,7 +11,7 @@ const PreviewScreen = () => {
   const { roomId: urlRoomId } = useParams();
 
   const join = ({audioMuted, videoMuted}) => {
-      getToken(loginInfo.username, loginInfo.role, loginInfo.roomId, loginInfo.endpoint)
+      getToken(loginInfo.username, loginInfo.role, loginInfo.roomId)
           .then((token) => {
               setLoginInfo({ token , audioMuted, videoMuted});
               // send to meeting room now
