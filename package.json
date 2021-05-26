@@ -1,6 +1,6 @@
 {
   "name": "100ms_edtech_template",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@100mslive/hms-video-react": "^0.1.22",
