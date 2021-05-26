@@ -26,12 +26,7 @@ export const GridCenterView = ({ peers, maxTileCount, allowRemoteMute }) => {
 };
 
 // Side pane shows smaller tiles
-export const GridSidePaneView = ({
-  peers,
-  isChatOpen,
-  toggleChat,
-  maxTileCount,
-}) => {
+export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
   return (
     <div className="flex flex-col" style={{ width: "20%" }}>
       <div
@@ -49,7 +44,6 @@ export const GridSidePaneView = ({
               videoTileContainer: "rounded-lg",
               //video: "rounded-3xl",
             }}
-            maxTileCount={maxTileCount}
             maxColCount={2}
             compact={true}
           />

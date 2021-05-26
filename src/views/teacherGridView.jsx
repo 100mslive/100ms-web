@@ -18,7 +18,6 @@ export const TeacherGridView = ({ isChatOpen, toggleChat }) => {
       ></GridCenterView>
       <GridSidePaneView
         peers={teacherPeers}
-        maxTileCount={maxTileCount}
         isChatOpen={isChatOpen}
         toggleChat={toggleChat}
       ></GridSidePaneView>
