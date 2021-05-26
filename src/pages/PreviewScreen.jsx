@@ -11,7 +11,7 @@ const PreviewScreen = () => {
   const { roomId: urlRoomId } = useParams();
 
   const join = ({audioMuted, videoMuted}) => {
-      getToken(loginInfo.username, loginInfo.role, loginInfo.roomId, loginInfo.endpoint)
+      getToken(loginInfo.userId, loginInfo.role, loginInfo.roomId, loginInfo.endpoint)
           .then((token) => {
               setLoginInfo({ token , audioMuted, videoMuted});
               // send to meeting room now
@@ -35,16 +35,16 @@ const PreviewScreen = () => {
   };
 
   useEffect(() => {
-    if (loginInfo.username === "")
+    if (loginInfo.userId === "")
       history.push(`/${loginInfo.roomId || urlRoomId || ""}`);
     // eslint-disable-next-line
-  }, [loginInfo.username]);
+  }, [loginInfo.userId]);
 
-  return loginInfo.username ? (
+  return loginInfo.userId ? (
     <div>
       <div className="flex justify-center items-center">
         <Preview
-          name={loginInfo.username}
+          name={loginInfo.userId}
           joinOnClick={join}
           goBackOnClick={goBack}
           messageOnClose={goBack}
