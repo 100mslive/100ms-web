@@ -2,7 +2,7 @@ import LogRocket from "logrocket";
 
 export const convertLoginInfoToJoinConfig = (loginInfo) => {
     const joinConfig = {
-        userId: loginInfo.userId,
+        userName: loginInfo.username,
         authToken: loginInfo.token,
         metaData: loginInfo.role,
         initEndpoint: loginInfo.endpoint,
@@ -20,7 +20,7 @@ export const convertLoginInfoToJoinConfig = (loginInfo) => {
 
 export const setUpLogRocket = (loginInfo, localPeer) => {
     LogRocket.identify(localPeer.id, {
-        name: loginInfo.userId,
+        name: loginInfo.username,
         role: loginInfo.role,
         token: loginInfo.token,
     });
