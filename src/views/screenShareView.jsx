@@ -89,7 +89,7 @@ export const SidePane = ({
           <SmallTilePeersView
             isChatOpen={isChatOpen}
             smallTilePeers={smallTilePeers}
-            shouldShowScreen={shouldShowScreenFn}
+            shouldShowScreenFn={shouldShowScreenFn}
           />
         </div>
         <CustomChatView isChatOpen={isChatOpen} toggleChat={toggleChat} />
