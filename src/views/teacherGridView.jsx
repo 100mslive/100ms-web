@@ -16,6 +16,8 @@ export const TeacherGridView = ({ isChatOpen, toggleChat }) => {
         peers={hideSidePane ? peers : studentPeers}
         maxTileCount={maxTileCount}
         allowRemoteMute={true}
+        isChatOpen={isChatOpen}
+        toggleChat={toggleChat}
         hideSidePane={hideSidePane}
       ></GridCenterView>
       {!hideSidePane && <GridSidePaneView
