@@ -9,18 +9,21 @@ export const StudentGridView = ({ isChatOpen, toggleChat }) => {
   const peers = useHMSStore(selectPeers);
   const teacherPeers = peers.filter((peer) => peer.role === ROLES.TEACHER);
   const studentPeers = peers.filter((peer) => peer.role === ROLES.STUDENT);
+  const hideSidePane = (teacherPeers.length > 1 && studentPeers.length == 0) || (teacherPeers.length == 0 && studentPeers.length > 1)
+  console.log(teacherPeers, studentPeers, hideSidePane)
   return (
     <React.Fragment>
       <GridCenterView
-        peers={teacherPeers}
+        peers={hideSidePane ? peers : teacherPeers}
         maxTileCount={maxTileCount}
         allowRemoteMute={false}
       ></GridCenterView>
-      <GridSidePaneView
+      {!hideSidePane && <GridSidePaneView
         peers={studentPeers}
         isChatOpen={isChatOpen}
         toggleChat={toggleChat}
       ></GridSidePaneView>
+      }
     </React.Fragment>
   );
 };
