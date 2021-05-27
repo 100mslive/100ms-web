@@ -51,8 +51,7 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
           <SidePane
             isChatOpen={isChatOpen}
             toggleChat={toggleChat}
-            peerScreenSharing={peerPresenting}
-            isPresenterInSmallTiles={showPresenterInSmallTile}
+            peerScreenSharing={showPresenterInSmallTile ? null : peerPresenting}
             smallTilePeers={smallTilePeers}
           />
         </div>
@@ -66,7 +65,6 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
 export const SidePane = ({
   isChatOpen,
   toggleChat,
-  isPresenterInSmallTiles,
   peerScreenSharing, // the peer who is screensharing
   smallTilePeers
 }) => {
@@ -80,16 +78,11 @@ export const SidePane = ({
     <React.Fragment>
       <div className={`w-full h-full relative`}>
         <div className={`w-full flex flex-col h-full`}>
-          {!isPresenterInSmallTiles && (
-            <LargeTilePeerView
-              peerScreenSharing={peerScreenSharing}
-              isChatOpen={isChatOpen}
-            />
-          )}
+          <LargeTilePeerView peerScreenSharing={peerScreenSharing} isChatOpen={isChatOpen} />
           <SmallTilePeersView
             isChatOpen={isChatOpen}
             smallTilePeers={smallTilePeers}
-            shouldShowScreenFn={shouldShowScreenFn}
+            shouldShowScreen={shouldShowScreenFn}
           />
         </div>
         <CustomChatView isChatOpen={isChatOpen} toggleChat={toggleChat} />
@@ -126,7 +119,7 @@ const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
 const CustomChatView = ({ isChatOpen, toggleChat }) => {
   return (
     isChatOpen && (
-      <div className="h-1/2 w-full absolute z-40 bottom-0 right-0">
+      <div className="h-1/2 w-full absolute z-40 bottom-0 right-0 p-2">
         <ChatView toggleChat={toggleChat} />
       </div>
     )
@@ -144,7 +137,7 @@ const SmallTilePeersView = ({
         <VideoList
           peers={smallTilePeers}
           showScreenFn={shouldShowScreenFn}
-          classes={{ videoTileContainer: "rounded-lg " }}
+          classes={{ videoTileContainer: "rounded-lg p-3" }}
           maxColCount={2}
           overflow="scroll-x"
           compact={true}
@@ -158,11 +151,11 @@ const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => (
   <div
     className="w-full relative overflow-hidden"
     style={{
-      paddingTop: `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`
+      paddingTop: `${peerScreenSharing ? isChatOpen ? "40%" : "100%" : "0"}`
     }}
   >
     {peerScreenSharing && (
-      <div className="absolute left-0 top-0 w-full h-full p-3">
+      <div className={`absolute left-0 top-0 w-full h-full ${isChatOpen ? "p-0" : "p-3"}`}>
         <VideoTile peer={peerScreenSharing} compact={true} />
       </div>
     )}
