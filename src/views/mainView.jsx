@@ -2,7 +2,7 @@ import {
   selectLocalPeer,
   selectIsSomeoneScreenSharing,
   useHMSStore,
-} from "@100mslive/sdk-components";
+} from "@100mslive/hms-video-react";
 import { TeacherGridView } from "./teacherGridView";
 import { StudentGridView } from "./studentGridView";
 import { ScreenShareView } from "./screenShareView";

@@ -8,7 +8,7 @@ import {
   HMSRoomProvider,
   HMSThemeProvider,
   PostLeaveDisplay,
-} from "@100mslive/sdk-components";
+} from "@100mslive/hms-video-react";
 import { shadeColor } from "./common/utils";
 
 export function EdtechComponent({

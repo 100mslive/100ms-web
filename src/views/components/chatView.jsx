@@ -1,4 +1,4 @@
-import { ChatBox } from "@100mslive/sdk-components";
+import { ChatBox } from "@100mslive/hms-video-react";
 import React from "react";
 
 export const ChatView = ({ toggleChat }) => {

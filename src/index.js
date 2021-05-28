@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import LogRocket from 'logrocket';
-import setupLogRocketReact from 'logrocket-react';
+import LogRocket from "logrocket";
+import setupLogRocketReact from "logrocket-react";
 
-if (process.env.NODE_ENV === "production") {
-  LogRocket.init("plwzmx/edtech-webapp");
+if (
+  process.env.NODE_ENV === "production" &&
+  process.env.REACT_APP_LOGROCKET_ID
+) {
+  LogRocket.init(process.env.REACT_APP_LOGROCKET_ID);
   setupLogRocketReact(LogRocket);
 }
 
