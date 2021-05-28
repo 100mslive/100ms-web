@@ -4,9 +4,19 @@ import React from "react";
 import { ChatView } from "./chatView";
 
 // The center of the screen shows bigger tiles
-export const GridCenterView = ({ peers, maxTileCount, allowRemoteMute, isChatOpen, toggleChat, hideSidePane }) => {
+export const GridCenterView = ({
+  peers,
+  maxTileCount,
+  allowRemoteMute,
+  isChatOpen,
+  toggleChat,
+  hideSidePane,
+}) => {
   return (
-    <div className=" h-full  " style={{ width: `${(hideSidePane && !isChatOpen) ? "100%" : "80%"}`}}>
+    <div
+      className=" h-full  "
+      style={{ width: `${hideSidePane && !isChatOpen ? "100%" : "80%"}` }}
+    >
       {peers && peers.length > 0 ? (
         <VideoList
           peers={peers}
@@ -21,9 +31,9 @@ export const GridCenterView = ({ peers, maxTileCount, allowRemoteMute, isChatOpe
       ) : (
         <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
       )}
-      {(isChatOpen && hideSidePane) && (
+      {isChatOpen && hideSidePane && (
         <div className=" my-32 h-1/2 w-2/10 absolute z-40 top-0 right-0">
-            <ChatView toggleChat={toggleChat}></ChatView>
+          <ChatView toggleChat={toggleChat}></ChatView>
         </div>
       )}
     </div>
