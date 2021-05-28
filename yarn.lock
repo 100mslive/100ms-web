@@ -9,10 +9,10 @@
   dependencies:
     uuid "^8.3.2"
 
-"@100mslive/hms-video-react@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.1.23.tgz#354e431f2960a2069ab82663e250eb59da0db216"
-  integrity sha512-lBg0PaEPOC1fqiENA4d63NoqGBpmwCBmg88t0/aflpRbCdtVUM6y5Emw2WCHdr0g7Qj1+EbAaGCBwhhcrPgbqA==
+"@100mslive/hms-video-react@^0.1.28":
+  version "0.1.2003"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.1.2003.tgz#0803bb5ee9fec6552a0b6c4043f96c0eeacdbae7"
+  integrity sha512-uajKrLZpiZVY4iQ1+5TJ71mbCe4Co7VXMO9lEM2PjRYQFXUqO1citRD8azGgiP/ldSGxz/HVosKqY5AJxGjPrg==
   dependencies:
     "@100mslive/100ms-web-sdk" "^0.0.13"
     "@material-ui/core" "^4.11.3"
