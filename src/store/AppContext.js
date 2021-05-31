@@ -2,11 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useHMSActions, useHMSStore } from "@100mslive/hms-video-react";
 import {
   selectLocalPeer,
-  selectIsConnectedToRoom
+  selectIsConnectedToRoom,
 } from "@100mslive/hms-video-react";
 import {
   convertLoginInfoToJoinConfig,
-  setUpLogRocket
+  setUpLogRocket,
 } from "./appContextUtils";
 
 const AppContext = React.createContext(null);
@@ -22,17 +22,22 @@ const initialLoginInfo = {
   videoMuted: false,
   selectedVideoInput: "default",
   selectedAudioInput: "default",
-  selectedAudioOutput: "default"
+  selectedAudioOutput: "default",
 };
 
-const AppContextProvider = ({ children }) => {
+const AppContextProvider = ({
+  roomId = "",
+  tokenEndpoint = process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT,
+  children,
+}) => {
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
   const isConnected = useHMSStore(selectIsConnectedToRoom);
+  initialLoginInfo.roomId = roomId;
 
   const [state, setState] = useState({
     loginInfo: initialLoginInfo,
-    maxTileCount: 9
+    maxTileCount: 9,
   });
 
   const customLeave = useCallback(() => {
@@ -55,7 +60,7 @@ const AppContextProvider = ({ children }) => {
   const deepSetLoginInfo = loginInfo => {
     const newState = {
       ...state,
-      loginInfo: { ...state.loginInfo, ...loginInfo }
+      loginInfo: { ...state.loginInfo, ...loginInfo },
     };
     setState(newState);
     console.log(newState); // note: component won't reflect changes at time of this log
@@ -75,7 +80,8 @@ const AppContextProvider = ({ children }) => {
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
         isConnected: isConnected,
-        leave: customLeave
+        leave: customLeave,
+        tokenEndpoint,
       }}
     >
       {children}

@@ -1534,10 +1534,6 @@ video {
   height: 33.333333%;
 }
 
-.h-2\/3 {
-  height: 66.666667%;
-}
-
 .h-full {
   height: 100%;
 }
@@ -1662,6 +1658,11 @@ video {
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
+}
+
+.my-32 {
+  margin-top: 8rem;
+  margin-bottom: 8rem;
 }
 
 .mx-auto {

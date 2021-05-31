@@ -7,18 +7,21 @@ import { ConferenceMainView } from "../views/mainView";
 
 export const Conference = () => {
   const history = useHistory();
-  const { roomId: urlRoomId } = useParams();
+  const { roomId } = useParams();
+
   const context = useContext(AppContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const toggleChat = useCallback(() => {
-    setIsChatOpen((open) => !open);
+    setIsChatOpen(open => !open);
   }, []);
 
-  const { loginInfo, leave } = context;
+  const { loginInfo, leave, setLoginInfo } = context;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => setLoginInfo({ roomId }), [roomId]);
   if (!loginInfo.token) {
     // redirect to join if token not present
-    history.push(`/${loginInfo.roomId || urlRoomId || ""}`);
+    history.push(`/${loginInfo.roomId || ""}`);
   }
   useEffect(() => {
     return () => {

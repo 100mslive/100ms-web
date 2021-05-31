@@ -7,17 +7,24 @@ import getToken from "../services/tokenService";
 const PreviewScreen = () => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo, setLoginInfo, setMaxTileCount } = context;
-  const { roomId: urlRoomId } = useParams();
+  const { loginInfo, setLoginInfo, setMaxTileCount, tokenEndpoint } = context;
+  const { roomId } = useParams();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => setLoginInfo({ roomId }), [roomId]);
 
   const join = ({ audioMuted, videoMuted }) => {
-    getToken(loginInfo.username, loginInfo.role, loginInfo.roomId)
-      .then((token) => {
+    getToken(
+      tokenEndpoint,
+      loginInfo.username,
+      loginInfo.role,
+      loginInfo.roomId
+    )
+      .then(token => {
         setLoginInfo({ token, audioMuted, videoMuted });
         // send to meeting room now
         history.push(`/meeting/${loginInfo.roomId}`);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("Token API Error", error);
       });
   };
@@ -40,12 +47,11 @@ const PreviewScreen = () => {
   };
 
   const goBack = () => {
-    history.push(`/${loginInfo.roomId || urlRoomId || ""}`);
+    history.push(`/${loginInfo.roomId || ""}`);
   };
 
   useEffect(() => {
-    if (loginInfo.username === "")
-      history.push(`/${loginInfo.roomId || urlRoomId || ""}`);
+    if (loginInfo.username === "") history.push(`/${loginInfo.roomId || ""}`);
     // eslint-disable-next-line
   }, [loginInfo.username]);
 
