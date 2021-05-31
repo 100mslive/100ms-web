@@ -1,6 +1,6 @@
 {
   "name": "@100mslive/hms-edtech-template",
-  "version": "0.1.3-1013",
+  "version": "0.1.4",
   "description": "100ms Edtech Template as a component.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "prepare:style": "cd ../../../ && yarn build:style && mv tailwind.css src/packages/hms-edtech-template && cd src/packages/hms-edtech-template",
-    "build": "rm -rf dist && rollup -c",
+    "build": "NODE_ENV=production yarn prepare:style && rm -rf dist && rollup -c",
     "prepare": "yarn build"
   },
   "author": "eswar-clynn",
@@ -19,7 +19,7 @@
     "react-dom": "^17.0.1"
   },
   "dependencies": {
-    "@100mslive/hms-video-react": "file:100mslive-hms-video-react-v0.1.29-2.tgz"
+    "@100mslive/hms-video-react": "0.1.30"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.3",

@@ -15,18 +15,20 @@ export function EdtechComponent({
   roomId = "",
   tokenEndpoint = process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT,
   themeConfig: {
-    tileShape = "1-1",
+    aspectRatio = "1-1",
     font = "Roboto",
     color = "#2F80FF",
     theme = "dark",
     showChat = "true",
     showScreenshare = "true",
     logo = "",
-    videoAvatar = "true",
+    showAvatar = "true",
     avatarType = "initial",
   },
 }) {
-  const { 0: width, 1: height } = tileShape.split("-").map(el => parseInt(el));
+  const { 0: width, 1: height } = aspectRatio
+    .split("-")
+    .map(el => parseInt(el));
   return (
     <div className="w-full h-screen dark:bg-black">
       <HMSThemeProvider
@@ -52,7 +54,7 @@ export function EdtechComponent({
           enableScreenShare: showScreenshare === "true",
           logo: logo,
           videoTileAspectRatio: { width, height },
-          showAvatar: videoAvatar === "true",
+          showAvatar: showAvatar === "true",
           avatarType: avatarType,
         }}
       >
@@ -98,14 +100,14 @@ export default function App() {
   return (
     <EdtechComponent
       themeConfig={{
-        tileShape: process.env.REACT_APP_TILE_SHAPE,
+        aspectRatio: process.env.REACT_APP_TILE_SHAPE,
         theme: process.env.REACT_APP_THEME,
         color: process.env.REACT_APP_COLOR,
         logo: process.env.REACT_APP_LOGO,
         font: process.env.REACT_APP_FONT,
         showChat: process.env.REACT_APP_SHOW_CHAT,
         showScreenshare: process.env.REACT_APP_SHOW_SCREENSHARE,
-        videoAvatar: process.env.REACT_APP_VIDEO_AVATAR,
+        showAvatar: process.env.REACT_APP_VIDEO_AVATAR,
         avatarType: process.env.REACT_APP_AVATAR_TYPE,
       }}
     />

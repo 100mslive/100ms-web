@@ -21,7 +21,7 @@ export const Conference = () => {
   useEffect(() => setLoginInfo({ roomId }), [roomId]);
   if (!loginInfo.token) {
     // redirect to join if token not present
-    history.push(`/${loginInfo.roomId || ""}`);
+    history.push(`/${loginInfo.roomId || roomId || ""}`);
   }
   useEffect(() => {
     return () => {

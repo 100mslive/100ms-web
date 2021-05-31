@@ -15,6 +15,7 @@ const PreviewScreen = () => {
   const join = ({ audioMuted, videoMuted }) => {
     getToken(
       tokenEndpoint,
+      loginInfo.env,
       loginInfo.username,
       loginInfo.role,
       loginInfo.roomId
@@ -51,7 +52,8 @@ const PreviewScreen = () => {
   };
 
   useEffect(() => {
-    if (loginInfo.username === "") history.push(`/${loginInfo.roomId || ""}`);
+    if (loginInfo.username === "")
+      history.push(`/${loginInfo.roomId || roomId || ""}`);
     // eslint-disable-next-line
   }, [loginInfo.username]);
 

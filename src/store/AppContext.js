@@ -16,8 +16,9 @@ const initialLoginInfo = {
   username: "",
   role: "",
   roomId: "",
-  endpoint: process.env.REACT_APP_INIT_ENDPOINT,
-  env: process.env.REACT_APP_ENV,
+  env: process.env.REACT_APP_ENV
+    ? process.env.REACT_APP_ENV + "-in"
+    : "prod-in",
   audioMuted: false,
   videoMuted: false,
   selectedVideoInput: "default",

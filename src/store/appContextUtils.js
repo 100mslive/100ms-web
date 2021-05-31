@@ -1,11 +1,13 @@
 import LogRocket from "logrocket";
 
-export const convertLoginInfoToJoinConfig = (loginInfo) => {
+export const convertLoginInfoToJoinConfig = loginInfo => {
   const joinConfig = {
     userName: loginInfo.username,
     authToken: loginInfo.token,
     metaData: loginInfo.role,
-    initEndpoint: loginInfo.endpoint,
+    initEndpoint: loginInfo.env
+      ? `https://${loginInfo.env.split("-")[0]}-init.100ms.live/init`
+      : "https://prod-init.100ms.live/init",
     settings: {
       isAudioMuted: loginInfo.audioMuted,
       isVideoMuted: loginInfo.videoMuted,

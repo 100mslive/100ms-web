@@ -31,9 +31,6 @@
     },
     "REACT_APP_ENV": {
       "description": "Internal env variable for 100ms"
-    },
-    "REACT_APP_INIT_ENDPOINT": {
-      "description": "Internal init endpoint override for 100ms"
     }
   }
 }

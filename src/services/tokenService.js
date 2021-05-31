@@ -1,11 +1,17 @@
-export default async function getToken(tokenEndpoint, userId, role, roomId) {
+export default async function getToken(
+  tokenEndpoint,
+  env,
+  userId,
+  role,
+  roomId
+) {
   console.log(tokenEndpoint);
   const response = await fetch(`${tokenEndpoint}/api/token`, {
     method: "POST",
     //TODO remove env
     body: JSON.stringify({
-      env: process.env.REACT_APP_ENV,
-      role: role,
+      env,
+      role,
       room_id: roomId,
       user_id: userId,
     }),
