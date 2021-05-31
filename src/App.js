@@ -40,7 +40,7 @@ function App() {
           logo: process.env.REACT_APP_LOGO,
           videoTileAspectRatio: { width, height },
           showAvatar: process.env.REACT_APP_VIDEO_AVATAR === "true",
-          avatarType: "pebble",
+          avatarType: "initial",
         }}
       >
         <HMSRoomProvider>
