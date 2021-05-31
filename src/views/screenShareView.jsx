@@ -6,36 +6,44 @@ import {
   selectPeers,
   selectLocalPeer,
   selectPeerScreenSharing,
-  ScreenShareDisplay
+  ScreenShareDisplay,
 } from "@100mslive/hms-video-react";
 import React, { useCallback, useMemo } from "react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
+
+import { App } from "../common/layout";
 
 export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
   const smallTilePeers = useMemo(
-    () => peers.filter(peer => peer.id !== peerPresenting.id),
+    () => peers.filter((peer) => peer.id !== peerPresenting.id),
     [peers, peerPresenting]
   );
 
-  const amITeacher = localPeer?.role === ROLES.TEACHER;
-  const isPresenterTeacher = peerPresenting?.role === ROLES.TEACHER;
   const amIPresenting = localPeer && localPeer.id === peerPresenting?.id;
   const showPresenterInSmallTile =
-    amIPresenting || (amITeacher && isPresenterTeacher);
+    amIPresenting ||
+    (App[localPeer.role]
+      ? App[localPeer.role].showPresenterInSmallTile(
+          peers,
+          localPeer,
+          peerPresenting
+        )
+      : false);
 
   if (
     showPresenterInSmallTile &&
-    !smallTilePeers.some(peer => peer.id === peerPresenting.id)
+    !smallTilePeers.some((peer) => peer.id === peerPresenting.id)
   ) {
     if (amIPresenting) {
       // put presenter on last page
       smallTilePeers.push(peerPresenting);
     } else {
       // put on first page
+
       smallTilePeers.unshift(peerPresenting);
     }
   }
@@ -68,11 +76,11 @@ export const SidePane = ({
   toggleChat,
   isPresenterInSmallTiles,
   peerScreenSharing, // the peer who is screensharing
-  smallTilePeers
+  smallTilePeers,
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
-    peer => peerScreenSharing && peer.id !== peerScreenSharing.id,
+    (peer) => peerScreenSharing && peer.id !== peerScreenSharing.id,
     [peerScreenSharing]
   );
 
@@ -136,7 +144,7 @@ const CustomChatView = ({ isChatOpen, toggleChat }) => {
 const SmallTilePeersView = ({
   isChatOpen,
   smallTilePeers,
-  shouldShowScreenFn
+  shouldShowScreenFn,
 }) => {
   return (
     <div className={`w-full relative ${isChatOpen ? "h-1/3" : "flex-grow"}`}>
@@ -158,7 +166,7 @@ const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => (
   <div
     className="w-full relative overflow-hidden"
     style={{
-      paddingTop: `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`
+      paddingTop: `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
     }}
   >
     {peerScreenSharing && (
