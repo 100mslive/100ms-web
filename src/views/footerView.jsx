@@ -2,7 +2,7 @@ import {
   useHMSStore,
   ControlBar,
   HangUpIcon,
-  TwButton,
+  Button,
   ShareScreenIcon,
   ChatIcon,
   ChatUnreadIcon,
@@ -12,11 +12,11 @@ import {
   selectIsLocalAudioEnabled,
   selectIsLocalVideoEnabled,
   selectUnreadHMSMessagesCount,
-} from "@100mslive/hms-video-react";
-import { useContext, useCallback } from "react";
-import { AppContext } from "../store/AppContext";
-import { useHistory, useParams } from "react-router-dom";
-import { Settings } from "@100mslive/hms-video-react";
+} from '@100mslive/hms-video-react';
+import { useContext, useCallback } from 'react';
+import { AppContext } from '../store/AppContext';
+import { useHistory, useParams } from 'react-router-dom';
+import { Settings } from '@100mslive/hms-video-react';
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
@@ -70,43 +70,43 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           leftComponents={[
             <SettingsView key={0} />,
             <VerticalDivider key={1} />,
-            <TwButton
+            <Button
               key={2}
               iconOnly
-              variant={"no-fill"}
-              iconSize="md"
-              shape={"rectangle"}
+              variant={'no-fill'}
+              iconSize='md'
+              shape={'rectangle'}
               onClick={toggleScreenShare}
             >
               <ShareScreenIcon />
-            </TwButton>,
+            </Button>,
             <VerticalDivider key={3} />,
-            <TwButton
+            <Button
               key={4}
               iconOnly
-              variant={"no-fill"}
-              iconSize="md"
-              shape={"rectangle"}
+              variant={'no-fill'}
+              iconSize='md'
+              shape={'rectangle'}
               onClick={toggleChat}
               active={isChatOpen}
             >
               {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-            </TwButton>,
+            </Button>,
           ]}
           rightComponents={[
-            <TwButton
+            <Button
               key={0}
-              size="md"
-              shape={"rectangle"}
-              variant={"danger"}
+              size='md'
+              shape={'rectangle'}
+              variant={'danger'}
               onClick={() => {
                 leave();
-                history.push("/leave/" + params.roomId);
+                history.push('/leave/' + params.roomId);
               }}
             >
-              <HangUpIcon className="mr-2" />
+              <HangUpIcon className='mr-2' />
               Leave room
-            </TwButton>,
+            </Button>,
           ]}
           audioButtonOnClick={() =>
             hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)
