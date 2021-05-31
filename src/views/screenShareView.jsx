@@ -51,6 +51,7 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
           <SidePane
             isChatOpen={isChatOpen}
             toggleChat={toggleChat}
+            isPresenterInSmallTiles={showPresenterInSmallTile}
             peerScreenSharing={showPresenterInSmallTile ? null : peerPresenting}
             smallTilePeers={smallTilePeers}
           />
