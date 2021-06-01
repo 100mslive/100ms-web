@@ -51,7 +51,8 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
           <SidePane
             isChatOpen={isChatOpen}
             toggleChat={toggleChat}
-            peerScreenSharing={showPresenterInSmallTile ? null : peerPresenting}
+            peerScreenSharing={peerPresenting}
+            isPresenterInSmallTiles={showPresenterInSmallTile}
             smallTilePeers={smallTilePeers}
           />
         </div>
@@ -65,6 +66,7 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
 export const SidePane = ({
   isChatOpen,
   toggleChat,
+  isPresenterInSmallTiles,
   peerScreenSharing, // the peer who is screensharing
   smallTilePeers
 }) => {
@@ -78,11 +80,16 @@ export const SidePane = ({
     <React.Fragment>
       <div className={`w-full h-full relative`}>
         <div className={`w-full flex flex-col h-full`}>
-          <LargeTilePeerView peerScreenSharing={peerScreenSharing} />
+          {!isPresenterInSmallTiles && (
+            <LargeTilePeerView
+              peerScreenSharing={peerScreenSharing}
+              isChatOpen={isChatOpen}
+            />
+          )}
           <SmallTilePeersView
             isChatOpen={isChatOpen}
             smallTilePeers={smallTilePeers}
-            shouldShowScreen={shouldShowScreenFn}
+            shouldShowScreenFn={shouldShowScreenFn}
           />
         </div>
         <CustomChatView isChatOpen={isChatOpen} toggleChat={toggleChat} />
@@ -119,7 +126,7 @@ const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
 const CustomChatView = ({ isChatOpen, toggleChat }) => {
   return (
     isChatOpen && (
-      <div className="h-2/3 w-full absolute z-40 bottom-0 right-0">
+      <div className="h-1/2 w-full absolute z-40 bottom-0 right-0">
         <ChatView toggleChat={toggleChat} />
       </div>
     )
@@ -147,11 +154,11 @@ const SmallTilePeersView = ({
   );
 };
 
-const LargeTilePeerView = ({ peerScreenSharing }) => (
+const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => (
   <div
     className="w-full relative overflow-hidden"
     style={{
-      paddingTop: `${peerScreenSharing ? "100%" : "0"}`
+      paddingTop: `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`
     }}
   >
     {peerScreenSharing && (

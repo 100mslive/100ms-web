@@ -4,9 +4,9 @@ import React from "react";
 import { ChatView } from "./chatView";
 
 // The center of the screen shows bigger tiles
-export const GridCenterView = ({ peers, maxTileCount, allowRemoteMute }) => {
+export const GridCenterView = ({ peers, maxTileCount, allowRemoteMute, isChatOpen, toggleChat, hideSidePane }) => {
   return (
-    <div className=" h-full  " style={{ width: "80%" }}>
+    <div className=" h-full  " style={{ width: `${(hideSidePane && !isChatOpen) ? "100%" : "80%"}`}}>
       {peers && peers.length > 0 ? (
         <VideoList
           peers={peers}
@@ -21,17 +21,17 @@ export const GridCenterView = ({ peers, maxTileCount, allowRemoteMute }) => {
       ) : (
         <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
       )}
+      {(isChatOpen && hideSidePane) && (
+        <div className="h-1/2 w-2/10 absolute z-40 bottom-20 right-0">
+            <ChatView toggleChat={toggleChat}></ChatView>
+        </div>
+      )}
     </div>
   );
 };
 
 // Side pane shows smaller tiles
-export const GridSidePaneView = ({
-  peers,
-  isChatOpen,
-  toggleChat,
-  maxTileCount,
-}) => {
+export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
   return (
     <div className="flex flex-col" style={{ width: "20%" }}>
       <div
@@ -49,7 +49,6 @@ export const GridSidePaneView = ({
               videoTileContainer: "rounded-lg",
               //video: "rounded-3xl",
             }}
-            maxTileCount={maxTileCount}
             maxColCount={2}
             compact={true}
           />
