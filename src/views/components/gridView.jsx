@@ -30,15 +30,9 @@ export const GridCenterView = ({
       ) : (
         <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
       )}
-<<<<<<< HEAD
-      {isChatOpen && hideSidePane && (
-        <div className=" my-32 h-1/2 w-2/10 absolute z-40 top-0 right-0">
-          <ChatView toggleChat={toggleChat}></ChatView>
-=======
       {(isChatOpen && hideSidePane) && (
         <div className="h-1/2 w-2/10 absolute z-40 bottom-20 right-0">
             <ChatView toggleChat={toggleChat}></ChatView>
->>>>>>> b403ad1182f4da50ebe1c20abe1c32ddb0b89c19
         </div>
       )}
     </div>

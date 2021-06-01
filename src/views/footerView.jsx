@@ -91,11 +91,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               onClick={toggleChat}
               active={isChatOpen}
             >
-<<<<<<< HEAD
-              <ChatIcon />
-=======
               {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
->>>>>>> b403ad1182f4da50ebe1c20abe1c32ddb0b89c19
             </Button>,
           ]}
           rightComponents={[

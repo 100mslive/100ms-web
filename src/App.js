@@ -54,8 +54,8 @@ export function EdtechComponent({
           enableScreenShare: showScreenshare === "true",
           logo: logo,
           videoTileAspectRatio: { width, height },
-          showAvatar: process.env.REACT_APP_VIDEO_AVATAR === "true",
-          avatarType: "initial",
+          showAvatar: showAvatar === "true",
+          avatarType: avatarType,
         }}
       >
         <HMSRoomProvider>
