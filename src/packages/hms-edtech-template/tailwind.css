@@ -1909,24 +1909,9 @@ video {
   padding: 0.125rem;
 }
 
-.py-0 {
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
-.px-0 {
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-}
-
-.px-1 {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
 }
 
 .py-2 {
@@ -2145,6 +2130,10 @@ video {
 
 .right-3 {
   right: 0.75rem;
+}
+
+.bottom-20 {
+  bottom: 5rem;
 }
 
 .top-1\/2 {
@@ -2517,10 +2506,6 @@ video {
 
 .break-all {
   word-break: break-all;
-}
-
-.w-1 {
-  width: 0.25rem;
 }
 
 .w-2 {
@@ -3194,6 +3179,10 @@ code {
             flex-grow: 1;
   }
 
+  .md\:h-full {
+    height: 100%;
+  }
+
   .md\:text-base {
     font-size: 1rem;
     line-height: 1.5rem;
@@ -3214,6 +3203,10 @@ code {
 
   .md\:mr-5 {
     margin-right: 1.25rem;
+  }
+
+  .md\:object-contain {
+    object-fit: contain;
   }
 
   .md\:p-3 {
