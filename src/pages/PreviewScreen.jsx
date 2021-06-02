@@ -35,7 +35,7 @@ const PreviewScreen = (props) => {
           .then((token) => {
               setLoginInfo({ token , audioMuted, videoMuted, role : userRole, roomId : urlRoomId});
               // send to meeting room now
-              history.push(`/meeting/${loginInfo.roomId}/${loginInfo.role}`);
+              history.push(`/meeting/${urlRoomId}/${userRole}`);
           })
           .catch((error) => {
               console.log("Token API Error", error);
