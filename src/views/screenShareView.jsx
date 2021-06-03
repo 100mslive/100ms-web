@@ -91,8 +91,8 @@ export const SidePane = ({
             smallTilePeers={smallTilePeers}
             shouldShowScreenFn={shouldShowScreenFn}
           />
-        </div>
         <CustomChatView isChatOpen={isChatOpen} toggleChat={toggleChat} />
+        </div>
       </div>
     </React.Fragment>
   );
@@ -126,7 +126,7 @@ const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
 const CustomChatView = ({ isChatOpen, toggleChat }) => {
   return (
     isChatOpen && (
-      <div className="h-1/2 w-full absolute z-40 bottom-0 right-0">
+      <div className="h-1/2 w-full flex-shrink-0">
         <ChatView toggleChat={toggleChat} />
       </div>
     )
