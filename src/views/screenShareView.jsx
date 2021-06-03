@@ -21,8 +21,8 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
     [peers, peerPresenting]
   );
 
-  const amITeacher = localPeer?.role === ROLES.TEACHER;
-  const isPresenterTeacher = peerPresenting?.role === ROLES.TEACHER;
+  const amITeacher = localPeer?.role.toLowerCase() === ROLES.TEACHER;
+  const isPresenterTeacher = peerPresenting?.role.toLowerCase() === ROLES.TEACHER;
   const amIPresenting = localPeer && localPeer.id === peerPresenting?.id;
   const showPresenterInSmallTile =
     amIPresenting || (amITeacher && isPresenterTeacher);
