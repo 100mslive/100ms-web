@@ -139,7 +139,7 @@ const SmallTilePeersView = ({
   shouldShowScreenFn
 }) => {
   return (
-    <div className={`w-full relative ${isChatOpen ? "h-1/3" : "flex-grow"}`}>
+    <div className="w-full relative flex-1">
       {smallTilePeers && smallTilePeers.length > 0 && (
         <VideoList
           peers={smallTilePeers}
