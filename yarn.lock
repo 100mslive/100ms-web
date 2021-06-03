@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.3.tgz#c5db3bed3e4e0a574f24f9a734b9eb1c5999b2ea"
-  integrity sha512-eUe6VI2Qm/AKEkXU0fkUX7LudFoiJDQSCANBCebEshEIcgkyeHhauz1Mbtm/LE8I11KipK+CZBIJEoV/8AhE2g==
+"@100mslive/hms-video-react@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.5.tgz#0a75991dce7414441c3ce48f75f75efa07c7d75d"
+  integrity sha512-jmS67MPg/MoCo+imxxrdpm1mqK//mUvmDLdrk6QzhV3VCWckVLWmIHI80mOdiatUCRmzeTy7VfCJPv3avE/V/A==
   dependencies:
     "@100mslive/hms-video" "^0.0.19"
+    "@100mslive/hms-video-store" "^0.1.8"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
     clsx "^1.1.1"
-    immer "^9.0.2"
     lodash "^4.17.21"
     lodash-es "^4.17.21"
     postcss "^7.0.35"
@@ -21,11 +21,17 @@
     react-markdown "^6.0.0"
     react-resize-detector "^6.6.5"
     remark-gfm "^1.0.0"
-    reselect "^4.0.0"
-    reselect-tools "^0.0.7"
     tailwind-percentage-heights-plugin "^0.1.4"
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
+
+"@100mslive/hms-video-store@^0.1.8":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.9.tgz#63f96ae4bd05c96ceea1d42d0b245f79913dae9f"
+  integrity sha512-xRlralSu9rx8sj1sxAP9ekRl20hXjSSE9s6kHBXPKbMs/dDbCQTwXVWUwvmB/l+P2oh87Rn23CFnQ65krct//g==
+  dependencies:
+    immer "^9.0.2"
+    reselect "^4.0.0"
     zustand "^3.5.1"
 
 "@100mslive/hms-video@^0.0.19":
@@ -10287,14 +10293,7 @@ requires-port@^1.0.0:
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reselect-tools@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/reselect-tools/-/reselect-tools-0.0.7.tgz#bff19df422ebebd1a7c322262db94a554f6b44ed"
-  integrity sha512-+RGguS8ph21y04l6YwQwL+VfJ/c0qyZKCkhCd5ZwbNJ/lklsJml3CIim+uaG/t+7jYZQcwDW4bk5+VzTeuzwtw==
-  dependencies:
-    reselect "4.0.0"
-
-reselect@4.0.0, reselect@^4.0.0:
+reselect@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
   integrity sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
