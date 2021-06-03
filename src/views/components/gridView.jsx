@@ -44,7 +44,7 @@ export const GridCenterView = ({
 export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
   return (
     <div className="flex flex-col" style={{ width: "20%" }}>
-      <div className="flex items-end w-full">
+      <div className="flex flex-1 items-end w-full">
         {peers && peers.length > 0 && (
           <VideoList
             peers={peers}
@@ -57,14 +57,14 @@ export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
             compact={true}
           />
         )}
-        {isChatOpen && (
-          <div className="flex h-1/2 items-end p-2">
-            <div className="w-full h-full">
-              <ChatView toggleChat={toggleChat}></ChatView>
-            </div>
-          </div>
-        )}
       </div>
+      {isChatOpen && (
+        <div className="flex h-1/2 items-end p-2">
+          <div className="w-full h-full">
+            <ChatView toggleChat={toggleChat}></ChatView>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
