@@ -17,6 +17,7 @@ import { useContext, useCallback } from 'react';
 import { AppContext } from '../store/AppContext';
 import { useHistory, useParams } from 'react-router-dom';
 import { Settings } from '@100mslive/hms-video-react';
+import { ROLES } from '../common/roles';
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
@@ -55,7 +56,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoEnabled);
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const hmsActions = useHMSActions();
-  const { isConnected, leave } = useContext(AppContext);
+  const { isConnected, leave, loginInfo: { role } } = useContext(AppContext);
   const history = useHistory();
   const params = useParams();
 
@@ -63,36 +64,42 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     hmsActions.setScreenShareEnabled(!isScreenShared);
   }, [hmsActions, isScreenShared]);
 
+  const leftComponents = [
+    <SettingsView key={0} />,
+    <VerticalDivider key={1} />,
+    <Button
+      key={2}
+      iconOnly
+      variant={'no-fill'}
+      iconSize='md'
+      shape={'rectangle'}
+      onClick={toggleScreenShare}
+    >
+      <ShareScreenIcon />
+    </Button>,
+    <VerticalDivider key={3} />,
+    <Button
+      key={4}
+      iconOnly
+      variant={'no-fill'}
+      iconSize='md'
+      shape={'rectangle'}
+      onClick={toggleChat}
+      active={isChatOpen}
+    >
+      {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+    </Button>,
+  ];
+  // Remove ScreenShare and the next divider for Viewer role
+  if(role === ROLES.VIEWER) {
+    leftComponents.splice(2,2);
+  }
+
   return (
     <>
       {isConnected && (
         <ControlBar
-          leftComponents={[
-            <SettingsView key={0} />,
-            <VerticalDivider key={1} />,
-            <Button
-              key={2}
-              iconOnly
-              variant={'no-fill'}
-              iconSize='md'
-              shape={'rectangle'}
-              onClick={toggleScreenShare}
-            >
-              <ShareScreenIcon />
-            </Button>,
-            <VerticalDivider key={3} />,
-            <Button
-              key={4}
-              iconOnly
-              variant={'no-fill'}
-              iconSize='md'
-              shape={'rectangle'}
-              onClick={toggleChat}
-              active={isChatOpen}
-            >
-              {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-            </Button>,
-          ]}
+          leftComponents={leftComponents}
           rightComponents={[
             <Button
               key={0}
