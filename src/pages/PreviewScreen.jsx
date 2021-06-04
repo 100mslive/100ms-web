@@ -6,7 +6,6 @@ import getToken from "../services/tokenService";
 
 const PreviewScreen = (props) => {
   const history = useHistory();
-  const userId = "dummy-name";
   const context = useContext(AppContext);
   const { loginInfo, setLoginInfo, setMaxTileCount, tokenEndpoint } = context;
   const { roomId: urlRoomId, role: userRole } = useParams();
@@ -27,10 +26,10 @@ const PreviewScreen = (props) => {
   }, [])
 
 
-  const join = ({ audioMuted, videoMuted }) => {
-    getToken(tokenEndpoint, userId, userRole, urlRoomId)
+  const join = ({ audioMuted, videoMuted, name }) => {
+    getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
       .then((token) => {
-        setLoginInfo({ token, audioMuted, videoMuted, role: userRole, roomId: urlRoomId });
+        setLoginInfo({ token, audioMuted, videoMuted, role: userRole, roomId: urlRoomId, username: name });
         // send to meeting room now
         history.push(`/meeting/${urlRoomId}/${userRole}`);
       })
@@ -70,7 +69,6 @@ const PreviewScreen = (props) => {
     <div>
       <div className="flex justify-center items-center">
         <Preview
-          name={userId}
           joinOnClick={join}
           goBackOnClick={goBack}
           messageOnClose={goBack}
