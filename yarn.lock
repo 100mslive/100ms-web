@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.2.tgz#a6cfe8c33ef1ad53b5d02a2f6715c3edccd8ef97"
-  integrity sha512-rVDrcV5NWc2d/ZS9fwhjM1GHQOL0CS8l2De8L3V1lr0vbgrhiH6xKttDI3+um4RbKnbj/a5lJPLBUuRbsIuooQ==
+"@100mslive/hms-video-react@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.7.tgz#756082e50ae6b0c5896628d24044fcc856a091c9"
+  integrity sha512-zx2BZM7Eg56hcZf77Df2pu7mQNfLHXOatyTpefAlk3TCE3bt83iKBMvxqeA0II5rpyForlUsUzNnInL6dKAjAA==
   dependencies:
-    "@100mslive/hms-video" "^0.0.17"
+    "@100mslive/hms-video" "^0.0.20"
+    "@100mslive/hms-video-store" "^0.1.11"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
     clsx "^1.1.1"
-    immer "^9.0.2"
     lodash "^4.17.21"
     lodash-es "^4.17.21"
     postcss "^7.0.35"
@@ -21,17 +21,23 @@
     react-markdown "^6.0.0"
     react-resize-detector "^6.6.5"
     remark-gfm "^1.0.0"
-    reselect "^4.0.0"
-    reselect-tools "^0.0.7"
     tailwind-percentage-heights-plugin "^0.1.4"
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
+
+"@100mslive/hms-video-store@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.11.tgz#a87fdbe1a926f862f40d28dbc83787fbb397cf8e"
+  integrity sha512-BB2AyluTukJRxb0aDOswLWpEph9Hhp56o7/dd1WaNtRFtqvjay+3+jB6xwVyvCgh/acwc2yyYlIZyEtBBBWCyw==
+  dependencies:
+    immer "^9.0.2"
+    reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.17.tgz#3869b3fc2aa77e3252a3cd054f5315ea7a0ac295"
-  integrity sha512-ib44J7gzpFnks5WN1PxIzPUVJ4Ln81irmp9a6qqFNxYbP+G357WiEDkTU7cdbUO/7P8+BBvXBUDKdTpUKu4exQ==
+"@100mslive/hms-video@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.20.tgz#884f31bb7368f33a137bf7dc54e08db68423c2da"
+  integrity sha512-sTMQKQQCr3oRoeo6qKI1lGPYFr/TVdLoIeGBNzOaN1eXUOyHYtyrEtZurxv7b1W7IOpm5iZEfeY1ADNM333qzg==
   dependencies:
     uuid "^8.3.2"
 
@@ -1766,7 +1772,7 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2":
+"@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2":
   name tailwindcss
   version "2.1.2"
   resolved "https://registry.npmjs.org/@tailwindcss/postcss7-compat/-/postcss7-compat-2.1.2.tgz"
@@ -10287,14 +10293,7 @@ requires-port@^1.0.0:
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-reselect-tools@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/reselect-tools/-/reselect-tools-0.0.7.tgz#bff19df422ebebd1a7c322262db94a554f6b44ed"
-  integrity sha512-+RGguS8ph21y04l6YwQwL+VfJ/c0qyZKCkhCd5ZwbNJ/lklsJml3CIim+uaG/t+7jYZQcwDW4bk5+VzTeuzwtw==
-  dependencies:
-    reselect "4.0.0"
-
-reselect@4.0.0, reselect@^4.0.0:
+reselect@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
   integrity sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
@@ -11328,6 +11327,41 @@ tailwind-percentage-heights-plugin@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/tailwind-percentage-heights-plugin/-/tailwind-percentage-heights-plugin-0.1.4.tgz#78fc5f161c248a5cd8582d0ba5b91767a3a53dc2"
   integrity sha512-t6lsZjaIaQs4pLL7jDJN1jn8dwWHZmYPI8f9tJskDxZYOeOYLHhBacu/m7Mqq/nZQJcY1Y03O/S4KrZgiG/Evg==
+
+"tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/postcss7-compat/-/postcss7-compat-2.1.4.tgz#427a2fd1837a3d9a54a296cc8b86a3f76b1452a7"
+  integrity sha512-KYRj/AGNwE4tPf02IvT+J36Twlrwg/OJJuSckSupX2T+xIOHSXPugNJZ7Stn9F67hh/qH+2Y2HXK6vpBadW6qw==
+  dependencies:
+    "@fullhuman/postcss-purgecss" "^3.1.3"
+    autoprefixer "^9"
+    bytes "^3.0.0"
+    chalk "^4.1.0"
+    chokidar "^3.5.1"
+    color "^3.1.3"
+    detective "^5.2.0"
+    didyoumean "^1.2.1"
+    dlv "^1.1.3"
+    fast-glob "^3.2.5"
+    fs-extra "^9.1.0"
+    html-tags "^3.1.0"
+    lodash "^4.17.21"
+    lodash.topath "^4.5.2"
+    modern-normalize "^1.0.0"
+    node-emoji "^1.8.1"
+    normalize-path "^3.0.0"
+    object-hash "^2.1.1"
+    parse-glob "^3.0.4"
+    postcss "^7"
+    postcss-functions "^3"
+    postcss-js "^2"
+    postcss-nested "^4"
+    postcss-selector-parser "^6.0.4"
+    postcss-value-parser "^4.1.0"
+    pretty-hrtime "^1.0.3"
+    quick-lru "^5.1.1"
+    reduce-css-calc "^2.1.8"
+    resolve "^1.20.0"
 
 tapable@^1.0.0, tapable@^1.1.3:
   version "1.1.3"

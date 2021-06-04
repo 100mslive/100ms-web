@@ -13,11 +13,11 @@ import {
   selectIsLocalAudioEnabled,
   selectIsLocalVideoEnabled,
   selectUnreadHMSMessagesCount,
-} from '@100mslive/hms-video-react';
-import { useContext, useCallback } from 'react';
-import { AppContext } from '../store/AppContext';
-import { useHistory, useParams } from 'react-router-dom';
-import { Settings } from '@100mslive/hms-video-react';
+} from "@100mslive/hms-video-react";
+import { useContext, useCallback } from "react";
+import { AppContext } from "../store/AppContext";
+import { useHistory, useParams } from "react-router-dom";
+import { Settings } from "@100mslive/hms-video-react";
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
@@ -74,9 +74,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             <Button
               key={2}
               iconOnly
-              variant={'no-fill'}
-              iconSize='md'
-              shape={'rectangle'}
+              variant={"no-fill"}
+              iconSize="md"
+              shape={"rectangle"}
               onClick={toggleScreenShare}
             >
               <ShareScreenIcon />
@@ -85,9 +85,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             <Button
               key={4}
               iconOnly
-              variant={'no-fill'}
-              iconSize='md'
-              shape={'rectangle'}
+              variant={"no-fill"}
+              iconSize="md"
+              shape={"rectangle"}
               onClick={toggleChat}
               active={isChatOpen}
             >
@@ -97,15 +97,15 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           rightComponents={[
             <Button
               key={0}
-              size='md'
-              shape={'rectangle'}
-              variant={'danger'}
+              size="md"
+              shape={"rectangle"}
+              variant={"danger"}
               onClick={() => {
                 leave();
-                history.push('/leave/' + params.roomId + "/" + params.role);
+                history.push("/leave/" + params.roomId + "/" + params.role);
               }}
             >
-              <HangUpIcon className='mr-2' />
+              <HangUpIcon className="mr-2" />
               Leave room
             </Button>,
           ]}

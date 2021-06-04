@@ -13,7 +13,7 @@ export const GridCenterView = ({
 }) => {
   return (
     <div
-      className=" h-full  "
+      className=" h-full"
       style={{ width: `${hideSidePane && !isChatOpen ? "100%" : "80%"}` }}
     >
       {peers && peers.length > 0 ? (
@@ -30,9 +30,9 @@ export const GridCenterView = ({
       ) : (
         <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
       )}
-      {(isChatOpen && hideSidePane) && (
+      {isChatOpen && hideSidePane && (
         <div className="h-1/2 w-2/10 absolute z-40 bottom-20 right-0">
-            <ChatView toggleChat={toggleChat}></ChatView>
+          <ChatView toggleChat={toggleChat}></ChatView>
         </div>
       )}
     </div>
@@ -43,13 +43,7 @@ export const GridCenterView = ({
 export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
   return (
     <div className="flex flex-col" style={{ width: "20%" }}>
-      <div
-        className={
-          isChatOpen
-            ? "flex items-end w-full  h-1/2"
-            : "flex items-end w-full  h-full"
-        }
-      >
+      <div className="flex flex-1 items-end w-full">
         {peers && peers.length > 0 && (
           <VideoList
             peers={peers}

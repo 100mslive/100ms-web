@@ -7,7 +7,6 @@ import { TeacherGridView } from "./teacherGridView";
 import { StudentGridView } from "./studentGridView";
 import { ScreenShareView } from "./screenShareView";
 import { ROLES } from "../common/roles";
-import React from "react";
 
 export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
   const localPeer = useHMSStore(selectLocalPeer);
