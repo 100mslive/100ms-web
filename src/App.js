@@ -50,10 +50,13 @@ function App() {
                 {/* <Route path="/createRoom">
               <CreateRoom />
             </Route> */}
-                <Route path="/preview/:roomId?">
-                  <PreviewScreen />
+                <Route path="preview/:roomId?/:role?">
+                  <PreviewScreen/>
                 </Route>
-                <Route path="/meeting/:roomId?">
+                <Route path="/:roomId/:role">
+                  <PreviewScreen/>
+                </Route>
+                <Route path="/meeting/:roomId?/:role?">
                   <Conference />
                 </Route>
                 <Route
