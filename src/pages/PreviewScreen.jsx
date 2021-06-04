@@ -3,35 +3,32 @@ import { useHistory, useParams, useLocation } from "react-router-dom";
 import { Preview } from "@100mslive/hms-video-react";
 import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
-import { ROLES } from "../common/roles"
 
 const PreviewScreen = (props) => {
   const history = useHistory();
+  const userId = "dummy-name";
   const context = useContext(AppContext);
-  const { loginInfo, setLoginInfo, setMaxTileCount } = context;
+  const { loginInfo, setLoginInfo, setMaxTileCount, tokenEndpoint } = context;
   const { roomId: urlRoomId, role: userRole } = useParams();
-
-  const isValidRole = (userRole) => {
-    for (let role in ROLES) {
-      if (ROLES[role] === userRole) return true;
-    }
-    return false;
-  }
   const location = useLocation();
 
   useEffect(() => {
-    if (!location.pathname.startsWith('/preview')) {
+    const isPreview = location.pathname.startsWith('/preview');
+    if (!urlRoomId || !userRole) {
+      history.push(`/`);
+    }
+    else if ((isPreview && urlRoomId === "preview") || urlRoomId === 'meeting' || urlRoomId === "leave") {
+      history.push(`/`);
+    }
+    else if (!isPreview) {
       history.push(`/preview/${urlRoomId}/${userRole}`);
     }
-    if (isValidRole(userRole)) {
-      console.log('Invalid URL');
-      //redirect to wrong URL screen
-    }
+    // eslint-disable-next-line
   }, [])
 
 
   const join = ({ audioMuted, videoMuted }) => {
-    getToken(loginInfo.username, userRole, urlRoomId)
+    getToken(tokenEndpoint, userId, userRole, urlRoomId)
       .then((token) => {
         setLoginInfo({ token, audioMuted, videoMuted, role: userRole, roomId: urlRoomId });
         // send to meeting room now
@@ -73,7 +70,7 @@ const PreviewScreen = (props) => {
     <div>
       <div className="flex justify-center items-center">
         <Preview
-          name={loginInfo.username}
+          name={userId}
           joinOnClick={join}
           goBackOnClick={goBack}
           messageOnClose={goBack}

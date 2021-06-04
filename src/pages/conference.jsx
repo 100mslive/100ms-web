@@ -7,7 +7,7 @@ import { ConferenceMainView } from "../views/mainView";
 
 export const Conference = () => {
   const history = useHistory();
-  const { roomId } = useParams();
+  const { roomId, role } = useParams();
 
   const context = useContext(AppContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -19,11 +19,17 @@ export const Conference = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setLoginInfo({ roomId }), [roomId]);
-  if (!loginInfo.token) {
-    // redirect to join if token not present
-    history.push(`/${loginInfo.roomId || roomId || ""}`);
-  }
+
   useEffect(() => {
+    if (!roomId || !role) {
+      history.push(`/`);
+    }
+
+    if (!loginInfo.token) {
+      // redirect to join if token not present
+      history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
+    }
+
     return () => {
       leave();
     };
