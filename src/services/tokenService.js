@@ -10,13 +10,12 @@ export default async function getToken(
     method: "POST",
     //TODO remove env
     body: JSON.stringify({
-      env,
-      role,
+      env: env,
+      role: role,
       room_id: roomId,
-      user_id: userId,
-    }),
+      user_id: userId
+    })
   });
-
   const { token } = await response.json();
 
   return token;

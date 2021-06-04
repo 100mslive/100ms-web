@@ -1,5 +1,5 @@
 import React from "react";
-import { JoinRoom } from "./pages/joinRoom.jsx";
+// import { JoinRoom } from "./pages/joinRoom.jsx";
 import PreviewScreen from "./pages/PreviewScreen";
 import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
   PostLeaveDisplay,
 } from "@100mslive/hms-video-react";
 import { shadeColor } from "./common/utils";
+import ErrorPage from "./pages/ErrorPage";
 
 export function EdtechComponent({
   roomId = "",
@@ -65,34 +66,43 @@ export function EdtechComponent({
                 {/* <Route path="/createRoom">
               <CreateRoom />
             </Route> */}
-                <Route path="/preview/:roomId?">
+                <Route path="/preview/:roomId/:role">
                   <PreviewScreen />
                 </Route>
-                <Route path="/meeting/:roomId?">
+                <Route path="/meeting/:roomId/:role">
                   <Conference />
                 </Route>
                 <Route
-                  path="/leave/:roomId"
+                  path="/leave/:roomId/:role"
                   render={({ history, match }) => (
                     <PostLeaveDisplay
                       goToDashboardOnClick={() => {
                         window.open("https://dashboard.100ms.live/", "_blank");
                       }}
                       joinRoomOnClick={() => {
-                        history.push("/" + match.params.roomId);
+                        history.push("/preview/" + match.params.roomId + "/" + match.params.role);
                       }}
                     />
                   )}
                 ></Route>
-                <Route path="/:roomId?">
-                  <JoinRoom />
+                <Route path="/:roomId/:role">
+                  <PreviewScreen />
                 </Route>
+                <Route
+                  path="*"
+                  render={() => (
+                    <ErrorPage error={"Invalid URL!"} />
+                  )}
+                />
+                {/* <Route path="/:roomId?">
+                  <JoinRoom />
+                </Route> */}
               </Switch>
             </Router>
           </AppContextProvider>
         </HMSRoomProvider>
       </HMSThemeProvider>
-    </div>
+    </div >
   );
 }
 

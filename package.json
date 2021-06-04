@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
-    "@100mslive/hms-video-react": "^0.2.2",
+    "@100mslive/hms-video-react": "^0.2.7",
     "@craco/craco": "^6.1.1",
     "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.4",
@@ -48,7 +48,7 @@
     "@tailwindcss/postcss7-compat": "^2.1.0",
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.35",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.0"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
   },
   "prettier": {
     "printWidth": 80,
