@@ -8,7 +8,6 @@ import { ConferenceMainView } from "../views/mainView";
 export const Conference = () => {
   const history = useHistory();
   const { roomId, role } = useParams();
-
   const context = useContext(AppContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const toggleChat = useCallback(() => {

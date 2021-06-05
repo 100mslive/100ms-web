@@ -1,5 +1,4 @@
 import React from "react";
-// import { JoinRoom } from "./pages/joinRoom.jsx";
 import PreviewScreen from "./pages/PreviewScreen";
 import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -80,7 +79,12 @@ export function EdtechComponent({
                         window.open("https://dashboard.100ms.live/", "_blank");
                       }}
                       joinRoomOnClick={() => {
-                        history.push("/preview/" + match.params.roomId + "/" + match.params.role);
+                        history.push(
+                          "/preview/" +
+                          match.params.roomId +
+                          "/" +
+                          match.params.role
+                        );
                       }}
                     />
                   )}
@@ -90,13 +94,8 @@ export function EdtechComponent({
                 </Route>
                 <Route
                   path="*"
-                  render={() => (
-                    <ErrorPage error={"Invalid URL!"} />
-                  )}
+                  render={() => <ErrorPage error={"Invalid URL!"} />}
                 />
-                {/* <Route path="/:roomId?">
-                  <JoinRoom />
-                </Route> */}
               </Switch>
             </Router>
           </AppContextProvider>
