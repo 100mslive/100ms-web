@@ -7,7 +7,7 @@ import { ConferenceMainView } from "../views/mainView";
 
 export const Conference = () => {
   const history = useHistory();
-  const { roomId: urlRoomId } = useParams();
+  const { roomId, role } = useParams();
   const context = useContext(AppContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const toggleChat = useCallback(() => {
@@ -16,10 +16,16 @@ export const Conference = () => {
 
   const { loginInfo, leave } = context;
 
-  if (!loginInfo.token) {  // redirect to join if token not present
-    history.push(`/${loginInfo.roomId || urlRoomId || ""}`);
-  }
   useEffect(() => {
+    if (!roomId || !role) {
+      history.push(`/`);
+    }
+
+    if (!loginInfo.token) {
+      // redirect to join if token not present
+      history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
+    }
+
     return () => {
       leave();
     };

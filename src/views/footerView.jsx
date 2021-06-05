@@ -2,16 +2,18 @@ import {
   useHMSStore,
   ControlBar,
   HangUpIcon,
-  TwButton,
+  Button,
   ShareScreenIcon,
   ChatIcon,
+  ChatUnreadIcon,
   VerticalDivider,
   useHMSActions,
   selectIsLocalScreenShared,
   selectIsLocalAudioEnabled,
-  selectIsLocalVideoDisplayEnabled
+  selectIsLocalVideoEnabled,
+  selectUnreadHMSMessagesCount,
 } from "@100mslive/hms-video-react";
-import { useCallback, useContext } from "react";
+import { useContext, useCallback } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
 import { Settings } from "@100mslive/hms-video-react";
@@ -21,13 +23,13 @@ const SettingsView = () => {
   const {
     loginInfo: { selectedAudioInput, selectedVideoInput },
     setLoginInfo,
-    setMaxTileCount
+    setMaxTileCount,
   } = useContext(AppContext);
 
   const onChange = ({
     maxTileCount: newMaxTileCount,
     selectedVideoInput: newSelectedVideoInput,
-    selectedAudioInput: newSelectedAudioInput
+    selectedAudioInput: newSelectedAudioInput,
   }) => {
     setMaxTileCount(newMaxTileCount);
     if (selectedAudioInput !== newSelectedAudioInput) {
@@ -50,7 +52,8 @@ const SettingsView = () => {
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
-  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
+  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoEnabled);
+  const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
   const history = useHistory();
@@ -67,7 +70,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           leftComponents={[
             <SettingsView key={0} />,
             <VerticalDivider key={1} />,
-            <TwButton
+            <Button
               key={2}
               iconOnly
               variant={"no-fill"}
@@ -76,9 +79,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               onClick={toggleScreenShare}
             >
               <ShareScreenIcon />
-            </TwButton>,
+            </Button>,
             <VerticalDivider key={3} />,
-            <TwButton
+            <Button
               key={4}
               iconOnly
               variant={"no-fill"}
@@ -87,23 +90,23 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               onClick={toggleChat}
               active={isChatOpen}
             >
-              <ChatIcon />
-            </TwButton>
+              {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+            </Button>,
           ]}
           rightComponents={[
-            <TwButton
+            <Button
               key={0}
               size="md"
               shape={"rectangle"}
               variant={"danger"}
               onClick={() => {
                 leave();
-                history.push("/leave/" + params.roomId);
+                history.push("/leave/" + params.roomId + "/" + params.role);
               }}
             >
               <HangUpIcon className="mr-2" />
               Leave room
-            </TwButton>
+            </Button>,
           ]}
           audioButtonOnClick={() =>
             hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)

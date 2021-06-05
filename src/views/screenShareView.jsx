@@ -21,8 +21,8 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
     [peers, peerPresenting]
   );
 
-  const amITeacher = localPeer?.role === ROLES.TEACHER;
-  const isPresenterTeacher = peerPresenting?.role === ROLES.TEACHER;
+  const amITeacher = localPeer?.role.toLowerCase() === ROLES.TEACHER;
+  const isPresenterTeacher = peerPresenting?.role.toLowerCase() === ROLES.TEACHER;
   const amIPresenting = localPeer && localPeer.id === peerPresenting?.id;
   const showPresenterInSmallTile =
     amIPresenting || (amITeacher && isPresenterTeacher);
@@ -91,8 +91,8 @@ export const SidePane = ({
             smallTilePeers={smallTilePeers}
             shouldShowScreenFn={shouldShowScreenFn}
           />
-        </div>
         <CustomChatView isChatOpen={isChatOpen} toggleChat={toggleChat} />
+        </div>
       </div>
     </React.Fragment>
   );
@@ -126,7 +126,7 @@ const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
 const CustomChatView = ({ isChatOpen, toggleChat }) => {
   return (
     isChatOpen && (
-      <div className="h-1/2 w-full absolute z-40 bottom-0 right-0">
+      <div className="h-1/2 w-full flex-shrink-0">
         <ChatView toggleChat={toggleChat} />
       </div>
     )
@@ -139,7 +139,7 @@ const SmallTilePeersView = ({
   shouldShowScreenFn
 }) => {
   return (
-    <div className={`w-full relative ${isChatOpen ? "h-1/3" : "flex-grow"}`}>
+    <div className="w-full relative flex-1">
       {smallTilePeers && smallTilePeers.length > 0 && (
         <VideoList
           peers={smallTilePeers}
