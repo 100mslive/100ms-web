@@ -11,22 +11,6 @@ const PreviewScreen = () => {
   const { roomId: urlRoomId, role: userRole } = useParams();
   const location = useLocation();
 
-  useEffect(() => {
-    const isPreview = location.pathname.startsWith("/preview");
-    if (!urlRoomId || !userRole) {
-      history.push(`/`);
-    } else if (
-      (isPreview && urlRoomId === "preview") ||
-      urlRoomId === "meeting" ||
-      urlRoomId === "leave"
-    ) {
-      history.push(`/`);
-    } else if (!isPreview) {
-      history.push(`/preview/${urlRoomId}/${userRole}`);
-    }
-    // eslint-disable-next-line
-  }, []);
-
   const join = ({ audioMuted, videoMuted, name }) => {
     getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
       .then(token => {
@@ -62,21 +46,37 @@ const PreviewScreen = () => {
     setMaxTileCount(maxTileCount);
   };
   const goBack = () => {
-    history.push(`/${loginInfo.roomId || ""}`);
+    history.push(`/preview/${urlRoomId}/${userRole}`);
   };
 
-  return (
-    <div>
-      <div className="flex justify-center items-center">
-        <Preview
-          joinOnClick={join}
-          goBackOnClick={goBack}
-          messageOnClose={goBack}
-          onChange={onChange}
-        />
+  const isPreview = location.pathname.startsWith("/preview");
+
+  if (!urlRoomId || !userRole) {
+    history.push(`/`);
+  } else if (
+    (isPreview && urlRoomId === "preview") ||
+    urlRoomId === "meeting" ||
+    urlRoomId === "leave"
+  ) {
+    history.push(`/`);
+  } else if (!isPreview) {
+    history.push(`/preview/${urlRoomId}/${userRole}`);
+  }
+  else {
+    return (
+      <div>
+        <div className="flex justify-center items-center">
+          <Preview
+            joinOnClick={join}
+            goBackOnClick={goBack}
+            messageOnClose={goBack}
+            onChange={onChange}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  return null;
 };
 
 export default PreviewScreen;
