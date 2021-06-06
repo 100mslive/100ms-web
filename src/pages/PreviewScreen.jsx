@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import { Preview } from "@100mslive/hms-video-react";
 import { AppContext } from "../store/AppContext";
