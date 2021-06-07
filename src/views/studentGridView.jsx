@@ -8,10 +8,10 @@ export const StudentGridView = ({ isChatOpen, toggleChat }) => {
   const { maxTileCount } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
   const teacherPeers = peers.filter(
-    (peer) => peer.role.toLowerCase() === ROLES.TEACHER
+    peer => peer.role.toLowerCase() === ROLES.TEACHER
   );
   const studentPeers = peers.filter(
-    (peer) => peer.role.toLowerCase() !== ROLES.TEACHER
+    peer => peer.role.toLowerCase() !== ROLES.TEACHER
   );
   const hideSidePane =
     (teacherPeers.length > 1 && studentPeers.length === 0) ||
