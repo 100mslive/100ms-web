@@ -1,13 +1,17 @@
 import LogRocket from "logrocket";
 
 export const convertLoginInfoToJoinConfig = loginInfo => {
+  let initEndpoint = process.env.REACT_APP_INIT_ENDPOINT;
+  if (!initEndpoint) {
+    initEndpoint = loginInfo.env
+      ? `https://${loginInfo.env.split("-")[0]}-init.100ms.live/init`
+      : "https://prod-init.100ms.live/init";
+  }
   const joinConfig = {
     userName: loginInfo.username,
     authToken: loginInfo.token,
     metaData: loginInfo.role,
-    initEndpoint: loginInfo.env
-      ? `https://${loginInfo.env.split("-")[0]}-init.100ms.live/init`
-      : "https://prod-init.100ms.live/init",
+    initEndpoint,
     settings: {
       isAudioMuted: loginInfo.audioMuted,
       isVideoMuted: loginInfo.videoMuted,
