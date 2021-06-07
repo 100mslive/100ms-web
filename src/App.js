@@ -24,13 +24,15 @@ export function EdtechComponent({
     logo = "",
     showAvatar = "true",
     avatarType = "initial",
+    headerPresent = "false",
+    logoClass = "",
   },
 }) {
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
   return (
-    <div className="w-full h-screen dark:bg-black">
+    <div className={`w-full dark:bg-black ${headerPresent === "true" ? "flex-grow" : "h-screen"}`}>
       <HMSThemeProvider
         config={{
           theme: {
@@ -53,6 +55,8 @@ export function EdtechComponent({
           enableChat: showChat === "true",
           enableScreenShare: showScreenshare === "true",
           logo: logo,
+          logoClass: logoClass,
+          headerPresent: headerPresent === "true",
           videoTileAspectRatio: { width, height },
           showAvatar: showAvatar === "true",
           avatarType: avatarType,
@@ -81,9 +85,9 @@ export function EdtechComponent({
                       joinRoomOnClick={() => {
                         history.push(
                           "/preview/" +
-                            match.params.roomId +
-                            "/" +
-                            match.params.role
+                          match.params.roomId +
+                          "/" +
+                          match.params.role
                         );
                       }}
                     />
@@ -118,6 +122,8 @@ export default function App() {
         showScreenshare: process.env.REACT_APP_SHOW_SCREENSHARE,
         showAvatar: process.env.REACT_APP_VIDEO_AVATAR,
         avatarType: process.env.REACT_APP_AVATAR_TYPE,
+        logoClass: process.env.REACT_APP_LOGO_CLASS,
+        headerPresent: process.env.REACT_APP_HEADER_PRESENT
       }}
     />
   );

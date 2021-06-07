@@ -11,7 +11,7 @@ export const Conference = () => {
   const context = useContext(AppContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const toggleChat = useCallback(() => {
-    setIsChatOpen((open) => !open);
+    setIsChatOpen(open => !open);
   }, []);
 
   const { loginInfo, leave } = context;

@@ -1,5 +1,4 @@
 import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
-
 import React from "react";
 import { ChatView } from "./chatView";
 
