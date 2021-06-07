@@ -64,8 +64,8 @@ const PreviewScreen = () => {
   }
   else {
     return (
-      <div>
-        <div className="flex justify-center items-center">
+      <div className="h-full">
+        <div className="flex justify-center h-full items-center">
           <Preview
             joinOnClick={join}
             goBackOnClick={goBack}
