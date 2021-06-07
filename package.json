@@ -23,8 +23,7 @@
     "dev": "craco start",
     "build": "craco build --profile",
     "test": "craco test",
-    "eject": "react-scripts eject",
-    "build:style": "NODE_ENV=production npx tailwindcss-cli@latest build ./src/index.css -o tailwind.css"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
