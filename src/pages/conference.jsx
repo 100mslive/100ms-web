@@ -14,10 +14,7 @@ export const Conference = () => {
     setIsChatOpen(open => !open);
   }, []);
 
-  const { loginInfo, leave, setLoginInfo } = context;
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setLoginInfo({ roomId }), [roomId]);
+  const { loginInfo, leave } = context;
 
   useEffect(() => {
     if (!roomId || !role) {
