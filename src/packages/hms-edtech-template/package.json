@@ -1,6 +1,6 @@
 {
   "name": "@100mslive/hms-edtech-template",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "100ms Edtech Template as a component.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
