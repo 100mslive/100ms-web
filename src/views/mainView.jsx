@@ -3,6 +3,7 @@ import {
   selectIsSomeoneScreenSharing,
   useHMSStore,
 } from "@100mslive/hms-video-react";
+import React from 'react';
 import { TeacherGridView } from "./teacherGridView";
 import { StudentGridView } from "./studentGridView";
 import { ScreenShareView } from "./screenShareView";
