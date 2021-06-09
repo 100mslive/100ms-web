@@ -4,7 +4,7 @@ import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
 
 const username = "beam-bot";
-const role = "Viewer"
+const role = "viewer"
 
 export const BotMode = () => {
     const history = useHistory();
