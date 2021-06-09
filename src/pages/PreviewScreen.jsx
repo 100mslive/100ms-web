@@ -45,9 +45,8 @@ const PreviewScreen = () => {
     });
     setMaxTileCount(maxTileCount);
   };
-  const goBack = () => {
-    window.location.reload();
-  };
+
+  const goBack = () => {};
 
   const isPreview = location.pathname.startsWith("/preview");
 
