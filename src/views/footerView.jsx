@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -8,6 +8,7 @@ import {
   ChatIcon,
   ChatUnreadIcon,
   VerticalDivider,
+  MessageModal,
   useHMSActions,
   selectIsLocalScreenShared,
   selectIsLocalAudioEnabled,
@@ -60,65 +61,84 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const history = useHistory();
   const params = useParams();
 
-  const toggleScreenShare = useCallback(() => {
-    hmsActions.setScreenShareEnabled(!isScreenShared);
+  const initialModalProps = {
+    show: false,
+    title: "",
+    body: "",
+  };
+  const [errorModal, setErrorModal] = useState(initialModalProps);
+
+  const toggleScreenShare = useCallback(async () => {
+    try {
+      await hmsActions.setScreenShareEnabled(!isScreenShared);
+    } catch (error) {
+      if (error.description.includes("denied by system")) {
+        setErrorModal({
+          show: true,
+          title: "Screen share permission denied by OS",
+          body: "Please update your OS settings to permit screen share.",
+        });
+      }
+    }
   }, [hmsActions, isScreenShared]);
 
-  return (
+  return isConnected ? (
     <>
-      {isConnected && (
-        <ControlBar
-          leftComponents={[
-            <SettingsView key={0} />,
-            <VerticalDivider key={1} />,
-            <Button
-              key={2}
-              iconOnly
-              variant={"no-fill"}
-              iconSize="md"
-              shape={"rectangle"}
-              onClick={toggleScreenShare}
-            >
-              <ShareScreenIcon />
-            </Button>,
-            <VerticalDivider key={3} />,
-            <Button
-              key={4}
-              iconOnly
-              variant={"no-fill"}
-              iconSize="md"
-              shape={"rectangle"}
-              onClick={toggleChat}
-              active={isChatOpen}
-            >
-              {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-            </Button>,
-          ]}
-          rightComponents={[
-            <Button
-              key={0}
-              size="md"
-              shape={"rectangle"}
-              variant={"danger"}
-              onClick={() => {
-                leave();
-                history.push("/leave/" + params.roomId + "/" + params.role);
-              }}
-            >
-              <HangUpIcon className="mr-2" />
-              Leave room
-            </Button>,
-          ]}
-          audioButtonOnClick={() =>
-            hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)
-          }
-          videoButtonOnClick={() =>
-            hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled)
-          }
-          isAudioMuted={!isLocalAudioEnabled}
-          isVideoMuted={!isLocalVideoEnabled}
-        />
-      )}
+      <ControlBar
+        leftComponents={[
+          <SettingsView key={0} />,
+          <VerticalDivider key={1} />,
+          <Button
+            key={2}
+            iconOnly
+            variant={"no-fill"}
+            iconSize="md"
+            shape={"rectangle"}
+            onClick={toggleScreenShare}
+          >
+            <ShareScreenIcon />
+          </Button>,
+          <VerticalDivider key={3} />,
+          <Button
+            key={4}
+            iconOnly
+            variant={"no-fill"}
+            iconSize="md"
+            shape={"rectangle"}
+            onClick={toggleChat}
+            active={isChatOpen}
+          >
+            {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+          </Button>,
+        ]}
+        rightComponents={[
+          <Button
+            key={0}
+            size="md"
+            shape={"rectangle"}
+            variant={"danger"}
+            onClick={() => {
+              leave();
+              history.push("/leave/" + params.roomId + "/" + params.role);
+            }}
+          >
+            <HangUpIcon className="mr-2" />
+            Leave room
+          </Button>,
+        ]}
+        audioButtonOnClick={() =>
+          hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)
+        }
+        videoButtonOnClick={() =>
+          hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled)
+        }
+        isAudioMuted={!isLocalAudioEnabled}
+        isVideoMuted={!isLocalVideoEnabled}
+      />
+      <MessageModal
+        {...errorModal}
+        onClose={() => setErrorModal(initialModalProps)}
+      />
     </>
-  );
+  ) : null;
 };
