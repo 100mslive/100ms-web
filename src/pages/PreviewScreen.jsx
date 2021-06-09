@@ -46,7 +46,7 @@ const PreviewScreen = () => {
     setMaxTileCount(maxTileCount);
   };
   const goBack = () => {
-    history.push(`/preview/${urlRoomId}/${userRole}`);
+    window.location.reload();
   };
 
   const isPreview = location.pathname.startsWith("/preview");
@@ -61,8 +61,7 @@ const PreviewScreen = () => {
     history.push(`/`);
   } else if (!isPreview) {
     history.push(`/preview/${urlRoomId}/${userRole}`);
-  }
-  else {
+  } else {
     return (
       <div className="h-full">
         <div className="flex justify-center h-full items-center">
