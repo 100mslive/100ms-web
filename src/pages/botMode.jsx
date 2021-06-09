@@ -3,12 +3,9 @@ import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
 
-const username = "beam-bot";
-const role = "viewer"
-
 export const BotMode = () => {
     const history = useHistory();
-    const { endpoint, roomId } = useParams();
+    const { endpoint, roomId, role, username } = useParams();
     const { setLoginInfo } = useContext(AppContext);
     if (!endpoint || !roomId) {
         history.push("/")
