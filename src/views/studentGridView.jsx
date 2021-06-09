@@ -7,8 +7,8 @@ import { GridCenterView, GridSidePaneView } from "./components/gridView";
 export const StudentGridView = ({ isChatOpen, toggleChat }) => {
   const { maxTileCount } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
-  const teacherPeers = peers.filter((peer) => peer.role === ROLES.TEACHER);
-  const studentPeers = peers.filter((peer) => peer.role === ROLES.STUDENT);
+  const teacherPeers = peers.filter((peer) => peer.role.toLowerCase() === ROLES.TEACHER);
+  const studentPeers = peers.filter((peer) => peer.role.toLowerCase() === ROLES.STUDENT);
   const hideSidePane = (teacherPeers.length > 1 && studentPeers.length === 0) || (teacherPeers.length === 0 && studentPeers.length > 1)
   console.log("pane",hideSidePane)
   return (

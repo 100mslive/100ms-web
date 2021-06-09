@@ -1,30 +1,31 @@
 import React, { useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
-import getToken from "../services/tokenService";
 
 export const BotMode = () => {
     const history = useHistory();
-    const { endpoint, roomId, role, username } = useParams();
+    var { env, roomId, role } = useParams();
     const { setLoginInfo } = useContext(AppContext);
-    if (!endpoint || !roomId) {
+    role = role.toLowerCase()
+    if (!env || !roomId) {
         history.push("/")
     }
-    getToken(username, role, roomId)
+    const username = "100ms-Beam-Bot"
+    getToken(username, role, roomId, env)
         .then((token) => {
             setLoginInfo({
                 token: token,
                 username: username,
                 role: role,
                 roomId: roomId,
-                endpoint: "https://"+endpoint + ".100ms.live/init",
+                endpoint: init(env),
                 audioMuted: true,
                 videoMuted: true,
                 selectedVideoOutput: 'default',
                 selectedAudioInput: 'default',
                 selectedAudioOutput: 'default'
             })
-            history.push(`/meeting/${roomId}`);
+            history.push(`/meeting/${roomId}/${role}`);
         })
         .catch((error) => {
             console.log("Token API Error", error);
@@ -37,3 +38,36 @@ export const BotMode = () => {
         </div>
     );
 };
+
+const tokenEndpoint = {
+    "prod":"https://100ms-services.vercel.app/api/token",
+    "qa":"https://100ms-services.vercel.app/api/token",
+}
+
+const init = (env)=>{
+    return "https://"+env + "-init.100ms.live/init"
+}
+
+
+async function getToken(userId, role, roomId, env) {
+    console.log("in otken",userId, role, roomId, env);
+    console.log("in token",tokenEndpoint[env]);
+    const response = await fetch(
+        tokenEndpoint[env],
+      {
+        method: "POST",
+        //TODO remove env
+        body: JSON.stringify({
+          env: env + "-in",
+          role: role,
+          room_id: roomId,
+          user_id: userId
+        })
+      }
+    );
+  
+    const { token } = await response.json();
+  
+    return token;
+  }
+  

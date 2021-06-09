@@ -57,7 +57,7 @@ function App() {
                 <Route path="/meeting/:roomId?">
                   <Conference />
                 </Route>
-                <Route path="/beam/:roomId/:role/:username/:endpoint">
+                <Route path="/beam/:roomId/:role/:env/">
                   <BotMode />
                 </Route>
                 <Route
