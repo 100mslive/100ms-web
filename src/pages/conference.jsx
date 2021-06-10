@@ -34,7 +34,7 @@ export const Conference = () => {
 
   return (
     <div className="w-full h-full dark:bg-black">
-      <div style={{ height: "10%" }}>
+      <div className="h-14 md:h-16">
         <ConferenceHeader />
       </div>
       <div className="w-full flex" style={{ height: "80%" }}>
