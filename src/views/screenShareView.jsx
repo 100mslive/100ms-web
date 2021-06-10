@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from "react";
 import {
   useHMSStore,
   useHMSActions,
@@ -6,9 +7,8 @@ import {
   selectPeers,
   selectLocalPeer,
   selectPeerScreenSharing,
-  ScreenShareDisplay
+  ScreenShareDisplay,
 } from "@100mslive/hms-video-react";
-import React, { useCallback, useMemo } from "react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
 
@@ -22,7 +22,8 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   );
 
   const amITeacher = localPeer?.role.toLowerCase() === ROLES.TEACHER;
-  const isPresenterTeacher = peerPresenting?.role.toLowerCase() === ROLES.TEACHER;
+  const isPresenterTeacher =
+    peerPresenting?.role.toLowerCase() === ROLES.TEACHER;
   const amIPresenting = localPeer && localPeer.id === peerPresenting?.id;
   const showPresenterInSmallTile =
     amIPresenting || (amITeacher && isPresenterTeacher);
@@ -68,7 +69,7 @@ export const SidePane = ({
   toggleChat,
   isPresenterInSmallTiles,
   peerScreenSharing, // the peer who is screensharing
-  smallTilePeers
+  smallTilePeers,
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
@@ -78,8 +79,8 @@ export const SidePane = ({
 
   return (
     <React.Fragment>
-      <div className={`w-full h-full relative`}>
-        <div className={`w-full flex flex-col h-full`}>
+      <div className="w-full h-full relative">
+        <div className="w-full flex flex-col h-full">
           {!isPresenterInSmallTiles && (
             <LargeTilePeerView
               peerScreenSharing={peerScreenSharing}
@@ -91,7 +92,7 @@ export const SidePane = ({
             smallTilePeers={smallTilePeers}
             shouldShowScreenFn={shouldShowScreenFn}
           />
-        <CustomChatView isChatOpen={isChatOpen} toggleChat={toggleChat} />
+          <CustomChatView isChatOpen={isChatOpen} toggleChat={toggleChat} />
         </div>
       </div>
     </React.Fragment>
@@ -136,7 +137,7 @@ const CustomChatView = ({ isChatOpen, toggleChat }) => {
 const SmallTilePeersView = ({
   isChatOpen,
   smallTilePeers,
-  shouldShowScreenFn
+  shouldShowScreenFn,
 }) => {
   return (
     <div className="w-full relative flex-1">
@@ -158,7 +159,7 @@ const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => (
   <div
     className="w-full relative overflow-hidden"
     style={{
-      paddingTop: `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`
+      paddingTop: `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
     }}
   >
     {peerScreenSharing && (

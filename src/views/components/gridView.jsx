@@ -1,5 +1,5 @@
-import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
 import React from "react";
+import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
 
 // The center of the screen shows bigger tiles
@@ -20,9 +20,7 @@ export const GridCenterView = ({
         <VideoList
           peers={peers}
           classes={{
-            root: "",
             videoTileContainer: "rounded-lg",
-            //video: "rounded-3xl",
           }}
           maxTileCount={maxTileCount}
           allowRemoteMute={allowRemoteMute}
@@ -32,7 +30,7 @@ export const GridCenterView = ({
       )}
       {isChatOpen && hideSidePane && (
         <div className="h-1/2 w-2/10 absolute z-40 bottom-20 right-0">
-          <ChatView toggleChat={toggleChat}></ChatView>
+          <ChatView toggleChat={toggleChat} />
         </div>
       )}
     </div>
@@ -60,7 +58,7 @@ export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
       {isChatOpen && (
         <div className="flex h-1/2 items-end p-2">
           <div className="w-full h-full">
-            <ChatView toggleChat={toggleChat}></ChatView>
+            <ChatView toggleChat={toggleChat} />
           </div>
         </div>
       )}

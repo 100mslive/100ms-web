@@ -89,9 +89,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         <Button
           key={2}
           iconOnly
-          variant={"no-fill"}
+          variant="no-fill"
           iconSize="md"
-          shape={"rectangle"}
+          shape="rectangle"
           onClick={toggleScreenShare}
         >
           <ShareScreenIcon />
@@ -100,9 +100,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         <Button
           key={4}
           iconOnly
-          variant={"no-fill"}
+          variant="no-fill"
           iconSize="md"
-          shape={"rectangle"}
+          shape="rectangle"
           onClick={toggleChat}
           active={isChatOpen}
         >
@@ -120,8 +120,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           <Button
             key={0}
             size="md"
-            shape={"rectangle"}
-            variant={"danger"}
+            shape="rectangle"
+            variant="danger"
             onClick={() => {
               leave();
               history.push("/leave/" + params.roomId + "/" + params.role);
