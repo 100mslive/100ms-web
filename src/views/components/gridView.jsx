@@ -1,5 +1,9 @@
 import React from "react";
-import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
+import {
+  VideoList,
+  FirstPersonDisplay,
+  parsedUserAgent,
+} from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
 
 // The center of the screen shows bigger tiles
@@ -13,8 +17,9 @@ export const GridCenterView = ({
 }) => {
   return (
     <div
-      className=" h-full"
-      style={{ width: `${hideSidePane && !isChatOpen ? "100%" : "80%"}` }}
+      className={`h-full ${
+        hideSidePane && !isChatOpen ? "w-full" : "w-full md:w-4/5"
+      }`}
     >
       {peers && peers.length > 0 ? (
         <VideoList
@@ -39,18 +44,23 @@ export const GridCenterView = ({
 
 // Side pane shows smaller tiles
 export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
+  const isMobile = parsedUserAgent.getPlatformType(true) === "mobile";
+  const rowCount = isMobile ? 1 : undefined;
+
   return (
-    <div className="flex flex-col" style={{ width: "20%" }}>
+    <div className="flex flex-col w-full h-1/4 md:w-1/5 md:h-full">
       <div className="flex flex-1 items-end w-full">
         {peers && peers.length > 0 && (
           <VideoList
             peers={peers}
             classes={{
               root: "",
-              videoTileContainer: "rounded-lg",
-              //video: "rounded-3xl",
+              videoTileContainer: `rounded-lg ${
+                isMobile ? "p-0 mr-3 ml-3" : ""
+              }`,
             }}
             maxColCount={2}
+            maxRowCount={rowCount}
             compact={true}
           />
         )}

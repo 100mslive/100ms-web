@@ -37,7 +37,7 @@ export const Conference = () => {
       <div className="h-14 md:h-16">
         <ConferenceHeader />
       </div>
-      <div className="w-full flex flex-1">
+      <div className="w-full flex flex-1 flex-col md:flex-row">
         <ConferenceMainView isChatOpen={isChatOpen} toggleChat={toggleChat} />
       </div>
       <div className="dark:bg-black" style={{ height: "10%" }}>
