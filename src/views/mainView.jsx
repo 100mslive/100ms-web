@@ -1,14 +1,20 @@
-import {selectLocalPeer, selectIsSomeoneScreenSharing, useHMSStore} from "@100mslive/hms-video-react";
+import {
+  selectLocalPeer,
+  selectIsSomeoneScreenSharing,
+  useHMSStore,
+} from "@100mslive/hms-video-react";
+import React from 'react';
 import { TeacherGridView } from "./teacherGridView";
 import { StudentGridView } from "./studentGridView";
-import {ScreenShareView} from "./screenShareView";
-import {ROLES} from "../common/roles";
+import { ScreenShareView } from "./screenShareView";
+import { ROLES } from "../common/roles";
 
 export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
   const localPeer = useHMSStore(selectLocalPeer);
   const isSomeoneScreenSharing = useHMSStore(selectIsSomeoneScreenSharing);
 
-  if (!localPeer) {  // we don't know the role yet to decide how to render UI
+  if (!localPeer) {
+    // we don't know the role yet to decide how to render UI
     return null;
   }
 
@@ -21,5 +27,9 @@ export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
     ViewComponent = amITeacher ? TeacherGridView : StudentGridView;
   }
 
-  return ViewComponent && <ViewComponent isChatOpen={isChatOpen} toggleChat={toggleChat} />;
+  return (
+    ViewComponent && (
+      <ViewComponent isChatOpen={isChatOpen} toggleChat={toggleChat} />
+    )
+  );
 };
