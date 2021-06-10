@@ -12,8 +12,9 @@ import {
   useHMSActions,
   selectIsLocalScreenShared,
   selectIsLocalAudioEnabled,
-  selectIsLocalVideoEnabled,
+  selectIsLocalVideoDisplayEnabled,
   selectUnreadHMSMessagesCount,
+  selectLocalMediaSettings,
 } from "@100mslive/hms-video-react";
 import { useContext, useCallback } from "react";
 import { AppContext } from "../store/AppContext";
@@ -22,11 +23,10 @@ import { Settings } from "@100mslive/hms-video-react";
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
-  const {
-    loginInfo: { selectedAudioInput, selectedVideoInput },
-    setLoginInfo,
-    setMaxTileCount,
-  } = useContext(AppContext);
+  const { setMaxTileCount } = useContext(AppContext);
+  const { audioInputDeviceId, videoInputDeviceId } = useHMSStore(
+    selectLocalMediaSettings
+  );
 
   const onChange = ({
     maxTileCount: newMaxTileCount,
@@ -34,14 +34,12 @@ const SettingsView = () => {
     selectedAudioInput: newSelectedAudioInput,
   }) => {
     setMaxTileCount(newMaxTileCount);
-    if (selectedAudioInput !== newSelectedAudioInput) {
+    if (audioInputDeviceId !== newSelectedAudioInput) {
       hmsActions.setAudioSettings({ deviceId: newSelectedAudioInput });
-      setLoginInfo({ selectedAudioInput: newSelectedAudioInput });
     }
 
-    if (selectedVideoInput !== newSelectedVideoInput) {
+    if (videoInputDeviceId !== newSelectedVideoInput) {
       hmsActions.setVideoSettings({ deviceId: newSelectedVideoInput });
-      setLoginInfo({ selectedVideoInput: newSelectedVideoInput });
     }
   };
   return (
@@ -54,7 +52,7 @@ const SettingsView = () => {
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
-  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoEnabled);
+  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
