@@ -24,16 +24,13 @@
       "description": "Allow Screenshare or not , Takes value True|False"
     },
     "REACT_APP_VIDEO_AVATAR": {
-      "description": "Takes value None|Initial|Pebble"
+      "description": "Takes value None|Initial"
     },
     "REACT_APP_TOKEN_GENERATION_ENDPOINT": {
       "description": "API url where your 100ms token generation service is hosted"
     },
     "REACT_APP_ENV": {
       "description": "Internal env variable for 100ms"
-    },
-    "REACT_APP_INIT_ENDPOINT": {
-      "description": "Internal init endpoint override for 100ms"
     }
   }
 }

@@ -7,9 +7,15 @@ import { GridCenterView, GridSidePaneView } from "./components/gridView";
 export const TeacherGridView = ({ isChatOpen, toggleChat }) => {
   const { maxTileCount } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
-  const teacherPeers = peers.filter((peer) => peer.role === ROLES.TEACHER);
-  const studentPeers = peers.filter((peer) => peer.role === ROLES.STUDENT);
-  const hideSidePane = (teacherPeers.length > 1 && studentPeers.length === 0) || (teacherPeers.length === 0 && studentPeers.length > 1)
+  const teacherPeers = peers.filter(
+    peer => peer.role.toLowerCase() === ROLES.TEACHER
+  );
+  const studentPeers = peers.filter(
+    peer => peer.role.toLowerCase() !== ROLES.TEACHER
+  );
+  const hideSidePane =
+    (teacherPeers.length > 1 && studentPeers.length === 0) ||
+    (teacherPeers.length === 0 && studentPeers.length > 1);
   return (
     <React.Fragment>
       <GridCenterView
@@ -20,11 +26,13 @@ export const TeacherGridView = ({ isChatOpen, toggleChat }) => {
         toggleChat={toggleChat}
         hideSidePane={hideSidePane}
       ></GridCenterView>
-      {!hideSidePane && <GridSidePaneView
-        peers={teacherPeers}
-        isChatOpen={isChatOpen}
-        toggleChat={toggleChat}
-      ></GridSidePaneView>}
+      {!hideSidePane && (
+        <GridSidePaneView
+          peers={teacherPeers}
+          isChatOpen={isChatOpen}
+          toggleChat={toggleChat}
+        ></GridSidePaneView>
+      )}
     </React.Fragment>
   );
 };
