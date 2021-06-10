@@ -46,7 +46,9 @@ const PreviewScreen = () => {
     setMaxTileCount(maxTileCount);
   };
 
-  const goBack = () => {};
+  const goBack = () => {
+    window.location.reload();
+  };
 
   const isPreview = location.pathname.startsWith("/preview");
 
