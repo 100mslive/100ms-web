@@ -6,6 +6,9 @@ import {
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
 
+const isMobile = parsedUserAgent.getPlatformType(true) === "mobile";
+const MAX_TILES_FOR_MOBILE = 4;
+
 // The center of the screen shows bigger tiles
 export const GridCenterView = ({
   peers,
@@ -27,7 +30,7 @@ export const GridCenterView = ({
           classes={{
             videoTileContainer: "rounded-lg",
           }}
-          maxTileCount={maxTileCount}
+          maxTileCount={isMobile ? MAX_TILES_FOR_MOBILE : maxTileCount}
           allowRemoteMute={allowRemoteMute}
         />
       ) : (
@@ -44,20 +47,17 @@ export const GridCenterView = ({
 
 // Side pane shows smaller tiles
 export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
-  const isMobile = parsedUserAgent.getPlatformType(true) === "mobile";
   const rowCount = isMobile ? 1 : undefined;
 
   return (
-    <div className="flex flex-col w-full h-1/4 md:w-1/5 md:h-full">
+    <div className="flex flex-col w-full h-1/4 md:w-1/5 md:h-full pl-3 pr-3 md:pl-0 md:pr-0">
       <div className="flex flex-1 items-end w-full">
         {peers && peers.length > 0 && (
           <VideoList
             peers={peers}
             classes={{
               root: "",
-              videoTileContainer: `rounded-lg ${
-                isMobile ? "p-0 mr-3 ml-3" : ""
-              }`,
+              videoTileContainer: `rounded-lg ${isMobile ? "p-0 mr-2" : ""}`,
             }}
             maxColCount={2}
             maxRowCount={rowCount}
