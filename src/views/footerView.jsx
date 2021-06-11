@@ -44,7 +44,10 @@ const SettingsView = () => {
   };
   return (
     <>
-      <Settings onChange={onChange} />
+      <Settings
+        onChange={onChange}
+        classes={{ sliderContainer: "hidden md:block" }}
+      />
     </>
   );
 };
