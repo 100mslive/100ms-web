@@ -2,11 +2,11 @@ import React from "react";
 import {
   VideoList,
   FirstPersonDisplay,
-  parsedUserAgent,
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
+import { isMobileDevice } from "../../common/utils";
 
-const isMobile = parsedUserAgent.getPlatformType(true) === "mobile";
+const isMobile = isMobileDevice();
 const MAX_TILES_FOR_MOBILE = 4;
 
 // The center of the screen shows bigger tiles

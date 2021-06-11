@@ -16,10 +16,10 @@ import {
   selectIsLocalVideoDisplayEnabled,
   selectUnreadHMSMessagesCount,
   selectLocalMediaSettings,
-  parsedUserAgent,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
+import { isMobileDevice } from "../common/utils";
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
@@ -82,7 +82,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   const leftComponents = [<SettingsView key={0} />];
 
-  if (parsedUserAgent.getPlatformType(true) === "desktop") {
+  if (!isMobileDevice()) {
     leftComponents.push(
       ...[
         <VerticalDivider key={1} />,
