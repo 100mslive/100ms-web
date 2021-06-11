@@ -74,26 +74,23 @@ export function EdtechComponent({
                 {/* <Route path="/createRoom">
               <CreateRoom />
             </Route> */}
-                <Route path="/preview/:roomId/:role">
-                  <PreviewScreen />
+                <Route path="/preview/:roomId/:role?">
+                  <PreviewScreen getUserToken={getUserToken} />
                 </Route>
-                <Route path="/meeting/:roomId/:role">
+                <Route path="/meeting/:roomId/:role?">
                   <Conference />
                 </Route>
                 <Route
-                  path="/leave/:roomId/:role"
+                  path="/leave/:roomId/:role?"
                   render={({ history, match }) => (
                     <PostLeaveDisplay
                       goToDashboardOnClick={() => {
                         window.open("https://dashboard.100ms.live/", "_blank");
                       }}
                       joinRoomOnClick={() => {
-                        history.push(
-                          "/preview/" +
-                          match.params.roomId +
-                          "/" +
-                          match.params.role
-                        );
+                        let previewUrl = "/preview/" + match.params.roomId;
+                        if (match.params.role) previewUrl += ("/" + match.params.role)
+                        history.push(previewUrl);
                       }}
                     />
                   )}
@@ -130,6 +127,7 @@ export default function App() {
         logoClass: process.env.REACT_APP_LOGO_CLASS,
         headerPresent: process.env.REACT_APP_HEADER_PRESENT,
       }}
+      getUserToken={getUserToken}
     />
   );
 }
