@@ -4,13 +4,13 @@ import {
   useHMSStore,
   VolumeIcon,
   Text,
-  selectDominantSpeakerName,
+  selectDominantSpeaker,
 } from "@100mslive/hms-video-react";
 import React from "react";
 
 const SpeakerTag = () => {
-  const dominantSpeakerName = useHMSStore(selectDominantSpeakerName);
-  return dominantSpeakerName ? (
+  const dominantSpeaker = useHMSStore(selectDominantSpeaker);
+  return dominantSpeaker && dominantSpeaker.name ? (
     <div className="self-center focus:outline-none text-lg flex items-center">
       <div className="inline-block">
         <VolumeIcon />
@@ -18,7 +18,7 @@ const SpeakerTag = () => {
       {/* TODO figure out why xs:hidden is needed */}
       <div className="md:pl-1 xs:hidden md:inline-block">
         <Text variant="body" size="md">
-          {dominantSpeakerName}
+          {dominantSpeaker.name}
         </Text>
       </div>
     </div>
