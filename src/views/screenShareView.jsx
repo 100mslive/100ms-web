@@ -11,6 +11,9 @@ import {
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
+import { isMobileDevice } from "../common/utils";
+
+const isMobile = isMobileDevice();
 
 export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   const peers = useHMSStore(selectPeers);
@@ -43,12 +46,12 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
 
   return (
     <React.Fragment>
-      <div className="w-full h-full flex">
+      <div className="w-full h-full flex flex-col md:flex-row">
         <ScreenShareComponent
           amIPresenting={amIPresenting}
           peerPresenting={peerPresenting}
         />
-        <div className="flex flex-wrap overflow-hidden p-2 w-2/10 h-full ">
+        <div className="flex flex-wrap overflow-hidden p-2 w-full h-1/3 md:w-2/10 md:h-full ">
           <SidePane
             isChatOpen={isChatOpen}
             toggleChat={toggleChat}
@@ -80,7 +83,7 @@ export const SidePane = ({
   return (
     <React.Fragment>
       <div className="w-full h-full relative">
-        <div className="w-full flex flex-col h-full">
+        <div className="w-full flex flex-row md:flex-col h-full">
           {!isPresenterInSmallTiles && (
             <LargeTilePeerView
               peerScreenSharing={peerScreenSharing}
@@ -102,7 +105,7 @@ export const SidePane = ({
 const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
   const hmsActions = useHMSActions();
   return (
-    <div className="w-8/10 h-full">
+    <div className="w-full md:w-8/10 h-2/3 md:h-full">
       {peerPresenting &&
         (amIPresenting ? (
           <div className="object-contain h-full">
@@ -140,7 +143,7 @@ const SmallTilePeersView = ({
   shouldShowScreenFn,
 }) => {
   return (
-    <div className="w-full relative flex-1">
+    <div className="w-1/2 md:w-full relative md:flex-1">
       {smallTilePeers && smallTilePeers.length > 0 && (
         <VideoList
           peers={smallTilePeers}
@@ -157,9 +160,11 @@ const SmallTilePeersView = ({
 
 const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => (
   <div
-    className="w-full relative overflow-hidden"
+    className="w-1/2 md:w-full relative overflow-hidden"
     style={{
-      paddingTop: `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
+      paddingTop: isMobile
+        ? 0
+        : `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
     }}
   >
     {peerScreenSharing && (
