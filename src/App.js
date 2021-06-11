@@ -10,10 +10,11 @@ import {
 } from "@100mslive/hms-video-react";
 import { shadeColor } from "./common/utils";
 import ErrorPage from "./pages/ErrorPage";
+import { getUserToken, getBaseDomain } from './services/tokenService';
 
 export function EdtechComponent({
   roomId = "",
-  tokenEndpoint = process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT,
+  tokenEndpoint = getBaseDomain() + process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN,
   themeConfig: {
     aspectRatio = "1-1",
     font = "Roboto",
@@ -27,6 +28,7 @@ export function EdtechComponent({
     headerPresent = "false",
     logoClass = "",
   },
+  getUserToken = async (name) => { console.log(name); return await null; }
 }) {
   const { 0: width, 1: height } = aspectRatio
     .split("-")
@@ -69,32 +71,29 @@ export function EdtechComponent({
                 {/* <Route path="/createRoom">
               <CreateRoom />
             </Route> */}
-                <Route path="/preview/:roomId/:role">
-                  <PreviewScreen />
+                <Route path="/preview/:roomId/:role?">
+                  <PreviewScreen getUserToken={getUserToken} />
                 </Route>
-                <Route path="/meeting/:roomId/:role">
+                <Route path="/meeting/:roomId/:role?">
                   <Conference />
                 </Route>
                 <Route
-                  path="/leave/:roomId/:role"
+                  path="/leave/:roomId/:role?"
                   render={({ history, match }) => (
                     <PostLeaveDisplay
                       goToDashboardOnClick={() => {
                         window.open("https://dashboard.100ms.live/", "_blank");
                       }}
                       joinRoomOnClick={() => {
-                        history.push(
-                          "/preview/" +
-                          match.params.roomId +
-                          "/" +
-                          match.params.role
-                        );
+                        let previewUrl = "/preview/" + match.params.roomId;
+                        if (match.params.role) previewUrl += ("/" + match.params.role)
+                        history.push(previewUrl);
                       }}
                     />
                   )}
                 ></Route>
-                <Route path="/:roomId/:role">
-                  <PreviewScreen />
+                <Route path="/:roomId/:role?">
+                  <PreviewScreen getUserToken={getUserToken} />
                 </Route>
                 <Route
                   path="*"
@@ -125,6 +124,7 @@ export default function App() {
         logoClass: process.env.REACT_APP_LOGO_CLASS,
         headerPresent: process.env.REACT_APP_HEADER_PRESENT
       }}
+      getUserToken={getUserToken}
     />
   );
 }

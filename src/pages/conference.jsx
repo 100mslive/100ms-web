@@ -20,13 +20,13 @@ export const Conference = () => {
   useEffect(() => setLoginInfo({ roomId }), [roomId]);
 
   useEffect(() => {
-    if (!roomId || !role) {
+    if (!roomId) {
       history.push(`/`);
     }
-
     if (!loginInfo.token) {
       // redirect to join if token not present
-      history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
+      if (role) history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
+      else history.push(`/preview/${loginInfo.roomId || roomId || ""}`);
     }
 
     return () => {
