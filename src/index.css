@@ -11,9 +11,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-html,
 body {
-  height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+html {
+  height: -webkit-fill-available;
 }
 
 code {
