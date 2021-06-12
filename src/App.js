@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
   HMSRoomProvider,
@@ -31,6 +31,22 @@ export function EdtechComponent({
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
+
+  useEffect(() => {
+    const setRootHeight = () => {
+      const root = document.getElementById("root");
+      console.log({ root });
+      if (root) {
+        root.style.height = `${window.innerHeight}px`;
+      }
+    };
+    setRootHeight();
+    window.addEventListener("resize", setRootHeight);
+    return () => {
+      window.removeEventListener("resize", setRootHeight);
+    };
+  }, []);
+
   return (
     <div
       className={`w-full dark:bg-black ${
