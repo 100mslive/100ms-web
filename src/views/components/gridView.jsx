@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  VideoList,
-  FirstPersonDisplay,
-} from "@100mslive/hms-video-react";
+import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
 import { isMobileDevice } from "../../common/utils";
 
@@ -30,6 +27,7 @@ export const GridCenterView = ({
           classes={{
             videoTileContainer: "rounded-lg",
           }}
+          isChatOpen={isChatOpen}
           maxTileCount={isMobile ? MAX_TILES_FOR_MOBILE : maxTileCount}
           allowRemoteMute={allowRemoteMute}
         />
@@ -62,6 +60,7 @@ export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
             maxColCount={2}
             maxRowCount={rowCount}
             compact={true}
+            isChatOpen={isChatOpen}
           />
         )}
       </div>
