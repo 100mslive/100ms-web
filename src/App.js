@@ -34,11 +34,7 @@ export function EdtechComponent({
 
   useEffect(() => {
     const setRootHeight = () => {
-      const root = document.getElementById("root");
-      console.log({ root });
-      if (root) {
-        root.style.height = `${window.innerHeight}px`;
-      }
+      document.body.style.height = `${window.innerHeight}px`;
     };
     setRootHeight();
     window.addEventListener("resize", setRootHeight);
