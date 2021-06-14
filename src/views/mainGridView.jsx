@@ -1,5 +1,9 @@
-import React, { useContext } from "react";
-import { selectPeers, useHMSStore } from "@100mslive/hms-video-react";
+import React, { useContext, useEffect } from "react";
+import {
+  selectPeers,
+  useHMSStore,
+  useHMSNotifications,
+} from "@100mslive/hms-video-react";
 import { GridCenterView, GridSidePaneView } from "./components/gridView";
 import { AppContext } from "../store/AppContext";
 import { ROLES } from "../common/roles";
@@ -7,6 +11,7 @@ import { ROLES } from "../common/roles";
 export const MainGridView = ({ isChatOpen, toggleChat, role }) => {
   const { maxTileCount } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
+  const notificationHandler = useHMSNotifications();
   const teacherPeers = peers.filter(
     peer => peer.role.toLowerCase() === ROLES.TEACHER
   );
@@ -19,6 +24,14 @@ export const MainGridView = ({ isChatOpen, toggleChat, role }) => {
 
   const centerPeers = role === ROLES.TEACHER ? studentPeers : teacherPeers;
   const sidebarPeers = role === ROLES.TEACHER ? teacherPeers : studentPeers;
+
+  useEffect(() => {
+    const unsubscribe = notificationHandler(notification => {
+      console.log("[Notification]", notification);
+    });
+    return unsubscribe;
+  }, [notificationHandler]);
+
   return (
     <React.Fragment>
       <GridCenterView
