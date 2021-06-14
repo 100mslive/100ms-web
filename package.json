@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
     "http-server": "^0.12.3",
     "logrocket": "^1.0.15",
     "logrocket-react": "^4.0.1",
