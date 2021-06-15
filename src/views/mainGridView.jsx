@@ -3,6 +3,7 @@ import {
   selectPeers,
   useHMSStore,
   useHMSNotifications,
+  HMSNotificationTypes,
 } from "@100mslive/hms-video-react";
 import { GridCenterView, GridSidePaneView } from "./components/gridView";
 import { AppContext } from "../store/AppContext";
@@ -26,7 +27,25 @@ export const MainGridView = ({ isChatOpen, toggleChat, role }) => {
   const sidebarPeers = role === ROLES.TEACHER ? teacherPeers : studentPeers;
 
   useEffect(() => {
-    console.log("[Notiifcation]", notification);
+    if (!notification) {
+      return;
+    }
+    switch (notification.type) {
+      case HMSNotificationTypes.PEER_JOINED:
+        console.log("[Peer Joined]", notification);
+        break;
+      case HMSNotificationTypes.PEER_LEFT:
+        console.log("[Peer Left]", notification);
+        break;
+      case HMSNotificationTypes.NEW_MESSAGE:
+        console.log("[Peer Left]", notification);
+        break;
+      case HMSNotificationTypes.ERROR:
+        console.log("[Error]", notification);
+        break;
+      default:
+        break;
+    }
   }, [notification]);
 
   return (
