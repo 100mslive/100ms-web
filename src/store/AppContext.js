@@ -9,7 +9,7 @@ import {
   convertLoginInfoToJoinConfig,
   setUpLogRocket,
 } from "./appContextUtils";
-import { getBackendEndpoint } from '../services/tokenService'
+import { backendEndPoint } from '../services/tokenService'
 
 const AppContext = React.createContext(null);
 
@@ -30,7 +30,7 @@ const initialLoginInfo = {
 
 const AppContextProvider = ({
   roomId = "",
-  tokenEndpoint = getBackendEndpoint() + process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN,
+  tokenEndpoint = backendEndPoint + process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN,
   children,
 }) => {
   const hmsActions = useHMSActions();
