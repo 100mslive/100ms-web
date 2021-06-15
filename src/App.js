@@ -10,11 +10,11 @@ import { Conference } from "./pages/conference.jsx";
 import ErrorPage from "./pages/ErrorPage";
 import { AppContextProvider } from "./store/AppContext.js";
 import { shadeColor } from "./common/utils";
-import { getUserToken, getBackendEndpoint } from './services/tokenService';
+import { getUserToken, backendEndPoint } from './services/tokenService';
 
 export function EdtechComponent({
   roomId = "",
-  tokenEndpoint = getBackendEndpoint() + process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN, // this'll be used when url = '/<room_id>/<role_name>'
+  tokenEndpoint = backendEndPoint + process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN, // this'll be used when url = '/<room_id>/<role_name>'
   themeConfig: {
     aspectRatio = "1-1",
     font = "Roboto",
@@ -131,3 +131,4 @@ export default function App() {
     />
   );
 }
+
