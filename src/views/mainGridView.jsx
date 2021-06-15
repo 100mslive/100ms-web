@@ -38,7 +38,7 @@ export const MainGridView = ({ isChatOpen, toggleChat, role }) => {
         console.log("[Peer Left]", notification);
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        console.log("[Peer Left]", notification);
+        console.log("[New Message]", notification);
         break;
       case HMSNotificationTypes.ERROR:
         console.log("[Error]", notification);
