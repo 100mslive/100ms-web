@@ -11,7 +11,7 @@ import { ROLES } from "../common/roles";
 export const MainGridView = ({ isChatOpen, toggleChat, role }) => {
   const { maxTileCount } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
-  const notificationHandler = useHMSNotifications();
+  const notification = useHMSNotifications();
   const teacherPeers = peers.filter(
     peer => peer.role.toLowerCase() === ROLES.TEACHER
   );
@@ -26,11 +26,8 @@ export const MainGridView = ({ isChatOpen, toggleChat, role }) => {
   const sidebarPeers = role === ROLES.TEACHER ? teacherPeers : studentPeers;
 
   useEffect(() => {
-    const unsubscribe = notificationHandler(notification => {
-      console.log("[Notification]", notification);
-    });
-    return unsubscribe;
-  }, [notificationHandler]);
+    console.log("[Notiifcation]", notification);
+  }, [notification]);
 
   return (
     <React.Fragment>
