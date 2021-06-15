@@ -5,7 +5,7 @@ export default async function getToken(
   role,
   roomId
 ) {
-  const response = await fetch(`${tokenEndpoint}/api/token`, {
+  const response = await fetch(`${tokenEndpoint}api/token`, {
     method: "POST",
     //TODO remove env
     body: JSON.stringify({
