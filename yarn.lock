@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.14":
-  version "0.2.14"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.14.tgz#6cc15e4ca03f9874469d2cf120aea302b97b7d53"
-  integrity sha512-h7JLbaUntmWj5pPnvHo/qXGm1QLt1YxL9yImXA9v0VNPsiBdRvS8VGTpRNEMpWLxH1T6zCNe2vRl07wGcTrUzw==
+"@100mslive/hms-video-react@^0.2.20":
+  version "0.2.20"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.20.tgz#e0eb5135ce4a88227a1271a62c9fe4878aafedbe"
+  integrity sha512-9tkS7vt+nVcIovFOpe7ZUxdvETdxkPY/HcFv/wAtc0rqst/84gZIoCDB6wqi73I1kTg58n0R24/E3zlmJUYI+A==
   dependencies:
-    "@100mslive/hms-video" "^0.0.25"
+    "@100mslive/hms-video" "^0.0.27"
     "@100mslive/hms-video-store" "^0.1.15"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
@@ -34,12 +34,13 @@
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.25.tgz#830de310efd39e6fadc076329be17ef16e0f6d2c"
-  integrity sha512-W6t9KrwPDb7Cd4AzSGkgxhXO2c/eqd3wH4n0yQsjXYacYFXrdKUj3fmp4B03aeK7VQSwhj3MQXF/JkuZod3rqQ==
+"@100mslive/hms-video@^0.0.27":
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.27.tgz#c5a8f9fcac1126b669a23989afb3191675bfc6e0"
+  integrity sha512-s5rNdV2hRQuJzPOJBDXc/jkGByq/A5xurVsNgz38CZGPq08IJA0RG/LCRp5KzUH4doozNbceuO6ZXKb3lmvfsQ==
   dependencies:
     bowser "^2.11.0"
+    events "^3.3.0"
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
@@ -5059,7 +5060,7 @@ eventemitter3@^4.0.0:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
 
-events@^3.0.0:
+events@^3.0.0, events@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
