@@ -102,10 +102,7 @@ const PreviewScreen = ({ getUserToken }) => {
     }
   }
   else {
-    if (urlRoomId === "preview" || // '/<preview|meeting|leave>'
-      urlRoomId === "meeting" ||
-      urlRoomId === "leave"
-    ) {
+    if (["meeting", "preview", "leave"].includes(urlRoomId)) {
       history.push(`/`);
     }
     else if (!isPreview) {

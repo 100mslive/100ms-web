@@ -48,18 +48,24 @@ export async function getUserToken(name) {
     "subdomain": process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
   };
 
-  const response = await fetch(url, {
-    method: 'post',
-    body: JSON.stringify({
-      "code": code,
-      "user_id": name,
-    }),
-    headers
-  })
+  try {
+    const response = await fetch(url, {
+      method: 'post',
+      body: JSON.stringify({
+        "code": code,
+        "user_id": name,
+      }),
+      headers
+    })
+    const { token } = await response.json();
+    return token;
+  }
+  catch (e) {
+    console.log(e);
+    return null;
+  }
 
-  const { token } = await response.json();
 
-  return token;
 }
 
 function getBackendEndpoint() {
