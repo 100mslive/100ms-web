@@ -1,4 +1,3 @@
-import axios from 'axios';
 export default async function getToken(
   tokenEndpoint,
   env,
@@ -41,7 +40,6 @@ export async function getUserToken(name) {
   }
 
   const code = extractUrlCode();
-  axios.create({ baseURL: process.env.REACT_APP_BACKEND_API, timeout: 2000 });
 
   const url = backendEndPoint + "get-token";
 
@@ -50,12 +48,18 @@ export async function getUserToken(name) {
     "subdomain": process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
   };
 
-  let formData = new FormData();
-  formData.append('code', code);
-  formData.append('user_id', name);
+  const response = await fetch(url, {
+    method: 'post',
+    body: JSON.stringify({
+      "code": code,
+      "user_id": name,
+    }),
+    headers
+  })
 
-  const res = await axios.post(url, formData, { headers: headers })
-  return res.data.token;
+  const { token } = await response.json();
+
+  return token;
 }
 
 function getBackendEndpoint() {
