@@ -1,15 +1,15 @@
 import React from "react";
-import PreviewScreen from "./pages/PreviewScreen";
-import { Conference } from "./pages/conference.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { AppContextProvider } from "./store/AppContext.js";
 import {
   HMSRoomProvider,
   HMSThemeProvider,
   PostLeaveDisplay,
 } from "@100mslive/hms-video-react";
-import { shadeColor } from "./common/utils";
+import PreviewScreen from "./pages/PreviewScreen";
+import { Conference } from "./pages/conference.jsx";
 import ErrorPage from "./pages/ErrorPage";
+import { AppContextProvider } from "./store/AppContext.js";
+import { shadeColor } from "./common/utils";
 
 export function EdtechComponent({
   roomId = "",
@@ -32,7 +32,11 @@ export function EdtechComponent({
     .split("-")
     .map(el => parseInt(el));
   return (
-    <div className={`w-full dark:bg-black ${headerPresent === "true" ? "flex-grow" : "h-screen"}`}>
+    <div
+      className={`w-full dark:bg-black ${
+        headerPresent === "true" ? "flex-grow" : "h-screen"
+      }`}
+    >
       <HMSThemeProvider
         config={{
           theme: {
@@ -85,20 +89,20 @@ export function EdtechComponent({
                       joinRoomOnClick={() => {
                         history.push(
                           "/preview/" +
-                          match.params.roomId +
-                          "/" +
-                          match.params.role
+                            match.params.roomId +
+                            "/" +
+                            match.params.role
                         );
                       }}
                     />
                   )}
-                ></Route>
+                />
                 <Route path="/:roomId/:role">
                   <PreviewScreen />
                 </Route>
                 <Route
                   path="*"
-                  render={() => <ErrorPage error={"Invalid URL!"} />}
+                  render={() => <ErrorPage error="Invalid URL!" />}
                 />
               </Switch>
             </Router>
@@ -123,7 +127,7 @@ export default function App() {
         showAvatar: process.env.REACT_APP_VIDEO_AVATAR,
         avatarType: process.env.REACT_APP_AVATAR_TYPE,
         logoClass: process.env.REACT_APP_LOGO_CLASS,
-        headerPresent: process.env.REACT_APP_HEADER_PRESENT
+        headerPresent: process.env.REACT_APP_HEADER_PRESENT,
       }}
     />
   );

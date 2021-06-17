@@ -2,13 +2,13 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@0.2.12":
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.12.tgz#9b8c08e0c3556fb708d42959da17e90561ef04bf"
-  integrity sha512-He7H5a54UM+UxG7hwdjU0sonMFtwjFbf20p/dxuNVLhu63vlheJ6+dqqgt0jlFh8TsiMZFFIcK/nLFmDJk5JRQ==
+"@100mslive/hms-video-react@^0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.24.tgz#df4c10585d3fb5532d3b4bbe42deb5e351eafa14"
+  integrity sha512-Rgq4c2Qwhixs80w4Qtp5b/B3omVYDlck+uLup3rdbOD4HHNGD5juD6q5EBzqDDL4R41YK8cnbiGPdDDby/NR4w==
   dependencies:
-    "@100mslive/hms-video" "^0.0.24"
-    "@100mslive/hms-video-store" "^0.1.14"
+    "@100mslive/hms-video" "^0.0.27"
+    "@100mslive/hms-video-store" "^0.1.18"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -25,21 +25,22 @@
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
 
-"@100mslive/hms-video-store@^0.1.14":
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.14.tgz#f0762d2974ce8ac49106c8323a3ffe3272909bd1"
-  integrity sha512-bymvVC983cawAGzRXSjP8+ZGAViFUWSBiZ7rvQjJaEm44xUiCALAda2phXBFsqoAz69/mXU8RljwvgbWP2jhGw==
+"@100mslive/hms-video-store@^0.1.18":
+  version "0.1.18"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.18.tgz#e303730f561a79557964ab2334f1d5812e3b3781"
+  integrity sha512-J6/7APulAq3Ae1j6j5jEZNvEj+MV31KLR/DbHZAQ6ZrNSVCoM1eWaAtFIbKumBm1ae1B069GjjDaNyAMBLTxqw==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.24":
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.24.tgz#c2e7ad039b8cba48be2c037fee531fcb6ae87635"
-  integrity sha512-F7Mc4nq+6Q2Kt4L8Fkoyzp9tyj+RAAJv/GTsuMd73wVYAUrS/bcmYJ9yLMM8QAgxcBuD0Fhu2a75NLzsKuxWdQ==
+"@100mslive/hms-video@^0.0.27":
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.27.tgz#c5a8f9fcac1126b669a23989afb3191675bfc6e0"
+  integrity sha512-s5rNdV2hRQuJzPOJBDXc/jkGByq/A5xurVsNgz38CZGPq08IJA0RG/LCRp5KzUH4doozNbceuO6ZXKb3lmvfsQ==
   dependencies:
     bowser "^2.11.0"
+    events "^3.3.0"
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
@@ -5059,7 +5060,7 @@ eventemitter3@^4.0.0:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
 
-events@^3.0.0:
+events@^3.0.0, events@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==

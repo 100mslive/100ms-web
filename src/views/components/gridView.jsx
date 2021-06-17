@@ -1,6 +1,13 @@
-import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
 import React from "react";
+import {
+  VideoList,
+  FirstPersonDisplay,
+} from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
+import { isMobileDevice } from "../../common/utils";
+
+const isMobile = isMobileDevice();
+const MAX_TILES_FOR_MOBILE = 4;
 
 // The center of the screen shows bigger tiles
 export const GridCenterView = ({
@@ -13,18 +20,17 @@ export const GridCenterView = ({
 }) => {
   return (
     <div
-      className=" h-full"
-      style={{ width: `${hideSidePane && !isChatOpen ? "100%" : "80%"}` }}
+      className={`h-full ${
+        hideSidePane && !isChatOpen ? "w-full" : "w-full md:w-4/5"
+      }`}
     >
       {peers && peers.length > 0 ? (
         <VideoList
           peers={peers}
           classes={{
-            root: "",
             videoTileContainer: "rounded-lg",
-            //video: "rounded-3xl",
           }}
-          maxTileCount={maxTileCount}
+          maxTileCount={isMobile ? MAX_TILES_FOR_MOBILE : maxTileCount}
           allowRemoteMute={allowRemoteMute}
         />
       ) : (
@@ -32,7 +38,7 @@ export const GridCenterView = ({
       )}
       {isChatOpen && hideSidePane && (
         <div className="h-1/2 w-2/10 absolute z-40 bottom-20 right-0">
-          <ChatView toggleChat={toggleChat}></ChatView>
+          <ChatView toggleChat={toggleChat} />
         </div>
       )}
     </div>
@@ -41,18 +47,20 @@ export const GridCenterView = ({
 
 // Side pane shows smaller tiles
 export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
+  const rowCount = isMobile ? 1 : undefined;
+
   return (
-    <div className="flex flex-col" style={{ width: "20%" }}>
+    <div className="flex flex-col w-full h-1/4 md:w-1/5 md:h-full pl-3 pr-3 md:pl-0 md:pr-0">
       <div className="flex flex-1 items-end w-full">
         {peers && peers.length > 0 && (
           <VideoList
             peers={peers}
             classes={{
               root: "",
-              videoTileContainer: "rounded-lg",
-              //video: "rounded-3xl",
+              videoTileContainer: `rounded-lg ${isMobile ? "p-0 mr-2" : ""}`,
             }}
             maxColCount={2}
+            maxRowCount={rowCount}
             compact={true}
           />
         )}
@@ -60,7 +68,7 @@ export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
       {isChatOpen && (
         <div className="flex h-1/2 items-end p-2">
           <div className="w-full h-full">
-            <ChatView toggleChat={toggleChat}></ChatView>
+            <ChatView toggleChat={toggleChat} />
           </div>
         </div>
       )}

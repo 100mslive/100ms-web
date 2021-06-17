@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -10,16 +10,16 @@ import {
   VerticalDivider,
   MessageModal,
   useHMSActions,
+  Settings,
   selectIsLocalScreenShared,
   selectIsLocalAudioEnabled,
   selectIsLocalVideoDisplayEnabled,
   selectUnreadHMSMessagesCount,
   selectLocalMediaSettings,
 } from "@100mslive/hms-video-react";
-import { useContext, useCallback } from "react";
-import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
-import { Settings } from "@100mslive/hms-video-react";
+import { AppContext } from "../store/AppContext";
+import { isMobileDevice } from "../common/utils";
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
@@ -44,7 +44,10 @@ const SettingsView = () => {
   };
   return (
     <>
-      <Settings onChange={onChange} />
+      <Settings
+        onChange={onChange}
+        classes={{ sliderContainer: "hidden md:block" }}
+      />
     </>
   );
 };
@@ -80,41 +83,48 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     }
   }, [hmsActions, isScreenShared]);
 
+  const leftComponents = [<SettingsView key={0} />];
+
+  if (!isMobileDevice()) {
+    leftComponents.push(
+      ...[
+        <VerticalDivider key={1} />,
+        <Button
+          key={2}
+          iconOnly
+          variant="no-fill"
+          iconSize="md"
+          shape="rectangle"
+          onClick={toggleScreenShare}
+        >
+          <ShareScreenIcon />
+        </Button>,
+        <VerticalDivider key={3} />,
+        <Button
+          key={4}
+          iconOnly
+          variant="no-fill"
+          iconSize="md"
+          shape="rectangle"
+          onClick={toggleChat}
+          active={isChatOpen}
+        >
+          {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+        </Button>,
+      ]
+    );
+  }
+
   return isConnected ? (
     <>
       <ControlBar
-        leftComponents={[
-          <SettingsView key={0} />,
-          <VerticalDivider key={1} />,
-          <Button
-            key={2}
-            iconOnly
-            variant={"no-fill"}
-            iconSize="md"
-            shape={"rectangle"}
-            onClick={toggleScreenShare}
-          >
-            <ShareScreenIcon />
-          </Button>,
-          <VerticalDivider key={3} />,
-          <Button
-            key={4}
-            iconOnly
-            variant={"no-fill"}
-            iconSize="md"
-            shape={"rectangle"}
-            onClick={toggleChat}
-            active={isChatOpen}
-          >
-            {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-          </Button>,
-        ]}
+        leftComponents={leftComponents}
         rightComponents={[
           <Button
             key={0}
             size="md"
-            shape={"rectangle"}
-            variant={"danger"}
+            shape="rectangle"
+            variant="danger"
             onClick={() => {
               leave();
               history.push("/leave/" + params.roomId + "/" + params.role);

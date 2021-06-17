@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
-    "@100mslive/hms-video-react": "0.2.12",
+    "@100mslive/hms-video-react": "^0.2.24",
     "@craco/craco": "^6.1.1",
     "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.4",
@@ -29,7 +29,22 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "react/jsx-curly-brace-presence": [
+        2,
+        {
+          "props": "never"
+        }
+      ],
+      "react/self-closing-comp": [
+        "error",
+        {
+          "component": true,
+          "html": false
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
