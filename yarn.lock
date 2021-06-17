@@ -2,13 +2,13 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.19":
-  version "0.2.19"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.19.tgz#ad2a3b4955ba0bb7ea13babf2e549b49a777f326"
-  integrity sha512-2SDshxWyVnww/+qXlpFGOn8wewk76CmMSvD423p0DyBEd79rzDumh3uCCza5lP0oJ39hIgnr5/FskuxMQrr5qg==
+"@100mslive/hms-video-react@^0.2.21":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.24.tgz#df4c10585d3fb5532d3b4bbe42deb5e351eafa14"
+  integrity sha512-Rgq4c2Qwhixs80w4Qtp5b/B3omVYDlck+uLup3rdbOD4HHNGD5juD6q5EBzqDDL4R41YK8cnbiGPdDDby/NR4w==
   dependencies:
     "@100mslive/hms-video" "^0.0.27"
-    "@100mslive/hms-video-store" "^0.1.15"
+    "@100mslive/hms-video-store" "^0.1.18"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -25,10 +25,10 @@
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
 
-"@100mslive/hms-video-store@^0.1.15":
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.15.tgz#be15cd352ffba439c7b9ebca6fdabdf9810d9c1d"
-  integrity sha512-aLLeKPzWheHSSL9ZHW4zuU6RXhXEalV2aEkqj/t0PeJ3/petkOxcVEQFt8zwOEZzB8Ay6HxwDT41SgfzJsAV0Q==
+"@100mslive/hms-video-store@^0.1.18":
+  version "0.1.18"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.18.tgz#e303730f561a79557964ab2334f1d5812e3b3781"
+  integrity sha512-J6/7APulAq3Ae1j6j5jEZNvEj+MV31KLR/DbHZAQ6ZrNSVCoM1eWaAtFIbKumBm1ae1B069GjjDaNyAMBLTxqw==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
@@ -1776,6 +1776,7 @@
     loader-utils "^2.0.0"
 
 "@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.4":
+  name tailwindcss
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@tailwindcss/postcss7-compat/-/postcss7-compat-2.1.4.tgz#427a2fd1837a3d9a54a296cc8b86a3f76b1452a7"
   integrity sha512-KYRj/AGNwE4tPf02IvT+J36Twlrwg/OJJuSckSupX2T+xIOHSXPugNJZ7Stn9F67hh/qH+2Y2HXK6vpBadW6qw==
