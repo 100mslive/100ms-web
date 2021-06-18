@@ -1,4 +1,3 @@
-import axios from 'axios';
 export default async function getToken(
   tokenEndpoint,
   env,
