@@ -14,7 +14,7 @@ import { getUserToken, backendEndPoint } from './services/tokenService';
 
 export function EdtechComponent({
   roomId = "",
-  tokenEndpoint = backendEndPoint + process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN, // this'll be used when url = '/<room_id>/<role_name>'
+  tokenEndpoint = backendEndPoint + process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN + "/", // this'll be used when url = '/<room_id>/<role_name>'
   themeConfig: {
     aspectRatio = "1-1",
     font = "Roboto",
