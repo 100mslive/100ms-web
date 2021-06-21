@@ -4,6 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { ConferenceHeader } from "../views/headerView";
 import { ConferenceFooter } from "../views/footerView";
 import { ConferenceMainView } from "../views/mainView";
+import { Notifications } from "../views/components/notifications";
 
 export const Conference = () => {
   const history = useHistory();
@@ -39,6 +40,7 @@ export const Conference = () => {
       </div>
       <div className="w-full flex flex-1 flex-col md:flex-row">
         <ConferenceMainView isChatOpen={isChatOpen} toggleChat={toggleChat} />
+        <Notifications />
       </div>
       <div className="dark:bg-black" style={{ height: "10%" }}>
         <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
