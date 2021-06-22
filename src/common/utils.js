@@ -27,6 +27,7 @@ export function isMobileDevice() {
   return parsedUserAgent.getPlatformType(true) === "mobile";
 }
 
-export function getBlurClass(isOpen, total) {
-  return isOpen && total > 7 ? "filter blur-sm" : "";
+//this util is to add blur to chatbox when participants are more than 7
+export function getBlurClass(isParticipantListOpen, totalPeers) {
+  return isParticipantListOpen && totalPeers > 7 ? "filter blur-sm" : "";
 }
