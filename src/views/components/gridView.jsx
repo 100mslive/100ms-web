@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  VideoList,
-  FirstPersonDisplay,
-} from "@100mslive/hms-video-react";
+import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
 import { isMobileDevice } from "../../common/utils";
 
@@ -46,7 +43,12 @@ export const GridCenterView = ({
 };
 
 // Side pane shows smaller tiles
-export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
+export const GridSidePaneView = ({
+  peers,
+  isChatOpen,
+  toggleChat,
+  isParticipantListOpen,
+}) => {
   const rowCount = isMobile ? 1 : undefined;
 
   return (
@@ -66,7 +68,11 @@ export const GridSidePaneView = ({ peers, isChatOpen, toggleChat }) => {
         )}
       </div>
       {isChatOpen && (
-        <div className="flex h-1/2 items-end p-2">
+        <div
+          className={`flex h-1/2 items-end p-2 ${
+            isParticipantListOpen ? "filter blur-sm" : ""
+          }`}
+        >
           <div className="w-full h-full">
             <ChatView toggleChat={toggleChat} />
           </div>
