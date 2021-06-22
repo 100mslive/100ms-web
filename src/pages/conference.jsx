@@ -47,7 +47,7 @@ export const Conference = () => {
         <ConferenceMainView
           isChatOpen={isChatOpen}
           isParticipantListOpen={isParticipantListOpen}
-          togtoggleChat={toggleChat}
+          toggleChat={toggleChat}
         />
         <Notifications />
       </div>
