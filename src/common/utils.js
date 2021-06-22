@@ -26,3 +26,7 @@ export function shadeColor(color, percent) {
 export function isMobileDevice() {
   return parsedUserAgent.getPlatformType(true) === "mobile";
 }
+
+export function getBlurClass(isOpen, total) {
+  return isOpen && total > 7 ? "filter blur-sm" : "";
+}

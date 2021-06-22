@@ -1,7 +1,7 @@
 import React from "react";
 import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
-import { isMobileDevice } from "../../common/utils";
+import { getBlurClass, isMobileDevice } from "../../common/utils";
 
 const isMobile = isMobileDevice();
 const MAX_TILES_FOR_MOBILE = 4;
@@ -37,9 +37,10 @@ export const GridCenterView = ({
       )}
       {isChatOpen && hideSidePane && (
         <div
-          className={`h-1/2 w-2/10 absolute z-40 bottom-20 right-0 ${
-            isParticipantListOpen && totalPeers > 7 ? "filter blur-sm" : ""
-          }`}
+          className={`h-1/2 w-2/10 absolute z-40 bottom-20 right-0 ${getBlurClass(
+            isParticipantListOpen,
+            totalPeers
+          )}`}
         >
           <ChatView
             toggleChat={toggleChat}
@@ -80,9 +81,10 @@ export const GridSidePaneView = ({
       </div>
       {isChatOpen && (
         <div
-          className={`flex h-1/2 items-end p-2 ${
-            isParticipantListOpen && totalPeers > 7 ? "filter blur-sm" : ""
-          }`}
+          className={`flex h-1/2 items-end p-2 ${getBlurClass(
+            isParticipantListOpen,
+            totalPeers
+          )}`}
         >
           <div className="w-full h-full">
             <ChatView

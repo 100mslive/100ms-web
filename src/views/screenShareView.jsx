@@ -11,7 +11,7 @@ import {
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
-import { isMobileDevice } from "../common/utils";
+import { getBlurClass, isMobileDevice } from "../common/utils";
 
 const isMobile = isMobileDevice();
 
@@ -149,9 +149,10 @@ const CustomChatView = ({
   return (
     isChatOpen && (
       <div
-        className={`h-1/2 w-full flex-shrink-0 ${
-          isParticipantListOpen && totalPeers > 7 ? "filter blur-sm" : ""
-        }`}
+        className={`h-1/2 w-full flex-shrink-0 ${getBlurClass(
+          isParticipantListOpen,
+          totalPeers
+        )}`}
       >
         <ChatView
           toggleChat={toggleChat}
