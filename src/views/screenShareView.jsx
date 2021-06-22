@@ -137,11 +137,7 @@ const CustomChatView = ({ isChatOpen, toggleChat }) => {
   );
 };
 
-const SmallTilePeersView = ({
-  isChatOpen,
-  smallTilePeers,
-  shouldShowScreenFn,
-}) => {
+const SmallTilePeersView = ({ smallTilePeers, shouldShowScreenFn }) => {
   return (
     <div className="w-1/2 md:w-full relative md:flex-1">
       {smallTilePeers && smallTilePeers.length > 0 && (
@@ -164,7 +160,7 @@ const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => (
     style={{
       paddingTop: isMobile
         ? 0
-        : `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
+        : `${peerScreenSharing ? (isChatOpen ? "75%" : "100%") : 0}`,
     }}
   >
     {peerScreenSharing && (
