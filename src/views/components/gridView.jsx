@@ -15,6 +15,7 @@ export const GridCenterView = ({
   toggleChat,
   isParticipantListOpen,
   hideSidePane,
+  totalPeers,
 }) => {
   return (
     <div
@@ -37,10 +38,14 @@ export const GridCenterView = ({
       {isChatOpen && hideSidePane && (
         <div
           className={`h-1/2 w-2/10 absolute z-40 bottom-20 right-0 ${
-            isParticipantListOpen ? "filter blur-sm" : ""
+            isParticipantListOpen && totalPeers > 7 ? "filter blur-sm" : ""
           }`}
         >
-          <ChatView toggleChat={toggleChat} />
+          <ChatView
+            toggleChat={toggleChat}
+            isParticipantListOpen={isParticipantListOpen}
+            totalPeers={totalPeers}
+          />
         </div>
       )}
     </div>
@@ -53,6 +58,7 @@ export const GridSidePaneView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
+  totalPeers,
 }) => {
   const rowCount = isMobile ? 1 : undefined;
 
@@ -75,11 +81,15 @@ export const GridSidePaneView = ({
       {isChatOpen && (
         <div
           className={`flex h-1/2 items-end p-2 ${
-            isParticipantListOpen ? "filter blur-sm" : ""
+            isParticipantListOpen && totalPeers > 7 ? "filter blur-sm" : ""
           }`}
         >
           <div className="w-full h-full">
-            <ChatView toggleChat={toggleChat} />
+            <ChatView
+              toggleChat={toggleChat}
+              isParticipantListOpen={isParticipantListOpen}
+              totalPeers={totalPeers}
+            />
           </div>
         </div>
       )}

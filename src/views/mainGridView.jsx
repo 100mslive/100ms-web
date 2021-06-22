@@ -35,6 +35,7 @@ export const MainGridView = ({
         allowRemoteMute={false}
         hideSidePane={hideSidePane}
         isParticipantListOpen={isParticipantListOpen}
+        totalPeers={peers.length}
       />
       {!hideSidePane && (
         <GridSidePaneView
@@ -42,6 +43,7 @@ export const MainGridView = ({
           isChatOpen={isChatOpen}
           toggleChat={toggleChat}
           isParticipantListOpen={isParticipantListOpen}
+          totalPeers={peers.length}
         />
       )}
     </React.Fragment>

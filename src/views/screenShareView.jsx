@@ -63,6 +63,7 @@ export const ScreenShareView = ({
             isPresenterInSmallTiles={showPresenterInSmallTile}
             smallTilePeers={smallTilePeers}
             isParticipantListOpen={isParticipantListOpen}
+            totalPeers={peers.length}
           />
         </div>
       </div>
@@ -79,6 +80,7 @@ export const SidePane = ({
   peerScreenSharing, // the peer who is screensharing
   smallTilePeers,
   isParticipantListOpen,
+  totalPeers,
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
@@ -105,6 +107,7 @@ export const SidePane = ({
             isChatOpen={isChatOpen}
             toggleChat={toggleChat}
             isParticipantListOpen={isParticipantListOpen}
+            totalPeers={totalPeers}
           />
         </div>
       </div>
@@ -137,15 +140,24 @@ const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
   );
 };
 
-const CustomChatView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
+const CustomChatView = ({
+  isChatOpen,
+  toggleChat,
+  isParticipantListOpen,
+  totalPeers,
+}) => {
   return (
     isChatOpen && (
       <div
         className={`h-1/2 w-full flex-shrink-0 ${
-          isParticipantListOpen ? "filter blur-sm" : ""
+          isParticipantListOpen && totalPeers > 7 ? "filter blur-sm" : ""
         }`}
       >
-        <ChatView toggleChat={toggleChat} />
+        <ChatView
+          toggleChat={toggleChat}
+          isParticipantListOpen={isParticipantListOpen}
+          totalPeers={totalPeers}
+        />
       </div>
     )
   );
