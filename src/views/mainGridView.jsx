@@ -34,6 +34,7 @@ export const MainGridView = ({
         toggleChat={toggleChat}
         allowRemoteMute={false}
         hideSidePane={hideSidePane}
+        isParticipantListOpen={isParticipantListOpen}
       />
       {!hideSidePane && (
         <GridSidePaneView

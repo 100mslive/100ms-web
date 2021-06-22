@@ -13,6 +13,7 @@ export const GridCenterView = ({
   allowRemoteMute,
   isChatOpen,
   toggleChat,
+  isParticipantListOpen,
   hideSidePane,
 }) => {
   return (
@@ -34,7 +35,11 @@ export const GridCenterView = ({
         <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
       )}
       {isChatOpen && hideSidePane && (
-        <div className="h-1/2 w-2/10 absolute z-40 bottom-20 right-0">
+        <div
+          className={`h-1/2 w-2/10 absolute z-40 bottom-20 right-0 ${
+            isParticipantListOpen ? "filter blur-sm" : ""
+          }`}
+        >
           <ChatView toggleChat={toggleChat} />
         </div>
       )}
