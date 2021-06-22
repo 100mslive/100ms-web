@@ -42,11 +42,7 @@ export const GridCenterView = ({
             totalPeers
           )}`}
         >
-          <ChatView
-            toggleChat={toggleChat}
-            isParticipantListOpen={isParticipantListOpen}
-            totalPeers={totalPeers}
-          />
+          <ChatView toggleChat={toggleChat} />
         </div>
       )}
     </div>
@@ -87,11 +83,7 @@ export const GridSidePaneView = ({
           )}`}
         >
           <div className="w-full h-full">
-            <ChatView
-              toggleChat={toggleChat}
-              isParticipantListOpen={isParticipantListOpen}
-              totalPeers={totalPeers}
-            />
+            <ChatView toggleChat={toggleChat} />
           </div>
         </div>
       )}

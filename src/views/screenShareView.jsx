@@ -154,11 +154,7 @@ const CustomChatView = ({
           totalPeers
         )}`}
       >
-        <ChatView
-          toggleChat={toggleChat}
-          isParticipantListOpen={isParticipantListOpen}
-          totalPeers={totalPeers}
-        />
+        <ChatView toggleChat={toggleChat} />
       </div>
     )
   );
