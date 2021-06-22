@@ -2,13 +2,13 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.26":
-  version "0.2.26"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.26.tgz#d7763117f83c01a5c599a077f0f279b58f72a205"
-  integrity sha512-uq4oeKhx0RYji9/uB7TMBgHqdRI7kIx8k8Zg+O+lXqHAy3vUcKt84HJ4Ug/kdB9gX53+doC7rTUFhkIQaN6Zyw==
+"@100mslive/hms-video-react@^0.2.29":
+  version "0.2.29"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.29.tgz#a8d214a2194683f7c7d1b730d22f2132e1b9b74a"
+  integrity sha512-/aaJGYNSub7iOr8hFMWwRJAccRvK+7zA782DZk2OQOepirI1Tf5NQMzYdogCo4TxGVRulkewF+0l1r3OCO3N/w==
   dependencies:
-    "@100mslive/hms-video" "^0.0.30"
-    "@100mslive/hms-video-store" "^0.1.19"
+    "@100mslive/hms-video" "^0.0.34"
+    "@100mslive/hms-video-store" "^0.1.21"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -25,19 +25,19 @@
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
 
-"@100mslive/hms-video-store@^0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.19.tgz#04199489abeb7e52e010cbbdb71878ffde90e4d0"
-  integrity sha512-SavJQrZ6DNRyowsSZl9vksp86aU/e8LyMOQEaMPIRMOHWz7PgUTQPeCFXBYQ4/9RvS8QDXenKID2jlN224BsMA==
+"@100mslive/hms-video-store@^0.1.21":
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.21.tgz#15074ba052174c8cb60cc70a26990ea09922c5d1"
+  integrity sha512-NGUBlzSUT5gJwOc74fsQOkWuPZY6eBlaxFb19oNC/JfjF28z4koVsNDeFjnFSc/Q3u7UaWCmy9+2mJ9sYjeefg==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.30.tgz#08a59dab64a90453aca66d988c264b5ea81d84d5"
-  integrity sha512-puiWnw/wCBGUf7jQs8H0Fs3LKzBhId2bzgBCBz70snxf6/M8+pdomzuPGfooNnRik1e19X2VDzqSr/qJlbSG8g==
+"@100mslive/hms-video@^0.0.34":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.34.tgz#3c2c14b2fde59f79614e7a24e9ce0d4fc81d603c"
+  integrity sha512-YxAMzQjvsObT+Q87SIdCV0hlR0l1neXG7bbfBRq9uDQVDaCv52guO/MPujgSXhPOLFKLeM3MuqI+cbmuSunGrQ==
   dependencies:
     bowser "^2.11.0"
     events "^3.3.0"
