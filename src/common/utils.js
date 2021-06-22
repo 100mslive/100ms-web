@@ -34,5 +34,8 @@ export function isMobileDevice() {
  * This util is to add blur to chatbox when participants are more than 7
  */
 export function getBlurClass(isParticipantListOpen, totalPeers) {
-  return isParticipantListOpen && totalPeers > 7 ? "filter blur-sm" : "";
+  const OVERLAP_THRESHOLD = window.innerHeight >= 1024 ? 7 : 4;
+  return isParticipantListOpen && totalPeers > OVERLAP_THRESHOLD
+    ? "filter blur-sm"
+    : "";
 }
