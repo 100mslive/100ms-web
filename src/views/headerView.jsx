@@ -27,12 +27,14 @@ const SpeakerTag = () => {
   );
 };
 
-export const ConferenceHeader = () => {
+export const ConferenceHeader = ({ onParticipantListOpen }) => {
   return (
     <>
       <Header
         centerComponents={[<SpeakerTag key={0} />]}
-        rightComponents={[<ParticipantList key={0} />]}
+        rightComponents={[
+          <ParticipantList key={0} onToggle={onParticipantListOpen} />,
+        ]}
         classes={{ root: "h-full" }}
       />
     </>
