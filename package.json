@@ -59,7 +59,7 @@
     ]
   },
   "resolutions": {
-    "@100mslive/hms-video-store": "^0.1.23"
+    "@100mslive/hms-video-store": "^0.1.24"
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.1.0",
