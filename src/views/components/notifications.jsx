@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
+  hmsToast,
+  HMSToastContainer,
 } from "@100mslive/hms-video-react";
 
 export function Notifications() {
@@ -13,38 +15,49 @@ export function Notifications() {
     }
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
-        console.log("[Peer Joined]", notification);
+        hmsToast(`${notification.data?.name} Joined`);
         break;
       case HMSNotificationTypes.PEER_LEFT:
-        console.log("[Peer Left]", notification);
+        hmsToast(`${notification.data?.name} Left`);
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        console.log("[New Message]", notification);
+        hmsToast(
+          `New Message: ${notification.data?.message} from ${notification.data?.senderName}`
+        );
         break;
       case HMSNotificationTypes.TRACK_ADDED:
-        console.log("[Track Added]", notification);
+        console.log(notification.data, "track added");
+        hmsToast(
+          `${notification.data?.type} Track: ${notification.data?.id} added`
+        );
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
-        console.log("[Track  Removed]", notification);
+        hmsToast(
+          `${notification.data?.type} Track: ${notification.data?.id} removed`
+        );
         break;
       case HMSNotificationTypes.TRACK_MUTED:
-        console.log("[Track Muted]", notification);
+        hmsToast(
+          `${notification.data?.type} Track: ${notification.data?.id} muted`
+        );
         break;
       case HMSNotificationTypes.TRACK_UNMUTED:
-        console.log("[Track Unmuted]", notification);
+        hmsToast(
+          `${notification.data?.type} Track: ${notification.data?.id} unmuted`
+        );
         break;
       case HMSNotificationTypes.ERROR:
-        console.log("[Error]", notification);
+        hmsToast(`Error: ${notification.data?.message}`);
         break;
       case HMSNotificationTypes.RECONNECTED:
-        console.log("[Reconnected]", notification);
+        hmsToast("Reconnected");
         break;
       case HMSNotificationTypes.RECONNECTING:
-        console.log("[Reconnecting]", notification);
+        hmsToast(`Reconnecting: ${notification.data?.message}`);
         break;
       default:
         break;
     }
   }, [notification]);
-  return <div></div>;
+  return <HMSToastContainer />;
 }
