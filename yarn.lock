@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.29":
-  version "0.2.29"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.29.tgz#a8d214a2194683f7c7d1b730d22f2132e1b9b74a"
-  integrity sha512-/aaJGYNSub7iOr8hFMWwRJAccRvK+7zA782DZk2OQOepirI1Tf5NQMzYdogCo4TxGVRulkewF+0l1r3OCO3N/w==
+"@100mslive/hms-video-react@^0.2.30":
+  version "0.2.30"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.30.tgz#fa4d1bd3d0f80d2bfec4e6f7d91107de4380b0f4"
+  integrity sha512-my1HR+y+J9FpE0ci/hzPauMRGN5b+nyA1x+sJdiU5OLcRrX4a4A3K01YS/ba98TjA6PPigaxjcW+W1u/Y3MOpg==
   dependencies:
-    "@100mslive/hms-video" "^0.0.34"
+    "@100mslive/hms-video" "^0.0.36"
     "@100mslive/hms-video-store" "^0.1.21"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
@@ -26,18 +26,18 @@
     twind "^0.16.12"
 
 "@100mslive/hms-video-store@^0.1.21":
-  version "0.1.21"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.21.tgz#15074ba052174c8cb60cc70a26990ea09922c5d1"
-  integrity sha512-NGUBlzSUT5gJwOc74fsQOkWuPZY6eBlaxFb19oNC/JfjF28z4koVsNDeFjnFSc/Q3u7UaWCmy9+2mJ9sYjeefg==
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.24.tgz#e56e9973ab8f5766d5011e02fea3306b592f7112"
+  integrity sha512-6ZP5tpcRVoLclI2rbupQzpBze1XLJPFCZ9kSiW4edaa1COB3jcrcJ7285MB9lZiKXzAzUUJEGUYcXqcp2uK2YA==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.34.tgz#3c2c14b2fde59f79614e7a24e9ce0d4fc81d603c"
-  integrity sha512-YxAMzQjvsObT+Q87SIdCV0hlR0l1neXG7bbfBRq9uDQVDaCv52guO/MPujgSXhPOLFKLeM3MuqI+cbmuSunGrQ==
+"@100mslive/hms-video@^0.0.36":
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.36.tgz#f2727fc53f9294cbb980f6095e340b2b156d2af5"
+  integrity sha512-bx1KYb7sszttZjgI5PlTiCnRE9WgzHsXfzcO6KAQI059Q888Y72dEu3wn4WapEc0JNvBmhHz1FN+TkGWwMgKtA==
   dependencies:
     bowser "^2.11.0"
     events "^3.3.0"
