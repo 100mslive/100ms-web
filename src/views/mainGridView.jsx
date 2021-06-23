@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
-import {
-  selectPeers,
-  useHMSStore,
-} from "@100mslive/hms-video-react";
+import { selectPeers, useHMSStore } from "@100mslive/hms-video-react";
 import { GridCenterView, GridSidePaneView } from "./components/gridView";
 import { AppContext } from "../store/AppContext";
 import { ROLES } from "../common/roles";
 
-export const MainGridView = ({ isChatOpen, toggleChat, role }) => {
+export const MainGridView = ({
+  isChatOpen,
+  toggleChat,
+  role,
+  isParticipantListOpen,
+}) => {
   const { maxTileCount } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
   const teacherPeers = peers.filter(
@@ -32,12 +34,16 @@ export const MainGridView = ({ isChatOpen, toggleChat, role }) => {
         toggleChat={toggleChat}
         allowRemoteMute={false}
         hideSidePane={hideSidePane}
+        isParticipantListOpen={isParticipantListOpen}
+        totalPeers={peers.length}
       />
       {!hideSidePane && (
         <GridSidePaneView
           peers={sidebarPeers}
           isChatOpen={isChatOpen}
           toggleChat={toggleChat}
+          isParticipantListOpen={isParticipantListOpen}
+          totalPeers={peers.length}
         />
       )}
     </React.Fragment>

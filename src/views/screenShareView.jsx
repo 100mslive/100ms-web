@@ -11,11 +11,15 @@ import {
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
-import { isMobileDevice } from "../common/utils";
+import { getBlurClass, isMobileDevice } from "../common/utils";
 
 const isMobile = isMobileDevice();
 
-export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
+export const ScreenShareView = ({
+  isChatOpen,
+  toggleChat,
+  isParticipantListOpen,
+}) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
@@ -58,6 +62,8 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
             peerScreenSharing={peerPresenting}
             isPresenterInSmallTiles={showPresenterInSmallTile}
             smallTilePeers={smallTilePeers}
+            isParticipantListOpen={isParticipantListOpen}
+            totalPeers={peers.length}
           />
         </div>
       </div>
@@ -73,6 +79,8 @@ export const SidePane = ({
   isPresenterInSmallTiles,
   peerScreenSharing, // the peer who is screensharing
   smallTilePeers,
+  isParticipantListOpen,
+  totalPeers,
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
@@ -95,7 +103,12 @@ export const SidePane = ({
             smallTilePeers={smallTilePeers}
             shouldShowScreenFn={shouldShowScreenFn}
           />
-          <CustomChatView isChatOpen={isChatOpen} toggleChat={toggleChat} />
+          <CustomChatView
+            isChatOpen={isChatOpen}
+            toggleChat={toggleChat}
+            isParticipantListOpen={isParticipantListOpen}
+            totalPeers={totalPeers}
+          />
         </div>
       </div>
     </React.Fragment>
@@ -127,10 +140,20 @@ const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
   );
 };
 
-const CustomChatView = ({ isChatOpen, toggleChat }) => {
+const CustomChatView = ({
+  isChatOpen,
+  toggleChat,
+  isParticipantListOpen,
+  totalPeers,
+}) => {
   return (
     isChatOpen && (
-      <div className="h-1/2 w-full flex-shrink-0">
+      <div
+        className={`h-1/2 w-full flex-shrink-0 ${getBlurClass(
+          isParticipantListOpen,
+          totalPeers
+        )}`}
+      >
         <ChatView toggleChat={toggleChat} />
       </div>
     )
