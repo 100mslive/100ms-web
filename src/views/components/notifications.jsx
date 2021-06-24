@@ -2,6 +2,11 @@ import React, { useEffect } from "react";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
+  hmsToast,
+  HMSToastContainer,
+  Text,
+  PoorConnectivityIcon,
+  ConnectivityIcon,
 } from "@100mslive/hms-video-react";
 
 export function Notifications() {
@@ -13,19 +18,19 @@ export function Notifications() {
     }
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
-        console.log("[Peer Joined]", notification);
+        hmsToast(`${notification.data?.name} joined`);
         break;
       case HMSNotificationTypes.PEER_LEFT:
-        console.log("[Peer Left]", notification);
+        hmsToast(`${notification.data?.name} left`);
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        console.log("[New Message]", notification);
+        hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
         console.log("[Track Added]", notification);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
-        console.log("[Track  Removed]", notification);
+        console.log("[Track Removed]", notification);
         break;
       case HMSNotificationTypes.TRACK_MUTED:
         console.log("[Track Muted]", notification);
@@ -34,17 +39,30 @@ export function Notifications() {
         console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
-        console.log("[Error]", notification);
+        hmsToast(`Error: ${notification.data?.message}`);
         break;
       case HMSNotificationTypes.RECONNECTED:
-        console.log("[Reconnected]", notification);
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <ConnectivityIcon /> &nbsp;You are now connected
+            </Text>
+          ),
+        });
         break;
       case HMSNotificationTypes.RECONNECTING:
-        console.log("[Reconnecting]", notification);
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <PoorConnectivityIcon /> &nbsp;Poor internet. Please check your
+              internet connection.
+            </Text>
+          ),
+        });
         break;
       default:
         break;
     }
   }, [notification]);
-  return <div></div>;
+  return <HMSToastContainer />;
 }
