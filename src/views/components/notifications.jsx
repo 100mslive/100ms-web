@@ -4,6 +4,9 @@ import {
   HMSNotificationTypes,
   hmsToast,
   HMSToastContainer,
+  Text,
+  PoorConnectivityIcon,
+  ConnectivityIcon,
 } from "@100mslive/hms-video-react";
 
 export function Notifications() {
@@ -15,45 +18,47 @@ export function Notifications() {
     }
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
-        hmsToast(`${notification.data?.name} Joined`);
+        hmsToast(`Peer ${notification.data?.name} joined`);
         break;
       case HMSNotificationTypes.PEER_LEFT:
-        hmsToast(`${notification.data?.name} Left`);
+        hmsToast(`Peer ${notification.data?.name} left`);
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        hmsToast(
-          `New Message: ${notification.data?.message} from ${notification.data?.senderName}`
-        );
+        hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
-        console.log(notification.data, "track added");
-        hmsToast(
-          `${notification.data?.type} Track: ${notification.data?.id} added`
-        );
+        console.log("[Track Added]", notification);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
-        hmsToast(
-          `${notification.data?.type} Track: ${notification.data?.id} removed`
-        );
+        console.log("[Track Removed]", notification);
         break;
       case HMSNotificationTypes.TRACK_MUTED:
-        hmsToast(
-          `${notification.data?.type} Track: ${notification.data?.id} muted`
-        );
+        console.log("[Track Muted]", notification);
         break;
       case HMSNotificationTypes.TRACK_UNMUTED:
-        hmsToast(
-          `${notification.data?.type} Track: ${notification.data?.id} unmuted`
-        );
+        console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
         hmsToast(`Error: ${notification.data?.message}`);
         break;
       case HMSNotificationTypes.RECONNECTED:
-        hmsToast("Reconnected");
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <ConnectivityIcon /> &nbsp;You are now connected
+            </Text>
+          ),
+        });
         break;
       case HMSNotificationTypes.RECONNECTING:
-        hmsToast(`Reconnecting: ${notification.data?.message}`);
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <PoorConnectivityIcon /> &nbsp;Poor internet. Please check your
+              internet connection.
+            </Text>
+          ),
+        });
         break;
       default:
         break;
