@@ -18,10 +18,10 @@ export function Notifications() {
     }
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
-        hmsToast(`Peer ${notification.data?.name} joined`);
+        hmsToast(`${notification.data?.name} joined`);
         break;
       case HMSNotificationTypes.PEER_LEFT:
-        hmsToast(`Peer ${notification.data?.name} left`);
+        hmsToast(`${notification.data?.name} left`);
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
         hmsToast(`New message from ${notification.data?.senderName}`);
