@@ -2,13 +2,13 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.30":
-  version "0.2.30"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.30.tgz#fa4d1bd3d0f80d2bfec4e6f7d91107de4380b0f4"
-  integrity sha512-my1HR+y+J9FpE0ci/hzPauMRGN5b+nyA1x+sJdiU5OLcRrX4a4A3K01YS/ba98TjA6PPigaxjcW+W1u/Y3MOpg==
+"@100mslive/hms-video-react@^0.2.31":
+  version "0.2.31"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.31.tgz#b318838c775bd91b1f308bf0c27eefac44c284dc"
+  integrity sha512-yBAFDxr42Ol0VT5hdNU9tYfLwThZ6qV+FeeXSIREsr+h5m95GYezEpAV7jN72Lf8eGaupIGZQxltEWBpxZDIHQ==
   dependencies:
-    "@100mslive/hms-video" "^0.0.36"
-    "@100mslive/hms-video-store" "^0.1.21"
+    "@100mslive/hms-video" "^0.0.38"
+    "@100mslive/hms-video-store" "^0.1.25"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -20,24 +20,25 @@
     react-intersection-observer "^8.31.1"
     react-markdown "^6.0.0"
     react-resize-detector "^6.6.5"
+    react-toastify "^7.0.4"
     remark-gfm "^1.0.0"
     tailwind-percentage-heights-plugin "^0.1.4"
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
 
-"@100mslive/hms-video-store@^0.1.21":
-  version "0.1.24"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.24.tgz#e56e9973ab8f5766d5011e02fea3306b592f7112"
-  integrity sha512-6ZP5tpcRVoLclI2rbupQzpBze1XLJPFCZ9kSiW4edaa1COB3jcrcJ7285MB9lZiKXzAzUUJEGUYcXqcp2uK2YA==
+"@100mslive/hms-video-store@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.25.tgz#46fb7e8abb896d7e1908770b2f0c69aa34ec91c6"
+  integrity sha512-RoXh3EUTS/GhDRXjZgQCQMjvMTUOMjfXbfeHir6naHcrZ0un3u9IbmTD8udRO3XVfpLwRCUym0sO7CFKsiwQ7A==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.36":
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.36.tgz#f2727fc53f9294cbb980f6095e340b2b156d2af5"
-  integrity sha512-bx1KYb7sszttZjgI5PlTiCnRE9WgzHsXfzcO6KAQI059Q888Y72dEu3wn4WapEc0JNvBmhHz1FN+TkGWwMgKtA==
+"@100mslive/hms-video@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.38.tgz#1aca55b67a5ffaf6e12972320e18753877b97b01"
+  integrity sha512-2fRf3+xvsdTS//r26/gi+44zGlZgNKcuMB8e5/L02jC+SY5C9W8Bs7khBheC2Len2ko9ANIjDuQT5xzGrJYbXA==
   dependencies:
     bowser "^2.11.0"
     events "^3.3.0"
@@ -10032,6 +10033,13 @@ react-scripts@4.0.3:
     workbox-webpack-plugin "5.1.4"
   optionalDependencies:
     fsevents "^2.1.3"
+
+react-toastify@^7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-7.0.4.tgz#7d0b743f2b96f65754264ca6eae31911a82378db"
+  integrity sha512-Rol7+Cn39hZp5hQ/k6CbMNE2CKYV9E5OQdC/hBLtIQU2xz7DdAm7xil4NITQTHR6zEbE5RVFbpgSwTD7xRGLeQ==
+  dependencies:
+    clsx "^1.1.1"
 
 react-transition-group@^4.4.0:
   version "4.4.2"
