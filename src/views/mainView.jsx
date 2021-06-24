@@ -7,7 +7,11 @@ import {
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
 
-export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
+export const ConferenceMainView = ({
+  isChatOpen,
+  toggleChat,
+  isParticipantListOpen,
+}) => {
   const localPeer = useHMSStore(selectLocalPeer);
   const isSomeoneScreenSharing = useHMSStore(selectIsSomeoneScreenSharing);
 
@@ -30,6 +34,7 @@ export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
         isChatOpen={isChatOpen}
         toggleChat={toggleChat}
         role={localPeer.role}
+        isParticipantListOpen={isParticipantListOpen}
       />
     )
   );

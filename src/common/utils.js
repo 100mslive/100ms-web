@@ -26,3 +26,17 @@ export function shadeColor(color, percent) {
 export function isMobileDevice() {
   return parsedUserAgent.getPlatformType(true) === "mobile";
 }
+
+/**
+ * @param {boolean} isParticipantListOpen
+ * @param {number} totalPeers
+ * @returns {string}
+ * This util is to add blur to chatbox when participants are more than 4 below 1024 and
+ * more than 7 above 1024 screens
+ */
+export function getBlurClass(isParticipantListOpen, totalPeers) {
+  const OVERLAP_THRESHOLD = window.innerHeight >= 1024 ? 7 : 4;
+  return isParticipantListOpen && totalPeers > OVERLAP_THRESHOLD
+    ? "filter blur-sm"
+    : "";
+}
