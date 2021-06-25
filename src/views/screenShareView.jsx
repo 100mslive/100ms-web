@@ -123,8 +123,8 @@ const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
         (amIPresenting ? (
           <div className="object-contain h-full">
             <ScreenShareDisplay
-              stopScreenShare={() => {
-                hmsActions.setScreenShareEnabled(false);
+              stopScreenShare={async () => {
+                await hmsActions.setScreenShareEnabled(false);
               }}
               classes={{ rootBg: "h-full" }}
             />
