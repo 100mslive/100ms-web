@@ -20,14 +20,7 @@ export function Notifications() {
     }
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
-        hmsToast("", {
-          left: (
-            <Text classes={{ root: "flex" }}>
-              <PersonIcon className="mr-2" />
-              {notification.data?.name} joined
-            </Text>
-          ),
-        });
+        console.log("[Peer Joined]", notification.data);
         break;
       case HMSNotificationTypes.PEER_LEFT:
         hmsToast("", {
