@@ -73,6 +73,6 @@
     "arrowParens": "avoid"
   },
   "resolutions": {
-    "@100mslive/hms-video-react/@100mslive/hms-video-store": "0.1.26"
+    "@100mslive/hms-video-react/@100mslive/hms-video-store": "0.1.27"
   }
 }
