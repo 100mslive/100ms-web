@@ -26,10 +26,10 @@
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
 
-"@100mslive/hms-video-store@^0.1.25":
-  version "0.1.25"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.25.tgz#46fb7e8abb896d7e1908770b2f0c69aa34ec91c6"
-  integrity sha512-RoXh3EUTS/GhDRXjZgQCQMjvMTUOMjfXbfeHir6naHcrZ0un3u9IbmTD8udRO3XVfpLwRCUym0sO7CFKsiwQ7A==
+"@100mslive/hms-video-store@0.1.26", "@100mslive/hms-video-store@^0.1.25":
+  version "0.1.26"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.26.tgz#fd905252b00d06f614ed3a0ab91b2bb54b4bbdc5"
+  integrity sha512-tUaZnICI4xa/t7phClyFxl/n+kmE0dNlc45uWjta4s3+qehUVY2zGxaiZw20GI6EM+B1ABY5SS+wTLooXM/FPg==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
