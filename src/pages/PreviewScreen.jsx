@@ -51,6 +51,9 @@ const PreviewScreen = () => {
   };
 
   const isPreview = location.pathname.startsWith("/preview");
+  // for beam recording
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const skipPreview = urlSearchParams.get("token") === "beam_recording";
 
   if (!urlRoomId || !userRole) {
     history.push(`/`);
@@ -62,6 +65,8 @@ const PreviewScreen = () => {
     history.push(`/`);
   } else if (!isPreview) {
     history.push(`/preview/${urlRoomId}/${userRole}`);
+  } else if (skipPreview) {
+    join({ audioMuted: true, videoMuted: true, name: "beam" });
   } else {
     return (
       <div className="h-full">
