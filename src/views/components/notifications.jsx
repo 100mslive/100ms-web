@@ -48,6 +48,7 @@ export function Notifications() {
         console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
+        // TODO export error codes from sdk
         if ([1003, 4005].includes(notification.data?.code)) {
           hmsToast("", {
             center: (
