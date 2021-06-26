@@ -71,5 +71,8 @@
     "semi": true,
     "singleQuote": false,
     "arrowParens": "avoid"
+  },
+  "resolutions": {
+    "@100mslive/hms-video": "^0.0.44"
   }
 }
