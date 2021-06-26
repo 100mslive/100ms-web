@@ -6,7 +6,7 @@ This is an example React app to demo 100ms' React SDK
 
 You will need [Node.js](https://nodejs.org) version v12.13.0 or greater installed on your system
 
-## Set up
+## Clone the repo
 
 Get the code by cloning this repo using git
 
