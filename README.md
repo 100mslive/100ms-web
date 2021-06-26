@@ -27,37 +27,43 @@ Create a new file `.env` and copy the values from `example.env`
 cp example.env .env
 ```
 
+
 ### Token generation server
 
 Get your token generation endpoint [following the instructions here](https://docs.100ms.live/v2/server-side/100ms-quickstart-app-server)
 
 Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with your token generation service endpoint (eg. `https://prod-in.100ms.live/hmsapi/example.app.100ms.live/`) 
 
->Remember to append trailing `/` at the end
 
-### Create room
 
-Create room from [100ms Dashboard] (https://dashboard.100ms.live/create-room) & get the room_id & role of the created room.
+### Running the app
 
 Then start the app with:
 
 ```bash
 yarn dev
 ```
-
-The app should now be up and running at http://localhost:3000 🚀
-![image](https://user-images.githubusercontent.com/5078656/119534649-c60da000-bda4-11eb-9847-f283e2daa06f.png)
+The app now should be running at https://localhost:3000/. (Please ignore the 404 message, you need to join the right URL of the room. Next sections describe how to create a room and form the correct URL)
 
 
+### Create room
+
+Create room from [100ms Dashboard] (https://dashboard.100ms.live/create-room) & get the room_id & role of the created room. Room details page after creating the room gives you room_id and roles allowed in the room.
+
+
+![image](https://prod-apps-public.s3.ap-south-1.amazonaws.com/Screenshot+2021-06-26+at+5.52.50+PM.png) 
+
+
+
+### Joining the room
 
 Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the room
+
+
+![image](https://user-images.githubusercontent.com/5078656/119534649-c60da000-bda4-11eb-9847-f283e2daa06f.png)
   
 Use any name & Click on join. 
 
-### How to get room id and roles
 
-In [Rooms section on Dashboard](https://dashboard.100ms.live/rooms), you can find all the rooms created for your account. You can also create a new room from this page. 
 
-On rooms details page (clicking on any of the room ids in the list takes you to this page), you can get room id and roles allowed in the room. Refer the image below.
 
-![image](https://prod-apps-public.s3.ap-south-1.amazonaws.com/Screenshot+2021-06-26+at+5.52.50+PM.png) 
