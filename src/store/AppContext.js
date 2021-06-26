@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useHMSActions, useHMSStore } from "@100mslive/hms-video-react";
 import {
+  useHMSActions,
+  useHMSStore,
   selectLocalPeer,
   selectIsConnectedToRoom,
 } from "@100mslive/hms-video-react";

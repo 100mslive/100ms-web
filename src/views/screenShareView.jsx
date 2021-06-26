@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from "react";
 import {
   useHMSStore,
   useHMSActions,
@@ -6,13 +7,19 @@ import {
   selectPeers,
   selectLocalPeer,
   selectPeerScreenSharing,
-  ScreenShareDisplay
+  ScreenShareDisplay,
 } from "@100mslive/hms-video-react";
-import React, { useCallback, useMemo } from "react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
+import { getBlurClass, isMobileDevice } from "../common/utils";
 
-export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
+const isMobile = isMobileDevice();
+
+export const ScreenShareView = ({
+  isChatOpen,
+  toggleChat,
+  isParticipantListOpen,
+}) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
@@ -22,7 +29,8 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
   );
 
   const amITeacher = localPeer?.role.toLowerCase() === ROLES.TEACHER;
-  const isPresenterTeacher = peerPresenting?.role.toLowerCase() === ROLES.TEACHER;
+  const isPresenterTeacher =
+    peerPresenting?.role.toLowerCase() === ROLES.TEACHER;
   const amIPresenting = localPeer && localPeer.id === peerPresenting?.id;
   const showPresenterInSmallTile =
     amIPresenting || (amITeacher && isPresenterTeacher);
@@ -42,18 +50,20 @@ export const ScreenShareView = ({ isChatOpen, toggleChat }) => {
 
   return (
     <React.Fragment>
-      <div className="w-full h-full flex">
+      <div className="w-full h-full flex flex-col md:flex-row">
         <ScreenShareComponent
           amIPresenting={amIPresenting}
           peerPresenting={peerPresenting}
         />
-        <div className="flex flex-wrap overflow-hidden p-2 w-2/10 h-full ">
+        <div className="flex flex-wrap overflow-hidden p-2 w-full h-1/3 md:w-2/10 md:h-full ">
           <SidePane
             isChatOpen={isChatOpen}
             toggleChat={toggleChat}
             peerScreenSharing={peerPresenting}
             isPresenterInSmallTiles={showPresenterInSmallTile}
             smallTilePeers={smallTilePeers}
+            isParticipantListOpen={isParticipantListOpen}
+            totalPeers={peers.length}
           />
         </div>
       </div>
@@ -68,7 +78,9 @@ export const SidePane = ({
   toggleChat,
   isPresenterInSmallTiles,
   peerScreenSharing, // the peer who is screensharing
-  smallTilePeers
+  smallTilePeers,
+  isParticipantListOpen,
+  totalPeers,
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
@@ -78,8 +90,8 @@ export const SidePane = ({
 
   return (
     <React.Fragment>
-      <div className={`w-full h-full relative`}>
-        <div className={`w-full flex flex-col h-full`}>
+      <div className="w-full h-full relative">
+        <div className="w-full flex flex-row md:flex-col h-full">
           {!isPresenterInSmallTiles && (
             <LargeTilePeerView
               peerScreenSharing={peerScreenSharing}
@@ -91,7 +103,12 @@ export const SidePane = ({
             smallTilePeers={smallTilePeers}
             shouldShowScreenFn={shouldShowScreenFn}
           />
-        <CustomChatView isChatOpen={isChatOpen} toggleChat={toggleChat} />
+          <CustomChatView
+            isChatOpen={isChatOpen}
+            toggleChat={toggleChat}
+            isParticipantListOpen={isParticipantListOpen}
+            totalPeers={totalPeers}
+          />
         </div>
       </div>
     </React.Fragment>
@@ -101,13 +118,13 @@ export const SidePane = ({
 const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
   const hmsActions = useHMSActions();
   return (
-    <div className="w-8/10 h-full">
+    <div className="w-full md:w-8/10 h-2/3 md:h-full">
       {peerPresenting &&
         (amIPresenting ? (
           <div className="object-contain h-full">
             <ScreenShareDisplay
-              stopScreenShare={() => {
-                hmsActions.setScreenShareEnabled(false);
+              stopScreenShare={async () => {
+                await hmsActions.setScreenShareEnabled(false);
               }}
               classes={{ rootBg: "h-full" }}
             />
@@ -123,10 +140,20 @@ const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
   );
 };
 
-const CustomChatView = ({ isChatOpen, toggleChat }) => {
+const CustomChatView = ({
+  isChatOpen,
+  toggleChat,
+  isParticipantListOpen,
+  totalPeers,
+}) => {
   return (
     isChatOpen && (
-      <div className="h-1/2 w-full flex-shrink-0">
+      <div
+        className={`h-1/2 w-full flex-shrink-0 ${getBlurClass(
+          isParticipantListOpen,
+          totalPeers
+        )}`}
+      >
         <ChatView toggleChat={toggleChat} />
       </div>
     )
@@ -136,10 +163,10 @@ const CustomChatView = ({ isChatOpen, toggleChat }) => {
 const SmallTilePeersView = ({
   isChatOpen,
   smallTilePeers,
-  shouldShowScreenFn
+  shouldShowScreenFn,
 }) => {
   return (
-    <div className="w-full relative flex-1">
+    <div className="w-1/2 md:w-full relative md:flex-1">
       {smallTilePeers && smallTilePeers.length > 0 && (
         <VideoList
           peers={smallTilePeers}
@@ -156,9 +183,11 @@ const SmallTilePeersView = ({
 
 const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => (
   <div
-    className="w-full relative overflow-hidden"
+    className="w-1/2 md:w-full relative overflow-hidden"
     style={{
-      paddingTop: `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`
+      paddingTop: isMobile
+        ? 0
+        : `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
     }}
   >
     {peerScreenSharing && (
