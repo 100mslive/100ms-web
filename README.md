@@ -18,7 +18,7 @@ Once cloned, open the terminal in the project directory, and install dependencie
 
 ```bash
 cd 100ms-web-v2
-yarn
+yarn install
 ```
 
 Create a new file `.env` and copy the values from `example.env`
@@ -54,3 +54,10 @@ Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the ro
   
 Use any name & Click on join. 
 
+### How to get room id and roles
+
+In [Rooms section on Dashboard](https://dashboard.100ms.live/rooms), you can find all the rooms created for your account. You can also create a new room from this page. 
+
+On rooms details page (clicking on any of the room ids in the list takes you to this page), you can get room id and roles allowed in the room. Refer the image below.
+
+![image](https://prod-apps-public.s3.ap-south-1.amazonaws.com/Screenshot+2021-06-26+at+5.52.50+PM.png) 
