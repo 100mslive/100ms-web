@@ -28,7 +28,7 @@ cp example.env .env
 ```
 
 
-### Get the Token generation server
+### Get the token generation endpoint
 
 Get your token generation endpoint [following the instructions here](https://docs.100ms.live/v2/server-side/100ms-quickstart-app-server)
 
