@@ -50,7 +50,7 @@ The app should now be up and running at http://localhost:3000 🚀
 
 
 
-Visit the URL : https://localhost:3000/meeting/<room_id>/<role> to join the room
+Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the room
   
 Use any name & Click on join. 
 
