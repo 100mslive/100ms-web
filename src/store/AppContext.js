@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useHMSActions, useHMSStore } from "@100mslive/hms-video-react";
 import {
+  useHMSActions,
+  useHMSStore,
   selectLocalPeer,
   selectIsConnectedToRoom,
 } from "@100mslive/hms-video-react";
@@ -8,6 +9,7 @@ import {
   convertLoginInfoToJoinConfig,
   setUpLogRocket,
 } from "./appContextUtils";
+import { backendEndPoint } from '../services/tokenService'
 
 const AppContext = React.createContext(null);
 
@@ -28,7 +30,7 @@ const initialLoginInfo = {
 
 const AppContextProvider = ({
   roomId = "",
-  tokenEndpoint = process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT,
+  tokenEndpoint = backendEndPoint + process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN,
   children,
 }) => {
   const hmsActions = useHMSActions();
