@@ -2,13 +2,13 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.8":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.8.tgz#d3688f2fc53a09da0183e814becedc65d19953ed"
-  integrity sha512-6/4E8s7hmOUNPnEJwqgVs4/8PJ15Mc46kIyelOJAq2O45Xp/El9KS0hzAqfCEzcOEHnkaOp19C/CvL69Ib3ntg==
+"@100mslive/hms-video-react@^0.2.39":
+  version "0.2.39"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.39.tgz#a7a6f6bbe088fe3296910317a85a16bc21f9b957"
+  integrity sha512-Qf46N5Ase77M3ywTb1c6PGUZM10mu9hZN10iDCluNyO1thxlDAXwWuFNYAc//1hx5v1Wt4cx0B4lS3FSB/T9Ew==
   dependencies:
-    "@100mslive/hms-video" "^0.0.20"
-    "@100mslive/hms-video-store" "^0.1.11"
+    "@100mslive/hms-video" "^0.0.45"
+    "@100mslive/hms-video-store" "^0.1.27"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -20,26 +20,31 @@
     react-intersection-observer "^8.31.1"
     react-markdown "^6.0.0"
     react-resize-detector "^6.6.5"
+    react-toastify "^7.0.4"
     remark-gfm "^1.0.0"
     tailwind-percentage-heights-plugin "^0.1.4"
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
 
-"@100mslive/hms-video-store@^0.1.11":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.11.tgz#a87fdbe1a926f862f40d28dbc83787fbb397cf8e"
-  integrity sha512-BB2AyluTukJRxb0aDOswLWpEph9Hhp56o7/dd1WaNtRFtqvjay+3+jB6xwVyvCgh/acwc2yyYlIZyEtBBBWCyw==
+"@100mslive/hms-video-store@^0.1.27":
+  version "0.1.27"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.27.tgz#cdbd38e4fc0cd6a7f69a66fcb764367da2879d12"
+  integrity sha512-Yng9xprX6NX9gxhVE5KqLz1/djwpgVQRLkSsyrlDdGgqNda+Y7ySTvr/9sNjaBlDOCW1rr7wR4TfiQUNU6Jhcw==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.20":
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.20.tgz#884f31bb7368f33a137bf7dc54e08db68423c2da"
-  integrity sha512-sTMQKQQCr3oRoeo6qKI1lGPYFr/TVdLoIeGBNzOaN1eXUOyHYtyrEtZurxv7b1W7IOpm5iZEfeY1ADNM333qzg==
+"@100mslive/hms-video@^0.0.45":
+  version "0.0.45"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.45.tgz#ecbc92bc9c5c0d3eb9759f717f85290e7c97f069"
+  integrity sha512-16S/2vqpT2I40d8mYwYjL7nG/hOypjbLsSGbO1jXHhQJqCCjCbIjMbhu9qay/CXR4SVv4OKg9lCkRUMO+zSpQA==
   dependencies:
+    bowser "^2.11.0"
+    events "^3.3.0"
+    sdp-transform "^2.14.1"
     uuid "^8.3.2"
+    webrtc-adapter "^8.0.0"
 
 "@babel/cli@^7.14.3":
   version "7.14.3"
@@ -1426,6 +1431,11 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
+bowser@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.11.0.tgz#5ca3c35757a7aa5771500c70a73a9f91ef420a8f"
+  integrity sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==
+
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -2149,6 +2159,11 @@ eventemitter3@^4.0.4:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
+
+events@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
+  integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
 expand-brackets@^2.1.4:
   version "2.1.4"
@@ -4094,6 +4109,13 @@ react-resize-detector@^6.6.5:
     lodash.throttle "^4.1.1"
     resize-observer-polyfill "^1.5.1"
 
+react-toastify@^7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-7.0.4.tgz#7d0b743f2b96f65754264ca6eae31911a82378db"
+  integrity sha512-Rol7+Cn39hZp5hQ/k6CbMNE2CKYV9E5OQdC/hBLtIQU2xz7DdAm7xil4NITQTHR6zEbE5RVFbpgSwTD7xRGLeQ==
+  dependencies:
+    clsx "^1.1.1"
+
 react-transition-group@^4.4.0:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"
@@ -4374,6 +4396,16 @@ scheduler@^0.20.2:
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
+
+sdp-transform@^2.14.1:
+  version "2.14.1"
+  resolved "https://registry.yarnpkg.com/sdp-transform/-/sdp-transform-2.14.1.tgz#2bb443583d478dee217df4caa284c46b870d5827"
+  integrity sha512-RjZyX3nVwJyCuTo5tGPx+PZWkDMCg7oOLpSlhjDdZfwUoNqG1mM8nyj31IGHyaPWXhjbP7cdK3qZ2bmkJ1GzRw==
+
+sdp@^3.0.2:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/sdp/-/sdp-3.0.3.tgz#669958d54663ea9f4a46cc66518c9d980c52c61e"
+  integrity sha512-8EkfckS+XZQaPLyChu4ey7PghrdcraCVNpJe2Gfdi2ON1ylQ7OasuKX+b37R9slnRChwIAiQgt+oj8xXGD8x+A==
 
 semver@7.0.0:
   version "7.0.0"
@@ -4892,6 +4924,13 @@ vfile@^4.0.0:
     is-buffer "^2.0.0"
     unist-util-stringify-position "^2.0.0"
     vfile-message "^2.0.0"
+
+webrtc-adapter@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-8.0.0.tgz#b1bd88c02ad647d064dc20f29fb311dca01c2b15"
+  integrity sha512-1U73dJB7xdXC3UmCHK3VuWU/bD1MBfYGgEPCXlBB/5QVQOzbi80UxBGvAvRt4Oocuwo5bzAD272kpkBd6f0HwA==
+  dependencies:
+    sdp "^3.0.2"
 
 which-boxed-primitive@^1.0.2:
   version "1.0.2"
