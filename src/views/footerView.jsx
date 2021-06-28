@@ -46,7 +46,7 @@ const SettingsView = () => {
     <>
       <Settings
         onChange={onChange}
-        classes={{ sliderContainer: "hidden md:block" }}
+        classes={{ sliderContainer: "hidden md:block", root: "mr-2 md:mr-0" }}
       />
     </>
   );
