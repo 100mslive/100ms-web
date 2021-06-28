@@ -88,24 +88,7 @@ const PreviewScreen = ({ getUserToken }) => {
   } else if (skipPreview) {
     join({ audioMuted: true, videoMuted: true, name: "beam" });
   } else {
-    return (
-      <div className="h-full">
-        <div className="flex justify-center h-full items-center">
-          <Preview
-            joinOnClick={join}
-            goBackOnClick={goBack}
-            messageOnClose={goBack}
-            onChange={onChange}
-          />
-        </div>
-      );
-    }
-  }
-  else {
-    if (urlRoomId === "preview" || 
-      urlRoomId === "meeting" ||
-      urlRoomId === "leave"
-    ) {
+    if(urlRoomId === "preview" || urlRoomId === "meeting" ||urlRoomId === "leave") {
       history.push(`/`);
     }
     else if (!isPreview) {
