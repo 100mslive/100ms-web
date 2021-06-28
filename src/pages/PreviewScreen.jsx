@@ -13,22 +13,22 @@ const PreviewScreen = ({ getUserToken }) => {
 
   const join = ({ audioMuted, videoMuted, name }) => {
     if (!userRole) {
-      getUserToken(name)
-        .then(token => {
-          setLoginInfo({
-            token,
-            audioMuted,
-            videoMuted,
-            roomId: urlRoomId,
-            username: name,
-          });
-          if (userRole) history.push(`/meeting/${urlRoomId}/${userRole}`);
-          else history.push(`/meeting/${urlRoomId}`);
-        })
+      getUserToken(name).then((token) => {
+        setLoginInfo({
+          token,
+          audioMuted,
+          videoMuted,
+          roomId: urlRoomId,
+          username: name,
+        });
+        if (userRole) history.push(`/meeting/${urlRoomId}/${userRole}`);
+        else history.push(`/meeting/${urlRoomId}`);
+      })
         .catch(error => {
           console.log("Token API Error", error);
         });
-    } else {
+    }
+    else {
       getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
         .then(token => {
           setLoginInfo({
@@ -98,9 +98,36 @@ const PreviewScreen = ({ getUserToken }) => {
             onChange={onChange}
           />
         </div>
-      </div>
-    );
+      );
+    }
   }
+  else {
+    if (urlRoomId === "preview" || // '/<preview|meeting|leave>'
+      urlRoomId === "meeting" ||
+      urlRoomId === "leave"
+    ) {
+      history.push(`/`);
+    }
+    else if (!isPreview) {
+      history.push(`/preview/${urlRoomId}`);
+    }
+    else {
+      return (
+        <div className="h-full">
+          <div className="flex justify-center h-full items-center">
+            <Preview
+              joinOnClick={join}
+              goBackOnClick={goBack}
+              messageOnClose={goBack}
+              onChange={onChange}
+            />
+          </div>
+        </div>
+      );
+    }
+  }
+
   return null;
 };
+
 export default PreviewScreen;

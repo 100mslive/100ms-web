@@ -10,13 +10,11 @@ import { Conference } from "./pages/conference.jsx";
 import ErrorPage from "./pages/ErrorPage";
 import { AppContextProvider } from "./store/AppContext.js";
 import { shadeColor } from "./common/utils";
-import { getUserToken, backendEndPoint } from "./services/tokenService";
+import { getUserToken, getBackendEndpoint } from './services/tokenService';
 
 export function EdtechComponent({
   roomId = "",
-  tokenEndpoint = backendEndPoint +
-    process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN +
-    "/", // this'll be used when url = '/<room_id>/<role_name>'
+  tokenEndpoint = getBackendEndpoint() + process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN, // this'll be used when url = '/<room_id>/<role_name>'
   themeConfig: {
     aspectRatio = "1-1",
     font = "Roboto",
@@ -30,19 +28,15 @@ export function EdtechComponent({
     headerPresent = "false",
     logoClass = "",
   },
-  getUserToken = async name => {
-    console.log(name);
-    return await null;
-  }, // this'll be used when url = '/<room_id>'
+  getUserToken = async (name) => { console.log(name); return await null; } // this'll be used when url = '/<room_id>'
 }) {
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
   return (
     <div
-      className={`w-full dark:bg-black ${
-        headerPresent === "true" ? "flex-grow" : "h-screen"
-      }`}
+      className={`w-full dark:bg-black ${headerPresent === "true" ? "flex-grow" : "h-screen"
+        }`}
     >
       <HMSThemeProvider
         config={{
@@ -95,8 +89,7 @@ export function EdtechComponent({
                       }}
                       joinRoomOnClick={() => {
                         let previewUrl = "/preview/" + match.params.roomId;
-                        if (match.params.role)
-                          previewUrl += "/" + match.params.role;
+                        if (match.params.role) previewUrl += ("/" + match.params.role)
                         history.push(previewUrl);
                       }}
                     />
@@ -138,3 +131,4 @@ export default function App() {
     />
   );
 }
+

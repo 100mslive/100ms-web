@@ -1,3 +1,4 @@
+import axios from 'axios';
 export default async function getToken(
   tokenEndpoint,
   env,
@@ -24,7 +25,6 @@ export default async function getToken(
 
 
 export async function getUserToken(name) {
-
   const extractUrlCode = () => {
     const path = window.location.pathname;
     let roomCode = null;
@@ -40,43 +40,53 @@ export async function getUserToken(name) {
   }
 
   const code = extractUrlCode();
-
-  const url = backendEndPoint + "get-token";
-
-  const headers = {
+  axios.create({ baseURL: process.env.REACT_APP_BACKEND_API, timeout: 2000 });
+  let baseUrl;
+  const baseDomain = window.location.hostname;
+  if (baseDomain === "qa2.100ms.live") {
+    baseUrl = process.env.REACT_APP_QA_BACKEND_API;
+  }
+  else if (baseDomain === "prod2.100ms.live") {
+    baseUrl = process.env.REACT_APP_PROD_BACKEND_API;
+  }
+  else {
+    baseUrl = process.env.REACT_APP_BACKEND_API;
+  }
+  const url = baseUrl + "get-token"
+  var headers = {
     "Content-Type": "application/json",
     "subdomain": process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
   };
 
-  try {
-    const response = await fetch(url, {
-      method: 'post',
-      body: JSON.stringify({
-        "code": code,
-        "user_id": name,
-      }),
-      headers
+  let formData = new FormData();
+  formData.append('code', code);
+  formData.append('user_id', name);
+  console.log(formData, url);
+
+  return await axios.post(url, formData, { headers: headers })
+    .then((res) => {
+      try {
+        return res.data.token;
+      } catch (err) {
+        throw Error(err)
+      }
     })
-    const { token } = await response.json();
-    return token;
-  }
-  catch (e) {
-    console.log(e);
-    return null;
-  }
-
-
+    .catch((err) => {
+      console.log(err);
+    })
 }
 
-function getBackendEndpoint() {
-  switch (window.location.hostname) {
-    case "qa2.100ms.live":
-      return process.env.REACT_APP_QA_BACKEND_API;
-    case "prod2.100ms.live":
-      return process.env.REACT_APP_PROD_BACKEND_API;
-    default:
-      return process.env.REACT_APP_BACKEND_API
+export function getBackendEndpoint() {
+  let BASE_BACKEND_URL;
+  const baseDomain = window.location.hostname;
+  if (baseDomain === "qa2.100ms.live") {
+    BASE_BACKEND_URL = process.env.REACT_APP_QA_BACKEND_API;
   }
+  else if (baseDomain === "prod2.100ms.live") {
+    BASE_BACKEND_URL = process.env.REACT_APP_PROD_BACKEND_API;
+  }
+  else {
+    BASE_BACKEND_URL = process.env.REACT_APP_BACKEND_API;
+  }
+  return BASE_BACKEND_URL;
 }
-
-export const backendEndPoint = getBackendEndpoint();
