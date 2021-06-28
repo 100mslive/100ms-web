@@ -17,6 +17,7 @@ const SpeakerTag = () => {
         variant="body"
         size="md"
         classes={{ root: "truncate w-64 ml-1 flex-1" }}
+        title={dominantSpeaker.name}
       >
         {dominantSpeaker.name}
       </Text>
