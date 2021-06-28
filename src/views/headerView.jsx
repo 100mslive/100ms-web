@@ -12,15 +12,14 @@ const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
   return dominantSpeaker && dominantSpeaker.name ? (
     <div className="self-center focus:outline-none text-lg flex items-center">
-      <div className="inline-block">
-        <VolumeIcon />
-      </div>
-      {/* TODO figure out why xs:hidden is needed */}
-      <div className="md:pl-1 xs:hidden md:inline-block">
-        <Text variant="body" size="md">
-          {dominantSpeaker.name}
-        </Text>
-      </div>
+      <VolumeIcon />
+      <Text
+        variant="body"
+        size="md"
+        classes={{ root: "truncate w-64 ml-1 flex-1" }}
+      >
+        {dominantSpeaker.name}
+      </Text>
     </div>
   ) : (
     <></>
