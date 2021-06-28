@@ -6,7 +6,7 @@ This is an example React app to demo 100ms' React SDK
 
 You will need [Node.js](https://nodejs.org) version v12.13.0 or greater installed on your system
 
-## Setup
+## Clone the repo
 
 Get the code by cloning this repo using git
 
@@ -28,7 +28,7 @@ cp example.env .env
 ```
 
 
-### Token generation server
+### Get the token generation endpoint
 
 Get your token generation endpoint [following the instructions here](https://docs.100ms.live/v2/server-side/100ms-quickstart-app-server)
 
@@ -36,7 +36,7 @@ Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with your token 
 
 
 
-### Running the app
+### Run the app
 
 Then start the app with:
 
@@ -46,7 +46,7 @@ yarn dev
 The app now should be running at https://localhost:3000/. (Please ignore the 404 message, you need to join the right URL of the room. Next sections describe how to create a room and form the correct URL)
 
 
-### Create room
+### Create a room
 
 Create room from [100ms Dashboard] (https://dashboard.100ms.live/create-room) & get the room_id & role of the created room. Room details page after creating the room gives you room_id and roles allowed in the room.
 
@@ -55,7 +55,7 @@ Create room from [100ms Dashboard] (https://dashboard.100ms.live/create-room) & 
 
 
 
-### Joining the room
+### Join the room
 
 Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the room
 
