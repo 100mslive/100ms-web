@@ -75,7 +75,7 @@ const PreviewScreen = ({ getUserToken }) => {
   const urlSearchParams = new URLSearchParams(window.location.search);
   const skipPreview = urlSearchParams.get("token") === "beam_recording";
 
-  if (!urlRoomId || !userRole) {
+  if (!urlRoomId) {
     history.push(`/`);
   } else if (
     (isPreview && urlRoomId === "preview") ||
@@ -84,11 +84,12 @@ const PreviewScreen = ({ getUserToken }) => {
   ) {
     history.push(`/`);
   } else if (!isPreview) {
-    history.push(`/preview/${urlRoomId}/${userRole}`);
+    if (userRole) history.push(`/preview/${urlRoomId}/${userRole}`);
+    else history.push(`/preview/${urlRoomId}`);
   } else if (skipPreview) {
     join({ audioMuted: true, videoMuted: true, name: "beam" });
   } else {
-    if(urlRoomId === "preview" || urlRoomId === "meeting" ||urlRoomId === "leave") {
+    if (urlRoomId === "preview" || urlRoomId === "meeting" || urlRoomId === "leave") {
       history.push(`/`);
     }
     else if (!isPreview) {
