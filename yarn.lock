@@ -35,10 +35,10 @@
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.44", "@100mslive/hms-video@^0.0.52":
-  version "0.0.44"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.44.tgz#4508100d2784a1bc081486981783f170f15f37b7"
-  integrity sha512-axgNACqD3l8RlRHwTOltpLFvRu3LG4IEzvqFJK+JuO/pcSQ1lXpoNzTub9XStHAK7pr0XvKlNK4fobbqbkNeNQ==
+"@100mslive/hms-video@^0.0.52", "@100mslive/hms-video@^0.0.53":
+  version "0.0.53"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.53.tgz#14c209334ec0c25966dea0d0bfb1d2c434488bf7"
+  integrity sha512-CTFzC9PamB2eHBt+/aJ9Zu/rwI2+5hKHlsb/eZQAgtz6OBTQ+3ROFquv0vJeiir+gZB7DkQNVbPiH2omXhrqSA==
   dependencies:
     bowser "^2.11.0"
     events "^3.3.0"
