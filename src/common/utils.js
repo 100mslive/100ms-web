@@ -24,7 +24,8 @@ export function shadeColor(color, percent) {
 }
 
 export function isMobileDevice() {
-  return parsedUserAgent.getPlatformType(true) === "mobile";
+  const device = parsedUserAgent.getDevice();
+  return device && device.type === "mobile";
 }
 
 /**
