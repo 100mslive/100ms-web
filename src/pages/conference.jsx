@@ -20,10 +20,7 @@ export const Conference = () => {
     setIsParticipantListOpen(value);
   }, []);
 
-  const { loginInfo, leave, setLoginInfo } = context;
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setLoginInfo({ roomId }), [roomId]);
+  const { loginInfo, leave } = context;
 
   useEffect(() => {
     if (!roomId) {
@@ -31,8 +28,7 @@ export const Conference = () => {
     }
     if (!loginInfo.token) {
       // redirect to join if token not present
-      if (role)
-        history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
+      if (role) history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
       else history.push(`/preview/${loginInfo.roomId || roomId || ""}`);
     }
 
@@ -61,3 +57,4 @@ export const Conference = () => {
     </div>
   );
 };
+

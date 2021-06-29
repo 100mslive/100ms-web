@@ -24,7 +24,6 @@ export default async function getToken(
 
 
 export async function getUserToken(name) {
-
   const extractUrlCode = () => {
     const path = window.location.pathname;
     let roomCode = null;
@@ -41,7 +40,7 @@ export async function getUserToken(name) {
 
   const code = extractUrlCode();
 
-  const url = backendEndPoint + "get-token";
+  const url = getBackendEndpoint() + "get-token";
 
   const headers = {
     "Content-Type": "application/json",
@@ -64,19 +63,19 @@ export async function getUserToken(name) {
     console.log(e);
     return null;
   }
-
-
 }
 
-function getBackendEndpoint() {
-  switch (window.location.hostname) {
-    case "qa2.100ms.live":
-      return process.env.REACT_APP_QA_BACKEND_API;
-    case "prod2.100ms.live":
-      return process.env.REACT_APP_PROD_BACKEND_API;
-    default:
-      return process.env.REACT_APP_BACKEND_API
+export function getBackendEndpoint() {
+  let BASE_BACKEND_URL;
+  const baseDomain = window.location.hostname;
+  if (baseDomain === "qa2.100ms.live") {
+    BASE_BACKEND_URL = process.env.REACT_APP_QA_BACKEND_API;
   }
+  else if (baseDomain === "prod2.100ms.live") {
+    BASE_BACKEND_URL = process.env.REACT_APP_PROD_BACKEND_API;
+  }
+  else {
+    BASE_BACKEND_URL = process.env.REACT_APP_BACKEND_API;
+  }
+  return BASE_BACKEND_URL;
 }
-
-export const backendEndPoint = getBackendEndpoint();
