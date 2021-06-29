@@ -35,14 +35,14 @@
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.52", "@100mslive/hms-video@^0.0.54":
-  version "0.0.54"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.54.tgz#aaa42e48fc8329185482a7569163af713773ffd1"
-  integrity sha512-HXTyfxITs4aYcJm4oLtJM6hhwulLAiT1BfL2YJTmDlNfP97JFPNUbFVCqRVglsKwlUPedR77SZbjhtLQuNUY5w==
+"@100mslive/hms-video@^0.0.52", "@100mslive/hms-video@^0.0.55":
+  version "0.0.55"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.55.tgz#d122a5a328d16e3c5e875137711525bf89c319af"
+  integrity sha512-nS/jmauPqSZaWl0ErpkrqypZdDrGhFjLlrGONPyoZuA7C+ty/tQn+WZVA5JyWMwdYXtGAxAwLyqPlHvMMCVZCg==
   dependencies:
+    bowser "^2.11.0"
     events "^3.3.0"
     sdp-transform "^2.14.1"
-    ua-parser-js "^0.7.28"
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
@@ -3090,6 +3090,11 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
+
+bowser@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.11.0.tgz#5ca3c35757a7aa5771500c70a73a9f91ef420a8f"
+  integrity sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -11740,11 +11745,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-
-ua-parser-js@^0.7.28:
-  version "0.7.28"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
-  integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"
