@@ -73,6 +73,6 @@
     "arrowParens": "avoid"
   },
   "resolutions": {
-    "@100mslive/hms-video": "^0.0.53"
+    "@100mslive/hms-video": "^0.0.54"
   }
 }
