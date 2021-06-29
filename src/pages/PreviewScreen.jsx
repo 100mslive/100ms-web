@@ -12,7 +12,7 @@ const PreviewScreen = () => {
   const location = useLocation();
 
   const join = ({ audioMuted, videoMuted, name }) => {
-    getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
+    return getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
       .then(token => {
         setLoginInfo({
           token,
