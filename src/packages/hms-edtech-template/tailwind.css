@@ -1704,6 +1704,10 @@ video {
   margin-top: 0.25rem;
 }
 
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -2599,6 +2603,10 @@ video {
 
 .w-52 {
   width: 13rem;
+}
+
+.w-64 {
+  width: 16rem;
 }
 
 .w-96 {
