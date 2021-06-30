@@ -69,6 +69,22 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
+  const toggleAudio = useCallback(async () => {
+    try {
+      await hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled);
+    } catch (err) {
+      console.error("Cannot toggle audio", err);
+    }
+  }, [hmsActions, isLocalAudioEnabled]);
+
+  const toggleVideo = useCallback(async () => {
+    try {
+      await hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled);
+    } catch (err) {
+      console.error("Cannot toggle video", err);
+    }
+  }, [hmsActions, isLocalVideoEnabled]);
+
   const toggleScreenShare = useCallback(async () => {
     try {
       await hmsActions.setScreenShareEnabled(!isScreenShared);
@@ -134,12 +150,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             Leave room
           </Button>,
         ]}
-        audioButtonOnClick={() =>
-          hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)
-        }
-        videoButtonOnClick={() =>
-          hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled)
-        }
+        audioButtonOnClick={toggleAudio}
+        videoButtonOnClick={toggleVideo}
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
       />
