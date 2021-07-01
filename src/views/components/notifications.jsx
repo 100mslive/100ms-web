@@ -48,8 +48,8 @@ export function Notifications() {
         console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
-        // TODO export error codes from sdk
-        if ([1003, 4005].includes(notification.data?.code)) {
+        // show button action when the error is terminal
+        if (notification.data?.isTerminal) {
           hmsToast("", {
             center: (
               <div className="flex">
