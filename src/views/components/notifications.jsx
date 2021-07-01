@@ -10,6 +10,7 @@ import {
   PersonIcon,
   Button,
 } from "@100mslive/hms-video-react";
+import { isMobileDevice } from "../../common/utils";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -33,6 +34,10 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
+        // TODO: remove this when chat UI is fixed for mweb
+        if (isMobileDevice()) {
+          return;
+        }
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
