@@ -1,5 +1,3 @@
-import { parsedUserAgent } from "@100mslive/hms-video-react";
-
 export function shadeColor(color, percent) {
   let R = parseInt(color.substring(1, 3), 16);
   let G = parseInt(color.substring(3, 5), 16);
@@ -21,11 +19,6 @@ export function shadeColor(color, percent) {
     B.toString(16).length === 1 ? "0" + B.toString(16) : B.toString(16);
 
   return "#" + RR + GG + BB;
-}
-
-export function isMobileDevice() {
-  const device = parsedUserAgent.getDevice();
-  return device && device.type === "mobile";
 }
 
 /**

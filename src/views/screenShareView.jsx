@@ -8,12 +8,11 @@ import {
   selectLocalPeer,
   selectPeerScreenSharing,
   ScreenShareDisplay,
+  isMobileDevice,
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
-import { getBlurClass, isMobileDevice } from "../common/utils";
-
-const isMobile = isMobileDevice();
+import { getBlurClass } from "../common/utils";
 
 export const ScreenShareView = ({
   isChatOpen,
@@ -181,19 +180,22 @@ const SmallTilePeersView = ({
   );
 };
 
-const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => (
-  <div
-    className="w-1/2 md:w-full relative overflow-hidden"
-    style={{
-      paddingTop: isMobile
-        ? 0
-        : `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
-    }}
-  >
-    {peerScreenSharing && (
-      <div className="absolute left-0 top-0 w-full h-full p-3">
-        <VideoTile peer={peerScreenSharing} compact={true} />
-      </div>
-    )}
-  </div>
-);
+const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => {
+  const isMobile = isMobileDevice();
+  return (
+    <div
+      className="w-1/2 md:w-full relative overflow-hidden"
+      style={{
+        paddingTop: isMobile
+          ? 0
+          : `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
+      }}
+    >
+      {peerScreenSharing && (
+        <div className="absolute left-0 top-0 w-full h-full p-3">
+          <VideoTile peer={peerScreenSharing} compact={true} />
+        </div>
+      )}
+    </div>
+  );
+};
