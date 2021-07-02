@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.43":
-  version "0.2.43"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.43.tgz#85a432e6263e801e2ca2ff07f7bb680dc664f5fe"
-  integrity sha512-Zcg6NJNSFXl3Aqzyn8ggyqtIuAp86K0Kzt12hpHAUCPE/fHiy8PRj0edGxUlAp1T5z7dWRrkG2E2xpoNFQIxlw==
+"@100mslive/hms-video-react@^0.2.45":
+  version "0.2.45"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.45.tgz#6774aaa8518d4e3a04acc524a384eac1afda6127"
+  integrity sha512-vkolWLdioqWma6q/hX+uEa6VG274kAQd++nkeYonakYwR8+41mwmTEMmpoY/mal2HrRu/O3Ij7GoYcS8bwSF4g==
   dependencies:
     "@100mslive/hms-video-store" "^0.1.29"
     "@material-ui/core" "^4.11.3"
@@ -27,17 +27,17 @@
 
 "@100mslive/hms-video-store@^0.1.29":
   version "0.1.29"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.29.tgz#e7168d910b4860c8b8aca26994eb4572e37bf0c6"
+  resolved "https://registry.npmjs.org/@100mslive/hms-video-store/-/hms-video-store-0.1.29.tgz"
   integrity sha512-NJVWnSQLU8UPCmxcso2TAVsIftSs8o78V5LBv5XaPnejUEZ4pPvSA8wYHHumedOasdtrRXtA3dUP4rD5nZu+3w==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@0.0.59":
-  version "0.0.59"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.59.tgz#e4087c066f55fa17544a39c8305b716079245bd8"
-  integrity sha512-o0P1dp3QtgDPj79P7zgCPxsmUnvXkkgxej98/588auNulZV1TdsCopw1KO1Cqah/l4/lOuh8vzE37K13A/39Mw==
+"@100mslive/hms-video@0.0.64":
+  version "0.0.64"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.64.tgz#46270130005a8ef52c480e974904528951aa7369"
+  integrity sha512-CYGt/1avxkCoc8E9gMI4GEACzVctwWhvmsoJ5qNUgP9FDu6LE9CEjni2xW0n41Pe9w+LYQmfBiRdaQuLgGIsaw==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -1777,7 +1777,6 @@
     loader-utils "^2.0.0"
 
 "@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.4":
-  name tailwindcss
   version "2.2.4"
   resolved "https://registry.npmjs.org/@tailwindcss/postcss7-compat/-/postcss7-compat-2.2.4.tgz"
   integrity sha512-lFIBdD1D2w3RgHFg7kNB7U5LOlfbd+KXTzcLyC/RlQ9eVko6GjNCKpN/kdmfF9wiGxbSDT/3mousXeMZdOOuBg==
