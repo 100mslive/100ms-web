@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.45":
-  version "0.2.45"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.45.tgz#6774aaa8518d4e3a04acc524a384eac1afda6127"
-  integrity sha512-vkolWLdioqWma6q/hX+uEa6VG274kAQd++nkeYonakYwR8+41mwmTEMmpoY/mal2HrRu/O3Ij7GoYcS8bwSF4g==
+"@100mslive/hms-video-react@^0.2.46":
+  version "0.2.46"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.46.tgz#bb38b5b5faf03f1216e70a4435a40b9c059e39d0"
+  integrity sha512-yKO9yLDv8UjpW2AR1GpDXijl3FfPxJdxO3JIupZyGKySItrKwI3qUi4s7EuFfMBzNZVVHR3huKie5v7okli5wg==
   dependencies:
     "@100mslive/hms-video-store" "^0.1.29"
     "@material-ui/core" "^4.11.3"
@@ -1777,6 +1777,7 @@
     loader-utils "^2.0.0"
 
 "@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.4":
+  name tailwindcss
   version "2.2.4"
   resolved "https://registry.npmjs.org/@tailwindcss/postcss7-compat/-/postcss7-compat-2.2.4.tgz"
   integrity sha512-lFIBdD1D2w3RgHFg7kNB7U5LOlfbd+KXTzcLyC/RlQ9eVko6GjNCKpN/kdmfF9wiGxbSDT/3mousXeMZdOOuBg==
