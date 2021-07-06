@@ -48,7 +48,7 @@ const SettingsView = () => {
         onChange={onChange}
         initialValues={{
           selectedAudioInput: audioInputDeviceId,
-          selectedVideoInput: videoInputDeviceId
+          selectedVideoInput: videoInputDeviceId,
         }}
         classes={{ sliderContainer: "hidden md:block", root: "mr-2 md:mr-0" }}
       />
