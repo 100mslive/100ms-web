@@ -2,7 +2,15 @@ import React, { useEffect } from "react";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
+  hmsToast,
+  HMSToastContainer,
+  Text,
+  PoorConnectivityIcon,
+  ConnectivityIcon,
+  PersonIcon,
+  Button,
 } from "@100mslive/hms-video-react";
+import { isMobileDevice } from "../../common/utils";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -13,19 +21,30 @@ export function Notifications() {
     }
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
-        console.log("[Peer Joined]", notification);
+        console.log("[Peer Joined]", notification.data);
         break;
       case HMSNotificationTypes.PEER_LEFT:
-        console.log("[Peer Left]", notification);
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <PersonIcon className="mr-2" />
+              {notification.data?.name} left
+            </Text>
+          ),
+        });
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        console.log("[New Message]", notification);
+        // TODO: remove this when chat UI is fixed for mweb
+        if (isMobileDevice()) {
+          return;
+        }
+        hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
         console.log("[Track Added]", notification);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
-        console.log("[Track  Removed]", notification);
+        console.log("[Track Removed]", notification);
         break;
       case HMSNotificationTypes.TRACK_MUTED:
         console.log("[Track Muted]", notification);
@@ -34,17 +53,59 @@ export function Notifications() {
         console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
-        console.log("[Error]", notification);
+        // show button action when the error is terminal
+        if (notification.data?.isTerminal) {
+          hmsToast("", {
+            center: (
+              <div className="flex">
+                <Text classes={{ root: "mr-2" }}>
+                  We couldn’t reconnect you. When you’re back online, try
+                  joining the room.
+                </Text>
+                <Button
+                  variant="emphasized"
+                  classes={{
+                    root: "self-center mr-2",
+                  }}
+                  onClick={() => window.location.reload()}
+                >
+                  Rejoin
+                </Button>
+              </div>
+            ),
+          });
+          return;
+        }
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              Error: {notification.data?.message}
+            </Text>
+          ),
+        });
         break;
       case HMSNotificationTypes.RECONNECTED:
-        console.log("[Reconnected]", notification);
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <ConnectivityIcon className="mr-2" /> You are now connected
+            </Text>
+          ),
+        });
         break;
       case HMSNotificationTypes.RECONNECTING:
-        console.log("[Reconnecting]", notification);
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <PoorConnectivityIcon className="mr-2" /> You are offline for now.
+              while we try to reconnect, please check your internet connection.
+            </Text>
+          ),
+        });
         break;
       default:
         break;
     }
   }, [notification]);
-  return <div></div>;
+  return <HMSToastContainer />;
 }

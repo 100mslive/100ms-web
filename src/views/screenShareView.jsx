@@ -118,13 +118,13 @@ export const SidePane = ({
 const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
   const hmsActions = useHMSActions();
   return (
-    <div className="w-full md:w-8/10 h-2/3 md:h-full">
+    <div className="mr-2 ml-2 md:mr-0 md:ml-0 md:w-8/10 h-2/3 md:h-full">
       {peerPresenting &&
         (amIPresenting ? (
           <div className="object-contain h-full">
             <ScreenShareDisplay
-              stopScreenShare={() => {
-                hmsActions.setScreenShareEnabled(false);
+              stopScreenShare={async () => {
+                await hmsActions.setScreenShareEnabled(false);
               }}
               classes={{ rootBg: "h-full" }}
             />

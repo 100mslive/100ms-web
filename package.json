@@ -3,7 +3,8 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
-    "@100mslive/hms-video-react": "^0.2.31",
+    "@100mslive/hms-video-react": "^0.2.45",
+    "@100mslive/hms-video": "0.0.64",
     "@craco/craco": "^6.1.1",
     "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.4",
@@ -19,8 +20,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "http-server build",
-    "dev": "craco start",
+    "start:build": "http-server build",
+    "start": "craco start",
     "build": "craco build --profile",
     "test": "craco test",
     "eject": "react-scripts eject"
