@@ -17,7 +17,7 @@ const PreviewScreen = () => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    getToken(tokenEndpoint, loginInfo.env, "", userRole, urlRoomId).then(
+    getToken(tokenEndpoint, loginInfo.env, "a", userRole, urlRoomId).then(
       token => {
         setToken(token);
       }
