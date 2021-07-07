@@ -3,6 +3,10 @@ import { useHistory, useParams, useLocation } from "react-router-dom";
 import { Preview } from "@100mslive/hms-video-react";
 import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
+import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
+import { useState } from "react";
+import { useEffect } from "react";
+import { Notifications } from "../views/components/notifications";
 
 const PreviewScreen = () => {
   const history = useHistory();
@@ -10,6 +14,15 @@ const PreviewScreen = () => {
   const { loginInfo, setLoginInfo, setMaxTileCount, tokenEndpoint } = context;
   const { roomId: urlRoomId, role: userRole } = useParams();
   const location = useLocation();
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    getToken(tokenEndpoint, loginInfo.env, "", userRole, urlRoomId).then(
+      token => {
+        setToken(token);
+      }
+    );
+  }, [loginInfo.env, tokenEndpoint, urlRoomId, userRole]);
 
   const join = ({ audioMuted, videoMuted, name }) => {
     return getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
@@ -71,12 +84,21 @@ const PreviewScreen = () => {
     return (
       <div className="h-full">
         <div className="flex justify-center h-full items-center">
-          <Preview
-            joinOnClick={join}
-            goBackOnClick={goBack}
-            messageOnClose={goBack}
-            onChange={onChange}
-          />
+          {token && (
+            <Preview
+              joinOnClick={join}
+              goBackOnClick={goBack}
+              messageOnClose={goBack}
+              onChange={onChange}
+              config={convertLoginInfoToJoinConfig({
+                role: userRole,
+                roomId: urlRoomId,
+                token,
+                env: loginInfo.env,
+              })}
+            />
+          )}
+          <Notifications />
         </div>
       </div>
     );
