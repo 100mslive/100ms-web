@@ -53,6 +53,7 @@ const SettingsView = () => {
 };
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
+  const [isVirtualBackground, setIsVirtualBackground] = useState(false);
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
@@ -76,6 +77,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       console.error("Cannot toggle audio", err);
     }
   }, [hmsActions, isLocalAudioEnabled]);
+
+  // useEffect(() => {
+  //   console.log("chekcing states", isVirtualBackground);
+  //   hmsActions.addVirtualBackground(isVirtualBackground);
+  // }, [isVirtualBackground]);
+
 
   const toggleVideo = useCallback(async () => {
     try {
@@ -154,6 +161,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         videoButtonOnClick={toggleVideo}
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
+
+         vbButtonOnClick={() => {
+          setIsVirtualBackground(!isVirtualBackground);
+        }}
+       
+        isVirtualBackground={isVirtualBackground}
       />
       <MessageModal
         {...errorModal}
