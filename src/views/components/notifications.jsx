@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
+import { HMSBackgroundProcessor } from "@100mslive/hms-virtual-background";
 import {
   useHMSNotifications,
+  useHMSActions,
   HMSNotificationTypes,
   hmsToast,
   HMSToastContainer,
@@ -14,6 +16,13 @@ import {
 
 export function Notifications() {
   const notification = useHMSNotifications();
+  const hmsAction = useHMSActions();
+
+  async function startProcessor(){
+    const processor = new HMSBackgroundProcessor("blur", 20);
+    console.log("Processor name", processor.getName());
+    await hmsAction.addVideoProcessor(processor);
+  }
 
   useEffect(() => {
     if (!notification) {
@@ -42,6 +51,7 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.TRACK_ADDED:
         console.log("[Track Added]", notification);
+        startProcessor();
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
         console.log("[Track Removed]", notification);
