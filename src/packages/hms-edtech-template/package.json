@@ -1,6 +1,6 @@
 {
   "name": "@100mslive/hms-edtech-template",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "100ms Edtech Template as a component.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -19,8 +19,8 @@
     "react-dom": "^17.0.1"
   },
   "dependencies": {
-    "@100mslive/hms-video-react": "^0.2.42",
-    "@100mslive/hms-video": "^0.0.58"
+    "@100mslive/hms-video-react": "^0.2.48",
+    "@100mslive/hms-video": "^0.0.69"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.3",
