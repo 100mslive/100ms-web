@@ -9,6 +9,7 @@ import {
   ConnectivityIcon,
   PersonIcon,
   Button,
+  isMobileDevice,
 } from "@100mslive/hms-video-react";
 
 export function Notifications() {
@@ -33,6 +34,10 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
+        // TODO: remove this when chat UI is fixed for mweb
+        if (isMobileDevice()) {
+          return;
+        }
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
@@ -48,8 +53,8 @@ export function Notifications() {
         console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
-        // TODO export error codes from sdk
-        if ([1003, 4005].includes(notification.data?.code)) {
+        // show button action when the error is terminal
+        if (notification.data?.isTerminal) {
           hmsToast("", {
             center: (
               <div className="flex">

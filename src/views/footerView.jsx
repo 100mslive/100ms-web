@@ -16,10 +16,10 @@ import {
   selectIsLocalVideoDisplayEnabled,
   selectUnreadHMSMessagesCount,
   selectLocalMediaSettings,
+  isMobileDevice,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
-import { isMobileDevice } from "../common/utils";
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
@@ -46,6 +46,10 @@ const SettingsView = () => {
     <>
       <Settings
         onChange={onChange}
+        initialValues={{
+          selectedAudioInput: audioInputDeviceId,
+          selectedVideoInput: videoInputDeviceId,
+        }}
         classes={{ sliderContainer: "hidden md:block", root: "mr-2 md:mr-0" }}
       />
     </>

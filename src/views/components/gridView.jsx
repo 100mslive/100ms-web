@@ -1,9 +1,12 @@
 import React from "react";
-import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
+import {
+  VideoList,
+  FirstPersonDisplay,
+  isMobileDevice,
+} from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
-import { getBlurClass, isMobileDevice } from "../../common/utils";
+import { getBlurClass } from "../../common/utils";
 
-const isMobile = isMobileDevice();
 const MAX_TILES_FOR_MOBILE = 4;
 
 // The center of the screen shows bigger tiles
@@ -29,7 +32,7 @@ export const GridCenterView = ({
           classes={{
             videoTileContainer: "rounded-lg",
           }}
-          maxTileCount={isMobile ? MAX_TILES_FOR_MOBILE : maxTileCount}
+          maxTileCount={isMobileDevice() ? MAX_TILES_FOR_MOBILE : maxTileCount}
           allowRemoteMute={allowRemoteMute}
         />
       ) : (
@@ -57,6 +60,7 @@ export const GridSidePaneView = ({
   isParticipantListOpen,
   totalPeers,
 }) => {
+  const isMobile = isMobileDevice();
   const rowCount = isMobile ? 1 : undefined;
 
   return (
