@@ -16,12 +16,14 @@ const PreviewScreen = ({ getUserToken }) => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    getToken(tokenEndpoint, loginInfo.env, "a", userRole, urlRoomId).then(
-      token => {
-        setToken(token);
-      }
-    );
-  }, [loginInfo.env, tokenEndpoint, urlRoomId, userRole]);
+    if (!userRole) {
+      getUserToken("a").then(token => setToken(token));
+    } else {
+      getToken(tokenEndpoint, loginInfo.env, "a", userRole, urlRoomId).then(
+        token => setToken(token)
+      );
+    }
+  }, [loginInfo.env, tokenEndpoint, urlRoomId, getUserToken, userRole]);
 
   const join = ({ audioMuted, videoMuted, name }) => {
     if (!userRole) {
