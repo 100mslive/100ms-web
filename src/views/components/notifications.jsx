@@ -20,7 +20,9 @@ export function Notifications() {
 
   async function startProcessor(){
     const processor = new HMSBackgroundProcessor("blur", 20);
+    window.BGPROCESSOR = processor;
     console.log("Processor name", processor.getName());
+    window.HMSACTION = hmsAction;
     await hmsAction.addVideoProcessor(processor);
   }
 
