@@ -26,10 +26,10 @@
     twind "^0.16.12"
     zustand "^3.5.5"
 
-"@100mslive/hms-video-store@^0.1.31":
-  version "0.1.34"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.34.tgz#8f953d6a7aa980c38ae10595f1b25354a8f6a958"
-  integrity sha512-URcHwfP2WfcwtGqr9A4k3VTOAjhLX2CX+nHYoOVaTyFU+ujvtS4Hb2f4WSXlYmghp1k2cvOBmp7wCcgYdt9bGg==
+"@100mslive/hms-video-store@0.1.36", "@100mslive/hms-video-store@^0.1.31":
+  version "0.1.36"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.36.tgz#83afd0bdc8b4bbacf7ddd4dd25d35374464539aa"
+  integrity sha512-x5+ceC8yD5ERiABhRpaRsnW/6L9HPTlpWHE0Vela1dpj4U2/mWd/bK/gYBfGEzlNhrHAhtl0b85DZmEDZiRNJg==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
