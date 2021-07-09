@@ -53,7 +53,9 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.TRACK_ADDED:
         console.log("[Track Added]", notification);
-        startProcessor();
+        setTimeout(() =>{
+          startProcessor();
+        }, 4000);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
         console.log("[Track Removed]", notification);

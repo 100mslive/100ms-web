@@ -26,7 +26,7 @@
     twind "^0.16.12"
     zustand "^3.5.5"
 
-"@100mslive/hms-video-store@0.1.34", "@100mslive/hms-video-store@^0.1.31":
+"@100mslive/hms-video-store@^0.1.31":
   version "0.1.34"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.34.tgz#8f953d6a7aa980c38ae10595f1b25354a8f6a958"
   integrity sha512-URcHwfP2WfcwtGqr9A4k3VTOAjhLX2CX+nHYoOVaTyFU+ujvtS4Hb2f4WSXlYmghp1k2cvOBmp7wCcgYdt9bGg==
@@ -35,10 +35,10 @@
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.71":
-  version "0.0.71"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.71.tgz#29747ea51ab9a278ecccb6e3ca0f963bc708817f"
-  integrity sha512-Gu/L8DacF8QEmRVSl0taSmOVEdhoicZnu0dvpE/YIeFRqhg15xvJo6wpgKw2W4kzFSZp9qLEFdv7RXDAAJSONQ==
+"@100mslive/hms-video@^0.0.72":
+  version "0.0.72"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.72.tgz#9a3e715e7b921c72a45256925e984b6abe273237"
+  integrity sha512-UfAtl+pbkmZaRt/F1XVCvHvicsSZb/2snFNXc49+n1PCwzJJXwaICepYohyokQsYIDvflayP9JwivtvZJfzbSA==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
