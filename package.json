@@ -3,8 +3,8 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
+    "@100mslive/hms-video": "0.0.74",
     "@100mslive/hms-video-react": "^0.2.48",
-    "@100mslive/hms-video": "^0.0.69",
     "@craco/craco": "^6.1.1",
     "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.4",
