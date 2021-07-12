@@ -35,10 +35,10 @@
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.72":
-  version "0.0.72"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.72.tgz#9a3e715e7b921c72a45256925e984b6abe273237"
-  integrity sha512-UfAtl+pbkmZaRt/F1XVCvHvicsSZb/2snFNXc49+n1PCwzJJXwaICepYohyokQsYIDvflayP9JwivtvZJfzbSA==
+"@100mslive/hms-video@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.76.tgz#e08a63799d8c3df0cf74e0f2770b31ac018e7216"
+  integrity sha512-NVNVkISW0C7/v5672pvaB2P1HPOfUgSrbkehrrNzJk+DrzfKB97qhC6vc337QiFW4HFZkPq3mox/Ls38jY5oFQ==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -46,10 +46,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@^1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.1.8.tgz#8a0eecd70b99a54e45488f95468412c18823b0c8"
-  integrity sha512-eujNyJJ5juWCAQtJM2XyznjDf23fmrYfykRYJKya4EifeEotJEs+JLB8Byh1ax/12Zh2PgplEnAmobjyXlBEgg==
+"@100mslive/hms-virtual-background@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.2.1.tgz#9be8f3edd299826c08ee204fece5f4b0b4644515"
+  integrity sha512-u3v1rHRXDLi5bsKuWUN2o70cJai/lVvTwjJ90w87599QtVXpblddZrYuOf7YUjaKNUorq2N5Q84qfWh5V1cslg==
   dependencies:
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
     "@tensorflow/tfjs-core" "^3.3.0"

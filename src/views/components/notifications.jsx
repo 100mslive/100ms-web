@@ -16,15 +16,6 @@ import {
 
 export function Notifications() {
   const notification = useHMSNotifications();
-  const hmsAction = useHMSActions();
-
-  async function startProcessor(){
-    const processor = new HMSBackgroundProcessor("blur", 20);
-    window.BGPROCESSOR = processor;
-    console.log("Processor name", processor.getName());
-    window.HMSACTION = hmsAction;
-    await hmsAction.addVideoProcessor(processor);
-  }
 
   useEffect(() => {
     if (!notification) {
@@ -53,9 +44,9 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.TRACK_ADDED:
         console.log("[Track Added]", notification);
-        setTimeout(() =>{
-          startProcessor();
-        }, 4000);
+        // setTimeout(() =>{
+        //   startProcessor();
+        // }, 4000);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
         console.log("[Track Removed]", notification);
