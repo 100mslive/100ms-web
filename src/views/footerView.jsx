@@ -16,10 +16,10 @@ import {
   selectIsLocalVideoDisplayEnabled,
   selectUnreadHMSMessagesCount,
   selectLocalMediaSettings,
+  isMobileDevice,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
-import { isMobileDevice } from "../common/utils";
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
@@ -46,6 +46,10 @@ const SettingsView = () => {
     <>
       <Settings
         onChange={onChange}
+        initialValues={{
+          selectedAudioInput: audioInputDeviceId,
+          selectedVideoInput: videoInputDeviceId,
+        }}
         classes={{ sliderContainer: "hidden md:block", root: "mr-2 md:mr-0" }}
       />
     </>
@@ -68,6 +72,22 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
+
+  const toggleAudio = useCallback(async () => {
+    try {
+      await hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled);
+    } catch (err) {
+      console.error("Cannot toggle audio", err);
+    }
+  }, [hmsActions, isLocalAudioEnabled]);
+
+  const toggleVideo = useCallback(async () => {
+    try {
+      await hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled);
+    } catch (err) {
+      console.error("Cannot toggle video", err);
+    }
+  }, [hmsActions, isLocalVideoEnabled]);
 
   const toggleScreenShare = useCallback(async () => {
     try {
@@ -134,12 +154,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             Leave room
           </Button>,
         ]}
-        audioButtonOnClick={() =>
-          hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled)
-        }
-        videoButtonOnClick={() =>
-          hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled)
-        }
+        audioButtonOnClick={toggleAudio}
+        videoButtonOnClick={toggleVideo}
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
       />
