@@ -1,13 +1,15 @@
 import React, {useEffect} from "react";
+import background from './lukas.jpg';
+
 import {
   selectLocalPeer,
   selectIsSomeoneScreenSharing,
   useHMSStore,
-    useHMSActions
+  useHMSActions
 } from "@100mslive/hms-video-react";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
-import {HMSBackgroundProcessor} from "@100mslive/hms-virtual-background";
+// import {HMSBackgroundProcessor} from "@100mslive/hms-virtual-background";
 
 export const ConferenceMainView = ({
   isChatOpen,
@@ -18,19 +20,19 @@ export const ConferenceMainView = ({
   const isSomeoneScreenSharing = useHMSStore(selectIsSomeoneScreenSharing);
   const hmsActions = useHMSActions();
 
-  async function startProcessor(){
-    const processor = new HMSBackgroundProcessor("blur", 30);
-    window.BGPROCESSOR = processor;
-    console.log("Processor", processor);
-    window.HMSACTION = hmsActions;
-    await hmsActions.addVideoProcessor(processor);
-  }
+  // async function startProcessor(){
+  //   const processor = new HMSBackgroundProcessor('blur', 30);
+  //   window.BGPROCESSOR = processor;
+  //   console.log("Processor", processor);
+  //   window.HMSACTION = hmsActions;
+  //   await hmsActions.addVideoProcessor(processor);
+  // }
   //
-  useEffect(() =>{
-    if(localPeer && localPeer.videoTrack){
-     startProcessor();
-    }
-  },[localPeer]);
+  // useEffect(() =>{
+  //   if(localPeer && localPeer.videoTrack){
+  //    // startProcessor();
+  //   }
+  // },[localPeer]);
 
   if (!localPeer) {
     // we don't know the role yet to decide how to render UI

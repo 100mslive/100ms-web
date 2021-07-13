@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { HMSBackgroundProcessor } from "@100mslive/hms-virtual-background";
+import {HMSBackgroundProcessor} from "@100mslive/hms-virtual-background";
+
 import {
   useHMSNotifications,
-  useHMSActions,
   HMSNotificationTypes,
+  useHMSActions,
   hmsToast,
   HMSToastContainer,
   Text,
@@ -16,6 +17,15 @@ import {
 
 export function Notifications() {
   const notification = useHMSNotifications();
+  const hmsActions = useHMSActions();
+
+  async function startProcessor(){
+    const processor = new HMSBackgroundProcessor('blur', 30);
+    window.BGPROCESSOR = processor;
+    console.log("Processor", processor);
+    window.HMSACTION = hmsActions;
+    await hmsActions.addVideoProcessor(processor);
+  }
 
   useEffect(() => {
     if (!notification) {
@@ -43,10 +53,10 @@ export function Notifications() {
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
-        console.log("[Track Added]", notification);
-        // setTimeout(() =>{
-        //   startProcessor();
-        // }, 4000);
+        console.log("[Track Added] data", notification.data);
+        setTimeout(() =>{
+          startProcessor();
+        }, 4000);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
         console.log("[Track Removed]", notification);
