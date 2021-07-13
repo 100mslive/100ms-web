@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.2.48-3":
-  version "0.2.53"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.53.tgz#293daa896e91d22c599061590bc9ba16b525d449"
-  integrity sha512-xaVybVTaOm6bHMjgcU0udExPhA3KgWuXIMVTm99zYg76IUexy/1d4ANX6Umw7oMw8QSizNWwrc83pPw/QRExmw==
+"@100mslive/hms-video-react@0.2.48-3":
+  version "0.2.48-3"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.48-3.tgz#a02292ff8382d3f863348302da51ef176d75dd63"
+  integrity sha512-JQ7pGp5qzO9PHys59g+6JBuJuwao7G5BYONAAmoCqR1AzJGlG7w357FLiQ4V5bgkyo3L+HSSjIs+djxJJRGPbA==
   dependencies:
-    "@100mslive/hms-video-store" "^0.1.38"
+    "@100mslive/hms-video-store" "^0.1.36"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -24,9 +24,9 @@
     tailwind-percentage-heights-plugin "^0.1.4"
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
-    zustand "^3.5.5"
+    zustand "^3.5.1"
 
-"@100mslive/hms-video-store@^0.1.38":
+"@100mslive/hms-video-store@^0.1.36":
   version "0.1.38"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.38.tgz#46781c1d670f733ac64bc1c45d90c8e649419b01"
   integrity sha512-EmXi/tKgAjDPSHiS3kQe0SBSHadvaFCbtRYcHca20ZsHsV8VAvgTk/bncydO8B2FLAysRUX/d2XLT2gXwjgoHQ==
@@ -35,10 +35,10 @@
     reselect "^4.0.0"
     zustand "^3.5.1"
 
-"@100mslive/hms-video@^0.0.76-1":
-  version "0.0.76"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.76.tgz#e08a63799d8c3df0cf74e0f2770b31ac018e7216"
-  integrity sha512-NVNVkISW0C7/v5672pvaB2P1HPOfUgSrbkehrrNzJk+DrzfKB97qhC6vc337QiFW4HFZkPq3mox/Ls38jY5oFQ==
+"@100mslive/hms-video@0.0.76-1":
+  version "0.0.76-1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.76-1.tgz#22b7dbb1141e3f948de6a7e23b67327600c0b03e"
+  integrity sha512-oRrfnZapEsjlDnW9Ei5AU470EsoGc511hHQRuwoF6I+3GE1hn3jzhB1zDf7c0PIr76LpEHrEYD6AfmVQcBF7Gg==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -12767,7 +12767,7 @@ yocto-queue@^0.1.0:
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zustand@^3.5.1, zustand@^3.5.5:
+zustand@^3.5.1:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.5.5.tgz#628458ad70621ddc2a17dbee49be963e5c0dccb5"
   integrity sha512-iTiJoxzYFtiD7DhscgwK2P4Kft1JcZEI2U7mG8IxiOFM4KpBAiJZfFop3r/3wbCuyltXI6ph1Fx90e4j/S43XA==
