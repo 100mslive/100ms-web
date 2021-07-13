@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useContext, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -67,6 +73,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [showBackground, setShowBackground] = useState(false);
   const history = useHistory();
   const params = useParams();
+  const processorRef = useRef(null);
 
   const initialModalProps = {
     show: false,
@@ -76,16 +83,17 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
   useEffect(() => {
-    let processor;
     async function startProcessor() {
-      processor = new HMSBackgroundProcessor("blur", 30);
-      window.BGPROCESSOR = processor;
-      console.log("Processor", processor);
+      processorRef.current = new HMSBackgroundProcessor("blur", 30);
+      window.BGPROCESSOR = processorRef;
+      console.log("Processor", processorRef);
       window.HMSACTION = hmsActions;
-      await hmsActions.addVideoProcessor(processor);
+      await hmsActions.addVideoProcessor(processorRef);
     }
     async function removeProcessor() {
-      await hmsActions.removeVideoProcessor(processor);
+      if (processorRef.current) {
+        await hmsActions.removeVideoProcessor(processorRef.current);
+      }
     }
     if (showBackground) {
       startProcessor();
