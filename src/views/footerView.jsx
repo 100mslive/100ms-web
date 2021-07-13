@@ -180,6 +180,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         backgroundButtonOnClick={() => setShowBackground(!showBackground)}
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
+        isBackgroundEnabled={showBackground}
       />
       <MessageModal
         {...errorModal}
