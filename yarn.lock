@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@0.2.48-3":
-  version "0.2.48-3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.48-3.tgz#a02292ff8382d3f863348302da51ef176d75dd63"
-  integrity sha512-JQ7pGp5qzO9PHys59g+6JBuJuwao7G5BYONAAmoCqR1AzJGlG7w357FLiQ4V5bgkyo3L+HSSjIs+djxJJRGPbA==
+"@100mslive/hms-video-react@0.2.48-4":
+  version "0.2.48-4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.48-4.tgz#a86baf425f0bd0282a1daac9ab5f3ef6ae8773f3"
+  integrity sha512-VtX0OWMEkDQo9RE+isNI7WUPizYDFEivcgoWCo6xGJWgc+MarCocOFzAPMVNi1zqvlgEZ1hjKP1MW11DSyZpoQ==
   dependencies:
-    "@100mslive/hms-video-store" "^0.1.36"
+    "@100mslive/hms-video-store" "0.1.36"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -26,10 +26,10 @@
     twind "^0.16.12"
     zustand "^3.5.1"
 
-"@100mslive/hms-video-store@^0.1.36":
-  version "0.1.38"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.38.tgz#46781c1d670f733ac64bc1c45d90c8e649419b01"
-  integrity sha512-EmXi/tKgAjDPSHiS3kQe0SBSHadvaFCbtRYcHca20ZsHsV8VAvgTk/bncydO8B2FLAysRUX/d2XLT2gXwjgoHQ==
+"@100mslive/hms-video-store@0.1.36":
+  version "0.1.36"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.36.tgz#83afd0bdc8b4bbacf7ddd4dd25d35374464539aa"
+  integrity sha512-x5+ceC8yD5ERiABhRpaRsnW/6L9HPTlpWHE0Vela1dpj4U2/mWd/bK/gYBfGEzlNhrHAhtl0b85DZmEDZiRNJg==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
@@ -46,10 +46,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.2.2.tgz#b68cc091e99dd317b800081767b2151616342519"
-  integrity sha512-eqfDClrFgly2pcQNBrLmwMd+yXrvwJuvnliXnlYmB+HyuIf+qTAjrMx9j2yrXk6cgJMVJrkF4dDlDq/iKvripQ==
+"@100mslive/hms-virtual-background@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.2.3.tgz#053a956153a325a51910efe6610402fe12e3aa85"
+  integrity sha512-NxNWRqF+8D6TqeGAj71Q/JrA3tY2K16kf887hlNiTzKZWHmhf9y+nbVnb1uH9RVcZ/PDABsvl73U80H24RULkw==
   dependencies:
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
     "@tensorflow/tfjs-core" "^3.3.0"
