@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -19,6 +19,7 @@ import {
   isMobileDevice,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
+import { HMSBackgroundProcessor } from "@100mslive/hms-virtual-background";
 import { AppContext } from "../store/AppContext";
 
 const SettingsView = () => {
@@ -63,6 +64,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
+  const [showBackground, setShowBackground] = useState(false);
   const history = useHistory();
   const params = useParams();
 
@@ -72,6 +74,25 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
+
+  useEffect(() => {
+    let processor;
+    async function startProcessor() {
+      processor = new HMSBackgroundProcessor("blur", 30);
+      window.BGPROCESSOR = processor;
+      console.log("Processor", processor);
+      window.HMSACTION = hmsActions;
+      await hmsActions.addVideoProcessor(processor);
+    }
+    async function removeProcessor() {
+      await hmsActions.removeVideoProcessor(processor);
+    }
+    if (showBackground) {
+      startProcessor();
+    } else {
+      removeProcessor();
+    }
+  }, [showBackground]); //eslint-disable-line
 
   const toggleAudio = useCallback(async () => {
     try {
@@ -156,6 +177,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         ]}
         audioButtonOnClick={toggleAudio}
         videoButtonOnClick={toggleVideo}
+        backgroundButtonOnClick={() => setShowBackground(!showBackground)}
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
       />
