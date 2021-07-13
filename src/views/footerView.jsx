@@ -84,11 +84,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   useEffect(() => {
     async function startProcessor() {
-      processorRef.current = new HMSBackgroundProcessor("blur", 30);
-      window.BGPROCESSOR = processorRef;
-      console.log("Processor", processorRef);
-      window.HMSACTION = hmsActions;
-      await hmsActions.addVideoProcessor(processorRef);
+      if(!processorRef.current){
+        processorRef.current = new HMSBackgroundProcessor("blur", 30);
+      }
+      await hmsActions.addVideoProcessor(processorRef.current);
+
     }
     async function removeProcessor() {
       if (processorRef.current) {
