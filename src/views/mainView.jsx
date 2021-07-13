@@ -4,7 +4,6 @@ import {
   selectLocalPeer,
   selectIsSomeoneScreenSharing,
   useHMSStore,
-  useHMSActions
 } from "@100mslive/hms-video-react";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
