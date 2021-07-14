@@ -24,14 +24,14 @@ import { AppContext } from "../store/AppContext";
 const SettingsView = () => {
   const hmsActions = useHMSActions();
   const { setMaxTileCount } = useContext(AppContext);
-  const { audioInputDeviceId, videoInputDeviceId } = useHMSStore(
-    selectLocalMediaSettings
-  );
+  const { audioInputDeviceId, videoInputDeviceId, audioOutputDeviceId } =
+    useHMSStore(selectLocalMediaSettings);
 
   const onChange = ({
     maxTileCount: newMaxTileCount,
     selectedVideoInput: newSelectedVideoInput,
     selectedAudioInput: newSelectedAudioInput,
+    selectedAudioOutput: newSelectedAudioOuput,
   }) => {
     setMaxTileCount(newMaxTileCount);
     if (audioInputDeviceId !== newSelectedAudioInput) {
@@ -40,6 +40,10 @@ const SettingsView = () => {
 
     if (videoInputDeviceId !== newSelectedVideoInput) {
       hmsActions.setVideoSettings({ deviceId: newSelectedVideoInput });
+    }
+
+    if (audioOutputDeviceId !== newSelectedAudioOuput) {
+      hmsActions.setOutputDevice(newSelectedAudioOuput);
     }
   };
   return (
