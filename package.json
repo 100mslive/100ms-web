@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
-    "@100mslive/hms-video": "^0.0.80",
+    "@100mslive/hms-video": "^0.0.81",
     "@100mslive/hms-video-react": "0.2.58",
     "@100mslive/hms-virtual-background": "^1.2.3",
     "@craco/craco": "^6.1.1",
