@@ -9,8 +9,8 @@ import {
   ConnectivityIcon,
   PersonIcon,
   Button,
+  isMobileDevice,
 } from "@100mslive/hms-video-react";
-import { isMobileDevice } from "../../common/utils";
 
 export function Notifications() {
   const notification = useHMSNotifications();
