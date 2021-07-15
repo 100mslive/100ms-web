@@ -83,7 +83,6 @@ export function Notifications() {
             </Text>
           ),
         });
-        console.error("error", notification);
         break;
       case HMSNotificationTypes.RECONNECTED:
         hmsToast("", {
