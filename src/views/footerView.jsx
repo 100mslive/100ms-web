@@ -1,8 +1,19 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import {
   useHMSStore,
   ControlBar,
   HangUpIcon,
+  MicOffIcon,
+  MicOnIcon,
+  CamOffIcon,
+  CamOnIcon,
+  VirtualBackgroundIcon,
   Button,
   ShareScreenIcon,
   ChatIcon,
@@ -19,6 +30,7 @@ import {
   isMobileDevice,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
+import { HMSBackgroundProcessor } from "@100mslive/hms-virtual-background";
 import { AppContext } from "../store/AppContext";
 
 const SettingsView = () => {
@@ -63,8 +75,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
+  const [showBackground, setShowBackground] = useState(false);
   const history = useHistory();
   const params = useParams();
+  const processorRef = useRef(null);
 
   const initialModalProps = {
     show: false,
@@ -72,6 +86,26 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
+
+  useEffect(() => {
+    async function startProcessor() {
+      if(!processorRef.current){
+        processorRef.current = new HMSBackgroundProcessor("blur", 30);
+      }
+      await hmsActions.addVideoProcessor(processorRef.current);
+
+    }
+    async function removeProcessor() {
+      if (processorRef.current) {
+        await hmsActions.removeVideoProcessor(processorRef.current);
+      }
+    }
+    if (showBackground) {
+      startProcessor();
+    } else {
+      removeProcessor();
+    }
+  }, [showBackground]); //eslint-disable-line
 
   const toggleAudio = useCallback(async () => {
     try {
@@ -139,6 +173,42 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     <>
       <ControlBar
         leftComponents={leftComponents}
+        centerComponents={[
+          <Button
+              iconOnly
+              variant="no-fill"
+              iconSize="md"
+              classes={{ root: 'mr-2' }}
+              shape="rectangle"
+              active={!isLocalAudioEnabled}
+              onClick={toggleAudio}
+              key={0}
+          >
+            {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
+          </Button>,
+          <Button
+          iconOnly
+          variant="no-fill"
+          iconSize="md"
+          classes={{ root: 'mr-2' }}
+          shape="rectangle"
+          active={!isLocalVideoEnabled}
+          onClick={toggleVideo}
+          key={1}
+          >
+        {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
+          </Button>,
+          <Button
+          iconOnly
+          variant="no-fill"
+          shape="rectangle"
+          active={showBackground}
+          onClick={() => setShowBackground(!showBackground)}
+          key={2}
+          >
+          <VirtualBackgroundIcon />
+          </Button>,
+        ]}
         rightComponents={[
           <Button
             key={0}
@@ -158,8 +228,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         ]}
         audioButtonOnClick={toggleAudio}
         videoButtonOnClick={toggleVideo}
+        backgroundButtonOnClick={() => setShowBackground(!showBackground)}
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
+        isBackgroundEnabled={showBackground}
       />
       <MessageModal
         {...errorModal}
