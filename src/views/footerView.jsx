@@ -220,7 +220,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             variant="danger"
             onClick={() => {
               leave();
-              history.push("/leave/" + params.roomId + "/" + params.role);
+              if (params.role)
+                history.push("/leave/" + params.roomId + "/" + params.role);
+              else history.push("/leave/" + params.roomId);
             }}
           >
             <HangUpIcon className="mr-2" />
