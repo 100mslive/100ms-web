@@ -20,3 +20,65 @@ export default async function getToken(
 
   return token;
 }
+
+export async function getUserToken(name) {
+  const extractUrlCode = () => {
+    const path = window.location.pathname;
+    let roomCode = null;
+    if (path.startsWith("/preview/") || path.startsWith("/meeting/")) {
+      roomCode = "";
+      for (let i = 9; i < path.length; i++) {
+        if (path[i] === "/") break;
+        roomCode += path[i];
+      }
+      if (roomCode.trim() === "") roomCode = null;
+    }
+    return roomCode;
+  };
+
+  const code = extractUrlCode();
+
+  const url = getBackendEndpoint() + "get-token";
+
+  const headers = {
+    "Content-Type": "application/json",
+    subdomain: process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN,
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "post",
+      body: JSON.stringify({
+        code: code,
+        user_id: name,
+      }),
+      headers,
+    });
+    const { token } = await response.json();
+    return token;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
+export function getBackendEndpoint() {
+  let BASE_BACKEND_URL;
+  const baseDomain = window.location.hostname;
+  if (baseDomain === "qa2.100ms.live" || process.env.REACT_APP_ENV === "qa") {
+    BASE_BACKEND_URL =
+      process.env.REACT_APP_QA_BACKEND_API ||
+      "https://qa-in.100ms.live/hmsapi/";
+  } else if (
+    baseDomain === "prod2.100ms.live" ||
+    process.env.REACT_APP_ENV === "prod"
+  ) {
+    BASE_BACKEND_URL =
+      process.env.REACT_APP_PROD_BACKEND_API ||
+      "https://prod-in.100ms.live/hmsapi/";
+  } else {
+    BASE_BACKEND_URL =
+      process.env.REACT_APP_BACKEND_API || "https://prod-in.100ms.live/hmsapi/";
+  }
+  return BASE_BACKEND_URL;
+}

@@ -55,7 +55,7 @@ const SettingsView = () => {
     }
 
     if (audioOutputDeviceId !== newSelectedAudioOuput) {
-      hmsActions.setOutputDevice(newSelectedAudioOuput);
+      hmsActions.setAudioOutputDevice(newSelectedAudioOuput);
     }
   };
   return (
@@ -93,11 +93,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   useEffect(() => {
     async function startProcessor() {
-      if(!processorRef.current){
+      if (!processorRef.current) {
         processorRef.current = new HMSBackgroundProcessor("blur", 30);
       }
       await hmsActions.addVideoProcessor(processorRef.current);
-
     }
     async function removeProcessor() {
       if (processorRef.current) {
@@ -179,38 +178,38 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         leftComponents={leftComponents}
         centerComponents={[
           <Button
-              iconOnly
-              variant="no-fill"
-              iconSize="md"
-              classes={{ root: 'mr-2' }}
-              shape="rectangle"
-              active={!isLocalAudioEnabled}
-              onClick={toggleAudio}
-              key={0}
+            iconOnly
+            variant="no-fill"
+            iconSize="md"
+            classes={{ root: "mr-2" }}
+            shape="rectangle"
+            active={!isLocalAudioEnabled}
+            onClick={toggleAudio}
+            key={0}
           >
             {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
           </Button>,
           <Button
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          classes={{ root: 'mr-2' }}
-          shape="rectangle"
-          active={!isLocalVideoEnabled}
-          onClick={toggleVideo}
-          key={1}
+            iconOnly
+            variant="no-fill"
+            iconSize="md"
+            classes={{ root: "mr-2" }}
+            shape="rectangle"
+            active={!isLocalVideoEnabled}
+            onClick={toggleVideo}
+            key={1}
           >
-        {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
+            {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
           </Button>,
           <Button
-          iconOnly
-          variant="no-fill"
-          shape="rectangle"
-          active={showBackground}
-          onClick={() => setShowBackground(!showBackground)}
-          key={2}
+            iconOnly
+            variant="no-fill"
+            shape="rectangle"
+            active={showBackground}
+            onClick={() => setShowBackground(!showBackground)}
+            key={2}
           >
-          <VirtualBackgroundIcon />
+            <VirtualBackgroundIcon />
           </Button>,
         ]}
         rightComponents={[
@@ -221,7 +220,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             variant="danger"
             onClick={() => {
               leave();
-              history.push("/leave/" + params.roomId + "/" + params.role);
+              if (params.role)
+                history.push("/leave/" + params.roomId + "/" + params.role);
+              else history.push("/leave/" + params.roomId);
             }}
           >
             <HangUpIcon className="mr-2" />
