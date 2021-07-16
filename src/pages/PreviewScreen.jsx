@@ -11,6 +11,7 @@ import getToken from "../services/tokenService";
 import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Notifications } from "../views/components/notifications";
 
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
