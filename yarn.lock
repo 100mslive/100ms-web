@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@0.2.63":
-  version "0.2.63"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.63.tgz#db3b8297bbf7e3b04b5d3cb6c1dd95330a34a425"
-  integrity sha512-lSmQylx/kpBWnK7TGTknbUmmKfnJx2/dkGmRJSdtX14PzXK+ZeQF1NF0onTY63ND4uSvlYyhq58/9MK8cDX2GQ==
+"@100mslive/hms-video-react@0.2.65":
+  version "0.2.65"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.65.tgz#482e4e07ffba1084856d77b54f41172f18d029be"
+  integrity sha512-eOFWMsOaLaiyEdnNuTaGP+qMbe+0RMGG7yNpOA80VWs0EuFVCG5miOgmGGBEJ3Wdg7Omm7sTdLJRGhlQQ4YszA==
   dependencies:
-    "@100mslive/hms-video-store" "^0.1.51"
+    "@100mslive/hms-video-store" "^0.1.53"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -26,19 +26,19 @@
     twind "^0.16.12"
     zustand "3.5.4"
 
-"@100mslive/hms-video-store@^0.1.51":
-  version "0.1.51"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.51.tgz#7e5b1d0cbd2288d3cdddbbdaa6a7f5ed9b7c95fd"
-  integrity sha512-uHMuTHTlFX1fwFccL4DOVVc7IRoqHvdFRWST4G4bLG8kfH4PDm/iK1D7P8osuCz+QGMNqEefNV36L86YKVhUZA==
+"@100mslive/hms-video-store@^0.1.53":
+  version "0.1.53"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.53.tgz#edea43a52f6e19e15c96060d623d26da54cf6c56"
+  integrity sha512-+pgXRQUH2foBtU9KPhC+3MIx/uhgIBbPW1a7Sw466+JnpxWp80SBHjvXJJQ0xo7v8SSJACyKFVmsYbrSWc5uWA==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "3.5.4"
 
-"@100mslive/hms-video@^0.0.89":
-  version "0.0.89"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.89.tgz#d1bee73df4dcb93181be84c32860b994b40f2ea3"
-  integrity sha512-shAhopioTP8CUo2FQjKAsyqzmyDQ6zpwp87U5NwSRkXgLhbn08ETKcev8bZFyy0bbrndvMSQMTmJDLk4oTHU7g==
+"@100mslive/hms-video@^0.0.90":
+  version "0.0.90"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.90.tgz#495d66f2400e0a3d44705c49f2c06abf01ab5629"
+  integrity sha512-AxGMp8OZ9IqtHdyFvrXuppdeYi2QLNAwHBDDLWxLt+p+7BwC1xCMCa9gl6hrvLjC1HEyKhnXNEMDQlaP2ckIow==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -1545,9 +1545,9 @@
     chalk "^4.0.0"
 
 "@material-ui/core@^4.11.3":
-  version "4.12.1"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.1.tgz#ac8f081498047aa02bb6ee70b77c5dad6a2a6e73"
-  integrity sha512-C6hYsjkWCTfBx9FaqxhCZCITBagh7fyCKFtHyvO3tTOcBw6NJaktdhNZ2n82jQdQdgfFvg6OOxi7OOzsAdAcBQ==
+  version "4.12.2"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.2.tgz#59a8b19f16b8c218d912f37f5ae70473c3c82c73"
+  integrity sha512-Q1npB8V73IC+eV2X6as+g71MpEGQwqKHUI2iujY62npk35V8nMx/bUXAHjv5kKG1BZ8s8XUWoG6s/VkjYPjjQA==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@material-ui/styles" "^4.11.4"
@@ -2051,9 +2051,9 @@
   integrity sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
 
 "@types/mdast@^3.0.0":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.4.tgz#8ee6b5200751b6cadb9a043ca39612693ad6cb9e"
-  integrity sha512-gIdhbLDFlspL53xzol2hVzrXAbzt71erJHoOwQZWssjaiouOotf03lNtMmFm9VfFkvnLWccSVjUAZGQ5Kqw+jA==
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.7.tgz#cba63d0cc11eb1605cea5c0ad76e02684394166b"
+  integrity sha512-YwR7OK8aPmaBvMMUi+pZXBNoW2unbVbfok4YRqGMJBe1dpDlzpRkJrYEYmvjxgs5JhuQmKfDexrN98u941Zasg==
   dependencies:
     "@types/unist" "*"
 
