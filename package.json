@@ -7,11 +7,9 @@
     "@100mslive/hms-video-react": "0.2.63",
     "@100mslive/hms-virtual-background": "^1.2.6",
     "@craco/craco": "^6.1.1",
-    "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "http-server": "^0.12.3",
     "logrocket": "^1.0.15",
     "logrocket-react": "^4.0.1",
     "react": "^17.0.2",
@@ -21,11 +19,11 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start:build": "http-server build",
     "start": "craco start",
     "build": "craco build --profile",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:style": "NODE_ENV=production npx tailwindcss-cli@latest build ./src/index.css -o tailwind.css"
   },
   "eslintConfig": {
     "extends": [

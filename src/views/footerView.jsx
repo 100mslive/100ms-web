@@ -36,14 +36,14 @@ import { AppContext } from "../store/AppContext";
 const SettingsView = () => {
   const hmsActions = useHMSActions();
   const { setMaxTileCount } = useContext(AppContext);
-  const { audioInputDeviceId, videoInputDeviceId } = useHMSStore(
-    selectLocalMediaSettings
-  );
+  const { audioInputDeviceId, videoInputDeviceId, audioOutputDeviceId } =
+    useHMSStore(selectLocalMediaSettings);
 
   const onChange = ({
     maxTileCount: newMaxTileCount,
     selectedVideoInput: newSelectedVideoInput,
     selectedAudioInput: newSelectedAudioInput,
+    selectedAudioOutput: newSelectedAudioOuput,
   }) => {
     setMaxTileCount(newMaxTileCount);
     if (audioInputDeviceId !== newSelectedAudioInput) {
@@ -52,6 +52,10 @@ const SettingsView = () => {
 
     if (videoInputDeviceId !== newSelectedVideoInput) {
       hmsActions.setVideoSettings({ deviceId: newSelectedVideoInput });
+    }
+
+    if (audioOutputDeviceId !== newSelectedAudioOuput) {
+      hmsActions.setAudioOutputDevice(newSelectedAudioOuput);
     }
   };
   return (
@@ -106,12 +110,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       removePlugin();
     }
   }, [showBackground]); //eslint-disable-line
-
-  // const toggleBackground = () =>{
-  //   if(isLocalVideoEnabled){
-  //     setShowBackground()
-  //   }
-  // }
 
   const toggleAudio = useCallback(async () => {
     try {
@@ -224,7 +222,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             variant="danger"
             onClick={() => {
               leave();
-              history.push("/leave/" + params.roomId + "/" + params.role);
+              if (params.role)
+                history.push("/leave/" + params.roomId + "/" + params.role);
+              else history.push("/leave/" + params.roomId);
             }}
           >
             <HangUpIcon className="mr-2" />
