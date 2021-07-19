@@ -30,7 +30,7 @@ import {
   isMobileDevice,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
-import { HMSBackgroundProcessor } from "@100mslive/hms-virtual-background";
+import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { AppContext } from "../store/AppContext";
 
 const SettingsView = () => {
@@ -78,7 +78,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [showBackground, setShowBackground] = useState(false);
   const history = useHistory();
   const params = useParams();
-  const processorRef = useRef(null);
+  const pluginRef = useRef(null);
 
   const initialModalProps = {
     show: false,
@@ -88,24 +88,30 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
   useEffect(() => {
-    async function startProcessor() {
-      if(!processorRef.current){
-        processorRef.current = new HMSBackgroundProcessor("blur", 30);
+    async function startPlugin() {
+      if(!pluginRef.current){
+        pluginRef.current = new HMSVirtualBackgroundPlugin("blur");
       }
-      await hmsActions.addVideoProcessor(processorRef.current);
+      await hmsActions.addPlugin(pluginRef.current);
 
     }
-    async function removeProcessor() {
-      if (processorRef.current) {
-        await hmsActions.removeVideoProcessor(processorRef.current);
+    async function removePlugin() {
+      if (pluginRef.current) {
+        await hmsActions.removePlugin(pluginRef.current);
       }
     }
     if (showBackground) {
-      startProcessor();
+      startPlugin();
     } else {
-      removeProcessor();
+      removePlugin();
     }
   }, [showBackground]); //eslint-disable-line
+
+  // const toggleBackground = () =>{
+  //   if(isLocalVideoEnabled){
+  //     setShowBackground()
+  //   }
+  // }
 
   const toggleAudio = useCallback(async () => {
     try {
@@ -203,7 +209,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           variant="no-fill"
           shape="rectangle"
           active={showBackground}
-          onClick={() => setShowBackground(!showBackground)}
+          onClick={() =>
+               setShowBackground(!showBackground)}
           key={2}
           >
           <VirtualBackgroundIcon />
