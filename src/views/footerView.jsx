@@ -36,8 +36,11 @@ import { AppContext } from "../store/AppContext";
 const SettingsView = () => {
   const hmsActions = useHMSActions();
   const { setMaxTileCount } = useContext(AppContext);
-  const { audioInputDeviceId, videoInputDeviceId, audioOutputDeviceId } =
-    useHMSStore(selectLocalMediaSettings);
+  const {
+    audioInputDeviceId,
+    videoInputDeviceId,
+    audioOutputDeviceId,
+  } = useHMSStore(selectLocalMediaSettings);
 
   const onChange = ({
     maxTileCount: newMaxTileCount,
@@ -93,15 +96,14 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   useEffect(() => {
     async function startPlugin() {
-      if(!pluginRef.current){
+      if (!pluginRef.current) {
         pluginRef.current = new HMSVirtualBackgroundPlugin("blur");
       }
-      await hmsActions.addPlugin(pluginRef.current);
-
+      await hmsActions.addPluginToVideoTrack(pluginRef.current);
     }
     async function removePlugin() {
       if (pluginRef.current) {
-        await hmsActions.removePlugin(pluginRef.current);
+        await hmsActions.removePluginFromVideoTrack(pluginRef.current);
       }
     }
     if (showBackground) {
@@ -179,39 +181,38 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         leftComponents={leftComponents}
         centerComponents={[
           <Button
-              iconOnly
-              variant="no-fill"
-              iconSize="md"
-              classes={{ root: 'mr-2' }}
-              shape="rectangle"
-              active={!isLocalAudioEnabled}
-              onClick={toggleAudio}
-              key={0}
+            iconOnly
+            variant="no-fill"
+            iconSize="md"
+            classes={{ root: "mr-2" }}
+            shape="rectangle"
+            active={!isLocalAudioEnabled}
+            onClick={toggleAudio}
+            key={0}
           >
             {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
           </Button>,
           <Button
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          classes={{ root: 'mr-2' }}
-          shape="rectangle"
-          active={!isLocalVideoEnabled}
-          onClick={toggleVideo}
-          key={1}
+            iconOnly
+            variant="no-fill"
+            iconSize="md"
+            classes={{ root: "mr-2" }}
+            shape="rectangle"
+            active={!isLocalVideoEnabled}
+            onClick={toggleVideo}
+            key={1}
           >
-        {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
+            {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
           </Button>,
           <Button
-          iconOnly
-          variant="no-fill"
-          shape="rectangle"
-          active={showBackground}
-          onClick={() =>
-               setShowBackground(!showBackground)}
-          key={2}
+            iconOnly
+            variant="no-fill"
+            shape="rectangle"
+            active={showBackground}
+            onClick={() => setShowBackground(!showBackground)}
+            key={2}
           >
-          <VirtualBackgroundIcon />
+            <VirtualBackgroundIcon />
           </Button>,
         ]}
         rightComponents={[
