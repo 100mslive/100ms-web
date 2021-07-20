@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@0.2.60":
-  version "0.2.60"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.60.tgz#ceff6121726c33524e25251d95c0c56479ced208"
-  integrity sha512-P4N6ecavOQmDHj/VVVB4weCmJCaEjd3Y86QCqW95kZLTBMHg2gJSNPTc0ttrV8aainRx2+Y2iiRhavKDVvbYEA==
+"@100mslive/hms-video-react@0.2.66":
+  version "0.2.66"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.2.66.tgz#1b662d1d622a57b282c04106cc4f6aa4ad7232bb"
+  integrity sha512-RZI9hsaggrVh4vKAyonFLs/c1BoyCZy3Nq+ZNt1eCXQEpqM/RqCd1R3yLsEVVD09m8i/aTfBgmyJbjSv1D0g7w==
   dependencies:
-    "@100mslive/hms-video-store" "^0.1.47"
+    "@100mslive/hms-video-store" "^0.1.55"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -26,19 +26,19 @@
     twind "^0.16.12"
     zustand "3.5.4"
 
-"@100mslive/hms-video-store@^0.1.47":
-  version "0.1.47"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.47.tgz#9866da2b86d0599d330475ba5b6fb849222e895f"
-  integrity sha512-fJt20Yv7MJLBHe2tZDPDAEm3fFMWXQ2/1YlVqkGwaeo5vkQN9JzNN1M9QNP7vJ5sjpgmXp5uZIYMSj7tJ6oXSg==
+"@100mslive/hms-video-store@^0.1.55":
+  version "0.1.55"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.55.tgz#9b6b85fca125e2da7f0736f05100181c83f6ca79"
+  integrity sha512-28jsvlKKiXgKnYFDHmpheSTfppCiX7f0AkYcgathGrv8yZd3GLT5rgC/Xk6pTdoCrTW/JFdq2wPwZFeIdGUSVQ==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "3.5.4"
 
-"@100mslive/hms-video@0.0.87":
-  version "0.0.87"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.87.tgz#fd59e386bcc9dd8bfc043babf1ecedb6ba67d0b0"
-  integrity sha512-QcOTOIebxSLG8ZFP2BFOSFu6S/weGOvx4l2I6c9pshkMan4ke2UDu123Hj47tx8LAKBl6B31OQXg/5oeafyhFA==
+"@100mslive/hms-video@^0.0.92":
+  version "0.0.92"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.92.tgz#dc395bbdce2549c5bb2f5e3b7d7cd060b2649565"
+  integrity sha512-i84vhtPxjKUX5L2OsdBt1hpIh/PTgPYbtzQ9PtiwyC1U3jw1EKBr2f94ovAxnVNPn+gOQ62U2xdHeNZuHPDptw==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -46,10 +46,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.2.3.tgz#053a956153a325a51910efe6610402fe12e3aa85"
-  integrity sha512-NxNWRqF+8D6TqeGAj71Q/JrA3tY2K16kf887hlNiTzKZWHmhf9y+nbVnb1uH9RVcZ/PDABsvl73U80H24RULkw==
+"@100mslive/hms-virtual-background@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.2.6.tgz#386252f3feb329254a561010cd70ffc3a34b9b1c"
+  integrity sha512-cIKEkm/8haIC8tS/HkmSKZuLU+BFVKEpv2YM9SCq0OCXeKLo9zMT13j2I9Gcz8PR2fO6o5xPrMlZHU2CNovQEQ==
   dependencies:
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
     "@tensorflow/tfjs-core" "^3.3.0"
@@ -1545,9 +1545,9 @@
     chalk "^4.0.0"
 
 "@material-ui/core@^4.11.3":
-  version "4.12.1"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.1.tgz#ac8f081498047aa02bb6ee70b77c5dad6a2a6e73"
-  integrity sha512-C6hYsjkWCTfBx9FaqxhCZCITBagh7fyCKFtHyvO3tTOcBw6NJaktdhNZ2n82jQdQdgfFvg6OOxi7OOzsAdAcBQ==
+  version "4.12.2"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.2.tgz#59a8b19f16b8c218d912f37f5ae70473c3c82c73"
+  integrity sha512-Q1npB8V73IC+eV2X6as+g71MpEGQwqKHUI2iujY62npk35V8nMx/bUXAHjv5kKG1BZ8s8XUWoG6s/VkjYPjjQA==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@material-ui/styles" "^4.11.4"
@@ -2051,9 +2051,9 @@
   integrity sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
 
 "@types/mdast@^3.0.0":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.4.tgz#8ee6b5200751b6cadb9a043ca39612693ad6cb9e"
-  integrity sha512-gIdhbLDFlspL53xzol2hVzrXAbzt71erJHoOwQZWssjaiouOotf03lNtMmFm9VfFkvnLWccSVjUAZGQ5Kqw+jA==
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.7.tgz#cba63d0cc11eb1605cea5c0ad76e02684394166b"
+  integrity sha512-YwR7OK8aPmaBvMMUi+pZXBNoW2unbVbfok4YRqGMJBe1dpDlzpRkJrYEYmvjxgs5JhuQmKfDexrN98u941Zasg==
   dependencies:
     "@types/unist" "*"
 
