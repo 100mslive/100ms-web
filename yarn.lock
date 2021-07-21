@@ -35,10 +35,10 @@
     reselect "^4.0.0"
     zustand "3.5.4"
 
-"@100mslive/hms-video@0.0.95":
-  version "0.0.95"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.95.tgz#f5842d7adf06c3c531dc69b702a95f5885e820a4"
-  integrity sha512-AXcz4cjpiPd2w7xerT4QODmughTEzuF0VVJ7KP4RRvCSjY6DHA8G6FjD7hugIKo59fuOQMicb4UWiJ173Ond4w==
+"@100mslive/hms-video@^0.0.96":
+  version "0.0.96"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.96.tgz#40243805afd4198b5816845a97eda2535a6b00c3"
+  integrity sha512-oCtoQ7+iPnFQfWu8lIa5xunnNMqnANETxenRKXAyQF2sFyw+5uuFDi64j2v0vLG3pBbSPqCxMTgWaJg0RdxUIg==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -46,10 +46,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.2.3.tgz#053a956153a325a51910efe6610402fe12e3aa85"
-  integrity sha512-NxNWRqF+8D6TqeGAj71Q/JrA3tY2K16kf887hlNiTzKZWHmhf9y+nbVnb1uH9RVcZ/PDABsvl73U80H24RULkw==
+"@100mslive/hms-virtual-background@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.2.6.tgz#386252f3feb329254a561010cd70ffc3a34b9b1c"
+  integrity sha512-cIKEkm/8haIC8tS/HkmSKZuLU+BFVKEpv2YM9SCq0OCXeKLo9zMT13j2I9Gcz8PR2fO6o5xPrMlZHU2CNovQEQ==
   dependencies:
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
     "@tensorflow/tfjs-core" "^3.3.0"
@@ -1545,9 +1545,9 @@
     chalk "^4.0.0"
 
 "@material-ui/core@^4.11.3":
-  version "4.12.1"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.1.tgz#ac8f081498047aa02bb6ee70b77c5dad6a2a6e73"
-  integrity sha512-C6hYsjkWCTfBx9FaqxhCZCITBagh7fyCKFtHyvO3tTOcBw6NJaktdhNZ2n82jQdQdgfFvg6OOxi7OOzsAdAcBQ==
+  version "4.12.2"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.2.tgz#59a8b19f16b8c218d912f37f5ae70473c3c82c73"
+  integrity sha512-Q1npB8V73IC+eV2X6as+g71MpEGQwqKHUI2iujY62npk35V8nMx/bUXAHjv5kKG1BZ8s8XUWoG6s/VkjYPjjQA==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@material-ui/styles" "^4.11.4"
@@ -2051,9 +2051,9 @@
   integrity sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
 
 "@types/mdast@^3.0.0":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.4.tgz#8ee6b5200751b6cadb9a043ca39612693ad6cb9e"
-  integrity sha512-gIdhbLDFlspL53xzol2hVzrXAbzt71erJHoOwQZWssjaiouOotf03lNtMmFm9VfFkvnLWccSVjUAZGQ5Kqw+jA==
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.7.tgz#cba63d0cc11eb1605cea5c0ad76e02684394166b"
+  integrity sha512-YwR7OK8aPmaBvMMUi+pZXBNoW2unbVbfok4YRqGMJBe1dpDlzpRkJrYEYmvjxgs5JhuQmKfDexrN98u941Zasg==
   dependencies:
     "@types/unist" "*"
 
