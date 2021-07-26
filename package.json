@@ -3,9 +3,9 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
-    "@100mslive/hms-video": "0.0.100",
-    "@100mslive/hms-video-react": "0.2.71",
-    "@100mslive/hms-virtual-background": "1.2.6",
+    "@100mslive/hms-video": "^0.0.101",
+    "@100mslive/hms-video-react": "0.2.72",
+    "@100mslive/hms-virtual-background": "^1.2.6",
     "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
