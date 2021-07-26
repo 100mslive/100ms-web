@@ -1,0 +1,17 @@
+.hms-toast .Toastify__toast {
+  padding: 0px;
+}
+.hms-toast.Toastify__toast-container {
+  width: 612px;
+  max-width: 100vw;
+}
+.hms-toast .Toastify__toast--default {
+  background: none;
+}
+.hms-toast .Toastify__toast-body {
+  padding: 0px;
+}
+
+.hms-toast.Toastify__toast-container--bottom-left {
+  bottom: 4rem;
+}
