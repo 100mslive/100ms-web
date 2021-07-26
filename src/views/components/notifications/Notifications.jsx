@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-
+import { HMSToastContainer, hmsToast } from "./hms-toast";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
-  hmsToast,
-  HMSToastContainer,
   Text,
   PoorConnectivityIcon,
   ConnectivityIcon,
