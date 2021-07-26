@@ -9,10 +9,12 @@ import {
   PersonIcon,
   Button,
   isMobileDevice,
+  useHMSActions,
 } from "@100mslive/hms-video-react";
 
 export function Notifications() {
   const notification = useHMSNotifications();
+  const hmsActions = useHMSActions();
 
   useEffect(() => {
     if (!notification) {
@@ -105,6 +107,6 @@ export function Notifications() {
       default:
         break;
     }
-  }, [notification]);
+  }, [hmsActions, notification]);
   return <HMSToastContainer />;
 }
