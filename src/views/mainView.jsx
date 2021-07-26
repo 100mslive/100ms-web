@@ -33,7 +33,7 @@ export const ConferenceMainView = ({
       <ViewComponent
         isChatOpen={isChatOpen}
         toggleChat={toggleChat}
-        role={localPeer.role.name}
+        role={localPeer.role}
         isParticipantListOpen={isParticipantListOpen}
       />
     )

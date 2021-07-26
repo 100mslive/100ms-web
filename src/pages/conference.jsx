@@ -8,10 +8,10 @@ import { Notifications } from "../views/components/notifications";
 import {
   Button,
   MessageModal,
+  selectRoleChangeRequest,
   useHMSActions,
-  useHMSNotifications,
+  useHMSStore,
 } from "@100mslive/hms-video-react";
-import { HMSNotificationTypes } from "../../../hms-video-react/node_modules/@100mslive/hms-video-store/dist";
 
 export const Conference = () => {
   const history = useHistory();
@@ -22,9 +22,8 @@ export const Conference = () => {
   const toggleChat = useCallback(() => {
     setIsChatOpen(open => !open);
   }, []);
-  const [roleChangeRequest, setRequest] = useState(null);
+  const roleChangeRequest = useHMSStore(selectRoleChangeRequest);
   const hmsActions = useHMSActions();
-  const notification = useHMSNotifications();
 
   const onParticipantListOpen = useCallback(value => {
     setIsParticipantListOpen(value);
@@ -47,25 +46,6 @@ export const Conference = () => {
     };
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (!notification) {
-      return;
-    }
-
-    switch (notification.type) {
-      case HMSNotificationTypes.ROLE_CHANGE_REQUEST:
-        setRequest(notification.data);
-        break;
-      default:
-        break;
-    }
-  }, [notification]);
-
-  const acceptRoleChange = () => {
-    hmsActions.acceptChangeRole(roleChangeRequest);
-    setRequest(null);
-  };
 
   return (
     <div className="w-full h-full flex flex-col dark:bg-black">
@@ -90,8 +70,16 @@ export const Conference = () => {
               Changing role to ${roleChangeRequest?.role?.name}.`}
         footer={
           <div className="flex space-x-1">
-            <Button onClick={acceptRoleChange}>Accept</Button>
-            <Button onClick={() => setRequest(null)}>Reject</Button>
+            <Button
+              onClick={() => hmsActions.acceptChangeRole(roleChangeRequest)}
+            >
+              Accept
+            </Button>
+            <Button
+              onClick={() => hmsActions.rejectChangeRole(roleChangeRequest)}
+            >
+              Reject
+            </Button>
           </div>
         }
       />
