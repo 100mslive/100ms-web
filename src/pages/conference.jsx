@@ -4,7 +4,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { ConferenceHeader } from "../views/headerView";
 import { ConferenceFooter } from "../views/footerView";
 import { ConferenceMainView } from "../views/mainView";
-import { Notifications } from "../views/components/notifications";
 import {
   Button,
   MessageModal,
@@ -12,6 +11,7 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/hms-video-react";
+import { Notifications } from "../views/components/notifications/Notifications";
 
 export const Conference = () => {
   const history = useHistory();
@@ -32,13 +32,14 @@ export const Conference = () => {
   const { loginInfo, leave } = context;
 
   useEffect(() => {
-    if (!roomId || !role) {
+    if (!roomId) {
       history.push(`/`);
     }
-
     if (!loginInfo.token) {
       // redirect to join if token not present
-      history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
+      if (role)
+        history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
+      else history.push(`/preview/${loginInfo.roomId || roomId || ""}`);
     }
 
     return () => {

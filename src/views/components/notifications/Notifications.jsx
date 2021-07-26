@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
+import { HMSToastContainer, hmsToast } from "./hms-toast";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
-  hmsToast,
-  HMSToastContainer,
   Text,
   PoorConnectivityIcon,
   ConnectivityIcon,
@@ -43,7 +42,7 @@ export function Notifications() {
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
-        console.log("[Track Added]", notification);
+        console.log("[Track Added] data", notification.data);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
         console.log("[Track Removed]", notification);
@@ -85,7 +84,6 @@ export function Notifications() {
             </Text>
           ),
         });
-        console.error("error", notification);
         break;
       case HMSNotificationTypes.RECONNECTED:
         hmsToast("", {
