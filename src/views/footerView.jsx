@@ -36,11 +36,8 @@ import { AppContext } from "../store/AppContext";
 const SettingsView = () => {
   const hmsActions = useHMSActions();
   const { setMaxTileCount } = useContext(AppContext);
-  const {
-    audioInputDeviceId,
-    videoInputDeviceId,
-    audioOutputDeviceId,
-  } = useHMSStore(selectLocalMediaSettings);
+  const { audioInputDeviceId, videoInputDeviceId, audioOutputDeviceId } =
+    useHMSStore(selectLocalMediaSettings);
 
   const onChange = ({
     maxTileCount: newMaxTileCount,
@@ -65,10 +62,6 @@ const SettingsView = () => {
     <>
       <Settings
         onChange={onChange}
-        initialValues={{
-          selectedAudioInput: audioInputDeviceId,
-          selectedVideoInput: videoInputDeviceId,
-        }}
         classes={{ sliderContainer: "hidden md:block", root: "mr-2 md:mr-0" }}
       />
     </>
