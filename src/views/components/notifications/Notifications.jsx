@@ -104,6 +104,13 @@ export function Notifications() {
           ),
         });
         break;
+      case HMSNotificationTypes.ROLE_UPDATED:
+        if (notification.data?.isLocal) {
+          hmsToast("", {
+            left: <Text>You are now a {notification.data.roleName}.</Text>,
+          });
+        }
+        break;
       default:
         break;
     }
