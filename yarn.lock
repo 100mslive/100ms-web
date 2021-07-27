@@ -34,10 +34,10 @@
     reselect "^4.0.0"
     zustand "3.5.4"
 
-"@100mslive/hms-video@^0.0.103":
-  version "0.0.103"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.103.tgz#04bb19788f967f0e559ecf2c053d6a8717dd61cd"
-  integrity sha512-caCY/8zr9oTFae9sZ41FjpJlmlQRbQCc5+4qpkEOvBH79X8pG6Bw9nV1yK5AaB2MPvoPYgpL3p26b+kzVxRDVA==
+"@100mslive/hms-video@^0.0.104":
+  version "0.0.104"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.104.tgz#7301f745d07ef166b87d1494ec23976b2799a455"
+  integrity sha512-Z5KBu6ps6xbnMwSex/Htf1WwhRzwgu3kZ0r8AnrYW/zBMluBjtV2R/BFrlfxddFeuXwEvVCpZx6PGsocS/TM3Q==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
