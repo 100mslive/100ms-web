@@ -34,10 +34,10 @@
     reselect "^4.0.0"
     zustand "3.5.4"
 
-"@100mslive/hms-video@^0.0.104":
-  version "0.0.104"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.104.tgz#7301f745d07ef166b87d1494ec23976b2799a455"
-  integrity sha512-Z5KBu6ps6xbnMwSex/Htf1WwhRzwgu3kZ0r8AnrYW/zBMluBjtV2R/BFrlfxddFeuXwEvVCpZx6PGsocS/TM3Q==
+"@100mslive/hms-video@^0.0.105":
+  version "0.0.105"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.105.tgz#844c55e5b5786dca9730ba08e8842fd1ec88b598"
+  integrity sha512-c+bexvMoBG1LgUsWz/4UKhMKaHE8D22PuqtrmMEL8qM0cl+jYcj+aFYeA+TmHGcKsmazM8pB4bDnM36g+SJGBQ==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -1795,6 +1795,7 @@
     loader-utils "^2.0.0"
 
 "@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.4":
+  name tailwindcss
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/@tailwindcss/postcss7-compat/-/postcss7-compat-2.2.7.tgz#5e7e436ed0f4e0ed945d35b1f87189daa681dd1f"
   integrity sha512-1QkWUEeLV1AoNipMCE6IlL7XYScGb+DAzaXy35ooMDvl0G8kCMHBNqGxyVAnTcK8gyJNUzkKXExkUnbjAndd/g==
@@ -5197,6 +5198,9 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/evp_bytestokey/-/evp_bytestokey-1.0.3.tgz#7fcbdb198dc71959432efe13842684e0525acb02"
   integrity sha512-/f2Go4TognH/KvCISP7OUsHn85hT9nUkxxA9BEWxFn+Oj9o8ZNLm/40hdlgSLyuOimsrTKLUMEorQexp/aPQeA==
+  dependencies:
+    md5.js "^1.3.4"
+    safe-buffer "^5.1.1"
 
 exec-sh@^0.3.2:
   version "0.3.6"
