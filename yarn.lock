@@ -34,10 +34,10 @@
     reselect "^4.0.0"
     zustand "3.5.4"
 
-"@100mslive/hms-video@^0.0.105":
-  version "0.0.105"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.105.tgz#844c55e5b5786dca9730ba08e8842fd1ec88b598"
-  integrity sha512-c+bexvMoBG1LgUsWz/4UKhMKaHE8D22PuqtrmMEL8qM0cl+jYcj+aFYeA+TmHGcKsmazM8pB4bDnM36g+SJGBQ==
+"@100mslive/hms-video@^0.0.106":
+  version "0.0.106"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.106.tgz#c290416eb54707065aeba2bc2ef0472cefdf43fe"
+  integrity sha512-53nHdzBne7Ptkh2Qbre+Jv9+Hy9k7OCDp34rFCih/7cKlmmq8NtK0/sio08yH+nb5FS4jcRP8o2ph9yZUEsStg==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -45,7 +45,7 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@^1.2.6":
+"@100mslive/hms-virtual-background@^1.2.7":
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.2.7.tgz#24749a69ba7f33445fb4a9ce04cd521e5ecceb15"
   integrity sha512-ArF1XiK0WrxQcNwFYMYKyiAs9F0c8Sz/R42UhItTLPnTJTFYthM3eNCsgR9OCXfFHsorP8HbhCsjy+F1F3sNkA==
