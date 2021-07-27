@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@100mslive/hms-video": "^0.0.104",
-    "@100mslive/hms-video-react": "^0.3.0",
+    "@100mslive/hms-video-react": "^0.3.1",
     "@100mslive/hms-virtual-background": "^1.2.6",
     "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.4",
