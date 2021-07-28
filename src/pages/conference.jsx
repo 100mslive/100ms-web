@@ -4,7 +4,14 @@ import { useHistory, useParams } from "react-router-dom";
 import { ConferenceHeader } from "../views/headerView";
 import { ConferenceFooter } from "../views/footerView";
 import { ConferenceMainView } from "../views/mainView";
-import { Notifications } from "../views/components/notifications";
+import {
+  Button,
+  MessageModal,
+  selectRoleChangeRequest,
+  useHMSActions,
+  useHMSStore,
+} from "@100mslive/hms-video-react";
+import { Notifications } from "../views/components/notifications/Notifications";
 
 export const Conference = () => {
   const history = useHistory();
@@ -15,6 +22,8 @@ export const Conference = () => {
   const toggleChat = useCallback(() => {
     setIsChatOpen(open => !open);
   }, []);
+  const roleChangeRequest = useHMSStore(selectRoleChangeRequest);
+  const hmsActions = useHMSActions();
 
   const onParticipantListOpen = useCallback(value => {
     setIsParticipantListOpen(value);
@@ -23,13 +32,14 @@ export const Conference = () => {
   const { loginInfo, leave } = context;
 
   useEffect(() => {
-    if (!roomId || !role) {
+    if (!roomId) {
       history.push(`/`);
     }
-
     if (!loginInfo.token) {
       // redirect to join if token not present
-      history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
+      if (role)
+        history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
+      else history.push(`/preview/${loginInfo.roomId || roomId || ""}`);
     }
 
     return () => {
@@ -54,6 +64,26 @@ export const Conference = () => {
       <div className="dark:bg-black" style={{ height: "10%" }}>
         <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
       </div>
+      <MessageModal
+        show={!!roleChangeRequest}
+        title="Role Change Request"
+        body={`Role change requested by ${roleChangeRequest?.requestedBy?.name}.
+              Changing role to ${roleChangeRequest?.role?.name}.`}
+        footer={
+          <div className="flex space-x-1">
+            <Button
+              onClick={() => hmsActions.acceptChangeRole(roleChangeRequest)}
+            >
+              Accept
+            </Button>
+            <Button
+              onClick={() => hmsActions.rejectChangeRole(roleChangeRequest)}
+            >
+              Reject
+            </Button>
+          </div>
+        }
+      />
     </div>
   );
 };

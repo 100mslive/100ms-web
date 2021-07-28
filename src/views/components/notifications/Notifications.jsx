@@ -1,19 +1,20 @@
 import React, { useEffect } from "react";
+import { HMSToastContainer, hmsToast } from "./hms-toast";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
-  hmsToast,
-  HMSToastContainer,
   Text,
   PoorConnectivityIcon,
   ConnectivityIcon,
   PersonIcon,
   Button,
   isMobileDevice,
+  useHMSActions,
 } from "@100mslive/hms-video-react";
 
 export function Notifications() {
   const notification = useHMSNotifications();
+  const hmsActions = useHMSActions();
 
   useEffect(() => {
     if (!notification) {
@@ -41,7 +42,7 @@ export function Notifications() {
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
-        console.log("[Track Added]", notification);
+        console.log("[Track Added] data", notification.data);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
         console.log("[Track Removed]", notification);
@@ -103,9 +104,16 @@ export function Notifications() {
           ),
         });
         break;
+      case HMSNotificationTypes.ROLE_UPDATED:
+        if (notification.data?.isLocal) {
+          hmsToast("", {
+            left: <Text>You are now a {notification.data.roleName}.</Text>,
+          });
+        }
+        break;
       default:
         break;
     }
-  }, [notification]);
+  }, [hmsActions, notification]);
   return <HMSToastContainer />;
 }
