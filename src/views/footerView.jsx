@@ -155,7 +155,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           >
             <ShareScreenIcon />
           </Button>
-          <VerticalDivider key={3} />,
+          <VerticalDivider key={3} />
         </>
       );
     }
