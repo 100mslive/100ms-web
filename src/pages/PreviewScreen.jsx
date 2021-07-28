@@ -11,7 +11,7 @@ import getToken from "../services/tokenService";
 import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Notifications } from "../views/components/notifications";
+import { Notifications } from "../views/components/notifications/Notifications";
 
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
@@ -28,27 +28,27 @@ const PreviewScreen = ({ getUserToken }) => {
 
   useEffect(() => {
     if (!userRole) {
-      getUserToken("a").then(token => setToken(token))
-      .catch(error => {
-        console.error("Token API Error", error);
-        setError({
-          title: "Error fetching token",
-          body: "An error occurred while fetching token. Please look into logs for more details",
-          fatal: true,
+      getUserToken("a")
+        .then(token => setToken(token))
+        .catch(error => {
+          console.error("Token API Error", error);
+          setError({
+            title: "Error fetching token",
+            body: "An error occurred while fetching token. Please look into logs for more details",
+            fatal: true,
+          });
         });
-      });
     } else {
-      getToken(tokenEndpoint, loginInfo.env, "a", userRole, urlRoomId).then(
-        token => setToken(token)
-      )
-      .catch(error => {
-        console.error("Token API Error", error);
-        setError({
-          title: "Error fetching token",
-          body: "An error occurred while fetching token. Please look into logs for more details",
-          fatal: true,
+      getToken(tokenEndpoint, loginInfo.env, "a", userRole, urlRoomId)
+        .then(token => setToken(token))
+        .catch(error => {
+          console.error("Token API Error", error);
+          setError({
+            title: "Error fetching token",
+            body: "An error occurred while fetching token. Please look into logs for more details",
+            fatal: true,
+          });
         });
-      });
     }
   }, [loginInfo.env, tokenEndpoint, urlRoomId, getUserToken, userRole]);
 
@@ -184,16 +184,18 @@ const PreviewScreen = ({ getUserToken }) => {
                   env: loginInfo.env,
                 })}
               />
-            ):(<ProgressIcon width="100" height="100" />)}
+            ) : (
+              <ProgressIcon width="100" height="100" />
+            )}
             {error.title && (
-            <MessageModal
-              title={error.title}
-              body={error.body}
-              onClose={clearError}
-              footer={<Button onClick={clearError}>Dismiss</Button>}
-            />
-          )}
-          <Notifications />
+              <MessageModal
+                title={error.title}
+                body={error.body}
+                onClose={clearError}
+                footer={<Button onClick={clearError}>Dismiss</Button>}
+              />
+            )}
+            <Notifications />
           </div>
         </div>
       );
