@@ -11,9 +11,9 @@ import getToken from "../services/tokenService";
 import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Notifications } from "../views/components/notifications";
+import { Notifications } from "../views/components/notifications/Notifications";
 
-const PreviewScreen = () => {
+const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
   const context = useContext(AppContext);
   const { loginInfo, setLoginInfo, setMaxTileCount, tokenEndpoint } = context;
@@ -27,43 +27,79 @@ const PreviewScreen = () => {
   });
 
   useEffect(() => {
-    getToken(tokenEndpoint, loginInfo.env, "a", userRole, urlRoomId)
-      .then(token => {
-        setToken(token);
-      })
-      .catch(error => {
-        console.error("Token API Error", error);
-        setError({
-          title: "Error fetching token",
-          body: "An error occurred while fetching token. Please look into logs for more details",
-          fatal: true,
+    if (!userRole) {
+      getUserToken("a")
+        .then(token => setToken(token))
+        .catch(error => {
+          console.error("Token API Error", error);
+          setError({
+            title: "Error fetching token",
+            body: "An error occurred while fetching token. Please look into logs for more details",
+            fatal: true,
+          });
         });
-      });
-  }, [loginInfo.env, tokenEndpoint, urlRoomId, userRole]);
+    } else {
+      getToken(tokenEndpoint, loginInfo.env, "a", userRole, urlRoomId)
+        .then(token => setToken(token))
+        .catch(error => {
+          console.error("Token API Error", error);
+          setError({
+            title: "Error fetching token",
+            body: "An error occurred while fetching token. Please look into logs for more details",
+            fatal: true,
+          });
+        });
+    }
+  }, [loginInfo.env, tokenEndpoint, urlRoomId, getUserToken, userRole]);
 
   const join = ({ audioMuted, videoMuted, name }) => {
-    return getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
-      .then(token => {
-        setLoginInfo({
-          token,
-          audioMuted,
-          videoMuted,
-          role: userRole,
-          roomId: urlRoomId,
-          username: name,
+    if (!userRole) {
+      getUserToken(name)
+        .then(token => {
+          setLoginInfo({
+            token,
+            audioMuted,
+            videoMuted,
+            roomId: urlRoomId,
+            username: name,
+          });
+          if (userRole) history.push(`/meeting/${urlRoomId}/${userRole}`);
+          else history.push(`/meeting/${urlRoomId}`);
+        })
+        .catch(error => {
+          console.log("Token API Error", error);
+          setError({
+            title: "Unable to join room",
+            body: "Please check your internet connection and try again.",
+            fatal: false,
+          });
         });
-        // send to meeting room now
-        history.push(`/meeting/${urlRoomId}/${userRole}`);
-      })
-      .catch(error => {
-        console.log("Token API Error", error);
-        setError({
-          title: "Unable to join room",
-          body: "Please check your internet connection and try again.",
-          fatal: false,
+    } else {
+      getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
+        .then(token => {
+          setLoginInfo({
+            token,
+            audioMuted,
+            videoMuted,
+            role: userRole,
+            roomId: urlRoomId,
+            username: name,
+          });
+          // send to meeting room now
+          if (userRole) history.push(`/meeting/${urlRoomId}/${userRole}`);
+          else history.push(`/meeting/${urlRoomId}`);
+        })
+        .catch(error => {
+          console.log("Token API Error", error);
+          setError({
+            title: "Unable to join room",
+            body: "Please check your internet connection and try again.",
+            fatal: false,
+          });
         });
-      });
+    }
   };
+
   const onChange = ({
     selectedVideoInput,
     selectedAudioInput,
@@ -109,7 +145,7 @@ const PreviewScreen = () => {
     );
   }
 
-  if (!urlRoomId || !userRole) {
+  if (!urlRoomId) {
     history.push(`/`);
   } else if (
     (isPreview && urlRoomId === "preview") ||
@@ -118,42 +154,54 @@ const PreviewScreen = () => {
   ) {
     history.push(`/`);
   } else if (!isPreview) {
-    history.push(`/preview/${urlRoomId}/${userRole}`);
+    if (userRole) history.push(`/preview/${urlRoomId}/${userRole}`);
+    else history.push(`/preview/${urlRoomId}`);
   } else if (skipPreview) {
     join({ audioMuted: true, videoMuted: true, name: "beam" });
   } else {
-    return (
-      <div className="h-full">
-        <div className="flex justify-center h-full items-center">
-          {token ? (
-            <Preview
-              joinOnClick={join}
-              goBackOnClick={goBack}
-              messageOnClose={goBack}
-              onChange={onChange}
-              config={convertLoginInfoToJoinConfig({
-                role: userRole,
-                roomId: urlRoomId,
-                token,
-                env: loginInfo.env,
-              })}
-            />
-          ) : (
-            <ProgressIcon width="100" height="100" />
-          )}
-          {error.title && (
-            <MessageModal
-              title={error.title}
-              body={error.body}
-              onClose={clearError}
-              footer={<Button onClick={clearError}>Dismiss</Button>}
-            />
-          )}
-          <Notifications />
+    if (
+      urlRoomId === "preview" ||
+      urlRoomId === "meeting" ||
+      urlRoomId === "leave"
+    ) {
+      history.push(`/`);
+    } else if (!isPreview) {
+      history.push(`/preview/${urlRoomId}`);
+    } else {
+      return (
+        <div className="h-full">
+          <div className="flex justify-center h-full items-center">
+            {token ? (
+              <Preview
+                joinOnClick={join}
+                goBackOnClick={goBack}
+                messageOnClose={goBack}
+                onChange={onChange}
+                config={convertLoginInfoToJoinConfig({
+                  role: userRole,
+                  roomId: urlRoomId,
+                  token,
+                  env: loginInfo.env,
+                })}
+              />
+            ) : (
+              <ProgressIcon width="100" height="100" />
+            )}
+            {error.title && (
+              <MessageModal
+                title={error.title}
+                body={error.body}
+                onClose={clearError}
+                footer={<Button onClick={clearError}>Dismiss</Button>}
+              />
+            )}
+            <Notifications />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
+
   return null;
 };
 
