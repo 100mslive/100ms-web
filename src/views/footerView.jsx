@@ -29,6 +29,7 @@ import {
   selectLocalMediaSettings,
   isMobileDevice,
   selectLocalPeerRole,
+  selectIsAllowedToPublish,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -80,6 +81,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const history = useHistory();
   const params = useParams();
   const pluginRef = useRef(null);
+  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
 
   const initialModalProps = {
     show: false,
@@ -142,7 +144,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   if (!isMobileDevice()) {
     leftComponents.push(<VerticalDivider key={1} />);
-    if (localPeerRole?.publishParams.allowed?.includes("screen")) {
+    if (isAllowedToPublish.screen) {
       leftComponents.push(
         <>
           <Button
@@ -179,7 +181,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
-          localPeerRole?.publishParams.allowed?.includes("audio") ? (
+          isAllowedToPublish.audio ? (
             <Button
               iconOnly
               variant="no-fill"
@@ -193,7 +195,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
             </Button>
           ) : null,
-          localPeerRole?.publishParams.allowed?.includes("video") ? (
+          isAllowedToPublish.video ? (
             <Button
               iconOnly
               variant="no-fill"
@@ -207,7 +209,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
             </Button>
           ) : null,
-          localPeerRole?.publishParams.allowed?.includes("video") ? (
+          isAllowedToPublish.video ? (
             <Button
               iconOnly
               variant="no-fill"
