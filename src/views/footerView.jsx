@@ -28,6 +28,7 @@ import {
   selectUnreadHMSMessagesCount,
   selectLocalMediaSettings,
   isMobileDevice,
+  selectLocalPeerRole,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -86,6 +87,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
+  const localPeerRole = useHMSStore(selectLocalPeerRole);
 
   useEffect(() => {
     async function startPlugin() {
@@ -139,32 +141,36 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const leftComponents = [<SettingsView key={0} />];
 
   if (!isMobileDevice()) {
+    leftComponents.push(<VerticalDivider key={1} />);
+    if (localPeerRole?.publishParams.allowed?.includes("screen")) {
+      leftComponents.push(
+        <>
+          <Button
+            key={2}
+            iconOnly
+            variant="no-fill"
+            iconSize="md"
+            shape="rectangle"
+            onClick={toggleScreenShare}
+          >
+            <ShareScreenIcon />
+          </Button>
+          <VerticalDivider key={3} />,
+        </>
+      );
+    }
     leftComponents.push(
-      ...[
-        <VerticalDivider key={1} />,
-        <Button
-          key={2}
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
-          onClick={toggleScreenShare}
-        >
-          <ShareScreenIcon />
-        </Button>,
-        <VerticalDivider key={3} />,
-        <Button
-          key={4}
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
-          onClick={toggleChat}
-          active={isChatOpen}
-        >
-          {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-        </Button>,
-      ]
+      <Button
+        key={4}
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={toggleChat}
+        active={isChatOpen}
+      >
+        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+      </Button>
     );
   }
 
@@ -173,40 +179,46 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
-          <Button
-            iconOnly
-            variant="no-fill"
-            iconSize="md"
-            classes={{ root: "mr-2" }}
-            shape="rectangle"
-            active={!isLocalAudioEnabled}
-            onClick={toggleAudio}
-            key={0}
-          >
-            {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
-          </Button>,
-          <Button
-            iconOnly
-            variant="no-fill"
-            iconSize="md"
-            classes={{ root: "mr-2" }}
-            shape="rectangle"
-            active={!isLocalVideoEnabled}
-            onClick={toggleVideo}
-            key={1}
-          >
-            {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
-          </Button>,
-          <Button
-            iconOnly
-            variant="no-fill"
-            shape="rectangle"
-            active={showBackground}
-            onClick={() => setShowBackground(!showBackground)}
-            key={2}
-          >
-            <VirtualBackgroundIcon />
-          </Button>,
+          localPeerRole?.publishParams.allowed?.includes("audio") ? (
+            <Button
+              iconOnly
+              variant="no-fill"
+              iconSize="md"
+              classes={{ root: "mr-2" }}
+              shape="rectangle"
+              active={!isLocalAudioEnabled}
+              onClick={toggleAudio}
+              key={0}
+            >
+              {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
+            </Button>
+          ) : null,
+          localPeerRole?.publishParams.allowed?.includes("video") ? (
+            <Button
+              iconOnly
+              variant="no-fill"
+              iconSize="md"
+              classes={{ root: "mr-2" }}
+              shape="rectangle"
+              active={!isLocalVideoEnabled}
+              onClick={toggleVideo}
+              key={1}
+            >
+              {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
+            </Button>
+          ) : null,
+          localPeerRole?.publishParams.allowed?.includes("video") ? (
+            <Button
+              iconOnly
+              variant="no-fill"
+              shape="rectangle"
+              active={showBackground}
+              onClick={() => setShowBackground(!showBackground)}
+              key={2}
+            >
+              <VirtualBackgroundIcon />
+            </Button>
+          ) : null,
         ]}
         rightComponents={[
           <Button
