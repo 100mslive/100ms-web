@@ -28,7 +28,6 @@ import {
   selectUnreadHMSMessagesCount,
   selectLocalMediaSettings,
   isMobileDevice,
-  selectLocalPeerRole,
   selectIsAllowedToPublish,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
@@ -89,7 +88,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
-  const localPeerRole = useHMSStore(selectLocalPeerRole);
 
   useEffect(() => {
     async function startPlugin() {
