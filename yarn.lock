@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.1.tgz#8e7f613d3180c1ba6aa29bf1939496e7daa80046"
-  integrity sha512-AuyWb9ZpJsPSzK+MLLE5xfq3I5Nj39ABT6Dj/9t/QF363OdLtO/SAWMmTSptc1SkdjfVXkTzC53TF96j2JVQlw==
+"@100mslive/hms-video-react@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.3.tgz#74674a22ee769165dfdbbafa286b11185807c7f1"
+  integrity sha512-EBn5ANaZVYPTUotPeAN8uvHLvKfPwaZCo7dh5hK3qF0nFaL/o5jHliRx/u+wLoTleJ66oS9cbhpszoqpXH5OSA==
   dependencies:
-    "@100mslive/hms-video-store" "^0.1.61"
+    "@100mslive/hms-video-store" "^0.2.1"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -25,19 +25,19 @@
     twind "^0.16.12"
     zustand "3.5.4"
 
-"@100mslive/hms-video-store@^0.1.61":
-  version "0.1.61"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.61.tgz#2975857f4e5073d13c40524f409297bf0540cb69"
-  integrity sha512-ujCD9icR8jHXxiQKQEzgNwf2Ua8f9PDrKWyKt2hHkqc0LLwe3aZdO3odabkykuVXD2SIrOj9kyTbyWHxFz6nEw==
+"@100mslive/hms-video-store@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.1.tgz#1448daa4374f9d03310db8707ab96d3f69a77de7"
+  integrity sha512-uIYz76S1RvhivGYvk0BFlM7A+ry226/pqWTJXeA3kB6Xx46XDpFpAKWAfrFDXr55mD11M3Lw24onHLlAr4GOkg==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "3.5.4"
 
-"@100mslive/hms-video@^0.0.107":
-  version "0.0.107"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.107.tgz#fb3dd8f81cd82aebb9a15c67af7a8632b5b997fa"
-  integrity sha512-7m2DaZq2JS88czrX+xU9qU4gFH7GI9v4RrW4/O+/p3Mjmgp4t+JctW3hz1h1qMI0GEhCIPaBzKjoIO86IXBjZw==
+"@100mslive/hms-video@^0.0.108":
+  version "0.0.108"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.108.tgz#8728bdebb1ce106207be958f31ca9165a0007b37"
+  integrity sha512-hmSnD7zFfDn/jl1p0iLyYEg5Tn8ngsNHw6CMEWZyOFSE3gDIXCXQW9kMWW5egpDquSenA6hOURCP56NdvXxcNw==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
