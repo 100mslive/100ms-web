@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.3.tgz#74674a22ee769165dfdbbafa286b11185807c7f1"
-  integrity sha512-EBn5ANaZVYPTUotPeAN8uvHLvKfPwaZCo7dh5hK3qF0nFaL/o5jHliRx/u+wLoTleJ66oS9cbhpszoqpXH5OSA==
+"@100mslive/hms-video-react@0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.4.tgz#3600d69b32fa128566221688f62c6478e9908c6c"
+  integrity sha512-rCSaEeqwTOA47y8loKhTFid580E1LDXbsWuJvLzHBdRRHgXpJsyX9RxeJnKxP6qeV4fjT5BroEY6THcYWkwi9Q==
   dependencies:
     "@100mslive/hms-video-store" "^0.2.1"
     "@material-ui/core" "^4.11.3"
@@ -5198,9 +5198,6 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/evp_bytestokey/-/evp_bytestokey-1.0.3.tgz#7fcbdb198dc71959432efe13842684e0525acb02"
   integrity sha512-/f2Go4TognH/KvCISP7OUsHn85hT9nUkxxA9BEWxFn+Oj9o8ZNLm/40hdlgSLyuOimsrTKLUMEorQexp/aPQeA==
-  dependencies:
-    md5.js "^1.3.4"
-    safe-buffer "^5.1.1"
 
 exec-sh@^0.3.2:
   version "0.3.6"
