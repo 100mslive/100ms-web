@@ -34,10 +34,10 @@
     reselect "^4.0.0"
     zustand "3.5.4"
 
-"@100mslive/hms-video@^0.0.110":
-  version "0.0.110"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.110.tgz#ef7d468b60938e1f5e8a00153283c58129517750"
-  integrity sha512-oaSIp6WWiIVCmCI7sDd8RPB8yAh31Yoi9IcClV6HfpBCufAGLYNDH8MNUxNzdVLJzGmr1RKnQe7UzqQY+gaiuA==
+"@100mslive/hms-video@^0.0.112":
+  version "0.0.112"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.112.tgz#ad854ca46db44585902d849b2152c3b046d4d6a4"
+  integrity sha512-2rbn+CVhqJOLsxSLr/7SnSYYKiFW7PHEXY0sHlOpsncnsnLN2bsTasMJ1YPAnZUDOp6MwAWTQD3JHlwOfI8ViA==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -5198,9 +5198,6 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/evp_bytestokey/-/evp_bytestokey-1.0.3.tgz#7fcbdb198dc71959432efe13842684e0525acb02"
   integrity sha512-/f2Go4TognH/KvCISP7OUsHn85hT9nUkxxA9BEWxFn+Oj9o8ZNLm/40hdlgSLyuOimsrTKLUMEorQexp/aPQeA==
-  dependencies:
-    md5.js "^1.3.4"
-    safe-buffer "^5.1.1"
 
 exec-sh@^0.3.2:
   version "0.3.6"
