@@ -144,19 +144,17 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     leftComponents.push(<VerticalDivider key={1} />);
     if (isAllowedToPublish.screen) {
       leftComponents.push(
-        <>
-          <Button
-            key={2}
-            iconOnly
-            variant="no-fill"
-            iconSize="md"
-            shape="rectangle"
-            onClick={toggleScreenShare}
-          >
-            <ShareScreenIcon />
-          </Button>
-          <VerticalDivider key={3} />,
-        </>
+        <Button
+          key={2}
+          iconOnly
+          variant="no-fill"
+          iconSize="md"
+          shape="rectangle"
+          onClick={toggleScreenShare}
+        >
+          <ShareScreenIcon />
+        </Button>,
+        <VerticalDivider key={3} />
       );
     }
     leftComponents.push(
