@@ -89,8 +89,8 @@ export function Notifications() {
                   classes={{
                     root: "self-center mr-2",
                   }}
-                  onClick={() => {
-                    hmsActions.unblockAudio();
+                  onClick={async () => {
+                    await hmsActions.unblockAudio();
                     if (clearToast) {
                       clearToast();
                     }
