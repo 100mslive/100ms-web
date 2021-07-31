@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.6.tgz#87c91b45717f1499bd448a488a863558db150d3a"
-  integrity sha512-KTQ5QTngUa6ltOXGfA7E2LKeMLTYoM3Kb/6FmCOBwyf/BVNqcG6Cvb/Z6hjuHgGdgA9emddIbtxT4dPfKk+yZg==
+"@100mslive/hms-video-react@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.7.tgz#9a85b89688355dd68fd17283a892d74a4d2172a9"
+  integrity sha512-Ibz2FTFfjIG/NrtwsYykEXJSQEW/LFbLwUMTp5G7UNa3pV52SfwNKqZ+eniBvCRvZw4M3TPtnGswmGTd9mmA4Q==
   dependencies:
-    "@100mslive/hms-video-store" "^0.2.1"
+    "@100mslive/hms-video-store" "^0.2.2"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -25,19 +25,19 @@
     twind "^0.16.12"
     zustand "3.5.4"
 
-"@100mslive/hms-video-store@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.1.tgz#1448daa4374f9d03310db8707ab96d3f69a77de7"
-  integrity sha512-uIYz76S1RvhivGYvk0BFlM7A+ry226/pqWTJXeA3kB6Xx46XDpFpAKWAfrFDXr55mD11M3Lw24onHLlAr4GOkg==
+"@100mslive/hms-video-store@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.2.tgz#0b086612c7b9723d78b471b7837b7645071d8146"
+  integrity sha512-cuyrUuJyEPS2h5MENCF9ZT0iu9R/WdQKsesV4MKKpTgo/ueHa3a+UZ9s+6cL/p7svpjfjkadIA4GSWBAq5KKqA==
   dependencies:
     immer "^9.0.2"
     reselect "^4.0.0"
     zustand "3.5.4"
 
-"@100mslive/hms-video@^0.0.108":
-  version "0.0.108"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.108.tgz#8728bdebb1ce106207be958f31ca9165a0007b37"
-  integrity sha512-hmSnD7zFfDn/jl1p0iLyYEg5Tn8ngsNHw6CMEWZyOFSE3gDIXCXQW9kMWW5egpDquSenA6hOURCP56NdvXxcNw==
+"@100mslive/hms-video@^0.0.112":
+  version "0.0.112"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.112.tgz#ad854ca46db44585902d849b2152c3b046d4d6a4"
+  integrity sha512-2rbn+CVhqJOLsxSLr/7SnSYYKiFW7PHEXY0sHlOpsncnsnLN2bsTasMJ1YPAnZUDOp6MwAWTQD3JHlwOfI8ViA==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
