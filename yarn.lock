@@ -45,6 +45,17 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
+"@100mslive/hms-video@^0.0.55":
+  version "0.0.55"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.55.tgz#d122a5a328d16e3c5e875137711525bf89c319af"
+  integrity sha512-nS/jmauPqSZaWl0ErpkrqypZdDrGhFjLlrGONPyoZuA7C+ty/tQn+WZVA5JyWMwdYXtGAxAwLyqPlHvMMCVZCg==
+  dependencies:
+    bowser "^2.11.0"
+    events "^3.3.0"
+    sdp-transform "^2.14.1"
+    uuid "^8.3.2"
+    webrtc-adapter "^8.0.0"
+
 "@100mslive/hms-virtual-background@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.3.0.tgz#1aefb817b505038be92a9ab3355378ea97f7856a"
@@ -3217,6 +3228,11 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
+
+bowser@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.11.0.tgz#5ca3c35757a7aa5771500c70a73a9f91ef420a8f"
+  integrity sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==
 
 brace-expansion@^1.1.7:
   version "1.1.11"

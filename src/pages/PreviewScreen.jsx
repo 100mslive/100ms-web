@@ -12,6 +12,9 @@ import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Notifications } from "../views/components/notifications/Notifications";
+import { getRandomUserID } from "../common/utils";
+
+const userID = getRandomUserID();
 
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
@@ -28,24 +31,26 @@ const PreviewScreen = ({ getUserToken }) => {
 
   useEffect(() => {
     if (!userRole) {
-      getUserToken("a")
+      getUserToken(userID)
         .then(token => setToken(token))
         .catch(error => {
           console.error("Token API Error", error);
           setError({
             title: "Error fetching token",
-            body: "An error occurred while fetching token. Please look into logs for more details",
+            body:
+              "An error occurred while fetching token. Please look into logs for more details",
             fatal: true,
           });
         });
     } else {
-      getToken(tokenEndpoint, loginInfo.env, "a", userRole, urlRoomId)
+      getToken(tokenEndpoint, loginInfo.env, userID, userRole, urlRoomId)
         .then(token => setToken(token))
         .catch(error => {
           console.error("Token API Error", error);
           setError({
             title: "Error fetching token",
-            body: "An error occurred while fetching token. Please look into logs for more details",
+            body:
+              "An error occurred while fetching token. Please look into logs for more details",
             fatal: true,
           });
         });
