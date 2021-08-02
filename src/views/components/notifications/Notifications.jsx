@@ -77,6 +77,35 @@ export function Notifications() {
           });
           return;
         }
+        if (notification.data?.code === 3008) {
+          const { clearToast } = hmsToast("", {
+            center: (
+              <div className="flex">
+                <Text classes={{ root: "mr-2" }}>
+                  {notification.data?.message}
+                </Text>
+                <Button
+                  variant="emphasized"
+                  classes={{
+                    root: "self-center mr-2",
+                  }}
+                  onClick={async () => {
+                    await hmsActions.unblockAudio();
+                    if (clearToast) {
+                      clearToast();
+                    }
+                  }}
+                >
+                  Unblock
+                </Button>
+              </div>
+            ),
+            toastProps: {
+              autoClose: false,
+            },
+          });
+          return;
+        }
         hmsToast("", {
           left: (
             <Text classes={{ root: "flex" }}>
