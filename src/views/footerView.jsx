@@ -31,7 +31,16 @@ import {
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
+
 import { AppContext } from "../store/AppContext";
+
+let imageChangeTimerID = 0;
+const TIMER = 60000;
+
+let urlOfImages = [
+  'https://www.100ms.live/images/vb-1.jpeg',
+  'https://www.100ms.live/images/vb-2.jpg',
+];
 
 const SettingsView = () => {
   const hmsActions = useHMSActions();
@@ -76,9 +85,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
   const [showBackground, setShowBackground] = useState(false);
+
   const history = useHistory();
   const params = useParams();
   const pluginRef = useRef(null);
+  const imageRef = useRef(null);
 
   const initialModalProps = {
     show: false,
@@ -88,15 +99,37 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
   useEffect(() => {
+    async function setBackground(plugin){
+      let randomIdx = Math.floor(Math.random()*urlOfImages.length);
+      imageRef.current.onload = () =>{
+        if(imageRef.current){
+          plugin.setBackground(imageRef.current);
+        }
+        imageChangeTimerID = setTimeout(() =>{
+          setBackground(plugin);
+        },TIMER);
+      }
+      imageRef.current.onerror = () =>{
+        //TODO;
+      }
+      imageRef.current.src = urlOfImages[randomIdx];
+    }
     async function startPlugin() {
       if (!pluginRef.current) {
-        pluginRef.current = new HMSVirtualBackgroundPlugin("blur");
+        pluginRef.current = new HMSVirtualBackgroundPlugin('blur');
       }
       await hmsActions.addPluginToVideoTrack(pluginRef.current);
+      imageChangeTimerID = setTimeout(() =>{
+        if(pluginRef.current){
+          setBackground(pluginRef.current);
+        }
+      },TIMER)
     }
     async function removePlugin() {
       if (pluginRef.current) {
+        clearTimeout(imageChangeTimerID);
         await hmsActions.removePluginFromVideoTrack(pluginRef.current);
+        pluginRef.current = null;
       }
     }
     if (showBackground) {
@@ -206,7 +239,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             key={2}
           >
             <VirtualBackgroundIcon />
-          </Button>,
+          </Button>
         ]}
         rightComponents={[
           <Button
@@ -236,6 +269,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         {...errorModal}
         onClose={() => setErrorModal(initialModalProps)}
       />
+      <img alt='Vb' ref={imageRef} />
     </>
   ) : null;
 };
