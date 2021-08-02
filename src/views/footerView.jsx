@@ -28,9 +28,11 @@ import {
   selectUnreadHMSMessagesCount,
   selectLocalMediaSettings,
   isMobileDevice,
+  selectIsAllowedToPublish,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
+import { getRandomVirtualBackground } from "../common/utils";
 import { AppContext } from "../store/AppContext";
 
 const SettingsView = () => {
@@ -79,6 +81,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const history = useHistory();
   const params = useParams();
   const pluginRef = useRef(null);
+  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
 
   const initialModalProps = {
     show: false,
@@ -88,15 +91,19 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
   useEffect(() => {
+
     async function startPlugin() {
       if (!pluginRef.current) {
-        pluginRef.current = new HMSVirtualBackgroundPlugin("blur");
+        pluginRef.current = new HMSVirtualBackgroundPlugin('none');
+        await pluginRef.current.setBackground(getRandomVirtualBackground());
+        await hmsActions.addPluginToVideoTrack(pluginRef.current);
       }
-      await hmsActions.addPluginToVideoTrack(pluginRef.current);
     }
+
     async function removePlugin() {
       if (pluginRef.current) {
         await hmsActions.removePluginFromVideoTrack(pluginRef.current);
+        pluginRef.current = null;
       }
     }
     if (showBackground) {
@@ -139,9 +146,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const leftComponents = [<SettingsView key={0} />];
 
   if (!isMobileDevice()) {
-    leftComponents.push(
-      ...[
-        <VerticalDivider key={1} />,
+    leftComponents.push(<VerticalDivider key={1} />);
+    if (isAllowedToPublish.screen) {
+      leftComponents.push(
         <Button
           key={2}
           iconOnly
@@ -152,19 +159,21 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         >
           <ShareScreenIcon />
         </Button>,
-        <VerticalDivider key={3} />,
-        <Button
-          key={4}
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
-          onClick={toggleChat}
-          active={isChatOpen}
-        >
-          {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-        </Button>,
-      ]
+        <VerticalDivider key={3} />
+      );
+    }
+    leftComponents.push(
+      <Button
+        key={4}
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={toggleChat}
+        active={isChatOpen}
+      >
+        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+      </Button>
     );
   }
 
@@ -173,40 +182,46 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
-          <Button
-            iconOnly
-            variant="no-fill"
-            iconSize="md"
-            classes={{ root: "mr-2" }}
-            shape="rectangle"
-            active={!isLocalAudioEnabled}
-            onClick={toggleAudio}
-            key={0}
-          >
-            {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
-          </Button>,
-          <Button
-            iconOnly
-            variant="no-fill"
-            iconSize="md"
-            classes={{ root: "mr-2" }}
-            shape="rectangle"
-            active={!isLocalVideoEnabled}
-            onClick={toggleVideo}
-            key={1}
-          >
-            {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
-          </Button>,
-          <Button
-            iconOnly
-            variant="no-fill"
-            shape="rectangle"
-            active={showBackground}
-            onClick={() => setShowBackground(!showBackground)}
-            key={2}
-          >
-            <VirtualBackgroundIcon />
-          </Button>,
+          isAllowedToPublish.audio ? (
+            <Button
+              iconOnly
+              variant="no-fill"
+              iconSize="md"
+              classes={{ root: "mr-2" }}
+              shape="rectangle"
+              active={!isLocalAudioEnabled}
+              onClick={toggleAudio}
+              key={0}
+            >
+              {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
+            </Button>
+          ) : null,
+          isAllowedToPublish.video ? (
+            <Button
+              iconOnly
+              variant="no-fill"
+              iconSize="md"
+              classes={{ root: "mr-2" }}
+              shape="rectangle"
+              active={!isLocalVideoEnabled}
+              onClick={toggleVideo}
+              key={1}
+            >
+              {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
+            </Button>
+          ) : null,
+          isAllowedToPublish.video ? (
+            <Button
+              iconOnly
+              variant="no-fill"
+              shape="rectangle"
+              active={showBackground}
+              onClick={() => setShowBackground(!showBackground)}
+              key={2}
+            >
+              <VirtualBackgroundIcon />
+            </Button>
+          ) : null,
         ]}
         rightComponents={[
           <Button
