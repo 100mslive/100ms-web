@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.1.tgz#8e7f613d3180c1ba6aa29bf1939496e7daa80046"
-  integrity sha512-AuyWb9ZpJsPSzK+MLLE5xfq3I5Nj39ABT6Dj/9t/QF363OdLtO/SAWMmTSptc1SkdjfVXkTzC53TF96j2JVQlw==
+"@100mslive/hms-video-react@^0.3.8":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.8.tgz#d342cd04e420b1b30dda88cff29380bfe2c1a116"
+  integrity sha512-ZDuqe72/9lW9rnZyYRnOE2hoSjlJ0/6u7hPPWgJDx67Voxcql50BuwhV1Lrkp4uiA6azD8WzioZhE4M5Q6CtKQ==
   dependencies:
-    "@100mslive/hms-video-store" "^0.1.61"
+    "@100mslive/hms-video-store" "^0.2.3"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -23,21 +23,21 @@
     tailwind-percentage-heights-plugin "^0.1.4"
     tailwindcss "npm:@tailwindcss/postcss7-compat@^2.1.2"
     twind "^0.16.12"
-    zustand "3.5.4"
+    zustand "3.5.7"
 
-"@100mslive/hms-video-store@^0.1.61":
-  version "0.1.61"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.1.61.tgz#2975857f4e5073d13c40524f409297bf0540cb69"
-  integrity sha512-ujCD9icR8jHXxiQKQEzgNwf2Ua8f9PDrKWyKt2hHkqc0LLwe3aZdO3odabkykuVXD2SIrOj9kyTbyWHxFz6nEw==
+"@100mslive/hms-video-store@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.3.tgz#aebea1393a61f4f61d69da55e49a126dd8bf30c9"
+  integrity sha512-/a0CxyR1pQ/7LwR4hokgmUzhGioqj0rwlcDWw6+HuQurRZmd9WuOHADDexR3jhf00lRfuiC2uSrlpN00It8abA==
   dependencies:
-    immer "^9.0.2"
+    immer "^9.0.5"
     reselect "^4.0.0"
-    zustand "3.5.4"
+    zustand "3.5.7"
 
-"@100mslive/hms-video@^0.0.105":
-  version "0.0.105"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.105.tgz#844c55e5b5786dca9730ba08e8842fd1ec88b598"
-  integrity sha512-c+bexvMoBG1LgUsWz/4UKhMKaHE8D22PuqtrmMEL8qM0cl+jYcj+aFYeA+TmHGcKsmazM8pB4bDnM36g+SJGBQ==
+"@100mslive/hms-video@^0.0.113":
+  version "0.0.113"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.113.tgz#9c8317c1c507471dabee618f555bd56ec4731abd"
+  integrity sha512-cljyrWPSdN4cCpl1yObdPW3FLdaV2Zt49+BZLJLmw6W3QyJkdVNvNFWsPPgEBlyGdqlXphm3yQd5myyUdwFnPw==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -45,7 +45,7 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@^1.2.6":
+"@100mslive/hms-virtual-background@^1.2.7":
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.2.7.tgz#24749a69ba7f33445fb4a9ce04cd521e5ecceb15"
   integrity sha512-ArF1XiK0WrxQcNwFYMYKyiAs9F0c8Sz/R42UhItTLPnTJTFYthM3eNCsgR9OCXfFHsorP8HbhCsjy+F1F3sNkA==
@@ -6169,7 +6169,7 @@ immer@8.0.1:
   resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
   integrity sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA==
 
-immer@^9.0.2:
+immer@^9.0.5:
   version "9.0.5"
   resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.5.tgz#a7154f34fe7064f15f00554cc94c66cc0bf453ec"
   integrity sha512-2WuIehr2y4lmYz9gaQzetPR2ECniCifk4ORaQbU3g5EalLt+0IVTosEPJ5BoYl/75ky2mivzdRzV8wWgQGOSYQ==
@@ -12672,10 +12672,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zustand@3.5.4:
-  version "3.5.4"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.5.4.tgz#9050a15042ced663b10588327b9210df91f0e13e"
-  integrity sha512-EtS3D83il8eiydRS+xUcpczffT0MpD9ePIqAT10ns2tfzPvq85nmMmYJl9mOLOJjPLaXAMK8lgk0iCz2h7CxGg==
+zustand@3.5.7:
+  version "3.5.7"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.5.7.tgz#add5e8d0ba031ce6e0ddf9cb76ef15306efb665f"
+  integrity sha512-DlVFXJavIHyXTOGz6dB+8QHZsPyJcGJSEBtlp2Ivmd5SwtlCnhPo3L8LB6YRfAOJC2PbqzgoD8NMjk+y+vIF0g==
 
 zwitch@^1.0.0:
   version "1.0.5"

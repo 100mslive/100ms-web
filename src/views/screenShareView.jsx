@@ -27,9 +27,9 @@ export const ScreenShareView = ({
     [peers, peerPresenting]
   );
 
-  const amITeacher = localPeer?.role.toLowerCase() === ROLES.TEACHER;
+  const amITeacher = localPeer?.roleName.toLowerCase() === ROLES.TEACHER;
   const isPresenterTeacher =
-    peerPresenting?.role.toLowerCase() === ROLES.TEACHER;
+    peerPresenting?.roleName.toLowerCase() === ROLES.TEACHER;
   const amIPresenting = localPeer && localPeer.id === peerPresenting?.id;
   const showPresenterInSmallTile =
     amIPresenting || (amITeacher && isPresenterTeacher);
