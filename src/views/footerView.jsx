@@ -32,6 +32,7 @@ import {
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
+import { getRandomVirtualBackground } from "../common/utils";
 import { AppContext } from "../store/AppContext";
 
 const SettingsView = () => {
@@ -90,15 +91,19 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
   useEffect(() => {
+
     async function startPlugin() {
       if (!pluginRef.current) {
-        pluginRef.current = new HMSVirtualBackgroundPlugin("blur");
+        pluginRef.current = new HMSVirtualBackgroundPlugin('none');
+        await pluginRef.current.setBackground(getRandomVirtualBackground());
+        await hmsActions.addPluginToVideoTrack(pluginRef.current);
       }
-      await hmsActions.addPluginToVideoTrack(pluginRef.current);
     }
+
     async function removePlugin() {
       if (pluginRef.current) {
         await hmsActions.removePluginFromVideoTrack(pluginRef.current);
+        pluginRef.current = null;
       }
     }
     if (showBackground) {
