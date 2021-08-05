@@ -28,6 +28,7 @@ import {
   selectUnreadHMSMessagesCount,
   isMobileDevice,
   selectIsAllowedToPublish,
+  selectIsLocalVideoPluginPresent,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -56,6 +57,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
+  const isVBPresent = useHMSStore(
+    selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
+  );
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
   const [showBackground, setShowBackground] = useState(false);
@@ -70,6 +74,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
+
+  useEffect(() => {
+    setShowBackground(isVBPresent);
+  }, [isVBPresent]);
 
   useEffect(() => {
     async function startPlugin() {
