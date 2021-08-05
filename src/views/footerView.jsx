@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
+import React, { useState, useCallback, useContext, useRef } from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -62,7 +56,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   );
   const hmsActions = useHMSActions();
   const { isConnected, leave } = useContext(AppContext);
-  const [showBackground, setShowBackground] = useState(false);
   const history = useHistory();
   const params = useParams();
   const pluginRef = useRef(null);
@@ -75,31 +68,24 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
-  useEffect(() => {
-    setShowBackground(isVBPresent);
-  }, [isVBPresent]);
+  async function startPlugin() {
+    if (!pluginRef.current) {
+      pluginRef.current = new HMSVirtualBackgroundPlugin("none");
+    }
+    await pluginRef.current.setBackground(getRandomVirtualBackground());
+    await hmsActions.addPluginToVideoTrack(pluginRef.current);
+  }
 
-  useEffect(() => {
-    async function startPlugin() {
-      if (!pluginRef.current) {
-        pluginRef.current = new HMSVirtualBackgroundPlugin("none");
-        await pluginRef.current.setBackground(getRandomVirtualBackground());
-        await hmsActions.addPluginToVideoTrack(pluginRef.current);
-      }
+  async function removePlugin() {
+    if (pluginRef.current) {
+      await hmsActions.removePluginFromVideoTrack(pluginRef.current);
+      pluginRef.current = null;
     }
+  }
 
-    async function removePlugin() {
-      if (pluginRef.current) {
-        await hmsActions.removePluginFromVideoTrack(pluginRef.current);
-        pluginRef.current = null;
-      }
-    }
-    if (showBackground) {
-      startPlugin();
-    } else {
-      removePlugin();
-    }
-  }, [showBackground]); //eslint-disable-line
+  function handleVirtualBackground() {
+    isVBPresent ? removePlugin() : startPlugin();
+  }
 
   const toggleAudio = useCallback(async () => {
     try {
@@ -203,8 +189,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               iconOnly
               variant="no-fill"
               shape="rectangle"
-              active={showBackground}
-              onClick={() => setShowBackground(!showBackground)}
+              active={isVBPresent}
+              onClick={handleVirtualBackground}
               key={2}
             >
               <VirtualBackgroundIcon />
@@ -230,10 +216,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         ]}
         audioButtonOnClick={toggleAudio}
         videoButtonOnClick={toggleVideo}
-        backgroundButtonOnClick={() => setShowBackground(!showBackground)}
+        backgroundButtonOnClick={handleVirtualBackground}
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
-        isBackgroundEnabled={showBackground}
+        isBackgroundEnabled={isVBPresent}
       />
       <MessageModal
         {...errorModal}
