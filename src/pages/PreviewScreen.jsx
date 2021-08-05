@@ -174,8 +174,7 @@ const PreviewScreen = ({ getUserToken }) => {
             {token ? (
               <Preview
                 joinOnClick={join}
-                goBackOnClick={goBack}
-                messageOnClose={goBack}
+                errorOnClick={goBack}
                 onChange={onChange}
                 config={convertLoginInfoToJoinConfig({
                   role: userRole,
