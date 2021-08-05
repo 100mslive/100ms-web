@@ -26,7 +26,6 @@ import {
   selectIsLocalAudioEnabled,
   selectIsLocalVideoDisplayEnabled,
   selectUnreadHMSMessagesCount,
-  selectLocalMediaSettings,
   isMobileDevice,
   selectIsAllowedToPublish,
 } from "@100mslive/hms-video-react";
@@ -36,34 +35,16 @@ import { getRandomVirtualBackground } from "../common/utils";
 import { AppContext } from "../store/AppContext";
 
 const SettingsView = () => {
-  const hmsActions = useHMSActions();
-  const { setMaxTileCount } = useContext(AppContext);
-  const { audioInputDeviceId, videoInputDeviceId, audioOutputDeviceId } =
-    useHMSStore(selectLocalMediaSettings);
+  const { setMaxTileCount, maxTileCount } = useContext(AppContext);
 
-  const onChange = ({
-    maxTileCount: newMaxTileCount,
-    selectedVideoInput: newSelectedVideoInput,
-    selectedAudioInput: newSelectedAudioInput,
-    selectedAudioOutput: newSelectedAudioOuput,
-  }) => {
-    setMaxTileCount(newMaxTileCount);
-    if (audioInputDeviceId !== newSelectedAudioInput) {
-      hmsActions.setAudioSettings({ deviceId: newSelectedAudioInput });
-    }
-
-    if (videoInputDeviceId !== newSelectedVideoInput) {
-      hmsActions.setVideoSettings({ deviceId: newSelectedVideoInput });
-    }
-
-    if (audioOutputDeviceId !== newSelectedAudioOuput) {
-      hmsActions.setAudioOutputDevice(newSelectedAudioOuput);
-    }
+  const onChange = count => {
+    setMaxTileCount(count);
   };
   return (
     <>
       <Settings
-        onChange={onChange}
+        onTileCountChange={onChange}
+        maxTileCount={maxTileCount}
         classes={{ sliderContainer: "hidden md:block", root: "mr-2 md:mr-0" }}
       />
     </>
@@ -91,10 +72,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
   useEffect(() => {
-
     async function startPlugin() {
       if (!pluginRef.current) {
-        pluginRef.current = new HMSVirtualBackgroundPlugin('none');
+        pluginRef.current = new HMSVirtualBackgroundPlugin("none");
         await pluginRef.current.setBackground(getRandomVirtualBackground());
         await hmsActions.addPluginToVideoTrack(pluginRef.current);
       }
