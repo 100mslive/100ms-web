@@ -9,7 +9,7 @@ import {
   convertLoginInfoToJoinConfig,
   setUpLogRocket,
 } from "./appContextUtils";
-import { getBackendEndpoint } from "../services/tokenService";
+// import { getBackendEndpoint } from "../services/tokenService";
 
 const AppContext = React.createContext(null);
 
@@ -86,7 +86,7 @@ const AppContextProvider = ({
         maxTileCount: state.maxTileCount,
         isConnected: isConnected,
         leave: customLeave,
-        tokenEndpoint,
+        tokenEndpoint: defaultTokenEndpoint,
       }}
     >
       {children}
