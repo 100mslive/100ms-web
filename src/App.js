@@ -22,6 +22,8 @@ const defaultTokenEndpoint = process.env
     }/`
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
+console.log("TOKEN END POINT", process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT);
+
 export function EdtechComponent({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
