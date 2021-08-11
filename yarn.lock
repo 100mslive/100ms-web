@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.3.23":
-  version "0.3.23"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.23.tgz#cab87e187fa71a4e0b0af1e3267cb25dabae8dbd"
-  integrity sha512-DdiQhqbf9XmW18xXNYeNVlsfXEUoK4K0IC/QL/QhiiS9VbaILCflH1E1eLiFUkSiwj5n0vSkcUfEjbvFGsHjbQ==
+"@100mslive/hms-video-react@^0.3.24":
+  version "0.3.24"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.24.tgz#f8b7e847f894113c395f96a726f249bfde3dfc12"
+  integrity sha512-rdUBjBW/9YxeODcdmFv9LqgUZPfVHFwyfKhiAJao95TNVKxPFuOEmHsBPB8cV+b/Vto/7WlA85Pmy8mzwySscg==
   dependencies:
-    "@100mslive/hms-video-store" "^0.2.11"
+    "@100mslive/hms-video-store" "^0.2.12"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -25,10 +25,10 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@^0.2.11":
-  version "0.2.11"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.11.tgz#f3508453edd3e11d77b2ff0d3b4af6ad104e1b92"
-  integrity sha512-aYqjEKDqJRUHuIFroghnKCwCJfQiItotomZqiM6at4rBjXC3ApoH2+0wkOgHV5iou9MH7+8B0pvmSIBcwUhVQQ==
+"@100mslive/hms-video-store@^0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.12.tgz#8f0134d6cc191c8b2c74f7e17b99a02d05de5d68"
+  integrity sha512-CoGI5IPl7rBM2/ZMf/lKfFxrLtMiYj4rB3s70Sm7W8K9q+ZD4KcvPT5X4RBIhlBoDGQkpg99cSLEmO4ozMjvxw==
   dependencies:
     immer "^9.0.5"
     reselect "^4.0.0"

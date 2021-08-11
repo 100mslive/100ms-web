@@ -11,6 +11,7 @@ import {
   isMobileDevice,
   useHMSActions,
 } from "@100mslive/hms-video-react";
+import { TrackUnmuteModal } from "./TrackUnmuteModal";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -140,9 +141,26 @@ export function Notifications() {
           });
         }
         break;
+      case HMSNotificationTypes.CHANGE_TRACK_STATE_REQUEST:
+        if (!notification.data.enabled) {
+          hmsToast("", {
+            left: (
+              <Text>
+                Your {notification.data?.track.type} was muted by{" "}
+                {notification.data.requestedBy.name}.
+              </Text>
+            ),
+          });
+        }
+        break;
       default:
         break;
     }
   }, [hmsActions, notification]);
-  return <HMSToastContainer />;
+  return (
+    <>
+      <HMSToastContainer />
+      <TrackUnmuteModal notification={notification} />
+    </>
+  );
 }
