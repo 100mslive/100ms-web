@@ -42,7 +42,7 @@ cp example.env .env
 
 ### Get the token generation endpoint
 
-Get your token generation endpoint from the [Developer section of 100ms' Dashboard](https://dashboard.100ms.live/developer)
+Get your [token generation](https://docs.100ms.live/javascript/v2/guides/token) endpoint from the [Developer section of 100ms' Dashboard](https://dashboard.100ms.live/developer)
 
 Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with your token generation service endpoint (eg. `https://prod-in.100ms.live/hmsapi/example.app.100ms.live/`)
 
