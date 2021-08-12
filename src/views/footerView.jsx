@@ -23,6 +23,7 @@ import {
   isMobileDevice,
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
+  selectIsAllowedToEndRoom,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -60,6 +61,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const params = useParams();
   const pluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
+  const isAllowedToEndRoom = useHMSStore(selectIsAllowedToEndRoom);
 
   const initialModalProps = {
     show: false,
@@ -116,6 +118,14 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       }
     }
   }, [hmsActions, isScreenShared]);
+
+  function redirectToLeave() {
+    if (params.role) {
+      history.push("/leave/" + params.roomId + "/" + params.role);
+    } else {
+      history.push("/leave/" + params.roomId);
+    }
+  }
 
   const leftComponents = [<SettingsView key={0} />];
 
@@ -198,6 +208,21 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           ) : null,
         ]}
         rightComponents={[
+          isAllowedToEndRoom ? (
+            <Button
+              key={1}
+              size="md"
+              shape="rectangle"
+              variant="danger"
+              classes={{ root: "mr-2" }}
+              onClick={() => {
+                hmsActions.endRoom(false, "End Room");
+                redirectToLeave();
+              }}
+            >
+              End room
+            </Button>
+          ) : null,
           <Button
             key={0}
             size="md"
@@ -205,9 +230,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             variant="danger"
             onClick={() => {
               leave();
-              if (params.role)
-                history.push("/leave/" + params.roomId + "/" + params.role);
-              else history.push("/leave/" + params.roomId);
+              redirectToLeave();
             }}
           >
             <HangUpIcon className="mr-2" />
@@ -220,6 +243,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
         isBackgroundEnabled={isVBPresent}
+        classes={{
+          rightRoot: "flex",
+        }}
       />
       <MessageModal
         {...errorModal}

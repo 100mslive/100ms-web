@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { HMSToastContainer, hmsToast } from "./hms-toast";
+import { useHistory, useParams } from "react-router-dom";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
@@ -11,11 +11,14 @@ import {
   isMobileDevice,
   useHMSActions,
 } from "@100mslive/hms-video-react";
+import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
 
 export function Notifications() {
   const notification = useHMSNotifications();
   const hmsActions = useHMSActions();
+  const history = useHistory();
+  const params = useParams();
 
   useEffect(() => {
     if (!notification) {
@@ -153,10 +156,22 @@ export function Notifications() {
           });
         }
         break;
+      case HMSNotificationTypes.ROOM_ENDED:
+        hmsToast("", {
+          left: <Text>{notification.message}.</Text>,
+        });
+        setTimeout(() => {
+          if (params.role) {
+            history.push("/leave/" + params.roomId + "/" + params.role);
+          } else {
+            history.push("/leave/" + params.roomId);
+          }
+        }, 2000);
+        break;
       default:
         break;
     }
-  }, [hmsActions, notification]);
+  }, [hmsActions, notification]); //eslint-disable-line
   return (
     <>
       <HMSToastContainer />
