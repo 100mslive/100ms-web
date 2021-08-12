@@ -13,15 +13,15 @@
 
 This is an example React app to demo [100ms' React SDK](https://www.npmjs.com/package/@100mslive/hms-video-react).
   
-Not using React? Find the [Javascript Quickstart here](https://docs.100ms.live/javascript/v2/guides/javascript-quickstart)
+Not using React? Find the [Javascript Quickstart here](https://docs.100ms.live/javascript/v2/guides/javascript-quickstart).
 
 ## Prerequisites
 
-You will need [Node.js](https://nodejs.org) version v12.13.0 or greater installed on your system
+You will need [Node.js](https://nodejs.org) version v12.13.0 or greater installed on your system.
 
 ## Clone the repo
 
-Get the code by cloning this repo using git
+Get the code by cloning this repo using git.
 
 ```bash
 git clone git@github.com:100mslive/100ms-web-v2.git
