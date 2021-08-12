@@ -11,7 +11,9 @@
 
 ## About
 
-This is an example React app to demo [100ms' React SDK](https://www.npmjs.com/package/@100mslive/hms-video-react)
+This is an example React app to demo [100ms' React SDK](https://www.npmjs.com/package/@100mslive/hms-video-react).
+  
+Not using React? Find the [Javascript Quickstart here](https://docs.100ms.live/javascript/v2/guides/javascript-quickstart)
 
 ## Prerequisites
 
