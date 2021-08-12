@@ -61,7 +61,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const params = useParams();
   const pluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
-  const { endRoom: isAllowedToEndRoom } = useHMSStore(selectPermissions);
+  const permissions = useHMSStore(selectPermissions);
 
   const initialModalProps = {
     show: false,
@@ -208,7 +208,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           ) : null,
         ]}
         rightComponents={[
-          isAllowedToEndRoom ? (
+          permissions?.endRoom ? (
             <Button
               key={1}
               size="md"
