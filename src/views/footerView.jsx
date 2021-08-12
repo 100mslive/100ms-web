@@ -23,7 +23,7 @@ import {
   isMobileDevice,
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
-  selectIsAllowedToEndRoom,
+  selectPermissions,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -61,7 +61,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const params = useParams();
   const pluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
-  const isAllowedToEndRoom = useHMSStore(selectIsAllowedToEndRoom);
+  const { endRoom: isAllowedToEndRoom } = useHMSStore(selectPermissions);
 
   const initialModalProps = {
     show: false,
