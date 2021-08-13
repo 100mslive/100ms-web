@@ -62,6 +62,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const pluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
+  const [showEndRoomModal, setShowEndRoomModal] = useState(false);
+  const [lockRoom, setLockRoom] = useState(false);
 
   const initialModalProps = {
     show: false,
@@ -216,8 +218,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               variant="danger"
               classes={{ root: "mr-2" }}
               onClick={() => {
-                hmsActions.endRoom(false, "End Room");
-                redirectToLeave();
+                setShowEndRoomModal(true);
               }}
             >
               End room
@@ -250,6 +251,48 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       <MessageModal
         {...errorModal}
         onClose={() => setErrorModal(initialModalProps)}
+      />
+      <MessageModal
+        show={showEndRoomModal}
+        onClose={() => {
+          setShowEndRoomModal(false);
+          setLockRoom(false);
+        }}
+        title="End Room"
+        body="Are you sure you want to end the room?"
+        footer={
+          <div className="flex">
+            <div className="flex items-center">
+              <label className="text-base dark:text-white text-gray-100">
+                <input
+                  type="checkbox"
+                  className="mr-1"
+                  onChange={() => setLockRoom(prev => !prev)}
+                  checked={lockRoom}
+                />
+                <span>Lock room</span>
+              </label>
+            </div>
+            <Button
+              classes={{ root: "mr-3 ml-3" }}
+              onClick={() => {
+                setShowEndRoomModal(false);
+                setLockRoom(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                hmsActions.endRoom(lockRoom, "End Room");
+                redirectToLeave();
+              }}
+            >
+              End Room
+            </Button>
+          </div>
+        }
       />
     </>
   ) : null;
