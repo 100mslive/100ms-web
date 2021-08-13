@@ -156,6 +156,7 @@ export function Notifications() {
           });
         }
         break;
+      case HMSNotificationTypes.REMOVED_FROM_ROOM:
       case HMSNotificationTypes.ROOM_ENDED:
         hmsToast("", {
           left: <Text>{notification.message}.</Text>,
