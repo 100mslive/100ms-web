@@ -145,11 +145,12 @@ export function Notifications() {
         }
         break;
       case HMSNotificationTypes.CHANGE_TRACK_STATE_REQUEST:
+        const track = notification.data?.track;
         if (!notification.data.enabled) {
           hmsToast("", {
             left: (
               <Text>
-                Your {notification.data?.track.type} was muted by{" "}
+                Your {track.source} {track.type} was muted by{" "}
                 {notification.data.requestedBy.name}.
               </Text>
             ),
