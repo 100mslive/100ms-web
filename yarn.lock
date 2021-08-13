@@ -2,19 +2,19 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.3.26":
-  version "0.3.26"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.26.tgz#ff6fa212e103249c6e2530de706afd636d521547"
-  integrity sha512-AzQwzhOf1D/EbXEm/eF50UXoHg5tlXcIK7xmJOjm3djeti/mwV303qgZUxicy8/6r1zgwoUX18kLdxIQKYPZ1g==
+"@100mslive/hms-video-react@^0.3.27":
+  version "0.3.27"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.27.tgz#10a6501000b3bdd1b383e05db47ee781aff81ba9"
+  integrity sha512-UtZ0HVOGADBFwa8sk/upCqRqEjKpjqRysNETujH3oMUeG1V8Dpm0qfBP3okEMW1/7QqPHyLNpYVlNS+E6G2K8A==
   dependencies:
-    "@100mslive/hms-video-store" "^0.2.13"
+    "@100mslive/hms-video-store" "^0.2.15"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
     clsx "^1.1.1"
     lodash "^4.17.21"
     lodash-es "^4.17.21"
-    postcss "^7.0.35"
+    postcss "8.0.0"
     react-click-away-listener "^2.0.3"
     react-intersection-observer "^8.31.1"
     react-markdown "^6.0.0"
@@ -25,19 +25,19 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@^0.2.13":
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.13.tgz#54bf0bd1d82614797f8641b8ca84e783b394b8d3"
-  integrity sha512-zA1YBuG/97g+zHnVATFIOLJ18HrN59ssuv01Ww/q6kKGGvNEPR/pjsOIyPB0dBc6cqk9ssfK4AlLFNU0f+vU4g==
+"@100mslive/hms-video-store@^0.2.15":
+  version "0.2.16"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.16.tgz#7a0e71a0dd3140a6033628096ba4e5dd7841abf5"
+  integrity sha512-TQtK2kc1H81gVYFcJVqbmZLHO3upFDZSsxZb9GLytb0RonbK3g4wUpIZDOn6JHdbza7/jNJnrWNyx1QTRtbnGg==
   dependencies:
     immer "^9.0.5"
     reselect "^4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@^0.0.136":
-  version "0.0.136"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.136.tgz#35b31c430e21ee567311889a310175f3225fd02b"
-  integrity sha512-tLfwR2VgW6Ku0vDrbcJ9wiOSo01Ith6+UYxNQC3KFrBTw6jch4Ewjp4bWi6UQGP9zqNquqvCcUmZw43ErySDWA==
+"@100mslive/hms-video@^0.0.144":
+  version "0.0.144"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.144.tgz#976f4596bd6f30589cfa1c5b7689df999aa3eb3e"
+  integrity sha512-H5fo5Lv4oTSShIe8b4s5f62RuPJ2i87SgOvyBRglUUFDCUc2ErnpO6siPXUxcCOu2fOPHT0pJKLVc/dmrBf67g==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -7475,6 +7475,14 @@ lilconfig@^2.0.3:
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.3.tgz#68f3005e921dafbd2a2afb48379986aa6d2579fd"
   integrity sha512-EHKqr/+ZvdKCifpNrJCKxBTgk5XupZA3y/aCPY9mxfgBzmgh93Mt/WqjjQ38oMxXuvDokaKiM3lAgvSH2sjtHg==
 
+line-column@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/line-column/-/line-column-1.0.2.tgz#d25af2936b6f4849172b312e4792d1d987bc34a2"
+  integrity sha1-0lryk2tvSEkXKzEuR5LR2Ye8NKI=
+  dependencies:
+    isarray "^1.0.0"
+    isobject "^2.0.0"
+
 lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
@@ -8187,6 +8195,11 @@ nan@^2.12.1:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
   integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
+
+nanoid@^3.1.12:
+  version "3.1.25"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
+  integrity sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q==
 
 nanoid@^3.1.23:
   version "3.1.23"
@@ -9633,6 +9646,16 @@ postcss@7.0.36, postcss@^7, postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, pos
     chalk "^2.4.2"
     source-map "^0.6.1"
     supports-color "^6.1.0"
+
+postcss@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.0.0.tgz#53bc930da438d795811f18c7e3a1933579b2bc9a"
+  integrity sha512-BriaW5AeZHfyuuKhK3Z6yRDKI6NR2TdRWyZcj3+Pk2nczQsMBqavggAzTledsbyexPthW3nFA6XfgCWjZqmVPA==
+  dependencies:
+    colorette "^1.2.1"
+    line-column "^1.0.2"
+    nanoid "^3.1.12"
+    source-map "^0.6.1"
 
 postcss@^6.0.9:
   version "6.0.23"
