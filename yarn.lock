@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@0.3.31":
+"@100mslive/hms-video-react@^0.3.31":
   version "0.3.31"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.31.tgz#855cbe300ac83b7ea86dc80e2b73ca868bfb3623"
   integrity sha512-5dLbIDwpuSnkxYfZUxc5FQ/m2PurHgCtCnxX42oVNyuvhjpwID5ZEShskET+ZPpEiWFXTDOxmW4YbFWdxblK+w==
