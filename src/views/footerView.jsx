@@ -23,11 +23,12 @@ import {
   isMobileDevice,
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
+  selectPermissions,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
-import { getRandomVirtualBackground } from "../common/utils";
 import { AppContext } from "../store/AppContext";
+import { getRandomVirtualBackground } from "../common/utils";
 
 const SettingsView = () => {
   const { setMaxTileCount, maxTileCount } = useContext(AppContext);
@@ -60,6 +61,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const params = useParams();
   const pluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
+  const permissions = useHMSStore(selectPermissions);
+  const [showEndRoomModal, setShowEndRoomModal] = useState(false);
+  const [lockRoom, setLockRoom] = useState(false);
 
   const initialModalProps = {
     show: false,
@@ -73,7 +77,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       pluginRef.current = new HMSVirtualBackgroundPlugin("none");
     }
     await pluginRef.current.setBackground(getRandomVirtualBackground());
-    await hmsActions.addPluginToVideoTrack(pluginRef.current);
+    //Running VB on every alternate frame rate for optimized cpu usage
+    await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
   }
 
   async function removePlugin() {
@@ -116,6 +121,14 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       }
     }
   }, [hmsActions, isScreenShared]);
+
+  function redirectToLeave() {
+    if (params.role) {
+      history.push("/leave/" + params.roomId + "/" + params.role);
+    } else {
+      history.push("/leave/" + params.roomId);
+    }
+  }
 
   const leftComponents = [<SettingsView key={0} />];
 
@@ -198,6 +211,20 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           ) : null,
         ]}
         rightComponents={[
+          permissions?.endRoom ? (
+            <Button
+              key={1}
+              size="md"
+              shape="rectangle"
+              variant="danger"
+              classes={{ root: "mr-2" }}
+              onClick={() => {
+                setShowEndRoomModal(true);
+              }}
+            >
+              End room
+            </Button>
+          ) : null,
           <Button
             key={0}
             size="md"
@@ -205,9 +232,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             variant="danger"
             onClick={() => {
               leave();
-              if (params.role)
-                history.push("/leave/" + params.roomId + "/" + params.role);
-              else history.push("/leave/" + params.roomId);
+              redirectToLeave();
             }}
           >
             <HangUpIcon className="mr-2" />
@@ -220,10 +245,55 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
         isBackgroundEnabled={isVBPresent}
+        classes={{
+          rightRoot: "flex",
+        }}
       />
       <MessageModal
         {...errorModal}
         onClose={() => setErrorModal(initialModalProps)}
+      />
+      <MessageModal
+        show={showEndRoomModal}
+        onClose={() => {
+          setShowEndRoomModal(false);
+          setLockRoom(false);
+        }}
+        title="End Room"
+        body="Are you sure you want to end the room?"
+        footer={
+          <div className="flex">
+            <div className="flex items-center">
+              <label className="text-base dark:text-white text-gray-100">
+                <input
+                  type="checkbox"
+                  className="mr-1"
+                  onChange={() => setLockRoom(prev => !prev)}
+                  checked={lockRoom}
+                />
+                <span>Lock room</span>
+              </label>
+            </div>
+            <Button
+              classes={{ root: "mr-3 ml-3" }}
+              onClick={() => {
+                setShowEndRoomModal(false);
+                setLockRoom(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                hmsActions.endRoom(lockRoom, "End Room");
+                redirectToLeave();
+              }}
+            >
+              End Room
+            </Button>
+          </div>
+        }
       />
     </>
   ) : null;
