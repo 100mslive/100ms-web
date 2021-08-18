@@ -170,6 +170,11 @@ export function Notifications() {
           }
         }, 2000);
         break;
+      case HMSNotificationTypes.DEVICE_CHANGED:
+        hmsToast("", {
+          left: <Text>{notification.message}.</Text>,
+        });
+        break;
       default:
         break;
     }
