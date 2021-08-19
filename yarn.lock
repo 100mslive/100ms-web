@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.3.36":
-  version "0.3.36"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.36.tgz#75c385c69735d111a1a99d6e9ff1cc4cc50c52e3"
-  integrity sha512-vhwEFO+S/U542xfdDQsOsz8yI6CeJJoqZF4399yAem+XrlRn+uwL08se8drPFN8U+c/hLOTUClCyiZweAm7Kug==
+"@100mslive/hms-video-react@^0.3.37":
+  version "0.3.37"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.37.tgz#622b13affa71fa5f77067ad79623ed4d4612deae"
+  integrity sha512-neVgUjMjbfxocWTpD0QD13pSXf6FkfCy/nPA/fx2ukxiWlmjAyotR8VLBkcRFv9fpMKohz9ZTY9ysBXj9jmMIg==
   dependencies:
     "@100mslive/hms-video-store" "0.2.23"
     "@material-ui/core" "^4.11.3"
