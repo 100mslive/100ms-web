@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useContext, useRef} from "react";
+import React, { useState, useCallback, useContext, useRef } from "react";
 import {
   useHMSStore,
   ControlBar,
