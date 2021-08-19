@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useRef } from "react";
+import React, {useState, useCallback, useContext, useRef} from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -72,10 +72,17 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
-  async function startPlugin() {
-    if (!pluginRef.current) {
+  function createVBPlugin() {
+    if(!pluginRef.current){
       pluginRef.current = new HMSVirtualBackgroundPlugin("none");
     }
+  }
+
+  async function startPlugin() {
+    if(!pluginRef.current){
+      createVBPlugin();
+    }
+
     await pluginRef.current.setBackground(getRandomVirtualBackground());
     //Running VB on every alternate frame rate for optimized cpu usage
     await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
@@ -133,6 +140,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const leftComponents = [<SettingsView key={0} />];
 
   if (!isMobileDevice()) {
+    //creating VB button for only web
+    createVBPlugin();
     leftComponents.push(<VerticalDivider key={1} />);
     if (isAllowedToPublish.screen) {
       leftComponents.push(
@@ -197,7 +206,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
             </Button>
           ) : null,
-          isAllowedToPublish.video ? (
+          isAllowedToPublish.video && pluginRef.current && pluginRef.current.isSupported() ? (
             <Button
               iconOnly
               variant="no-fill"
