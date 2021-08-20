@@ -14,6 +14,7 @@ import {
   getUserToken as defaultGetUserToken,
   getBackendEndpoint,
 } from "./services/tokenService";
+import { hmsToast } from "./views/components/notifications/hms-toast";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -77,6 +78,7 @@ export function EdtechComponent({
           showAvatar: showAvatar === "true",
           avatarType: avatarType,
         }}
+        toast={(message, options = {}) => hmsToast(message, options)}
       >
         <HMSRoomProvider>
           <AppContextProvider roomId={roomId} tokenEndpoint={tokenEndpoint}>
