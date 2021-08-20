@@ -56,7 +56,7 @@ const PreviewScreen = ({ getUserToken }) => {
   const join = ({ audioMuted, videoMuted, name }) => {
     if (!userRole) {
       getUserToken(name)
-        .them(() => {
+        .then(() => {
           setLoginInfo({
             token,
             audioMuted,
