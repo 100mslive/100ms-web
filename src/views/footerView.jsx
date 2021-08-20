@@ -79,10 +79,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }
 
   async function startPlugin() {
-    if(!pluginRef.current){
-      createVBPlugin();
-    }
-
+    //create plugin if not present
+    createVBPlugin();
     await pluginRef.current.setBackground(getRandomVirtualBackground());
     //Running VB on every alternate frame rate for optimized cpu usage
     await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
@@ -206,7 +204,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
             </Button>
           ) : null,
-          isAllowedToPublish.video && pluginRef.current && pluginRef.current.isSupported() ? (
+          isAllowedToPublish.video && pluginRef.current?.isSupported() ? (
             <Button
               iconOnly
               variant="no-fill"
