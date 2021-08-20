@@ -6,6 +6,7 @@ import {
   Preview,
   ProgressIcon,
 } from "@100mslive/hms-video-react";
+import { v4 } from "uuid";
 import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
 import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
@@ -28,7 +29,7 @@ const PreviewScreen = ({ getUserToken }) => {
 
   useEffect(() => {
     if (!userRole) {
-      getUserToken("a")
+      getUserToken(v4())
         .then(token => setToken(token))
         .catch(error => {
           console.error("Token API Error", error);
@@ -39,7 +40,7 @@ const PreviewScreen = ({ getUserToken }) => {
           });
         });
     } else {
-      getToken(tokenEndpoint, loginInfo.env, "a", userRole, urlRoomId)
+      getToken(tokenEndpoint, loginInfo.env, v4(), userRole, urlRoomId)
         .then(token => setToken(token))
         .catch(error => {
           console.error("Token API Error", error);
@@ -55,7 +56,7 @@ const PreviewScreen = ({ getUserToken }) => {
   const join = ({ audioMuted, videoMuted, name }) => {
     if (!userRole) {
       getUserToken(name)
-        .then(token => {
+        .them(() => {
           setLoginInfo({
             token,
             audioMuted,
@@ -76,7 +77,7 @@ const PreviewScreen = ({ getUserToken }) => {
         });
     } else {
       getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
-        .then(token => {
+        .then(() => {
           setLoginInfo({
             token,
             audioMuted,
