@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useRef } from "react";
+import React, { useState, useCallback, useContext, useRef , useEffect} from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -64,6 +64,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const permissions = useHMSStore(selectPermissions);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
+  const [noiseSupression, setNoiseSupression] = useState(false);
+
 
   const initialModalProps = {
     show: false,
@@ -71,6 +73,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
+
+    useEffect(() => {
+        hmsActions.addNoiseSupression(noiseSupression); //noiseSupression
+  }, []); //noiseSupression
+
+
 
   async function startPlugin() {
     if (!pluginRef.current) {
@@ -209,6 +217,16 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
+          <Button
+            iconOnly
+            variant="no-fill"
+            shape="rectangle"
+            active={noiseSupression}
+            onClick={() => setNoiseSupression(!noiseSupression)}
+            key={3}
+          >
+            <VirtualBackgroundIcon />
+          </Button>
         ]}
         rightComponents={[
           permissions?.endRoom ? (
