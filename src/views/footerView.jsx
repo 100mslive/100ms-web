@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useContext, useRef , useEffect} from "react";
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useRef,
+  useEffect,
+} from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -8,6 +14,7 @@ import {
   CamOffIcon,
   CamOnIcon,
   VirtualBackgroundIcon,
+  NoiseSupressionIcon,
   Button,
   ShareScreenIcon,
   ChatIcon,
@@ -23,7 +30,7 @@ import {
   isMobileDevice,
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
-  selectPermissions,
+  selectPermissions
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -51,6 +58,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
+  //const isConnected1 = useHMSStore(selectIsConnectedToRoom);
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const isVBPresent = useHMSStore(
     selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
@@ -66,7 +74,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [lockRoom, setLockRoom] = useState(false);
   const [noiseSupression, setNoiseSupression] = useState(false);
 
-
   const initialModalProps = {
     show: false,
     title: "",
@@ -74,11 +81,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
-    useEffect(() => {
-        hmsActions.addNoiseSupression(noiseSupression); //noiseSupression
-  }, []); //noiseSupression
-
-
+  useEffect(() => {
+    if (isConnected) {
+      hmsActions.addNoiseSupression(noiseSupression);
+    }
+  }, [isConnected, noiseSupression]); //noiseSupression
 
   async function startPlugin() {
     if (!pluginRef.current) {
@@ -225,8 +232,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             onClick={() => setNoiseSupression(!noiseSupression)}
             key={3}
           >
-            <VirtualBackgroundIcon />
-          </Button>
+            <NoiseSupressionIcon />
+          </Button>,
         ]}
         rightComponents={[
           permissions?.endRoom ? (
