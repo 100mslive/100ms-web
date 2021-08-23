@@ -73,6 +73,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [noiseSupression, setNoiseSupression] = useState(false);
+  //const [isBrowserSupported,setIsBrowserSupported] = useState(false);
+  let isBrowserSupported = false;
 
   const initialModalProps = {
     show: false,
@@ -144,10 +146,14 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       history.push("/leave/" + params.roomId);
     }
   }
+  function isBrowserSupported1(){
+        return navigator.userAgent.indexOf("Chrome") !== -1 || navigator.userAgent.indexOf("Firefox") !== -1 || navigator.userAgent.indexOf("Edg") !== -1;
+  }
 
   const leftComponents = [<SettingsView key={0} />];
 
   if (!isMobileDevice()) {
+    isBrowserSupported = isBrowserSupported1();
     leftComponents.push(<VerticalDivider key={1} />);
     if (isAllowedToPublish.screen) {
       leftComponents.push(
@@ -224,6 +230,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
+          isBrowserSupported?(
           <Button
             iconOnly
             variant="no-fill"
@@ -233,7 +240,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             key={3}
           >
             <NoiseSupressionIcon />
-          </Button>,
+            </Button>
+          ):null,
         ]}
         rightComponents={[
           permissions?.endRoom ? (
