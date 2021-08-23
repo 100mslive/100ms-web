@@ -29,7 +29,7 @@ export const Conference = () => {
     setIsParticipantListOpen(value);
   }, []);
 
-  const { loginInfo, leave } = context;
+  const { loginInfo } = context;
 
   useEffect(() => {
     if (!roomId) {
@@ -41,10 +41,6 @@ export const Conference = () => {
         history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
       else history.push(`/preview/${loginInfo.roomId || roomId || ""}`);
     }
-
-    return () => {
-      leave();
-    };
     // eslint-disable-next-line
   }, []);
 
