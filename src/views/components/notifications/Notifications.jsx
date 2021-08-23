@@ -113,7 +113,7 @@ export function Notifications() {
         hmsToast("", {
           left: (
             <Text classes={{ root: "flex" }}>
-              Error: {notification.data?.message}
+              {`Error: ${notification.data?.message} - ${notification.data?.description}`}
             </Text>
           ),
         });
@@ -160,7 +160,13 @@ export function Notifications() {
       case HMSNotificationTypes.REMOVED_FROM_ROOM:
       case HMSNotificationTypes.ROOM_ENDED:
         hmsToast("", {
-          left: <Text>{notification.message}.</Text>,
+          left: (
+            <Text>
+              {`${notification.message}. `}
+              {notification.data.reason &&
+                `Reason: ${notification.data.reason}`}
+            </Text>
+          ),
         });
         setTimeout(() => {
           if (params.role) {
