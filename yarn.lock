@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.3.41":
-  version "0.3.41"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.41.tgz#772d0c5c312b19b8aa0493fce0997893a4c08e52"
-  integrity sha512-GOll35HbREHy+0WZZHpDUQ5B0M5FH7365omMOlRjL1ngxFYGWRZKtaN1eDBxjt5CoihKJypQwbXLV3WyxvhsZg==
+"@100mslive/hms-video-react@^0.3.42":
+  version "0.3.42"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.42.tgz#2580a693bc713af6f15850c52cfc9d16c2883408"
+  integrity sha512-XUFzURCrc9hQZ401PAdExYKt6cdDDNwhBaoV9oDYiNm8wPgMjpSR5KvAsOB1A29qRPqYL/9RvkBGrnxgKG3XKw==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.25"
+    "@100mslive/hms-video-store" "0.2.26"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -25,22 +25,22 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.25":
-  version "0.2.25"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.25.tgz#9b0216c5e21ddd7b253658555b82b20b2b558bd1"
-  integrity sha512-xKqkrMApJVRc8iKOt2DykGOz8jEajg7+xIMGm8SvS6oaKTpS3lgnVDCxlJbkg2Zu/F7WSlcqC4lP2LggHS6Aeg==
+"@100mslive/hms-video-store@0.2.26":
+  version "0.2.26"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.26.tgz#ce4dff4788100621d9346f867a26e16a873ceb8a"
+  integrity sha512-4marAvBB2jKLKMSKoXKscM1U33T6v0/j+VYlcTXHt8bNLoaKqwiF0pnvrP3sngkN1jxQpkj9Eloin3LFKywITA==
   dependencies:
     immer "^9.0.5"
     reselect "^4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.0.161", "@100mslive/hms-video@^0.0.161":
-  version "0.0.161"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.161.tgz#31e81951a543ddfdd5a431fe2abd5a444e28faa6"
-  integrity sha512-B7Z9Sr0SN1Qlx2zcV6/gPi4jvVEnClHjENoTOLIu4ziuh1DY2pxJdeP/xv5Jv/VI5b1FBopQQdk0mwxaF7HeIA==
+"@100mslive/hms-video@0.0.165", "@100mslive/hms-video@^0.0.165":
+  version "0.0.165"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.165.tgz#49e4af8deb0488b71be6560b5556602d6f708b86"
+  integrity sha512-4Iz0XUIPTbgIY+nG+SkpL3Bt+55Nl9h0VqsRJ0b7u1Z3G6KSjoR7srgQ5lkubsCosYcmvAXBjajKzOF8u1v+wA==
   dependencies:
     events "^3.3.0"
-    hms-audionoise-suppression "0.1.0"
+    hms-audionoise-suppression "0.1.1"
     sdp-transform "^2.14.1"
     ua-parser-js "^0.7.28"
     uuid "^8.3.2"
@@ -1807,7 +1807,6 @@
     loader-utils "^2.0.0"
 
 "@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.4":
-  name tailwindcss
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/@tailwindcss/postcss7-compat/-/postcss7-compat-2.2.7.tgz#5e7e436ed0f4e0ed945d35b1f87189daa681dd1f"
   integrity sha512-1QkWUEeLV1AoNipMCE6IlL7XYScGb+DAzaXy35ooMDvl0G8kCMHBNqGxyVAnTcK8gyJNUzkKXExkUnbjAndd/g==
@@ -5332,11 +5331,11 @@ express@^4.17.1:
     vary "~1.1.2"
 
 ext@^1.1.2:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/ext/-/ext-1.4.0.tgz#89ae7a07158f79d35517882904324077e4379244"
-  integrity sha512-Key5NIsUxdqKg3vIsdw9dSuXpPCQ297y6wBjL30edxwPgt2E44WcWBZey/ZvUc6sERLTxKdyCu4gZFmUbk1Q7A==
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/ext/-/ext-1.5.0.tgz#e93b97ae0cb23f8370380f6107d2d2b7887687ad"
+  integrity sha512-+ONcYoWj/SoQwUofMr94aGu05Ou4FepKi7N7b+O8T4jVfyIsZQV1/xeS8jpaBzF0csAk0KLXoHCxU7cKYZjo1Q==
   dependencies:
-    type "^2.0.0"
+    type "^2.5.0"
 
 extend-shallow@^2.0.1:
   version "2.0.1"
@@ -5970,10 +5969,10 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hms-audionoise-suppression@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/hms-audionoise-suppression/-/hms-audionoise-suppression-0.1.0.tgz#a6fe0fbe816734a49c697bae3531852f42f37e2d"
-  integrity sha512-UMYqLUAlvWIuLJdBAFzvtmjlyaRUJbUlPLQpMEvgtB6CZ3ervfvGbFp+Vb9vLNMED2UHB8oYUTf/eH9+pVt9jA==
+hms-audionoise-suppression@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/hms-audionoise-suppression/-/hms-audionoise-suppression-0.1.1.tgz#faf3b6ab165872b319d17e68d8d5b2e704d00a09"
+  integrity sha512-X2CKssdH1Zy7XFxP1epRXTNgByI8XYeJ5lFAfLegsXe1C3LLaHMPX6p2CqAKCNk4bjJBh6fkvQIpB+L9PgKeBw==
 
 hoist-non-react-statics@^3.1.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
@@ -11852,7 +11851,7 @@ type@^1.0.1:
   resolved "https://registry.yarnpkg.com/type/-/type-1.2.0.tgz#848dd7698dafa3e54a6c479e759c4bc3f18847a0"
   integrity sha512-+5nt5AAniqsCnu2cEQQdpzCAh33kVx8n0VoFidKpB1dVVLAN/F+bgVOqOJqOnEnrhp222clB5p3vUlD+1QAnfg==
 
-type@^2.0.0:
+type@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/type/-/type-2.5.0.tgz#0a2e78c2e77907b252abe5f298c1b01c63f0db3d"
   integrity sha512-180WMDQaIMm3+7hGXWf12GtdniDEy7nYcyFMKJn/eZz/6tSLXrUN9V0wKSbMjej0I1WHWbpREDEKHtqPQa9NNw==
