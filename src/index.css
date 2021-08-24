@@ -13,14 +13,15 @@ body {
   width: 100vw;
 }
 
-html,
-body {
+html {
   height: 100%;
+}
+body {
+  height: 2000px;
 }
 
 #root {
-  height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-  height: calc(var(--vh, 1vh) * 100);
+  height: 99vh;
 }
 
 code {
