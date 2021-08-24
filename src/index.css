@@ -9,11 +9,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: fixed;
+  width: 100vw;
 }
 
 html,
 body {
-  height: 100%;
+  height: 100vh;
 }
 
 code {
