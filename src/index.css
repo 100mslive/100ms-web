@@ -13,15 +13,10 @@ body {
   width: 100vw;
 }
 
-html {
-  height: 100%;
-}
-body {
-  height: 2000px;
-}
-
+html,
+body,
 #root {
-  height: 99vh;
+  height: 100%;
 }
 
 code {

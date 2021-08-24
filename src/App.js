@@ -47,7 +47,7 @@ export function EdtechComponent({
   return (
     <div
       className={`w-full dark:bg-black ${
-        headerPresent === "true" ? "flex-1" : "h-screen"
+        headerPresent === "true" ? "flex-1" : "h-full"
       }`}
     >
       <HMSThemeProvider
