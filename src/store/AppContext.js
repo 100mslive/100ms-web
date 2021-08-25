@@ -9,7 +9,7 @@ import {
   convertLoginInfoToJoinConfig,
   setUpLogRocket,
 } from "./appContextUtils";
-import { getBackendEndpoint } from "../services/tokenService";
+// import { getBackendEndpoint } from "../services/tokenService";
 
 const AppContext = React.createContext(null);
 
@@ -28,12 +28,13 @@ const initialLoginInfo = {
   selectedAudioOutput: "default",
 };
 
-const defaultTokenEndpoint = process.env
-  .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-  ? `${getBackendEndpoint()}${
-      process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-    }/`
-  : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
+// const defaultTokenEndpoint = process.env
+//   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+//   ? `${getBackendEndpoint()}${
+//       process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+//     }/`
+//   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
+const defaultTokenEndpoint = process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const AppContextProvider = ({
   roomId = "",
@@ -103,7 +104,7 @@ const AppContextProvider = ({
         maxTileCount: state.maxTileCount,
         isConnected: isConnected,
         leave: customLeave,
-        tokenEndpoint,
+        tokenEndpoint: defaultTokenEndpoint,
       }}
     >
       {children}
