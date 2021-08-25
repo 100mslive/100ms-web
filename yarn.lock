@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-video-react@^0.3.43":
-  version "0.3.43"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.43.tgz#b9487702c9b1310931e25abfd0beb25b1ba55324"
-  integrity sha512-cyBEFU9KPS5AKNvR/dGg+A7is671CYHoY04Fmin/2j/biw5Dnk2oQkCsKfDDVtwVwN+haJFqyJ1odM8GZR2UYg==
+"@100mslive/hms-video-react@^0.3.45":
+  version "0.3.45"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.45.tgz#884f3a21b3aa66ad388d3595c7b39e268a111b63"
+  integrity sha512-4JrtGKyxzBzWly2hBgFSZ+ldBKWHUZT0/UP/G31Pd2zzmlRB062s14j84A9L8HWCMVa/ZsM8zFJ+7vicKWrv6Q==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.24"
+    "@100mslive/hms-video-store" "0.2.27"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -25,19 +25,19 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.24":
-  version "0.2.24"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.24.tgz#56aae11b21e56a6bbe388138f829f00da2d59ab9"
-  integrity sha512-LC9jboijikekXU2ZR7N9mmFQGkbI5bkwXi+CrYTlHd8DjxrDujc+nmj5yXnmYIC/sQb2DfeaZhDGvVpjokTWNw==
+"@100mslive/hms-video-store@0.2.27":
+  version "0.2.27"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.27.tgz#cdca1c2ca71d3ed6abee5162141731ef94675131"
+  integrity sha512-cvayeHDqUIWA6oj3HRUeMJwZjaLH/a21VtPdqu3JdAM6eN0Ji+iUEnNobLlfC0g0LI4RWt1qnUNv85qsYQiskw==
   dependencies:
     immer "^9.0.5"
     reselect "^4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@^0.0.166":
-  version "0.0.166"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.166.tgz#23f6e12adee4058be38310f1294f42657175cc1e"
-  integrity sha512-RNWnUGfXsGbGALCyei1iVtXHyZbAYN9/eliYu/aB7B7r89VNOsyjuTc8NuSEeYpMHzwkKJN01Ug8p42C872giA==
+"@100mslive/hms-video@^0.0.168":
+  version "0.0.168"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.168.tgz#0c0a725c151383388d734aa8ff665ecdee3b8ed9"
+  integrity sha512-Dwt4unRJ/EQ1gvMCVbBzme5Rk4gEsa75CQE4sjY09WgL2o+8wl2g2ROjt8zv39XKLowWsOoUFE1PPep2Lx8fEQ==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -1806,6 +1806,7 @@
     loader-utils "^2.0.0"
 
 "@tailwindcss/postcss7-compat@^2.1.0", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.2", "tailwindcss@npm:@tailwindcss/postcss7-compat@^2.1.4":
+  name tailwindcss
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/@tailwindcss/postcss7-compat/-/postcss7-compat-2.2.7.tgz#5e7e436ed0f4e0ed945d35b1f87189daa681dd1f"
   integrity sha512-1QkWUEeLV1AoNipMCE6IlL7XYScGb+DAzaXy35ooMDvl0G8kCMHBNqGxyVAnTcK8gyJNUzkKXExkUnbjAndd/g==
