@@ -67,7 +67,7 @@ const AppContextProvider = ({
     return () => {
       window.removeEventListener("resize", resetHeight);
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (!state.loginInfo.token) return;
