@@ -29,7 +29,7 @@ export const Conference = () => {
     setIsParticipantListOpen(value);
   }, []);
 
-  const { loginInfo } = context;
+  const { loginInfo, leave } = context;
 
   useEffect(() => {
     if (!roomId) {
@@ -41,6 +41,10 @@ export const Conference = () => {
         history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
       else history.push(`/preview/${loginInfo.roomId || roomId || ""}`);
     }
+    return () => {
+      // This is needed to handle mac touchpad swipe gesture
+      leave();
+    };
     // eslint-disable-next-line
   }, []);
 
