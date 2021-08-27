@@ -56,6 +56,20 @@ const AppContextProvider = ({
   }, [hmsActions]);
 
   useEffect(() => {
+    function resetHeight() {
+      // reset the body height to that of the inner browser
+      document.body.style.height = `${window.innerHeight}px`;
+    }
+    // reset the height whenever the window's resized
+    window.addEventListener("resize", resetHeight);
+    // called to initially set the height.
+    resetHeight();
+    return () => {
+      window.removeEventListener("resize", resetHeight);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!state.loginInfo.token) return;
     hmsActions.join(convertLoginInfoToJoinConfig(state.loginInfo));
     // eslint-disable-next-line
@@ -79,8 +93,6 @@ const AppContextProvider = ({
   const deepSetMaxTiles = maxTiles => {
     setState(prevState => ({ ...prevState, maxTileCount: maxTiles }));
   };
-
-  window.onunload = () => customLeave();
 
   return (
     <AppContext.Provider

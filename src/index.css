@@ -12,8 +12,10 @@ body {
 }
 
 html,
-body {
+body,
+#root {
   height: 100%;
+  overflow: hidden;
 }
 
 code {

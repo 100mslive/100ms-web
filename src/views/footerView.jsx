@@ -34,6 +34,8 @@ import {
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
+import { HMSNoiseSuppressionPlugin } from "hms-audionoise-suppression";
+
 import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
 
@@ -84,13 +86,13 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
   /// TODO : use hms store
-  useEffect(() => {
-    if (isConnected) {
-      hmsActions.addNoiseSupression(noiseSupression);
-    }
-  }, [isConnected, noiseSupression]); //noiseSupression
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     hmsActions.addNoiseSupression(noiseSupression);
+  //   }
+  // }, [isConnected, noiseSupression]); //noiseSupression
 
-  async function startPlugin() {
+ async function startPlugin() {
     if (!pluginRef.current) {
       pluginRef.current = new HMSVirtualBackgroundPlugin("none");
     }
@@ -99,236 +101,238 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
   }
 
-  async function removePlugin() {
-    if (pluginRef.current) {
-      await hmsActions.removePluginFromVideoTrack(pluginRef.current);
-      pluginRef.current = null;
-    }
-  }
-
-  function handleVirtualBackground() {
-    isVBPresent ? removePlugin() : startPlugin();
-  }
-
-  const toggleAudio = useCallback(async () => {
-    try {
-      await hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled);
-    } catch (err) {
-      console.error("Cannot toggle audio", err);
-    }
-  }, [hmsActions, isLocalAudioEnabled]);
-
-  const toggleVideo = useCallback(async () => {
-    try {
-      await hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled);
-    } catch (err) {
-      console.error("Cannot toggle video", err);
-    }
-  }, [hmsActions, isLocalVideoEnabled]);
-
-  const toggleScreenShare = useCallback(async () => {
-    try {
-      await hmsActions.setScreenShareEnabled(!isScreenShared);
-    } catch (error) {
-      if (error.description.includes("denied by system")) {
-        setErrorModal({
-          show: true,
-          title: "Screen share permission denied by OS",
-          body: "Please update your OS settings to permit screen share.",
-        });
+      async function removePlugin() {
+        if (pluginRef.current) {
+          await hmsActions.removePluginFromVideoTrack(pluginRef.current);
+          pluginRef.current = null;
+        }
       }
-    }
-  }, [hmsActions, isScreenShared]);
 
-  function redirectToLeave() {
-    if (params.role) {
-      history.push("/leave/" + params.roomId + "/" + params.role);
-    } else {
-      history.push("/leave/" + params.roomId);
-    }
-  }
-  function isBrowserSupported1(){
+      function handleVirtualBackground() {
+        isVBPresent ? removePlugin() : startPlugin();
+      }
+
+      const toggleAudio = useCallback(async () => {
+        try {
+          await hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled);
+        } catch (err) {
+          console.error("Cannot toggle audio", err);
+        }
+      }, [hmsActions, isLocalAudioEnabled]);
+
+      const toggleVideo = useCallback(async () => {
+        try {
+          await hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled);
+        } catch (err) {
+          console.error("Cannot toggle video", err);
+        }
+      }, [hmsActions, isLocalVideoEnabled]);
+
+      const toggleScreenShare = useCallback(async () => {
+        try {
+          await hmsActions.setScreenShareEnabled(!isScreenShared);
+        } catch (error) {
+          if (error.description.includes("denied by system")) {
+            setErrorModal({
+              show: true,
+              title: "Screen share permission denied by OS",
+              body: "Please update your OS settings to permit screen share.",
+            });
+          }
+        }
+      }, [hmsActions, isScreenShared]);
+
+      function redirectToLeave() {
+        if (params.role) {
+          history.push("/leave/" + params.roomId + "/" + params.role);
+        } else {
+          history.push("/leave/" + params.roomId);
+        }
+      }
+      function isBrowserSupported1() {
         return navigator.userAgent.indexOf("Chrome") !== -1 || navigator.userAgent.indexOf("Firefox") !== -1 || navigator.userAgent.indexOf("Edg") !== -1;
-  }
+      }
 
-  const leftComponents = [<SettingsView key={0} />];
+      const leftComponents = [<SettingsView key={0} />];
 
-  if (!isMobileDevice()) {
-    isBrowserSupported = isBrowserSupported1();
-    leftComponents.push(<VerticalDivider key={1} />);
-    if (isAllowedToPublish.screen) {
-      leftComponents.push(
-        <Button
-          key={2}
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
-          onClick={toggleScreenShare}
-        >
-          <ShareScreenIcon />
-        </Button>,
-        <VerticalDivider key={3} />
-      );
-    }
-    leftComponents.push(
-      <Button
-        key={4}
-        iconOnly
-        variant="no-fill"
-        iconSize="md"
-        shape="rectangle"
-        onClick={toggleChat}
-        active={isChatOpen}
-      >
-        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-      </Button>
-    );
-  }
-
-  return isConnected ? (
-    <>
-      <ControlBar
-        leftComponents={leftComponents}
-        centerComponents={[
-          isAllowedToPublish.audio ? (
+      if (!isMobileDevice()) {
+        isBrowserSupported = isBrowserSupported1();
+        //creating VB button for only web
+        createVBPlugin();
+        leftComponents.push(<VerticalDivider key={1} />);
+        if (isAllowedToPublish.screen) {
+          leftComponents.push(
             <Button
-              iconOnly
-              variant="no-fill"
-              iconSize="md"
-              classes={{ root: "mr-2" }}
-              shape="rectangle"
-              active={!isLocalAudioEnabled}
-              onClick={toggleAudio}
-              key={0}
-            >
-              {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
-            </Button>
-          ) : null,
-          isAllowedToPublish.video ? (
-            <Button
-              iconOnly
-              variant="no-fill"
-              iconSize="md"
-              classes={{ root: "mr-2" }}
-              shape="rectangle"
-              active={!isLocalVideoEnabled}
-              onClick={toggleVideo}
-              key={1}
-            >
-              {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
-            </Button>
-          ) : null,
-          isAllowedToPublish.video ? (
-            <Button
-              iconOnly
-              variant="no-fill"
-              shape="rectangle"
-              active={isVBPresent}
-              onClick={handleVirtualBackground}
               key={2}
+              iconOnly
+              variant="no-fill"
+              iconSize="md"
+              shape="rectangle"
+              onClick={toggleScreenShare}
             >
-              <VirtualBackgroundIcon />
-            </Button>
-          ) : null,
-          isBrowserSupported?(
+              <ShareScreenIcon />
+            </Button>,
+            <VerticalDivider key={3} />
+          );
+        }
+        leftComponents.push(
           <Button
+            key={4}
             iconOnly
             variant="no-fill"
+            iconSize="md"
             shape="rectangle"
-            active={noiseSupression}
-            onClick={() => setNoiseSupression(!noiseSupression)}
-            key={3}
+            onClick={toggleChat}
+            active={isChatOpen}
           >
-            <NoiseSupressionIcon />
-            </Button>
-          ):null,
-        ]}
-        rightComponents={[
-          permissions?.endRoom ? (
-            <Button
-              key={1}
-              size="md"
-              shape="rectangle"
-              variant="danger"
-              classes={{ root: "mr-2" }}
-              onClick={() => {
-                setShowEndRoomModal(true);
-              }}
-            >
-              End room
-            </Button>
-          ) : null,
-          <Button
-            key={0}
-            size="md"
-            shape="rectangle"
-            variant="danger"
-            onClick={() => {
-              leave();
-              redirectToLeave();
-            }}
-          >
-            <HangUpIcon className="mr-2" />
+            {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+          </Button>
+        );
+      }
+
+      return isConnected ? (
+        <>
+          <ControlBar
+            leftComponents={leftComponents}
+            centerComponents={[
+              isAllowedToPublish.audio ? (
+                <Button
+                  iconOnly
+                  variant="no-fill"
+                  iconSize="md"
+                  classes={{ root: "mr-2" }}
+                  shape="rectangle"
+                  active={!isLocalAudioEnabled}
+                  onClick={toggleAudio}
+                  key={0}
+                >
+                  {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
+                </Button>
+              ) : null,
+              isAllowedToPublish.video ? (
+                <Button
+                  iconOnly
+                  variant="no-fill"
+                  iconSize="md"
+                  classes={{ root: "mr-2" }}
+                  shape="rectangle"
+                  active={!isLocalVideoEnabled}
+                  onClick={toggleVideo}
+                  key={1}
+                >
+                  {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
+                </Button>
+              ) : null,
+              isAllowedToPublish.video && pluginRef.current?.isSupported() ? (
+                <Button
+                  iconOnly
+                  variant="no-fill"
+                  shape="rectangle"
+                  active={isVBPresent}
+                  onClick={handleVirtualBackground}
+                  key={2}
+                >
+                  <VirtualBackgroundIcon />
+                </Button>
+              ) : null,
+              isBrowserSupported ? (
+                <Button
+                  iconOnly
+                  variant="no-fill"
+                  shape="rectangle"
+                  active={noiseSupression}
+                  onClick={() => setNoiseSupression(!noiseSupression)}
+                  key={3}
+                >
+                  <NoiseSupressionIcon />
+                </Button>
+              ) : null,
+            ]}
+            rightComponents={[
+              permissions?.endRoom ? (
+                <Button
+                  key={1}
+                  size="md"
+                  shape="rectangle"
+                  variant="danger"
+                  classes={{ root: "mr-2" }}
+                  onClick={() => {
+                    setShowEndRoomModal(true);
+                  }}
+                >
+                  End room
+                </Button>
+              ) : null,
+              <Button
+                key={0}
+                size="md"
+                shape="rectangle"
+                variant="danger"
+                onClick={() => {
+                  leave();
+                  redirectToLeave();
+                }}
+              >
+                <HangUpIcon className="mr-2" />
             Leave room
           </Button>,
-        ]}
-        audioButtonOnClick={toggleAudio}
-        videoButtonOnClick={toggleVideo}
-        backgroundButtonOnClick={handleVirtualBackground}
-        isAudioMuted={!isLocalAudioEnabled}
-        isVideoMuted={!isLocalVideoEnabled}
-        isBackgroundEnabled={isVBPresent}
-        classes={{
-          rightRoot: "flex",
-        }}
-      />
-      <MessageModal
-        {...errorModal}
-        onClose={() => setErrorModal(initialModalProps)}
-      />
-      <MessageModal
-        show={showEndRoomModal}
-        onClose={() => {
-          setShowEndRoomModal(false);
-          setLockRoom(false);
-        }}
-        title="End Room"
-        body="Are you sure you want to end the room?"
-        footer={
-          <div className="flex">
-            <div className="flex items-center">
-              <label className="text-base dark:text-white text-gray-100">
-                <input
-                  type="checkbox"
-                  className="mr-1"
-                  onChange={() => setLockRoom(prev => !prev)}
-                  checked={lockRoom}
-                />
-                <span>Lock room</span>
-              </label>
-            </div>
-            <Button
-              classes={{ root: "mr-3 ml-3" }}
-              onClick={() => {
-                setShowEndRoomModal(false);
-                setLockRoom(false);
-              }}
-            >
-              Cancel
+            ]}
+            audioButtonOnClick={toggleAudio}
+            videoButtonOnClick={toggleVideo}
+            backgroundButtonOnClick={handleVirtualBackground}
+            isAudioMuted={!isLocalAudioEnabled}
+            isVideoMuted={!isLocalVideoEnabled}
+            isBackgroundEnabled={isVBPresent}
+            classes={{
+              rightRoot: "flex",
+            }}
+          />
+          <MessageModal
+            {...errorModal}
+            onClose={() => setErrorModal(initialModalProps)}
+          />
+          <MessageModal
+            show={showEndRoomModal}
+            onClose={() => {
+              setShowEndRoomModal(false);
+              setLockRoom(false);
+            }}
+            title="End Room"
+            body="Are you sure you want to end the room?"
+            footer={
+              <div className="flex">
+                <div className="flex items-center">
+                  <label className="text-base dark:text-white text-gray-100">
+                    <input
+                      type="checkbox"
+                      className="mr-1"
+                      onChange={() => setLockRoom(prev => !prev)}
+                      checked={lockRoom}
+                    />
+                    <span>Lock room</span>
+                  </label>
+                </div>
+                <Button
+                  classes={{ root: "mr-3 ml-3" }}
+                  onClick={() => {
+                    setShowEndRoomModal(false);
+                    setLockRoom(false);
+                  }}
+                >
+                  Cancel
             </Button>
-            <Button
-              variant="danger"
-              onClick={() => {
-                hmsActions.endRoom(lockRoom, "End Room");
-                redirectToLeave();
-              }}
-            >
-              End Room
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    hmsActions.endRoom(lockRoom, "End Room");
+                    redirectToLeave();
+                  }}
+                >
+                  End Room
             </Button>
-          </div>
-        }
-      />
-    </>
-  ) : null;
-};
+              </div>
+            }
+          />
+        </>
+      ) : null;
+    };

@@ -15,6 +15,7 @@ export const convertLoginInfoToJoinConfig = loginInfo => {
       audioOutputDeviceId: loginInfo.selectedAudioOutput,
       videoDeviceId: loginInfo.selectedVideoInput,
     },
+    rememberDeviceSelection: true,
   };
   console.debug("app: Config is", joinConfig);
   return joinConfig;

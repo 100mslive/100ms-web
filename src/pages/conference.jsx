@@ -41,8 +41,8 @@ export const Conference = () => {
         history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
       else history.push(`/preview/${loginInfo.roomId || roomId || ""}`);
     }
-
     return () => {
+      // This is needed to handle mac touchpad swipe gesture
       leave();
     };
     // eslint-disable-next-line
@@ -66,6 +66,7 @@ export const Conference = () => {
       </div>
       <MessageModal
         show={!!roleChangeRequest}
+        onClose={() => hmsActions.rejectChangeRole(roleChangeRequest)}
         title="Role Change Request"
         body={`Role change requested by ${roleChangeRequest?.requestedBy?.name}.
               Changing role to ${roleChangeRequest?.role?.name}.`}
@@ -75,11 +76,6 @@ export const Conference = () => {
               onClick={() => hmsActions.acceptChangeRole(roleChangeRequest)}
             >
               Accept
-            </Button>
-            <Button
-              onClick={() => hmsActions.rejectChangeRole(roleChangeRequest)}
-            >
-              Reject
             </Button>
           </div>
         }
