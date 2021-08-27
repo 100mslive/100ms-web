@@ -12,6 +12,7 @@ import {
   ShareScreenIcon,
   ChatIcon,
   ChatUnreadIcon,
+  MusicIcon,
   VerticalDivider,
   MessageModal,
   useHMSActions,
@@ -41,7 +42,7 @@ const SettingsView = () => {
       <Settings
         onTileCountChange={onChange}
         maxTileCount={maxTileCount}
-        classes={{ sliderContainer: "hidden md:block", root: "mr-2 md:mr-0" }}
+        classes={{ sliderContainer: "hidden md:block", root: "mx-3" }}
       />
     </>
   );
@@ -73,7 +74,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
   function createVBPlugin() {
-    if(!pluginRef.current){
+    if (!pluginRef.current) {
       pluginRef.current = new HMSVirtualBackgroundPlugin("none");
     }
   }
@@ -113,19 +114,32 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     }
   }, [hmsActions, isLocalVideoEnabled]);
 
-  const toggleScreenShare = useCallback(async () => {
-    try {
-      await hmsActions.setScreenShareEnabled(!isScreenShared);
-    } catch (error) {
-      if (error.description.includes("denied by system")) {
-        setErrorModal({
-          show: true,
-          title: "Screen share permission denied by OS",
-          body: "Please update your OS settings to permit screen share.",
-        });
+  const toggleScreenShare = useCallback(
+    async (audioOnly = false) => {
+      try {
+        await hmsActions.setScreenShareEnabled(!isScreenShared, audioOnly);
+      } catch (error) {
+        if (
+          error.description &&
+          error.description.includes("denied by system")
+        ) {
+          setErrorModal({
+            show: true,
+            title: "Screen share permission denied by OS",
+            body: "Please update your OS settings to permit screen share.",
+          });
+        } else if (error.message && error.message.includes("share audio")) {
+          // when share audio not selected with audioOnly screenshare
+          setErrorModal({
+            show: true,
+            title: "Screen share error",
+            body: error.message,
+          });
+        }
       }
-    }
-  }, [hmsActions, isScreenShared]);
+    },
+    [hmsActions, isScreenShared]
+  );
 
   function redirectToLeave() {
     if (params.role) {
@@ -135,12 +149,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     }
   }
 
-  const leftComponents = [<SettingsView key={0} />];
+  const leftComponents = [];
 
   if (!isMobileDevice()) {
     //creating VB button for only web
     createVBPlugin();
-    leftComponents.push(<VerticalDivider key={1} />);
     if (isAllowedToPublish.screen) {
       leftComponents.push(
         <Button
@@ -149,9 +162,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          onClick={toggleScreenShare}
+          onClick={() => toggleScreenShare(true)}
         >
-          <ShareScreenIcon />
+          <MusicIcon />
         </Button>,
         <VerticalDivider key={3} />
       );
@@ -181,7 +194,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               iconOnly
               variant="no-fill"
               iconSize="md"
-              classes={{ root: "mr-2" }}
+              classes={{ root: "mx-2" }}
               shape="rectangle"
               active={!isLocalAudioEnabled}
               onClick={toggleAudio}
@@ -195,13 +208,26 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               iconOnly
               variant="no-fill"
               iconSize="md"
-              classes={{ root: "mr-2" }}
+              classes={{ root: "mx-2" }}
               shape="rectangle"
               active={!isLocalVideoEnabled}
               onClick={toggleVideo}
               key={1}
             >
               {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
+            </Button>
+          ) : null,
+          isAllowedToPublish.screen && !isMobileDevice() ? (
+            <Button
+              key={2}
+              iconOnly
+              variant="no-fill"
+              iconSize="md"
+              shape="rectangle"
+              classes={{ root: "mx-2" }}
+              onClick={() => toggleScreenShare(false)}
+            >
+              <ShareScreenIcon />
             </Button>
           ) : null,
           isAllowedToPublish.video && pluginRef.current?.isSupported() ? (
@@ -211,11 +237,16 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={isVBPresent}
               onClick={handleVirtualBackground}
-              key={2}
+              classes={{ root: "ml-2" }}
+              key={3}
             >
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
+          <span key={4} className="mx-2 md:mx-3"></span>,
+          <VerticalDivider key={5} />,
+          <span key={6} className="mx-2 md:mx-3"></span>,
+          <SettingsView key={7} />,
         ]}
         rightComponents={[
           permissions?.endRoom ? (
@@ -237,13 +268,15 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             size="md"
             shape="rectangle"
             variant="danger"
+            iconOnly={isMobileDevice()}
+            active={isMobileDevice()}
             onClick={() => {
               leave();
               redirectToLeave();
             }}
           >
-            <HangUpIcon className="mr-2" />
-            Leave room
+            <HangUpIcon className={isMobileDevice() ? "" : "mr-2"} />
+            {isMobileDevice() ? "" : "Leave room"}
           </Button>,
         ]}
         audioButtonOnClick={toggleAudio}
@@ -252,9 +285,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
         isBackgroundEnabled={isVBPresent}
-        classes={{
-          rightRoot: "flex",
-        }}
       />
       <MessageModal
         {...errorModal}
