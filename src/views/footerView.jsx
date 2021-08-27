@@ -243,9 +243,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
-          <span key={4} className="mx-3"></span>,
+          <span key={4} className="mx-2 md:mx-3"></span>,
           <VerticalDivider key={5} />,
-          <span key={6} className="mx-3"></span>,
+          <span key={6} className="mx-2 md:mx-3"></span>,
           <SettingsView key={7} />,
         ]}
         rightComponents={[
@@ -268,13 +268,15 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             size="md"
             shape="rectangle"
             variant="danger"
+            iconOnly={isMobileDevice()}
+            active={isMobileDevice()}
             onClick={() => {
               leave();
               redirectToLeave();
             }}
           >
-            <HangUpIcon className="mr-2" />
-            Leave room
+            <HangUpIcon className={isMobileDevice() ? "" : "mr-2"} />
+            {isMobileDevice() ? "" : "Leave room"}
           </Button>,
         ]}
         audioButtonOnClick={toggleAudio}
