@@ -83,6 +83,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
+  /// TODO : use hms store
   useEffect(() => {
     if (isConnected) {
       hmsActions.addNoiseSupression(noiseSupression);
