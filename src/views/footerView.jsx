@@ -115,7 +115,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }, [hmsActions, isLocalVideoEnabled]);
 
   const toggleScreenShare = useCallback(
-    async audioOnly => {
+    async (audioOnly = false) => {
       try {
         await hmsActions.setScreenShareEnabled(!isScreenShared, audioOnly);
       } catch (error) {
@@ -162,7 +162,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          onClick={toggleScreenShare}
+          onClick={() => toggleScreenShare(true)}
         >
           <MusicIcon />
         </Button>,
@@ -225,7 +225,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               iconSize="md"
               shape="rectangle"
               classes={{ root: "mx-2" }}
-              onClick={toggleScreenShare}
+              onClick={() => toggleScreenShare(false)}
             >
               <ShareScreenIcon />
             </Button>
