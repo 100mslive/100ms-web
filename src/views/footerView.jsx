@@ -237,15 +237,16 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={isVBPresent}
               onClick={handleVirtualBackground}
-              classes={{ root: "ml-2 mr-3" }}
+              classes={{ root: "ml-2" }}
               key={3}
             >
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
-          <VerticalDivider key={4} />,
-          <span key={5} className="mx-3"></span>,
-          <SettingsView key={6} />,
+          <span key={4} className="mx-3"></span>,
+          <VerticalDivider key={5} />,
+          <span key={6} className="mx-3"></span>,
+          <SettingsView key={7} />,
         ]}
         rightComponents={[
           permissions?.endRoom ? (
