@@ -12,6 +12,7 @@ import {
   ShareScreenIcon,
   ChatIcon,
   ChatUnreadIcon,
+  MusicIcon,
   VerticalDivider,
   MessageModal,
   useHMSActions,
@@ -24,7 +25,6 @@ import {
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
   selectPermissions,
-  MusicIcon,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
