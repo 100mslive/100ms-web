@@ -60,7 +60,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
-  //const isConnected1 = useHMSStore(selectIsConnectedToRoom);
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const isVBPresent = useHMSStore(
     selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
@@ -75,7 +74,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [noiseSupression, setNoiseSupression] = useState(false);
-  //const [isBrowserSupported,setIsBrowserSupported] = useState(false);
   let isBrowserSupported = false;
 
   const initialModalProps = {
@@ -85,12 +83,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
-  /// TODO : use hms store
-  // useEffect(() => {
-  //   if (isConnected) {
-  //     hmsActions.addNoiseSupression(noiseSupression);
-  //   }
-  // }, [isConnected, noiseSupression]); //noiseSupression
 
  async function startPlugin() {
     if (!pluginRef.current) {
