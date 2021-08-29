@@ -30,11 +30,12 @@ import {
   isMobileDevice,
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
+  selectIsLocalAudioPluginPresent,
   selectPermissions,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
-import { HMSNoiseSuppressionPlugin } from "hms-audionoise-suppression";
+import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
 
 import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
@@ -75,8 +76,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const noiseSupression = useHMSStore(
-    selectIsLocalAudioPluginPresent("hms-audionoise-suppression")
+    selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
+  console.log("g", noiseSupression)
+   console.log("gg",isVBPresent)
+// const [noiseSupression, setNoiseSuppression] = useState(false);
   
   const initialModalProps = {
     show: false,
@@ -87,20 +91,24 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   function createNoiseSupresionPlugin() {
     if (!audiopluginRef.current) {
+      console.log("creation cal,ed")
       audiopluginRef.current = new HMSNoiseSuppressionPlugin();
     }
   }
-
+  
   async function startAudioPlugin() {
-    createNoiseSupresionPlugin();
-    await audiopluginRef.current.setNoiseSuppression(noiseSupression);
-    await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+      createNoiseSupresionPlugin();
+      console.log("start", noiseSupression);
+      audiopluginRef.current.setNoiseSuppression(noiseSupression);
+      hmsActions.addPluginToAudioTrack(audiopluginRef.current);
   }
 
   async function removeAudioPlugin() {
     if (audiopluginRef.current) {
-      await hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
-      audiopluginRef.current = null;
+      console.log("remove", noiseSupression);
+  
+     hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
+     audiopluginRef.current = null;
     }
   }
 
@@ -128,8 +136,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     isVBPresent ? removePlugin() : startPlugin();
   }
   function handleNoiseSupression() {
-    noiseSupression ? removeAudioPlugin() : startAudioPlugin();
-  }
+   noiseSupression ? startAudioPlugin() : removeAudioPlugin();
+}
+  useEffect(() => {
+    noiseSupression ? startAudioPlugin() : removeAudioPlugin();
+  },[noiseSupression]);
+    
 
   const toggleAudio = useCallback(async () => {
     try {
@@ -168,14 +180,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       history.push("/leave/" + params.roomId);
     }
   }
-  function isBrowserSupported1() {
-    return (
-      navigator.userAgent.indexOf("Chrome") !== -1 ||
-      navigator.userAgent.indexOf("Firefox") !== -1 ||
-      navigator.userAgent.indexOf("Edg") !== -1
-    );
-  }
-
+ 
   const leftComponents = [<SettingsView key={0} />];
 
   if (!isMobileDevice()) {
@@ -267,7 +272,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               onClick={handleNoiseSupression}
               key={3}
             >
-              <NoiseSupressionIcon />
+              <VirtualBackgroundIcon />
             </Button>
           ) : null,
         ]}
@@ -305,7 +310,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         backgroundButtonOnClick={handleVirtualBackground}
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
-        isBackgroundEnabled={isVBPresent}
+      //  isBackgroundEnabled={isVBPresent}
         classes={{
           rightRoot: "flex",
         }}
