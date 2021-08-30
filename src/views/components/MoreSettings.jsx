@@ -1,0 +1,138 @@
+import React, { useState, useContext, Fragment } from "react";
+import {
+  Button,
+  ContextMenu,
+  ContextMenuItem,
+  HamburgerMenuIcon,
+  PersonIcon,
+  Settings,
+  SettingsIcon,
+  useHMSStore,
+  selectAvailableRoleNames,
+  selectLocalPeer,
+  TickIcon,
+  ArrowRightIcon,
+  useHMSActions,
+} from "@100mslive/hms-video-react";
+import { AppContext } from "../../store/AppContext";
+import { hmsToast } from "./notifications/hms-toast";
+
+export const MoreSettings = () => {
+  const { setMaxTileCount, maxTileCount } = useContext(AppContext);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const roles = useHMSStore(selectAvailableRoleNames);
+  const localPeer = useHMSStore(selectLocalPeer);
+  const hmsActions = useHMSActions();
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const onChange = count => {
+    setMaxTileCount(count);
+  };
+
+  return (
+    <Fragment>
+      <ContextMenu
+        menuOpen={showMenu}
+        onTrigger={value => {
+          setShowMenu(value);
+        }}
+        classes={{
+          root: "static",
+          trigger: "bg-transparent-0",
+          menu: "mt-0 py-0",
+        }}
+        trigger={
+          <Button
+            iconOnly
+            variant="no-fill"
+            iconSize="md"
+            shape="rectangle"
+            active={showMenu}
+          >
+            <HamburgerMenuIcon />
+          </Button>
+        }
+        menuProps={{
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+          transformOrigin: {
+            vertical: "bottom",
+            horizontal: "center",
+          },
+        }}
+      >
+        <ContextMenuItem
+          icon={<PersonIcon />}
+          label="Change Role"
+          key="changeRole"
+          classes={{ menuTitleContainer: "relative" }}
+          closeMenuOnClick={false}
+          iconRight={<ArrowRightIcon />}
+          onClick={event => {
+            setAnchorEl(anchorEl ? null : event.currentTarget);
+          }}
+        >
+          {anchorEl && (
+            <ContextMenu
+              classes={{ trigger: "bg-transparent-0" }}
+              menuOpen
+              menuProps={{
+                anchorEl: anchorEl,
+                anchorOrigin: {
+                  vertical: "top",
+                  horizontal: "right",
+                },
+                transformOrigin: {
+                  vertical: "center",
+                  horizontal: -12,
+                },
+              }}
+              trigger={<div className="absolute w-full h-full"></div>}
+            >
+              {roles.map(role => {
+                return (
+                  <ContextMenuItem
+                    label={role}
+                    key={role}
+                    onClick={async () => {
+                      try {
+                        await hmsActions.changeRole(localPeer.id, role, true);
+                        setShowMenu(false);
+                      } catch (error) {
+                        hmsToast(error.message);
+                      }
+                    }}
+                    iconRight={
+                      localPeer && localPeer.roleName === role ? (
+                        <TickIcon width={16} height={16} />
+                      ) : null
+                    }
+                  />
+                );
+              })}
+            </ContextMenu>
+          )}
+        </ContextMenuItem>
+        <ContextMenuItem
+          icon={<SettingsIcon />}
+          label="Settings"
+          key="settings"
+          onClick={() => {
+            setShowSettings(true);
+          }}
+        />
+      </ContextMenu>
+      <Settings
+        className="hidden"
+        onTileCountChange={onChange}
+        maxTileCount={maxTileCount}
+        classes={{ sliderContainer: "hidden md:block" }}
+        showModal={showSettings}
+        onModalClose={() => setShowSettings(false)}
+      />
+    </Fragment>
+  );
+};
