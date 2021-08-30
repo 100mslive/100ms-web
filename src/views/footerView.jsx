@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useContext, useRef } from "react";
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useRef,
+  Fragment,
+} from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -15,6 +21,8 @@ import {
   MusicIcon,
   VerticalDivider,
   MessageModal,
+  ContextMenu,
+  ContextMenuItem,
   useHMSActions,
   Settings,
   selectIsLocalScreenShared,
@@ -25,6 +33,8 @@ import {
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
   selectPermissions,
+  HamburgerMenuIcon,
+  SettingsIcon,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -33,18 +43,64 @@ import { getRandomVirtualBackground } from "../common/utils";
 
 const SettingsView = () => {
   const { setMaxTileCount, maxTileCount } = useContext(AppContext);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   const onChange = count => {
     setMaxTileCount(count);
   };
   return (
-    <>
+    <Fragment>
+      <ContextMenu
+        menuOpen={showMenu}
+        onTrigger={value => {
+          console.log("onTrigger", value);
+          setShowMenu(value);
+        }}
+        classes={{
+          root: "static",
+          trigger: "bg-transparent",
+          menu: "mt-0 py-0",
+        }}
+        trigger={
+          <Button
+            iconOnly
+            variant="no-fill"
+            iconSize="md"
+            shape="rectangle"
+            active={showMenu}
+            onClick={() => {}}
+          >
+            <HamburgerMenuIcon />
+          </Button>
+        }
+        menuProps={{
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+          transformOrigin: {
+            vertical: "bottom",
+            horizontal: "center",
+          },
+        }}
+      >
+        <ContextMenuItem
+          icon={<SettingsIcon />}
+          label="Settings"
+          key="settings"
+          onClick={() => setShowSettings(true)}
+        />
+      </ContextMenu>
       <Settings
+        className="hidden"
         onTileCountChange={onChange}
         maxTileCount={maxTileCount}
-        classes={{ sliderContainer: "hidden md:block", root: "mx-3" }}
+        classes={{ sliderContainer: "hidden md:block" }}
+        showModal={showSettings}
+        onModalClose={() => setShowSettings(false)}
       />
-    </>
+    </Fragment>
   );
 };
 
