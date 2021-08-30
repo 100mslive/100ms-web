@@ -59,7 +59,7 @@ const SettingsView = () => {
         }}
         classes={{
           root: "static",
-          trigger: "bg-transparent",
+          trigger: "bg-transparent-0",
           menu: "mt-0 py-0",
         }}
         trigger={
