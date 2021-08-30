@@ -78,9 +78,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const noiseSupression = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
-  console.log("g", noiseSupression)
-   console.log("gg",isVBPresent)
-// const [noiseSupression, setNoiseSuppression] = useState(false);
+ 
   
   const initialModalProps = {
     show: false,
@@ -91,21 +89,21 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   function createNoiseSupresionPlugin() {
     if (!audiopluginRef.current) {
-      console.log("creation cal,ed")
+      
       audiopluginRef.current = new HMSNoiseSuppressionPlugin();
     }
   }
   
   async function startAudioPlugin() {
       createNoiseSupresionPlugin();
-      console.log("start", noiseSupression);
-      audiopluginRef.current.setNoiseSuppression(noiseSupression);
+     
+      audiopluginRef.current.setNoiseSuppression(!noiseSupression);
       hmsActions.addPluginToAudioTrack(audiopluginRef.current);
   }
 
   async function removeAudioPlugin() {
     if (audiopluginRef.current) {
-      console.log("remove", noiseSupression);
+     
   
      hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
      audiopluginRef.current = null;
@@ -136,12 +134,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     isVBPresent ? removePlugin() : startPlugin();
   }
   function handleNoiseSupression() {
-   noiseSupression ? startAudioPlugin() : removeAudioPlugin();
+   noiseSupression ? removeAudioPlugin() : startAudioPlugin();
 }
-  useEffect(() => {
-    noiseSupression ? startAudioPlugin() : removeAudioPlugin();
-  },[noiseSupression]);
-    
+ 
 
   const toggleAudio = useCallback(async () => {
     try {
@@ -272,7 +267,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               onClick={handleNoiseSupression}
               key={3}
             >
-              <VirtualBackgroundIcon />
+              <NoiseSupressionIcon />
             </Button>
           ) : null,
         ]}
@@ -310,7 +305,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         backgroundButtonOnClick={handleVirtualBackground}
         isAudioMuted={!isLocalAudioEnabled}
         isVideoMuted={!isLocalVideoEnabled}
-      //  isBackgroundEnabled={isVBPresent}
+         isBackgroundEnabled={isVBPresent}
         classes={{
           rightRoot: "flex",
         }}
