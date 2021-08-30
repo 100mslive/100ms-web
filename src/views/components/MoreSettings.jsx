@@ -74,6 +74,7 @@ export const MoreSettings = () => {
           onClick={event => {
             setAnchorEl(anchorEl ? null : event.currentTarget);
           }}
+          active={!!anchorEl}
         >
           {anchorEl && (
             <ContextMenu
