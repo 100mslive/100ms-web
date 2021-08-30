@@ -66,7 +66,7 @@ export const MoreSettings = () => {
       >
         <ContextMenuItem
           icon={<PersonIcon />}
-          label="Change Role"
+          label="Change my role"
           key="changeRole"
           classes={{ menuTitleContainer: "relative" }}
           closeMenuOnClick={false}
@@ -118,7 +118,7 @@ export const MoreSettings = () => {
         </ContextMenuItem>
         <ContextMenuItem
           icon={<SettingsIcon />}
-          label="Settings"
+          label="Device Settings"
           key="settings"
           onClick={() => {
             setShowSettings(true);
