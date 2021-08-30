@@ -40,7 +40,7 @@ export const MoreSettings = () => {
         classes={{
           root: "static",
           trigger: "bg-transparent-0",
-          menu: "mt-0 py-0",
+          menu: "mt-0 py-0 w-52",
         }}
         trigger={
           <Button
@@ -77,7 +77,7 @@ export const MoreSettings = () => {
         >
           {anchorEl && (
             <ContextMenu
-              classes={{ trigger: "bg-transparent-0" }}
+              classes={{ trigger: "bg-transparent-0", menu: "w-44" }}
               menuOpen
               menuProps={{
                 anchorEl: anchorEl,
