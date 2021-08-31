@@ -71,7 +71,10 @@ export const MoreSettings = () => {
             icon={<PersonIcon />}
             label="Change my role"
             key="changeRole"
-            classes={{ menuTitleContainer: "relative" }}
+            classes={{
+              menuTitleContainer: "relative",
+              menuItemChildren: "hidden",
+            }}
             closeMenuOnClick={false}
             iconRight={<ArrowRightIcon />}
             onClick={event => {
@@ -94,7 +97,7 @@ export const MoreSettings = () => {
                     horizontal: -12,
                   },
                 }}
-                trigger={<div className="absolute w-full h-full"></div>}
+                trigger={<div className="absolute w-full h-0"></div>}
               >
                 {roles.map(role => {
                   return (
