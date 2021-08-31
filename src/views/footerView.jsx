@@ -3,11 +3,13 @@ import React, {
   useCallback,
   useContext,
   useRef,
-  useEffect,
+  Fragment,
 } from "react";
 import {
   useHMSStore,
   ControlBar,
+  ContextMenu,
+  ContextMenuItem,
   HangUpIcon,
   MicOffIcon,
   MicOnIcon,
@@ -19,10 +21,10 @@ import {
   ShareScreenIcon,
   ChatIcon,
   ChatUnreadIcon,
+  MusicIcon,
   VerticalDivider,
   MessageModal,
   useHMSActions,
-  Settings,
   selectIsLocalScreenShared,
   selectIsLocalAudioEnabled,
   selectIsLocalVideoDisplayEnabled,
@@ -39,23 +41,7 @@ import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
 
 import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
-
-const SettingsView = () => {
-  const { setMaxTileCount, maxTileCount } = useContext(AppContext);
-
-  const onChange = count => {
-    setMaxTileCount(count);
-  };
-  return (
-    <>
-      <Settings
-        onTileCountChange={onChange}
-        maxTileCount={maxTileCount}
-        classes={{ sliderContainer: "hidden md:block", root: "mr-2 md:mr-0" }}
-      />
-    </>
-  );
-};
+import { MoreSettings } from "./components/MoreSettings";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -75,11 +61,13 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const permissions = useHMSStore(selectPermissions);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+
   const noiseSupression = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
- 
-  
+
+
   const initialModalProps = {
     show: false,
     title: "",
@@ -89,22 +77,22 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   function createNoiseSupresionPlugin() {
     if (!audiopluginRef.current) {
-      
+
       audiopluginRef.current = new HMSNoiseSuppressionPlugin();
     }
   }
-  
+
   async function startAudioPlugin() {
       createNoiseSupresionPlugin();
-     
+
       audiopluginRef.current.setNoiseSuppression(!noiseSupression);
       hmsActions.addPluginToAudioTrack(audiopluginRef.current);
   }
 
   async function removeAudioPlugin() {
     if (audiopluginRef.current) {
-     
-  
+
+
      hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
      audiopluginRef.current = null;
     }
@@ -136,7 +124,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   function handleNoiseSupression() {
    noiseSupression ? removeAudioPlugin() : startAudioPlugin();
 }
- 
+
 
   const toggleAudio = useCallback(async () => {
     try {
@@ -154,29 +142,43 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     }
   }, [hmsActions, isLocalVideoEnabled]);
 
-  const toggleScreenShare = useCallback(async () => {
-    try {
-      await hmsActions.setScreenShareEnabled(!isScreenShared);
-    } catch (error) {
-      if (error.description.includes("denied by system")) {
-        setErrorModal({
-          show: true,
-          title: "Screen share permission denied by OS",
-          body: "Please update your OS settings to permit screen share.",
-        });
+  const toggleScreenShare = useCallback(
+    async (audioOnly = false) => {
+      try {
+        await hmsActions.setScreenShareEnabled(!isScreenShared, audioOnly);
+      } catch (error) {
+        if (
+          error.description &&
+          error.description.includes("denied by system")
+        ) {
+          setErrorModal({
+            show: true,
+            title: "Screen share permission denied by OS",
+            body: "Please update your OS settings to permit screen share.",
+          });
+        } else if (error.message && error.message.includes("share audio")) {
+          // when share audio not selected with audioOnly screenshare
+          setErrorModal({
+            show: true,
+            title: "Screen share error",
+            body: error.message,
+          });
+        }
       }
-    }
-  }, [hmsActions, isScreenShared]);
+    },
+    [hmsActions, isScreenShared]
+  );
 
-  function redirectToLeave() {
+  function leaveRoom() {
+    leave();
     if (params.role) {
       history.push("/leave/" + params.roomId + "/" + params.role);
     } else {
       history.push("/leave/" + params.roomId);
     }
   }
- 
-  const leftComponents = [<SettingsView key={0} />];
+
+  const leftComponents = [];
 
   if (!isMobileDevice()) {
     //creating VB button for only web
@@ -191,9 +193,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          onClick={toggleScreenShare}
+          onClick={() => toggleScreenShare(true)}
         >
-          <ShareScreenIcon />
+          <MusicIcon />
         </Button>,
         <VerticalDivider key={3} />
       );
@@ -213,6 +215,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     );
   }
 
+  const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
+
   return isConnected ? (
     <>
       <ControlBar
@@ -223,7 +227,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               iconOnly
               variant="no-fill"
               iconSize="md"
-              classes={{ root: "mr-2" }}
+              classes={{ root: "mx-2" }}
               shape="rectangle"
               active={!isLocalAudioEnabled}
               onClick={toggleAudio}
@@ -237,13 +241,26 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               iconOnly
               variant="no-fill"
               iconSize="md"
-              classes={{ root: "mr-2" }}
+              classes={{ root: "mx-2" }}
               shape="rectangle"
               active={!isLocalVideoEnabled}
               onClick={toggleVideo}
               key={1}
             >
               {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
+            </Button>
+          ) : null,
+          isAllowedToPublish.screen && !isMobileDevice() ? (
+            <Button
+              key={2}
+              iconOnly
+              variant="no-fill"
+              iconSize="md"
+              shape="rectangle"
+              classes={{ root: "mx-2" }}
+              onClick={() => toggleScreenShare(false)}
+            >
+              <ShareScreenIcon />
             </Button>
           ) : null,
           isAllowedToPublish.video && pluginRef.current?.isSupported() ? (
@@ -253,11 +270,16 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={isVBPresent}
               onClick={handleVirtualBackground}
-              key={2}
+              classes={{ root: "ml-2" }}
+              key={3}
             >
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
+          isPublishing && <span key={4} className="mx-2 md:mx-3"></span>,
+          isPublishing && <VerticalDivider key={5} />,
+          isPublishing && <span key={6} className="mx-2 md:mx-3"></span>,
+          <MoreSettings key={7} />,
           isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
             <Button
               iconOnly
@@ -272,33 +294,86 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           ) : null,
         ]}
         rightComponents={[
-          permissions?.endRoom ? (
-            <Button
-              key={1}
-              size="md"
-              shape="rectangle"
-              variant="danger"
-              classes={{ root: "mr-2" }}
-              onClick={() => {
-                setShowEndRoomModal(true);
-              }}
-            >
-              End room
-            </Button>
-          ) : null,
-          <Button
-            key={0}
-            size="md"
-            shape="rectangle"
-            variant="danger"
-            onClick={() => {
-              leave();
-              redirectToLeave();
+          <ContextMenu
+            classes={{
+              trigger: "w-auto h-auto",
+              root: "static",
+              menu: "w-56 bg-white dark:bg-gray-100",
+              menuItem: "hover:bg-transparent-0 dark:hover:bg-transparent-0",
+            }}
+            onTrigger={value => {
+              if (permissions?.endRoom) {
+                setShowMenu(value);
+              } else {
+                leaveRoom();
+              }
+            }}
+            menuOpen={showMenu}
+            trigger={
+              <Button
+                size="md"
+                shape="rectangle"
+                variant="danger"
+                iconOnly={isMobileDevice()}
+                active={isMobileDevice()}
+              >
+                <HangUpIcon className={isMobileDevice() ? "" : "mr-2"} />
+                {isMobileDevice() ? "" : "Leave room"}
+              </Button>
+            }
+            menuProps={{
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+              transformOrigin: {
+                vertical: 144,
+                horizontal: "center",
+              },
             }}
           >
-            <HangUpIcon className="mr-2" />
-            Leave room
-          </Button>,
+            <ContextMenuItem
+              label="Leave Room"
+              key="leaveRoom"
+              classes={{
+                menuTitleContainer: "hidden",
+                menuItemChildren: "my-2 w-full",
+              }}
+            >
+              <Button
+                shape="rectangle"
+                variant="standard"
+                classes={{ root: "w-full" }}
+                onClick={() => {
+                  leaveRoom();
+                }}
+              >
+                Leave without ending room
+              </Button>
+            </ContextMenuItem>
+
+            {permissions?.endRoom && (
+              <ContextMenuItem
+                label="End Room"
+                key="endRoom"
+                classes={{
+                  menuTitleContainer: "hidden",
+                  menuItemChildren: "my-2 w-full",
+                }}
+              >
+                <Button
+                  shape="rectangle"
+                  variant="danger"
+                  classes={{ root: "w-full" }}
+                  onClick={() => {
+                    setShowEndRoomModal(true);
+                  }}
+                >
+                  End Room for all
+                </Button>
+              </ContextMenuItem>
+            )}
+          </ContextMenu>,
         ]}
         audioButtonOnClick={toggleAudio}
         videoButtonOnClick={toggleVideo}
@@ -309,6 +384,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         classes={{
           rightRoot: "flex",
         }}
+        isBackgroundEnabled={isVBPresent}
       />
       <MessageModal
         {...errorModal}
@@ -348,7 +424,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               variant="danger"
               onClick={() => {
                 hmsActions.endRoom(lockRoom, "End Room");
-                redirectToLeave();
+                leaveRoom();
               }}
             >
               End Room
