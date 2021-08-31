@@ -287,7 +287,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={noiseSupression}
               onClick={handleNoiseSupression}
-              key={3}
+              key={8}
             >
               <NoiseSupressionIcon />
             </Button>
