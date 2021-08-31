@@ -13,17 +13,19 @@ import {
   TickIcon,
   ArrowRightIcon,
   useHMSActions,
+  selectPermissions,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
 
 export const MoreSettings = () => {
   const { setMaxTileCount, maxTileCount } = useContext(AppContext);
-  const [showMenu, setShowMenu] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
   const roles = useHMSStore(selectAvailableRoleNames);
   const localPeer = useHMSStore(selectLocalPeer);
+  const permissions = useHMSStore(selectPermissions);
   const hmsActions = useHMSActions();
+  const [showMenu, setShowMenu] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const onChange = count => {
@@ -64,59 +66,61 @@ export const MoreSettings = () => {
           },
         }}
       >
-        <ContextMenuItem
-          icon={<PersonIcon />}
-          label="Change my role"
-          key="changeRole"
-          classes={{ menuTitleContainer: "relative" }}
-          closeMenuOnClick={false}
-          iconRight={<ArrowRightIcon />}
-          onClick={event => {
-            setAnchorEl(anchorEl ? null : event.currentTarget);
-          }}
-          active={!!anchorEl}
-        >
-          {anchorEl && (
-            <ContextMenu
-              classes={{ trigger: "bg-transparent-0", menu: "w-44" }}
-              menuOpen
-              menuProps={{
-                anchorEl: anchorEl,
-                anchorOrigin: {
-                  vertical: "top",
-                  horizontal: "right",
-                },
-                transformOrigin: {
-                  vertical: "center",
-                  horizontal: -12,
-                },
-              }}
-              trigger={<div className="absolute w-full h-full"></div>}
-            >
-              {roles.map(role => {
-                return (
-                  <ContextMenuItem
-                    label={role}
-                    key={role}
-                    onClick={async () => {
-                      try {
-                        await hmsActions.changeRole(localPeer.id, role, true);
-                        setShowMenu(false);
-                      } catch (error) {
-                        hmsToast(error.message);
+        {permissions.changeRole && (
+          <ContextMenuItem
+            icon={<PersonIcon />}
+            label="Change my role"
+            key="changeRole"
+            classes={{ menuTitleContainer: "relative" }}
+            closeMenuOnClick={false}
+            iconRight={<ArrowRightIcon />}
+            onClick={event => {
+              setAnchorEl(anchorEl ? null : event.currentTarget);
+            }}
+            active={!!anchorEl}
+          >
+            {anchorEl && (
+              <ContextMenu
+                classes={{ trigger: "bg-transparent-0", menu: "w-44" }}
+                menuOpen
+                menuProps={{
+                  anchorEl: anchorEl,
+                  anchorOrigin: {
+                    vertical: "top",
+                    horizontal: "right",
+                  },
+                  transformOrigin: {
+                    vertical: "center",
+                    horizontal: -12,
+                  },
+                }}
+                trigger={<div className="absolute w-full h-full"></div>}
+              >
+                {roles.map(role => {
+                  return (
+                    <ContextMenuItem
+                      label={role}
+                      key={role}
+                      onClick={async () => {
+                        try {
+                          await hmsActions.changeRole(localPeer.id, role, true);
+                          setShowMenu(false);
+                        } catch (error) {
+                          hmsToast(error.message);
+                        }
+                      }}
+                      iconRight={
+                        localPeer && localPeer.roleName === role ? (
+                          <TickIcon width={16} height={16} />
+                        ) : null
                       }
-                    }}
-                    iconRight={
-                      localPeer && localPeer.roleName === role ? (
-                        <TickIcon width={16} height={16} />
-                      ) : null
-                    }
-                  />
-                );
-              })}
-            </ContextMenu>
-          )}
-        </ContextMenuItem>
+                    />
+                  );
+                })}
+              </ContextMenu>
+            )}
+          </ContextMenuItem>
+        )}
         <ContextMenuItem
           icon={<SettingsIcon />}
           label="Device Settings"
