@@ -232,7 +232,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={isVBPresent}
               onClick={handleVirtualBackground}
-              classes={{ root: "ml-2" }}
+              classes={{ root: "mx-2" }}
               key={3}
             >
               <VirtualBackgroundIcon />
@@ -277,7 +277,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 horizontal: "center",
               },
               transformOrigin: {
-                vertical: 144,
+                vertical: 136,
                 horizontal: "center",
               },
             }}
@@ -287,7 +287,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               key="leaveRoom"
               classes={{
                 menuTitleContainer: "hidden",
-                menuItemChildren: "my-2 w-full",
+                menuItemChildren: "my-1 w-full overflow-hidden",
               }}
             >
               <Button
@@ -308,7 +308,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 key="endRoom"
                 classes={{
                   menuTitleContainer: "hidden",
-                  menuItemChildren: "my-2 w-full",
+                  menuItemChildren: "my-1 w-full",
                 }}
               >
                 <Button
