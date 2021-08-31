@@ -173,6 +173,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     );
   }
 
+  const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
+
   return isConnected ? (
     <>
       <ControlBar
@@ -232,9 +234,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
-          <span key={4} className="mx-2 md:mx-3"></span>,
-          <VerticalDivider key={5} />,
-          <span key={6} className="mx-2 md:mx-3"></span>,
+          isPublishing && <span key={4} className="mx-2 md:mx-3"></span>,
+          isPublishing && <VerticalDivider key={5} />,
+          isPublishing && <span key={6} className="mx-2 md:mx-3"></span>,
           <MoreSettings key={7} />,
         ]}
         rightComponents={[
