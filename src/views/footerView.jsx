@@ -1,7 +1,15 @@
-import React, { useState, useCallback, useContext, useRef } from "react";
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useRef,
+  Fragment,
+} from "react";
 import {
   useHMSStore,
   ControlBar,
+  ContextMenu,
+  ContextMenuItem,
   HangUpIcon,
   MicOffIcon,
   MicOnIcon,
@@ -16,7 +24,6 @@ import {
   VerticalDivider,
   MessageModal,
   useHMSActions,
-  Settings,
   selectIsLocalScreenShared,
   selectIsLocalAudioEnabled,
   selectIsLocalVideoDisplayEnabled,
@@ -30,23 +37,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
-
-const SettingsView = () => {
-  const { setMaxTileCount, maxTileCount } = useContext(AppContext);
-
-  const onChange = count => {
-    setMaxTileCount(count);
-  };
-  return (
-    <>
-      <Settings
-        onTileCountChange={onChange}
-        maxTileCount={maxTileCount}
-        classes={{ sliderContainer: "hidden md:block", root: "mx-3" }}
-      />
-    </>
-  );
-};
+import { MoreSettings } from "./components/MoreSettings";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -65,6 +56,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const permissions = useHMSStore(selectPermissions);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const initialModalProps = {
     show: false,
@@ -141,7 +133,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     [hmsActions, isScreenShared]
   );
 
-  function redirectToLeave() {
+  function leaveRoom() {
+    leave();
     if (params.role) {
       history.push("/leave/" + params.roomId + "/" + params.role);
     } else {
@@ -183,6 +176,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       </Button>
     );
   }
+
+  const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
 
   return isConnected ? (
     <>
@@ -243,41 +238,92 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
-          <span key={4} className="mx-2 md:mx-3"></span>,
-          <VerticalDivider key={5} />,
-          <span key={6} className="mx-2 md:mx-3"></span>,
-          <SettingsView key={7} />,
+          isPublishing && <span key={4} className="mx-2 md:mx-3"></span>,
+          isPublishing && <VerticalDivider key={5} />,
+          isPublishing && <span key={6} className="mx-2 md:mx-3"></span>,
+          <MoreSettings key={7} />,
         ]}
         rightComponents={[
-          permissions?.endRoom ? (
-            <Button
-              key={1}
-              size="md"
-              shape="rectangle"
-              variant="danger"
-              classes={{ root: "mr-2" }}
-              onClick={() => {
-                setShowEndRoomModal(true);
-              }}
-            >
-              End room
-            </Button>
-          ) : null,
-          <Button
-            key={0}
-            size="md"
-            shape="rectangle"
-            variant="danger"
-            iconOnly={isMobileDevice()}
-            active={isMobileDevice()}
-            onClick={() => {
-              leave();
-              redirectToLeave();
+          <ContextMenu
+            classes={{
+              trigger: "w-auto h-auto",
+              root: "static",
+              menu: "w-56 bg-white dark:bg-gray-100",
+              menuItem: "hover:bg-transparent-0 dark:hover:bg-transparent-0",
+            }}
+            onTrigger={value => {
+              if (permissions?.endRoom) {
+                setShowMenu(value);
+              } else {
+                leaveRoom();
+              }
+            }}
+            menuOpen={showMenu}
+            trigger={
+              <Button
+                size="md"
+                shape="rectangle"
+                variant="danger"
+                iconOnly={isMobileDevice()}
+                active={isMobileDevice()}
+              >
+                <HangUpIcon className={isMobileDevice() ? "" : "mr-2"} />
+                {isMobileDevice() ? "" : "Leave room"}
+              </Button>
+            }
+            menuProps={{
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+              transformOrigin: {
+                vertical: 144,
+                horizontal: "center",
+              },
             }}
           >
-            <HangUpIcon className={isMobileDevice() ? "" : "mr-2"} />
-            {isMobileDevice() ? "" : "Leave room"}
-          </Button>,
+            <ContextMenuItem
+              label="Leave Room"
+              key="leaveRoom"
+              classes={{
+                menuTitleContainer: "hidden",
+                menuItemChildren: "my-2 w-full",
+              }}
+            >
+              <Button
+                shape="rectangle"
+                variant="standard"
+                classes={{ root: "w-full" }}
+                onClick={() => {
+                  leaveRoom();
+                }}
+              >
+                Leave without ending room
+              </Button>
+            </ContextMenuItem>
+
+            {permissions?.endRoom && (
+              <ContextMenuItem
+                label="End Room"
+                key="endRoom"
+                classes={{
+                  menuTitleContainer: "hidden",
+                  menuItemChildren: "my-2 w-full",
+                }}
+              >
+                <Button
+                  shape="rectangle"
+                  variant="danger"
+                  classes={{ root: "w-full" }}
+                  onClick={() => {
+                    setShowEndRoomModal(true);
+                  }}
+                >
+                  End Room for all
+                </Button>
+              </ContextMenuItem>
+            )}
+          </ContextMenu>,
         ]}
         audioButtonOnClick={toggleAudio}
         videoButtonOnClick={toggleVideo}
@@ -324,7 +370,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               variant="danger"
               onClick={() => {
                 hmsActions.endRoom(lockRoom, "End Room");
-                redirectToLeave();
+                leaveRoom();
               }}
             >
               End Room
