@@ -75,7 +75,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
-  function createNoiseSupresionPlugin() {
+  function createNoiseSuppresionPlugin() {
     if (!audiopluginRef.current) {
 
       audiopluginRef.current = new HMSNoiseSuppressionPlugin();
@@ -83,7 +83,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }
 
   async function startAudioPlugin() {
-      createNoiseSupresionPlugin();
+    createNoiseSuppresionPlugin();
 
       audiopluginRef.current.setNoiseSuppression(!noiseSupression);
       hmsActions.addPluginToAudioTrack(audiopluginRef.current);
@@ -121,7 +121,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   function handleVirtualBackground() {
     isVBPresent ? removePlugin() : startPlugin();
   }
-  function handleNoiseSupression() {
+  function handleNoiseSuppression() {
    noiseSupression ? removeAudioPlugin() : startAudioPlugin();
 }
 
@@ -183,8 +183,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   if (!isMobileDevice()) {
     //creating VB button for only web
     createVBPlugin();
-    createNoiseSupresionPlugin();
-    leftComponents.push(<VerticalDivider key={1} />);
+    createNoiseSuppresionPlugin();
     if (isAllowedToPublish.screen) {
       leftComponents.push(
         <Button
@@ -276,22 +275,22 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
-          isPublishing && <span key={4} className="mx-2 md:mx-3"></span>,
-          isPublishing && <VerticalDivider key={5} />,
-          isPublishing && <span key={6} className="mx-2 md:mx-3"></span>,
-          <MoreSettings key={7} />,
           isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
-            <Button
-              iconOnly
-              variant="no-fill"
-              shape="rectangle"
-              active={noiseSupression}
-              onClick={handleNoiseSupression}
-              key={8}
-            >
-              <NoiseSupressionIcon />
-            </Button>
+              <Button
+                  iconOnly
+                  variant="no-fill"
+                  shape="rectangle"
+                  active={noiseSupression}
+                  onClick={handleNoiseSuppression}
+                  key={4}
+              >
+                <NoiseSupressionIcon />
+              </Button>
           ) : null,
+          isPublishing && <span key={5} className="mx-2 md:mx-3"></span>,
+          isPublishing && <VerticalDivider key={6} />,
+          isPublishing && <span key={7} className="mx-2 md:mx-3"></span>,
+          <MoreSettings key={8} />,
         ]}
         rightComponents={[
           <ContextMenu
