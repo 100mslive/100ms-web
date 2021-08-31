@@ -6,11 +6,13 @@ import {
   HamburgerMenuIcon,
   PersonIcon,
   Settings,
+  ParticipantsInView,
   SettingsIcon,
   useHMSStore,
   selectAvailableRoleNames,
   selectLocalPeer,
   TickIcon,
+  GridIcon,
   ArrowRightIcon,
   useHMSActions,
   selectPermissions,
@@ -26,6 +28,7 @@ export const MoreSettings = () => {
   const hmsActions = useHMSActions();
   const [showMenu, setShowMenu] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showParticipantsInView, setShowParticipantsInView] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const onChange = count => {
@@ -66,6 +69,14 @@ export const MoreSettings = () => {
           },
         }}
       >
+        <ContextMenuItem
+          icon={<GridIcon />}
+          label="Change Layout"
+          key="changeLayout"
+          onClick={() => {
+            setShowParticipantsInView(true);
+          }}
+        />
         {permissions.changeRole && (
           <ContextMenuItem
             icon={<PersonIcon />}
@@ -135,11 +146,14 @@ export const MoreSettings = () => {
       </ContextMenu>
       <Settings
         className="hidden"
-        onTileCountChange={onChange}
-        maxTileCount={maxTileCount}
-        classes={{ sliderContainer: "hidden md:block" }}
         showModal={showSettings}
         onModalClose={() => setShowSettings(false)}
+      />
+      <ParticipantsInView
+        onTileCountChange={onChange}
+        maxTileCount={maxTileCount}
+        showModal={showParticipantsInView}
+        onModalClose={() => setShowParticipantsInView(false)}
       />
     </Fragment>
   );
