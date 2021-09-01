@@ -9,7 +9,6 @@ import {
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
   useHMSActions,
-  selectAudioTrackVolume,
 } from "@100mslive/hms-video-react";
 import React from "react";
 
@@ -36,8 +35,6 @@ const Music = () => {
   const hmsActions = useHMSActions();
   const peer = useHMSStore(selectPeerSharingAudio);
   const track = useHMSStore(selectScreenShareAudioByPeerID(peer?.id));
-  const trackVolume = useHMSStore(selectAudioTrackVolume(track?.id));
-  console.log("trackVolume", trackVolume);
   if (!peer || !track) {
     return null;
   }
@@ -45,7 +42,7 @@ const Music = () => {
 
   const handleMute = () => {
     if (!peer.isLocal) {
-      hmsActions.setVolume(!trackVolume ? 100 : 0, track.id);
+      hmsActions.setVolume(!track.volume ? 100 : 0, track.id);
     } else {
       hmsActions.setEnabledTrack(track.id, !track.enabled);
     }
@@ -54,7 +51,7 @@ const Music = () => {
   return (
     <div className="flex items-center">
       <VolumeIcon />
-      <Text variant="body" size="md" classes={{ root: "mr-2" }}>
+      <Text variant="body" size="md" classes={{ root: "mx-2" }}>
         Music is playing
       </Text>
       <Text
