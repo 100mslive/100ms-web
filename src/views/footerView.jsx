@@ -16,7 +16,7 @@ import {
   CamOffIcon,
   CamOnIcon,
   VirtualBackgroundIcon,
-  // NoiseSuppressionIcon,
+  NoiseSuppressionIcon,
   Button,
   ShareScreenIcon,
   ChatIcon,
@@ -62,9 +62,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
-  // const isNoiseSuppression = useHMSStore(
-  //     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
-  // );
+  const isNoiseSuppression = useHMSStore(
+      selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
+  );
   const initialModalProps = {
     show: false,
     title: "",
@@ -72,25 +72,25 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
-  // function createNoiseSuppresionPlugin() {
-  //   if (!audiopluginRef.current) {
-  //     audiopluginRef.current = new HMSNoiseSuppressionPlugin();
-  //   }
-  // }
+  function createNoiseSuppresionPlugin() {
+    if (!audiopluginRef.current) {
+      audiopluginRef.current = new HMSNoiseSuppressionPlugin();
+    }
+  }
 
-  // async function addNoiseSuppressionPlugin() {
-  //   createNoiseSuppresionPlugin();
+  async function addNoiseSuppressionPlugin() {
+    createNoiseSuppresionPlugin();
+
+    audiopluginRef.current.setNoiseSuppression(!isNoiseSuppression);
+    hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+  }
   //
-  //   audiopluginRef.current.setNoiseSuppression(!isNoiseSuppression);
-  //   hmsActions.addPluginToAudioTrack(audiopluginRef.current);
-  // }
-  //
-  // async function removeNoiseSuppressionPlugin() {
-  //   if (audiopluginRef.current) {
-  //     hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
-  //     audiopluginRef.current = null;
-  //   }
-  // }
+  async function removeNoiseSuppressionPlugin() {
+    if (audiopluginRef.current) {
+      hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
+      audiopluginRef.current = null;
+    }
+  }
 
   function createVBPlugin() {
     if (!pluginRef.current) {
@@ -117,9 +117,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     isVBPresent ? removePlugin() : startPlugin();
   }
 
-  // function handleNoiseSuppression() {
-  //   isNoiseSuppression ? removeNoiseSuppressionPlugin() : addNoiseSuppressionPlugin();
-  // }
+  function handleNoiseSuppression() {
+    isNoiseSuppression ? removeNoiseSuppressionPlugin() : addNoiseSuppressionPlugin();
+  }
 
   const toggleAudio = useCallback(async () => {
     try {
@@ -178,7 +178,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   if (!isMobileDevice()) {
     //creating VB button for only web
     createVBPlugin();
-    // createNoiseSuppresionPlugin();
+    createNoiseSuppresionPlugin();
     if (isAllowedToPublish.screen) {
       leftComponents.push(
         <Button
@@ -270,22 +270,22 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
-          // isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
-          //     <Button
-          //         iconOnly
-          //         variant="no-fill"
-          //         shape="rectangle"
-          //         active={isNoiseSuppression}
-          //         onClick={handleNoiseSuppression}
-          //         key={4}
-          //     >
-          //       <NoiseSuppressionIcon />
-          //     </Button>
-          // ) : null,
-          isPublishing && <span key={4} className="mx-2 md:mx-3"></span>,
-          isPublishing && <VerticalDivider key={5} />,
-          isPublishing && <span key={6} className="mx-2 md:mx-3"></span>,
-          <MoreSettings key={7} />,
+          isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
+              <Button
+                  iconOnly
+                  variant="no-fill"
+                  shape="rectangle"
+                  active={isNoiseSuppression}
+                  onClick={handleNoiseSuppression}
+                  key={4}
+              >
+                <NoiseSuppressionIcon />
+              </Button>
+          ) : null,
+          isPublishing && <span key={5} className="mx-2 md:mx-3"></span>,
+          isPublishing && <VerticalDivider key={6} />,
+          isPublishing && <span key={7} className="mx-2 md:mx-3"></span>,
+          <MoreSettings key={8} />,
         ]}
         rightComponents={[
           <ContextMenu
