@@ -35,21 +35,32 @@ export function getBlurClass(isParticipantListOpen, totalPeers) {
     : "";
 }
 
-export function getRandomVirtualBackground(){
+export function getRandomVirtualBackground() {
   let imagesList = [
-    'https://www.100ms.live/images/vb-1.jpeg',
-    'https://www.100ms.live/images/vb-2.jpg',
-    'blur'
+    "https://www.100ms.live/images/vb-1.jpeg",
+    "https://www.100ms.live/images/vb-2.jpg",
+    "blur",
   ];
 
-  let randomIdx = Math.floor(Math.random()*imagesList.length);
-  if(randomIdx === 2){
-    return 'blur';
+  let randomIdx = Math.floor(Math.random() * imagesList.length);
+  if (randomIdx === 2) {
+    return "blur";
   }
 
-  const img = document.createElement('img');
+  const img = document.createElement("img");
   img.alt = "VB";
   img.src = imagesList[randomIdx];
   return img;
-
 }
+
+export const arrayIntersection = (a, b) => {
+  var t;
+  if (b.length > a.length) {
+    t = b;
+    b = a;
+    a = t;
+  }
+  return a.filter(function (e) {
+    return b.indexOf(e) > -1;
+  });
+};
