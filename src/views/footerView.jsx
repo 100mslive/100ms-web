@@ -34,6 +34,7 @@ import {
   selectIsLocalVideoPluginPresent,
   selectIsLocalAudioPluginPresent,
   selectPermissions,
+  selectPeerSharingAudio,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -58,6 +59,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
+  const peer = useHMSStore(selectPeerSharingAudio);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -138,9 +140,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }, [hmsActions, isLocalVideoEnabled]);
 
   const toggleScreenShare = useCallback(
-    async (audioOnly = false) => {
+    async (enable, audioOnly = false) => {
       try {
-        await hmsActions.setScreenShareEnabled(!isScreenShared, audioOnly);
+        await hmsActions.setScreenShareEnabled(enable, audioOnly);
       } catch (error) {
         if (
           error.description &&
@@ -161,7 +163,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         }
       }
     },
-    [hmsActions, isScreenShared]
+    [hmsActions]
   );
 
   function leaveRoom() {
@@ -182,21 +184,22 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     if (isAllowedToPublish.screen) {
       leftComponents.push(
         <Button
-          key={2}
+          key="shareAudio"
           iconOnly
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          onClick={() => toggleScreenShare(true)}
+          active={peer && peer.isLocal}
+          onClick={() => toggleScreenShare(!(peer && peer.isLocal), true)}
         >
           <MusicIcon />
         </Button>,
-        <VerticalDivider key={3} />
+        <VerticalDivider key="audioShareDivider" />
       );
     }
     leftComponents.push(
       <Button
-        key={4}
+        key="chat"
         iconOnly
         variant="no-fill"
         iconSize="md"
@@ -225,7 +228,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={!isLocalAudioEnabled}
               onClick={toggleAudio}
-              key={0}
+              key="toggleAudio"
             >
               {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
             </Button>
@@ -239,20 +242,20 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={!isLocalVideoEnabled}
               onClick={toggleVideo}
-              key={1}
+              key="toggleVideo"
             >
               {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
             </Button>
           ) : null,
           isAllowedToPublish.screen && !isMobileDevice() ? (
             <Button
-              key={2}
+              key="toggleScreenShare"
               iconOnly
               variant="no-fill"
               iconSize="md"
               shape="rectangle"
               classes={{ root: "mx-2" }}
-              onClick={() => toggleScreenShare(false)}
+              onClick={() => toggleScreenShare(!isScreenShared)}
             >
               <ShareScreenIcon />
             </Button>
@@ -264,28 +267,32 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={isVBPresent}
               onClick={handleVirtualBackground}
-              classes={{ root: "ml-2" }}
-              key={3}
+              classes={{ root: "mx-2" }}
+              key="VB"
             >
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
           isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
-              <Button
-                  iconOnly
-                  variant="no-fill"
-                  shape="rectangle"
-                  active={isNoiseSuppression}
-                  onClick={handleNoiseSuppression}
-                  key={4}
-              >
-                <NoiseSupressionIcon />
-              </Button>
-          ) : null,
-          isPublishing && <span key={5} className="mx-2 md:mx-3"></span>,
-          isPublishing && <VerticalDivider key={6} />,
-          isPublishing && <span key={7} className="mx-2 md:mx-3"></span>,
-          <MoreSettings key={8} />,
+            <Button
+                iconOnly
+                variant="no-fill"
+                shape="rectangle"
+                active={isNoiseSuppression}
+                onClick={handleNoiseSuppression}
+                key="noiseSuppression"
+            >
+              <NoiseSupressionIcon />
+            </Button>
+        ) : null,
+          isPublishing && (
+            <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
+          ),
+          isPublishing && <VerticalDivider key="SettingsDivider" />,
+          isPublishing && (
+            <span key="SettingsRightSpace" className="mx-2 md:mx-3"></span>
+          ),
+          <MoreSettings key="MoreSettings" />,
         ]}
         rightComponents={[
           <ContextMenu
@@ -303,6 +310,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               }
             }}
             menuOpen={showMenu}
+            key="LeaveAction"
             trigger={
               <Button
                 size="md"
@@ -310,6 +318,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 variant="danger"
                 iconOnly={isMobileDevice()}
                 active={isMobileDevice()}
+                key="LeaveRoom"
               >
                 <HangUpIcon className={isMobileDevice() ? "" : "mr-2"} />
                 {isMobileDevice() ? "" : "Leave room"}
@@ -321,7 +330,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 horizontal: "center",
               },
               transformOrigin: {
-                vertical: 144,
+                vertical: 136,
                 horizontal: "center",
               },
             }}
@@ -331,7 +340,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               key="leaveRoom"
               classes={{
                 menuTitleContainer: "hidden",
-                menuItemChildren: "my-2 w-full",
+                menuItemChildren: "my-1 w-full overflow-hidden",
               }}
             >
               <Button
@@ -352,7 +361,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 key="endRoom"
                 classes={{
                   menuTitleContainer: "hidden",
-                  menuItemChildren: "my-2 w-full",
+                  menuItemChildren: "my-1 w-full",
                 }}
               >
                 <Button
