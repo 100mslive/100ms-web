@@ -28,3 +28,39 @@ export const setUpLogRocket = (loginInfo, localPeer) => {
     token: loginInfo.token,
   });
 };
+
+// interface RoleConfig {
+//   center?: HMSRoleName[];
+//   sidepane?: HMSRoleName[];
+//   selfRoleChangeTo?: HMSRoleName[];
+//   remoteRoleChangeFor?: HMSRoleName[];
+// }
+
+// interface PolicyConfig {
+//   [role: string]: RoleConfig;
+// }
+
+export const normalizeAppPolicyConfig = (roleNames, appPolicyConfig = {}) => {
+  const newConfig = Object.assign({}, appPolicyConfig);
+  roleNames.forEach(roleName => {
+    if (!newConfig[roleName]) {
+      newConfig[roleName] = {};
+    }
+    if (!newConfig[roleName].center) {
+      newConfig[roleName].center = roleNames.filter(
+        rName => rName !== roleName
+      );
+    }
+    if (!newConfig[roleName].sidepane) {
+      newConfig[roleName].sidepane = [roleName];
+    }
+    if (!newConfig[roleName].selfRoleChangeTo) {
+      newConfig[roleName].selfRoleChangeTo = roleNames;
+    }
+    if (!newConfig[roleName].remoteRoleChangeFor) {
+      newConfig[roleName].remoteRoleChangeFor = roleNames;
+    }
+  });
+
+  return newConfig;
+};
