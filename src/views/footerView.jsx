@@ -32,6 +32,7 @@ import {
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
   selectPermissions,
+  selectPeerSharingAudio,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -54,6 +55,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const pluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
+  const peer = useHMSStore(selectPeerSharingAudio);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -107,9 +109,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }, [hmsActions, isLocalVideoEnabled]);
 
   const toggleScreenShare = useCallback(
-    async (audioOnly = false) => {
+    async (enable, audioOnly = false) => {
       try {
-        await hmsActions.setScreenShareEnabled(!isScreenShared, audioOnly);
+        await hmsActions.setScreenShareEnabled(enable, audioOnly);
       } catch (error) {
         if (
           error.description &&
@@ -130,7 +132,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         }
       }
     },
-    [hmsActions, isScreenShared]
+    [hmsActions]
   );
 
   function leaveRoom() {
@@ -155,7 +157,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          onClick={() => toggleScreenShare(true)}
+          active={peer && peer.isLocal}
+          onClick={() => toggleScreenShare(!(peer && peer.isLocal), true)}
         >
           <MusicIcon />
         </Button>,
@@ -220,7 +223,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               iconSize="md"
               shape="rectangle"
               classes={{ root: "mx-2" }}
-              onClick={() => toggleScreenShare(false)}
+              onClick={() => toggleScreenShare(!isScreenShared)}
             >
               <ShareScreenIcon />
             </Button>
