@@ -16,7 +16,7 @@ import {
   CamOffIcon,
   CamOnIcon,
   VirtualBackgroundIcon,
-  NoiseSuppressionIcon,
+  NoiseSupressionIcon,
   Button,
   ShareScreenIcon,
   ChatIcon,
@@ -32,7 +32,7 @@ import {
   isMobileDevice,
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
-  // selectIsLocalAudioPluginPresent,
+  selectIsLocalAudioPluginPresent,
   selectPermissions,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
@@ -82,12 +82,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     createNoiseSuppresionPlugin();
 
     audiopluginRef.current.setNoiseSuppression(!isNoiseSuppression);
-    hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+    await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
   }
   //
   async function removeNoiseSuppressionPlugin() {
     if (audiopluginRef.current) {
-      hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
+      await hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
       audiopluginRef.current = null;
     }
   }
@@ -279,7 +279,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                   onClick={handleNoiseSuppression}
                   key={4}
               >
-                <NoiseSuppressionIcon />
+                <NoiseSupressionIcon />
               </Button>
           ) : null,
           isPublishing && <span key={5} className="mx-2 md:mx-3"></span>,

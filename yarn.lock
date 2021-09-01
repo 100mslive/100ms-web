@@ -7,7 +7,7 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.4-2.tgz#80321efb39942f76b498a768373a5cea647eaea4"
   integrity sha512-bcS0zzLYNoFZZPNNaT5xxCvllT3Dktg/E41vN0hThs84um3VeFBvKw8LlTZpERwBc8pBIQkeRgdEJQKXeLjt1w==
 
-"@100mslive/hms-video-react@^0.3.57":
+"@100mslive/hms-video-react@^0.3.58":
   version "0.3.58"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.58.tgz#11c814440d49d9020d50c8d9ae317bd5a0cb7cb7"
   integrity sha512-/1S2G4SP5DNgIYVhePEye8n3R52W7yl6oa5Zq7gCtVkmEoKl1Vhv9xWBUPK/Fk2lXRVZnsr/mbIuaKApYupiug==
@@ -39,10 +39,10 @@
     reselect "^4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@^0.0.175":
-  version "0.0.175"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.175.tgz#c238d56d4ccf34fce137a8d40a82bce5f6d05097"
-  integrity sha512-q15vn83+25iHeaVrLDSafhh4kVTkFxVBHXOwzg16lP4DZaRmo2q4jhFYrEMLdX6DXKS+6RX+CVowvy4ZTwd9Rg==
+"@100mslive/hms-video@^0.0.177":
+  version "0.0.177"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.177.tgz#a7633dbafa73021f8caffca9edff3585733abce5"
+  integrity sha512-fuNH25RqzZYfGAwfOt0mKdEq/x9leLaTdFeDeHGAQjNqo04kjZvTS77y9KDgyx1XhJaWIS7RosCd+WcDgwUK6Q==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -5260,6 +5260,9 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/evp_bytestokey/-/evp_bytestokey-1.0.3.tgz#7fcbdb198dc71959432efe13842684e0525acb02"
   integrity sha512-/f2Go4TognH/KvCISP7OUsHn85hT9nUkxxA9BEWxFn+Oj9o8ZNLm/40hdlgSLyuOimsrTKLUMEorQexp/aPQeA==
+  dependencies:
+    md5.js "^1.3.4"
+    safe-buffer "^5.1.1"
 
 exec-sh@^0.3.2:
   version "0.3.6"
