@@ -152,7 +152,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     if (isAllowedToPublish.screen) {
       leftComponents.push(
         <Button
-          key={2}
+          key="shareAudio"
           iconOnly
           variant="no-fill"
           iconSize="md"
@@ -162,12 +162,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         >
           <MusicIcon />
         </Button>,
-        <VerticalDivider key={3} />
+        <VerticalDivider key="audioShareDivider" />
       );
     }
     leftComponents.push(
       <Button
-        key={4}
+        key="chat"
         iconOnly
         variant="no-fill"
         iconSize="md"
@@ -196,7 +196,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={!isLocalAudioEnabled}
               onClick={toggleAudio}
-              key={0}
+              key="toggleAudio"
             >
               {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
             </Button>
@@ -210,14 +210,14 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={!isLocalVideoEnabled}
               onClick={toggleVideo}
-              key={1}
+              key="toggleVideo"
             >
               {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
             </Button>
           ) : null,
           isAllowedToPublish.screen && !isMobileDevice() ? (
             <Button
-              key={2}
+              key="toggleScreenShare"
               iconOnly
               variant="no-fill"
               iconSize="md"
@@ -236,15 +236,19 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               active={isVBPresent}
               onClick={handleVirtualBackground}
               classes={{ root: "mx-2" }}
-              key={3}
+              key="VB"
             >
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
-          isPublishing && <span key={4} className="mx-2 md:mx-3"></span>,
-          isPublishing && <VerticalDivider key={5} />,
-          isPublishing && <span key={6} className="mx-2 md:mx-3"></span>,
-          <MoreSettings key={7} />,
+          isPublishing && (
+            <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
+          ),
+          isPublishing && <VerticalDivider key="SettingsDivider" />,
+          isPublishing && (
+            <span key="SettingsRightSpace" className="mx-2 md:mx-3"></span>
+          ),
+          <MoreSettings key="MoreSettings" />,
         ]}
         rightComponents={[
           <ContextMenu
@@ -262,6 +266,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               }
             }}
             menuOpen={showMenu}
+            key="LeaveAction"
             trigger={
               <Button
                 size="md"
@@ -269,6 +274,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 variant="danger"
                 iconOnly={isMobileDevice()}
                 active={isMobileDevice()}
+                key="LeaveRoom"
               >
                 <HangUpIcon className={isMobileDevice() ? "" : "mr-2"} />
                 {isMobileDevice() ? "" : "Leave room"}
