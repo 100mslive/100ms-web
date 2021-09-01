@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-noise-suppression@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.4.tgz#2dde229be59030ccf637848c9245a386bcc0fc22"
-  integrity sha512-+vJ026pdu20e9T0EMIf7MJlD4fuRXYXagvQD3IJuTb55CeXBzfInBes4NX+fuGkvy1Cg3izyRxEBPgSDsSwZGg==
+"@100mslive/hms-noise-suppression@0.1.4-2":
+  version "0.1.4-2"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.4-2.tgz#80321efb39942f76b498a768373a5cea647eaea4"
+  integrity sha512-bcS0zzLYNoFZZPNNaT5xxCvllT3Dktg/E41vN0hThs84um3VeFBvKw8LlTZpERwBc8pBIQkeRgdEJQKXeLjt1w==
 
 "@100mslive/hms-video-react@^0.3.57":
   version "0.3.58"
