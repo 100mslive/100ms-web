@@ -16,6 +16,7 @@ import {
   CamOffIcon,
   CamOnIcon,
   VirtualBackgroundIcon,
+  NoiseSupressionIcon,
   Button,
   ShareScreenIcon,
   ChatIcon,
@@ -31,10 +32,12 @@ import {
   isMobileDevice,
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
+  selectIsLocalAudioPluginPresent,
   selectPermissions,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
+import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
 import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
@@ -52,18 +55,42 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const history = useHistory();
   const params = useParams();
   const pluginRef = useRef(null);
+  const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
+  const isNoiseSuppression = useHMSStore(
+      selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
+  );
   const initialModalProps = {
     show: false,
     title: "",
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
+
+  function createNoiseSuppresionPlugin() {
+    if (!audiopluginRef.current) {
+      audiopluginRef.current = new HMSNoiseSuppressionPlugin();
+    }
+  }
+
+  async function addNoiseSuppressionPlugin() {
+    createNoiseSuppresionPlugin();
+
+    audiopluginRef.current.setNoiseSuppression(!isNoiseSuppression);
+    await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+  }
+  //
+  async function removeNoiseSuppressionPlugin() {
+    if (audiopluginRef.current) {
+      await hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
+      audiopluginRef.current = null;
+    }
+  }
 
   function createVBPlugin() {
     if (!pluginRef.current) {
@@ -88,6 +115,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   function handleVirtualBackground() {
     isVBPresent ? removePlugin() : startPlugin();
+  }
+
+  function handleNoiseSuppression() {
+    isNoiseSuppression ? removeNoiseSuppressionPlugin() : addNoiseSuppressionPlugin();
   }
 
   const toggleAudio = useCallback(async () => {
@@ -147,6 +178,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   if (!isMobileDevice()) {
     //creating VB button for only web
     createVBPlugin();
+    createNoiseSuppresionPlugin();
     if (isAllowedToPublish.screen) {
       leftComponents.push(
         <Button
@@ -238,10 +270,22 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
-          isPublishing && <span key={4} className="mx-2 md:mx-3"></span>,
-          isPublishing && <VerticalDivider key={5} />,
-          isPublishing && <span key={6} className="mx-2 md:mx-3"></span>,
-          <MoreSettings key={7} />,
+          isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
+              <Button
+                  iconOnly
+                  variant="no-fill"
+                  shape="rectangle"
+                  active={isNoiseSuppression}
+                  onClick={handleNoiseSuppression}
+                  key={4}
+              >
+                <NoiseSupressionIcon />
+              </Button>
+          ) : null,
+          isPublishing && <span key={5} className="mx-2 md:mx-3"></span>,
+          isPublishing && <VerticalDivider key={6} />,
+          isPublishing && <span key={7} className="mx-2 md:mx-3"></span>,
+          <MoreSettings key={8} />,
         ]}
         rightComponents={[
           <ContextMenu
