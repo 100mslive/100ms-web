@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useHistory, useParams, useLocation, Redirect } from "react-router-dom";
+import React, { useContext } from "react";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import {
   Button,
   MessageModal,
@@ -10,6 +10,8 @@ import { v4 } from "uuid";
 import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
 import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
+import { useState } from "react";
+import { useEffect } from "react";
 import { Notifications } from "../views/components/notifications/Notifications";
 
 const PreviewScreen = ({ getUserToken }) => {
@@ -18,25 +20,17 @@ const PreviewScreen = ({ getUserToken }) => {
   const { loginInfo, setLoginInfo, setMaxTileCount, tokenEndpoint } = context;
   const { roomId: urlRoomId, role: userRole } = useParams();
   const location = useLocation();
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState("");
   const [error, setError] = useState({
     title: "",
     body: "",
     fatal: false,
   });
-  const urlSearchParams = new URLSearchParams(location.search);
-  const skipPreview = urlSearchParams.get("token") === "beam_recording";
 
   useEffect(() => {
-    if (skipPreview) {
-      join({ audioMuted: true, videoMuted: true, name: "beam" });
-      return;
-    }
     if (!userRole) {
       getUserToken(v4())
-        .then(token => {
-          setToken(token);
-        })
+        .then(token => setToken(token))
         .catch(error => {
           console.error("Token API Error", error);
           setError({
@@ -47,9 +41,7 @@ const PreviewScreen = ({ getUserToken }) => {
         });
     } else {
       getToken(tokenEndpoint, loginInfo.env, v4(), userRole, urlRoomId)
-        .then(token => {
-          setToken(token);
-        })
+        .then(token => setToken(token))
         .catch(error => {
           console.error("Token API Error", error);
           setError({
@@ -59,20 +51,12 @@ const PreviewScreen = ({ getUserToken }) => {
           });
         });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    loginInfo.env,
-    tokenEndpoint,
-    urlRoomId,
-    getUserToken,
-    userRole,
-    skipPreview,
-  ]);
+  }, [loginInfo.env, tokenEndpoint, urlRoomId, getUserToken, userRole]);
 
   const join = ({ audioMuted, videoMuted, name }) => {
     if (!userRole) {
       getUserToken(name)
-        .then(token => {
+        .then(() => {
           setLoginInfo({
             token,
             audioMuted,
@@ -93,7 +77,7 @@ const PreviewScreen = ({ getUserToken }) => {
         });
     } else {
       getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
-        .then(token => {
+        .then(() => {
           setLoginInfo({
             token,
             audioMuted,
@@ -123,6 +107,9 @@ const PreviewScreen = ({ getUserToken }) => {
     selectedAudioOutput,
     maxTileCount,
   }) => {
+    console.debug("app: Selected Video Input", selectedVideoInput);
+    console.debug("app: Selected Audio Input", selectedVideoInput);
+    console.debug("app: Selected Audio Output", selectedAudioOutput);
     setLoginInfo({
       selectedVideoInput,
       selectedAudioInput,
@@ -143,6 +130,11 @@ const PreviewScreen = ({ getUserToken }) => {
     setError({ title: "", body: "", fatal: false });
   };
 
+  const isPreview = location.pathname.startsWith("/preview");
+  // for beam recording
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const skipPreview = urlSearchParams.get("token") === "beam_recording";
+
   if (error.title && error.fatal) {
     return (
       <MessageModal
@@ -154,49 +146,64 @@ const PreviewScreen = ({ getUserToken }) => {
     );
   }
 
-  // This for handling beam recording
-  if (skipPreview) {
-    return loginInfo.token ? (
-      <Redirect to={`/meeting/${urlRoomId}/${userRole}`} />
-    ) : (
-      <div className="h-full">
-        <div className="flex justify-center h-full items-center">
-          <ProgressIcon width="100" height="100" />
+  if (!urlRoomId) {
+    history.push(`/`);
+  } else if (
+    (isPreview && urlRoomId === "preview") ||
+    urlRoomId === "meeting" ||
+    urlRoomId === "leave"
+  ) {
+    history.push(`/`);
+  } else if (!isPreview) {
+    if (userRole) history.push(`/preview/${urlRoomId}/${userRole}`);
+    else history.push(`/preview/${urlRoomId}`);
+  } else if (skipPreview) {
+    join({ audioMuted: true, videoMuted: true, name: "beam" });
+  } else {
+    if (
+      urlRoomId === "preview" ||
+      urlRoomId === "meeting" ||
+      urlRoomId === "leave"
+    ) {
+      history.push(`/`);
+    } else if (!isPreview) {
+      history.push(`/preview/${urlRoomId}`);
+    } else {
+      return (
+        <div className="h-full">
+          <div className="flex justify-center h-full items-center">
+            {token ? (
+              <Preview
+                joinOnClick={join}
+                goBackOnClick={goBack}
+                messageOnClose={goBack}
+                onChange={onChange}
+                config={convertLoginInfoToJoinConfig({
+                  role: userRole,
+                  roomId: urlRoomId,
+                  token,
+                  env: loginInfo.env,
+                })}
+              />
+            ) : (
+              <ProgressIcon width="100" height="100" />
+            )}
+            {error.title && (
+              <MessageModal
+                title={error.title}
+                body={error.body}
+                onClose={clearError}
+                footer={<Button onClick={clearError}>Dismiss</Button>}
+              />
+            )}
+            <Notifications />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
-  return (
-    <div className="h-full">
-      <div className="flex justify-center h-full items-center">
-        {token ? (
-          <Preview
-            joinOnClick={join}
-            goBackOnClick={goBack}
-            messageOnClose={goBack}
-            onChange={onChange}
-            config={convertLoginInfoToJoinConfig({
-              role: userRole,
-              roomId: urlRoomId,
-              token,
-              env: loginInfo.env,
-            })}
-          />
-        ) : (
-          <ProgressIcon width="100" height="100" />
-        )}
-        {error.title && (
-          <MessageModal
-            title={error.title}
-            body={error.body}
-            onClose={clearError}
-            footer={<Button onClick={clearError}>Dismiss</Button>}
-          />
-        )}
-        <Notifications />
-      </div>
-    </div>
-  );
+
+  return null;
 };
 
 export default PreviewScreen;
