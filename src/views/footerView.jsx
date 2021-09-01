@@ -32,7 +32,6 @@ import {
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
   selectPermissions,
-  selectPeerSharingAudio,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -55,7 +54,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const pluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
-  const peer = useHMSStore(selectPeerSharingAudio);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -109,9 +107,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }, [hmsActions, isLocalVideoEnabled]);
 
   const toggleScreenShare = useCallback(
-    async (enable, audioOnly = false) => {
+    async (audioOnly = false) => {
       try {
-        await hmsActions.setScreenShareEnabled(enable, audioOnly);
+        await hmsActions.setScreenShareEnabled(!isScreenShared, audioOnly);
       } catch (error) {
         if (
           error.description &&
@@ -132,7 +130,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         }
       }
     },
-    [hmsActions]
+    [hmsActions, isScreenShared]
   );
 
   function leaveRoom() {
@@ -152,22 +150,21 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     if (isAllowedToPublish.screen) {
       leftComponents.push(
         <Button
-          key="shareAudio"
+          key={2}
           iconOnly
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          active={peer && peer.isLocal}
-          onClick={() => toggleScreenShare(!(peer && peer.isLocal), true)}
+          onClick={() => toggleScreenShare(true)}
         >
           <MusicIcon />
         </Button>,
-        <VerticalDivider key="audioShareDivider" />
+        <VerticalDivider key={3} />
       );
     }
     leftComponents.push(
       <Button
-        key="chat"
+        key={4}
         iconOnly
         variant="no-fill"
         iconSize="md"
@@ -196,7 +193,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={!isLocalAudioEnabled}
               onClick={toggleAudio}
-              key="toggleAudio"
+              key={0}
             >
               {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
             </Button>
@@ -210,20 +207,20 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={!isLocalVideoEnabled}
               onClick={toggleVideo}
-              key="toggleVideo"
+              key={1}
             >
               {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
             </Button>
           ) : null,
           isAllowedToPublish.screen && !isMobileDevice() ? (
             <Button
-              key="toggleScreenShare"
+              key={2}
               iconOnly
               variant="no-fill"
               iconSize="md"
               shape="rectangle"
               classes={{ root: "mx-2" }}
-              onClick={() => toggleScreenShare(!isScreenShared)}
+              onClick={() => toggleScreenShare(false)}
             >
               <ShareScreenIcon />
             </Button>
@@ -235,20 +232,16 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               shape="rectangle"
               active={isVBPresent}
               onClick={handleVirtualBackground}
-              classes={{ root: "mx-2" }}
-              key="VB"
+              classes={{ root: "ml-2" }}
+              key={3}
             >
               <VirtualBackgroundIcon />
             </Button>
           ) : null,
-          isPublishing && (
-            <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
-          ),
-          isPublishing && <VerticalDivider key="SettingsDivider" />,
-          isPublishing && (
-            <span key="SettingsRightSpace" className="mx-2 md:mx-3"></span>
-          ),
-          <MoreSettings key="MoreSettings" />,
+          isPublishing && <span key={4} className="mx-2 md:mx-3"></span>,
+          isPublishing && <VerticalDivider key={5} />,
+          isPublishing && <span key={6} className="mx-2 md:mx-3"></span>,
+          <MoreSettings key={7} />,
         ]}
         rightComponents={[
           <ContextMenu
@@ -266,7 +259,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               }
             }}
             menuOpen={showMenu}
-            key="LeaveAction"
             trigger={
               <Button
                 size="md"
@@ -274,7 +266,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 variant="danger"
                 iconOnly={isMobileDevice()}
                 active={isMobileDevice()}
-                key="LeaveRoom"
               >
                 <HangUpIcon className={isMobileDevice() ? "" : "mr-2"} />
                 {isMobileDevice() ? "" : "Leave room"}
@@ -286,7 +277,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 horizontal: "center",
               },
               transformOrigin: {
-                vertical: 136,
+                vertical: 144,
                 horizontal: "center",
               },
             }}
@@ -296,7 +287,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               key="leaveRoom"
               classes={{
                 menuTitleContainer: "hidden",
-                menuItemChildren: "my-1 w-full overflow-hidden",
+                menuItemChildren: "my-2 w-full",
               }}
             >
               <Button
@@ -317,7 +308,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 key="endRoom"
                 classes={{
                   menuTitleContainer: "hidden",
-                  menuItemChildren: "my-1 w-full",
+                  menuItemChildren: "my-2 w-full",
                 }}
               >
                 <Button
