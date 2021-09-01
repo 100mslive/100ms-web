@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import {
   HMSRoomProvider,
   HMSThemeProvider,
@@ -87,9 +92,21 @@ export function EdtechComponent({
                 {/* <Route path="/createRoom">
               <CreateRoom />
             </Route> */}
-                <Route path="/preview/:roomId/:role?">
-                  <PreviewScreen getUserToken={getUserToken} />
-                </Route>
+                <Route
+                  path="/preview/:roomId/:role?"
+                  render={({ match }) => {
+                    const { params } = match;
+                    if (!params.roomId || !params.role) {
+                      return <Redirect to="/" />;
+                    }
+                    if (
+                      ["preview", "meeting", "leave"].includes(params.roomId)
+                    ) {
+                      return <Redirect to="/" />;
+                    }
+                    return <PreviewScreen getUserToken={getUserToken} />;
+                  }}
+                />
                 <Route path="/meeting/:roomId/:role?">
                   <Conference />
                 </Route>
@@ -109,9 +126,23 @@ export function EdtechComponent({
                     />
                   )}
                 />
-                <Route path="/:roomId/:role?">
-                  <PreviewScreen getUserToken={getUserToken} />
-                </Route>
+                <Route
+                  path="/:roomId/:role?"
+                  render={({ match }) => {
+                    const { params } = match;
+                    if (!params.roomId && !params.role) {
+                      return <Redirect to="/" />;
+                    }
+                    if (!params.roomId) {
+                      return <Redirect to="/" />;
+                    }
+                    return (
+                      <Redirect
+                        to={`/preview/${params.roomId}/${params.role || ""}`}
+                      />
+                    );
+                  }}
+                />
                 <Route
                   path="*"
                   render={() => <ErrorPage error="Invalid URL!" />}
