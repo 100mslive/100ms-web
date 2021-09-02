@@ -48,7 +48,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const localPeer = useHMSStore(selectLocalPeer);
   const { video, audio } = useHMSStore(
-    selectScreenSharesByPeerId(localPeer.id)
+    selectScreenSharesByPeerId(localPeer?.id)
   );
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
