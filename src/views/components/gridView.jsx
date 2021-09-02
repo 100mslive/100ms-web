@@ -33,7 +33,9 @@ export const GridCenterView = ({
       }`}
     >
       {peers &&
-      peers.filter(peer => peer.audioTrack || peer.videoTrack).length > 1 ? (
+      peers.some(
+        peer => !peer.isLocal && (peer.audioTrack || peer.videoTrack)
+      ) ? (
         <VideoList
           peers={peers}
           classes={{
