@@ -34,7 +34,8 @@ import {
   selectIsLocalVideoPluginPresent,
   selectIsLocalAudioPluginPresent,
   selectPermissions,
-  selectPeerSharingAudio,
+  selectLocalPeer,
+  selectScreenSharesByPeerId,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -45,6 +46,10 @@ import { MoreSettings } from "./components/MoreSettings";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
+  const localPeer = useHMSStore(selectLocalPeer);
+  const { video, audio } = useHMSStore(
+    selectScreenSharesByPeerId(localPeer.id)
+  );
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
@@ -59,7 +64,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
-  const peer = useHMSStore(selectPeerSharingAudio);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -188,6 +192,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }
 
   const leftComponents = [];
+  const isAudioScreenshare = !video && !!audio;
 
   if (!isMobileDevice()) {
     //creating VB button for only web
@@ -201,8 +206,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          active={peer && peer.isLocal}
-          onClick={() => toggleScreenShare(!(peer && peer.isLocal), true)}
+          active={isAudioScreenshare}
+          onClick={() => toggleScreenShare(!isAudioScreenshare, true)}
         >
           <MusicIcon />
         </Button>,
