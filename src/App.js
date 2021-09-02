@@ -96,10 +96,11 @@ export function EdtechComponent({
                   path="/preview/:roomId/:role?"
                   render={({ match }) => {
                     const { params } = match;
-                    if (!params.roomId || !params.role) {
+                    if (!params.roomId && !params.role) {
                       return <Redirect to="/" />;
                     }
                     if (
+                      !params.roomId ||
                       ["preview", "meeting", "leave"].includes(params.roomId)
                     ) {
                       return <Redirect to="/" />;
