@@ -36,6 +36,7 @@ import {
   selectPermissions,
   selectLocalPeer,
   selectScreenSharesByPeerId,
+  Text,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -65,6 +66,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
+  const [shareAudioModal, setShareAudioModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -207,7 +209,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           iconSize="md"
           shape="rectangle"
           active={isAudioScreenshare}
-          onClick={() => toggleScreenShare(!isAudioScreenshare, true)}
+          onClick={() => {
+            setShareAudioModal(true);
+          }}
         >
           <MusicIcon />
         </Button>,
@@ -447,6 +451,39 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             </Button>
           </div>
         }
+      />
+      <MessageModal
+        show={shareAudioModal}
+        onClose={() => {
+          setShareAudioModal(false);
+        }}
+        title="How to play music"
+        body={
+          <>
+            <Text variant="body" size="sm">
+              To share your music, select ‘Chrome Tab’ option in the share
+              screen window, then select the tab in which music will be played,
+              then click the ‘Share audio’ button and click the ‘Share’ button
+              on the right to start sharing your music.
+            </Text>
+            <img
+              src="./share-audio.gif"
+              alt="select ‘Chrome Tab’ option in the share screen
+          window, then click the ‘Share audio’ button"
+            ></img>
+          </>
+        }
+        footer={
+          <Button
+            variant="emphasized"
+            onClick={() => {
+              toggleScreenShare(!isAudioScreenshare, true);
+            }}
+          >
+            Continue
+          </Button>
+        }
+        classes={{ footer: "justify-center" }}
       />
     </>
   ) : null;
