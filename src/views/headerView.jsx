@@ -38,6 +38,10 @@ const Music = () => {
   if (!peer || !track) {
     return null;
   }
+  // Don't show mute option if remote peer has disabled
+  if (!peer.isLocal && !track.enabled) {
+    return null;
+  }
   const muted = peer.isLocal ? !track.enabled : track.volume === 0;
 
   const handleMute = () => {
