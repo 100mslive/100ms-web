@@ -34,7 +34,9 @@ import {
   selectIsLocalVideoPluginPresent,
   selectIsLocalAudioPluginPresent,
   selectPermissions,
-  selectPeerSharingAudio,
+  selectLocalPeer,
+  selectScreenSharesByPeerId,
+  Text,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -45,6 +47,10 @@ import { MoreSettings } from "./components/MoreSettings";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
+  const localPeer = useHMSStore(selectLocalPeer);
+  const { video, audio } = useHMSStore(
+    selectScreenSharesByPeerId(localPeer?.id)
+  );
   const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
@@ -59,13 +65,13 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
-  const peer = useHMSStore(selectPeerSharingAudio);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
+  const [shareAudioModal, setShareAudioModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
   const isNoiseSuppression = useHMSStore(
-      selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
+    selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
   const initialModalProps = {
     show: false,
@@ -120,7 +126,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }
 
   function handleNoiseSuppression() {
-    isNoiseSuppression ? removeNoiseSuppressionPlugin() : addNoiseSuppressionPlugin();
+    isNoiseSuppression
+      ? removeNoiseSuppressionPlugin()
+      : addNoiseSuppressionPlugin();
   }
 
   const toggleAudio = useCallback(async () => {
@@ -157,7 +165,17 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           // when share audio not selected with audioOnly screenshare
           setErrorModal({
             show: true,
-            title: "Screen share error",
+            title: "Screenshare error",
+            body: error.message,
+          });
+        } else if (
+          error.message &&
+          error.message === "Cannot share multiple screens"
+        ) {
+          // when share audio not selected with audioOnly screenshare
+          setErrorModal({
+            show: true,
+            title: "Screenshare error",
             body: error.message,
           });
         }
@@ -176,6 +194,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }
 
   const leftComponents = [];
+  const isAudioScreenshare = !video && !!audio;
 
   if (!isMobileDevice()) {
     //creating VB button for only web
@@ -189,8 +208,14 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          active={peer && peer.isLocal}
-          onClick={() => toggleScreenShare(!(peer && peer.isLocal), true)}
+          active={isAudioScreenshare}
+          onClick={() => {
+            if (isAudioScreenshare) {
+              toggleScreenShare(false, true);
+            } else {
+              setShareAudioModal(true);
+            }
+          }}
         >
           <MusicIcon />
         </Button>,
@@ -275,16 +300,16 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           ) : null,
           isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
             <Button
-                iconOnly
-                variant="no-fill"
-                shape="rectangle"
-                active={isNoiseSuppression}
-                onClick={handleNoiseSuppression}
-                key="noiseSuppression"
+              iconOnly
+              variant="no-fill"
+              shape="rectangle"
+              active={isNoiseSuppression}
+              onClick={handleNoiseSuppression}
+              key="noiseSuppression"
             >
               <NoiseSupressionIcon />
             </Button>
-        ) : null,
+          ) : null,
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
           ),
@@ -430,6 +455,41 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             </Button>
           </div>
         }
+      />
+      <MessageModal
+        show={shareAudioModal}
+        onClose={() => {
+          setShareAudioModal(false);
+        }}
+        title="How to play music"
+        body={
+          <>
+            <Text variant="body" classes={{ root: "text-xs" }}>
+              To share your music, select ‘Chrome Tab’ option in the share
+              screen window, then select the tab in which music will be played,
+              then click the ‘Share audio’ button and click the ‘Share’ button
+              on the right to start sharing your music.
+            </Text>
+            <img
+              src="/share-audio.gif"
+              className="mt-4"
+              alt="select ‘Chrome Tab’ option in the share screen
+          window, then click the ‘Share audio’ button"
+            ></img>
+          </>
+        }
+        footer={
+          <Button
+            variant="emphasized"
+            onClick={() => {
+              setShareAudioModal(false);
+              toggleScreenShare(!isAudioScreenshare, true);
+            }}
+          >
+            Continue
+          </Button>
+        }
+        classes={{ footer: "justify-center", header: "mb-2" }}
       />
     </>
   ) : null;
