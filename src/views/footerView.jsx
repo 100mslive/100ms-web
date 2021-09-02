@@ -65,7 +65,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   const isNoiseSuppression = useHMSStore(
-      selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
+    selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
   const initialModalProps = {
     show: false,
@@ -120,7 +120,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }
 
   function handleNoiseSuppression() {
-    isNoiseSuppression ? removeNoiseSuppressionPlugin() : addNoiseSuppressionPlugin();
+    isNoiseSuppression
+      ? removeNoiseSuppressionPlugin()
+      : addNoiseSuppressionPlugin();
   }
 
   const toggleAudio = useCallback(async () => {
@@ -157,7 +159,17 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           // when share audio not selected with audioOnly screenshare
           setErrorModal({
             show: true,
-            title: "Screen share error",
+            title: "Screenshare error",
+            body: error.message,
+          });
+        } else if (
+          error.message &&
+          error.message === "Cannot share multiple screens"
+        ) {
+          // when share audio not selected with audioOnly screenshare
+          setErrorModal({
+            show: true,
+            title: "Screenshare error",
             body: error.message,
           });
         }
@@ -275,16 +287,16 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           ) : null,
           isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
             <Button
-                iconOnly
-                variant="no-fill"
-                shape="rectangle"
-                active={isNoiseSuppression}
-                onClick={handleNoiseSuppression}
-                key="noiseSuppression"
+              iconOnly
+              variant="no-fill"
+              shape="rectangle"
+              active={isNoiseSuppression}
+              onClick={handleNoiseSuppression}
+              key="noiseSuppression"
             >
               <NoiseSupressionIcon />
             </Button>
-        ) : null,
+          ) : null,
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
           ),
