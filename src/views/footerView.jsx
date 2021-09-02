@@ -464,14 +464,15 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         title="How to play music"
         body={
           <>
-            <Text variant="body" size="sm">
+            <Text variant="body" classes={{ root: "text-xs" }}>
               To share your music, select ‘Chrome Tab’ option in the share
               screen window, then select the tab in which music will be played,
               then click the ‘Share audio’ button and click the ‘Share’ button
               on the right to start sharing your music.
             </Text>
             <img
-              src="./share-audio.gif"
+              src="/share-audio.gif"
+              className="mt-4"
               alt="select ‘Chrome Tab’ option in the share screen
           window, then click the ‘Share audio’ button"
             ></img>
@@ -481,13 +482,14 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           <Button
             variant="emphasized"
             onClick={() => {
+              setShareAudioModal(false);
               toggleScreenShare(!isAudioScreenshare, true);
             }}
           >
             Continue
           </Button>
         }
-        classes={{ footer: "justify-center" }}
+        classes={{ footer: "justify-center", header: "mb-2" }}
       />
     </>
   ) : null;
