@@ -26,13 +26,18 @@ export const GridCenterView = ({
   hideSidePane,
   totalPeers,
 }) => {
+  console.log(
+    "PPPPERS",
+    peers.filter(peer => peer.audioTrack || peer.videoTrack)
+  );
   return (
     <div
       className={`h-full ${
         hideSidePane && !isChatOpen ? "w-full" : "w-full md:w-4/5"
       }`}
     >
-      {peers && peers.length > 0 ? (
+      {peers &&
+      peers.filter(peer => peer.audioTrack || peer.videoTrack).length > 1 ? (
         <VideoList
           peers={peers}
           classes={{
@@ -43,9 +48,14 @@ export const GridCenterView = ({
         />
       ) : EVENT_ROOM_IDS.some(id => window.location.href.includes(id)) ? (
         <div className="h-full w-full grid place-items-center p-5">
-          <a href="https://100ms.live" target="_blank" rel="noreferrer">
+          <a
+            href="https://100ms.live"
+            target="_blank"
+            rel="noreferrer"
+            className="h-full"
+          >
             <img
-              className="w-full rounded-lg shadow-lg"
+              className="max-w-full max-h-full rounded-lg shadow-lg object-contain"
               alt=""
               src={eventsImg}
             />
