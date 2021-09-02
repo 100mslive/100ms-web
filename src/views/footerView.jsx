@@ -210,7 +210,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           shape="rectangle"
           active={isAudioScreenshare}
           onClick={() => {
-            setShareAudioModal(true);
+            if (!isAudioScreenshare) {
+              setShareAudioModal(true);
+            } else {
+              toggleScreenShare(false, true);
+            }
           }}
         >
           <MusicIcon />
