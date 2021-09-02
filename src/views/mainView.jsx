@@ -2,8 +2,9 @@ import React from "react";
 
 import {
   selectLocalPeer,
-  selectIsSomeoneScreenSharing,
   useHMSStore,
+  selectPeerSharingAudio,
+  selectPeerScreenSharing,
 } from "@100mslive/hms-video-react";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
@@ -14,7 +15,8 @@ export const ConferenceMainView = ({
   isParticipantListOpen,
 }) => {
   const localPeer = useHMSStore(selectLocalPeer);
-  const isSomeoneScreenSharing = useHMSStore(selectIsSomeoneScreenSharing);
+  const peerSharing = useHMSStore(selectPeerScreenSharing);
+  const peerSharingAudio = useHMSStore(selectPeerSharingAudio);
 
   if (!localPeer) {
     // we don't know the role yet to decide how to render UI
@@ -23,7 +25,7 @@ export const ConferenceMainView = ({
 
   let ViewComponent;
 
-  if (isSomeoneScreenSharing) {
+  if (peerSharing && peerSharing.id !== peerSharingAudio?.id) {
     ViewComponent = ScreenShareView;
   } else {
     ViewComponent = MainGridView;
