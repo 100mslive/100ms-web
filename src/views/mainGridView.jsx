@@ -19,7 +19,9 @@ export const MainGridView = ({
     peer => peer.roleName?.toLowerCase() !== ROLES.TEACHER
   );
   const hideSidePane =
-    peers.filter(peer => peer.audioTrack || peer.videoTrack).length > 1;
+    peers.every(peer => peer.roleName === peers[0].roleName) &&
+    peers.filter(peer => !peer.isLocal && (peer.audioTrack || peer.videoTrack))
+      .length > 0;
 
   const centerPeers = role === ROLES.TEACHER ? studentPeers : teacherPeers;
   const sidebarPeers = role === ROLES.TEACHER ? teacherPeers : studentPeers;

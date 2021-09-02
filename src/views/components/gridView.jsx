@@ -26,10 +26,6 @@ export const GridCenterView = ({
   hideSidePane,
   totalPeers,
 }) => {
-  console.log(
-    "PPPPERS",
-    peers.filter(peer => peer.audioTrack || peer.videoTrack)
-  );
   return (
     <div
       className={`h-full ${
