@@ -88,8 +88,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   async function addNoiseSuppressionPlugin() {
     createNoiseSuppresionPlugin();
-
-    audiopluginRef.current.setNoiseSuppression(!isNoiseSuppression);
     await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
   }
   //
