@@ -6,8 +6,14 @@ import {
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
 import { getBlurClass } from "../../common/utils";
+import eventsImg from "../../images/event-clubhouse.png";
 
 const MAX_TILES_FOR_MOBILE = 4;
+const EVENT_ROOM_IDS = [
+  "612ca659d91703e0375b7d30",
+  "homey-vermilion-beetle",
+  "60f4ea5ff88117b9e47bf5e8",
+];
 
 // The center of the screen shows bigger tiles
 export const GridCenterView = ({
@@ -35,6 +41,16 @@ export const GridCenterView = ({
           maxTileCount={isMobileDevice() ? MAX_TILES_FOR_MOBILE : maxTileCount}
           allowRemoteMute={allowRemoteMute}
         />
+      ) : EVENT_ROOM_IDS.some(id => window.location.href.includes(id)) ? (
+        <div className="h-full w-full grid place-items-center p-5">
+          <a href="https://100ms.live" target="_blank" rel="noreferrer">
+            <img
+              className="w-full rounded-lg shadow-lg"
+              alt=""
+              src={eventsImg}
+            />
+          </a>
+        </div>
       ) : (
         <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
       )}
