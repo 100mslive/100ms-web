@@ -23,6 +23,8 @@ const defaultTokenEndpoint = process.env
     }/`
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
+const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
+
 export function EdtechComponent({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
@@ -40,6 +42,7 @@ export function EdtechComponent({
     logoClass = "",
   },
   getUserToken = defaultGetUserToken,
+  policyConfig = envPolicyConfig,
 }) {
   const { 0: width, 1: height } = aspectRatio
     .split("-")
@@ -81,7 +84,11 @@ export function EdtechComponent({
         toast={(message, options = {}) => hmsToast(message, options)}
       >
         <HMSRoomProvider>
-          <AppContextProvider roomId={roomId} tokenEndpoint={tokenEndpoint}>
+          <AppContextProvider
+            roomId={roomId}
+            tokenEndpoint={tokenEndpoint}
+            policyConfig={policyConfig}
+          >
             <Router>
               <Switch>
                 {/* <Route path="/createRoom">

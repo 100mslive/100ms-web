@@ -38,9 +38,12 @@ const defaultTokenEndpoint = process.env
     }/`
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
+const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
+
 const AppContextProvider = ({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
+  policyConfig = envPolicyConfig,
   children,
 }) => {
   const hmsActions = useHMSActions();
@@ -48,11 +51,8 @@ const AppContextProvider = ({
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const roleNames = useHMSStore(selectAvailableRoleNames);
   const appPolicyConfig = useMemo(
-    () =>
-      normalizeAppPolicyConfig(
-        roleNames,
-        JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}")
-      ),
+    () => normalizeAppPolicyConfig(roleNames, policyConfig),
+    // eslint-disable-next-line
     [roleNames]
   );
   initialLoginInfo.roomId = roomId;
