@@ -34,12 +34,12 @@
     reselect "^4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@^0.2.39":
-  version "0.2.39"
-  resolved "https://registry.npmjs.org/@100mslive/hms-video-store/-/hms-video-store-0.2.39.tgz"
-  integrity sha512-a9XIrj2NFmvmeVdI/O6WlgqbaTwf13z08NZU/ktKUglBRZmo59UdXv45S4e7oHwMLLr1kjO6FZFyih8iZSTWSw==
+"@100mslive/hms-video-store@^0.2.40":
+  version "0.2.40"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.40.tgz#11715309edea67fb9c66f21f8a6f54c0f16fc70b"
+  integrity sha512-5t3ZeCCSKWn2OXff55t1E3mPdFCi6mD7hn2PsDuQoLfQMkJgEr/Ko4DvVk3vidx2Us/KVmnQ9PRuag0hWdqIbA==
   dependencies:
-    immer "^9.0.5"
+    immer "^9.0.6"
     reselect "^4.0.0"
     zustand "3.5.7"
 
@@ -6169,6 +6169,11 @@ immer@^9.0.5:
   version "9.0.5"
   resolved "https://registry.npmjs.org/immer/-/immer-9.0.5.tgz"
   integrity sha512-2WuIehr2y4lmYz9gaQzetPR2ECniCifk4ORaQbU3g5EalLt+0IVTosEPJ5BoYl/75ky2mivzdRzV8wWgQGOSYQ==
+
+immer@^9.0.6:
+  version "9.0.6"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.6.tgz#7a96bf2674d06c8143e327cbf73539388ddf1a73"
+  integrity sha512-G95ivKpy+EvVAnAab4fVa4YGYn24J1SpEktnJX7JJ45Bd7xqME/SCplFzYFmTbrkwZbQ4xJK1xMTUYBkN6pWsQ==
 
 import-cwd@^2.0.0:
   version "2.1.0"
