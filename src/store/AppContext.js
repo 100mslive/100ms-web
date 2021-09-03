@@ -52,8 +52,7 @@ const AppContextProvider = ({
   const roleNames = useHMSStore(selectAvailableRoleNames);
   const appPolicyConfig = useMemo(
     () => normalizeAppPolicyConfig(roleNames, policyConfig),
-    // eslint-disable-next-line
-    [roleNames]
+    [roleNames, policyConfig]
   );
   initialLoginInfo.roomId = roomId;
 
@@ -95,8 +94,7 @@ const AppContextProvider = ({
 
   useEffect(() => {
     localPeer && deepSetAppPolicyConfig(appPolicyConfig[localPeer.roleName]);
-    // eslint-disable-next-line
-  }, [localPeer?.roleName]);
+  }, [localPeer, localPeer?.roleName, appPolicyConfig]);
 
   // deep set with clone so react re renders on any change
   const deepSetLoginInfo = loginInfo => {
