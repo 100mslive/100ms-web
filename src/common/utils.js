@@ -53,6 +53,10 @@ export function getRandomVirtualBackground() {
   return img;
 }
 
+/**
+* TODO: this is currently an O(N**2) function, don't use with peer lists, it's currently
+* being used to find intersection between list of role names where the complexity shouldn't matter much.
+*/
 export const arrayIntersection = (a, b) => {
   var t;
   if (b.length > a.length) {
