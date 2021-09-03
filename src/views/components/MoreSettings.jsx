@@ -1,4 +1,4 @@
-import React, { useState, useContext, Fragment } from "react";
+import React, { useState, useContext, Fragment, useMemo } from "react";
 import {
   Button,
   ContextMenu,
@@ -19,9 +19,14 @@ import {
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
+import { arrayIntersection } from "../../common/utils";
 
 export const MoreSettings = () => {
-  const { setMaxTileCount, maxTileCount } = useContext(AppContext);
+  const {
+    setMaxTileCount,
+    maxTileCount,
+    appPolicyConfig: { selfRoleChangeTo },
+  } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
   const localPeer = useHMSStore(selectLocalPeer);
   const permissions = useHMSStore(selectPermissions);
@@ -30,6 +35,11 @@ export const MoreSettings = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [showParticipantsInView, setShowParticipantsInView] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const availableSelfChangeRoles = useMemo(
+    () => arrayIntersection(selfRoleChangeTo, roles),
+    [roles, selfRoleChangeTo]
+  );
 
   const onChange = count => {
     setMaxTileCount(count);
@@ -110,7 +120,7 @@ export const MoreSettings = () => {
                 }}
                 trigger={<div className="absolute w-full h-0"></div>}
               >
-                {roles.map(role => {
+                {availableSelfChangeRoles.map(role => {
                   return (
                     <ContextMenuItem
                       label={role}
