@@ -69,7 +69,8 @@
   "resolutions": {
     "browserslist": "4.16.5",
     "glob-parent": "5.1.2",
-    "postcss": "^7.0.36"
+    "postcss": "^7.0.36",
+    "immer": "^9.0.6"
   },
   "prettier": {
     "printWidth": 80,
