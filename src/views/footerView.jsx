@@ -10,6 +10,7 @@ import {
   ControlBar,
   ContextMenu,
   ContextMenuItem,
+  AudioPlaylist,
   HangUpIcon,
   MicOffIcon,
   MicOnIcon,
@@ -233,6 +234,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </Button>
     );
+    leftComponents.push(<AudioPlaylist key="audioPlaylist" />);
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
