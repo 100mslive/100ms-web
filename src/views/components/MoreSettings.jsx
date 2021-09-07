@@ -1,4 +1,10 @@
-import React, { useState, useContext, Fragment, useMemo } from "react";
+import React, {
+  useState,
+  useContext,
+  Fragment,
+  useMemo,
+  useEffect,
+} from "react";
 import {
   Button,
   ContextMenu,
@@ -16,10 +22,11 @@ import {
   ArrowRightIcon,
   useHMSActions,
   selectPermissions,
+  FullScreenIcon,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
-import { arrayIntersection } from "../../common/utils";
+import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 
 export const MoreSettings = () => {
   const {
@@ -35,11 +42,20 @@ export const MoreSettings = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [showParticipantsInView, setShowParticipantsInView] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isFullScreen, setIsFullScreen] = useState(
+    document.fullscreenElement !== null
+  );
 
   const availableSelfChangeRoles = useMemo(
     () => arrayIntersection(selfRoleChangeTo, roles),
     [roles, selfRoleChangeTo]
   );
+
+  useEffect(() => {
+    document.onfullscreenchange = () => {
+      setIsFullScreen(!!document.fullscreenElement);
+    };
+  }, []);
 
   const onChange = count => {
     setMaxTileCount(count);
@@ -79,6 +95,14 @@ export const MoreSettings = () => {
           },
         }}
       >
+        <ContextMenuItem
+          icon={<FullScreenIcon />}
+          label={`${isFullScreen ? "Exit " : ""}Full Screen`}
+          key="toggleFullScreen"
+          onClick={() => {
+            setFullScreenEnabled(!isFullScreen);
+          }}
+        />
         <ContextMenuItem
           icon={<GridIcon />}
           label="Change Layout"
