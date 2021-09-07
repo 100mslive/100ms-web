@@ -97,7 +97,7 @@ export const MoreSettings = () => {
       >
         <ContextMenuItem
           icon={<FullScreenIcon />}
-          label={`${isFullScreen ? "Exit" : ""} Full Screen`}
+          label={`${isFullScreen ? "Exit " : ""}Full Screen`}
           key="toggleFullScreen"
           onClick={() => {
             setFullScreenEnabled(!isFullScreen);
