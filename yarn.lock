@@ -7,12 +7,12 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.5.tgz#d9c1ae24cedecc6eca1f0067028de658db9834fd"
   integrity sha512-QGXLmrN00GzlMEjAoE2Oo+YX4/E80VMGola3u8J1qwM/6fUqWTrDPyjMyHKoB9yLbLh4W7MHQRdJtU8kEIx13g==
 
-"@100mslive/hms-video-react@^0.3.60":
-  version "0.3.60"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.60.tgz#716f63d8e5d71c1c354848ad4faa30fb7e5a5116"
-  integrity sha512-WdJ8BwHqyWkUCo6qE02LD+pxPJ8F6DOe2YKUE6gC/d5f8ePu+W4x7Cg0cSYMAPqucwj6NCh7OhJ0B/4f+2TtRw==
+"@100mslive/hms-video-react@0.3.62-1":
+  version "0.3.62-1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.62-1.tgz#dd9fb22c2027b7dff277373f6c57b4e714766a1f"
+  integrity sha512-ItwkzS+FISa4/7rz0hhKprm/SDuptE370nQT7doBQe8vfVnr10to2ZD48nDw1fC+6xPa4H/9FsWjjlPAzKeJQg==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.38"
+    "@100mslive/hms-video-store" "0.2.40-1"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -30,19 +30,19 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.38":
-  version "0.2.38"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.38.tgz#e56f70ab0ab5c7d692ed932050d168b30f895e5e"
-  integrity sha512-aNAXgpOz4+XcoxV4hThgtRaf4BHOi/WzKTJn7cNno6RJ0KLnZ+vcJraGdqwj6BCMcf3PgK4ZGJUrcDAtKbBeig==
+"@100mslive/hms-video-store@0.2.40-1":
+  version "0.2.40-1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.40-1.tgz#e35bd5d4300dc9867b55ca88fbad04bc24970d8f"
+  integrity sha512-tngX+1qFeCRAQMsdct4qsFVKnt1gBNw7baZYHU5UP/2bDx9ko7qlMEPpgXzeg6cESmIRzudP/8YsjJ8kjU4F1g==
   dependencies:
-    immer "^9.0.5"
+    immer "^9.0.6"
     reselect "^4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.0.181":
-  version "0.0.181"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.181.tgz#45ba6fe5535d5323f562fe256bc05638c1fe0f18"
-  integrity sha512-GgWcXJq9A5VUhAVJvNPenj2jwoSTUw+EmuDiqb0KmApFlavK3qDhP7ErTU7VO1QQdsWrPcnZNqG0xhb0PdPl0Q==
+"@100mslive/hms-video@0.0.182-1":
+  version "0.0.182-1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.182-1.tgz#3bd7618d7422580e95945d153acbcd58715bd405"
+  integrity sha512-lyy7mDQQHpaMyfQeHyUn6qtvMK9B+HgC9K7hCwhHgQwR0+kFcakblUGnKZLY9Qg3JnFEKlY0Wr57mrg/AyakpQ==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -6238,10 +6238,10 @@ immer@8.0.1:
   resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
   integrity sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA==
 
-immer@^9.0.5:
-  version "9.0.5"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.5.tgz#a7154f34fe7064f15f00554cc94c66cc0bf453ec"
-  integrity sha512-2WuIehr2y4lmYz9gaQzetPR2ECniCifk4ORaQbU3g5EalLt+0IVTosEPJ5BoYl/75ky2mivzdRzV8wWgQGOSYQ==
+immer@^9.0.6:
+  version "9.0.6"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.6.tgz#7a96bf2674d06c8143e327cbf73539388ddf1a73"
+  integrity sha512-G95ivKpy+EvVAnAab4fVa4YGYn24J1SpEktnJX7JJ45Bd7xqME/SCplFzYFmTbrkwZbQ4xJK1xMTUYBkN6pWsQ==
 
 import-cwd@^2.0.0:
   version "2.1.0"
