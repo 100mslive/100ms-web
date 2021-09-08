@@ -1,4 +1,5 @@
 import { hmsToast } from "../views/components/notifications/hms-toast";
+import screenfull from "screenfull";
 
 export function shadeColor(color, percent) {
   let R = parseInt(color.substring(1, 3), 16);
@@ -77,32 +78,17 @@ export const arrayIntersection = (a, b) => {
  * @desc This util function toggles the full screen based on setFullScreen parameter.
  * */
 export const setFullScreenEnabled = async setFullScreen => {
-  const bodyElement = document.querySelector("body");
-  const isFullScreen = document.fullscreenElement !== null;
-
-  if (setFullScreen === isFullScreen) {
-    return;
-  }
-
   if (setFullScreen) {
     try {
-      const fullScreenFn =
-        bodyElement.requestFullscreen ||
-        bodyElement.webkitRequestFullscreen ||
-        bodyElement.mozRequestFullscreen;
-      if (fullScreenFn) {
-        await fullScreenFn.call(bodyElement);
+      if (screenfull.isEnabled) {
+        await screenfull.request();
       }
     } catch (error) {
       hmsToast(error.message);
     }
   } else {
     try {
-      const exitFullScreenFn =
-        document.exitFullScreen ||
-        document.webkitExitFullscreen ||
-        document.mozCancelFullScreen;
-      await exitFullScreenFn.call(document);
+      await screenfull.exit();
     } catch (error) {
       hmsToast(error.message);
     }
