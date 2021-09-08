@@ -9,6 +9,7 @@ import {
   selectPeerScreenSharing,
   ScreenShareDisplay,
   isMobileDevice,
+  selectScreenShareByPeerID,
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
@@ -116,10 +117,15 @@ export const SidePane = ({
 
 const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
   const hmsActions = useHMSActions();
+  const displaySurface = useHMSStore(
+    selectScreenShareByPeerID(peerPresenting.id)
+  ).displaySurface;
+
   return (
     <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
       {peerPresenting &&
-        (amIPresenting ? (
+        (amIPresenting &&
+        (displaySurface === undefined || displaySurface === "monitor") ? (
           <div className="object-contain h-full">
             <ScreenShareDisplay
               stopScreenShare={async () => {
