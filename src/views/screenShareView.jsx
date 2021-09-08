@@ -125,7 +125,7 @@ const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
     <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
       {peerPresenting &&
         (amIPresenting &&
-        (displaySurface === undefined || displaySurface === "monitor") ? (
+        !["browser", "window", "application"].includes(displaySurface) ? (
           <div className="object-contain h-full">
             <ScreenShareDisplay
               stopScreenShare={async () => {
