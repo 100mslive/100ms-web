@@ -68,6 +68,9 @@
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
   },
+  "resolutions": {
+    "@100mslive/hms-video-store": "0.2.41"
+  },
   "prettier": {
     "printWidth": 80,
     "tabWidth": 2,

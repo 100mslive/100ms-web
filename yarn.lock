@@ -30,12 +30,12 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.38":
-  version "0.2.38"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.38.tgz#e56f70ab0ab5c7d692ed932050d168b30f895e5e"
-  integrity sha512-aNAXgpOz4+XcoxV4hThgtRaf4BHOi/WzKTJn7cNno6RJ0KLnZ+vcJraGdqwj6BCMcf3PgK4ZGJUrcDAtKbBeig==
+"@100mslive/hms-video-store@0.2.38", "@100mslive/hms-video-store@0.2.41":
+  version "0.2.41"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.41.tgz#f4f507fd1bd84cb589365ac867d47bef165115d1"
+  integrity sha512-ctxk3y6Z53Gm6AwhKYfeAkIinmGDNLWydFG6gOQumLnlQXIJeoxxtTIgZq0hi4/tCJtCtH6QlYkrQuPY/o5wBw==
   dependencies:
-    immer "^9.0.5"
+    immer "^9.0.6"
     reselect "^4.0.0"
     zustand "3.5.7"
 
@@ -6238,10 +6238,10 @@ immer@8.0.1:
   resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
   integrity sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA==
 
-immer@^9.0.5:
-  version "9.0.5"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.5.tgz#a7154f34fe7064f15f00554cc94c66cc0bf453ec"
-  integrity sha512-2WuIehr2y4lmYz9gaQzetPR2ECniCifk4ORaQbU3g5EalLt+0IVTosEPJ5BoYl/75ky2mivzdRzV8wWgQGOSYQ==
+immer@^9.0.6:
+  version "9.0.6"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.6.tgz#7a96bf2674d06c8143e327cbf73539388ddf1a73"
+  integrity sha512-G95ivKpy+EvVAnAab4fVa4YGYn24J1SpEktnJX7JJ45Bd7xqME/SCplFzYFmTbrkwZbQ4xJK1xMTUYBkN6pWsQ==
 
 import-cwd@^2.0.0:
   version "2.1.0"
