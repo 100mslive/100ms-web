@@ -98,14 +98,16 @@ export const MoreSettings = () => {
           },
         }}
       >
-        <ContextMenuItem
-          icon={<FullScreenIcon />}
-          label={`${isFullScreenEnabled ? "Exit " : ""}Full Screen`}
-          key="toggleFullScreen"
-          onClick={() => {
-            setFullScreenEnabled(!isFullScreenEnabled);
-          }}
-        />
+        {screenfull.isEnabled && (
+          <ContextMenuItem
+            icon={<FullScreenIcon />}
+            label={`${isFullScreenEnabled ? "Exit " : ""}Full Screen`}
+            key="toggleFullScreen"
+            onClick={() => {
+              setFullScreenEnabled(!isFullScreenEnabled);
+            }}
+          />
+        )}
         <ContextMenuItem
           icon={<GridIcon />}
           label="Change Layout"
