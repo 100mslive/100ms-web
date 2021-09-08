@@ -27,6 +27,7 @@ import {
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
 import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
+import screenfull from "screenfull";
 
 export const MoreSettings = () => {
   const {
@@ -42,8 +43,8 @@ export const MoreSettings = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [showParticipantsInView, setShowParticipantsInView] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isFullScreen, setIsFullScreen] = useState(
-    document.fullscreenElement !== null
+  const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
+    screenfull.isFullscreen
   );
 
   const availableSelfChangeRoles = useMemo(
@@ -52,9 +53,11 @@ export const MoreSettings = () => {
   );
 
   useEffect(() => {
-    document.onfullscreenchange = () => {
-      setIsFullScreen(!!document.fullscreenElement);
-    };
+    if (screenfull.isEnabled) {
+      screenfull.on("change", () => {
+        setIsFullScreenEnabled(screenfull.isFullscreen);
+      });
+    }
   }, []);
 
   const onChange = count => {
@@ -95,14 +98,16 @@ export const MoreSettings = () => {
           },
         }}
       >
-        <ContextMenuItem
-          icon={<FullScreenIcon />}
-          label={`${isFullScreen ? "Exit " : ""}Full Screen`}
-          key="toggleFullScreen"
-          onClick={() => {
-            setFullScreenEnabled(!isFullScreen);
-          }}
-        />
+        {screenfull.isEnabled && (
+          <ContextMenuItem
+            icon={<FullScreenIcon />}
+            label={`${isFullScreenEnabled ? "Exit " : ""}Full Screen`}
+            key="toggleFullScreen"
+            onClick={() => {
+              setFullScreenEnabled(!isFullScreenEnabled);
+            }}
+          />
+        )}
         <ContextMenuItem
           icon={<GridIcon />}
           label="Change Layout"
