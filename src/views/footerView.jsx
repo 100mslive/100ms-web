@@ -3,7 +3,6 @@ import React, {
   useCallback,
   useContext,
   useRef,
-  Fragment,
 } from "react";
 import {
   useHMSStore,
@@ -40,6 +39,7 @@ import {
   selectScreenSharesByPeerId,
   Text,
   HMSPlaylistActionType,
+  HMSPlaylistType,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -246,9 +246,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         shape="rectangle"
         onClick={() => {
           hmsActions.performActionOnPlaylist({
-            type: HMSPlaylistActionType.PLAY,
+            actionType: HMSPlaylistActionType.PLAY,
             url: "https://storage.googleapis.com/test-86284.appspot.com/video1.mp4",
-            itemType: "video",
+            type: HMSPlaylistType.video,
           });
         }}
       >
