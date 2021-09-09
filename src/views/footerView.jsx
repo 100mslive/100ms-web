@@ -23,6 +23,7 @@ import {
   ChatIcon,
   ChatUnreadIcon,
   MusicIcon,
+  VideoPlaylistIcon,
   VerticalDivider,
   MessageModal,
   useHMSActions,
@@ -38,6 +39,7 @@ import {
   selectLocalPeer,
   selectScreenSharesByPeerId,
   Text,
+  HMSPlaylistActionType,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -235,6 +237,24 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       </Button>
     );
     leftComponents.push(<AudioPlaylist key="audioPlaylist" />);
+    leftComponents.push(
+      <Button
+        key="videoPlaylist"
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={() => {
+          hmsActions.performActionOnPlaylist({
+            type: HMSPlaylistActionType.PLAY,
+            url: "https://storage.googleapis.com/test-86284.appspot.com/video1.mp4",
+            itemType: "video",
+          });
+        }}
+      >
+        <VideoPlaylistIcon />
+      </Button>
+    );
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
