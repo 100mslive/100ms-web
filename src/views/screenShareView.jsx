@@ -9,6 +9,8 @@ import {
   selectPeerScreenSharing,
   ScreenShareDisplay,
   isMobileDevice,
+  selectPeerSharingVideoPlaylist,
+  VideoPlayer,
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
@@ -22,8 +24,9 @@ export const ScreenShareView = ({
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
+  const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const smallTilePeers = useMemo(
-    () => peers.filter(peer => peer.id !== peerPresenting.id),
+    () => peers.filter(peer => peer.id !== peerPresenting?.id),
     [peers, peerPresenting]
   );
 
@@ -53,6 +56,7 @@ export const ScreenShareView = ({
         <ScreenShareComponent
           amIPresenting={amIPresenting}
           peerPresenting={peerPresenting}
+          peerSharingPlaylist={peerSharingPlaylist}
         />
         <div className="flex flex-wrap overflow-hidden p-2 w-full h-1/3 md:w-2/10 md:h-full ">
           <SidePane
@@ -114,8 +118,21 @@ export const SidePane = ({
   );
 };
 
-const ScreenShareComponent = ({ amIPresenting, peerPresenting }) => {
+const ScreenShareComponent = ({
+  amIPresenting,
+  peerPresenting,
+  peerSharingPlaylist,
+}) => {
   const hmsActions = useHMSActions();
+
+  if (peerSharingPlaylist) {
+    return (
+      <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
+        <VideoPlayer peer={peerSharingPlaylist} />
+      </div>
+    );
+  }
+
   return (
     <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
       {peerPresenting &&
