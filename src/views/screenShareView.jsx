@@ -40,7 +40,7 @@ export const ScreenShareView = ({
 
   if (
     showPresenterInSmallTile &&
-    !smallTilePeers.some(peer => peer.id === peerPresenting.id)
+    !smallTilePeers.some(peer => peer.id === peerPresenting?.id)
   ) {
     if (amIPresenting) {
       // put presenter on last page
@@ -126,8 +126,8 @@ const ScreenShareComponent = ({
 }) => {
   const hmsActions = useHMSActions();
   const displaySurface = useHMSStore(
-    selectScreenShareByPeerID(peerPresenting.id)
-  ).displaySurface;
+    selectScreenShareByPeerID(peerPresenting?.id)
+  )?.displaySurface;
 
   if (peerSharingPlaylist) {
     return (
