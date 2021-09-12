@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import {
   useHMSStore,
   useHMSActions,
-  HMSPlaylistActionType,
+  HMSPlaylistType,
   selectLocalPeer,
   selectPeerSharingAudio,
   selectPeerScreenSharing,
@@ -24,15 +24,13 @@ export const ConferenceMainView = ({
   const hmsActions = useHMSActions();
 
   useEffect(() => {
-    hmsActions.performActionOnPlaylist({
-      actionType: HMSPlaylistActionType.SET_LIST,
+    hmsActions.playlist.setList({
       list: defaultVideoList,
-      type: "video",
+      type: HMSPlaylistType.video,
     });
-    hmsActions.performActionOnPlaylist({
-      actionType: HMSPlaylistActionType.SET_LIST,
+    hmsActions.playlist.setList({
       list: defaultAudioList,
-      type: "audio",
+      type: HMSPlaylistType.audio,
     });
   }, [hmsActions]);
 

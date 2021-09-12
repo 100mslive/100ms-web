@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useContext,
-  useRef,
-} from "react";
+import React, { useState, useCallback, useContext, useRef } from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -38,7 +33,6 @@ import {
   selectLocalPeer,
   selectScreenSharesByPeerId,
   Text,
-  HMSPlaylistActionType,
   HMSPlaylistType,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
@@ -46,6 +40,7 @@ import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
 import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
+import { defaultVideoList } from "../common/constants";
 import { MoreSettings } from "./components/MoreSettings";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
@@ -245,9 +240,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         iconSize="md"
         shape="rectangle"
         onClick={() => {
-          hmsActions.performActionOnPlaylist({
-            actionType: HMSPlaylistActionType.PLAY,
-            url: "https://storage.googleapis.com/test-86284.appspot.com/video1.mp4",
+          hmsActions.playlist.play({
+            url: defaultVideoList[0].url,
             type: HMSPlaylistType.video,
           });
         }}
