@@ -11,6 +11,7 @@ import {
   isMobileDevice,
   selectPeerSharingVideoPlaylist,
   VideoPlayer,
+  selectScreenShareByPeerID,
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
@@ -124,6 +125,9 @@ const ScreenShareComponent = ({
   peerSharingPlaylist,
 }) => {
   const hmsActions = useHMSActions();
+  const displaySurface = useHMSStore(
+    selectScreenShareByPeerID(peerPresenting.id)
+  ).displaySurface;
 
   if (peerSharingPlaylist) {
     return (
@@ -136,7 +140,8 @@ const ScreenShareComponent = ({
   return (
     <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
       {peerPresenting &&
-        (amIPresenting ? (
+        (amIPresenting &&
+        !["browser", "window", "application"].includes(displaySurface) ? (
           <div className="object-contain h-full">
             <ScreenShareDisplay
               stopScreenShare={async () => {

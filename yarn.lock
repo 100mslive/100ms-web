@@ -30,10 +30,10 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.41-1":
-  version "0.2.41-1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.41-1.tgz#244dcddffa6d2326f9ffdf5bd48d9d9306060fd3"
-  integrity sha512-GH5mxfDez7+9IT3cUkYN7fgGqzw6K61ofJq1vzUQ+o2Md5VXj545+ro8zIDD0h9GPZAvJps4YyOUqNkztDu2DA==
+"@100mslive/hms-video-store@0.2.41", "@100mslive/hms-video-store@0.2.41-1":
+  version "0.2.41"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.41.tgz#f4f507fd1bd84cb589365ac867d47bef165115d1"
+  integrity sha512-ctxk3y6Z53Gm6AwhKYfeAkIinmGDNLWydFG6gOQumLnlQXIJeoxxtTIgZq0hi4/tCJtCtH6QlYkrQuPY/o5wBw==
   dependencies:
     immer "^9.0.6"
     reselect "^4.0.0"
@@ -10803,6 +10803,11 @@ schema-utils@^3.0.0:
     "@types/json-schema" "^7.0.8"
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
+
+screenfull@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-5.1.0.tgz#85c13c70f4ead4c1b8a935c70010dfdcd2c0e5c8"
+  integrity sha512-dYaNuOdzr+kc6J6CFcBrzkLCfyGcMg+gWkJ8us93IQ7y1cevhQAugFsaCdMHb6lw8KV3xPzSxzH7zM1dQap9mA==
 
 sdp-transform@^2.14.1:
   version "2.14.1"
