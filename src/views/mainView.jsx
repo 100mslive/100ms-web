@@ -3,10 +3,12 @@ import {
   useHMSStore,
   useHMSActions,
   HMSPlaylistType,
+  HMSRoomState,
   selectLocalPeer,
   selectPeerSharingAudio,
   selectPeerScreenSharing,
   selectPeerSharingVideoPlaylist,
+  selectRoomState,
 } from "@100mslive/hms-video-react";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
@@ -21,9 +23,14 @@ export const ConferenceMainView = ({
   const peerSharing = useHMSStore(selectPeerScreenSharing);
   const peerSharingAudio = useHMSStore(selectPeerSharingAudio);
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
+  const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
 
   useEffect(() => {
+    // set list only when room state is connected
+    if (roomState !== HMSRoomState.Connected) {
+      return;
+    }
     hmsActions.playlist.setList({
       list: defaultVideoList,
       type: HMSPlaylistType.video,
@@ -32,7 +39,7 @@ export const ConferenceMainView = ({
       list: defaultAudioList,
       type: HMSPlaylistType.audio,
     });
-  }, [hmsActions]);
+  }, [roomState]); //eslint-disable-line
 
   if (!localPeer) {
     // we don't know the role yet to decide how to render UI
