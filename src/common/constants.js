@@ -50,10 +50,4 @@ export const defaultVideoList = [
     url: "https://storage.googleapis.com/test-86284.appspot.com/video2.mp4",
     type: "video",
   },
-  {
-    name: "Video3",
-    id: "video3",
-    url: "https://storage.googleapis.com/test-86284.appspot.com/video3.mp4",
-    type: "video",
-  },
 ];
