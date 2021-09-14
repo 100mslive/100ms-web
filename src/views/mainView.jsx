@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {
   useHMSStore,
   useHMSActions,
-  HMSPlaylistType,
   HMSRoomState,
   selectLocalPeer,
   selectPeerSharingAudio,
@@ -32,12 +31,7 @@ export const ConferenceMainView = ({
       return;
     }
     hmsActions.playlist.setList({
-      list: defaultVideoList,
-      type: HMSPlaylistType.video,
-    });
-    hmsActions.playlist.setList({
-      list: defaultAudioList,
-      type: HMSPlaylistType.audio,
+      list: defaultVideoList.concat(defaultAudioList),
     });
   }, [roomState]); //eslint-disable-line
 
