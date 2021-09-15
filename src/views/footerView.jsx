@@ -246,7 +246,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         active={!!activeVideoPlaylist}
         onClick={() => {
           hmsActions.playlist.play({
-            url: defaultVideoList[0].url,
+            id: defaultVideoList[0].id,
             type: HMSPlaylistType.video,
           });
         }}
