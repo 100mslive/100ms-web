@@ -9,8 +9,14 @@ import {
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
   useHMSActions,
+  Button,
+  selectRemotePeers,
+  selectTracksMap,
+  selectVideoTrackByPeerID,
+  selectLocalPeer,
 } from "@100mslive/hms-video-react";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import PIP from "./PIP";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -77,6 +83,7 @@ export const ConferenceHeader = ({ onParticipantListOpen }) => {
         leftComponents={[<LogoButton key={0} />, <Music key={1} />]}
         centerComponents={[<SpeakerTag key={0} />]}
         rightComponents={[
+          document.pictureInPictureEnabled && <PIP />,
           <ParticipantList key={0} onToggle={onParticipantListOpen} />,
         ]}
         classes={{ root: "h-full" }}
