@@ -30,7 +30,8 @@ export const ConferenceMainView = ({
     if (roomState !== HMSRoomState.Connected) {
       return;
     }
-    hmsActions.playlist.setList(defaultVideoList.concat(defaultAudioList));
+    hmsActions.videoPlaylist.setList(defaultVideoList);
+    hmsActions.audioPlaylist.setList(defaultAudioList);
   }, [roomState]); //eslint-disable-line
 
   if (!localPeer) {
