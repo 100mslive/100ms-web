@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useHistory, useParams, useLocation, Redirect } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import {
   Button,
   MessageModal,
@@ -154,18 +154,6 @@ const PreviewScreen = ({ getUserToken }) => {
     );
   }
 
-  // This for handling beam recording
-  if (skipPreview) {
-    return loginInfo.token ? (
-      <Redirect to={`/meeting/${urlRoomId}/${userRole}`} />
-    ) : (
-      <div className="h-full">
-        <div className="flex justify-center h-full items-center">
-          <ProgressIcon width="100" height="100" />
-        </div>
-      </div>
-    );
-  }
   return (
     <div className="h-full">
       <div className="flex justify-center h-full items-center">
