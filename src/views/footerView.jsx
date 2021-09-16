@@ -245,10 +245,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         shape="rectangle"
         active={!!activeVideoPlaylist}
         onClick={() => {
-          hmsActions.playlist.play({
-            id: defaultVideoList[0].id,
-            type: HMSPlaylistType.video,
-          });
+          hmsActions.playlist.play(
+            defaultVideoList[0].id,
+            HMSPlaylistType.video
+          );
         }}
       >
         <VideoPlaylistIcon />
