@@ -232,22 +232,24 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </Button>
     );
-    leftComponents.push(<AudioPlaylist key="audioPlaylist" />);
-    leftComponents.push(
-      <Button
-        key="videoPlaylist"
-        iconOnly
-        variant="no-fill"
-        iconSize="md"
-        shape="rectangle"
-        active={!!activeVideoPlaylist}
-        onClick={() => {
-          hmsActions.videoPlaylist.play(defaultVideoList[0].id);
-        }}
-      >
-        <VideoPlaylistIcon />
-      </Button>
-    );
+    isAllowedToPublish.audio &&
+      leftComponents.push(<AudioPlaylist key="audioPlaylist" />);
+    isAllowedToPublish.screen &&
+      leftComponents.push(
+        <Button
+          key="videoPlaylist"
+          iconOnly
+          variant="no-fill"
+          iconSize="md"
+          shape="rectangle"
+          active={!!activeVideoPlaylist}
+          onClick={() => {
+            hmsActions.videoPlaylist.play(defaultVideoList[0].id);
+          }}
+        >
+          <VideoPlaylistIcon />
+        </Button>
+      );
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
