@@ -74,4 +74,13 @@ export const defaultVideoList = [
     url: "https://bc-public-static-assets.s3.ap-south-1.amazonaws.com/webapp/playlist/video2.mp4",
     type: "video",
   },
+  {
+    name: "Video3",
+    id: "video3",
+    metadata: {
+      description: "Artist2",
+    },
+    url: "https://bc-public-static-assets.s3.ap-south-1.amazonaws.com/webapp/playlist/video3.mp4",
+    type: "video",
+  },
 ];
