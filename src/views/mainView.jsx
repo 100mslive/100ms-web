@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   useHMSStore,
   useHMSActions,
@@ -11,7 +11,7 @@ import {
 } from "@100mslive/hms-video-react";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
-import { defaultAudioList, defaultVideoList } from "../common/constants";
+import { AppContext } from "../store/AppContext";
 
 export const ConferenceMainView = ({
   isChatOpen,
@@ -24,14 +24,15 @@ export const ConferenceMainView = ({
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
+  const { audioPlaylist, videoPlaylist } = useContext(AppContext);
 
   useEffect(() => {
     // set list only when room state is connected
     if (roomState !== HMSRoomState.Connected) {
       return;
     }
-    hmsActions.videoPlaylist.setList(defaultVideoList);
-    hmsActions.audioPlaylist.setList(defaultAudioList);
+    hmsActions.videoPlaylist.setList(videoPlaylist);
+    hmsActions.audioPlaylist.setList(audioPlaylist);
   }, [roomState]); //eslint-disable-line
 
   if (!localPeer) {
