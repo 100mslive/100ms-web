@@ -34,13 +34,13 @@ import {
   selectScreenSharesByPeerId,
   Text,
   selectVideoPlaylist,
+  VideoPlaylist,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
 import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
-import { defaultVideoList } from "../common/constants";
 import { MoreSettings } from "./components/MoreSettings";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
@@ -236,19 +236,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       leftComponents.push(<AudioPlaylist key="audioPlaylist" />);
     isAllowedToPublish.screen &&
       leftComponents.push(
-        <Button
-          key="videoPlaylist"
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
+        <VideoPlaylist
+          trigger={<VideoPlaylistIcon />}
           active={!!activeVideoPlaylist}
-          onClick={() => {
-            hmsActions.videoPlaylist.play(defaultVideoList[0].id);
-          }}
-        >
-          <VideoPlaylistIcon />
-        </Button>
+        />
       );
   }
 
