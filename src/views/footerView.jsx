@@ -232,7 +232,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </Button>
     );
-    isAllowedToPublish.audio &&
+    isAllowedToPublish.screen &&
       leftComponents.push(<AudioPlaylist key="audioPlaylist" />);
     isAllowedToPublish.screen &&
       leftComponents.push(

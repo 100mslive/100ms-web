@@ -15,11 +15,11 @@ export const MainGridView = ({
   } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
   const centerPeers = peers.filter(peer => centerRoles.includes(peer.roleName));
-  const sidebarPeers = peers.filter(peer =>
-    sidepaneRoles.includes(peer.roleName)
+  const sidebarPeers = peers.filter(
+    peer => sidepaneRoles && sidepaneRoles.includes(peer.roleName)
   );
   const hideSidePane =
-    (centerPeers.length > 1 && sidebarPeers.length === 0) ||
+    sidebarPeers.length === 0 ||
     (centerPeers.length === 0 && sidebarPeers.length > 1);
 
   return (
