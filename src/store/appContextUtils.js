@@ -51,6 +51,11 @@ function canPublishAV(role) {
   return false;
 }
 
+/**
+ * Figure out the layout for each role. There is some extra work being done
+ * here currently to figure out the layout for roles other than local peer too
+ * which can be avoided.
+ */
 export const normalizeAppPolicyConfig = (
   roleNames,
   rolesMap,
@@ -61,11 +66,11 @@ export const normalizeAppPolicyConfig = (
     if (!newConfig[roleName]) {
       newConfig[roleName] = {};
     }
-    // all other roles apart from in center by default
     if (!newConfig[roleName].center) {
       const publishingRoleNames = roleNames.filter(roleName =>
         canPublishAV(rolesMap[roleName])
       );
+      // all other roles apart from local role in center by default
       newConfig[roleName].center = publishingRoleNames.filter(
         rName => rName !== roleName
       );
