@@ -41,7 +41,7 @@ export const setUpLogRocket = (loginInfo, localPeer) => {
 // }
 
 /**
- * check if a role is allowed to publish audio/video
+ * check if a role is allowed to publish either of audio or video
  */
 function canPublishAV(role) {
   const params = role?.publishParams;
@@ -70,14 +70,16 @@ export const normalizeAppPolicyConfig = (
       const publishingRoleNames = roleNames.filter(roleName =>
         canPublishAV(rolesMap[roleName])
       );
-      // all other roles apart from local role in center by default
+      // all other publishing roles apart from local role in center by default
       newConfig[roleName].center = publishingRoleNames.filter(
         rName => rName !== roleName
       );
     }
     // everyone from my role is in sidepane by default if they can publish
-    if (!newConfig[roleName].sidepane && canPublishAV(rolesMap[roleName])) {
-      newConfig[roleName].sidepane = [roleName];
+    if (!newConfig[roleName].sidepane) {
+      newConfig[roleName].sidepane = canPublishAV(rolesMap[roleName])
+        ? [roleName]
+        : [];
     }
     if (!newConfig[roleName].selfRoleChangeTo) {
       newConfig[roleName].selfRoleChangeTo = roleNames;

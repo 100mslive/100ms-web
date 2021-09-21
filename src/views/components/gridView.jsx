@@ -9,11 +9,12 @@ import { getBlurClass } from "../../common/utils";
 import eventsImg from "../../images/event-clubhouse.png";
 
 const MAX_TILES_FOR_MOBILE = 4;
-const EVENT_ROOM_IDS = [
-  "612ca659d91703e0375b7d30",
-  "homey-vermilion-beetle",
-  "60f4ea5ff88117b9e47bf5e8",
-];
+
+/**
+ * this is for showing webinar etc. related image if required on certain meeting urls
+ * as required.
+ */
+const EVENT_ROOM_IDS = ["homey-vermilion-beetle"];
 
 // The center of the screen shows bigger tiles
 export const GridCenterView = ({
@@ -26,6 +27,7 @@ export const GridCenterView = ({
   hideSidePane,
   totalPeers,
 }) => {
+  console.log("peers", peers);
   return (
     <div
       className={`h-full ${
