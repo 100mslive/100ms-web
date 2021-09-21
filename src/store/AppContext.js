@@ -5,6 +5,7 @@ import {
   selectLocalPeer,
   selectIsConnectedToRoom,
   selectAvailableRoleNames,
+  selectRolesMap,
 } from "@100mslive/hms-video-react";
 import {
   convertLoginInfoToJoinConfig,
@@ -57,9 +58,10 @@ const AppContextProvider = ({
   const localPeer = useHMSStore(selectLocalPeer);
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const roleNames = useHMSStore(selectAvailableRoleNames);
+  const rolesMap = useHMSStore(selectRolesMap);
   const appPolicyConfig = useMemo(
-    () => normalizeAppPolicyConfig(roleNames, policyConfig),
-    [roleNames, policyConfig]
+    () => normalizeAppPolicyConfig(roleNames, rolesMap, policyConfig),
+    [roleNames, policyConfig, rolesMap]
   );
   initialLoginInfo.roomId = roomId;
 
