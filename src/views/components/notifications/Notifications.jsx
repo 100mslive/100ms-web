@@ -60,19 +60,37 @@ export function Notifications() {
       case HMSNotificationTypes.ERROR:
         // show button action when the error is terminal
         if (notification.data?.isTerminal) {
+          if (notification.data?.code === 6008) {
+            hmsToast("", {
+              left: (
+                <Text classes={{ root: "flex" }}>
+                  {`Error: ${notification.data?.message}`}
+                </Text>
+              ),
+              toastProps: {
+                autoClose: false,
+              },
+            });
+            setTimeout(() => {
+              history.push("/");
+            }, 2000);
+            return;
+          }
           hmsToast("", {
             center: (
               <div className="flex">
                 <Text classes={{ root: "mr-2" }}>
-                  We couldn’t reconnect you. When you’re back online, try
-                  joining the room.
+                  {notification.data?.message ||
+                    "We couldn’t reconnect you. When you’re back online, try joining the room."}
                 </Text>
                 <Button
                   variant="emphasized"
                   classes={{
                     root: "self-center mr-2",
                   }}
-                  onClick={() => window.location.reload()}
+                  onClick={() => {
+                    window.location.reload();
+                  }}
                 >
                   Rejoin
                 </Button>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   useHMSActions,
   useHMSStore,
   selectLocalPeer,
   selectIsConnectedToRoom,
   selectAvailableRoleNames,
+  selectRolesMap,
 } from "@100mslive/hms-video-react";
 import {
   convertLoginInfoToJoinConfig,
@@ -12,7 +13,6 @@ import {
   setUpLogRocket,
 } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
-import { useMemo } from "react";
 
 const AppContext = React.createContext(null);
 
@@ -39,20 +39,29 @@ const defaultTokenEndpoint = process.env
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
+const envAudioPlaylist = JSON.parse(
+  process.env.REACT_APP_AUDIO_PLAYLIST || "[]"
+);
+const envVideoPlaylist = JSON.parse(
+  process.env.REACT_APP_VIDEO_PLAYLIST || "[]"
+);
 
 const AppContextProvider = ({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
   policyConfig = envPolicyConfig,
+  audioPlaylist = envAudioPlaylist,
+  videoPlaylist = envVideoPlaylist,
   children,
 }) => {
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const roleNames = useHMSStore(selectAvailableRoleNames);
+  const rolesMap = useHMSStore(selectRolesMap);
   const appPolicyConfig = useMemo(
-    () => normalizeAppPolicyConfig(roleNames, policyConfig),
-    [roleNames, policyConfig]
+    () => normalizeAppPolicyConfig(roleNames, rolesMap, policyConfig),
+    [roleNames, policyConfig, rolesMap]
   );
   initialLoginInfo.roomId = roomId;
 
@@ -124,6 +133,8 @@ const AppContextProvider = ({
         isConnected: isConnected,
         leave: customLeave,
         tokenEndpoint,
+        audioPlaylist,
+        videoPlaylist,
       }}
     >
       {children}

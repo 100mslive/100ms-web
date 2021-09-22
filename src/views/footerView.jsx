@@ -1,15 +1,10 @@
-import React, {
-  useState,
-  useCallback,
-  useContext,
-  useRef,
-  Fragment,
-} from "react";
+import React, { useState, useCallback, useContext, useRef } from "react";
 import {
   useHMSStore,
   ControlBar,
   ContextMenu,
   ContextMenuItem,
+  AudioPlaylist,
   HangUpIcon,
   MicOffIcon,
   MicOnIcon,
@@ -22,6 +17,7 @@ import {
   ChatIcon,
   ChatUnreadIcon,
   MusicIcon,
+  VideoPlaylistIcon,
   VerticalDivider,
   MessageModal,
   useHMSActions,
@@ -37,6 +33,8 @@ import {
   selectLocalPeer,
   selectScreenSharesByPeerId,
   Text,
+  selectVideoPlaylist,
+  VideoPlaylist,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -65,6 +63,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
+  const activeVideoPlaylist = !!useHMSStore(selectVideoPlaylist.selection).id;
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [shareAudioModal, setShareAudioModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
@@ -233,6 +232,15 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </Button>
     );
+    isAllowedToPublish.screen &&
+      leftComponents.push(<AudioPlaylist key="audioPlaylist" />);
+    isAllowedToPublish.screen &&
+      leftComponents.push(
+        <VideoPlaylist
+          trigger={<VideoPlaylistIcon />}
+          active={!!activeVideoPlaylist}
+        />
+      );
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
