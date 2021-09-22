@@ -44,16 +44,14 @@ export const MoreSettings = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showParticipantsInView, setShowParticipantsInView] = useState(false);
-  const [showRecordingAndRTMP, setShowRecordingAndRTMP] = useState(false);
+  const [showRecordingAndRTMPModal, setShowRecordingAndRTMPModal] =
+    useState(false);
+  const [isRecordingOrRTMPStarted, setIsRecordingOrRTMPStarted] =
+    useState(false);
 
-  const [meeting_url, setMeetingURL] = useState(
-    `https://fullscreen.qa-app.100ms.live/preview/614ac265ec8e7f242b77404b/beam?token=beam_recording`
-    // `https://youtu.be/LKbzXBEU-lg`
-  );
-  const [rtmp_url, setRTMPURLs] = useState(
-    `rtmp://blr01.contribute.live-video.net/app/live_727369748_GlgwzwWIfksqHYIesfawCkXFwKnRa7`
-  );
-  const [record, setIsRecordingOn] = useState(false);
+  const [meetingURL, setMeetingURL] = useState("");
+  const [RTMPURLs, setRTMPURLs] = useState("");
+  const [isRecordingOn, setIsRecordingOn] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
@@ -79,20 +77,16 @@ export const MoreSettings = () => {
 
   const handleClick = async () => {
     try {
-      const rtmp_urls = new Array(rtmp_url);
-      console.log(meeting_url, rtmp_urls, record);
-      hmsActions.startRTMPOrRecording(meeting_url, rtmp_urls, record);
-    } catch (e) {
-      // log for errors
-      console.log("RTMP start error ====>", e);
-    }
-  };
-
-  const handleClick2 = async () => {
-    try {
-      hmsActions.stopRTMPAndRecording();
-    } catch (e) {
-      console.log("RTMP stop error ====>", e);
+      if (!isRecordingOrRTMPStarted) {
+        hmsActions.startRTMPOrRecording(meetingURL, [RTMPURLs], isRecordingOn);
+        setShowRecordingAndRTMPModal(false);
+        setIsRecordingOrRTMPStarted(true);
+      } else {
+        hmsActions.stopRTMPAndRecording();
+        setIsRecordingOrRTMPStarted(false);
+      }
+    } catch (error) {
+      hmsToast(error.message);
     }
   };
 
@@ -208,11 +202,15 @@ export const MoreSettings = () => {
         )}
         <ContextMenuItem
           icon={<SettingsIcon />}
-          label="Start Streaming"
-          key="settings"
+          label={`${
+            isRecordingOrRTMPStarted ? "Stop" : "Start"
+          } Streaming/Recording`}
+          key="streaming-recording"
           addDivider={true}
           onClick={() => {
-            setShowRecordingAndRTMP(true);
+            !isRecordingOrRTMPStarted
+              ? setShowRecordingAndRTMPModal(true)
+              : handleClick();
           }}
         />
         <ContextMenuItem
@@ -237,29 +235,26 @@ export const MoreSettings = () => {
         onModalClose={() => setShowParticipantsInView(false)}
       />
       <MessageModal
-        title="Start Streaming & Recording"
+        title="Start Streaming/Recording"
         body={
           <RecordingAndRTMPForm
-            meetingURL={meeting_url}
-            RTMPURLs={rtmp_url}
-            isRecordingOn={record}
+            meetingURL={meetingURL}
+            RTMPURLs={RTMPURLs}
+            isRecordingOn={isRecordingOn}
             setIsRecordingOn={setIsRecordingOn}
             setMeetingURL={setMeetingURL}
             setRTMPURLs={setRTMPURLs}
           />
         }
         footer={
-          <div className="text-center">
-            <Button shape="rectangle" onClick={handleClick2}>
-              Stop
-            </Button>
+          <div>
             <Button shape="rectangle" onClick={handleClick}>
               Start
             </Button>
           </div>
         }
-        show={showRecordingAndRTMP}
-        onClose={() => setShowRecordingAndRTMP(false)}
+        show={showRecordingAndRTMPModal}
+        onClose={() => setShowRecordingAndRTMPModal(false)}
       />
     </Fragment>
   );

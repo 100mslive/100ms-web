@@ -17,7 +17,7 @@ const defaultClasses = {
     "rounded-lg w-full md:w-1/2 bg-gray-600 dark:bg-gray-200 p-2 mx-0 my-2 md:my-0 md:mx-2",
   select:
     "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
-  selectInner: "p-4",
+  selectInner: "px-4 pb-4",
   divider: "bg-gray-600 dark:bg-gray-200 h-px w-full my-4",
   gap: "w-full pt-4",
   errorContainer: "flex justify-center items-center w-full px-8 py-4",
@@ -75,16 +75,17 @@ export const RecordingAndRTMPForm = ({
             </Text>
           </div>
           <div className={`${defaultClasses.selectInner}`}>
-            <label>
-              <input
-                type="checkbox"
-                value={isRecordingOn}
-                onChange={e => {
-                  setIsRecordingOn(e.target.checked);
-                  console.log(e.target.checked);
-                }}
-              />
-            </label>
+            <input
+              className="custom-toggle"
+              type="checkbox"
+              id="recordingOnCheckbox"
+              value={isRecordingOn}
+              onChange={e => setIsRecordingOn(e.target.checked)}
+            />
+            <label
+              className="custom-toggle-label"
+              htmlFor="recordingOnCheckbox"
+            ></label>
           </div>
         </div>
       </form>

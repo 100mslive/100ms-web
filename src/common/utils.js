@@ -62,7 +62,9 @@ export function getRandomVirtualBackground() {
  */
 export const arrayIntersection = (a, b) => {
   var t;
-  console.log("Array Intersection: a, b", a, b);
+  if (a === undefined || b === undefined) {
+    return [];
+  }
   if (b.length > a.length) {
     t = b;
     b = a;
