@@ -63,7 +63,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
-  const activeVideoPlaylist = !!useHMSStore(selectVideoPlaylist.selection).id;
+  const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [shareAudioModal, setShareAudioModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
@@ -237,8 +237,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     isAllowedToPublish.screen &&
       leftComponents.push(
         <VideoPlaylist
+          key="videoPlaylist"
           trigger={<VideoPlaylistIcon />}
-          active={!!activeVideoPlaylist}
+          active={activeVideoPlaylist}
         />
       );
   }
