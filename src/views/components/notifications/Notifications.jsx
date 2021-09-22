@@ -26,7 +26,7 @@ export function Notifications() {
     }
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
-        console.log("[Peer Joined]", notification.data);
+        console.debug("[Peer Joined]", notification.data);
         break;
       case HMSNotificationTypes.PEER_LEFT:
         hmsToast("", {
@@ -46,10 +46,10 @@ export function Notifications() {
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
-        console.log("[Track Added] data", notification.data);
+        console.debug("[Track Added] data", notification.data);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
-        console.log("[Track Removed]", notification);
+        console.debug("[Track Removed]", notification);
         break;
       case HMSNotificationTypes.TRACK_MUTED:
         console.log("[Track Muted]", notification);
