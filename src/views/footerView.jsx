@@ -87,9 +87,13 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   async function addNoiseSuppressionPlugin() {
     createNoiseSuppresionPlugin();
-    await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+    try{
+      await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+    }catch (err) {
+      console.error("add noise suppression plugin failed", err);
+    }
   }
-  //
+
   async function removeNoiseSuppressionPlugin() {
     if (audiopluginRef.current) {
       await hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
@@ -108,7 +112,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     createVBPlugin();
     await pluginRef.current.setBackground(getRandomVirtualBackground());
     //Running VB on every alternate frame rate for optimized cpu usage
-    await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
+    try{
+      await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
+    } catch (err) {
+      console.error("add virtual background plugin failed", err);
+    }
   }
 
   async function removePlugin() {
