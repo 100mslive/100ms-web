@@ -81,6 +81,10 @@ const AppContextProvider = ({
       // reset the body height to that of the inner browser
       document.body.style.height = `${window.innerHeight}px`;
     }
+    // This is to be used to set feature flags
+    window.HMS = {
+      JOIN_DELAY_FIX: true,
+    };
     // reset the height whenever the window's resized
     window.addEventListener("resize", resetHeight);
     // called to initially set the height.
