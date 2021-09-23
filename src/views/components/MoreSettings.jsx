@@ -50,7 +50,7 @@ export const MoreSettings = () => {
     useState(false);
 
   const [meetingURL, setMeetingURL] = useState("");
-  const [RTMPURLs, setRTMPURLs] = useState("");
+  const [rtmpURL, setRtmpURL] = useState("");
   const [isRecordingOn, setIsRecordingOn] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -78,9 +78,23 @@ export const MoreSettings = () => {
   const handleClick = async () => {
     try {
       if (!isRecordingOrRTMPStarted) {
-        hmsActions.startRTMPOrRecording(meetingURL, [RTMPURLs], isRecordingOn);
+        if (rtmpURL.length > 0) {
+          hmsActions.startRTMPOrRecording({
+            meetingURL,
+            rtmpURLs: [rtmpURL],
+            record: isRecordingOn,
+          });
+        } else {
+          hmsActions.startRTMPOrRecording({
+            meetingURL,
+            record: isRecordingOn,
+          });
+        }
         setShowRecordingAndRTMPModal(false);
         setIsRecordingOrRTMPStarted(true);
+        setIsRecordingOn(false);
+        setMeetingURL("");
+        setRtmpURL("");
       } else {
         hmsActions.stopRTMPAndRecording();
         setIsRecordingOrRTMPStarted(false);
@@ -239,11 +253,11 @@ export const MoreSettings = () => {
         body={
           <RecordingAndRTMPForm
             meetingURL={meetingURL}
-            RTMPURLs={RTMPURLs}
+            RTMPURLs={rtmpURL}
             isRecordingOn={isRecordingOn}
             setIsRecordingOn={setIsRecordingOn}
             setMeetingURL={setMeetingURL}
-            setRTMPURLs={setRTMPURLs}
+            setRTMPURLs={setRtmpURL}
           />
         }
         footer={
