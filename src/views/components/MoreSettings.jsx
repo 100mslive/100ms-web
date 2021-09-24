@@ -31,6 +31,9 @@ import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 import screenfull from "screenfull";
 import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
 
+const url =
+  window.location.href.replace("meeting", "preview") + "?token=beam_recording";
+
 export const MoreSettings = () => {
   const {
     setMaxTileCount,
@@ -49,7 +52,7 @@ export const MoreSettings = () => {
   const [isRecordingOrRTMPStarted, setIsRecordingOrRTMPStarted] =
     useState(false);
 
-  const [meetingURL, setMeetingURL] = useState("");
+  const [meetingURL, setMeetingURL] = useState(url);
   const [rtmpURL, setRtmpURL] = useState("");
   const [isRecordingOn, setIsRecordingOn] = useState(false);
 
@@ -78,28 +81,22 @@ export const MoreSettings = () => {
   const handleClick = async () => {
     try {
       if (!isRecordingOrRTMPStarted) {
-        if (rtmpURL.length > 0) {
-          hmsActions.startRTMPOrRecording({
-            meetingURL,
-            rtmpURLs: [rtmpURL],
-            record: isRecordingOn,
-          });
-        } else {
-          hmsActions.startRTMPOrRecording({
-            meetingURL,
-            record: isRecordingOn,
-          });
-        }
+        await hmsActions.startRTMPOrRecording({
+          meetingURL,
+          rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
+          record: isRecordingOn,
+        });
         setShowRecordingAndRTMPModal(false);
         setIsRecordingOrRTMPStarted(true);
         setIsRecordingOn(false);
         setMeetingURL("");
         setRtmpURL("");
       } else {
-        hmsActions.stopRTMPAndRecording();
+        await hmsActions.stopRTMPAndRecording();
         setIsRecordingOrRTMPStarted(false);
       }
     } catch (error) {
+      console.error("failed to start rtmp/recording", error);
       hmsToast(error.message);
     }
   };

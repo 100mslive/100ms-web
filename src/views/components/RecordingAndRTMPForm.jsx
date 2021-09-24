@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text } from "@100mslive/hms-video-react";
 
 const defaultClasses = {
@@ -35,30 +35,30 @@ export const RecordingAndRTMPForm = ({
   return (
     <div>
       <form>
-        <div className={`${defaultClasses.formInner}`}>
-          <div className={`${defaultClasses.selectLabel}`}>
+        <div className={defaultClasses.formInner}>
+          <div className={defaultClasses.selectLabel}>
             <Text variant="heading" size="sm">
               meeting_url:
             </Text>
           </div>
 
-          <div className={`${defaultClasses.selectContainer}`}>
+          <div className={defaultClasses.selectContainer}>
             <input
               type="text"
-              className={`${defaultClasses.select}`}
+              className={defaultClasses.select}
               value={meetingURL}
               onChange={e => setMeetingURL(e.target.value)}
             />
           </div>
         </div>
         <div className={`${defaultClasses.formInner} mb-5`}>
-          <div className={`${defaultClasses.selectLabel}`}>
+          <div className={defaultClasses.selectLabel}>
             <Text variant="heading" size="sm">
               rtmp_url:
             </Text>
           </div>
 
-          <div className={`${defaultClasses.selectContainer}`}>
+          <div className={defaultClasses.selectContainer}>
             <input
               type="text"
               className={`${defaultClasses.select}`}
@@ -68,13 +68,13 @@ export const RecordingAndRTMPForm = ({
           </div>
         </div>
         <hr />
-        <div className={`${defaultClasses.formInner}`}>
-          <div className={`${defaultClasses.selectLabel}`}>
+        <div className={defaultClasses.formInner}>
+          <div className={defaultClasses.selectLabel}>
             <Text variant="heading" size="sm">
               Recording:
             </Text>
           </div>
-          <div className={`${defaultClasses.selectInner}`}>
+          <div className={defaultClasses.selectInner}>
             <input
               className="custom-toggle"
               type="checkbox"
