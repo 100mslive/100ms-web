@@ -7,6 +7,7 @@ import {
   selectAvailableRoleNames,
   selectRolesMap,
 } from "@100mslive/hms-video-react";
+import { FeatureFlags } from "./FeatureFlags";
 import {
   convertLoginInfoToJoinConfig,
   normalizeAppPolicyConfig,
@@ -55,7 +56,6 @@ const AppContextProvider = ({
   children,
 }) => {
   const hmsActions = useHMSActions();
-  const store = useHMSStore(store => store);
   const localPeer = useHMSStore(selectLocalPeer);
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const roleNames = useHMSStore(selectAvailableRoleNames);
@@ -76,16 +76,6 @@ const AppContextProvider = ({
     console.log("User is leaving the room");
     hmsActions.leave();
   }, [hmsActions]);
-
-  useEffect(() => {
-    // This object will be used for feature flags and storing actions, store globally
-    if (!window.HMS) {
-      window.HMS = {};
-    }
-    window.HMS.JOIN_DELAY_FIX = true;
-    window.HMS.actions = hmsActions;
-    window.HMS.store = store;
-  }, [hmsActions, store]);
 
   useEffect(() => {
     function resetHeight() {
@@ -149,6 +139,7 @@ const AppContextProvider = ({
       }}
     >
       {children}
+      <FeatureFlags />
     </AppContext.Provider>
   );
 };

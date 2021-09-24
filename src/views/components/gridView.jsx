@@ -27,7 +27,6 @@ export const GridCenterView = ({
   hideSidePane,
   totalPeers,
 }) => {
-  console.log("peers", peers);
   return (
     <div
       className={`h-full ${
