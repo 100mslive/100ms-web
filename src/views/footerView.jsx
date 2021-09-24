@@ -63,7 +63,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
-  const activeVideoPlaylist = !!useHMSStore(selectVideoPlaylist.selection).id;
+  const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [shareAudioModal, setShareAudioModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
@@ -87,9 +87,13 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   async function addNoiseSuppressionPlugin() {
     createNoiseSuppresionPlugin();
-    await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+    try{
+      await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+    }catch (err) {
+      console.error("add noise suppression plugin failed", err);
+    }
   }
-  //
+
   async function removeNoiseSuppressionPlugin() {
     if (audiopluginRef.current) {
       await hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
@@ -108,7 +112,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     createVBPlugin();
     await pluginRef.current.setBackground(getRandomVirtualBackground());
     //Running VB on every alternate frame rate for optimized cpu usage
-    await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
+    try{
+      await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
+    } catch (err) {
+      console.error("add virtual background plugin failed", err);
+    }
   }
 
   async function removePlugin() {
@@ -237,8 +245,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     isAllowedToPublish.screen &&
       leftComponents.push(
         <VideoPlaylist
+          key="videoPlaylist"
           trigger={<VideoPlaylistIcon />}
-          active={!!activeVideoPlaylist}
+          active={activeVideoPlaylist}
         />
       );
   }
