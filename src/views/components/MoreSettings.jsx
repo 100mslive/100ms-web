@@ -24,6 +24,7 @@ import {
   selectPermissions,
   FullScreenIcon,
   MessageModal,
+  RecordIcon,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
@@ -31,7 +32,7 @@ import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 import screenfull from "screenfull";
 import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
 
-const url =
+const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + "?token=beam_recording";
 
 export const MoreSettings = () => {
@@ -49,10 +50,8 @@ export const MoreSettings = () => {
   const [showParticipantsInView, setShowParticipantsInView] = useState(false);
   const [showRecordingAndRTMPModal, setShowRecordingAndRTMPModal] =
     useState(false);
-  const [isRecordingOrRTMPStarted, setIsRecordingOrRTMPStarted] =
-    useState(false);
 
-  const [meetingURL, setMeetingURL] = useState(url);
+  const [meetingURL, setMeetingURL] = useState(defaultMeetingUrl);
   const [rtmpURL, setRtmpURL] = useState("");
   const [isRecordingOn, setIsRecordingOn] = useState(false);
 
@@ -78,26 +77,24 @@ export const MoreSettings = () => {
     setMaxTileCount(count);
   };
 
-  const handleClick = async () => {
+  const startStopRTMPRecording = async action => {
     try {
-      if (!isRecordingOrRTMPStarted) {
+      if (action === "start") {
         await hmsActions.startRTMPOrRecording({
           meetingURL,
           rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
           record: isRecordingOn,
         });
-        setShowRecordingAndRTMPModal(false);
-        setIsRecordingOrRTMPStarted(true);
-        setIsRecordingOn(false);
-        setMeetingURL("");
-        setRtmpURL("");
       } else {
         await hmsActions.stopRTMPAndRecording();
-        setIsRecordingOrRTMPStarted(false);
       }
     } catch (error) {
-      console.error("failed to start rtmp/recording", error);
+      console.error("failed to start/stop rtmp/recording", error);
       hmsToast(error.message);
+    } finally {
+      setMeetingURL("");
+      setRtmpURL("");
+      setShowRecordingAndRTMPModal(false);
     }
   };
 
@@ -135,24 +132,6 @@ export const MoreSettings = () => {
           },
         }}
       >
-        {screenfull.isEnabled && (
-          <ContextMenuItem
-            icon={<FullScreenIcon />}
-            label={`${isFullScreenEnabled ? "Exit " : ""}Full Screen`}
-            key="toggleFullScreen"
-            onClick={() => {
-              setFullScreenEnabled(!isFullScreenEnabled);
-            }}
-          />
-        )}
-        <ContextMenuItem
-          icon={<GridIcon />}
-          label="Change Layout"
-          key="changeLayout"
-          onClick={() => {
-            setShowParticipantsInView(true);
-          }}
-        />
         {permissions.changeRole && (
           <ContextMenuItem
             icon={<PersonIcon />}
@@ -212,23 +191,37 @@ export const MoreSettings = () => {
           </ContextMenuItem>
         )}
         <ContextMenuItem
-          icon={<SettingsIcon />}
-          label={`${
-            isRecordingOrRTMPStarted ? "Stop" : "Start"
-          } Streaming/Recording`}
+          icon={<RecordIcon />}
+          label="Streaming/Recording"
           key="streaming-recording"
+          onClick={() => {
+            setMeetingURL(defaultMeetingUrl);
+            setShowRecordingAndRTMPModal(true);
+          }}
+        />
+        {screenfull.isEnabled && (
+          <ContextMenuItem
+            icon={<FullScreenIcon />}
+            label={`${isFullScreenEnabled ? "Exit " : ""}Full Screen`}
+            key="toggleFullScreen"
+            onClick={() => {
+              setFullScreenEnabled(!isFullScreenEnabled);
+            }}
+          />
+        )}
+        <ContextMenuItem
+          icon={<GridIcon />}
+          label="Layout Settings"
+          key="changeLayout"
           addDivider={true}
           onClick={() => {
-            !isRecordingOrRTMPStarted
-              ? setShowRecordingAndRTMPModal(true)
-              : handleClick();
+            setShowParticipantsInView(true);
           }}
         />
         <ContextMenuItem
           icon={<SettingsIcon />}
           label="Device Settings"
           key="settings"
-          addDivider={true}
           onClick={() => {
             setShowSettings(true);
           }}
@@ -258,8 +251,19 @@ export const MoreSettings = () => {
           />
         }
         footer={
-          <div>
-            <Button shape="rectangle" onClick={handleClick}>
+          <div className="space-x-1">
+            <Button
+              variant="danger"
+              shape="rectangle"
+              onClick={() => startStopRTMPRecording("stop")}
+            >
+              Stop All
+            </Button>
+            <Button
+              variant="emphasized"
+              shape="rectangle"
+              onClick={() => startStopRTMPRecording("start")}
+            >
               Start
             </Button>
           </div>
