@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useHMSActions, useHMSStore } from "@100mslive/hms-video-react";
+import { useHMSActions, useHMSVanillaStore } from "@100mslive/hms-video-react";
 
 export function FeatureFlags() {
   const hmsActions = useHMSActions();
-  const store = useHMSStore(store => store);
+  const store = useHMSVanillaStore();
   useEffect(() => {
     // This object will be used for feature flags and storing actions, store globally
     if (!window.HMS) {
