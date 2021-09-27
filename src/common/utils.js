@@ -65,6 +65,9 @@ export const arrayIntersection = (a, b) => {
     return [];
   }
   var t;
+  if (a === undefined || b === undefined) {
+    return [];
+  }
   if (b.length > a.length) {
     t = b;
     b = a;
