@@ -7,21 +7,12 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.5.tgz#d9c1ae24cedecc6eca1f0067028de658db9834fd"
   integrity sha512-QGXLmrN00GzlMEjAoE2Oo+YX4/E80VMGola3u8J1qwM/6fUqWTrDPyjMyHKoB9yLbLh4W7MHQRdJtU8kEIx13g==
 
-<<<<<<< HEAD
-"@100mslive/hms-video-react@0.3.69":
-  version "0.3.69"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.69.tgz#4364e7cf657bd91d056dfcfd53f1835afca8a37a"
-  integrity sha512-IJkhvIw3ARm6vI/k/+1McA+yVlD28O4tajgIafxS5VejUe0QWUweyDli3A4zA+nOkWqhcHWWIYlspcsDP2ouOA==
-  dependencies:
-    "@100mslive/hms-video-store" "0.2.46"
-=======
-"@100mslive/hms-video-react@0.3.70":
-  version "0.3.70"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.70.tgz#0379feb46a7d93d1e79aec02a28572c2dd431b4c"
-  integrity sha512-zKlmBJEjsOGBZTzgRDSE/dC6aHr5MrWuY4OIDpTXSZSKpen9XMdiDPX/f+ck5nplVClvqdV/2wN1TRqoiS+enA==
+"@100mslive/hms-video-react@0.3.71":
+  version "0.3.71"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.71.tgz#c981d6956d104f26d89558c6a0768236f4987612"
+  integrity sha512-ws4/rs9zX2owmXMBvL+TQRk2puWHL29QnGefxqh2tOLQes8cHJ4hjdAPR9Y6hOhlYMIPhy+Wsx4yTNtIzRuHug==
   dependencies:
     "@100mslive/hms-video-store" "0.2.47"
->>>>>>> develop
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -39,17 +30,10 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-<<<<<<< HEAD
-"@100mslive/hms-video-store@0.2.46":
-  version "0.2.46"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.46.tgz#d7f663ccc9744068e9ca5d15518ffe156bf4748d"
-  integrity sha512-XXwVAnLLullIfiRwxFfjt5AeyeDlaH5SB5Ys5/7S8lGKsXjsAO9NgbUNHH/ACXsoywE4A7OnFcrDNUsFtDLnEg==
-=======
 "@100mslive/hms-video-store@0.2.47":
   version "0.2.47"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.47.tgz#0d4677f4fb5f603ff61b7391746e7ecfb22811e9"
   integrity sha512-6I3N44O2MQMwrdHCYK1iNhmA6dIW5ccSzBBO6cHoHshOZ7aQnLW28kKqGd3Aqpe0mWHiPo05eoQSK/Jx4hjbbg==
->>>>>>> develop
   dependencies:
     immer "^9.0.6"
     reselect "^4.0.0"
