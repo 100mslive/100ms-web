@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Header,
   ParticipantList,
@@ -9,8 +10,8 @@ import {
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
   useHMSActions,
+  selectRecordingState,
 } from "@100mslive/hms-video-react";
-import React from "react";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -70,11 +71,59 @@ const Music = () => {
   );
 };
 
+const Recording = () => {
+  const recording = useHMSStore(selectRecordingState);
+  const hmsActions = useHMSActions();
+
+  if (!recording.browser.running && !recording.rtmp.running) {
+    return null;
+  }
+
+  return (
+    <div className="flex mx-2">
+      {recording.browser.running && (
+        <div className="flex items-center">
+          <Text variant="body" size="md" classes={{ root: "mx-2" }}>
+            Recording
+          </Text>
+          <Text
+            variant="body"
+            size="md"
+            onClick={() => hmsActions.stopRTMPAndRecording()}
+            classes={{ root: "text-red-tint cursor-pointer" }}
+          >
+            stop
+          </Text>
+        </div>
+      )}
+      {recording.rtmp.running && (
+        <div className="flex items-center">
+          <Text variant="body" size="md" classes={{ root: "mx-2" }}>
+            Streaming
+          </Text>
+          <Text
+            variant="body"
+            size="md"
+            onClick={() => hmsActions.stopRTMPAndRecording()}
+            classes={{ root: "text-red-tint cursor-pointer" }}
+          >
+            stop
+          </Text>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const ConferenceHeader = ({ onParticipantListOpen }) => {
   return (
     <>
       <Header
-        leftComponents={[<LogoButton key={0} />, <Music key={1} />]}
+        leftComponents={[
+          <LogoButton key={0} />,
+          <Music key={1} />,
+          <Recording key={2} />,
+        ]}
         centerComponents={[<SpeakerTag key={0} />]}
         rightComponents={[
           <ParticipantList key={0} onToggle={onParticipantListOpen} />,
