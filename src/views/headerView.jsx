@@ -10,8 +10,8 @@ import {
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
   useHMSActions,
-  selectRecordingState,
 } from "@100mslive/hms-video-react";
+import { selectRecordingState } from "@100mslive/hms-video-store";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
