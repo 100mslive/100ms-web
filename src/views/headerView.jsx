@@ -11,7 +11,6 @@ import {
   selectScreenShareAudioByPeerID,
   useHMSActions,
 } from "@100mslive/hms-video-react";
-import { selectRecordingState } from "@100mslive/hms-video-store";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -72,7 +71,7 @@ const Music = () => {
 };
 
 const Recording = () => {
-  const recording = useHMSStore(selectRecordingState);
+  const recording = useHMSStore(store => store.room.recording);
   const hmsActions = useHMSActions();
 
   if (!recording.browser.running && !recording.rtmp.running) {
