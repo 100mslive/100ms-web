@@ -13,6 +13,7 @@ import {
 } from "@100mslive/hms-video-react";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
+import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -99,33 +100,7 @@ export function Notifications() {
           });
           return;
         }
-        if (notification.data?.code === 3008) {
-          const { clearToast } = hmsToast("", {
-            center: (
-              <div className="flex">
-                <Text classes={{ root: "mr-2" }}>
-                  {notification.data?.message}
-                </Text>
-                <Button
-                  variant="emphasized"
-                  classes={{
-                    root: "self-center mr-2",
-                  }}
-                  onClick={async () => {
-                    await hmsActions.unblockAudio();
-                    if (clearToast) {
-                      clearToast();
-                    }
-                  }}
-                >
-                  Unblock
-                </Button>
-              </div>
-            ),
-            toastProps: {
-              autoClose: false,
-            },
-          });
+        if(notification.data?.code === 3008) {
           return;
         }
         hmsToast("", {
@@ -207,6 +182,7 @@ export function Notifications() {
     <>
       <HMSToastContainer />
       <TrackUnmuteModal notification={notification} />
+      <AutoplayBlockedModal />
     </>
   );
 }
