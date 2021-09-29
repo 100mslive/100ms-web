@@ -117,6 +117,7 @@ export const MoreSettings = () => {
             iconSize="md"
             shape="rectangle"
             active={showMenu}
+            key="hamburgerIcon"
           >
             <HamburgerMenuIcon />
           </Button>
