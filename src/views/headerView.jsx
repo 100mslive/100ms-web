@@ -13,6 +13,7 @@ import {
   RecordingDot,
   GlobeIcon,
   selectRecordingState,
+  selectRTMPState,
 } from "@100mslive/hms-video-react";
 
 const SpeakerTag = () => {
@@ -75,9 +76,10 @@ const Music = () => {
 
 const Recording = () => {
   const recording = useHMSStore(selectRecordingState);
+  const rtmp = useHMSStore(selectRTMPState);
   const hmsActions = useHMSActions();
 
-  if (!recording.browser.running && !recording.rtmp.running) {
+  if (!recording.browser.running && !rtmp.running) {
     return null;
   }
 
@@ -103,7 +105,7 @@ const Recording = () => {
           </Text>
         </div>
       )}
-      {recording.rtmp.running && (
+      {rtmp.running && (
         <div className="flex items-center mx-2">
           <GlobeIcon className="fill-current text-red-600" />
           <Text variant="body" size="md" classes={{ root: "mx-1" }}>
