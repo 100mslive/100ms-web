@@ -104,12 +104,8 @@ const Recording = () => {
         </div>
       )}
       {recording.rtmp.running && (
-        <div className="flex items-center">
-          <GlobeIcon
-            className="fill-current text-red-600"
-            width="20"
-            height="20"
-          />
+        <div className="flex items-center mx-2">
+          <GlobeIcon className="fill-current text-red-600" />
           <Text variant="body" size="md" classes={{ root: "mx-1" }}>
             Streaming
           </Text>
