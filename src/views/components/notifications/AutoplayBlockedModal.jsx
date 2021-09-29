@@ -22,13 +22,16 @@ export function AutoplayBlockedModal(notification) {
   return (
     <MessageModal
       show={showModal}
-      onClose={() => setShowModal(false)}
+      onClose={async () => {
+        await hmsActions.unblockAudio();
+        setShowModal(false);
+      }}
       title="Autoplay blocked"
       body="Autoplay blocked by browser please click on unblock for audio to work"
       footer={
         <div className="flex space-x-1">
           <Button
-            onClick={() => hmsActions.unblockAudio()}
+            onClick={async () => await hmsActions.unblockAudio()}
             variant="emphasized"
           >
             Unblock

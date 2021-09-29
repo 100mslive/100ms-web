@@ -30,14 +30,17 @@ export function Notifications() {
         console.debug("[Peer Joined]", notification.data);
         break;
       case HMSNotificationTypes.PEER_LEFT:
-        hmsToast("", {
-          left: (
-            <Text classes={{ root: "flex" }}>
-              <PersonIcon className="mr-2" />
-              {notification.data?.name} left
-            </Text>
-          ),
-        });
+        console.debug("[Peer Left]", notification.data);
+        if (window.HMS.notifications?.peerLeft) {
+          hmsToast("", {
+            left: (
+              <Text classes={{ root: "flex" }}>
+                <PersonIcon className="mr-2" />
+                {notification.data?.name} left
+              </Text>
+            ),
+          });
+        }
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
         // TODO: remove this when chat UI is fixed for mweb
@@ -100,7 +103,7 @@ export function Notifications() {
           });
           return;
         }
-        if(notification.data?.code === 3008) {
+        if (notification.data?.code === 3008) {
           return;
         }
         hmsToast("", {
