@@ -10,6 +10,9 @@ import {
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
   useHMSActions,
+  RecordingDot,
+  GlobeIcon,
+  selectRecordingState,
 } from "@100mslive/hms-video-react";
 
 const SpeakerTag = () => {
@@ -71,7 +74,7 @@ const Music = () => {
 };
 
 const Recording = () => {
-  const recording = useHMSStore(store => store.room.recording);
+  const recording = useHMSStore(selectRecordingState);
   const hmsActions = useHMSActions();
 
   if (!recording.browser.running && !recording.rtmp.running) {
@@ -82,7 +85,12 @@ const Recording = () => {
     <div className="flex mx-2">
       {recording.browser.running && (
         <div className="flex items-center">
-          <Text variant="body" size="md" classes={{ root: "mx-2" }}>
+          <RecordingDot
+            className="fill-current text-red-600"
+            width="20"
+            height="20"
+          />
+          <Text variant="body" size="md" classes={{ root: "mx-1" }}>
             Recording
           </Text>
           <Text
@@ -97,7 +105,12 @@ const Recording = () => {
       )}
       {recording.rtmp.running && (
         <div className="flex items-center">
-          <Text variant="body" size="md" classes={{ root: "mx-2" }}>
+          <GlobeIcon
+            className="fill-current text-red-600"
+            width="20"
+            height="20"
+          />
+          <Text variant="body" size="md" classes={{ root: "mx-1" }}>
             Streaming
           </Text>
           <Text
