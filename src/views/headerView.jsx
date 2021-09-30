@@ -94,13 +94,13 @@ const Recording = () => {
     }
     let title = "";
     if (recording.browser.running) {
-      title += "Browser Recording";
+      title += "Browser Recording: on";
     }
-    if (recording.server.running) {
+    if (!recording.server.running) {
       if (title) {
         title += "\n";
       }
-      title += "Server Recording";
+      title += "Server Recording: on";
     }
     return title;
   };
