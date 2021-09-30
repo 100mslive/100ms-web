@@ -6,10 +6,6 @@ import {
   ContextMenuItem,
   AudioPlaylist,
   HangUpIcon,
-  MicOffIcon,
-  MicOnIcon,
-  CamOffIcon,
-  CamOnIcon,
   VirtualBackgroundIcon,
   NoiseSupressionIcon,
   Button,
@@ -22,8 +18,6 @@ import {
   MessageModal,
   useHMSActions,
   selectIsLocalScreenShared,
-  selectIsLocalAudioEnabled,
-  selectIsLocalVideoDisplayEnabled,
   selectUnreadHMSMessagesCount,
   isMobileDevice,
   selectIsAllowedToPublish,
@@ -42,6 +36,7 @@ import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
 import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
+import { AudioVideoToggle } from "./components/AudioVideoToggle";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -49,8 +44,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const { video, audio } = useHMSStore(
     selectScreenSharesByPeerId(localPeer?.id)
   );
-  const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
-  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const isVBPresent = useHMSStore(
     selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
@@ -87,9 +80,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   async function addNoiseSuppressionPlugin() {
     createNoiseSuppresionPlugin();
-    try{
+    try {
       await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
-    }catch (err) {
+    } catch (err) {
       console.error("add noise suppression plugin failed", err);
     }
   }
@@ -112,7 +105,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     createVBPlugin();
     await pluginRef.current.setBackground(getRandomVirtualBackground());
     //Running VB on every alternate frame rate for optimized cpu usage
-    try{
+    try {
       await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
     } catch (err) {
       console.error("add virtual background plugin failed", err);
@@ -135,22 +128,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       ? removeNoiseSuppressionPlugin()
       : addNoiseSuppressionPlugin();
   }
-
-  const toggleAudio = useCallback(async () => {
-    try {
-      await hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled);
-    } catch (err) {
-      console.error("Cannot toggle audio", err);
-    }
-  }, [hmsActions, isLocalAudioEnabled]);
-
-  const toggleVideo = useCallback(async () => {
-    try {
-      await hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled);
-    } catch (err) {
-      console.error("Cannot toggle video", err);
-    }
-  }, [hmsActions, isLocalVideoEnabled]);
 
   const toggleScreenShare = useCallback(
     async (enable, audioOnly = false) => {
@@ -246,7 +223,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       leftComponents.push(
         <VideoPlaylist
           key="videoPlaylist"
-          trigger={<VideoPlaylistIcon />}
+          trigger={<VideoPlaylistIcon key="videoPlaylistIcon" />}
           active={activeVideoPlaylist}
         />
       );
@@ -259,34 +236,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
-          isAllowedToPublish.audio ? (
-            <Button
-              iconOnly
-              variant="no-fill"
-              iconSize="md"
-              classes={{ root: "mx-2" }}
-              shape="rectangle"
-              active={!isLocalAudioEnabled}
-              onClick={toggleAudio}
-              key="toggleAudio"
-            >
-              {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
-            </Button>
-          ) : null,
-          isAllowedToPublish.video ? (
-            <Button
-              iconOnly
-              variant="no-fill"
-              iconSize="md"
-              classes={{ root: "mx-2" }}
-              shape="rectangle"
-              active={!isLocalVideoEnabled}
-              onClick={toggleVideo}
-              key="toggleVideo"
-            >
-              {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
-            </Button>
-          ) : null,
+          <AudioVideoToggle key="audioVideoToggle" />,
           isAllowedToPublish.screen && !isMobileDevice() ? (
             <Button
               key="toggleScreenShare"
@@ -418,11 +368,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             )}
           </ContextMenu>,
         ]}
-        audioButtonOnClick={toggleAudio}
-        videoButtonOnClick={toggleVideo}
         backgroundButtonOnClick={handleVirtualBackground}
-        isAudioMuted={!isLocalAudioEnabled}
-        isVideoMuted={!isLocalVideoEnabled}
         isBackgroundEnabled={isVBPresent}
       />
       <MessageModal
