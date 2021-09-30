@@ -4,6 +4,7 @@ import React, {
   Fragment,
   useMemo,
   useEffect,
+  useCallback,
 } from "react";
 import {
   Button,
@@ -82,7 +83,7 @@ export const MoreSettings = () => {
     setMaxTileCount(count);
   };
 
-  const getText = useMemo(() => {
+  const getText = useCallback(() => {
     let text = "";
     if (rtmp.running) {
       text += "Streaming";
