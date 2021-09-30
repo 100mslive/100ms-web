@@ -117,14 +117,16 @@ const Recording = () => {
           <Text variant="body" size="md" classes={{ root: "mx-1" }}>
             Recording
           </Text>
-          <Text
-            variant="body"
-            size="md"
-            onClick={() => hmsActions.stopRTMPAndRecording()}
-            classes={{ root: "text-red-tint cursor-pointer" }}
-          >
-            stop
-          </Text>
+          {recording.browser.running && (
+            <Text
+              variant="body"
+              size="md"
+              onClick={() => hmsActions.stopRTMPAndRecording()}
+              classes={{ root: "text-red-tint cursor-pointer" }}
+            >
+              stop
+            </Text>
+          )}
         </div>
       )}
       {rtmp.running && (
