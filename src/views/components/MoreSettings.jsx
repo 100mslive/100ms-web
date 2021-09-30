@@ -25,6 +25,7 @@ import {
   FullScreenIcon,
   MessageModal,
   RecordIcon,
+  selectRecordingState,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
@@ -53,6 +54,7 @@ export const MoreSettings = () => {
 
   const [meetingURL, setMeetingURL] = useState(defaultMeetingUrl);
   const [rtmpURL, setRtmpURL] = useState("");
+  const recording = useHMSStore(selectRecordingState);
   const [isRecordingOn, setIsRecordingOn] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -245,7 +247,7 @@ export const MoreSettings = () => {
           <RecordingAndRTMPForm
             meetingURL={meetingURL}
             RTMPURLs={rtmpURL}
-            isRecordingOn={isRecordingOn}
+            isRecordingOn={isRecordingOn || recording.browser.running}
             setIsRecordingOn={setIsRecordingOn}
             setMeetingURL={setMeetingURL}
             setRTMPURLs={setRtmpURL}
