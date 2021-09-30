@@ -79,14 +79,36 @@ const Recording = () => {
   const rtmp = useHMSStore(selectRTMPState);
   const hmsActions = useHMSActions();
 
-  if (!recording.browser.running && !rtmp.running) {
+  if (
+    !recording.browser.running &&
+    !recording.server.running &&
+    !rtmp.running
+  ) {
     return null;
   }
 
+  const isRecordingOn = recording.browser.running || recording.server.running;
+  const getText = () => {
+    if (!isRecordingOn) {
+      return "";
+    }
+    let title = "";
+    if (recording.browser.running) {
+      title += "Browser Recording";
+    }
+    if (recording.server.running) {
+      if (title) {
+        title += "\n";
+      }
+      title += "Server Recording";
+    }
+    return title;
+  };
+
   return (
     <div className="flex mx-2">
-      {recording.browser.running && (
-        <div className="flex items-center">
+      {isRecordingOn && (
+        <div className="flex items-center" title={getText()}>
           <RecordingDot
             className="fill-current text-red-600"
             width="20"
