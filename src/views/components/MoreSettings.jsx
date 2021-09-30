@@ -24,6 +24,7 @@ import {
   selectPermissions,
   FullScreenIcon,
   MessageModal,
+  Text,
   RecordIcon,
   selectRecordingState,
 } from "@100mslive/hms-video-react";
@@ -96,6 +97,7 @@ export const MoreSettings = () => {
     } finally {
       setMeetingURL("");
       setRtmpURL("");
+      setIsRecordingOn(false);
       setShowRecordingAndRTMPModal(false);
     }
   };
@@ -247,29 +249,43 @@ export const MoreSettings = () => {
           <RecordingAndRTMPForm
             meetingURL={meetingURL}
             RTMPURLs={rtmpURL}
-            isRecordingOn={isRecordingOn || recording.browser.running}
+            isRecordingOn={isRecordingOn}
+            recordingStatus={recording.browser.running}
             setIsRecordingOn={setIsRecordingOn}
             setMeetingURL={setMeetingURL}
             setRTMPURLs={setRtmpURL}
           />
         }
         footer={
-          <div className="space-x-1">
-            <Button
-              variant="danger"
-              shape="rectangle"
-              onClick={() => startStopRTMPRecording("stop")}
-            >
-              Stop All
-            </Button>
-            <Button
-              variant="emphasized"
-              shape="rectangle"
-              onClick={() => startStopRTMPRecording("start")}
-            >
-              Start
-            </Button>
-          </div>
+          <>
+            {recording.browser.running && (
+              <Text
+                variant="body"
+                size="md"
+                classes={{ root: "mx-2 self-center text-yellow-500" }}
+              >
+                Recording is running
+              </Text>
+            )}
+            <div className="space-x-1">
+              <Button
+                variant="danger"
+                shape="rectangle"
+                onClick={() => startStopRTMPRecording("stop")}
+                disabled={!recording.browser.running}
+              >
+                Stop All
+              </Button>
+              <Button
+                variant="emphasized"
+                shape="rectangle"
+                onClick={() => startStopRTMPRecording("start")}
+                disabled={recording.browser.running}
+              >
+                Start
+              </Button>
+            </div>
+          </>
         }
         show={showRecordingAndRTMPModal}
         onClose={() => setShowRecordingAndRTMPModal(false)}
