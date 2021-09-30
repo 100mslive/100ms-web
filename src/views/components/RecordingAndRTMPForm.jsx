@@ -28,6 +28,8 @@ export const RecordingAndRTMPForm = ({
   meetingURL,
   RTMPURLs,
   isRecordingOn,
+  recordingStatus,
+  rtmpStatus,
   setIsRecordingOn,
   setMeetingURL,
   setRTMPURLs,
@@ -48,6 +50,7 @@ export const RecordingAndRTMPForm = ({
               className={defaultClasses.select}
               value={meetingURL}
               onChange={e => setMeetingURL(e.target.value)}
+              disabled={recordingStatus || rtmpStatus}
             />
           </div>
         </div>
@@ -64,6 +67,7 @@ export const RecordingAndRTMPForm = ({
               className={`${defaultClasses.select}`}
               value={RTMPURLs}
               onChange={e => setRTMPURLs(e.target.value)}
+              disabled={recordingStatus || rtmpStatus}
             />
           </div>
         </div>
@@ -79,7 +83,7 @@ export const RecordingAndRTMPForm = ({
               className="custom-toggle"
               type="checkbox"
               id="recordingOnCheckbox"
-              value={isRecordingOn}
+              checked={isRecordingOn || recordingStatus}
               onChange={e => setIsRecordingOn(e.target.checked)}
             />
             <label
