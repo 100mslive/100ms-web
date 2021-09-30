@@ -96,7 +96,7 @@ const Recording = () => {
     if (recording.browser.running) {
       title += "Browser Recording: on";
     }
-    if (!recording.server.running) {
+    if (recording.server.running) {
       if (title) {
         title += "\n";
       }
