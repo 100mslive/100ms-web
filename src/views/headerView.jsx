@@ -77,7 +77,6 @@ const Music = () => {
 const Recording = () => {
   const recording = useHMSStore(selectRecordingState);
   const rtmp = useHMSStore(selectRTMPState);
-  const hmsActions = useHMSActions();
 
   if (
     !recording.browser.running &&
@@ -117,16 +116,6 @@ const Recording = () => {
           <Text variant="body" size="md" classes={{ root: "mx-1" }}>
             Recording
           </Text>
-          {recording.browser.running && (
-            <Text
-              variant="body"
-              size="md"
-              onClick={() => hmsActions.stopRTMPAndRecording()}
-              classes={{ root: "text-red-tint cursor-pointer" }}
-            >
-              stop
-            </Text>
-          )}
         </div>
       )}
       {rtmp.running && (
@@ -134,14 +123,6 @@ const Recording = () => {
           <GlobeIcon className="fill-current text-red-600" />
           <Text variant="body" size="md" classes={{ root: "mx-1" }}>
             Streaming
-          </Text>
-          <Text
-            variant="body"
-            size="md"
-            onClick={() => hmsActions.stopRTMPAndRecording()}
-            classes={{ root: "text-red-tint cursor-pointer" }}
-          >
-            stop
           </Text>
         </div>
       )}

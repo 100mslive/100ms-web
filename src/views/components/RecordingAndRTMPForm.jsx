@@ -79,7 +79,7 @@ export const RecordingAndRTMPForm = ({
               className="custom-toggle"
               type="checkbox"
               id="recordingOnCheckbox"
-              value={isRecordingOn}
+              checked={isRecordingOn}
               onChange={e => setIsRecordingOn(e.target.checked)}
             />
             <label
