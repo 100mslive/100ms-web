@@ -27,6 +27,7 @@ import {
   Text,
   RecordIcon,
   selectRecordingState,
+  selectRTMPState,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
@@ -56,6 +57,7 @@ export const MoreSettings = () => {
   const [meetingURL, setMeetingURL] = useState(defaultMeetingUrl);
   const [rtmpURL, setRtmpURL] = useState("");
   const recording = useHMSStore(selectRecordingState);
+  const rtmp = useHMSStore(selectRTMPState);
   const [isRecordingOn, setIsRecordingOn] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -78,6 +80,19 @@ export const MoreSettings = () => {
 
   const onChange = count => {
     setMaxTileCount(count);
+  };
+
+  const getText = () => {
+    let text = "";
+    if (rtmp.running) {
+      text += "Streaming";
+    }
+    if (recording.browser.running) {
+      if (text) text += "/";
+      text += "Recording";
+    }
+    text += " is running";
+    return text;
   };
 
   const startStopRTMPRecording = async action => {
@@ -251,6 +266,7 @@ export const MoreSettings = () => {
             RTMPURLs={rtmpURL}
             isRecordingOn={isRecordingOn}
             recordingStatus={recording.browser.running}
+            rtmpStatus={rtmp.running}
             setIsRecordingOn={setIsRecordingOn}
             setMeetingURL={setMeetingURL}
             setRTMPURLs={setRtmpURL}
@@ -258,13 +274,13 @@ export const MoreSettings = () => {
         }
         footer={
           <>
-            {recording.browser.running && (
+            {(recording.browser.running || rtmp.running) && (
               <Text
                 variant="body"
                 size="md"
                 classes={{ root: "mx-2 self-center text-yellow-500" }}
               >
-                Recording is running
+                {getText()}
               </Text>
             )}
             <div className="space-x-1">
@@ -272,7 +288,7 @@ export const MoreSettings = () => {
                 variant="danger"
                 shape="rectangle"
                 onClick={() => startStopRTMPRecording("stop")}
-                disabled={!recording.browser.running}
+                disabled={!recording.browser.running && !rtmp.running}
               >
                 Stop All
               </Button>
