@@ -82,7 +82,7 @@ export const MoreSettings = () => {
     setMaxTileCount(count);
   };
 
-  const getText = () => {
+  const getText = useMemo(() => {
     let text = "";
     if (rtmp.running) {
       text += "Streaming";
@@ -93,7 +93,7 @@ export const MoreSettings = () => {
     }
     text += " is running";
     return text;
-  };
+  }, [recording.browser.running, rtmp.running]);
 
   const startStopRTMPRecording = async action => {
     try {
@@ -296,7 +296,7 @@ export const MoreSettings = () => {
                 variant="emphasized"
                 shape="rectangle"
                 onClick={() => startStopRTMPRecording("start")}
-                disabled={recording.browser.running}
+                disabled={recording.browser.running || rtmp.running}
               >
                 Start
               </Button>
