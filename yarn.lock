@@ -7,18 +7,19 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.5.tgz#d9c1ae24cedecc6eca1f0067028de658db9834fd"
   integrity sha512-QGXLmrN00GzlMEjAoE2Oo+YX4/E80VMGola3u8J1qwM/6fUqWTrDPyjMyHKoB9yLbLh4W7MHQRdJtU8kEIx13g==
 
-"@100mslive/hms-video-react@0.3.79":
-  version "0.3.79"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.79.tgz#4df25c77333ccaadf2c3437fc30f8b0b5e6d9db5"
-  integrity sha512-PNneNA26QGy//poha+MLnJysUbIG3uhaO1nq+HJX6sVsbIFWhVfcfCxWrPfYwC669Ur1WcrfsOG95F8e9dzemw==
+"@100mslive/hms-video-react@0.3.80-1":
+  version "0.3.80-1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.80-1.tgz#88545f4da987d52321f599a4ca108ed51ecf62e3"
+  integrity sha512-3OFr2JhIP3VxLoXcNwIpwiDaAoqwuIr1HkvR/88pkxElOasv7yhnGh8SxczDPMCBGQ7PMgAzcZfL2Ehr3HxzUA==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.52"
+    "@100mslive/hms-video-store" "0.2.54-1"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
     clsx "^1.1.1"
-    lodash "^4.17.21"
-    lodash-es "^4.17.21"
+    lodash.groupby "^4.6.0"
+    lodash.merge "^4.6.2"
+    lodash.reduce "^4.6.0"
     postcss "8.2.10"
     react-click-away-listener "^2.0.3"
     react-intersection-observer "^8.31.1"
@@ -30,19 +31,19 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.52":
-  version "0.2.52"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.52.tgz#d1c190ea21f29f52f7c5cf884e7abe9799561e43"
-  integrity sha512-6pAwSPhi5Nf1kwNbtif3y1MZsRgO55oQaEARsAn9AdN6bqthb/pmybbd5OUIG/aATdfiq8zh2gFJC1nKaQwWxw==
+"@100mslive/hms-video-store@0.2.54-1":
+  version "0.2.54-1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.54-1.tgz#8f7933730e1e212a8b3a755fa0555f2d6cc16191"
+  integrity sha512-sP7aYjnS/n/iuoQyLx7oIyOj6r/YkcciZ4bkdbNOfSxpo3+Xic+7BJbRxLqJ8Z8hxDL+WoHRA5kPFu4IO2x6ZA==
   dependencies:
     immer "^9.0.6"
     reselect "^4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.0.202":
-  version "0.0.202"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.202.tgz#b761c624ab6a55c5ea47264841a3282b3df51b61"
-  integrity sha512-+8k8/q9AAQNTpPjFdN/8GmRiiDSraeVVqrJF38HqnwfdnxW57ln4U7B39tE1CfSF88CG654D3iE/9XChPcYc9w==
+"@100mslive/hms-video@0.0.203":
+  version "0.0.203"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.203.tgz#176d4ccee05e55fff2c462fe5dd80dd54910b57a"
+  integrity sha512-X2tx0dQ/qxJTfs6iNRWxFSbdk7mQ0A1Xk1HiRUqDgpTOMXzgCMmT4SG5WEUf93wnudtiFRwpsKc4M/dsbpgI3A==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -7649,11 +7650,6 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash-es@^4.17.21:
-  version "4.17.21"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
-  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
-
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
@@ -7669,6 +7665,11 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
+lodash.groupby@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.groupby/-/lodash.groupby-4.6.0.tgz#0b08a1dcf68397c397855c3239783832df7403d1"
+  integrity sha1-Cwih3PaDl8OXhVwyOXg4Mt90A9E=
+
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -7678,6 +7679,11 @@ lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+lodash.reduce@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.reduce/-/lodash.reduce-4.6.0.tgz#f1ab6b839299ad48f784abbf476596f03b914d3b"
+  integrity sha1-8atrg5KZrUj3hKu/R2WW8DuRTTs=
 
 lodash.template@^4.5.0:
   version "4.5.0"
