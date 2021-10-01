@@ -24,7 +24,7 @@ import {
   selectIsLocalVideoPluginPresent,
   selectIsLocalAudioPluginPresent,
   selectPermissions,
-  selectLocalPeer,
+  selectLocalPeerID,
   selectScreenSharesByPeerId,
   Text,
   selectVideoPlaylist,
@@ -40,10 +40,8 @@ import { AudioVideoToggle } from "./components/AudioVideoToggle";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
-  const localPeer = useHMSStore(selectLocalPeer);
-  const { video, audio } = useHMSStore(
-    selectScreenSharesByPeerId(localPeer?.id)
-  );
+  const localPeer = useHMSStore(selectLocalPeerID);
+  const { video, audio } = useHMSStore(selectScreenSharesByPeerId(localPeer));
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const isVBPresent = useHMSStore(
     selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
