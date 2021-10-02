@@ -125,9 +125,9 @@ const ScreenShareComponent = ({
   peerSharingPlaylist,
 }) => {
   const hmsActions = useHMSActions();
-  const displaySurface = useHMSStore(
+  const screenshareTrack = useHMSStore(
     selectScreenShareByPeerID(peerPresenting?.id)
-  )?.displaySurface;
+  );
 
   if (peerSharingPlaylist) {
     return (
@@ -141,7 +141,9 @@ const ScreenShareComponent = ({
     <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
       {peerPresenting &&
         (amIPresenting &&
-        !["browser", "window", "application"].includes(displaySurface) ? (
+        !["browser", "window", "application"].includes(
+          screenshareTrack?.displaySurface
+        ) ? (
           <div className="object-contain h-full">
             <ScreenShareDisplay
               stopScreenShare={async () => {
@@ -155,6 +157,7 @@ const ScreenShareComponent = ({
             peer={peerPresenting}
             showScreen={true}
             objectFit="contain"
+            hmsVideoTrackId={screenshareTrack?.id}
           />
         ))}
     </div>
@@ -215,7 +218,11 @@ const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => {
     >
       {peerScreenSharing && (
         <div className="absolute left-0 top-0 w-full h-full p-3">
-          <VideoTile peer={peerScreenSharing} compact={true} />
+          <VideoTile
+            peer={peerScreenSharing}
+            compact={true}
+            hmsVideoTrackId={peerScreenSharing.videoTrack}
+          />
         </div>
       )}
     </div>
