@@ -26,7 +26,7 @@ import {
   selectPermissions,
   selectLocalPeer,
   selectScreenSharesByPeerId,
-  selectAreAudioTracksUnmuted,
+  selectAreRemoteAudioTracksUnmuted,
   Text,
   selectVideoPlaylist,
   VideoPlaylist,
@@ -60,7 +60,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
-  const areAudioTracksUnmuted = useHMSStore(selectAreAudioTracksUnmuted);
+  const areAudioTracksUnmuted = useHMSStore(selectAreRemoteAudioTracksUnmuted);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [shareAudioModal, setShareAudioModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
