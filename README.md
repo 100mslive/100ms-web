@@ -5,6 +5,7 @@
 </p>
 
 # 100ms 2.0 Sample React App
+
 [![Documentation](https://img.shields.io/badge/Read-Documentation-blue)](https://docs.100ms.live/javascript/v2/foundation/basics)
 [![Discord](https://img.shields.io/badge/Community-Join%20on%20Discord-blue)](https://discord.gg/F8cNgbjSaQ)
 [![Email](https://img.shields.io/badge/Contact-Know%20More-blue)](mailto:founders@100ms.live)
@@ -12,7 +13,7 @@
 ## About
 
 This is an example React app to demo [100ms' React SDK](https://www.npmjs.com/package/@100mslive/hms-video-react).
-  
+
 Not using React? Find the [Javascript Quickstart here](https://docs.100ms.live/javascript/v2/guides/javascript-quickstart).
 
 ## Prerequisites
@@ -62,7 +63,6 @@ Create room from [100ms Dashboard](https://dashboard.100ms.live/create-room) & g
 
 ![image](https://prod-apps-public.s3.ap-south-1.amazonaws.com/Screenshot+2021-06-26+at+5.52.50+PM.png)
 
-
 ### Join the room
 
 Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the room
@@ -70,3 +70,36 @@ Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the ro
 ![image](https://user-images.githubusercontent.com/5078656/119534649-c60da000-bda4-11eb-9847-f283e2daa06f.png)
 
 Use any name & Click on join.
+
+### Configure policy based UI
+
+Depending on the value of REACT_APP_POLICY_CONFIG in .env, you can customize which roles should be displayed in center stage and which roles should be display in side pane.
+
+The value of REACT_APP_POLICY_CONFIG should be a JSON stringified object of the structure:
+
+```ts
+type HMSRoleName = string;
+
+/**
+ * undefined means none
+ * empty array [] for all roles
+ */
+interface RoleConfig {
+  center?: HMSRoleName[];
+  sidepane?: HMSRoleName[];
+  selfRoleChangeTo?: HMSRoleName[];
+  remoteRoleChangeFor?: HMSRoleName[];
+}
+
+interface PolicyConfig {
+  [role: string]: RoleConfig;
+}
+```
+
+Example: `REACT_APP_POLICY_CONFIG = "{"trainer":{"center": ["student"],"sidepane":["trainer"]}"`
+
+It will be used in the app as:
+
+```js
+const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
+```

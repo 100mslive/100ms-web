@@ -3,9 +3,9 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
-    "@100mslive/hms-video": "^0.0.182",
-    "@100mslive/hms-video-react": "^0.3.32",
-    "@100mslive/hms-video-store": "^0.2.40",
+    "@100mslive/hms-noise-suppression": "0.1.5",
+    "@100mslive/hms-video": "0.0.203",
+    "@100mslive/hms-video-react": "0.3.80",
     "@100mslive/hms-virtual-background": "^1.3.2",
     "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.4",
@@ -16,7 +16,10 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
     "react-toastify": "^7.0.4",
+    "screenfull": "^5.1.0",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -62,12 +65,8 @@
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.1.0",
     "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4",
-    "react-scripts": "4.0.3"
-  },
-  "resolutions": {
-    "@100mslive/hms-video-react/postcss": "^7.0.36"
+    "postcss": "^7.0.35",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
   },
   "prettier": {
     "printWidth": 80,

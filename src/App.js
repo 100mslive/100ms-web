@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import {
   HMSRoomProvider,
   HMSThemeProvider,
@@ -14,6 +19,7 @@ import {
   getUserToken as defaultGetUserToken,
   getBackendEndpoint,
 } from "./services/tokenService";
+import { hmsToast } from "./views/components/notifications/hms-toast";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -21,6 +27,8 @@ const defaultTokenEndpoint = process.env
       process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
     }/`
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
+
+const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
 export function EdtechComponent({
   roomId = "",
@@ -39,6 +47,7 @@ export function EdtechComponent({
     logoClass = "",
   },
   getUserToken = defaultGetUserToken,
+  policyConfig = envPolicyConfig,
 }) {
   const { 0: width, 1: height } = aspectRatio
     .split("-")
@@ -46,7 +55,7 @@ export function EdtechComponent({
   return (
     <div
       className={`w-full dark:bg-black ${
-        headerPresent === "true" ? "flex-grow" : "h-screen"
+        headerPresent === "true" ? "flex-1" : "h-full"
       }`}
     >
       <HMSThemeProvider
@@ -77,17 +86,35 @@ export function EdtechComponent({
           showAvatar: showAvatar === "true",
           avatarType: avatarType,
         }}
+        toast={(message, options = {}) => hmsToast(message, options)}
       >
         <HMSRoomProvider>
-          <AppContextProvider roomId={roomId} tokenEndpoint={tokenEndpoint}>
+          <AppContextProvider
+            roomId={roomId}
+            tokenEndpoint={tokenEndpoint}
+            policyConfig={policyConfig}
+          >
             <Router>
               <Switch>
                 {/* <Route path="/createRoom">
               <CreateRoom />
             </Route> */}
-                <Route path="/preview/:roomId/:role?">
-                  <PreviewScreen getUserToken={getUserToken} />
-                </Route>
+                <Route
+                  path="/preview/:roomId/:role?"
+                  render={({ match }) => {
+                    const { params } = match;
+                    if (!params.roomId && !params.role) {
+                      return <Redirect to="/" />;
+                    }
+                    if (
+                      !params.roomId ||
+                      ["preview", "meeting", "leave"].includes(params.roomId)
+                    ) {
+                      return <Redirect to="/" />;
+                    }
+                    return <PreviewScreen getUserToken={getUserToken} />;
+                  }}
+                />
                 <Route path="/meeting/:roomId/:role?">
                   <Conference />
                 </Route>
@@ -107,9 +134,23 @@ export function EdtechComponent({
                     />
                   )}
                 />
-                <Route path="/:roomId/:role?">
-                  <PreviewScreen getUserToken={getUserToken} />
-                </Route>
+                <Route
+                  path="/:roomId/:role?"
+                  render={({ match }) => {
+                    const { params } = match;
+                    if (!params.roomId && !params.role) {
+                      return <Redirect to="/" />;
+                    }
+                    if (!params.roomId) {
+                      return <Redirect to="/" />;
+                    }
+                    return (
+                      <Redirect
+                        to={`/preview/${params.roomId}/${params.role || ""}`}
+                      />
+                    );
+                  }}
+                />
                 <Route
                   path="*"
                   render={() => <ErrorPage error="Invalid URL!" />}

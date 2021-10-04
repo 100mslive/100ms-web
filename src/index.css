@@ -12,8 +12,10 @@ body {
 }
 
 html,
-body {
+body,
+#root {
   height: 100%;
+  overflow: hidden;
 }
 
 code {
@@ -59,4 +61,48 @@ code {
 .hmsui-videoTile-root:hover .hmsui-videoTileControls-controls {
   visibility: visible;
   max-height: 60px;
+}
+
+/* custom color toggle button */
+input.custom-toggle[type="checkbox"] {
+    height: 0;
+    width: 0;
+    padding-top: 0;
+    visibility: hidden;
+}
+
+label.custom-toggle-label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 28px;
+    height: 14px;
+    background: #cccccc;
+    opacity: 1;
+    border-radius: 7px;
+    display: block;
+    position: relative;
+}
+
+label.custom-toggle-label:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translate(-70%, -50%);
+    width: 20px;
+    height: 20px;
+    background: #8f8f8f;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+input.custom-toggle:checked + label.custom-toggle-label {
+    background: #193a6e;
+}
+
+input.custom-toggle:checked + label.custom-toggle-label:after {
+    top: 50%;
+    left: 0%;
+    transform: translate(70%, -50%);
+    background: #2f80ff;
 }

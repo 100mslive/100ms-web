@@ -1,3 +1,6 @@
+import { hmsToast } from "../views/components/notifications/hms-toast";
+import screenfull from "screenfull";
+
 export function shadeColor(color, percent) {
   let R = parseInt(color.substring(1, 3), 16);
   let G = parseInt(color.substring(3, 5), 16);
@@ -35,21 +38,65 @@ export function getBlurClass(isParticipantListOpen, totalPeers) {
     : "";
 }
 
-export function getRandomVirtualBackground(){
+export function getRandomVirtualBackground() {
   let imagesList = [
-    'https://www.100ms.live/images/vb-1.jpeg',
-    'https://www.100ms.live/images/vb-2.jpg',
-    'blur'
+    "https://www.100ms.live/images/vb-1.jpeg",
+    "https://www.100ms.live/images/vb-2.jpg",
+    "blur",
   ];
 
-  let randomIdx = Math.floor(Math.random()*imagesList.length);
-  if(randomIdx === 2){
-    return 'blur';
+  let randomIdx = Math.floor(Math.random() * imagesList.length);
+  if (randomIdx === 2) {
+    return "blur";
   }
 
-  const img = document.createElement('img');
+  const img = document.createElement("img");
   img.alt = "VB";
   img.src = imagesList[randomIdx];
   return img;
-
 }
+
+/**
+ * TODO: this is currently an O(N**2) function, don't use with peer lists, it's currently
+ * being used to find intersection between list of role names where the complexity shouldn't matter much.
+ */
+export const arrayIntersection = (a, b) => {
+  if (a === undefined || b === undefined) {
+    return [];
+  }
+  var t;
+  if (a === undefined || b === undefined) {
+    return [];
+  }
+  if (b.length > a.length) {
+    t = b;
+    b = a;
+    a = t;
+  }
+  return a.filter(function (e) {
+    return b.indexOf(e) > -1;
+  });
+};
+
+/**
+ * @param {boolean} setFullScreen
+ * @return {void}
+ * @desc This util function toggles the full screen based on setFullScreen parameter.
+ * */
+export const setFullScreenEnabled = async setFullScreen => {
+  if (setFullScreen) {
+    try {
+      if (screenfull.isEnabled) {
+        await screenfull.request();
+      }
+    } catch (error) {
+      hmsToast(error.message);
+    }
+  } else {
+    try {
+      await screenfull.exit();
+    } catch (error) {
+      hmsToast(error.message);
+    }
+  }
+};

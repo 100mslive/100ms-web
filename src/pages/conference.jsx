@@ -7,11 +7,13 @@ import { ConferenceMainView } from "../views/mainView";
 import {
   Button,
   MessageModal,
+  selectIsConnectedToRoom,
   selectRoleChangeRequest,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/hms-video-react";
 import { Notifications } from "../views/components/notifications/Notifications";
+import FullPageProgress from "../views/components/FullPageSpinner";
 
 export const Conference = () => {
   const history = useHistory();
@@ -22,6 +24,7 @@ export const Conference = () => {
   const toggleChat = useCallback(() => {
     setIsChatOpen(open => !open);
   }, []);
+  const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);
   const roleChangeRequest = useHMSStore(selectRoleChangeRequest);
   const hmsActions = useHMSActions();
 
@@ -41,12 +44,16 @@ export const Conference = () => {
         history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
       else history.push(`/preview/${loginInfo.roomId || roomId || ""}`);
     }
-
     return () => {
+      // This is needed to handle mac touchpad swipe gesture
       leave();
     };
     // eslint-disable-next-line
   }, []);
+
+  if (!isConnectedToRoom) {
+    return <FullPageProgress />;
+  }
 
   return (
     <div className="w-full h-full flex flex-col dark:bg-black">
@@ -66,6 +73,7 @@ export const Conference = () => {
       </div>
       <MessageModal
         show={!!roleChangeRequest}
+        onClose={() => hmsActions.rejectChangeRole(roleChangeRequest)}
         title="Role Change Request"
         body={`Role change requested by ${roleChangeRequest?.requestedBy?.name}.
               Changing role to ${roleChangeRequest?.role?.name}.`}
@@ -75,11 +83,6 @@ export const Conference = () => {
               onClick={() => hmsActions.acceptChangeRole(roleChangeRequest)}
             >
               Accept
-            </Button>
-            <Button
-              onClick={() => hmsActions.rejectChangeRole(roleChangeRequest)}
-            >
-              Reject
             </Button>
           </div>
         }

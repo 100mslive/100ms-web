@@ -15,6 +15,7 @@ export const convertLoginInfoToJoinConfig = loginInfo => {
       audioOutputDeviceId: loginInfo.selectedAudioOutput,
       videoDeviceId: loginInfo.selectedVideoInput,
     },
+    rememberDeviceSelection: true,
   };
   console.debug("app: Config is", joinConfig);
   return joinConfig;
@@ -26,4 +27,67 @@ export const setUpLogRocket = (loginInfo, localPeer) => {
     role: loginInfo.role,
     token: loginInfo.token,
   });
+};
+
+// interface RoleConfig {
+//   center?: HMSRoleName[];
+//   sidepane?: HMSRoleName[];
+//   selfRoleChangeTo?: HMSRoleName[];
+//   remoteRoleChangeFor?: HMSRoleName[];
+// }
+
+// interface PolicyConfig {
+//   [role: string]: RoleConfig;
+// }
+
+/**
+ * check if a role is allowed to publish either of audio or video
+ */
+function canPublishAV(role) {
+  const params = role?.publishParams;
+  if (params?.allowed) {
+    return params.allowed.includes("video") || params.allowed.includes("audio");
+  }
+  return false;
+}
+
+/**
+ * Figure out the layout for each role. There is some extra work being done
+ * here currently to figure out the layout for roles other than local peer too
+ * which can be avoided.
+ */
+export const normalizeAppPolicyConfig = (
+  roleNames,
+  rolesMap,
+  appPolicyConfig = {}
+) => {
+  const newConfig = Object.assign({}, appPolicyConfig);
+  roleNames.forEach(roleName => {
+    if (!newConfig[roleName]) {
+      newConfig[roleName] = {};
+    }
+    if (!newConfig[roleName].center) {
+      const publishingRoleNames = roleNames.filter(roleName =>
+        canPublishAV(rolesMap[roleName])
+      );
+      // all other publishing roles apart from local role in center by default
+      newConfig[roleName].center = publishingRoleNames.filter(
+        rName => rName !== roleName
+      );
+    }
+    // everyone from my role is in sidepane by default if they can publish
+    if (!newConfig[roleName].sidepane) {
+      newConfig[roleName].sidepane = canPublishAV(rolesMap[roleName])
+        ? [roleName]
+        : [];
+    }
+    if (!newConfig[roleName].selfRoleChangeTo) {
+      newConfig[roleName].selfRoleChangeTo = roleNames;
+    }
+    if (!newConfig[roleName].remoteRoleChangeFor) {
+      newConfig[roleName].remoteRoleChangeFor = roleNames;
+    }
+  });
+
+  return newConfig;
 };

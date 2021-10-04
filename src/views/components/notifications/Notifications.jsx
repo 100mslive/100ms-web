@@ -13,6 +13,7 @@ import {
 } from "@100mslive/hms-video-react";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
+import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -26,17 +27,20 @@ export function Notifications() {
     }
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
-        console.log("[Peer Joined]", notification.data);
+        console.debug("[Peer Joined]", notification.data);
         break;
       case HMSNotificationTypes.PEER_LEFT:
-        hmsToast("", {
-          left: (
-            <Text classes={{ root: "flex" }}>
-              <PersonIcon className="mr-2" />
-              {notification.data?.name} left
-            </Text>
-          ),
-        });
+        console.debug("[Peer Left]", notification.data);
+        if (window.HMS.notifications?.peerLeft) {
+          hmsToast("", {
+            left: (
+              <Text classes={{ root: "flex" }}>
+                <PersonIcon className="mr-2" />
+                {notification.data?.name} left
+              </Text>
+            ),
+          });
+        }
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
         // TODO: remove this when chat UI is fixed for mweb
@@ -46,10 +50,10 @@ export function Notifications() {
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
-        console.log("[Track Added] data", notification.data);
+        console.debug("[Track Added] data", notification.data);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
-        console.log("[Track Removed]", notification);
+        console.debug("[Track Removed]", notification);
         break;
       case HMSNotificationTypes.TRACK_MUTED:
         console.log("[Track Muted]", notification);
@@ -60,19 +64,37 @@ export function Notifications() {
       case HMSNotificationTypes.ERROR:
         // show button action when the error is terminal
         if (notification.data?.isTerminal) {
+          if (notification.data?.code === 6008) {
+            hmsToast("", {
+              left: (
+                <Text classes={{ root: "flex" }}>
+                  {`Error: ${notification.data?.message}`}
+                </Text>
+              ),
+              toastProps: {
+                autoClose: false,
+              },
+            });
+            setTimeout(() => {
+              history.push("/");
+            }, 2000);
+            return;
+          }
           hmsToast("", {
             center: (
               <div className="flex">
                 <Text classes={{ root: "mr-2" }}>
-                  We couldn’t reconnect you. When you’re back online, try
-                  joining the room.
+                  {notification.data?.message ||
+                    "We couldn’t reconnect you. When you’re back online, try joining the room."}
                 </Text>
                 <Button
                   variant="emphasized"
                   classes={{
                     root: "self-center mr-2",
                   }}
-                  onClick={() => window.location.reload()}
+                  onClick={() => {
+                    window.location.reload();
+                  }}
                 >
                   Rejoin
                 </Button>
@@ -82,38 +104,12 @@ export function Notifications() {
           return;
         }
         if (notification.data?.code === 3008) {
-          const { clearToast } = hmsToast("", {
-            center: (
-              <div className="flex">
-                <Text classes={{ root: "mr-2" }}>
-                  {notification.data?.message}
-                </Text>
-                <Button
-                  variant="emphasized"
-                  classes={{
-                    root: "self-center mr-2",
-                  }}
-                  onClick={async () => {
-                    await hmsActions.unblockAudio();
-                    if (clearToast) {
-                      clearToast();
-                    }
-                  }}
-                >
-                  Unblock
-                </Button>
-              </div>
-            ),
-            toastProps: {
-              autoClose: false,
-            },
-          });
           return;
         }
         hmsToast("", {
           left: (
             <Text classes={{ root: "flex" }}>
-              Error: {notification.data?.message}
+              {`Error: ${notification.data?.message} - ${notification.data?.description}`}
             </Text>
           ),
         });
@@ -160,7 +156,13 @@ export function Notifications() {
       case HMSNotificationTypes.REMOVED_FROM_ROOM:
       case HMSNotificationTypes.ROOM_ENDED:
         hmsToast("", {
-          left: <Text>{notification.message}.</Text>,
+          left: (
+            <Text>
+              {`${notification.message}. `}
+              {notification.data.reason &&
+                `Reason: ${notification.data.reason}`}
+            </Text>
+          ),
         });
         setTimeout(() => {
           if (params.role) {
@@ -170,6 +172,11 @@ export function Notifications() {
           }
         }, 2000);
         break;
+      case HMSNotificationTypes.DEVICE_CHANGE_UPDATE:
+        hmsToast("", {
+          left: <Text>{notification.message}.</Text>,
+        });
+        break;
       default:
         break;
     }
@@ -178,6 +185,7 @@ export function Notifications() {
     <>
       <HMSToastContainer />
       <TrackUnmuteModal notification={notification} />
+      <AutoplayBlockedModal />
     </>
   );
 }
