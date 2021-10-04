@@ -37,7 +37,6 @@ import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
-import { MuteAll } from "./components/MuteAll";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -286,7 +285,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           <MoreSettings key="MoreSettings" />,
         ]}
         rightComponents={[
-          <MuteAll key="muteall" />,
           <ContextMenu
             classes={{
               trigger: "w-auto h-auto",
