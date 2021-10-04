@@ -12,7 +12,6 @@ const MAX_TILES_FOR_MOBILE = 4;
 
 /**
  * this is for showing webinar etc. related image if required on certain meeting urls
- * as required.
  */
 const EVENT_ROOM_IDS = ["homey-vermilion-beetle"];
 
