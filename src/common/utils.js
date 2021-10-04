@@ -61,7 +61,13 @@ export function getRandomVirtualBackground() {
  * being used to find intersection between list of role names where the complexity shouldn't matter much.
  */
 export const arrayIntersection = (a, b) => {
+  if (a === undefined || b === undefined) {
+    return [];
+  }
   var t;
+  if (a === undefined || b === undefined) {
+    return [];
+  }
   if (b.length > a.length) {
     t = b;
     b = a;

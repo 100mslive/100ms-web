@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Header,
   ParticipantList,
@@ -9,8 +10,11 @@ import {
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
   useHMSActions,
+  RecordingDot,
+  GlobeIcon,
+  selectRecordingState,
+  selectRTMPState,
 } from "@100mslive/hms-video-react";
-import React from "react";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -70,11 +74,71 @@ const Music = () => {
   );
 };
 
+const Recording = () => {
+  const recording = useHMSStore(selectRecordingState);
+  const rtmp = useHMSStore(selectRTMPState);
+
+  if (
+    !recording.browser.running &&
+    !recording.server.running &&
+    !rtmp.running
+  ) {
+    return null;
+  }
+
+  const isRecordingOn = recording.browser.running || recording.server.running;
+  const getText = () => {
+    if (!isRecordingOn) {
+      return "";
+    }
+    let title = "";
+    if (recording.browser.running) {
+      title += "Browser Recording: on";
+    }
+    if (recording.server.running) {
+      if (title) {
+        title += "\n";
+      }
+      title += "Server Recording: on";
+    }
+    return title;
+  };
+
+  return (
+    <div className="flex mx-2">
+      {isRecordingOn && (
+        <div className="flex items-center" title={getText()}>
+          <RecordingDot
+            className="fill-current text-red-600"
+            width="20"
+            height="20"
+          />
+          <Text variant="body" size="md" classes={{ root: "mx-1" }}>
+            Recording
+          </Text>
+        </div>
+      )}
+      {rtmp.running && (
+        <div className="flex items-center mx-2">
+          <GlobeIcon className="fill-current text-red-600" />
+          <Text variant="body" size="md" classes={{ root: "mx-1" }}>
+            Streaming
+          </Text>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const ConferenceHeader = ({ onParticipantListOpen }) => {
   return (
     <>
       <Header
-        leftComponents={[<LogoButton key={0} />, <Music key={1} />]}
+        leftComponents={[
+          <LogoButton key={0} />,
+          <Music key={1} />,
+          <Recording key={2} />,
+        ]}
         centerComponents={[<SpeakerTag key={0} />]}
         rightComponents={[
           <ParticipantList key={0} onToggle={onParticipantListOpen} />,
