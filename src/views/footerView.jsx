@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useRef } from "react";
+import { useState, useCallback, useContext, useRef } from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -26,12 +26,9 @@ import {
   selectPermissions,
   selectLocalPeer,
   selectScreenSharesByPeerId,
-  selectAreRemoteAudioTracksUnmuted,
   Text,
   selectVideoPlaylist,
   VideoPlaylist,
-  MicOnIcon,
-  MicOffIcon,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
@@ -40,6 +37,7 @@ import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
+import { MuteAll } from "./components/MuteAll";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -60,7 +58,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
-  const areAudioTracksUnmuted = useHMSStore(selectAreRemoteAudioTracksUnmuted);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [shareAudioModal, setShareAudioModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
@@ -80,13 +77,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     if (!audiopluginRef.current) {
       audiopluginRef.current = new HMSNoiseSuppressionPlugin();
     }
-  }
-
-  async function muteAll() {
-    await hmsActions.setRemoteTracksEnabled({
-      enabled: !areAudioTracksUnmuted,
-      type: "audio",
-    });
   }
 
   async function addNoiseSuppressionPlugin() {
@@ -296,19 +286,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           <MoreSettings key="MoreSettings" />,
         ]}
         rightComponents={[
-          <Button
-            variant="standard"
-            key="muteAll"
-            onClick={muteAll}
-            classes={{ root: "mr-2" }}
-          >
-            {areAudioTracksUnmuted ? (
-              <MicOnIcon className="mr-2" />
-            ) : (
-              <MicOffIcon className="mr-2" />
-            )}
-            {areAudioTracksUnmuted ? "Mute All" : "Unmute All"}
-          </Button>,
+          <MuteAll key="muteall" />,
           <ContextMenu
             classes={{
               trigger: "w-auto h-auto",
