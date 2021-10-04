@@ -30,6 +30,8 @@ import {
   Text,
   selectVideoPlaylist,
   VideoPlaylist,
+  MicOnIcon,
+  MicOffIcon,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
