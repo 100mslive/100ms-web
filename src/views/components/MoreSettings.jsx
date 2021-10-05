@@ -232,7 +232,7 @@ export const MoreSettings = () => {
         )}
         <ContextMenuItem
           icon={<GridIcon />}
-          label="Layout Settings"
+          label="UI Settings"
           key="changeLayout"
           addDivider={true}
           onClick={() => {
