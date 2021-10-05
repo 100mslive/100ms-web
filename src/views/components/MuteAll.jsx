@@ -23,17 +23,11 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
   const [type, setType] = useState();
   const [role, setRole] = useState();
   const [source, setSource] = useState();
-  const [error, setError] = useState("");
 
   const muteAll = useCallback(async () => {
-    if (!type && !source && !role) {
-      setError("Please select one of role, type or source");
-      return;
-    }
-    setError("");
     await hmsActions.setRemoteTracksEnabled({
       enabled,
-      type: type,
+      type,
       source,
       roles: role ? [role] : undefined,
     });
@@ -44,7 +38,6 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
     setEnabled(false);
     setType("");
     setSource("");
-    setError("");
   };
 
   return (
@@ -63,7 +56,6 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
               className={defaultClasses.input}
               onChange={event => {
                 setRole(event.currentTarget.value);
-                setError("");
               }}
             >
               <option value="">Select Role</option>
@@ -82,7 +74,6 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
               className={defaultClasses.input}
               onChange={event => {
                 setType(event.currentTarget.value);
-                setError("");
               }}
             >
               <option value="">Select track type</option>
@@ -96,7 +87,6 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
               className={defaultClasses.input}
               onChange={event => {
                 setSource(event.currentTarget.value);
-                setError("");
               }}
             >
               <option value="">Select track source</option>
@@ -117,7 +107,6 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
               <span></span>
             </label>
           </div>
-          <label className="text-yellow-500 mt-2">{error}</label>
         </form>
       }
       footer={
