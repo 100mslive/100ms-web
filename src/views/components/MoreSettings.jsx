@@ -235,7 +235,7 @@ export const MoreSettings = () => {
         )}
         {permissions.mute && (
           <ContextMenuItem
-            label="Mute/Unmute All"
+            label="Mute All"
             icon={<StarIcon />}
             onClick={() => {
               setShowMuteAll(true);
