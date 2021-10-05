@@ -13,7 +13,7 @@ import {
   HamburgerMenuIcon,
   PersonIcon,
   Settings,
-  ParticipantsInView,
+  UiSettings,
   SettingsIcon,
   useHMSStore,
   selectAvailableRoleNames,
@@ -253,7 +253,7 @@ export const MoreSettings = () => {
         showModal={showSettings}
         onModalClose={() => setShowSettings(false)}
       />
-      <ParticipantsInView
+      <UiSettings
         onTileCountChange={onChange}
         maxTileCount={maxTileCount}
         showModal={showParticipantsInView}
