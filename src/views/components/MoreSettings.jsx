@@ -43,6 +43,8 @@ export const MoreSettings = () => {
   const {
     setMaxTileCount,
     maxTileCount,
+    subscribedNotifications,
+    setSubscribedNotifications,
     appPolicyConfig: { selfRoleChangeTo },
   } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
@@ -51,7 +53,7 @@ export const MoreSettings = () => {
   const hmsActions = useHMSActions();
   const [showMenu, setShowMenu] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [showParticipantsInView, setShowParticipantsInView] = useState(false);
+  const [showUiSettings, setShowUiSettings] = useState(false);
   const [showRecordingAndRTMPModal, setShowRecordingAndRTMPModal] =
     useState(false);
 
@@ -81,8 +83,23 @@ export const MoreSettings = () => {
 
   const onChange = count => {
     setMaxTileCount(count);
+    console.log(count);
   };
 
+  const onNotificationChange = notification => {
+    setSubscribedNotifications(notification);
+  }
+
+  const uiSettingsProps = {
+    sliderProps: {
+      onTileCountChange: onChange,
+      maxTileCount
+    },
+    notificationProps: {
+      onNotificationChange,
+      subscribedNotifications
+    }
+  }
   const getText = useCallback(() => {
     let text = "";
     if (rtmp.running) {
@@ -236,7 +253,7 @@ export const MoreSettings = () => {
           key="changeLayout"
           addDivider={true}
           onClick={() => {
-            setShowParticipantsInView(true);
+            setShowUiSettings(true);
           }}
         />
         <ContextMenuItem
@@ -254,10 +271,9 @@ export const MoreSettings = () => {
         onModalClose={() => setShowSettings(false)}
       />
       <UiSettings
-        onTileCountChange={onChange}
-        maxTileCount={maxTileCount}
-        showModal={showParticipantsInView}
-        onModalClose={() => setShowParticipantsInView(false)}
+        {...uiSettingsProps}
+        showModal={showUiSettings}
+        onModalClose={() => setShowUiSettings(false)}
       />
       <MessageModal
         title="Start Streaming/Recording"

@@ -34,9 +34,8 @@ const initialLoginInfo = {
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-  ? `${getBackendEndpoint()}${
-      process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-    }/`
+  ? `${getBackendEndpoint()}${process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+  }/`
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
@@ -70,6 +69,7 @@ const AppContextProvider = ({
     loginInfo: initialLoginInfo,
     maxTileCount: 9,
     localAppPolicyConfig: {},
+    subscribedNotifications: { "PEER_JOINED": true, "PEER_LEFT": true, "NEW_MESSAGE": true, "ERROR": true }
   });
 
   const customLeave = useCallback(() => {
@@ -123,13 +123,22 @@ const AppContextProvider = ({
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
+  const deepSetSubscribedNotifications = notification => {
+    setState(prevState => {
+      if (notification.isSubscribed) prevState.subscribedNotifications[notification.type] = true;
+      else prevState.subscribedNotifications[notification.type] = false;
+      return {...prevState};
+    });
+  };
   return (
     <AppContext.Provider
       value={{
         setLoginInfo: deepSetLoginInfo,
         setMaxTileCount: deepSetMaxTiles,
+        setSubscribedNotifications: deepSetSubscribedNotifications,
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
+        subscribedNotifications: state.subscribedNotifications,
         appPolicyConfig: state.localAppPolicyConfig,
         isConnected: isConnected,
         leave: customLeave,
