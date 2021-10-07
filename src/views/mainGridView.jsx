@@ -10,7 +10,7 @@ export const MainGridView = ({
 }) => {
   const {
     maxTileCount,
-    appPolicyConfig: { center: centerRoles, sidepane: sidepaneRoles },
+    appPolicyConfig: { center: centerRoles = [], sidepane: sidepaneRoles = [] },
   } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
   const centerPeers = peers.filter(peer => centerRoles.includes(peer.roleName));
