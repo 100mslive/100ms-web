@@ -29,12 +29,14 @@ import {
   RecordIcon,
   selectRecordingState,
   selectRTMPState,
+  StarIcon,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
 import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 import screenfull from "screenfull";
 import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
+import { MuteAll } from "./MuteAll";
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + "?token=beam_recording";
@@ -50,6 +52,7 @@ export const MoreSettings = () => {
   const permissions = useHMSStore(selectPermissions);
   const hmsActions = useHMSActions();
   const [showMenu, setShowMenu] = useState(false);
+  const [showMuteAll, setShowMuteAll] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showParticipantsInView, setShowParticipantsInView] = useState(false);
   const [showRecordingAndRTMPModal, setShowRecordingAndRTMPModal] =
@@ -230,6 +233,15 @@ export const MoreSettings = () => {
             }}
           />
         )}
+        {permissions.mute && (
+          <ContextMenuItem
+            label="Mute All"
+            icon={<StarIcon />}
+            onClick={() => {
+              setShowMuteAll(true);
+            }}
+          />
+        )}
         <ContextMenuItem
           icon={<GridIcon />}
           label="Layout Settings"
@@ -258,6 +270,10 @@ export const MoreSettings = () => {
         maxTileCount={maxTileCount}
         showModal={showParticipantsInView}
         onModalClose={() => setShowParticipantsInView(false)}
+      />
+      <MuteAll
+        showModal={showMuteAll}
+        onCloseModal={() => setShowMuteAll(false)}
       />
       <MessageModal
         title="Start Streaming/Recording"
