@@ -30,28 +30,26 @@ export function Notifications() {
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
         console.debug("[Peer Joined]", notification.data);
-        if(!subscribedNotifications.PEER_JOINED) return;
+        if (!subscribedNotifications.PEER_JOINED) return;
         break;
       case HMSNotificationTypes.PEER_LEFT:
         console.debug("[Peer Left]", notification.data);
-        if(!subscribedNotifications.PEER_LEFT) return;
-        if (window.HMS.notifications?.peerLeft) {
-          hmsToast("", {
-            left: (
-              <Text classes={{ root: "flex" }}>
-                <PersonIcon className="mr-2" />
-                {notification.data?.name} left
-              </Text>
-            ),
-          });
-        }
+        if (!subscribedNotifications.PEER_LEFT) return;
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <PersonIcon className="mr-2" />
+              {notification.data?.name} left
+            </Text>
+          ),
+        });
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
         // TODO: remove this when chat UI is fixed for mweb
         if (isMobileDevice()) {
           return;
         }
-        if(!subscribedNotifications.NEW_MESSAGE) return;
+        if (!subscribedNotifications.NEW_MESSAGE) return;
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
@@ -68,7 +66,7 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.ERROR:
         // show button action when the error is terminal
-        if(!subscribedNotifications.ERROR) return;
+        if (!subscribedNotifications.ERROR) return;
         if (notification.data?.isTerminal) {
           if (notification.data?.code === 6008) {
             hmsToast("", {

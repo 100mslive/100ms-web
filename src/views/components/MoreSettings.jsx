@@ -86,7 +86,6 @@ export const MoreSettings = () => {
 
   const onChange = count => {
     setMaxTileCount(count);
-    console.log(count);
   };
 
   const onNotificationChange = notification => {

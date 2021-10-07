@@ -69,7 +69,7 @@ const AppContextProvider = ({
     loginInfo: initialLoginInfo,
     maxTileCount: 9,
     localAppPolicyConfig: {},
-    subscribedNotifications: { "PEER_JOINED": true, "PEER_LEFT": true, "NEW_MESSAGE": true, "ERROR": true }
+    subscribedNotifications: { "PEER_JOINED": false, "PEER_LEFT": false, "NEW_MESSAGE": true, "ERROR": true }
   });
 
   const customLeave = useCallback(() => {
@@ -124,11 +124,7 @@ const AppContextProvider = ({
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
   const deepSetSubscribedNotifications = notification => {
-    setState(prevState => {
-      if (notification.isSubscribed) prevState.subscribedNotifications[notification.type] = true;
-      else prevState.subscribedNotifications[notification.type] = false;
-      return {...prevState};
-    });
+    setState(prevState => ({ ...prevState, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed }}));
   };
   return (
     <AppContext.Provider
