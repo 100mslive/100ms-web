@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@100mslive/hms-noise-suppression": "0.1.5",
-    "@100mslive/hms-video": "0.0.205",
+    "@100mslive/hms-video": "0.0.207",
     "@100mslive/hms-video-react": "0.3.82",
     "@100mslive/hms-virtual-background": "^1.3.2",
     "@craco/craco": "^6.1.1",
