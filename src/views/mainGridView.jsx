@@ -18,7 +18,7 @@ export const MainGridView = ({
     sidepaneRoles.includes(peer.roleName)
   );
   // if there is only one type of peers to show
-  const hideSidePane = peers.length > 1 && (sidebarPeers.length === 0 || centerPeers.length === 0);
+  const hideSidePane = centerPeers.length === 0 && sidebarPeers.length > 1;
 
   return (
     <React.Fragment>
