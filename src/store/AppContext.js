@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   useHMSActions,
   useHMSStore,
   selectLocalPeer,
-  selectIsConnectedToRoom,
   selectAvailableRoleNames,
   selectRolesMap,
 } from "@100mslive/hms-video-react";
@@ -57,7 +56,6 @@ const AppContextProvider = ({
 }) => {
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
-  const isConnected = useHMSStore(selectIsConnectedToRoom);
   const roleNames = useHMSStore(selectAvailableRoleNames);
   const rolesMap = useHMSStore(selectRolesMap);
   const appPolicyConfig = useMemo(
@@ -71,11 +69,6 @@ const AppContextProvider = ({
     maxTileCount: 9,
     localAppPolicyConfig: {},
   });
-
-  const customLeave = useCallback(() => {
-    console.log("User is leaving the room");
-    hmsActions.leave();
-  }, [hmsActions]);
 
   useEffect(() => {
     function resetHeight() {
@@ -131,8 +124,6 @@ const AppContextProvider = ({
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
         appPolicyConfig: state.localAppPolicyConfig,
-        isConnected: isConnected,
-        leave: customLeave,
         tokenEndpoint,
         audioPlaylist,
         videoPlaylist,
