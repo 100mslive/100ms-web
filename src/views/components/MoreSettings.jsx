@@ -13,7 +13,7 @@ import {
   HamburgerMenuIcon,
   PersonIcon,
   Settings,
-  ParticipantsInView,
+  UiSettings,
   SettingsIcon,
   useHMSStore,
   selectAvailableRoleNames,
@@ -45,6 +45,8 @@ export const MoreSettings = () => {
   const {
     setMaxTileCount,
     maxTileCount,
+    subscribedNotifications,
+    setSubscribedNotifications,
     appPolicyConfig: { selfRoleChangeTo },
   } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
@@ -54,7 +56,7 @@ export const MoreSettings = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showMuteAll, setShowMuteAll] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [showParticipantsInView, setShowParticipantsInView] = useState(false);
+  const [showUiSettings, setShowUiSettings] = useState(false);
   const [showRecordingAndRTMPModal, setShowRecordingAndRTMPModal] =
     useState(false);
 
@@ -86,6 +88,20 @@ export const MoreSettings = () => {
     setMaxTileCount(count);
   };
 
+  const onNotificationChange = notification => {
+    setSubscribedNotifications(notification);
+  }
+
+  const uiSettingsProps = {
+    sliderProps: {
+      onTileCountChange: onChange,
+      maxTileCount
+    },
+    notificationProps: {
+      onNotificationChange,
+      subscribedNotifications
+    }
+  }
   const getText = useCallback(() => {
     let text = "";
     if (rtmp.running) {
@@ -244,11 +260,11 @@ export const MoreSettings = () => {
         )}
         <ContextMenuItem
           icon={<GridIcon />}
-          label="Layout Settings"
+          label="UI Settings"
           key="changeLayout"
           addDivider={true}
           onClick={() => {
-            setShowParticipantsInView(true);
+            setShowUiSettings(true);
           }}
         />
         <ContextMenuItem
@@ -265,11 +281,10 @@ export const MoreSettings = () => {
         showModal={showSettings}
         onModalClose={() => setShowSettings(false)}
       />
-      <ParticipantsInView
-        onTileCountChange={onChange}
-        maxTileCount={maxTileCount}
-        showModal={showParticipantsInView}
-        onModalClose={() => setShowParticipantsInView(false)}
+      <UiSettings
+        {...uiSettingsProps}
+        showModal={showUiSettings}
+        onModalClose={() => setShowUiSettings(false)}
       />
       <MuteAll
         showModal={showMuteAll}
