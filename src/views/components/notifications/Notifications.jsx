@@ -31,6 +31,14 @@ export function Notifications() {
       case HMSNotificationTypes.PEER_JOINED:
         console.debug("[Peer Joined]", notification.data);
         if (!subscribedNotifications.PEER_JOINED) return;
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <PersonIcon className="mr-2" />
+              {notification.data?.name} joined
+            </Text>
+          ),
+        });
         break;
       case HMSNotificationTypes.PEER_LEFT:
         console.debug("[Peer Left]", notification.data);
