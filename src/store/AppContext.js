@@ -65,11 +65,18 @@ const AppContextProvider = ({
   );
   initialLoginInfo.roomId = roomId;
 
+  const defaultUiSettings = {
+    maxTileCount: 9,
+    subscribedNotifications: { "PEER_JOINED": false, "PEER_LEFT": false, "NEW_MESSAGE": true, "ERROR": true }
+  }
+  
+  const uiSettingsFromStorage = localStorage.getItem('uiSettings') ? JSON.parse(localStorage.getItem('uiSettings')) : defaultUiSettings;
+
   const [state, setState] = useState({
     loginInfo: initialLoginInfo,
-    maxTileCount: 9,
+    maxTileCount: uiSettingsFromStorage.maxTileCount,
     localAppPolicyConfig: {},
-    subscribedNotifications: { "PEER_JOINED": false, "PEER_LEFT": false, "NEW_MESSAGE": true, "ERROR": true }
+    subscribedNotifications: uiSettingsFromStorage.subscribedNotifications
   });
 
   const customLeave = useCallback(() => {
@@ -117,14 +124,20 @@ const AppContextProvider = ({
   };
 
   const deepSetMaxTiles = maxTiles => {
-    setState(prevState => ({ ...prevState, maxTileCount: maxTiles }));
+    setState(prevState => {
+      localStorage.setItem('uiSettings', JSON.stringify({ maxTileCount: maxTiles, subscribedNotifications: prevState.subscribedNotifications }));
+      return { ...prevState, maxTileCount: maxTiles }
+    });
   };
 
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
   const deepSetSubscribedNotifications = notification => {
-    setState(prevState => ({ ...prevState, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed }}));
+    setState(prevState => {
+      localStorage.setItem('uiSettings', JSON.stringify({ maxTileCount: prevState.maxTileCount, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed } }));
+      return { ...prevState, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed } }
+    });
   };
   return (
     <AppContext.Provider
