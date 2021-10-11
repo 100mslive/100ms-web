@@ -23,9 +23,8 @@ import { hmsToast } from "./views/components/notifications/hms-toast";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-  ? `${getBackendEndpoint()}${
-      process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-    }/`
+  ? `${getBackendEndpoint()}${process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+  }/`
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
@@ -54,9 +53,8 @@ export function EdtechComponent({
     .map(el => parseInt(el));
   return (
     <div
-      className={`w-full dark:bg-black ${
-        headerPresent === "true" ? "flex-1" : "h-full"
-      }`}
+      className={`w-full dark:bg-black ${headerPresent === "true" ? "flex-1" : "h-full"
+        }`}
     >
       <HMSThemeProvider
         config={{
@@ -130,6 +128,9 @@ export function EdtechComponent({
                         if (match.params.role)
                           previewUrl += "/" + match.params.role;
                         history.push(previewUrl);
+                      }}
+                      getFeedbackOnClick={(setShowModal) => {
+                        setShowModal(true);
                       }}
                     />
                   )}
