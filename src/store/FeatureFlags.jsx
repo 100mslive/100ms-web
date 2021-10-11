@@ -13,9 +13,6 @@ export function FeatureFlags() {
     window.HMS.AUDIO_SINK = true;
     window.HMS.actions = hmsActions;
     window.HMS.store = store;
-    window.HMS.notifications = {
-      peerLeft: false,
-    };
   }, [hmsActions, store]);
 
   return null;
