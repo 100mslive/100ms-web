@@ -7,8 +7,7 @@ import {
   selectPeerScreenSharing,
   selectPeerSharingVideoPlaylist,
   selectRoomState,
-  selectLocalPeerID,
-  selectLocalPeerRole,
+  selectLocalPeer,
 } from "@100mslive/hms-video-react";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
@@ -19,8 +18,7 @@ export const ConferenceMainView = ({
   toggleChat,
   isParticipantListOpen,
 }) => {
-  const localPeer = useHMSStore(selectLocalPeerID);
-  const role = useHMSStore(selectLocalPeerRole);
+  const localPeer = useHMSStore(selectLocalPeer);
   const peerSharing = useHMSStore(selectPeerScreenSharing);
   const peerSharingAudio = useHMSStore(selectPeerSharingAudio);
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
@@ -58,7 +56,7 @@ export const ConferenceMainView = ({
       <ViewComponent
         isChatOpen={isChatOpen}
         toggleChat={toggleChat}
-        role={role.name}
+        role={localPeer.roleName}
         isParticipantListOpen={isParticipantListOpen}
       />
     )
