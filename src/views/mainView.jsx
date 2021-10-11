@@ -3,11 +3,11 @@ import {
   useHMSStore,
   useHMSActions,
   HMSRoomState,
-  selectLocalPeer,
   selectPeerSharingAudio,
   selectPeerScreenSharing,
   selectPeerSharingVideoPlaylist,
   selectRoomState,
+  selectLocalPeer,
 } from "@100mslive/hms-video-react";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";

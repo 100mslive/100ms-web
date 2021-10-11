@@ -32,7 +32,7 @@ export const Conference = () => {
     setIsParticipantListOpen(value);
   }, []);
 
-  const { loginInfo, leave } = context;
+  const { loginInfo } = context;
 
   useEffect(() => {
     if (!roomId) {
@@ -46,7 +46,7 @@ export const Conference = () => {
     }
     return () => {
       // This is needed to handle mac touchpad swipe gesture
-      leave();
+      hmsActions.leave();
     };
     // eslint-disable-next-line
   }, []);
