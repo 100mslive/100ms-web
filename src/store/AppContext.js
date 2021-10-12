@@ -53,7 +53,7 @@ const defaultUiSettings = {
 }
 
 const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY) ? JSON.parse(localStorage.getItem(UI_SETTINGS_KEY)) : defaultUiSettings;
-console.log('hi there');
+
 const AppContextProvider = ({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
@@ -73,7 +73,6 @@ const AppContextProvider = ({
   );
   initialLoginInfo.roomId = roomId;
 
-  console.log('hello there');
   const [state, setState] = useState({
     loginInfo: initialLoginInfo,
     maxTileCount: uiSettingsFromStorage.maxTileCount,
