@@ -14,6 +14,7 @@ import {
   setUpLogRocket,
 } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
+import { UI_SETTINGS_KEY } from "../common/constants";
 
 const AppContext = React.createContext(null);
 
@@ -46,6 +47,20 @@ const envVideoPlaylist = JSON.parse(
   process.env.REACT_APP_VIDEO_PLAYLIST || "[]"
 );
 
+const defaultUiSettings = {
+  maxTileCount: 9,
+  subscribedNotifications: {
+    "PEER_JOINED": false,
+    "PEER_LEFT": false,
+    "NEW_MESSAGE": false,
+    "ERROR": true
+  }
+}
+
+const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
+  ? JSON.parse(localStorage.getItem(UI_SETTINGS_KEY))
+  : defaultUiSettings;
+
 const AppContextProvider = ({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
@@ -67,10 +82,17 @@ const AppContextProvider = ({
 
   const [state, setState] = useState({
     loginInfo: initialLoginInfo,
-    maxTileCount: 9,
+    maxTileCount: uiSettingsFromStorage.maxTileCount,
     localAppPolicyConfig: {},
-    subscribedNotifications: { "PEER_JOINED": false, "PEER_LEFT": false, "NEW_MESSAGE": true, "ERROR": true }
+    subscribedNotifications: uiSettingsFromStorage.subscribedNotifications
   });
+
+  useEffect(() => {
+    localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({
+      maxTileCount: state.maxTileCount,
+      subscribedNotifications: state.subscribedNotifications
+    }));
+  }, [state.maxTileCount, state.subscribedNotifications])
 
   const customLeave = useCallback(() => {
     console.log("User is leaving the room");
@@ -116,16 +138,21 @@ const AppContextProvider = ({
     console.log(newState); // note: component won't reflect changes at time of this log
   };
 
-  const deepSetMaxTiles = maxTiles => {
+  const deepSetMaxTiles = maxTiles =>
     setState(prevState => ({ ...prevState, maxTileCount: maxTiles }));
-  };
+
 
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
-  const deepSetSubscribedNotifications = notification => {
-    setState(prevState => ({ ...prevState, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed }}));
-  };
+  const deepSetSubscribedNotifications = notification =>
+    setState(prevState => ({
+      ...prevState,
+      subscribedNotifications: {
+        ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed
+      }
+    }));
+
   return (
     <AppContext.Provider
       value={{
