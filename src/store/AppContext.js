@@ -33,8 +33,9 @@ const initialLoginInfo = {
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-  ? `${getBackendEndpoint()}${process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-  }/`
+  ? `${getBackendEndpoint()}${
+      process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+    }/`
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
@@ -67,7 +68,12 @@ const AppContextProvider = ({
     loginInfo: initialLoginInfo,
     maxTileCount: 9,
     localAppPolicyConfig: {},
-    subscribedNotifications: { "PEER_JOINED": false, "PEER_LEFT": false, "NEW_MESSAGE": true, "ERROR": true }
+    subscribedNotifications: {
+      PEER_JOINED: false,
+      PEER_LEFT: false,
+      NEW_MESSAGE: false,
+      ERROR: true,
+    },
   });
 
   useEffect(() => {
@@ -117,8 +123,15 @@ const AppContextProvider = ({
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
   const deepSetSubscribedNotifications = notification => {
-    setState(prevState => ({ ...prevState, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed }}));
+    setState(prevState => ({
+      ...prevState,
+      subscribedNotifications: {
+        ...prevState.subscribedNotifications,
+        [notification.type]: notification.isSubscribed,
+      },
+    }));
   };
+
   return (
     <AppContext.Provider
       value={{
