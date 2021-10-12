@@ -49,10 +49,17 @@ const envVideoPlaylist = JSON.parse(
 
 const defaultUiSettings = {
   maxTileCount: 9,
-  subscribedNotifications: { "PEER_JOINED": false, "PEER_LEFT": false, "NEW_MESSAGE": true, "ERROR": true }
+  subscribedNotifications: {
+    "PEER_JOINED": false,
+    "PEER_LEFT": false,
+    "NEW_MESSAGE": true,
+    "ERROR": true
+  }
 }
 
-const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY) ? JSON.parse(localStorage.getItem(UI_SETTINGS_KEY)) : defaultUiSettings;
+const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
+  ? JSON.parse(localStorage.getItem(UI_SETTINGS_KEY))
+  : defaultUiSettings;
 
 const AppContextProvider = ({
   roomId = "",
@@ -126,8 +133,12 @@ const AppContextProvider = ({
 
   const deepSetMaxTiles = maxTiles => {
     setState(prevState => {
-      localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({ maxTileCount: maxTiles, subscribedNotifications: prevState.subscribedNotifications }));
-      return { ...prevState, maxTileCount: maxTiles }
+      localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({
+        maxTileCount: maxTiles,
+        subscribedNotifications: prevState.subscribedNotifications
+      }));
+
+      return { ...prevState, maxTileCount: maxTiles };
     });
   };
 
@@ -136,9 +147,17 @@ const AppContextProvider = ({
 
   const deepSetSubscribedNotifications = notification => {
     setState(prevState => {
-      const newState = { ...prevState, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed } };
+      const newState = {
+        ...prevState,
+        subscribedNotifications: {
+          ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed
+        }
+      };
 
-      localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({ maxTileCount: newState.maxTileCount, subscribedNotifications: newState.subscribedNotifications }));
+      localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({
+        maxTileCount: newState.maxTileCount,
+        subscribedNotifications: newState.subscribedNotifications
+      }));
 
       return newState;
     });
