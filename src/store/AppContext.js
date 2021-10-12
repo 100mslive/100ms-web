@@ -14,6 +14,7 @@ import {
   setUpLogRocket,
 } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
+import { UI_SETTINGS_KEY } from "../common/constants";
 
 const AppContext = React.createContext(null);
 
@@ -46,6 +47,13 @@ const envVideoPlaylist = JSON.parse(
   process.env.REACT_APP_VIDEO_PLAYLIST || "[]"
 );
 
+const defaultUiSettings = {
+  maxTileCount: 9,
+  subscribedNotifications: { "PEER_JOINED": false, "PEER_LEFT": false, "NEW_MESSAGE": true, "ERROR": true }
+}
+
+const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY) ? JSON.parse(localStorage.getItem(UI_SETTINGS_KEY)) : defaultUiSettings;
+console.log('hi there');
 const AppContextProvider = ({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
@@ -65,13 +73,7 @@ const AppContextProvider = ({
   );
   initialLoginInfo.roomId = roomId;
 
-  const defaultUiSettings = {
-    maxTileCount: 9,
-    subscribedNotifications: { "PEER_JOINED": false, "PEER_LEFT": false, "NEW_MESSAGE": true, "ERROR": true }
-  }
-  
-  const uiSettingsFromStorage = localStorage.getItem('uiSettings') ? JSON.parse(localStorage.getItem('uiSettings')) : defaultUiSettings;
-
+  console.log('hello there');
   const [state, setState] = useState({
     loginInfo: initialLoginInfo,
     maxTileCount: uiSettingsFromStorage.maxTileCount,
@@ -125,7 +127,7 @@ const AppContextProvider = ({
 
   const deepSetMaxTiles = maxTiles => {
     setState(prevState => {
-      localStorage.setItem('uiSettings', JSON.stringify({ maxTileCount: maxTiles, subscribedNotifications: prevState.subscribedNotifications }));
+      localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({ maxTileCount: maxTiles, subscribedNotifications: prevState.subscribedNotifications }));
       return { ...prevState, maxTileCount: maxTiles }
     });
   };
@@ -135,8 +137,11 @@ const AppContextProvider = ({
 
   const deepSetSubscribedNotifications = notification => {
     setState(prevState => {
-      localStorage.setItem('uiSettings', JSON.stringify({ maxTileCount: prevState.maxTileCount, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed } }));
-      return { ...prevState, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed } }
+      const newState = { ...prevState, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed } };
+
+      localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({ maxTileCount: newState.maxTileCount, subscribedNotifications: newState.subscribedNotifications }));
+
+      return newState;
     });
   };
   return (

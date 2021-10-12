@@ -84,3 +84,5 @@ export const defaultVideoList = [
     type: "video",
   },
 ];
+
+export const UI_SETTINGS_KEY = 'uiSettings';
