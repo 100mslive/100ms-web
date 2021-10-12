@@ -52,7 +52,7 @@ const defaultUiSettings = {
   subscribedNotifications: {
     "PEER_JOINED": false,
     "PEER_LEFT": false,
-    "NEW_MESSAGE": true,
+    "NEW_MESSAGE": false,
     "ERROR": true
   }
 }
@@ -86,6 +86,13 @@ const AppContextProvider = ({
     localAppPolicyConfig: {},
     subscribedNotifications: uiSettingsFromStorage.subscribedNotifications
   });
+
+  useEffect(() => {
+    localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({
+      maxTileCount: state.maxTileCount,
+      subscribedNotifications: state.subscribedNotifications
+    }));
+  }, [state.maxTileCount, state.subscribedNotifications])
 
   const customLeave = useCallback(() => {
     console.log("User is leaving the room");
@@ -131,37 +138,21 @@ const AppContextProvider = ({
     console.log(newState); // note: component won't reflect changes at time of this log
   };
 
-  const deepSetMaxTiles = maxTiles => {
-    setState(prevState => {
-      localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({
-        maxTileCount: maxTiles,
-        subscribedNotifications: prevState.subscribedNotifications
-      }));
+  const deepSetMaxTiles = maxTiles =>
+    setState(prevState => ({ ...prevState, maxTileCount: maxTiles }));
 
-      return { ...prevState, maxTileCount: maxTiles };
-    });
-  };
 
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
-  const deepSetSubscribedNotifications = notification => {
-    setState(prevState => {
-      const newState = {
-        ...prevState,
-        subscribedNotifications: {
-          ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed
-        }
-      };
+  const deepSetSubscribedNotifications = notification =>
+    setState(prevState => ({
+      ...prevState,
+      subscribedNotifications: {
+        ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed
+      }
+    }));
 
-      localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({
-        maxTileCount: newState.maxTileCount,
-        subscribedNotifications: newState.subscribedNotifications
-      }));
-
-      return newState;
-    });
-  };
   return (
     <AppContext.Provider
       value={{
