@@ -85,4 +85,5 @@ export const defaultVideoList = [
   },
 ];
 
-export const UI_SETTINGS_KEY = 'uiSettings';
+export const UI_SETTINGS_KEY = "uiSettings";
+export const USERNAME_KEY = "loginUsername";

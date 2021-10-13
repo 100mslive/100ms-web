@@ -11,6 +11,7 @@ import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
 import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
 import { Notifications } from "../views/components/notifications/Notifications";
+import { USERNAME_KEY } from "../common/constants";
 
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
@@ -26,6 +27,8 @@ const PreviewScreen = ({ getUserToken }) => {
   });
   const urlSearchParams = new URLSearchParams(location.search);
   const skipPreview = urlSearchParams.get("token") === "beam_recording";
+
+  const usernameFromStorage = localStorage.getItem(USERNAME_KEY);
 
   useEffect(() => {
     if (skipPreview) {
@@ -168,6 +171,7 @@ const PreviewScreen = ({ getUserToken }) => {
               roomId: urlRoomId,
               token,
               env: loginInfo.env,
+              username: usernameFromStorage,
             })}
           />
         ) : (

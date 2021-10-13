@@ -14,7 +14,7 @@ import {
   setUpLogRocket,
 } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
-import { UI_SETTINGS_KEY } from "../common/constants";
+import { UI_SETTINGS_KEY, USERNAME_KEY } from "../common/constants";
 
 const AppContext = React.createContext(null);
 
@@ -35,8 +35,9 @@ const initialLoginInfo = {
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-  ? `${getBackendEndpoint()}${process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-  }/`
+  ? `${getBackendEndpoint()}${
+      process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+    }/`
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
@@ -50,12 +51,12 @@ const envVideoPlaylist = JSON.parse(
 const defaultUiSettings = {
   maxTileCount: 9,
   subscribedNotifications: {
-    "PEER_JOINED": false,
-    "PEER_LEFT": false,
-    "NEW_MESSAGE": false,
-    "ERROR": true
-  }
-}
+    PEER_JOINED: false,
+    PEER_LEFT: false,
+    NEW_MESSAGE: false,
+    ERROR: true,
+  },
+};
 
 const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
   ? JSON.parse(localStorage.getItem(UI_SETTINGS_KEY))
@@ -84,15 +85,24 @@ const AppContextProvider = ({
     loginInfo: initialLoginInfo,
     maxTileCount: uiSettingsFromStorage.maxTileCount,
     localAppPolicyConfig: {},
-    subscribedNotifications: uiSettingsFromStorage.subscribedNotifications
+    subscribedNotifications: uiSettingsFromStorage.subscribedNotifications,
   });
 
   useEffect(() => {
-    localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({
-      maxTileCount: state.maxTileCount,
-      subscribedNotifications: state.subscribedNotifications
-    }));
-  }, [state.maxTileCount, state.subscribedNotifications])
+    localStorage.setItem(
+      UI_SETTINGS_KEY,
+      JSON.stringify({
+        maxTileCount: state.maxTileCount,
+        subscribedNotifications: state.subscribedNotifications,
+      })
+    );
+  }, [state.maxTileCount, state.subscribedNotifications]);
+
+  useEffect(() => {
+    if (state.loginInfo.username) {
+      localStorage.setItem(USERNAME_KEY, state.loginInfo.username);
+    }
+  }, [state.loginInfo.username]);
 
   const customLeave = useCallback(() => {
     console.log("User is leaving the room");
@@ -141,7 +151,6 @@ const AppContextProvider = ({
   const deepSetMaxTiles = maxTiles =>
     setState(prevState => ({ ...prevState, maxTileCount: maxTiles }));
 
-
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
@@ -149,8 +158,9 @@ const AppContextProvider = ({
     setState(prevState => ({
       ...prevState,
       subscribedNotifications: {
-        ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed
-      }
+        ...prevState.subscribedNotifications,
+        [notification.type]: notification.isSubscribed,
+      },
     }));
 
   return (
