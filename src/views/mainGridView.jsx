@@ -36,7 +36,7 @@ export const MainGridView = ({
   let showSidePane = centerPeers.length > 0 && sidebarPeers.length > 0;
   if (centerPeers.length === 0) {
     // we'll show the sidepane for banner in this case too if 1). it's only me
-    // in the room. 2). noone is publishing
+    // in the room. or 2). noone is publishing in the room
     const itsOnlyMeInTheRoom =
       peers.length === 0 && peers[0].id === localPeerId;
     const nooneIsPublishing = sidebarPeers.length === 0;
