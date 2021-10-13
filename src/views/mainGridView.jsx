@@ -10,15 +10,21 @@ export const MainGridView = ({
 }) => {
   const {
     maxTileCount,
-    appPolicyConfig: { center: centerRoles, sidepane: sidepaneRoles },
+    appPolicyConfig: { center: centerRoles = [], sidepane: sidepaneRoles = [] },
   } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
   const centerPeers = peers.filter(peer => centerRoles.includes(peer.roleName));
   const sidebarPeers = peers.filter(peer =>
     sidepaneRoles.includes(peer.roleName)
   );
-  // if there is only one type of peers to show
-  const hideSidePane = sidebarPeers.length === 0 || centerPeers.length === 0;
+
+  let hideSidePane = false;
+  if (centerPeers.length === 0) {
+    // hidesidepane when there are more than 1 or 0 peers
+    hideSidePane = sidebarPeers.length !== 1;
+  } else {
+    hideSidePane = sidebarPeers.length === 0;
+  }
 
   return (
     <React.Fragment>

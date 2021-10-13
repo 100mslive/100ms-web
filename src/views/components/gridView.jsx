@@ -13,7 +13,7 @@ const MAX_TILES_FOR_MOBILE = 4;
 /**
  * this is for showing webinar etc. related image if required on certain meeting urls
  */
-const EVENT_ROOM_IDS = ["homey-vermilion-beetle"];
+const EVENT_ROOM_IDS = ["gummy-viridian-bongo",'crabby-vermilion-akita'];
 
 // The center of the screen shows bigger tiles
 export const GridCenterView = ({
@@ -43,7 +43,7 @@ export const GridCenterView = ({
         />
       ) : EVENT_ROOM_IDS.some(id => window.location.href.includes(id)) ? (
         <div className="h-full w-full grid place-items-center p-5">
-          <a href="https://100ms.live" target="_blank" rel="noreferrer">
+          <a href="https://community.100ms.live/developer-community-meetup-october" target="_blank" rel="noreferrer">
             <img
               className="w-full rounded-lg shadow-lg"
               alt=""

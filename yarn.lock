@@ -7,18 +7,18 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.5.tgz#d9c1ae24cedecc6eca1f0067028de658db9834fd"
   integrity sha512-QGXLmrN00GzlMEjAoE2Oo+YX4/E80VMGola3u8J1qwM/6fUqWTrDPyjMyHKoB9yLbLh4W7MHQRdJtU8kEIx13g==
 
-"@100mslive/hms-video-react@0.3.86":
-  version "0.3.86"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.86.tgz#285d21c187d3645040f8c4d03f9d093d97707c09"
-  integrity sha512-pmpTESCDcDdPStUAQZQJ1AQH608HM6jMIRnAHUwCUrjWEk3mKiTdviaqIaIP84s+4Bj0g4n6wLxoV4KuomOf1g==
+"@100mslive/hms-video-react@^0.3.89":
+  version "0.3.89"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.89.tgz#5eba4f759ddde589cefbf711df665030ed7aac31"
+  integrity sha512-2tX7HM/ed6SvJ6VMm5HzYZ3MQB/04nGWY8ulyGa5bNcNxxxRyFrH1gbY+IyVKkQz0F5GbMeF9shWGRuOEJJw3A==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.61"
+    "@100mslive/hms-video-store" "0.2.66"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
     clsx "^1.1.1"
-    lodash "^4.17.21"
-    lodash-es "^4.17.21"
+    lodash.merge "^4.6.2"
+    lodash.reduce "^4.6.0"
     postcss "8.2.10"
     react-click-away-listener "^2.0.3"
     react-intersection-observer "^8.31.1"
@@ -30,19 +30,19 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.61":
-  version "0.2.61"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.61.tgz#ba0865f548aef8cbc03ab46166f2f4b2d1ee8ad1"
-  integrity sha512-LOOg3PhtKc1/vBvFbzMXi9k1pnh1gUTCwtodz71nfvAqPzcJCiSq2zy7LYHV1E0c8FNY50OalZTaExUBnn2PJw==
+"@100mslive/hms-video-store@0.2.66":
+  version "0.2.66"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.66.tgz#95494ef42573536dd9ab47a35a0ddad4433ffa1e"
+  integrity sha512-aE+b6GZ7teV/QCTlw+PzHInq+e8WrrmGb0RqU6uBjJuU7QAVQbSeW90IGPnAcQk4bVMq6ltUv9KMyu0TwFcpjw==
   dependencies:
     immer "^9.0.6"
     reselect "^4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.0.207":
-  version "0.0.207"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.0.207.tgz#996312ee9512d17a415311122df0a631c6dbc3e8"
-  integrity sha512-sA+/8SnavL9hHsUDWW6ql/TEpNAgIB4qD0jET70p53J3khYByrYfInG0sRsp5EN6G+2RdIU73fjj5xhfjX0pVw==
+"@100mslive/hms-video@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.0.tgz#df8bd7833d0687647d7b676ce6c44cafed4e5f35"
+  integrity sha512-EuTa0oKgUjVkoCqsR0g2Mxep97NmNnhjamhAKAWdc0CeC9DfiI4lH7B44A12ZLVlhs5jvD6sBVg2hejItxH6tA==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -7649,11 +7649,6 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash-es@^4.17.21:
-  version "4.17.21"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
-  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
-
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
@@ -7678,6 +7673,11 @@ lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+lodash.reduce@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.reduce/-/lodash.reduce-4.6.0.tgz#f1ab6b839299ad48f784abbf476596f03b914d3b"
+  integrity sha1-8atrg5KZrUj3hKu/R2WW8DuRTTs=
 
 lodash.template@^4.5.0:
   version "4.5.0"
