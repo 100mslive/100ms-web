@@ -45,6 +45,23 @@ const envVideoPlaylist = JSON.parse(
   process.env.REACT_APP_VIDEO_PLAYLIST || "[]"
 );
 
+const defaultUiSettings = {
+  maxTileCount: 9,
+  subscribedNotifications: {
+    "PEER_JOINED": false,
+    "PEER_LEFT": false,
+    "NEW_MESSAGE": false,
+    "ERROR": true
+  },
+  activeLayout:{
+    "ACTIVESPEAKERTOGGLE":false,
+  }
+}
+
+const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
+  ? JSON.parse(localStorage.getItem(UI_SETTINGS_KEY))
+  : defaultUiSettings;
+
 const AppContextProvider = ({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
@@ -67,8 +84,22 @@ const AppContextProvider = ({
     loginInfo: initialLoginInfo,
     maxTileCount: 9,
     localAppPolicyConfig: {},
-    subscribedNotifications: { "PEER_JOINED": false, "PEER_LEFT": false, "NEW_MESSAGE": true, "ERROR": true }
+    subscribedNotifications: uiSettingsFromStorage.subscribedNotifications,
+    activeLayout:uiSettingsFromStorage.activeLayout
   });
+
+  useEffect(() => {
+    localStorage.setItem(UI_SETTINGS_KEY, JSON.stringify({
+      maxTileCount: state.maxTileCount,
+      subscribedNotifications: state.subscribedNotifications,
+      activeLayout:state.activeLayout
+    }));
+  }, [state.maxTileCount, state.subscribedNotifications,state.activeLayout])
+
+  const customLeave = useCallback(() => {
+    console.log("User is leaving the room");
+    hmsActions.leave();
+  }, [hmsActions]);
 
   useEffect(() => {
     function resetHeight() {
@@ -116,15 +147,27 @@ const AppContextProvider = ({
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
-  const deepSetSubscribedNotifications = notification => {
-    setState(prevState => ({ ...prevState, subscribedNotifications: { ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed }}));
-  };
+  const deepSetSubscribedNotifications = notification =>
+    setState(prevState => ({
+      ...prevState,
+      subscribedNotifications: {
+        ...prevState.subscribedNotifications, [notification.type]: notification.isSubscribed
+      }
+    }));
+    const deepSetActiveLayout = layout => setState(prevState=>({...prevState,
+    activeLayout:{
+      ...prevState.activeLayout,[layout.type]:layout.isActive
+    }
+    }))
+
   return (
     <AppContext.Provider
       value={{
         setLoginInfo: deepSetLoginInfo,
         setMaxTileCount: deepSetMaxTiles,
         setSubscribedNotifications: deepSetSubscribedNotifications,
+        setactiveLayout:deepSetActiveLayout,
+        activeLayout:state.activeLayout,
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,

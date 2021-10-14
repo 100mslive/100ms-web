@@ -47,6 +47,8 @@ export const MoreSettings = () => {
     maxTileCount,
     subscribedNotifications,
     setSubscribedNotifications,
+    activeLayout,
+    setactiveLayout,
     appPolicyConfig: { selfRoleChangeTo },
   } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
@@ -90,18 +92,26 @@ export const MoreSettings = () => {
 
   const onNotificationChange = notification => {
     setSubscribedNotifications(notification);
-  }
+  };
+  const onLayoutChange = layout => {
+    setactiveLayout(layout);
+    console.log("hi",layout);
+  };
 
   const uiSettingsProps = {
     sliderProps: {
       onTileCountChange: onChange,
-      maxTileCount
+      maxTileCount,
     },
     notificationProps: {
       onNotificationChange,
-      subscribedNotifications
-    }
-  }
+      subscribedNotifications,
+    },
+    layoutProps: {
+      onLayoutChange,
+      activeLayout,
+    },
+  };
   const getText = useCallback(() => {
     let text = "";
     if (rtmp.running) {
