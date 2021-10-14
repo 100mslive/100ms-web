@@ -32,6 +32,7 @@ export const GridCenterView = ({
         hideSidePane && !isChatOpen ? "w-full" : "w-full md:w-4/5"
       }`}
     >
+      {console.log("inside grid",peers)}
       {peers && peers.length > 0 ? (
         <VideoList
           peers={peers}

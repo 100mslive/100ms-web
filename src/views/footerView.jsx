@@ -154,6 +154,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     },
     [hmsActions]
   );
+  
 
   const leftComponents = [];
   const isAudioScreenshare = !video && !!audio;
