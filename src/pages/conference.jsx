@@ -7,11 +7,13 @@ import { ConferenceMainView } from "../views/mainView";
 import {
   Button,
   MessageModal,
+  selectIsConnectedToRoom,
   selectRoleChangeRequest,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/hms-video-react";
 import { Notifications } from "../views/components/notifications/Notifications";
+import FullPageProgress from "../views/components/FullPageSpinner";
 
 export const Conference = () => {
   const history = useHistory();
@@ -22,6 +24,7 @@ export const Conference = () => {
   const toggleChat = useCallback(() => {
     setIsChatOpen(open => !open);
   }, []);
+  const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);
   const roleChangeRequest = useHMSStore(selectRoleChangeRequest);
   const hmsActions = useHMSActions();
 
@@ -29,7 +32,7 @@ export const Conference = () => {
     setIsParticipantListOpen(value);
   }, []);
 
-  const { loginInfo, leave } = context;
+  const { loginInfo } = context;
 
   useEffect(() => {
     if (!roomId) {
@@ -43,10 +46,14 @@ export const Conference = () => {
     }
     return () => {
       // This is needed to handle mac touchpad swipe gesture
-      leave();
+      hmsActions.leave();
     };
     // eslint-disable-next-line
   }, []);
+
+  if (!isConnectedToRoom) {
+    return <FullPageProgress />;
+  }
 
   return (
     <div className="w-full h-full flex flex-col dark:bg-black">

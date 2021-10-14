@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import {
   useHMSNotifications,
@@ -13,22 +13,36 @@ import {
 } from "@100mslive/hms-video-react";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
+import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
+import { AppContext } from "../../../store/AppContext";
+import { TrackMuteAllModal } from "./TrackMuteAllModal";
 
 export function Notifications() {
   const notification = useHMSNotifications();
   const hmsActions = useHMSActions();
   const history = useHistory();
   const params = useParams();
-
+  const { subscribedNotifications } = useContext(AppContext);
   useEffect(() => {
     if (!notification) {
       return;
     }
     switch (notification.type) {
       case HMSNotificationTypes.PEER_JOINED:
-        console.log("[Peer Joined]", notification.data);
+        console.debug("[Peer Joined]", notification.data);
+        if (!subscribedNotifications.PEER_JOINED) return;
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <PersonIcon className="mr-2" />
+              {notification.data?.name} joined
+            </Text>
+          ),
+        });
         break;
       case HMSNotificationTypes.PEER_LEFT:
+        console.debug("[Peer Left]", notification.data);
+        if (!subscribedNotifications.PEER_LEFT) return;
         hmsToast("", {
           left: (
             <Text classes={{ root: "flex" }}>
@@ -43,13 +57,14 @@ export function Notifications() {
         if (isMobileDevice()) {
           return;
         }
+        if (!subscribedNotifications.NEW_MESSAGE) return;
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
-        console.log("[Track Added] data", notification.data);
+        console.debug("[Track Added] data", notification.data);
         break;
       case HMSNotificationTypes.TRACK_REMOVED:
-        console.log("[Track Removed]", notification);
+        console.debug("[Track Removed]", notification);
         break;
       case HMSNotificationTypes.TRACK_MUTED:
         console.log("[Track Muted]", notification);
@@ -59,20 +74,39 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.ERROR:
         // show button action when the error is terminal
+        if (!subscribedNotifications.ERROR) return;
         if (notification.data?.isTerminal) {
+          if (notification.data?.code === 6008) {
+            hmsToast("", {
+              left: (
+                <Text classes={{ root: "flex" }}>
+                  {`Error: ${notification.data?.message}`}
+                </Text>
+              ),
+              toastProps: {
+                autoClose: false,
+              },
+            });
+            setTimeout(() => {
+              history.push("/");
+            }, 2000);
+            return;
+          }
           hmsToast("", {
             center: (
               <div className="flex">
                 <Text classes={{ root: "mr-2" }}>
-                  We couldn’t reconnect you. When you’re back online, try
-                  joining the room.
+                  {notification.data?.message ||
+                    "We couldn’t reconnect you. When you’re back online, try joining the room."}
                 </Text>
                 <Button
                   variant="emphasized"
                   classes={{
                     root: "self-center mr-2",
                   }}
-                  onClick={() => window.location.reload()}
+                  onClick={() => {
+                    window.location.reload();
+                  }}
                 >
                   Rejoin
                 </Button>
@@ -82,32 +116,6 @@ export function Notifications() {
           return;
         }
         if (notification.data?.code === 3008) {
-          const { clearToast } = hmsToast("", {
-            center: (
-              <div className="flex">
-                <Text classes={{ root: "mr-2" }}>
-                  {notification.data?.message}
-                </Text>
-                <Button
-                  variant="emphasized"
-                  classes={{
-                    root: "self-center mr-2",
-                  }}
-                  onClick={async () => {
-                    await hmsActions.unblockAudio();
-                    if (clearToast) {
-                      clearToast();
-                    }
-                  }}
-                >
-                  Unblock
-                </Button>
-              </div>
-            ),
-            toastProps: {
-              autoClose: false,
-            },
-          });
           return;
         }
         hmsToast("", {
@@ -189,6 +197,8 @@ export function Notifications() {
     <>
       <HMSToastContainer />
       <TrackUnmuteModal notification={notification} />
+      <TrackMuteAllModal notification={notification} />
+      <AutoplayBlockedModal />
     </>
   );
 }

@@ -1,20 +1,8 @@
-import React, {
-  useState,
-  useCallback,
-  useContext,
-  useRef,
-  Fragment,
-} from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   useHMSStore,
   ControlBar,
-  ContextMenu,
-  ContextMenuItem,
-  HangUpIcon,
-  MicOffIcon,
-  MicOnIcon,
-  CamOffIcon,
-  CamOnIcon,
+  AudioPlaylist,
   VirtualBackgroundIcon,
   NoiseSupressionIcon,
   Button,
@@ -22,53 +10,46 @@ import {
   ChatIcon,
   ChatUnreadIcon,
   MusicIcon,
+  VideoPlaylistIcon,
   VerticalDivider,
   MessageModal,
   useHMSActions,
   selectIsLocalScreenShared,
-  selectIsLocalAudioEnabled,
-  selectIsLocalVideoDisplayEnabled,
   selectUnreadHMSMessagesCount,
   isMobileDevice,
   selectIsAllowedToPublish,
   selectIsLocalVideoPluginPresent,
   selectIsLocalAudioPluginPresent,
-  selectPermissions,
-  selectLocalPeer,
+  selectLocalPeerID,
   selectScreenSharesByPeerId,
   Text,
+  selectVideoPlaylist,
+  VideoPlaylist,
+  selectIsConnectedToRoom,
 } from "@100mslive/hms-video-react";
-import { useHistory, useParams } from "react-router-dom";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
-import { AppContext } from "../store/AppContext";
 import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
+import { AudioVideoToggle } from "./components/AudioVideoToggle";
+import { LeaveRoom } from "./components/LeaveRoom";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
-  const localPeer = useHMSStore(selectLocalPeer);
-  const { video, audio } = useHMSStore(
-    selectScreenSharesByPeerId(localPeer?.id)
-  );
-  const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
-  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
+  const localPeer = useHMSStore(selectLocalPeerID);
+  const { video, audio } = useHMSStore(selectScreenSharesByPeerId(localPeer));
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
   const isVBPresent = useHMSStore(
     selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
   );
   const hmsActions = useHMSActions();
-  const { isConnected, leave } = useContext(AppContext);
-  const history = useHistory();
-  const params = useParams();
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
+
   const pluginRef = useRef(null);
   const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
-  const permissions = useHMSStore(selectPermissions);
-  const [showEndRoomModal, setShowEndRoomModal] = useState(false);
+  const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [shareAudioModal, setShareAudioModal] = useState(false);
-  const [lockRoom, setLockRoom] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
 
   const isNoiseSuppression = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
@@ -88,9 +69,13 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   async function addNoiseSuppressionPlugin() {
     createNoiseSuppresionPlugin();
-    await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+    try {
+      await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
+    } catch (err) {
+      console.error("add noise suppression plugin failed", err);
+    }
   }
-  //
+
   async function removeNoiseSuppressionPlugin() {
     if (audiopluginRef.current) {
       await hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
@@ -109,7 +94,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     createVBPlugin();
     await pluginRef.current.setBackground(getRandomVirtualBackground());
     //Running VB on every alternate frame rate for optimized cpu usage
-    await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
+    try {
+      await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
+    } catch (err) {
+      console.error("add virtual background plugin failed", err);
+    }
   }
 
   async function removePlugin() {
@@ -128,22 +117,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       ? removeNoiseSuppressionPlugin()
       : addNoiseSuppressionPlugin();
   }
-
-  const toggleAudio = useCallback(async () => {
-    try {
-      await hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled);
-    } catch (err) {
-      console.error("Cannot toggle audio", err);
-    }
-  }, [hmsActions, isLocalAudioEnabled]);
-
-  const toggleVideo = useCallback(async () => {
-    try {
-      await hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled);
-    } catch (err) {
-      console.error("Cannot toggle video", err);
-    }
-  }, [hmsActions, isLocalVideoEnabled]);
 
   const toggleScreenShare = useCallback(
     async (enable, audioOnly = false) => {
@@ -181,15 +154,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     },
     [hmsActions]
   );
-
-  function leaveRoom() {
-    leave();
-    if (params.role) {
-      history.push("/leave/" + params.roomId + "/" + params.role);
-    } else {
-      history.push("/leave/" + params.roomId);
-    }
-  }
 
   const leftComponents = [];
   const isAudioScreenshare = !video && !!audio;
@@ -233,43 +197,29 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </Button>
     );
+    isAllowedToPublish.screen &&
+      leftComponents.push(<AudioPlaylist key="audioPlaylist" />);
+    isAllowedToPublish.screen &&
+      leftComponents.push(
+        <VideoPlaylist
+          key="videoPlaylist"
+          trigger={<VideoPlaylistIcon key="videoPlaylistIcon" />}
+          active={activeVideoPlaylist}
+        />
+      );
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
+  if (!isConnected) {
+    return null;
+  }
 
-  return isConnected ? (
+  return (
     <>
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
-          isAllowedToPublish.audio ? (
-            <Button
-              iconOnly
-              variant="no-fill"
-              iconSize="md"
-              classes={{ root: "mx-2" }}
-              shape="rectangle"
-              active={!isLocalAudioEnabled}
-              onClick={toggleAudio}
-              key="toggleAudio"
-            >
-              {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
-            </Button>
-          ) : null,
-          isAllowedToPublish.video ? (
-            <Button
-              iconOnly
-              variant="no-fill"
-              iconSize="md"
-              classes={{ root: "mx-2" }}
-              shape="rectangle"
-              active={!isLocalVideoEnabled}
-              onClick={toggleVideo}
-              key="toggleVideo"
-            >
-              {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
-            </Button>
-          ) : null,
+          <AudioVideoToggle key="audioVideoToggle" />,
           isAllowedToPublish.screen && !isMobileDevice() ? (
             <Button
               key="toggleScreenShare"
@@ -317,142 +267,13 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           ),
           <MoreSettings key="MoreSettings" />,
         ]}
-        rightComponents={[
-          <ContextMenu
-            classes={{
-              trigger: "w-auto h-auto",
-              root: "static",
-              menu: "w-56 bg-white dark:bg-gray-100",
-              menuItem: "hover:bg-transparent-0 dark:hover:bg-transparent-0",
-            }}
-            onTrigger={value => {
-              if (permissions?.endRoom) {
-                setShowMenu(value);
-              } else {
-                leaveRoom();
-              }
-            }}
-            menuOpen={showMenu}
-            key="LeaveAction"
-            trigger={
-              <Button
-                size="md"
-                shape="rectangle"
-                variant="danger"
-                iconOnly={isMobileDevice()}
-                active={isMobileDevice()}
-                key="LeaveRoom"
-              >
-                <HangUpIcon className={isMobileDevice() ? "" : "mr-2"} />
-                {isMobileDevice() ? "" : "Leave room"}
-              </Button>
-            }
-            menuProps={{
-              anchorOrigin: {
-                vertical: "top",
-                horizontal: "center",
-              },
-              transformOrigin: {
-                vertical: 136,
-                horizontal: "center",
-              },
-            }}
-          >
-            <ContextMenuItem
-              label="Leave Room"
-              key="leaveRoom"
-              classes={{
-                menuTitleContainer: "hidden",
-                menuItemChildren: "my-1 w-full overflow-hidden",
-              }}
-            >
-              <Button
-                shape="rectangle"
-                variant="standard"
-                classes={{ root: "w-full" }}
-                onClick={() => {
-                  leaveRoom();
-                }}
-              >
-                Leave without ending room
-              </Button>
-            </ContextMenuItem>
-
-            {permissions?.endRoom && (
-              <ContextMenuItem
-                label="End Room"
-                key="endRoom"
-                classes={{
-                  menuTitleContainer: "hidden",
-                  menuItemChildren: "my-1 w-full",
-                }}
-              >
-                <Button
-                  shape="rectangle"
-                  variant="danger"
-                  classes={{ root: "w-full" }}
-                  onClick={() => {
-                    setShowEndRoomModal(true);
-                  }}
-                >
-                  End Room for all
-                </Button>
-              </ContextMenuItem>
-            )}
-          </ContextMenu>,
-        ]}
-        audioButtonOnClick={toggleAudio}
-        videoButtonOnClick={toggleVideo}
+        rightComponents={[<LeaveRoom key="leaveRoom" />]}
         backgroundButtonOnClick={handleVirtualBackground}
-        isAudioMuted={!isLocalAudioEnabled}
-        isVideoMuted={!isLocalVideoEnabled}
         isBackgroundEnabled={isVBPresent}
       />
       <MessageModal
         {...errorModal}
         onClose={() => setErrorModal(initialModalProps)}
-      />
-      <MessageModal
-        show={showEndRoomModal}
-        onClose={() => {
-          setShowEndRoomModal(false);
-          setLockRoom(false);
-        }}
-        title="End Room"
-        body="Are you sure you want to end the room?"
-        footer={
-          <div className="flex">
-            <div className="flex items-center">
-              <label className="text-base dark:text-white text-gray-100">
-                <input
-                  type="checkbox"
-                  className="mr-1"
-                  onChange={() => setLockRoom(prev => !prev)}
-                  checked={lockRoom}
-                />
-                <span>Lock room</span>
-              </label>
-            </div>
-            <Button
-              classes={{ root: "mr-3 ml-3" }}
-              onClick={() => {
-                setShowEndRoomModal(false);
-                setLockRoom(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => {
-                hmsActions.endRoom(lockRoom, "End Room");
-                leaveRoom();
-              }}
-            >
-              End Room
-            </Button>
-          </div>
-        }
       />
       <MessageModal
         show={shareAudioModal}
@@ -490,5 +311,5 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         classes={{ footer: "justify-center", header: "mb-2" }}
       />
     </>
-  ) : null;
+  );
 };
