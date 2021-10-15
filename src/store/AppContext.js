@@ -13,6 +13,7 @@ import {
   setUpLogRocket,
 } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
+import { UI_SETTINGS_KEY } from "../common/constants";
 
 const AppContext = React.createContext(null);
 
@@ -82,7 +83,7 @@ const AppContextProvider = ({
 
   const [state, setState] = useState({
     loginInfo: initialLoginInfo,
-    maxTileCount: 9,
+    maxTileCount: uiSettingsFromStorage.maxTileCount,
     localAppPolicyConfig: {},
     subscribedNotifications: uiSettingsFromStorage.subscribedNotifications,
     activeLayout:uiSettingsFromStorage.activeLayout
@@ -140,9 +141,9 @@ const AppContextProvider = ({
     console.log(newState); // note: component won't reflect changes at time of this log
   };
 
-  const deepSetMaxTiles = maxTiles => {
+  const deepSetMaxTiles = maxTiles =>
     setState(prevState => ({ ...prevState, maxTileCount: maxTiles }));
-  };
+
 
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));

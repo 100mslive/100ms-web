@@ -75,26 +75,6 @@ export const LeaveRoom = () => {
           },
         }}
       >
-        <ContextMenuItem
-          label="Leave Room"
-          key="leaveRoom"
-          classes={{
-            menuTitleContainer: "hidden",
-            menuItemChildren: "my-1 w-full overflow-hidden",
-          }}
-        >
-          <Button
-            shape="rectangle"
-            variant="standard"
-            classes={{ root: "w-full" }}
-            onClick={() => {
-              leaveRoom();
-            }}
-          >
-            Leave without ending room
-          </Button>
-        </ContextMenuItem>
-
         {permissions?.endRoom && (
           <ContextMenuItem
             label="End Room"
@@ -106,7 +86,7 @@ export const LeaveRoom = () => {
           >
             <Button
               shape="rectangle"
-              variant="danger"
+              variant="standard"
               classes={{ root: "w-full" }}
               onClick={() => {
                 setShowEndRoomModal(true);
@@ -116,6 +96,25 @@ export const LeaveRoom = () => {
             </Button>
           </ContextMenuItem>
         )}
+        <ContextMenuItem
+          label="Leave Room"
+          key="leaveRoom"
+          classes={{
+            menuTitleContainer: "hidden",
+            menuItemChildren: "my-1 w-full overflow-hidden",
+          }}
+        >
+          <Button
+            shape="rectangle"
+            variant="danger"
+            classes={{ root: "w-full" }}
+            onClick={() => {
+              leaveRoom();
+            }}
+          >
+            Just Leave
+          </Button>
+        </ContextMenuItem>
       </ContextMenu>
       ,
       <MessageModal
