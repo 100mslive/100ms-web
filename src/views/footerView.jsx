@@ -155,8 +155,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     [hmsActions]
   );
   
-<<<<<<< Updated upstream
-=======
 
   function leaveRoom() {
     leave();
@@ -166,7 +164,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       history.push("/leave/" + params.roomId);
     }
   }
->>>>>>> Stashed changes
 
   const leftComponents = [];
   const isAudioScreenshare = !video && !!audio;
