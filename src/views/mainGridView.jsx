@@ -48,11 +48,7 @@ export const MainGridView = ({
     showSidePane = itsOnlyMeInTheRoom || nooneIsPublishing;
   }
   let dominantSpeaker = useHMSStore(selectDominantSpeaker);
-  useEffect(() => {
-    console.log("main",dominantSpeaker)
-
-  }, [dominantSpeaker])
- 
+  
   return (
     <React.Fragment>
       <GridCenterView
