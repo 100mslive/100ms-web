@@ -12,6 +12,7 @@ import {
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
 import { AppContext } from "../store/AppContext";
+import { ActiveSpeakerView } from "./ActiveSpeakerView";
 
 export const ConferenceMainView = ({
   isChatOpen,
@@ -24,7 +25,7 @@ export const ConferenceMainView = ({
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
-  const { audioPlaylist, videoPlaylist } = useContext(AppContext);
+  const { audioPlaylist, videoPlaylist, activeLayout } = useContext(AppContext);
 
   useEffect(() => {
     // set list only when room state is connected
@@ -48,7 +49,9 @@ export const ConferenceMainView = ({
   ) {
     ViewComponent = ScreenShareView;
   } else {
-    ViewComponent = MainGridView;
+    ViewComponent = activeLayout.ACTIVESPEAKERTOGGLE
+      ? ActiveSpeakerView
+      : MainGridView;
   }
 
   return (
