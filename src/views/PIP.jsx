@@ -6,8 +6,11 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/hms-video-react";
+import * as workerTimers from "worker-timers";
 
-const drawImageCanvas = (videoTracks, canvas) => {
+const MAX_NUMBER_OF_TILES_IN_PIP = 4;
+
+const drawImageOnCanvas = (videoTracks, canvas) => {
   const numberOfParticipants = videoTracks.length;
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = "#000000";
@@ -21,7 +24,10 @@ const drawImageCanvas = (videoTracks, canvas) => {
     return;
   }
 
-  let tilesToShow = numberOfParticipants > 6 ? 6 : numberOfParticipants;
+  let tilesToShow =
+    numberOfParticipants > MAX_NUMBER_OF_TILES_IN_PIP
+      ? MAX_NUMBER_OF_TILES_IN_PIP
+      : numberOfParticipants;
   let evenTiles = tilesToShow % 2 === 0 ? tilesToShow : tilesToShow - 1;
   tilesToShow = tilesToShow % 2 === 0 ? tilesToShow : Number(tilesToShow) + 1;
 
@@ -53,24 +59,28 @@ const PIP = () => {
   const hmsActions = useHMSActions();
   const tracksMap = useHMSStore(selectTracksMap);
   const remotePeers = useHMSStore(selectRemotePeers);
-  const fps = 30;
+  const FPS = 30;
 
   useEffect(() => {
+    // new canvas element
     const canvas = document.createElement("canvas");
-    canvas.width = 600;
+    canvas.width = 900;
     canvas.height = 600;
     window.pip_canvas = canvas;
 
+    // new video element with src from canvas stream
     const pipVideo = document.createElement("video");
     pipVideo.srcObject = canvas.captureStream();
     window.pip_video = pipVideo;
+
+    window.canvas_interval = null;
 
     pipVideo.addEventListener(
       "leavepictureinpicture",
       () => {
         console.log("leave callback");
         setIsPipOn(false);
-        clearInterval(window.canvas_interval);
+        workerTimers.clearInterval(window.canvas_interval);
       },
       false
     );
@@ -93,20 +103,27 @@ const PIP = () => {
       }
     }
 
+    /**
+     * If PIP element is already present then peers might have changed, so rendering the
+     * new peer video tiles along with others.
+     */
+
     if (!!document.pictureInPictureElement) {
-      clearInterval(window.canvas_interval);
-      window.canvas_interval = window.setInterval(() => {
-        drawImageCanvas(videoElements, canvas);
-      }, 1000 / fps);
-      // await pipVideo.play();
+      workerTimers.clearInterval(window.canvas_interval);
+      window.canvas_interval = workerTimers.setInterval(() => {
+        drawImageOnCanvas(videoElements, canvas);
+      }, 1000 / FPS);
       return;
     }
 
+    /**
+     * isPipOn is toggled only by the PIP button in UI and "leavepictureinpicture" event.
+     * If isPipOn is true then we have to request for PIP element.
+     */
     if (isPipOn) {
-      clearInterval(window.canvas_interval);
-      window.canvas_interval = window.setInterval(() => {
-        drawImageCanvas(videoElements, canvas);
-      }, 1000 / fps);
+      window.canvas_interval = workerTimers.setInterval(() => {
+        drawImageOnCanvas(videoElements, canvas);
+      }, 1000 / FPS);
       await pipVideo.play();
       pipVideo.requestPictureInPicture();
     }
@@ -115,7 +132,6 @@ const PIP = () => {
   const togglePIP = () => {
     if (!isPipOn) {
       setIsPipOn(true);
-      // createAndDrawOnCanvas(videoTracks, 30, canvasInterval, setIsPipOn);
     } else {
       document.exitPictureInPicture();
       setIsPipOn(false);
