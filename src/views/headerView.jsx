@@ -9,17 +9,11 @@ import {
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
   useHMSActions,
-  Button,
-  selectRemotePeers,
-  selectTracksMap,
-  selectVideoTrackByPeerID,
-  selectLocalPeer,
   RecordingDot,
   GlobeIcon,
   selectRecordingState,
   selectRTMPState,
 } from "@100mslive/hms-video-react";
-import React, { useState, useEffect } from "react";
 import PIP from "./PIP";
 
 const SpeakerTag = () => {
