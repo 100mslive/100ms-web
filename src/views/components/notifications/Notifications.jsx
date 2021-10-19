@@ -30,7 +30,7 @@ export function Notifications() {
     switch (notification.type) {
       case HMSNotificationTypes.PEER_LIST:
         console.debug("[Peer List]", notification.data);
-        if (!subscribedNotifications.PEER_JOINED || !notification.data?.length)
+        if (!subscribedNotifications.PEER_JOINED)
           return;
         hmsToast("", {
           left: (
