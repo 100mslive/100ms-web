@@ -47,8 +47,8 @@ export const MoreSettings = () => {
     maxTileCount,
     subscribedNotifications,
     setSubscribedNotifications,
-    activeLayout,
-    setactiveLayout,
+    uiViewMode,
+    setuiViewMode,
     appPolicyConfig: { selfRoleChangeTo },
   } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
@@ -93,9 +93,8 @@ export const MoreSettings = () => {
   const onNotificationChange = notification => {
     setSubscribedNotifications(notification);
   };
-  const onLayoutChange = layout => {
-    setactiveLayout(layout);
-    console.log("hi", layout);
+  const isActiveSpeakerMode = layout => {
+    setuiViewMode(layout);
   };
 
   const uiSettingsProps = {
@@ -108,8 +107,8 @@ export const MoreSettings = () => {
       subscribedNotifications,
     },
     layoutProps: {
-      onLayoutChange,
-      activeLayout,
+      isActiveSpeakerMode,
+      uiViewMode,
     },
   };
   const getText = useCallback(() => {

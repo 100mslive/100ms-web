@@ -55,7 +55,7 @@ const defaultUiSettings = {
     NEW_MESSAGE: false,
     ERROR: true,
   },
-  activeLayout: {
+  uiViewMode: {
     ACTIVESPEAKERTOGGLE: false,
   },
 };
@@ -86,8 +86,9 @@ const AppContextProvider = ({
     loginInfo: initialLoginInfo,
     maxTileCount: uiSettingsFromStorage.maxTileCount,
     localAppPolicyConfig: {},
-    subscribedNotifications: uiSettingsFromStorage.subscribedNotifications,
-    activeLayout: uiSettingsFromStorage.activeLayout,
+    subscribedNotifications:
+      uiSettingsFromStorage.subscribedNotifications || {},
+    uiViewMode: uiSettingsFromStorage.uiViewMode || {},
   });
 
   useEffect(() => {
@@ -96,10 +97,10 @@ const AppContextProvider = ({
       JSON.stringify({
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,
-        activeLayout: state.activeLayout,
+        uiViewMode: state.uiViewMode,
       })
     );
-  }, [state.maxTileCount, state.subscribedNotifications, state.activeLayout]);
+  }, [state.maxTileCount, state.subscribedNotifications, state.uiViewMode]);
 
   /* const customLeave = useCallback(() => {
     console.log("User is leaving the room");
@@ -159,11 +160,11 @@ const AppContextProvider = ({
         [notification.type]: notification.isSubscribed,
       },
     }));
-  const deepSetActiveLayout = layout =>
+  const deepSetuiViewMode = layout =>
     setState(prevState => ({
       ...prevState,
-      activeLayout: {
-        ...prevState.activeLayout,
+      uiViewMode: {
+        ...prevState.uiViewMode,
         [layout.type]: layout.isActive,
       },
     }));
@@ -174,8 +175,8 @@ const AppContextProvider = ({
         setLoginInfo: deepSetLoginInfo,
         setMaxTileCount: deepSetMaxTiles,
         setSubscribedNotifications: deepSetSubscribedNotifications,
-        setactiveLayout: deepSetActiveLayout,
-        activeLayout: state.activeLayout,
+        setuiViewMode: deepSetuiViewMode,
+        uiViewMode: state.uiViewMode,
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,

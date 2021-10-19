@@ -25,7 +25,7 @@ export const ConferenceMainView = ({
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
-  const { audioPlaylist, videoPlaylist, activeLayout } = useContext(AppContext);
+  const { audioPlaylist, videoPlaylist, uiViewMode } = useContext(AppContext);
 
   useEffect(() => {
     // set list only when room state is connected
@@ -49,7 +49,7 @@ export const ConferenceMainView = ({
   ) {
     ViewComponent = ScreenShareView;
   } else {
-    ViewComponent = activeLayout.ACTIVESPEAKERTOGGLE
+    ViewComponent = uiViewMode.ACTIVESPEAKERTOGGLE
       ? ActiveSpeakerView
       : MainGridView;
   }
