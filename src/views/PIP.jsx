@@ -9,7 +9,9 @@ import {
 } from "@100mslive/hms-video-react";
 import * as workerTimers from "worker-timers";
 
-const MAX_NUMBER_OF_TILES_IN_PIP = 4;
+import { hmsToast } from "./components/notifications/hms-toast";
+
+import { MAX_NUMBER_OF_TILES_IN_PIP } from "../common/utils";
 
 const drawImageOnCanvas = (videoTracks, canvas) => {
   const numberOfParticipants = videoTracks.length;
@@ -67,39 +69,62 @@ const PIP = () => {
     const canvas = document.createElement("canvas");
     canvas.width = 900;
     canvas.height = 600;
-    window.pip_canvas = canvas;
 
     // new video element with src from canvas stream
     const pipVideo = document.createElement("video");
     pipVideo.srcObject = canvas.captureStream();
-    window.pip_video = pipVideo;
 
-    window.canvas_interval = null;
+    window.pip = {
+      video: pipVideo,
+      canvas: canvas,
+      canvasInterval: null,
+    };
+
+    const leavePIPEventListener = () => {
+      setIsPipOn(false);
+      workerTimers.clearInterval(window.pip.canvasInterval);
+    };
 
     pipVideo.addEventListener(
       "leavepictureinpicture",
-      () => {
-        console.log("leave callback");
-        setIsPipOn(false);
-        workerTimers.clearInterval(window.canvas_interval);
-      },
+      leavePIPEventListener,
       false
     );
+    //cleanup
+    return () => {
+      pipVideo.removeEventListener(
+        "leavepictureinpicture",
+        leavePIPEventListener,
+        false
+      );
+    };
   }, []);
 
-  useEffect(async () => {
-    const canvas = window.pip_canvas;
-    const pipVideo = window.pip_video;
+  useEffect(() => {
+    const canvas = window.pip.canvas;
+    const pipVideo = window.pip.video;
+
+    const playVideoAndRequestPIP = async () => {
+      await pipVideo.play();
+      pipVideo.requestPictureInPicture();
+    };
+
+    const attachHMSVideo = async (trackID, videoElement) => {
+      await hmsActions.attachVideo(trackID, videoElement);
+    };
 
     let videoElements = [];
-    for (let i = 0; i < remotePeers.length; i++) {
-      let peer = remotePeers[i];
-      let track = tracksMap[peer.videoTrack];
+    for (const peer of remotePeers) {
+      const track = tracksMap[peer.videoTrack];
       if (track && track.enabled === true && track.displayEnabled === true) {
         const videoElement = document.createElement("video");
         videoElement.autoplay = true;
         videoElement.playsinline = true;
-        hmsActions.attachVideo(track.id, videoElement);
+        try {
+          attachHMSVideo(track.id, videoElement);
+        } catch (error) {
+          hmsToast(error.message);
+        }
         videoElements.push(videoElement);
       }
     }
@@ -110,8 +135,8 @@ const PIP = () => {
      */
 
     if (!!document.pictureInPictureElement) {
-      workerTimers.clearInterval(window.canvas_interval);
-      window.canvas_interval = workerTimers.setInterval(() => {
+      workerTimers.clearInterval(window.pip.canvasInterval);
+      window.pip.canvasInterval = workerTimers.setInterval(() => {
         drawImageOnCanvas(videoElements, canvas);
       }, 1000 / FPS);
       return;
@@ -122,11 +147,16 @@ const PIP = () => {
      * If isPipOn is true then we have to request for PIP element.
      */
     if (isPipOn) {
-      window.canvas_interval = workerTimers.setInterval(() => {
+      window.pip.canvasInterval = workerTimers.setInterval(() => {
         drawImageOnCanvas(videoElements, canvas);
       }, 1000 / FPS);
-      await pipVideo.play();
-      pipVideo.requestPictureInPicture();
+
+      try {
+        playVideoAndRequestPIP();
+      } catch (error) {
+        hmsToast(error.message);
+        setIsPipOn(false);
+      }
     }
   }, [remotePeers, tracksMap, isPipOn]);
 

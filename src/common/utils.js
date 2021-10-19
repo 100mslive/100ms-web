@@ -1,6 +1,9 @@
 import { hmsToast } from "../views/components/notifications/hms-toast";
 import screenfull from "screenfull";
 
+export const MAX_NUMBER_OF_TILES_IN_PIP = 4;
+export const FPS = 30;
+
 export function shadeColor(color, percent) {
   let R = parseInt(color.substring(1, 3), 16);
   let G = parseInt(color.substring(3, 5), 16);
