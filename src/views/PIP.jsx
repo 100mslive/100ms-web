@@ -11,7 +11,7 @@ import * as workerTimers from "worker-timers";
 
 import { hmsToast } from "./components/notifications/hms-toast";
 
-import { MAX_NUMBER_OF_TILES_IN_PIP } from "../common/utils";
+import { MAX_NUMBER_OF_TILES_IN_PIP, PIP_FPS as FPS } from "../common/utils";
 
 const drawImageOnCanvas = (videoTracks, canvas) => {
   const numberOfParticipants = videoTracks.length;
@@ -62,7 +62,6 @@ const PIP = () => {
   const hmsActions = useHMSActions();
   const tracksMap = useHMSStore(selectTracksMap);
   const remotePeers = useHMSStore(selectRemotePeers);
-  const FPS = 30;
 
   useEffect(() => {
     // new canvas element
