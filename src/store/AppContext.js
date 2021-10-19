@@ -13,7 +13,7 @@ import {
   setUpLogRocket,
 } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
-import { UI_SETTINGS_KEY } from "../common/constants";
+import { UI_SETTINGS_KEY, USERNAME_KEY } from "../common/constants";
 
 const AppContext = React.createContext(null);
 
@@ -95,6 +95,12 @@ const AppContextProvider = ({
       })
     );
   }, [state.maxTileCount, state.subscribedNotifications]);
+
+  useEffect(() => {
+    if (state.loginInfo.username) {
+      localStorage.setItem(USERNAME_KEY, state.loginInfo.username);
+    }
+  }, [state.loginInfo.username]);
 
   useEffect(() => {
     function resetHeight() {
