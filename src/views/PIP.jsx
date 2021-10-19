@@ -5,6 +5,7 @@ import {
   selectTracksMap,
   useHMSActions,
   useHMSStore,
+  PIPIcon,
 } from "@100mslive/hms-video-react";
 import * as workerTimers from "worker-timers";
 
@@ -14,8 +15,8 @@ const drawImageOnCanvas = (videoTracks, canvas) => {
   const numberOfParticipants = videoTracks.length;
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = "#000000";
-  let w = canvas.width;
-  let h = canvas.height;
+  const w = canvas.width;
+  const h = canvas.height;
   if (numberOfParticipants === 0) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     return;
@@ -28,11 +29,11 @@ const drawImageOnCanvas = (videoTracks, canvas) => {
     numberOfParticipants > MAX_NUMBER_OF_TILES_IN_PIP
       ? MAX_NUMBER_OF_TILES_IN_PIP
       : numberOfParticipants;
-  let evenTiles = tilesToShow % 2 === 0 ? tilesToShow : tilesToShow - 1;
+  const evenTiles = tilesToShow % 2 === 0 ? tilesToShow : tilesToShow - 1;
   tilesToShow = tilesToShow % 2 === 0 ? tilesToShow : Number(tilesToShow) + 1;
 
-  let tilesW = w / 2;
-  let tilesH = h / (tilesToShow / 2);
+  const tilesW = w / 2;
+  const tilesH = h / (tilesToShow / 2);
   let startX = 0,
     startY = 0;
   let trackNumber = 0;
@@ -140,12 +141,13 @@ const PIP = () => {
 
   return (
     <Button
-      key="pip"
       variant="no-fill"
+      iconSize="md"
       shape="rectangle"
-      onClick={() => togglePIP()}
+      key="pip"
+      onClick={togglePIP}
     >
-      PIP
+      <PIPIcon />
     </Button>
   );
 };
