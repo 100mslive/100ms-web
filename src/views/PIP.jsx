@@ -11,7 +11,10 @@ import * as workerTimers from "worker-timers";
 
 import { hmsToast } from "./components/notifications/hms-toast";
 
-import { MAX_NUMBER_OF_TILES_IN_PIP, PIP_FPS as FPS } from "../common/utils";
+import {
+  MAX_NUMBER_OF_TILES_IN_PIP,
+  PIP_FPS as FPS,
+} from "../common/constants";
 
 const drawImageOnCanvas = (videoTracks, canvas) => {
   const numberOfParticipants = videoTracks.length;

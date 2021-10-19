@@ -85,4 +85,8 @@ export const defaultVideoList = [
   },
 ];
 
-export const UI_SETTINGS_KEY = 'uiSettings';
+export const UI_SETTINGS_KEY = "uiSettings";
+
+export const MAX_NUMBER_OF_TILES_IN_PIP = 4;
+
+export const PIP_FPS = 30;
