@@ -211,7 +211,7 @@ export function Notifications() {
       <HMSToastContainer />
       <TrackUnmuteModal notification={notification} />
       <TrackMuteAllModal notification={notification} />
-      {notification?.data?.code === 3008 && <AutoplayBlockedModal />}
+      <AutoplayBlockedModal notification={notification} />
     </>
   );
 }
