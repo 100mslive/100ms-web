@@ -7,12 +7,12 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.5.tgz#d9c1ae24cedecc6eca1f0067028de658db9834fd"
   integrity sha512-QGXLmrN00GzlMEjAoE2Oo+YX4/E80VMGola3u8J1qwM/6fUqWTrDPyjMyHKoB9yLbLh4W7MHQRdJtU8kEIx13g==
 
-"@100mslive/hms-video-react@^0.3.92":
-  version "0.3.92"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.92.tgz#6688e80082f4c536b7d6e2b29db41e8dbbbf0328"
-  integrity sha512-IcpUeRZFW3i7jYKVcu8jlrBU9vLbGeNxgWJJp+qHH9g9fngZxgWoIr40JJZ82RpXcGc6kFOqfACDzeMB0+xkeg==
+"@100mslive/hms-video-react@^0.3.93":
+  version "0.3.93"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.93.tgz#b144a5fdf990b8f7f17c17aa3e7b45ba053c59fa"
+  integrity sha512-NYzF02IPtJT/HJ/kSxK0hkDc2L6X6qmh/Ll8Hc1fbd1rbzq/IX/fUn2pXWiWHj6DcedcEBCgIIb27jzuZ3wOgg==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.66"
+    "@100mslive/hms-video-store" "0.2.70"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -30,19 +30,19 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.66":
-  version "0.2.66"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.66.tgz#95494ef42573536dd9ab47a35a0ddad4433ffa1e"
-  integrity sha512-aE+b6GZ7teV/QCTlw+PzHInq+e8WrrmGb0RqU6uBjJuU7QAVQbSeW90IGPnAcQk4bVMq6ltUv9KMyu0TwFcpjw==
+"@100mslive/hms-video-store@0.2.70":
+  version "0.2.70"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.70.tgz#59f4c3a1097c5554e7199318b479ed5acbdddd0d"
+  integrity sha512-kCw+Suzj/0poP1MNr+p78USvcK7yBHD3JR1JUgolTaXm65iKCoQbPSv1wqYVKLnYlpH3RbruO2cxlJtfrPmjuA==
   dependencies:
     immer "^9.0.6"
     reselect "^4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.7.tgz#5b771413989a092d6bb4e1301c3c9c54569ae7c9"
-  integrity sha512-93KCSTx6UDBMkmT/J6gdQXEXB5JIUSaUrp8Jhk1TXq+B629bcvSWURjwww9z7dW9r3YYVyrp8o+XAPpER2QSww==
+"@100mslive/hms-video@^0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.10.tgz#d4ac07f4b3327971d89f6d5bbca41b26df50285c"
+  integrity sha512-yC1/ED0W1nddbtBQN8HuA7C8fb2WAP5QW6q+X2JlSou6mxf5YJH4Sx1RBx58+lpTDt846P9TdGjNr37w8pikEg==
   dependencies:
     events "^3.3.0"
     sdp-transform "^2.14.1"
@@ -1216,7 +1216,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.15.4"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.15.4.tgz#fd17d16bfdf878e6dd02d19753a39fa8a8d9c84a"
   integrity sha512-99catp6bHCaxr4sJ/DbTGgHS4+Rs2RVd2g7iOap6SLGPDknRK9ztKNsE/Fg6QhSeh1FGE5f6gHGQmvvn3I3xhw==
@@ -5431,14 +5431,6 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
-
-fast-unique-numbers@^6.0.7:
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/fast-unique-numbers/-/fast-unique-numbers-6.0.7.tgz#bd94852bf3cbaa0a059a29e7ec63a4faa7be3898"
-  integrity sha512-hZRTy4/4M/oc8quHXpd03voJfEv6+uNBV+qK2aBIjIMbqLQgwhznFJHtt3uS62u3ZhxzvshAM8kmnJBKTZZwFw==
-  dependencies:
-    "@babel/runtime" "^7.15.4"
-    tslib "^2.3.1"
 
 fastq@^1.6.0:
   version "1.13.0"
@@ -11817,7 +11809,7 @@ tslib@^1.8.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.3, tslib@^2.3.1:
+tslib@^2.0.3:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
@@ -12670,34 +12662,6 @@ worker-rpc@^0.1.0:
   integrity sha512-P1WjMrUB3qgJNI9jfmpZ/htmBEjFh//6l/5y8SD9hg1Ef5zTTVVoRjTrTEzPrNBQvmhMxkoTsjOXN10GWU7aCg==
   dependencies:
     microevent.ts "~0.1.1"
-
-worker-timers-broker@^6.0.61:
-  version "6.0.61"
-  resolved "https://registry.yarnpkg.com/worker-timers-broker/-/worker-timers-broker-6.0.61.tgz#53019723026e597f2c1c0a088a89cf843cc9b2fe"
-  integrity sha512-ziKh8kkaQPBq3qceL4M6qEHlI4ZRnDMYSu1HJcF8RXeEL9tG/LFy8f9oovEVhZAQHlXRmBfDC4SIAWM3QZRYiw==
-  dependencies:
-    "@babel/runtime" "^7.15.4"
-    fast-unique-numbers "^6.0.7"
-    tslib "^2.3.1"
-    worker-timers-worker "^7.0.28"
-
-worker-timers-worker@^7.0.28:
-  version "7.0.28"
-  resolved "https://registry.yarnpkg.com/worker-timers-worker/-/worker-timers-worker-7.0.28.tgz#b931cf5389bd168953f8074afdb3f62cbe2a8903"
-  integrity sha512-O+TIW+Gyi7dzjtVutC6JZSJMZt0Z75pbyB3zstIZVhZAU5rVChZ4ZvxGx76uT0chg25ExBypObvo3yQcbu50tA==
-  dependencies:
-    "@babel/runtime" "^7.15.4"
-    tslib "^2.3.1"
-
-worker-timers@^7.0.40:
-  version "7.0.40"
-  resolved "https://registry.yarnpkg.com/worker-timers/-/worker-timers-7.0.40.tgz#6233e89196f875e342bda938c6bb854ca6c872d7"
-  integrity sha512-UKJfiUBe6hRdgeBvNQge5iiWR6Rfxv0smeZNhlRS8ZD12aXToJzsgmnVsUoaK/QgEM/+hiOH1AXBVmBnxWNI7A==
-  dependencies:
-    "@babel/runtime" "^7.15.4"
-    tslib "^2.3.1"
-    worker-timers-broker "^6.0.61"
-    worker-timers-worker "^7.0.28"
 
 wrap-ansi@^5.1.0:
   version "5.1.0"
