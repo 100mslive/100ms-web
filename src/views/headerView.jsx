@@ -15,7 +15,7 @@ import {
   selectRTMPState,
 } from "@100mslive/hms-video-react";
 import { Fragment } from "react";
-import PIP from "./PIP";
+import PIP from "./PIP/PIP";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);

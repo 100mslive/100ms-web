@@ -1,64 +1,18 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
+  PIPIcon,
   selectRemotePeers,
   selectTracksMap,
   useHMSActions,
   useHMSStore,
-  PIPIcon,
 } from "@100mslive/hms-video-react";
 import * as workerTimers from "worker-timers";
 
-import { hmsToast } from "./components/notifications/hms-toast";
+import { hmsToast } from "../components/notifications/hms-toast";
 
-import {
-  MAX_NUMBER_OF_TILES_IN_PIP,
-  PIP_FPS as FPS,
-} from "../common/constants";
-
-const drawImageOnCanvas = (videoTracks, canvas) => {
-  const numberOfParticipants = videoTracks.length;
-  const ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#000000";
-  const w = canvas.width;
-  const h = canvas.height;
-  if (numberOfParticipants === 0) {
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    return;
-  } else if (numberOfParticipants === 1) {
-    ctx.drawImage(videoTracks[0], 0, 0, w, h);
-    return;
-  }
-
-  let tilesToShow =
-    numberOfParticipants > MAX_NUMBER_OF_TILES_IN_PIP
-      ? MAX_NUMBER_OF_TILES_IN_PIP
-      : numberOfParticipants;
-  const evenTiles = tilesToShow % 2 === 0 ? tilesToShow : tilesToShow - 1;
-  tilesToShow = tilesToShow % 2 === 0 ? tilesToShow : Number(tilesToShow) + 1;
-
-  const tilesW = w / 2;
-  const tilesH = h / (tilesToShow / 2);
-  let startX = 0,
-    startY = 0;
-  let trackNumber = 0;
-  for (; trackNumber < evenTiles; trackNumber += 2) {
-    ctx.drawImage(videoTracks[trackNumber], startX, startY, tilesW, tilesH);
-    ctx.drawImage(
-      videoTracks[trackNumber + 1],
-      startX + tilesW,
-      startY,
-      tilesW,
-      tilesH
-    );
-    startY += tilesH;
-  }
-
-  if (tilesToShow !== evenTiles) {
-    ctx.drawImage(videoTracks[trackNumber], startX, startY, tilesW, tilesH);
-    ctx.fillRect(startX + tilesW, startY, tilesW, tilesH);
-  }
-};
+import { PIP_FPS as FPS } from "../../common/constants";
+import { drawImageOnCanvas } from "./pipUtils";
 
 const PIP = () => {
   const [isPipOn, setIsPipOn] = useState(!!document.pictureInPictureElement);
@@ -115,6 +69,9 @@ const PIP = () => {
       await hmsActions.attachVideo(trackID, videoElement);
     };
 
+    /**
+     * Create a videoElements Array for the video elements of each remote peer.
+     */
     let videoElements = [];
     for (const peer of remotePeers) {
       const track = tracksMap[peer.videoTrack];
@@ -132,10 +89,9 @@ const PIP = () => {
     }
 
     /**
-     * If PIP element is already present then peers might have changed, so rendering the
+     * If PIP element is already present then either peers or their tracks might have changed, so rendering the
      * new peer video tiles along with others.
      */
-
     if (!!document.pictureInPictureElement) {
       workerTimers.clearInterval(window.pip.canvasInterval);
       window.pip.canvasInterval = workerTimers.setInterval(() => {
