@@ -9,38 +9,44 @@ import { useEffect } from "react";
 
 export const TrackUnmuteModal = ({ notification }) => {
   const hmsActions = useHMSActions();
-  const [showModal, setShowModal] = useState(false);
-  useEffect(() => {
-    setShowModal(
-      Boolean(
-        notification &&
-          notification.type ===
-            HMSNotificationTypes.CHANGE_TRACK_STATE_REQUEST &&
-          notification.data?.enabled
-      )
-    );
-  }, [notification]);
-  if (notification && notification.data) {
-    const { requestedBy: peer, track, enabled } = notification.data;
+  const [muteNotification, setMuteNotification] = useState(null);
 
-    return (
-      <MessageModal
-        show={showModal}
-        onClose={() => setShowModal(false)}
-        title="Track Unmute Request"
-        body={`${peer?.name} requested to unmute your ${track?.source} ${track?.type}`}
-        footer={
-          <div className="flex space-x-1">
-            <Button
-              onClick={() => hmsActions.setEnabledTrack(track.id, enabled)}
-            >
-              Accept
-            </Button>
-          </div>
-        }
-      />
-    );
-  } else {
+  useEffect(() => {
+    if (!notification || !notification.data) {
+      return;
+    }
+    if (
+      notification.type === HMSNotificationTypes.CHANGE_TRACK_STATE_REQUEST &&
+      notification.data.enabled
+    ) {
+      setMuteNotification(notification.data);
+    }
+  }, [notification]);
+
+  if (!muteNotification) {
     return null;
   }
+
+  const { requestedBy: peer, track, enabled } = muteNotification;
+
+  return (
+    <MessageModal
+      show
+      onClose={() => setMuteNotification(null)}
+      title="Track Unmute Request"
+      body={`${peer?.name} requested to unmute your ${track?.source} ${track?.type}`}
+      footer={
+        <div className="flex space-x-1">
+          <Button
+            onClick={() => {
+              hmsActions.setEnabledTrack(track.id, enabled);
+              setMuteNotification(null);
+            }}
+          >
+            Accept
+          </Button>
+        </div>
+      }
+    />
+  );
 };
