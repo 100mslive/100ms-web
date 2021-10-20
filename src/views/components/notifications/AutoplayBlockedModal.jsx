@@ -5,19 +5,15 @@ import {
   useHMSActions,
 } from "@100mslive/hms-video-react";
 
-export function AutoplayBlockedModal(notification) {
+export function AutoplayBlockedModal({ notification }) {
   const hmsActions = useHMSActions();
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (notification?.data?.code === 3008) {
+    if (notification?.data?.code === 3008 && !showModal) {
       setShowModal(true);
     }
-  }, [notification]);
-
-  if (!notification || !notification.data) {
-    return null;
-  }
+  }, [notification, showModal]);
 
   return (
     <MessageModal
@@ -31,7 +27,10 @@ export function AutoplayBlockedModal(notification) {
       footer={
         <div className="flex space-x-1">
           <Button
-            onClick={async () => await hmsActions.unblockAudio()}
+            onClick={async () => {
+              await hmsActions.unblockAudio();
+              setShowModal(false);
+            }}
             variant="emphasized"
           >
             Unblock
