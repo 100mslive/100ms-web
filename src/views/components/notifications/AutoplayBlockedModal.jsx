@@ -5,15 +5,9 @@ import {
   useHMSActions,
 } from "@100mslive/hms-video-react";
 
-export function AutoplayBlockedModal({ notification }) {
+export function AutoplayBlockedModal() {
   const hmsActions = useHMSActions();
-  const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    if (notification?.data?.code === 3008 && !showModal) {
-      setShowModal(true);
-    }
-  }, [notification, showModal]);
+  const [showModal, setShowModal] = useState(true);
 
   return (
     <MessageModal
