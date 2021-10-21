@@ -147,7 +147,7 @@ const AppContextProvider = ({
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
-  const deepSetSubscribedNotifications = notification =>
+  const deepSetSubscribedNotifications = notification => {
     setState(prevState => ({
       ...prevState,
       subscribedNotifications: {
@@ -155,6 +155,7 @@ const AppContextProvider = ({
         [notification.type]: notification.isSubscribed,
       },
     }));
+  };
 
   return (
     <AppContext.Provider

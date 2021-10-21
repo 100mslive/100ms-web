@@ -28,6 +28,18 @@ export function Notifications() {
       return;
     }
     switch (notification.type) {
+      case HMSNotificationTypes.PEER_LIST:
+        console.debug("[Peer List]", notification.data);
+        if (!subscribedNotifications.PEER_JOINED) return;
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <PersonIcon className="mr-2" />
+              {notification.data?.length} peers joined
+            </Text>
+          ),
+        });
+        break;
       case HMSNotificationTypes.PEER_JOINED:
         console.debug("[Peer Joined]", notification.data);
         if (!subscribedNotifications.PEER_JOINED) return;
@@ -193,12 +205,13 @@ export function Notifications() {
         break;
     }
   }, [hmsActions, notification]); //eslint-disable-line
+
   return (
     <>
       <HMSToastContainer />
       <TrackUnmuteModal notification={notification} />
       <TrackMuteAllModal notification={notification} />
-      <AutoplayBlockedModal />
+      <AutoplayBlockedModal notification={notification} />
     </>
   );
 }

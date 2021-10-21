@@ -8,27 +8,31 @@ import {
 
 export const TrackMuteAllModal = ({ notification }) => {
   const hmsActions = useHMSActions();
-  const [showModal, setShowModal] = useState(false);
+  const [muteNotification, setMuteNotification] = useState(null);
+
   useEffect(() => {
-    setShowModal(
-      Boolean(
-        notification &&
-          notification.type ===
-            HMSNotificationTypes.CHANGE_MULTI_TRACK_STATE_REQUEST &&
-          notification.data?.enabled
-      )
-    );
+    if (!notification || !notification.data) {
+      return;
+    }
+    if (
+      notification.type ===
+        HMSNotificationTypes.CHANGE_MULTI_TRACK_STATE_REQUEST &&
+      notification.data.enabled
+    ) {
+      setMuteNotification(notification.data);
+    }
   }, [notification]);
 
-  if (!notification || !notification.data) {
+  if (!muteNotification) {
     return null;
   }
-  const { requestedBy: peer, tracks, enabled } = notification.data;
+
+  const { requestedBy: peer, tracks, enabled } = muteNotification;
 
   return (
     <MessageModal
-      show={showModal}
-      onClose={() => setShowModal(false)}
+      show
+      onClose={() => setMuteNotification(null)}
       title="Track Unmute Request"
       body={`${peer?.name} requested to unmute your tracks`}
       footer={
@@ -38,6 +42,7 @@ export const TrackMuteAllModal = ({ notification }) => {
               tracks.forEach(track => {
                 hmsActions.setEnabledTrack(track.id, enabled);
               });
+              setMuteNotification(null);
             }}
           >
             Accept
