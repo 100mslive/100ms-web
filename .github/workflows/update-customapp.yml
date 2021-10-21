@@ -1,10 +1,10 @@
 name: Update parent repo
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-  workflow-dispatch:
 
 jobs:
   update:
