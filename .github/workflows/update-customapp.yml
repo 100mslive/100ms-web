@@ -15,7 +15,7 @@ jobs:
         with:
           repository: 100mslive/100ms-custom-app
           ref: test-workflow
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Pull & update submodules recursively
         run: |
