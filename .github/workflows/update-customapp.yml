@@ -14,8 +14,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: 100mslive/100ms-custom-app
-          branch: test-workflow
-          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: develop
+          token: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Pull & update submodules recursively
         run: |
