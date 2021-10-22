@@ -1,4 +1,10 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useContext,
+  useState,
+  useCallback,
+  Fragment,
+} from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
 import { ConferenceHeader } from "../views/headerView";
@@ -52,7 +58,12 @@ export const Conference = () => {
   }, []);
 
   if (!isConnectedToRoom) {
-    return <FullPageProgress />;
+    return (
+      <Fragment>
+        <Notifications />
+        <FullPageProgress />;
+      </Fragment>
+    );
   }
 
   return (
