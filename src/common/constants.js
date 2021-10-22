@@ -87,8 +87,3 @@ export const defaultVideoList = [
 
 export const UI_SETTINGS_KEY = "uiSettings";
 export const USERNAME_KEY = "loginUsername";
-
-export const MAX_NUMBER_OF_TILES_IN_PIP = 4;
-export const PIP_FPS = 30;
-export const CANVAS_WIDTH = 900;
-export const CANVAS_HEIGHT = 600;
