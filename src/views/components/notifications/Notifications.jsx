@@ -30,8 +30,7 @@ export function Notifications() {
     switch (notification.type) {
       case HMSNotificationTypes.PEER_LIST:
         console.debug("[Peer List]", notification.data);
-        if (!subscribedNotifications.PEER_JOINED)
-          return;
+        if (!subscribedNotifications.PEER_JOINED) return;
         hmsToast("", {
           left: (
             <Text classes={{ root: "flex" }}>
@@ -86,10 +85,8 @@ export function Notifications() {
         console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
-        // show button action when the error is terminal
-        if (!subscribedNotifications.ERROR) return;
         if (notification.data?.isTerminal) {
-          if (notification.data?.code === 6008) {
+          if ([500, 6008].includes(notification.data?.code)) {
             hmsToast("", {
               left: (
                 <Text classes={{ root: "flex" }}>
@@ -105,6 +102,7 @@ export function Notifications() {
             }, 2000);
             return;
           }
+          // show button action when the error is terminal
           hmsToast("", {
             center: (
               <div className="flex">
@@ -131,6 +129,7 @@ export function Notifications() {
         if (notification.data?.code === 3008) {
           return;
         }
+        if (!subscribedNotifications.ERROR) return;
         hmsToast("", {
           left: (
             <Text classes={{ root: "flex" }}>
@@ -206,12 +205,13 @@ export function Notifications() {
         break;
     }
   }, [hmsActions, notification]); //eslint-disable-line
+
   return (
     <>
       <HMSToastContainer />
       <TrackUnmuteModal notification={notification} />
       <TrackMuteAllModal notification={notification} />
-      <AutoplayBlockedModal />
+      <AutoplayBlockedModal notification={notification} />
     </>
   );
 }

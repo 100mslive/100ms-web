@@ -5,7 +5,7 @@ import {
   useHMSActions,
 } from "@100mslive/hms-video-react";
 
-export function AutoplayBlockedModal(notification) {
+export function AutoplayBlockedModal({ notification }) {
   const hmsActions = useHMSActions();
   const [showModal, setShowModal] = useState(false);
 
@@ -15,23 +15,22 @@ export function AutoplayBlockedModal(notification) {
     }
   }, [notification]);
 
-  if (!notification || !notification.data) {
-    return null;
-  }
-
   return (
     <MessageModal
       show={showModal}
       onClose={async () => {
-        await hmsActions.unblockAudio();
         setShowModal(false);
+        await hmsActions.unblockAudio();
       }}
       title="Autoplay blocked"
       body="Autoplay blocked by browser please click on unblock for audio to work"
       footer={
         <div className="flex space-x-1">
           <Button
-            onClick={async () => await hmsActions.unblockAudio()}
+            onClick={async () => {
+              setShowModal(false);
+              await hmsActions.unblockAudio();
+            }}
             variant="emphasized"
           >
             Unblock
