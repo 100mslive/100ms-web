@@ -15,7 +15,7 @@ import {
   selectRTMPState,
 } from "@100mslive/hms-video-react";
 import { Fragment } from "react";
-import PIP from "./PIP/PIP";
+import PIPComponent from "./PIP/PIPComponent";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -143,7 +143,7 @@ export const ConferenceHeader = ({ onParticipantListOpen }) => {
         centerComponents={[<SpeakerTag key={0} />]}
         rightComponents={[
           <Fragment key={0}>
-            {document.pictureInPictureEnabled && <PIP />}
+            {document.pictureInPictureEnabled && <PIPComponent />}
           </Fragment>,
           <ParticipantList key={1} onToggle={onParticipantListOpen} />,
         ]}

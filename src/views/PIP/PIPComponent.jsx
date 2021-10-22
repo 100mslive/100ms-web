@@ -1,9 +1,9 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { Button, PIPIcon } from "@100mslive/hms-video-react";
 
 import ActivatedPIP from "./ActivatedPIP";
 
-const PIP = () => {
+const PIPComponent = () => {
   const [isPipOn, setIsPipOn] = useState(!!document.pictureInPictureElement);
 
   const togglePIP = () => {
@@ -30,4 +30,4 @@ const PIP = () => {
   );
 };
 
-export default PIP;
+export default PIPComponent;

@@ -1,9 +1,3 @@
-import {
-  CANVAS_HEIGHT,
-  CANVAS_WIDTH,
-  MAX_NUMBER_OF_TILES_IN_PIP,
-  PIP_FPS as FPS,
-} from "../../common/constants";
 import { hmsToast } from "../components/notifications/hms-toast";
 import * as workerTimers from "worker-timers";
 
@@ -15,13 +9,19 @@ class PipManager {
     this.videoElements = this.initializeVideoElements();
     this.tracksToShow = [];
 
+    // constants
+    this.MAX_NUMBER_OF_TILES_IN_PIP = 4;
+    this.FPS = 30;
+    this.CANVAS_WIDTH = 900;
+    this.CANVAS_HEIGHT = 600;
+
     this.initializeCanvas();
     this.initializePIPVideoElement();
   }
   initializeCanvas() {
     this.canvas = document.createElement("canvas");
-    this.canvas.width = CANVAS_WIDTH;
-    this.canvas.height = CANVAS_HEIGHT;
+    this.canvas.width = this.CANVAS_WIDTH;
+    this.canvas.height = this.CANVAS_HEIGHT;
   }
   initializePIPVideoElement() {
     this.pipVideo = document.createElement("video");
@@ -29,7 +29,7 @@ class PipManager {
   }
   initializeVideoElements() {
     let videoElements = [];
-    let numberOfVideoElements = MAX_NUMBER_OF_TILES_IN_PIP;
+    let numberOfVideoElements = this.MAX_NUMBER_OF_TILES_IN_PIP;
     while (numberOfVideoElements--) {
       const videoElement = document.createElement("video");
       videoElement.autoplay = true;
@@ -48,7 +48,7 @@ class PipManager {
     let newTracksToShow = [];
     let numberOfTracks = 0;
     for (const peer of peers) {
-      if (numberOfTracks === MAX_NUMBER_OF_TILES_IN_PIP) {
+      if (numberOfTracks === this.MAX_NUMBER_OF_TILES_IN_PIP) {
         break;
       }
 
@@ -103,11 +103,12 @@ class PipManager {
   async start() {
     this.canvasInterval = workerTimers.setInterval(() => {
       this.drawImageOnCanvas();
-    }, 1000 / FPS);
+    }, 1000 / this.FPS);
 
     await this.pipVideo.play();
-
-    this.requestPIP();
+    if (!document.pictureInPictureElement) {
+      this.requestPIP();
+    }
   }
 
   stop() {
@@ -122,7 +123,7 @@ class PipManager {
     setIsPipOn(false);
   }
 
-  registerEventListeners(setIsPipOn) {
+  subscribeToStateChange(setIsPipOn) {
     this.pipVideo.addEventListener(
       "leavepictureinpicture",
       () => this.leavePIPEventListener(setIsPipOn),
@@ -130,12 +131,17 @@ class PipManager {
     );
   }
 
-  deregisterEventListeners(setIsPipOn) {
+  cleanup(setIsPipOn) {
+    // unsubscribe to event listeners
     this.pipVideo.removeEventListener(
       "leavepictureinpicture",
       () => this.leavePIPEventListener(setIsPipOn),
       false
     );
+    // exit PIP.
+    if (document.pictureInPictureElement) {
+      document.exitPictureInPicture();
+    }
   }
 
   requestPIP() {
@@ -178,7 +184,7 @@ class PipManager {
      * */
     let tilesToShow = Math.min(
       numberOfParticipants,
-      MAX_NUMBER_OF_TILES_IN_PIP
+      this.MAX_NUMBER_OF_TILES_IN_PIP
     );
 
     /**
