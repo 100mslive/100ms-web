@@ -49,9 +49,8 @@ export const ConferenceMainView = ({
   ) {
     ViewComponent = ScreenShareView;
   } else {
-    ViewComponent = uiViewMode.ACTIVESPEAKERTOGGLE
-      ? ActiveSpeakerView
-      : MainGridView;
+    if(uiViewMode=="activeSpeaker")ViewComponent=ActiveSpeakerView;
+    else ViewComponent = MainGridView;
   }
 
   return (

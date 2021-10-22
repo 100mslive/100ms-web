@@ -55,9 +55,7 @@ const defaultUiSettings = {
     NEW_MESSAGE: false,
     ERROR: true,
   },
-  uiViewMode: {
-    ACTIVESPEAKERTOGGLE: false,
-  },
+  uiViewMode:'grid',
 };
 
 const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
@@ -88,7 +86,7 @@ const AppContextProvider = ({
     localAppPolicyConfig: {},
     subscribedNotifications:
       uiSettingsFromStorage.subscribedNotifications || {},
-    uiViewMode: uiSettingsFromStorage.uiViewMode || {},
+    uiViewMode: uiSettingsFromStorage.uiViewMode || "grid",
   });
 
   useEffect(() => {
@@ -161,14 +159,8 @@ const AppContextProvider = ({
       },
     }));
   const deepSetuiViewMode = layout =>
-    setState(prevState => ({
-      ...prevState,
-      uiViewMode: {
-        ...prevState.uiViewMode,
-        [layout.type]: layout.isActive,
-      },
-    }));
-
+  setState(prevState => ({ ...prevState, uiViewMode: layout }));  
+  
   return (
     <AppContext.Provider
       value={{

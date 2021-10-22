@@ -93,7 +93,7 @@ export const MoreSettings = () => {
   const onNotificationChange = notification => {
     setSubscribedNotifications(notification);
   };
-  const isActiveSpeakerMode = layout => {
+  const onViewModeChange = layout => {
     setuiViewMode(layout);
   };
 
@@ -107,7 +107,7 @@ export const MoreSettings = () => {
       subscribedNotifications,
     },
     layoutProps: {
-      isActiveSpeakerMode,
+      onViewModeChange,
       uiViewMode,
     },
   };
