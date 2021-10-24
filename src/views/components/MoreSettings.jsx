@@ -90,18 +90,18 @@ export const MoreSettings = () => {
 
   const onNotificationChange = notification => {
     setSubscribedNotifications(notification);
-  }
+  };
 
   const uiSettingsProps = {
     sliderProps: {
       onTileCountChange: onChange,
-      maxTileCount
+      maxTileCount,
     },
     notificationProps: {
       onNotificationChange,
-      subscribedNotifications
-    }
-  }
+      subscribedNotifications,
+    },
+  };
   const getText = useCallback(() => {
     let text = "";
     if (rtmp.running) {

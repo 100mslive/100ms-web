@@ -10,7 +10,6 @@ import { v4 } from "uuid";
 import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
 import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
-import { Notifications } from "../views/components/notifications/Notifications";
 import { USERNAME_KEY } from "../common/constants";
 
 const PreviewScreen = ({ getUserToken }) => {
@@ -185,7 +184,6 @@ const PreviewScreen = ({ getUserToken }) => {
             footer={<Button onClick={clearError}>Dismiss</Button>}
           />
         )}
-        <Notifications />
       </div>
     </div>
   );

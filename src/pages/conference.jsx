@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useContext,
-  useState,
-  useCallback,
-  Fragment,
-} from "react";
+import React, { useEffect, useContext, useState, useCallback } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
 import { ConferenceHeader } from "../views/headerView";
@@ -18,7 +12,6 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/hms-video-react";
-import { Notifications } from "../views/components/notifications/Notifications";
 import FullPageProgress from "../views/components/FullPageSpinner";
 
 export const Conference = () => {
@@ -58,12 +51,7 @@ export const Conference = () => {
   }, []);
 
   if (!isConnectedToRoom) {
-    return (
-      <Fragment>
-        <Notifications />
-        <FullPageProgress />;
-      </Fragment>
-    );
+    return <FullPageProgress />;
   }
 
   return (
@@ -77,7 +65,6 @@ export const Conference = () => {
           isParticipantListOpen={isParticipantListOpen}
           toggleChat={toggleChat}
         />
-        <Notifications />
       </div>
       <div className="dark:bg-black" style={{ height: "10%" }}>
         <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
