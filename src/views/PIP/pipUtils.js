@@ -52,7 +52,7 @@ function fillGridTiles(
     for (let col = 0; col < numCols; col++) {
       const startX = col * tileWidth;
       const video = videoElements[videoElementPos];
-      if (!video) {
+      if (!video || video.srcObject === null) {
         ctx.fillRect(startX, startY, tileWidth, tileHeight); // draw black tile
       } else {
         ctx.drawImage(video, startX, startY, tileWidth, tileHeight);

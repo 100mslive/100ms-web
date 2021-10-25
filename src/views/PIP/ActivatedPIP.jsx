@@ -4,13 +4,13 @@ import {
   selectTracksMap,
   useHMSStore,
   useHMSActions,
-  selectPeers,
+  selectRemotePeers,
 } from "@100mslive/hms-video-react";
 
 const ActivatedPIP = ({ setIsPipOn }) => {
   const hmsActions = useHMSActions();
   const tracksMap = useHMSStore(selectTracksMap);
-  const remotePeers = useHMSStore(selectPeers);
+  const remotePeers = useHMSStore(selectRemotePeers);
 
   useEffect(() => {
     const startPip = async () => {
