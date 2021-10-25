@@ -39,7 +39,7 @@ describe("pip manager tests", () => {
    * the track changes as well. That is earlier it was showing on third position
    * but not it's on second position(because there are only two tracks left to show).
    */
-  test("attach and detach are called properly after tracks in view changes", () => {
+  test("attach and detach are called properly after tracks in view changes", async () => {
     const makeTestData = (oldTracks, newTracks, detachFor, attachFor) => {
       return { oldTracks, newTracks, detachFor, attachFor };
     };
@@ -63,15 +63,15 @@ describe("pip manager tests", () => {
       makeTestData([], [], [], []),
     ];
 
-    examples.forEach(example => {
+    for (let example of examples) {
       attachCalledFor = [];
       detachCalledFor = [];
-      PictureInPicture.detachOldAttachNewTracks(
+      await PictureInPicture.detachOldAttachNewTracks(
         example.oldTracks,
         example.newTracks
       );
       expect(attachCalledFor).toEqual(example.attachFor);
       expect(detachCalledFor).toEqual(example.detachFor);
-    });
+    }
   });
 });

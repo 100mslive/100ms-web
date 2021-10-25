@@ -238,14 +238,17 @@ class PipManager {
         continue; // it would already have been attached previously
       } else if (oldTracks[i]) {
         // old track is there but not equal to new track, detach
-        if (tracksMap && tracksMap[oldTracks[i]]) {
+        // no need to call detach if we know for sure track is no longer in store
+        if (!tracksMap || tracksMap[oldTracks[i]]) {
           await this.hmsActions.detachVideo(
             oldTracks[i],
             this.videoElements[i]
           );
         }
-        // if old track got removed from the room, element needs to be cleaned up
-        this.videoElements[i].srcObject = null;
+        if (this.videoElements[i]) {
+          // even if old track got removed from the room, element needs to be cleaned up
+          this.videoElements[i].srcObject = null;
+        }
       }
       if (newTracks[i]) {
         await this.hmsActions.attachVideo(newTracks[i], this.videoElements[i]);
