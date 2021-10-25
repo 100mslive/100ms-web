@@ -8,6 +8,8 @@ import {
   selectDominantSpeaker,
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
+  selectPeerSharingAudioPlaylist,
+  selectAudioPlaylistTrackByPeerID,
   useHMSActions,
   RecordingDot,
   GlobeIcon,
@@ -61,6 +63,46 @@ const Music = () => {
       <VolumeIcon />
       <Text variant="body" size="md" classes={{ root: "mx-2" }}>
         Music is playing
+      </Text>
+      <Text
+        variant="body"
+        size="md"
+        onClick={handleMute}
+        classes={{ root: "text-red-tint cursor-pointer" }}
+      >
+        {muted ? "Unmute" : "Mute"}
+      </Text>
+    </div>
+  );
+};
+
+const PlaylistMusic = () => {
+  const hmsActions = useHMSActions();
+  const peer = useHMSStore(selectPeerSharingAudioPlaylist);
+  const track = useHMSStore(selectAudioPlaylistTrackByPeerID(peer?.id));
+
+  if (!peer || !track) {
+    return null;
+  }
+  // Don't show mute option if remote peer has disabled
+  if (!peer.isLocal && !track.enabled) {
+    return null;
+  }
+  const muted = peer.isLocal ? !track.enabled : track.volume === 0;
+
+  const handleMute = () => {
+    if (!peer.isLocal) {
+      hmsActions.setVolume(!track.volume ? 100 : 0, track.id);
+    } else {
+      hmsActions.setEnabledTrack(track.id, !track.enabled);
+    }
+  };
+
+  return (
+    <div className="flex items-center">
+      <VolumeIcon />
+      <Text variant="body" size="md" classes={{ root: "mx-2" }}>
+        Playlist is playing
       </Text>
       <Text
         variant="body"
@@ -137,7 +179,8 @@ export const ConferenceHeader = ({ onParticipantListOpen }) => {
         leftComponents={[
           <LogoButton key={0} />,
           <Music key={1} />,
-          <Recording key={2} />,
+          <PlaylistMusic key={2} />,
+          <Recording key={3} />,
         ]}
         centerComponents={[<SpeakerTag key={0} />]}
         rightComponents={[
