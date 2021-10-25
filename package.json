@@ -20,7 +20,8 @@
     "react-toastify": "^7.0.4",
     "screenfull": "^5.1.0",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "worker-timers": "^7.0.40"
   },
   "scripts": {
     "start": "craco start",

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Header,
   ParticipantList,
@@ -17,6 +16,7 @@ import {
   selectRecordingState,
   selectRTMPState,
 } from "@100mslive/hms-video-react";
+import PIPComponent from "./PIP/PIPComponent";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -54,7 +54,7 @@ const Music = () => {
     if (!peer.isLocal) {
       hmsActions.setVolume(!track.volume ? 100 : 0, track.id);
     } else {
-      hmsActions.setEnabledTrack(track.id, !track.enabled);
+      hmsActions.setEnabledTrack(track.id, !track.enabled).catch(console.error);
     }
   };
 
@@ -184,7 +184,8 @@ export const ConferenceHeader = ({ onParticipantListOpen }) => {
         ]}
         centerComponents={[<SpeakerTag key={0} />]}
         rightComponents={[
-          <ParticipantList key={0} onToggle={onParticipantListOpen} />,
+          <PIPComponent key={0} />,
+          <ParticipantList key={1} onToggle={onParticipantListOpen} />,
         ]}
         classes={{ root: "h-full" }}
       />
