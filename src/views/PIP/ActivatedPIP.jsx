@@ -1,38 +1,36 @@
 import { useEffect } from "react";
-import { PIP } from "./PIPManager";
+import { PictureInPicture } from "./PIPManager";
 import {
-  selectRemotePeers,
   selectTracksMap,
   useHMSStore,
   useHMSActions,
+  selectPeers,
 } from "@100mslive/hms-video-react";
-import { hmsToast } from "../components/notifications/hms-toast";
 
 const ActivatedPIP = ({ setIsPipOn }) => {
   const hmsActions = useHMSActions();
   const tracksMap = useHMSStore(selectTracksMap);
-  const remotePeers = useHMSStore(selectRemotePeers);
+  const remotePeers = useHMSStore(selectPeers);
 
   useEffect(() => {
-    PIP.subscribeToStateChange(setIsPipOn);
-    try {
-      PIP.start();
-    } catch (error) {
-      console.error(error);
-    }
-
-    //clean-up
-    return () => {
-      PIP.cleanup(setIsPipOn);
+    const startPip = async () => {
+      await PictureInPicture.start(hmsActions, setIsPipOn);
+      await PictureInPicture.updatePeersAndTracks(remotePeers, tracksMap);
     };
-  }, []);
+    startPip().catch(err => console.error("error in starting pip", err));
+
+    return () => {
+      PictureInPicture.stop().catch(err =>
+        console.error("error in stopping pip", err)
+      );
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hmsActions, setIsPipOn]);
 
   useEffect(() => {
-    try {
-      PIP.update(tracksMap, remotePeers, hmsActions);
-    } catch (error) {
-      hmsToast(error.message);
-    }
+    PictureInPicture.updatePeersAndTracks(remotePeers, tracksMap).catch(err => {
+      console.error("error in updating pip", err);
+    });
   }, [tracksMap, remotePeers]);
 
   return null;
