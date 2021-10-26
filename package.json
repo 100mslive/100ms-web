@@ -36,6 +36,9 @@
       "react-app",
       "react-app/jest"
     ],
+    "globals": {
+      "cy": true
+    },
     "rules": {
       "react/jsx-curly-brace-presence": [
         2,
