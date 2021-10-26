@@ -28,6 +28,7 @@
     "build": "craco build --profile",
     "test": "craco test",
     "eject": "react-scripts eject",
+    "cypress:open": "cypress open",
     "build:style": "NODE_ENV=production npx tailwindcss-cli@latest build ./src/index.css -o tailwind.css"
   },
   "eslintConfig": {
@@ -66,6 +67,7 @@
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.1.0",
     "autoprefixer": "^9.8.6",
+    "cypress": "^8.7.0",
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
   },
