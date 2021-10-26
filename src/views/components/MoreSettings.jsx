@@ -30,6 +30,7 @@ import {
   selectRecordingState,
   selectRTMPState,
   StarIcon,
+  ChangeTextIcon,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
@@ -37,6 +38,7 @@ import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 import screenfull from "screenfull";
 import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
 import { MuteAll } from "./MuteAll";
+import { ChangeNameForm } from "./ChangeNameForm";
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + "?token=beam_recording";
@@ -65,6 +67,8 @@ export const MoreSettings = () => {
   const recording = useHMSStore(selectRecordingState);
   const rtmp = useHMSStore(selectRTMPState);
   const [isRecordingOn, setIsRecordingOn] = useState(false);
+  const [showChangeNameModal, setShowChangeNameModal] = useState(false);
+  const [newName, setNewName] = useState("");
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
@@ -90,18 +94,18 @@ export const MoreSettings = () => {
 
   const onNotificationChange = notification => {
     setSubscribedNotifications(notification);
-  }
+  };
 
   const uiSettingsProps = {
     sliderProps: {
       onTileCountChange: onChange,
-      maxTileCount
+      maxTileCount,
     },
     notificationProps: {
       onNotificationChange,
-      subscribedNotifications
-    }
-  }
+      subscribedNotifications,
+    },
+  };
   const getText = useCallback(() => {
     let text = "";
     if (rtmp.running) {
@@ -134,6 +138,20 @@ export const MoreSettings = () => {
       setRtmpURL("");
       setIsRecordingOn(false);
       setShowRecordingAndRTMPModal(false);
+    }
+  };
+
+  const changeName = async () => {
+    try {
+      await hmsActions.updatePeerMetadata({
+        name: newName,
+      });
+    } catch (error) {
+      console.error("Failed to update name", error);
+      hmsToast(error.message);
+    } finally {
+      setNewName("");
+      setShowChangeNameModal(false);
     }
   };
 
@@ -172,6 +190,14 @@ export const MoreSettings = () => {
           },
         }}
       >
+        <ContextMenuItem
+          icon={<ChangeTextIcon />}
+          label="Change my name"
+          key="change-name"
+          onClick={() => {
+            setShowChangeNameModal(true);
+          }}
+        />
         {permissions.changeRole && (
           <ContextMenuItem
             icon={<PersonIcon />}
@@ -337,6 +363,17 @@ export const MoreSettings = () => {
         }
         show={showRecordingAndRTMPModal}
         onClose={() => setShowRecordingAndRTMPModal(false)}
+      />
+      <MessageModal
+        title="Change your name"
+        body={<ChangeNameForm newName={newName} setNewName={setNewName} />}
+        footer={
+          <Button variant="emphasized" shape="rectangle" onClick={changeName}>
+            Change
+          </Button>
+        }
+        show={showChangeNameModal}
+        onClose={() => setShowChangeNameModal(false)}
       />
     </Fragment>
   );

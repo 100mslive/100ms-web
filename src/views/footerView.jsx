@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -26,6 +26,7 @@ import {
   selectVideoPlaylist,
   VideoPlaylist,
   selectIsConnectedToRoom,
+  HandIcon,
 } from "@100mslive/hms-video-react";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
@@ -33,6 +34,7 @@ import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
+import { hmsToast } from "./components/notifications/hms-toast";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -50,6 +52,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [shareAudioModal, setShareAudioModal] = useState(false);
+  const [isHandRaised, setIsHandRaised] = useState(false);
 
   const isNoiseSuppression = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
@@ -155,6 +158,25 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     [hmsActions]
   );
 
+  async function toggleRaiseHand() {
+    try {
+      if (!isHandRaised) {
+        await hmsActions.updatePeerMetadata({
+          data: { raisedHand: true },
+        });
+        setIsHandRaised(true);
+      } else {
+        await hmsActions.updatePeerMetadata({
+          data: { raisedHand: false },
+        });
+        setIsHandRaised(false);
+      }
+    } catch (error) {
+      console.error("Failed to update peer metadata", error);
+      hmsToast(error.message);
+    }
+  }
+
   const leftComponents = [];
   const isAudioScreenshare = !video && !!audio;
 
@@ -207,6 +229,19 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           active={activeVideoPlaylist}
         />
       );
+    leftComponents.push(
+      <Button
+        key="toggleRaiseHand"
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={toggleRaiseHand}
+        active={isHandRaised}
+      >
+        <HandIcon />
+      </Button>
+    );
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
