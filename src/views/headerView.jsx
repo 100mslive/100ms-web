@@ -91,6 +91,10 @@ const PlaylistMusic = () => {
     return null;
   }
 
+  if (peer.isLocal && !selection) {
+    return null;
+  }
+
   return (
     <div className="flex items-center">
       <VolumeIcon />
