@@ -22,7 +22,6 @@ import {
   selectIsLocalAudioPluginPresent,
   selectLocalPeerID,
   selectScreenSharesByPeerId,
-  Text,
   selectVideoPlaylist,
   VideoPlaylist,
   selectIsConnectedToRoom,
