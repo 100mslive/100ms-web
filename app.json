@@ -26,7 +26,7 @@
     "REACT_APP_VIDEO_AVATAR": {
       "description": "Takes value None|Initial"
     },
-    "REACT_APP_TOKEN_GENERATION_ENDPOINT": {
+    "REACT_APP_TOKEN_ENDPOINT": {
       "description": "API url where your 100ms token generation service is hosted"
     },
     "REACT_APP_ENV": {
