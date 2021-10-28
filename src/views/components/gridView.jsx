@@ -28,9 +28,8 @@ export const GridCenterView = ({
 }) => {
   return (
     <div
-      className={`h-full ${
-        hideSidePane && !isChatOpen ? "w-full" : "w-full md:w-4/5"
-      }`}
+      className={`h-full ${hideSidePane && !isChatOpen ? "w-full" : "w-full md:w-4/5"
+        }`}
     >
       {peers && peers.length > 0 ? (
         <VideoList
@@ -56,7 +55,7 @@ export const GridCenterView = ({
       )}
       {isChatOpen && hideSidePane && (
         <div
-          className={`h-1/2 w-2/10 absolute z-40 bottom-20 right-0 ${getBlurClass(
+          className={`h-1/2 ${isMobileDevice() ? `w-3/4` : `w-2/10`} absolute z-40 bottom-20 right-0 ${getBlurClass(
             isParticipantListOpen,
             totalPeers
           )}`}

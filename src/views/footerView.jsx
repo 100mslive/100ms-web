@@ -208,6 +208,21 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         />
       );
   }
+  if (isMobileDevice()) {
+    leftComponents.push(
+      <Button
+        key="chat"
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={toggleChat}
+        active={isChatOpen}
+      >
+        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+      </Button>
+    )
+  }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
   if (!isConnected) {
