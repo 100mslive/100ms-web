@@ -23,6 +23,7 @@ const PIPComponent = () => {
         shape="rectangle"
         key="pip"
         onClick={() => setIsPipOn(!isPipOn)}
+        classes={{ rootSizeMd: "pr-0" }}
       >
         <PIPIcon />
       </Button>
