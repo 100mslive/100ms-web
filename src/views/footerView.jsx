@@ -22,7 +22,6 @@ import {
   selectIsLocalAudioPluginPresent,
   selectLocalPeerID,
   selectScreenSharesByPeerId,
-  Text,
   selectVideoPlaylist,
   VideoPlaylist,
   selectIsConnectedToRoom,
@@ -221,7 +220,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       >
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </Button>
-    )
+    );
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
