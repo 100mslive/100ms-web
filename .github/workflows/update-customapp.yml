@@ -1,0 +1,32 @@
+name: Update parent repo
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 100mslive/100ms-custom-app
+          ref: develop
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Pull & update submodules recursively
+        run: |
+          git submodule update --init --recursive
+          git submodule update --recursive --remote
+      - name: Commit
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add --all
+          git commit -m "chore: update submodule
+            - ${GITHUB_SHA}
+          " || echo "No changes to commit"
+          git push

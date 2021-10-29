@@ -85,10 +85,8 @@ export function Notifications() {
         console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
-        // show button action when the error is terminal
-        if (!subscribedNotifications.ERROR) return;
         if (notification.data?.isTerminal) {
-          if (notification.data?.code === 6008) {
+          if ([500, 6008].includes(notification.data?.code)) {
             hmsToast("", {
               left: (
                 <Text classes={{ root: "flex" }}>
@@ -104,6 +102,7 @@ export function Notifications() {
             }, 2000);
             return;
           }
+          // show button action when the error is terminal
           hmsToast("", {
             center: (
               <div className="flex">
@@ -130,6 +129,7 @@ export function Notifications() {
         if (notification.data?.code === 3008) {
           return;
         }
+        if (!subscribedNotifications.ERROR) return;
         hmsToast("", {
           left: (
             <Text classes={{ root: "flex" }}>

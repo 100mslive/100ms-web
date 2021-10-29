@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Header,
   ParticipantList,
@@ -9,12 +8,16 @@ import {
   selectDominantSpeaker,
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
+  selectPeerSharingAudioPlaylist,
+  selectAudioPlaylistTrackByPeerID,
   useHMSActions,
   RecordingDot,
   GlobeIcon,
   selectRecordingState,
   selectRTMPState,
+  selectAudioPlaylist,
 } from "@100mslive/hms-video-react";
+import PIPComponent from "./PIP/PIPComponent";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -52,7 +55,7 @@ const Music = () => {
     if (!peer.isLocal) {
       hmsActions.setVolume(!track.volume ? 100 : 0, track.id);
     } else {
-      hmsActions.setEnabledTrack(track.id, !track.enabled);
+      hmsActions.setEnabledTrack(track.id, !track.enabled).catch(console.error);
     }
   };
 
@@ -70,6 +73,61 @@ const Music = () => {
       >
         {muted ? "Unmute" : "Mute"}
       </Text>
+    </div>
+  );
+};
+
+const PlaylistMusic = () => {
+  const hmsActions = useHMSActions();
+  const peer = useHMSStore(selectPeerSharingAudioPlaylist);
+  const track = useHMSStore(selectAudioPlaylistTrackByPeerID(peer?.id));
+  const selection = useHMSStore(selectAudioPlaylist.selectedItem);
+
+  if (!peer || !track) {
+    return null;
+  }
+  // Don't show mute option if remote peer has disabled
+  if (!peer.isLocal && !track.enabled) {
+    return null;
+  }
+
+  if (peer.isLocal && !selection) {
+    return null;
+  }
+
+  return (
+    <div className="flex items-center">
+      <VolumeIcon />
+      <Text variant="body" size="md" classes={{ root: "mx-2" }}>
+        Playlist is playing
+      </Text>
+      {peer.isLocal ? (
+        <Text
+          variant="body"
+          size="md"
+          onClick={async () => {
+            if (selection.playing) {
+              hmsActions.audioPlaylist.pause();
+            } else {
+              await hmsActions.audioPlaylist.play(selection.id);
+            }
+          }}
+          classes={{ root: "text-red-tint cursor-pointer" }}
+        >
+          {selection.playing ? "Pause" : "Play"}
+        </Text>
+      ) : (
+        <Text
+          variant="body"
+          size="md"
+          onClick={() => {
+            hmsActions.setVolume(!track.volume ? 100 : 0, track.id);
+          }}
+          classes={{ root: "text-red-tint cursor-pointer" }}
+        >
+          {track.volume === 0 ? "Unmute" : "Mute"}
+        </Text>
+      )}
     </div>
   );
 };
@@ -137,11 +195,13 @@ export const ConferenceHeader = ({ onParticipantListOpen }) => {
         leftComponents={[
           <LogoButton key={0} />,
           <Music key={1} />,
-          <Recording key={2} />,
+          <PlaylistMusic key={2} />,
+          <Recording key={3} />,
         ]}
         centerComponents={[<SpeakerTag key={0} />]}
         rightComponents={[
-          <ParticipantList key={0} onToggle={onParticipantListOpen} />,
+          <PIPComponent key={0} />,
+          <ParticipantList key={1} onToggle={onParticipantListOpen} />,
         ]}
         classes={{ root: "h-full" }}
       />
