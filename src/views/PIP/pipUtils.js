@@ -19,7 +19,9 @@ export function drawVideoElementsOnCanvas(videoElements, canvas) {
     // no tile to render, render black image
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     return;
-  } else if (numberOfTiles === 1) {
+  }
+  // TODO: Remove case of 2 tiles after aspect-ratio issue is resolved.
+  else if (numberOfTiles === 1 || numberOfTiles === 2) {
     // draw the video element on full canvas
     ctx.drawImage(videoElements[0], 0, 0, canvasWidth, canvasHeight);
     return;
