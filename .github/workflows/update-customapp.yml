@@ -27,6 +27,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git add --all
           git commit -m "chore: update submodule
+            - ${{ github.event.head_commit.message }}
             - ${GITHUB_SHA}
           " || echo "No changes to commit"
           git push
