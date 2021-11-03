@@ -1,3 +1,22 @@
+/**
+ * @param {RequestInfo} url
+ * @param {RequestInit} options
+ * @returns {Promise<Response>}
+ */
+const fetchWithRetry = async (url, options) => {
+  const MAX_RETRIES = 4;
+  let error = Error("something went wrong");
+  for (let i = 0; i < MAX_RETRIES; i++) {
+    try {
+      return await fetch(url, options);
+    } catch (err) {
+      error = err;
+    }
+  }
+  console.error("Fetch failed after max retries", { url, options });
+  throw error;
+};
+
 export default async function getToken(
   tokenEndpoint,
   env,
@@ -5,7 +24,7 @@ export default async function getToken(
   role,
   roomId
 ) {
-  const response = await fetch(`${tokenEndpoint}api/token`, {
+  const response = await fetchWithRetry(`${tokenEndpoint}api/token`, {
     method: "POST",
     //TODO remove env
     body: JSON.stringify({
@@ -46,7 +65,7 @@ export async function getUserToken(name) {
   };
 
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithRetry(url, {
       method: "post",
       body: JSON.stringify({
         code: code,
