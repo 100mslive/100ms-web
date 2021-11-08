@@ -41,11 +41,11 @@ Create a new file `.env` and copy the values from `example.env`
 cp example.env .env
 ```
 
-### Get the token generation endpoint
+### Get the token endpoint
 
-Get your [token generation](https://docs.100ms.live/javascript/v2/guides/token) endpoint from the [Developer section of 100ms' Dashboard](https://dashboard.100ms.live/developer)
+Get your token endpoint from the [Developer section of 100ms' Dashboard](https://dashboard.100ms.live/developer)
 
-Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with your token generation service endpoint (eg. `https://prod-in.100ms.live/hmsapi/example.app.100ms.live/`)
+Update the `REACT_APP_TOKEN_ENDPOINT` in `.env` file with the above token value (eg. `https://prod-in.100ms.live/hmsapi/example.app.100ms.live/`)
 
 ### Run the app
 
@@ -97,7 +97,7 @@ const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 ```
 ### Join the room
 
-*Before running the app locally make sure you update the environment file (.env) with the respective REACT_APP_TOKEN_GENERATION_ENDPOINT and REACT_APP_POLICY_CONFIG to avoid parsing error*
+*Before running the app locally make sure you update the environment file (.env) with the respective REACT_APP_TOKEN_ENDPOINT and REACT_APP_POLICY_CONFIG to avoid parsing error*
 
 Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the room
 
