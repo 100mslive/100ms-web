@@ -27,7 +27,7 @@ const defaultTokenEndpoint = process.env
   ? `${getBackendEndpoint()}${
       process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
     }/`
-  : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
+  : process.env.REACT_APP_TOKEN_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
