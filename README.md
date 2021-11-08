@@ -44,10 +44,10 @@ cp example.env .env
 ### Get the token endpoint
 
 Get your token endpoint from the [Developer section of 100ms' Dashboard](https://dashboard.100ms.live/developer)
-
+![download](https://user-images.githubusercontent.com/11087313/140727818-43cd8be4-b3bf-4b34-9921-a77f9a1b819d.png)
 Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with the above token endpoint value (eg. `https://prod-in.100ms.live/hmsapi/example.app.100ms.live/`)
 
-### Run the app
+### Run the app![Uploading download.png…]()
 
 Then start the app with:
 
