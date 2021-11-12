@@ -101,15 +101,6 @@ export const setFullScreenEnabled = async setFullScreen => {
   }
 };
 
-export const isJSONString = string => {
-  try {
-    JSON.parse(string);
-  } catch (error) {
-    return false;
-  }
-  return true;
-};
-
 export const getMetadata = metadataString => {
   const isJSONString = string => {
     try {
