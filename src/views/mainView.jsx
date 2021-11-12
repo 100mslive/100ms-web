@@ -12,6 +12,7 @@ import {
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
 import { AppContext } from "../store/AppContext";
+import { isJSONString } from "../common/utils";
 
 export const ConferenceMainView = ({
   isChatOpen,
@@ -40,6 +41,16 @@ export const ConferenceMainView = ({
     return null;
   }
 
+  const videoTileProps = function (HMSPeer, HMSTrack) {
+    const customerDescription = HMSPeer.customerDescription;
+    const data =
+      customerDescription && isJSONString(customerDescription)
+        ? JSON.parse(customerDescription)
+        : undefined;
+    const isHandRaised = typeof data === "object" ? data.raiseHand : false;
+    return { isHandRaised: isHandRaised };
+  };
+
   let ViewComponent;
 
   if (
@@ -58,6 +69,7 @@ export const ConferenceMainView = ({
         toggleChat={toggleChat}
         role={localPeer.roleName}
         isParticipantListOpen={isParticipantListOpen}
+        videoTileProps={videoTileProps}
       />
     )
   );

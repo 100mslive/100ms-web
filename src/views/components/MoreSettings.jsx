@@ -30,6 +30,7 @@ import {
   selectRecordingState,
   selectRTMPState,
   StarIcon,
+  ChangeTextIcon,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
@@ -37,6 +38,7 @@ import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 import screenfull from "screenfull";
 import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
 import { MuteAll } from "./MuteAll";
+import { ChangeNameForm } from "./ChangeNameForm";
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + "?token=beam_recording";
@@ -70,6 +72,8 @@ export const MoreSettings = () => {
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
     screenfull.isFullscreen
   );
+  const [newName, setNewName] = useState("");
+  const [showChangeNameModal, setShowChangeNameModal] = useState(false);
 
   const availableSelfChangeRoles = useMemo(
     () => arrayIntersection(selfRoleChangeTo, roles),
@@ -137,6 +141,20 @@ export const MoreSettings = () => {
     }
   };
 
+  const changeName = async () => {
+    try {
+      await hmsActions.updatePeer({
+        name: newName.length > 0 ? newName : undefined,
+      });
+    } catch (error) {
+      console.error("failed to update name", error);
+      hmsToast(error.message);
+    } finally {
+      setShowChangeNameModal(false);
+      setNewName("");
+    }
+  };
+
   return (
     <Fragment>
       <ContextMenu
@@ -172,6 +190,12 @@ export const MoreSettings = () => {
           },
         }}
       >
+        <ContextMenuItem
+          icon={<ChangeTextIcon />}
+          label="Change my name"
+          key="change-name"
+          onClick={() => setShowChangeNameModal(true)}
+        />
         {permissions.changeRole && (
           <ContextMenuItem
             icon={<PersonIcon />}
@@ -337,6 +361,22 @@ export const MoreSettings = () => {
         }
         show={showRecordingAndRTMPModal}
         onClose={() => setShowRecordingAndRTMPModal(false)}
+      />
+      <MessageModal
+        title="Change my name"
+        body={<ChangeNameForm newName={newName} setNewName={setNewName} />}
+        footer={
+          <Button
+            variant="emphasized"
+            shape="rectangle"
+            onClick={changeName}
+            disabled={newName.length < 1}
+          >
+            Change
+          </Button>
+        }
+        show={showChangeNameModal}
+        onClose={() => setShowChangeNameModal(false)}
       />
     </Fragment>
   );

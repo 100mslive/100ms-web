@@ -25,6 +25,7 @@ import {
   selectVideoPlaylist,
   VideoPlaylist,
   selectIsConnectedToRoom,
+  HandIcon,
 } from "@100mslive/hms-video-react";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
@@ -49,6 +50,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [shareAudioModal, setShareAudioModal] = useState(false);
+  const [isHandRaised, setIsHandRaised] = useState(false);
 
   const isNoiseSuppression = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
@@ -115,6 +117,28 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     isNoiseSuppression
       ? removeNoiseSuppressionPlugin()
       : addNoiseSuppressionPlugin();
+  }
+
+  async function raiseHand() {
+    if (!isHandRaised) {
+      try {
+        await hmsActions.updatePeer({
+          metadata: JSON.stringify({ raiseHand: true }),
+        });
+        setIsHandRaised(true);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        await hmsActions.updatePeer({
+          metadata: JSON.stringify({ raiseHand: false }),
+        });
+        setIsHandRaised(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 
   const toggleScreenShare = useCallback(
@@ -206,6 +230,19 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           active={activeVideoPlaylist}
         />
       );
+    leftComponents.push(
+      <Button
+        key="raise-hand"
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={raiseHand}
+        active={isHandRaised}
+      >
+        <HandIcon />
+      </Button>
+    );
   }
   if (isMobileDevice()) {
     leftComponents.push(

@@ -10,12 +10,14 @@ import {
   Button,
   isMobileDevice,
   useHMSActions,
+  HandIcon,
 } from "@100mslive/hms-video-react";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 import { AppContext } from "../../../store/AppContext";
 import { TrackMuteAllModal } from "./TrackMuteAllModal";
+import { isJSONString } from "../../../common/utils";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -48,6 +50,22 @@ export function Notifications() {
             <Text classes={{ root: "flex" }}>
               <PersonIcon className="mr-2" />
               {notification.data?.name} joined
+            </Text>
+          ),
+        });
+        break;
+      case HMSNotificationTypes.METADATA_UPDATED:
+        // Don't toast message when metadata is updated and raiseHand is false
+        const desc = notification.data?.customerDescription;
+        const data = desc && isJSONString(desc) ? JSON.parse(desc) : undefined;
+        if (!data.raiseHand || notification.data.isLocal) return;
+
+        console.debug("Metadata updated", notification.data);
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <HandIcon className="mr-2" />
+              {notification.data?.name} raised their hand.
             </Text>
           ),
         });
