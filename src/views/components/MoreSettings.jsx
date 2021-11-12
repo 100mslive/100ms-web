@@ -144,7 +144,7 @@ export const MoreSettings = () => {
   const changeName = async () => {
     try {
       await hmsActions.updatePeer({
-        name: newName.length > 0 ? newName : undefined,
+        name: newName,
       });
     } catch (error) {
       console.error("failed to update name", error);
