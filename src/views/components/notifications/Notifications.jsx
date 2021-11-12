@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
@@ -8,8 +8,6 @@ import {
   ConnectivityIcon,
   PersonIcon,
   Button,
-  isMobileDevice,
-  useHMSActions,
   HandIcon,
 } from "@100mslive/hms-video-react";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
@@ -21,9 +19,7 @@ import { isJSONString } from "../../../common/utils";
 
 export function Notifications() {
   const notification = useHMSNotifications();
-  const hmsActions = useHMSActions();
   const history = useHistory();
-  const params = useParams();
   const { subscribedNotifications } = useContext(AppContext);
   useEffect(() => {
     if (!notification) {
@@ -83,10 +79,6 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        // TODO: remove this when chat UI is fixed for mweb
-        if (isMobileDevice()) {
-          return;
-        }
         if (!subscribedNotifications.NEW_MESSAGE) return;
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
@@ -207,11 +199,12 @@ export function Notifications() {
           ),
         });
         setTimeout(() => {
-          if (params.role) {
-            history.push("/leave/" + params.roomId + "/" + params.role);
-          } else {
-            history.push("/leave/" + params.roomId);
-          }
+          const leaveLocation = history.location.pathname.replace(
+            "meeting",
+            "leave"
+          );
+          console.log("ll", leaveLocation);
+          history.push(leaveLocation);
         }, 2000);
         break;
       case HMSNotificationTypes.DEVICE_CHANGE_UPDATE:
@@ -222,7 +215,14 @@ export function Notifications() {
       default:
         break;
     }
-  }, [hmsActions, notification]); //eslint-disable-line
+  }, [
+    history,
+    notification,
+    subscribedNotifications.ERROR,
+    subscribedNotifications.NEW_MESSAGE,
+    subscribedNotifications.PEER_JOINED,
+    subscribedNotifications.PEER_LEFT,
+  ]);
 
   return (
     <>
