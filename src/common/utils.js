@@ -109,3 +109,20 @@ export const isJSONString = string => {
   }
   return true;
 };
+
+export const getMetadata = metadataString => {
+  const isJSONString = string => {
+    try {
+      JSON.parse(string);
+    } catch (error) {
+      return false;
+    }
+    return true;
+  };
+  const metadata =
+    metadataString && isJSONString(metadataString)
+      ? JSON.parse(metadataString)
+      : undefined;
+
+  return metadata;
+};

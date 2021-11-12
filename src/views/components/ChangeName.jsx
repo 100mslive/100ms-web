@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "@100mslive/hms-video-react";
+import { Button, MessageModal, Text } from "@100mslive/hms-video-react";
 
 const defaultClasses = {
   formInner: "w-full flex flex-col md:flex-row my-1.5",
@@ -10,7 +10,7 @@ const defaultClasses = {
     "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
 };
 
-export const ChangeNameForm = ({ newName, setNewName }) => {
+const ChangeNameFrom = ({ newName, setNewName }) => {
   return (
     <div>
       <form>
@@ -34,3 +34,28 @@ export const ChangeNameForm = ({ newName, setNewName }) => {
     </div>
   );
 };
+
+export const ChangeName = ({
+  currentName,
+  setCurrentName,
+  changeName,
+  showChangeNameModal,
+  setShowChangeNameModal,
+}) => (
+  <MessageModal
+    title="Change my name"
+    body={<ChangeNameFrom newName={currentName} setNewName={setCurrentName} />}
+    footer={
+      <Button
+        variant="emphasized"
+        shape="rectangle"
+        onClick={changeName}
+        disabled={currentName.length < 1}
+      >
+        Change
+      </Button>
+    }
+    show={showChangeNameModal}
+    onClose={() => setShowChangeNameModal(false)}
+  />
+);

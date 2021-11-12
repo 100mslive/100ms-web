@@ -38,7 +38,7 @@ import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 import screenfull from "screenfull";
 import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
 import { MuteAll } from "./MuteAll";
-import { ChangeNameForm } from "./ChangeNameForm";
+import { ChangeName } from "./ChangeName";
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + "?token=beam_recording";
@@ -72,7 +72,7 @@ export const MoreSettings = () => {
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
     screenfull.isFullscreen
   );
-  const [newName, setNewName] = useState("");
+  const [currentName, setCurrentName] = useState("");
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
 
   const availableSelfChangeRoles = useMemo(
@@ -144,14 +144,14 @@ export const MoreSettings = () => {
   const changeName = async () => {
     try {
       await hmsActions.updatePeer({
-        name: newName,
+        name: currentName,
       });
     } catch (error) {
       console.error("failed to update name", error);
       hmsToast(error.message);
     } finally {
       setShowChangeNameModal(false);
-      setNewName("");
+      setCurrentName("");
     }
   };
 
@@ -362,21 +362,12 @@ export const MoreSettings = () => {
         show={showRecordingAndRTMPModal}
         onClose={() => setShowRecordingAndRTMPModal(false)}
       />
-      <MessageModal
-        title="Change my name"
-        body={<ChangeNameForm newName={newName} setNewName={setNewName} />}
-        footer={
-          <Button
-            variant="emphasized"
-            shape="rectangle"
-            onClick={changeName}
-            disabled={newName.length < 1}
-          >
-            Change
-          </Button>
-        }
-        show={showChangeNameModal}
-        onClose={() => setShowChangeNameModal(false)}
+      <ChangeName
+        currentName={currentName}
+        setCurrentName={setCurrentName}
+        setShowChangeNameModal={setShowChangeNameModal}
+        showChangeNameModal={showChangeNameModal}
+        changeName={changeName}
       />
     </Fragment>
   );

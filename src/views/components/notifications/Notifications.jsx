@@ -15,7 +15,7 @@ import { TrackUnmuteModal } from "./TrackUnmuteModal";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 import { AppContext } from "../../../store/AppContext";
 import { TrackMuteAllModal } from "./TrackMuteAllModal";
-import { isJSONString } from "../../../common/utils";
+import { getMetadata } from "../../../common/utils";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -52,9 +52,9 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.METADATA_UPDATED:
         // Don't toast message when metadata is updated and raiseHand is false
-        const desc = notification.data?.customerDescription;
-        const data = desc && isJSONString(desc) ? JSON.parse(desc) : undefined;
-        if (!data.raiseHand || notification.data.isLocal) return;
+        const metadataString = notification.data?.customerDescription;
+        const metadata = getMetadata(metadataString);
+        if (!metadata?.raiseHand) return;
 
         console.debug("Metadata updated", notification.data);
         hmsToast("", {
@@ -65,6 +65,13 @@ export function Notifications() {
             </Text>
           ),
         });
+        break;
+      case HMSNotificationTypes.NAME_UPDATED:
+        console.log(
+          notification.data.id +
+            " changed their name to " +
+            notification.data.name
+        );
         break;
       case HMSNotificationTypes.PEER_LEFT:
         console.debug("[Peer Left]", notification.data);
@@ -203,7 +210,6 @@ export function Notifications() {
             "meeting",
             "leave"
           );
-          console.log("ll", leaveLocation);
           history.push(leaveLocation);
         }, 2000);
         break;

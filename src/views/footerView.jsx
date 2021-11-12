@@ -33,6 +33,7 @@ import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
+import { getMetadata } from "../common/utils";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -50,7 +51,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [shareAudioModal, setShareAudioModal] = useState(false);
-  const [isHandRaised, setIsHandRaised] = useState(false);
+  const isHandRaised =
+    getMetadata(localPeer?.customerDescription)?.raiseHand || false;
 
   const isNoiseSuppression = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
@@ -125,7 +127,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         await hmsActions.updatePeer({
           metadata: JSON.stringify({ raiseHand: true }),
         });
-        setIsHandRaised(true);
       } catch (error) {
         console.error(error);
       }
@@ -134,7 +135,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         await hmsActions.updatePeer({
           metadata: JSON.stringify({ raiseHand: false }),
         });
-        setIsHandRaised(false);
       } catch (error) {
         console.error(error);
       }
@@ -230,19 +230,20 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           active={activeVideoPlaylist}
         />
       );
-    leftComponents.push(
-      <Button
-        key="raise-hand"
-        iconOnly
-        variant="no-fill"
-        iconSize="md"
-        shape="rectangle"
-        onClick={raiseHand}
-        active={isHandRaised}
-      >
-        <HandIcon />
-      </Button>
-    );
+    process.env.REACT_APP_ENV === "qa" &&
+      leftComponents.push(
+        <Button
+          key="raise-hand"
+          iconOnly
+          variant="no-fill"
+          iconSize="md"
+          shape="rectangle"
+          onClick={raiseHand}
+          active={isHandRaised}
+        >
+          <HandIcon />
+        </Button>
+      );
   }
   if (isMobileDevice()) {
     leftComponents.push(

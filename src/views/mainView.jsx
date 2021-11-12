@@ -12,7 +12,14 @@ import {
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
 import { AppContext } from "../store/AppContext";
-import { isJSONString } from "../common/utils";
+import { getMetadata } from "../common/utils";
+
+const videoTileProps = function (peer, track) {
+  const metadataString = peer.customerDescription;
+  const data = getMetadata(metadataString);
+  const isHandRaised = data?.raiseHand || false;
+  return { isHandRaised: isHandRaised };
+};
 
 export const ConferenceMainView = ({
   isChatOpen,
@@ -40,16 +47,6 @@ export const ConferenceMainView = ({
     // we don't know the role yet to decide how to render UI
     return null;
   }
-
-  const videoTileProps = function (HMSPeer, HMSTrack) {
-    const customerDescription = HMSPeer.customerDescription;
-    const data =
-      customerDescription && isJSONString(customerDescription)
-        ? JSON.parse(customerDescription)
-        : undefined;
-    const isHandRaised = typeof data === "object" ? data.raiseHand : false;
-    return { isHandRaised: isHandRaised };
-  };
 
   let ViewComponent;
 
