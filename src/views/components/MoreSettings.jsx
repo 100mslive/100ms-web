@@ -72,7 +72,6 @@ export const MoreSettings = () => {
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
     screenfull.isFullscreen
   );
-  const [currentName, setCurrentName] = useState("");
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
 
   const availableSelfChangeRoles = useMemo(
@@ -138,20 +137,6 @@ export const MoreSettings = () => {
       setRtmpURL("");
       setIsRecordingOn(false);
       setShowRecordingAndRTMPModal(false);
-    }
-  };
-
-  const changeName = async () => {
-    try {
-      await hmsActions.updatePeer({
-        name: currentName,
-      });
-    } catch (error) {
-      console.error("failed to update name", error);
-      hmsToast(error.message);
-    } finally {
-      setShowChangeNameModal(false);
-      setCurrentName("");
     }
   };
 
@@ -363,11 +348,8 @@ export const MoreSettings = () => {
         onClose={() => setShowRecordingAndRTMPModal(false)}
       />
       <ChangeName
-        currentName={currentName}
-        setCurrentName={setCurrentName}
         setShowChangeNameModal={setShowChangeNameModal}
         showChangeNameModal={showChangeNameModal}
-        changeName={changeName}
       />
     </Fragment>
   );

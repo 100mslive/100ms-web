@@ -33,7 +33,7 @@ import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
-import { getMetadata } from "../common/utils";
+import { useMetadata } from "./hooks/useMetadata";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -51,9 +51,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [shareAudioModal, setShareAudioModal] = useState(false);
-  const isHandRaised =
-    getMetadata(localPeer?.customerDescription)?.raiseHand || false;
-
+  const { isHandRaised, setIsHandRaised } = useMetadata();
   const isNoiseSuppression = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
@@ -121,23 +119,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       : addNoiseSuppressionPlugin();
   }
 
-  async function raiseHand() {
-    if (!isHandRaised) {
-      try {
-        await hmsActions.updatePeer({
-          metadata: JSON.stringify({ raiseHand: true }),
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      try {
-        await hmsActions.updatePeer({
-          metadata: JSON.stringify({ raiseHand: false }),
-        });
-      } catch (error) {
-        console.error(error);
-      }
+  async function toggleRaiseHand() {
+    try {
+      await setIsHandRaised(!isHandRaised);
+    } catch (error) {
+      console.error("failed to set isHandRaised", error);
     }
   }
 
@@ -230,6 +216,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           active={activeVideoPlaylist}
         />
       );
+    // TODO: Remove ENV condition when it is deployed from backend.
     process.env.REACT_APP_ENV === "qa" &&
       leftComponents.push(
         <Button
@@ -238,7 +225,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          onClick={raiseHand}
+          onClick={toggleRaiseHand}
           active={isHandRaised}
         >
           <HandIcon />

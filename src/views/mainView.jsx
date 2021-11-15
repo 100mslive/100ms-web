@@ -15,10 +15,9 @@ import { AppContext } from "../store/AppContext";
 import { getMetadata } from "../common/utils";
 
 const videoTileProps = function (peer, track) {
-  const metadataString = peer.customerDescription;
-  const data = getMetadata(metadataString);
-  const isHandRaised = data?.raiseHand || false;
-  return { isHandRaised: isHandRaised };
+  return {
+    isHandRaised: getMetadata(peer.customerDescription)?.isHandRaised,
+  };
 };
 
 export const ConferenceMainView = ({
@@ -33,7 +32,6 @@ export const ConferenceMainView = ({
   const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
   const { audioPlaylist, videoPlaylist } = useContext(AppContext);
-
   useEffect(() => {
     // set list only when room state is connected
     if (roomState !== HMSRoomState.Connected) {

@@ -1,5 +1,11 @@
-import React from "react";
-import { Button, MessageModal, Text } from "@100mslive/hms-video-react";
+import React, { useState } from "react";
+import {
+  Button,
+  MessageModal,
+  Text,
+  useHMSActions,
+} from "@100mslive/hms-video-react";
+import { hmsToast } from "./notifications/hms-toast";
 
 const defaultClasses = {
   formInner: "w-full flex flex-col md:flex-row my-1.5",
@@ -10,7 +16,7 @@ const defaultClasses = {
     "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
 };
 
-const ChangeNameFrom = ({ newName, setNewName }) => {
+const ChangeNameFrom = ({ currentName, setCurrentName }) => {
   return (
     <div>
       <form>
@@ -25,8 +31,8 @@ const ChangeNameFrom = ({ newName, setNewName }) => {
             <input
               type="text"
               className={defaultClasses.select}
-              value={newName}
-              onChange={e => setNewName(e.target.value)}
+              value={currentName}
+              onChange={e => setCurrentName(e.target.value)}
             />
           </div>
         </div>
@@ -35,27 +41,45 @@ const ChangeNameFrom = ({ newName, setNewName }) => {
   );
 };
 
-export const ChangeName = ({
-  currentName,
-  setCurrentName,
-  changeName,
-  showChangeNameModal,
-  setShowChangeNameModal,
-}) => (
-  <MessageModal
-    title="Change my name"
-    body={<ChangeNameFrom newName={currentName} setNewName={setCurrentName} />}
-    footer={
-      <Button
-        variant="emphasized"
-        shape="rectangle"
-        onClick={changeName}
-        disabled={currentName.length < 1}
-      >
-        Change
-      </Button>
+export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
+  const hmsActions = useHMSActions();
+  const [currentName, setCurrentName] = useState("");
+
+  const changeName = async () => {
+    try {
+      await hmsActions.updatePeer({
+        name: currentName,
+      });
+    } catch (error) {
+      console.error("failed to update name", error);
+      hmsToast(error.message);
+    } finally {
+      setShowChangeNameModal(false);
+      setCurrentName("");
     }
-    show={showChangeNameModal}
-    onClose={() => setShowChangeNameModal(false)}
-  />
-);
+  };
+
+  return (
+    <MessageModal
+      title="Change my name"
+      body={
+        <ChangeNameFrom
+          currentName={currentName}
+          setCurrentName={setCurrentName}
+        />
+      }
+      footer={
+        <Button
+          variant="emphasized"
+          shape="rectangle"
+          onClick={changeName}
+          disabled={currentName.length < 1}
+        >
+          Change
+        </Button>
+      }
+      show={showChangeNameModal}
+      onClose={() => setShowChangeNameModal(false)}
+    />
+  );
+};
