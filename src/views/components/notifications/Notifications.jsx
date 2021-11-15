@@ -56,6 +56,7 @@ export function Notifications() {
         if (!metadata?.isHandRaised) return;
 
         console.debug("Metadata updated", notification.data);
+        if (!subscribedNotifications.METADATA_UPDATED) return;
         hmsToast("", {
           left: (
             <Text classes={{ root: "flex" }}>
@@ -63,6 +64,7 @@ export function Notifications() {
               {notification.data?.name} raised their hand.
             </Text>
           ),
+          autoClose: 1000,
         });
         break;
       case HMSNotificationTypes.NAME_UPDATED:
@@ -227,6 +229,7 @@ export function Notifications() {
     subscribedNotifications.NEW_MESSAGE,
     subscribedNotifications.PEER_JOINED,
     subscribedNotifications.PEER_LEFT,
+    subscribedNotifications.METADATA_UPDATED,
   ]);
 
   return (
