@@ -11,6 +11,7 @@ export const MainGridView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
+  videoTileProps,
 }) => {
   const {
     maxTileCount,
@@ -54,6 +55,7 @@ export const MainGridView = ({
         hideSidePane={!showSidePane}
         isParticipantListOpen={isParticipantListOpen}
         totalPeers={peers.length}
+        videoTileProps={videoTileProps}
       />
       {showSidePane && (
         <GridSidePaneView
@@ -62,6 +64,7 @@ export const MainGridView = ({
           toggleChat={toggleChat}
           isParticipantListOpen={isParticipantListOpen}
           totalPeers={peers.length}
+          videoTileProps={videoTileProps}
         />
       )}
     </React.Fragment>

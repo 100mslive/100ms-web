@@ -8,12 +8,14 @@ import {
   ConnectivityIcon,
   PersonIcon,
   Button,
+  HandIcon,
 } from "@100mslive/hms-video-react";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 import { AppContext } from "../../../store/AppContext";
 import { TrackMuteAllModal } from "./TrackMuteAllModal";
+import { getMetadata } from "../../../common/utils";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -47,6 +49,28 @@ export function Notifications() {
             </Text>
           ),
         });
+        break;
+      case HMSNotificationTypes.METADATA_UPDATED:
+        // Don't toast message when metadata is updated and raiseHand is false.
+        const metadata = getMetadata(notification.data?.customerDescription);
+        if (!metadata?.isHandRaised) return;
+
+        console.debug("Metadata updated", notification.data);
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <HandIcon className="mr-2" />
+              {notification.data?.name} raised their hand.
+            </Text>
+          ),
+        });
+        break;
+      case HMSNotificationTypes.NAME_UPDATED:
+        console.log(
+          notification.data.id +
+            " changed their name to " +
+            notification.data.name
+        );
         break;
       case HMSNotificationTypes.PEER_LEFT:
         console.debug("[Peer Left]", notification.data);
@@ -185,7 +209,6 @@ export function Notifications() {
             "meeting",
             "leave"
           );
-          console.log("ll", leaveLocation);
           history.push(leaveLocation);
         }, 2000);
         break;
