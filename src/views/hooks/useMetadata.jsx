@@ -14,11 +14,17 @@ export const useMetadata = () => {
    * @param isHandRaised {boolean}
    */
   const setIsHandRaised = async isHandRaised => {
-    if (typeof isHandRaised !== "boolean")
-      throw new Error("setIsHandRaised only accepts a boolean value");
-    await hmsActions.updatePeer({
-      metadata: JSON.stringify({ isHandRaised: isHandRaised }),
-    });
+    if (typeof isHandRaised !== "boolean") {
+      console.error("setIsHandRaised only accepts a boolean value");
+      return;
+    }
+    try {
+      await hmsActions.updatePeer({
+        metadata: JSON.stringify({ isHandRaised: isHandRaised }),
+      });
+    } catch (error) {
+      console.error("failed to set isHandRaised", error);
+    }
   };
   return { isHandRaised: isHandRaised, setIsHandRaised: setIsHandRaised };
 };

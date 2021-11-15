@@ -119,14 +119,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       : addNoiseSuppressionPlugin();
   }
 
-  async function toggleRaiseHand() {
-    try {
-      await setIsHandRaised(!isHandRaised);
-    } catch (error) {
-      console.error("failed to set isHandRaised", error);
-    }
-  }
-
   const toggleScreenShare = useCallback(
     async (enable, audioOnly = false) => {
       try {
@@ -225,7 +217,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           variant="no-fill"
           iconSize="md"
           shape="rectangle"
-          onClick={toggleRaiseHand}
+          onClick={() => setIsHandRaised(!isHandRaised)}
           active={isHandRaised}
         >
           <HandIcon />

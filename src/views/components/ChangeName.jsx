@@ -16,7 +16,7 @@ const defaultClasses = {
     "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
 };
 
-const ChangeNameFrom = ({ currentName, setCurrentName }) => {
+const ChangeNameForm = ({ currentName, setCurrentName }) => {
   return (
     <div>
       <form>
@@ -63,7 +63,7 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
     <MessageModal
       title="Change my name"
       body={
-        <ChangeNameFrom
+        <ChangeNameForm
           currentName={currentName}
           setCurrentName={setCurrentName}
         />
