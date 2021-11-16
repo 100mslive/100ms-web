@@ -18,6 +18,7 @@ import {
   selectAudioPlaylist,
 } from "@100mslive/hms-video-react";
 import PIPComponent from "./PIP/PIPComponent";
+import { metadataProps as participantInListProps } from "../common/utils";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -201,7 +202,11 @@ export const ConferenceHeader = ({ onParticipantListOpen }) => {
         centerComponents={[<SpeakerTag key={0} />]}
         rightComponents={[
           <PIPComponent key={0} />,
-          <ParticipantList key={1} onToggle={onParticipantListOpen} />,
+          <ParticipantList
+            key={1}
+            onToggle={onParticipantListOpen}
+            participantInListProps={participantInListProps}
+          />,
         ]}
         classes={{ root: "h-full" }}
       />

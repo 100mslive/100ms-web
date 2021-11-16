@@ -12,13 +12,7 @@ import {
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
 import { AppContext } from "../store/AppContext";
-import { getMetadata } from "../common/utils";
-
-const videoTileProps = function (peer, track) {
-  return {
-    isHandRaised: getMetadata(peer.customerDescription)?.isHandRaised,
-  };
-};
+import { metadataProps as videoTileProps } from "../common/utils";
 
 export const ConferenceMainView = ({
   isChatOpen,
