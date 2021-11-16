@@ -25,6 +25,7 @@ import {
   selectVideoPlaylist,
   VideoPlaylist,
   selectIsConnectedToRoom,
+  HandIcon,
 } from "@100mslive/hms-video-react";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
@@ -32,6 +33,7 @@ import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
+import { useMetadata } from "./hooks/useMetadata";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -49,7 +51,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [shareAudioModal, setShareAudioModal] = useState(false);
-
+  const { isHandRaised, setIsHandRaised } = useMetadata();
   const isNoiseSuppression = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
@@ -205,6 +207,21 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           trigger={<VideoPlaylistIcon key="videoPlaylistIcon" />}
           active={activeVideoPlaylist}
         />
+      );
+    // TODO: Remove ENV condition when it is deployed from backend.
+    process.env.REACT_APP_ENV === "qa" &&
+      leftComponents.push(
+        <Button
+          key="raise-hand"
+          iconOnly
+          variant="no-fill"
+          iconSize="md"
+          shape="rectangle"
+          onClick={() => setIsHandRaised(!isHandRaised)}
+          active={isHandRaised}
+        >
+          <HandIcon />
+        </Button>
       );
   }
   if (isMobileDevice()) {

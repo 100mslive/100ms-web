@@ -54,6 +54,7 @@ const defaultUiSettings = {
     PEER_LEFT: false,
     NEW_MESSAGE: false,
     ERROR: true,
+    METADATA_UPDATED: true,
   },
 };
 

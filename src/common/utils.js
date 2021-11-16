@@ -100,3 +100,11 @@ export const setFullScreenEnabled = async setFullScreen => {
     }
   }
 };
+
+export const getMetadata = metadataString => {
+  try {
+    return metadataString === "" ? {} : JSON.parse(metadataString);
+  } catch (error) {
+    return {};
+  }
+};

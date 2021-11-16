@@ -25,6 +25,7 @@ export const GridCenterView = ({
   isParticipantListOpen,
   hideSidePane,
   totalPeers,
+  videoTileProps,
 }) => {
   return (
     <div
@@ -40,6 +41,7 @@ export const GridCenterView = ({
           }}
           maxTileCount={isMobileDevice() ? MAX_TILES_FOR_MOBILE : maxTileCount}
           allowRemoteMute={allowRemoteMute}
+          videoTileProps={videoTileProps}
         />
       ) : EVENT_ROOM_IDS.some(id => window.location.href.includes(id)) ? (
         <div className="h-full w-full grid place-items-center p-5">
@@ -81,6 +83,7 @@ export const GridSidePaneView = ({
   toggleChat,
   isParticipantListOpen,
   totalPeers,
+  videoTileProps,
 }) => {
   const isMobile = isMobileDevice();
   const rowCount = isMobile ? 1 : undefined;
@@ -98,6 +101,7 @@ export const GridSidePaneView = ({
             maxColCount={2}
             maxRowCount={rowCount}
             compact={true}
+            videoTileProps={videoTileProps}
           />
         )}
       </div>
