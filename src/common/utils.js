@@ -108,3 +108,9 @@ export const getMetadata = metadataString => {
     return {};
   }
 };
+
+export const metadataProps = function (peer, track) {
+  return {
+    isHandRaised: getMetadata(peer.customerDescription)?.isHandRaised,
+  };
+};
