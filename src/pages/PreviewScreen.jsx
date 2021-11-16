@@ -38,6 +38,7 @@ const PreviewScreen = ({ getUserToken }) => {
         className="text-blue-standard"
         target="_blank"
         href="https://www.100ms.live/contact"
+        rel="noreferrer"
       >
         here
       </a>{" "}
@@ -46,6 +47,7 @@ const PreviewScreen = ({ getUserToken }) => {
         className="text-blue-standard"
         target="_blank"
         href="https://discord.com/invite/kGdmszyzq2"
+        rel="noreferrer"
       >
         our Discord Community
       </a>
