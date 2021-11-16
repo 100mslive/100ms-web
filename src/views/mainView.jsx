@@ -12,7 +12,6 @@ import {
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
 import { AppContext } from "../store/AppContext";
-import { getMetadata } from "../common/utils";
 import { metadataProps as videoTileProps } from "../common/utils";
 
 export const ConferenceMainView = ({
