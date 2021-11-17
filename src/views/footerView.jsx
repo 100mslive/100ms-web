@@ -86,7 +86,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   function createVBPlugin() {
     if (!pluginRef.current) {
-      pluginRef.current = new HMSVirtualBackgroundPlugin("none",true);
+      pluginRef.current = new HMSVirtualBackgroundPlugin("none", true);
     }
   }
 
@@ -238,6 +238,21 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </Button>
     );
+    // TODO: Remove ENV condition when it is deployed from backend.
+    process.env.REACT_APP_ENV === "qa" &&
+      leftComponents.push(
+        <Button
+          key="raise-hand"
+          iconOnly
+          variant="no-fill"
+          iconSize="md"
+          shape="rectangle"
+          onClick={() => setIsHandRaised(!isHandRaised)}
+          active={isHandRaised}
+        >
+          <HandIcon />
+        </Button>
+      );
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
