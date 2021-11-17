@@ -64,7 +64,7 @@ export function Notifications() {
               {notification.data?.name} raised their hand.
             </Text>
           ),
-          autoClose: 1000,
+          autoClose: 2000,
         });
         break;
       case HMSNotificationTypes.NAME_UPDATED:

@@ -18,26 +18,24 @@ const defaultClasses = {
 
 const ChangeNameForm = ({ currentName, setCurrentName }) => {
   return (
-    <div>
-      <form>
-        <div className={defaultClasses.formInner}>
-          <div className={defaultClasses.selectLabel}>
-            <Text variant="heading" size="sm">
-              Name:
-            </Text>
-          </div>
-
-          <div className={defaultClasses.selectContainer}>
-            <input
-              type="text"
-              className={defaultClasses.select}
-              value={currentName}
-              onChange={e => setCurrentName(e.target.value)}
-            />
-          </div>
+    <form onSubmit={e => e.preventDefault()}>
+      <div className={defaultClasses.formInner}>
+        <div className={defaultClasses.selectLabel}>
+          <Text variant="heading" size="sm">
+            Name:
+          </Text>
         </div>
-      </form>
-    </div>
+
+        <div className={defaultClasses.selectContainer}>
+          <input
+            type="text"
+            className={defaultClasses.select}
+            value={currentName}
+            onChange={e => setCurrentName(e.target.value)}
+          />
+        </div>
+      </div>
+    </form>
   );
 };
 
@@ -57,6 +55,11 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
       setShowChangeNameModal(false);
       setCurrentName("");
     }
+  };
+
+  const resetState = () => {
+    setShowChangeNameModal(false);
+    setCurrentName("");
   };
 
   return (
@@ -79,7 +82,7 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
         </Button>
       }
       show={showChangeNameModal}
-      onClose={() => setShowChangeNameModal(false)}
+      onClose={() => resetState()}
     />
   );
 };
