@@ -86,7 +86,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   function createVBPlugin() {
     if (!pluginRef.current) {
-      pluginRef.current = new HMSVirtualBackgroundPlugin("none");
+      pluginRef.current = new HMSVirtualBackgroundPlugin("none",false
+      );
     }
   }
 

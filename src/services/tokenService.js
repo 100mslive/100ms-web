@@ -4,6 +4,7 @@
  * @returns {Promise<Response>}
  */
 const fetchWithRetry = async (url, options) => {
+
   const MAX_RETRIES = 4;
   let error = Error("something went wrong");
   for (let i = 0; i < MAX_RETRIES; i++) {
