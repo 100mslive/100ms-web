@@ -33,24 +33,25 @@ const PreviewScreen = ({ getUserToken }) => {
   const tokenErrorBody = (errorMessage) => (
     <div>
       {errorMessage} If you think this
-      is wrong, please contact us{" "}
+      is a mistake, please create{" "}
       <a
         className="text-blue-standard"
         target="_blank"
-        href="https://www.100ms.live/contact"
+        href="https://github.com/100mslive/100ms-web/issues"
         rel="noreferrer"
       >
-        here
+        an issue
       </a>{" "}
-      or join{" "}
+       or reach out over{" "}
       <a
         className="text-blue-standard"
         target="_blank"
         href="https://discord.com/invite/kGdmszyzq2"
         rel="noreferrer"
       >
-        our Discord Community
+        Discord
       </a>
+      .
     </div>
   );
 
