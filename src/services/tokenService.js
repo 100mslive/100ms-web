@@ -19,25 +19,33 @@ const fetchWithRetry = async (url, options) => {
 
 export default async function getToken(
   tokenEndpoint,
-  env,
   userId,
   role,
   roomId
 ) {
-  const response = await fetchWithRetry(`${tokenEndpoint}api/token`, {
-    method: "POST",
-    //TODO remove env
-    body: JSON.stringify({
-      env,
-      role,
-      room_id: roomId,
-      user_id: userId,
-    }),
-  });
+  try {
+    const response = await fetchWithRetry(`${tokenEndpoint}api/token`, {
+      method: "POST",
+      body: JSON.stringify({
+        role,
+        room_id: roomId,
+        user_id: userId,
+      }),
+    });
 
-  const { token } = await response.json();
-
-  return token;
+    if(!response.ok) {
+      let error = new Error('Request failed!')
+      error.response = response
+      throw error
+    }
+    
+    const data = await response.json()
+    const { token } = data
+    return token;
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
 }
 
 export async function getUserToken(name) {
