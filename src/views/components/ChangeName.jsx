@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   MessageModal,
@@ -16,9 +16,14 @@ const defaultClasses = {
     "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
 };
 
-const ChangeNameForm = ({ currentName, setCurrentName }) => {
+const ChangeNameForm = ({ currentName, setCurrentName, changeName }) => {
   return (
-    <form onSubmit={e => e.preventDefault()}>
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+        changeName();
+      }}
+    >
       <div className={defaultClasses.formInner}>
         <div className={defaultClasses.selectLabel}>
           <Text variant="heading" size="sm">
@@ -28,6 +33,7 @@ const ChangeNameForm = ({ currentName, setCurrentName }) => {
 
         <div className={defaultClasses.selectContainer}>
           <input
+            autoFocus
             type="text"
             className={defaultClasses.select}
             value={currentName}
@@ -42,12 +48,9 @@ const ChangeNameForm = ({ currentName, setCurrentName }) => {
 export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
   const hmsActions = useHMSActions();
   const [currentName, setCurrentName] = useState("");
-
   const changeName = async () => {
     try {
-      await hmsActions.updatePeer({
-        name: currentName,
-      });
+      await hmsActions.changeName(currentName);
     } catch (error) {
       console.error("failed to update name", error);
       hmsToast(error.message);
@@ -69,6 +72,7 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
         <ChangeNameForm
           currentName={currentName}
           setCurrentName={setCurrentName}
+          changeName={changeName}
         />
       }
       footer={

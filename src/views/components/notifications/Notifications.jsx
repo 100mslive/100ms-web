@@ -52,7 +52,7 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.METADATA_UPDATED:
         // Don't toast message when metadata is updated and raiseHand is false.
-        const metadata = getMetadata(notification.data?.customerDescription);
+        const metadata = getMetadata(notification.data?.metadata);
         if (!metadata?.isHandRaised) return;
 
         console.debug("Metadata updated", notification.data);

@@ -2,22 +2,22 @@ import {
   useHMSActions,
   useHMSStore,
   selectLocalPeer,
+  selectPeerMetadata,
 } from "@100mslive/hms-video-react";
-import { getMetadata } from "../../common/utils";
 
 export const useMetadata = () => {
   const hmsActions = useHMSActions();
   const peer = useHMSStore(selectLocalPeer);
   const isHandRaised =
-    getMetadata(peer?.customerDescription)?.isHandRaised || false;
+    useHMSStore(selectPeerMetadata(peer.id))?.isHandRaised || false;
   /**
    * @param isHandRaised {boolean}
    */
   const setIsHandRaised = async isHandRaised => {
     try {
-      await hmsActions.updatePeer({
-        metadata: JSON.stringify({ isHandRaised: isHandRaised }),
-      });
+      await hmsActions.changeMetadata(
+        JSON.stringify({ isHandRaised: isHandRaised })
+      );
     } catch (error) {
       console.error("failed to set isHandRaised", error);
     }

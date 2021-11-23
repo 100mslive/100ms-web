@@ -175,12 +175,14 @@ export const MoreSettings = () => {
           },
         }}
       >
-        <ContextMenuItem
-          icon={<ChangeTextIcon />}
-          label="Change my name"
-          key="change-name"
-          onClick={() => setShowChangeNameModal(true)}
-        />
+        {window.HMS.showMetadata && (
+          <ContextMenuItem
+            icon={<ChangeTextIcon />}
+            label="Change my name"
+            key="change-name"
+            onClick={() => setShowChangeNameModal(true)}
+          />
+        )}
         {permissions.changeRole && (
           <ContextMenuItem
             icon={<PersonIcon />}
