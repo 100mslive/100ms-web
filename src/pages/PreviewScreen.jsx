@@ -30,27 +30,28 @@ const PreviewScreen = ({ getUserToken }) => {
 
   const usernameFromStorage = localStorage.getItem(USERNAME_KEY);
 
-  const tokenErrorBody = (
+  const tokenErrorBody = (errorMessage) => (
     <div>
-      We could not find the room corresponding to this link. If you think this
-      is wrong, please contact us{" "}
+      {errorMessage} If you think this
+      is a mistake, please create{" "}
       <a
         className="text-blue-standard"
         target="_blank"
-        href="https://www.100ms.live/contact"
+        href="https://github.com/100mslive/100ms-web/issues"
         rel="noreferrer"
       >
-        here
+        an issue
       </a>{" "}
-      or join{" "}
+       or reach out over{" "}
       <a
         className="text-blue-standard"
         target="_blank"
         href="https://discord.com/invite/kGdmszyzq2"
         rel="noreferrer"
       >
-        our Discord Community
+        Discord
       </a>
+      .
     </div>
   );
 
@@ -68,7 +69,7 @@ const PreviewScreen = ({ getUserToken }) => {
           if (error.response && error.response.status === 404) {
             setError({
               title: "Room does not exist",
-              body: tokenErrorBody,
+              body: tokenErrorBody('We could not find the room corresponding to this link.'),
               fatal: true,
               hideLeave: true,
             });
@@ -82,7 +83,7 @@ const PreviewScreen = ({ getUserToken }) => {
           }
         });
     } else {
-      getToken(tokenEndpoint, loginInfo.env, v4(), userRole, urlRoomId)
+      getToken(tokenEndpoint, v4(), userRole, urlRoomId)
         .then(token => {
           setToken(token);
         })
@@ -90,12 +91,18 @@ const PreviewScreen = ({ getUserToken }) => {
           if (error.response && error.response.status === 404) {
             setError({
               title: "Room does not exist",
-              body: tokenErrorBody,
+              body: tokenErrorBody('We could not find the room corresponding to this link.'),
+              fatal: true,
+              hideLeave: true,
+            });
+          } else if (error.response && error.response.status === 403) {
+            setError({
+              title: "Accessing room using this link format is disabled",
+              body: tokenErrorBody(''),
               fatal: true,
               hideLeave: true,
             });
           } else {
-            console.error("Token API Error", error);
             setError({
               title: "Error fetching token",
               body: "An error occurred while fetching token. Please look into logs for more details",
@@ -137,7 +144,7 @@ const PreviewScreen = ({ getUserToken }) => {
           });
         });
     } else {
-      getToken(tokenEndpoint, loginInfo.env, name, userRole, urlRoomId)
+      getToken(tokenEndpoint, name, userRole, urlRoomId)
         .then(token => {
           setLoginInfo({
             token,

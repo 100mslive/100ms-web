@@ -6,14 +6,14 @@ import {
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
 import { getBlurClass } from "../../common/utils";
-import eventsImg from "../../images/event-facetime.png";
+import eventsImg from "../../images/event-zoom-clone.png";
 
 const MAX_TILES_FOR_MOBILE = 4;
 
 /**
  * this is for showing webinar etc. related image if required on certain meeting urls
  */
-const EVENT_ROOM_IDS = ["jps-clw-eqn", "euo-lkl-tpy"];
+const EVENT_ROOM_IDS = ["yxh-etd-dcc", "iih-tnm-vrb"];
 
 // The center of the screen shows bigger tiles
 export const GridCenterView = ({
@@ -46,7 +46,7 @@ export const GridCenterView = ({
       ) : EVENT_ROOM_IDS.some(id => window.location.href.includes(id)) ? (
         <div className="h-full w-full grid place-items-center p-5">
           <a
-            href="https://community.100ms.live/facetime-clone"
+            href="https://community.100ms.live/zoom-clone-flutter"            
             target="_blank"
             rel="noreferrer"
           >
