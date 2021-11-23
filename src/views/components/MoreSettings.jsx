@@ -175,12 +175,14 @@ export const MoreSettings = () => {
           },
         }}
       >
-        <ContextMenuItem
-          icon={<ChangeTextIcon />}
-          label="Change my name"
-          key="change-name"
-          onClick={() => setShowChangeNameModal(true)}
-        />
+        {process.env.REACT_APP_ENV === "qa" && (
+          <ContextMenuItem
+            icon={<ChangeTextIcon />}
+            label="Change my name"
+            key="change-name"
+            onClick={() => setShowChangeNameModal(true)}
+          />
+        )}
         {permissions.changeRole && (
           <ContextMenuItem
             icon={<PersonIcon />}
