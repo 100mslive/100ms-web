@@ -46,7 +46,7 @@ export const GridCenterView = ({
       ) : EVENT_ROOM_IDS.some(id => window.location.href.includes(id)) ? (
         <div className="h-full w-full grid place-items-center p-5">
           <a
-            href="https://community.100ms.live/meeting"
+            href="https://community.app.100ms.live/meeting/"            
             target="_blank"
             rel="noreferrer"
           >
