@@ -175,7 +175,7 @@ export const MoreSettings = () => {
           },
         }}
       >
-        {process.env.REACT_APP_ENV === "qa" && (
+        {window.HMS.showMetadata && (
           <ContextMenuItem
             icon={<ChangeTextIcon />}
             label="Change my name"

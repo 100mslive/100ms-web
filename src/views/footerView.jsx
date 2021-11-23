@@ -209,7 +209,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         />
       );
     // TODO: Remove ENV condition when it is deployed from backend.
-    process.env.REACT_APP_ENV === "qa" &&
+    window.HMS.showMetadata &&
       leftComponents.push(
         <Button
           key="raise-hand"
@@ -239,7 +239,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       </Button>
     );
     // TODO: Remove ENV condition when it is deployed from backend.
-    process.env.REACT_APP_ENV === "qa" &&
+    window.HMS.showMetadata &&
       leftComponents.push(
         <Button
           key="raise-hand"
