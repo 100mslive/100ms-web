@@ -33,7 +33,7 @@ const ChangeNameForm = ({ currentName, setCurrentName, changeName }) => {
 
         <div className={defaultClasses.selectContainer}>
           <input
-            id="nameInput"
+            autoFocus
             type="text"
             className={defaultClasses.select}
             value={currentName}
@@ -59,13 +59,6 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
       setCurrentName("");
     }
   };
-
-  useEffect(() => {
-    const nameInput = document.getElementById("nameInput");
-    if (showChangeNameModal) {
-      nameInput.focus();
-    }
-  }, [showChangeNameModal]);
 
   const resetState = () => {
     setShowChangeNameModal(false);
