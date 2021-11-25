@@ -13,7 +13,6 @@ export function FeatureFlags() {
     window.HMS.AUDIO_SINK = true;
     window.HMS.actions = hmsActions;
     window.HMS.store = store;
-    window.HMS.showMetadata = process.env.REACT_APP_ENV === "qa";
   }, [hmsActions, store]);
 
   return null;
