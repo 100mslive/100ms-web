@@ -208,21 +208,19 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           active={activeVideoPlaylist}
         />
       );
-    // TODO: Remove ENV condition when it is deployed from backend.
-    window.HMS.showMetadata &&
-      leftComponents.push(
-        <Button
-          key="raise-hand"
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
-          onClick={() => setIsHandRaised(!isHandRaised)}
-          active={isHandRaised}
-        >
-          <HandIcon />
-        </Button>
-      );
+    leftComponents.push(
+      <Button
+        key="raise-hand"
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={() => setIsHandRaised(!isHandRaised)}
+        active={isHandRaised}
+      >
+        <HandIcon />
+      </Button>
+    );
   }
   if (isMobileDevice()) {
     leftComponents.push(
@@ -238,21 +236,19 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </Button>
     );
-    // TODO: Remove ENV condition when it is deployed from backend.
-    window.HMS.showMetadata &&
-      leftComponents.push(
-        <Button
-          key="raise-hand"
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
-          onClick={() => setIsHandRaised(!isHandRaised)}
-          active={isHandRaised}
-        >
-          <HandIcon />
-        </Button>
-      );
+    leftComponents.push(
+      <Button
+        key="raise-hand"
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={() => setIsHandRaised(!isHandRaised)}
+        active={isHandRaised}
+      >
+        <HandIcon />
+      </Button>
+    );
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
