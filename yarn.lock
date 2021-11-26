@@ -51,10 +51,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.3.3.tgz#0fd5527729b56318ed99377d26b6d4098e8c2ba7"
-  integrity sha512-TGentUjunQFb/A3HfvGXf28o8ut3ShzBL1Wm0+mElIj4VZoGBHEgfIBJO8kQAvsqb4OMsq2uNRivFjajOHX3Sw==
+"@100mslive/hms-virtual-background@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.3.4.tgz#428842b1bd626b11fd98cd43031eaa198345e879"
+  integrity sha512-L4i6eyXLzEVImDhQK81l73zil2fMUtup86KHXYhft6+bPLFqCo7X0pk5x0QOZhPyqFP6cTMxR7E9Zbgzh5HJtw==
   dependencies:
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
     "@tensorflow/tfjs-core" "^3.3.0"
