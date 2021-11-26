@@ -15,9 +15,7 @@ export const useMetadata = () => {
    */
   const setIsHandRaised = async isHandRaised => {
     try {
-      await hmsActions.changeMetadata(
-        JSON.stringify({ isHandRaised: isHandRaised })
-      );
+      await hmsActions.changeMetadata({ isHandRaised: isHandRaised });
     } catch (error) {
       console.error("failed to set isHandRaised", error);
     }

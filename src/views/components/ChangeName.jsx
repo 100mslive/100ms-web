@@ -6,6 +6,7 @@ import {
   useHMSActions,
 } from "@100mslive/hms-video-react";
 import { hmsToast } from "./notifications/hms-toast";
+import { USERNAME_KEY } from "../../common/constants";
 
 const defaultClasses = {
   formInner: "w-full flex flex-col md:flex-row my-1.5",
@@ -49,8 +50,14 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
   const hmsActions = useHMSActions();
   const [currentName, setCurrentName] = useState("");
   const changeName = async () => {
+    const name = currentName.trim();
+    if (name.length < 1) {
+      hmsToast("Enter a valid name!");
+      return;
+    }
     try {
-      await hmsActions.changeName(currentName);
+      await hmsActions.changeName(name);
+      localStorage.setItem(USERNAME_KEY, name);
     } catch (error) {
       console.error("failed to update name", error);
       hmsToast(error.message);
@@ -80,7 +87,7 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
           variant="emphasized"
           shape="rectangle"
           onClick={changeName}
-          disabled={currentName.length < 1}
+          disabled={currentName.trim().length < 1}
         >
           Change
         </Button>
