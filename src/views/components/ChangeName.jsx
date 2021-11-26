@@ -51,7 +51,6 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
   const [currentName, setCurrentName] = useState("");
   const changeName = async () => {
     const name = currentName.trim();
-    console.log(name);
     if (name.length < 1) {
       hmsToast("Enter a valid name!");
       return;
