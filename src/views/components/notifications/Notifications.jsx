@@ -52,8 +52,9 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.METADATA_UPDATED:
         // Don't toast message when metadata is updated and raiseHand is false.
+        // Don't toast message in case of local peer.
         const metadata = getMetadata(notification.data?.metadata);
-        if (!metadata?.isHandRaised) return;
+        if (!metadata?.isHandRaised || notification.data.isLocal) return;
 
         console.debug("Metadata updated", notification.data);
         if (!subscribedNotifications.METADATA_UPDATED) return;
