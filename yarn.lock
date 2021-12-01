@@ -7,12 +7,12 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.5.tgz#d9c1ae24cedecc6eca1f0067028de658db9834fd"
   integrity sha512-QGXLmrN00GzlMEjAoE2Oo+YX4/E80VMGola3u8J1qwM/6fUqWTrDPyjMyHKoB9yLbLh4W7MHQRdJtU8kEIx13g==
 
-"@100mslive/hms-video-react@0.3.112-alpha.2":
-  version "0.3.112-alpha.2"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.112-alpha.2.tgz#2964127eb2820161b19823c0ac8c21219a6eccba"
-  integrity sha512-so7VLmJRrsurD/Z2Ihs3J1S8dBCSUnTY75Qsi2KaRA+Xrm7Q8hfBJcCwsYXy6ClwrqiPqME3YQZhbBeccRv7vg==
+"@100mslive/hms-video-react@0.3.112-alpha.3":
+  version "0.3.112-alpha.3"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.112-alpha.3.tgz#8ad8e5e064a22960107890114fa9489c5068bff1"
+  integrity sha512-GWMoU810k5DR00vMUblj9J+QaFZRfkX+VFH2xznjyoyDn3tbbY6O/nHLeYxayiifJO1N0275RpeGduawKmZl0A==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.82-alpha.5"
+    "@100mslive/hms-video-store" "0.2.82-alpha.6"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -30,21 +30,21 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.82-alpha.5":
-  version "0.2.82-alpha.5"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.82-alpha.5.tgz#6d7a59576b3eacd3a064c781514dcae29450d7f0"
-  integrity sha512-7fAf62q8b9cbdlr0ntMxCgX3OxjJjv4MbHTTNhhMNIUOGWyQ3aK6NYk9KMW6E2/oxJ87V8g2q88sl2E4KND/RA==
+"@100mslive/hms-video-store@0.2.82-alpha.6":
+  version "0.2.82-alpha.6"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.82-alpha.6.tgz#fad89b4a3b6ba794c57ed3ec9745cb261371c3ce"
+  integrity sha512-NxPhBxnG9iqZ4PP3J1zqzLPgzu5O9BWyly6VeJDEoHCbfj4n5Acjlx7nQTk94XZLSsxwCQguWbFb1ncnJ08v4Q==
   dependencies:
-    "@100mslive/hms-video" "0.1.35-alpha.8"
+    "@100mslive/hms-video" "0.1.35-alpha.9"
     eventemitter2 "^6.4.5"
     immer "^9.0.6"
     reselect "4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.1.35-alpha.8":
-  version "0.1.35-alpha.8"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.35-alpha.8.tgz#e99412c8e1ef07caffbd6722ae5e9669c986a01f"
-  integrity sha512-8GaY5OxRh/lPyFYsJ7IghefpmoVTy4LqOZHzsX2yTUy9aaxEDs4RUgTQOsjXPLrVslVHiIibIRYK2KIrEaajMw==
+"@100mslive/hms-video@0.1.35-alpha.9":
+  version "0.1.35-alpha.9"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.35-alpha.9.tgz#3c4c24ed93ac6b16faf3cda6001c14910d4bab40"
+  integrity sha512-odHRaKDOGkPpZnxIbMsGPnxFaBlsaeqsTMzWED59m7GT62N8UozK5fvSOcfpzvk4B/uuS0UuET32VdRm2CzcSw==
   dependencies:
     eventemitter2 "^6.4.5"
     sdp-transform "^2.14.1"
