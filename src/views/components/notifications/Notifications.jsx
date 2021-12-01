@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
@@ -8,26 +8,36 @@ import {
   ConnectivityIcon,
   PersonIcon,
   Button,
-  isMobileDevice,
-  useHMSActions,
+  HandIcon,
 } from "@100mslive/hms-video-react";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 import { AppContext } from "../../../store/AppContext";
 import { TrackMuteAllModal } from "./TrackMuteAllModal";
+import { getMetadata } from "../../../common/utils";
 
 export function Notifications() {
   const notification = useHMSNotifications();
-  const hmsActions = useHMSActions();
   const history = useHistory();
-  const params = useParams();
   const { subscribedNotifications } = useContext(AppContext);
   useEffect(() => {
     if (!notification) {
       return;
     }
     switch (notification.type) {
+      case HMSNotificationTypes.PEER_LIST:
+        console.debug("[Peer List]", notification.data);
+        if (!subscribedNotifications.PEER_JOINED) return;
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <PersonIcon className="mr-2" />
+              {notification.data?.length} peers joined
+            </Text>
+          ),
+        });
+        break;
       case HMSNotificationTypes.PEER_JOINED:
         console.debug("[Peer Joined]", notification.data);
         if (!subscribedNotifications.PEER_JOINED) return;
@@ -39,6 +49,31 @@ export function Notifications() {
             </Text>
           ),
         });
+        break;
+      case HMSNotificationTypes.METADATA_UPDATED:
+        // Don't toast message when metadata is updated and raiseHand is false.
+        // Don't toast message in case of local peer.
+        const metadata = getMetadata(notification.data?.metadata);
+        if (!metadata?.isHandRaised || notification.data.isLocal) return;
+
+        console.debug("Metadata updated", notification.data);
+        if (!subscribedNotifications.METADATA_UPDATED) return;
+        hmsToast("", {
+          left: (
+            <Text classes={{ root: "flex" }}>
+              <HandIcon className="mr-2" />
+              {notification.data?.name} raised their hand.
+            </Text>
+          ),
+          autoClose: 2000,
+        });
+        break;
+      case HMSNotificationTypes.NAME_UPDATED:
+        console.log(
+          notification.data.id +
+            " changed their name to " +
+            notification.data.name
+        );
         break;
       case HMSNotificationTypes.PEER_LEFT:
         console.debug("[Peer Left]", notification.data);
@@ -53,10 +88,6 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        // TODO: remove this when chat UI is fixed for mweb
-        if (isMobileDevice()) {
-          return;
-        }
         if (!subscribedNotifications.NEW_MESSAGE) return;
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
@@ -73,10 +104,8 @@ export function Notifications() {
         console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
-        // show button action when the error is terminal
-        if (!subscribedNotifications.ERROR) return;
         if (notification.data?.isTerminal) {
-          if (notification.data?.code === 6008) {
+          if ([500, 6008].includes(notification.data?.code)) {
             hmsToast("", {
               left: (
                 <Text classes={{ root: "flex" }}>
@@ -92,6 +121,7 @@ export function Notifications() {
             }, 2000);
             return;
           }
+          // show button action when the error is terminal
           hmsToast("", {
             center: (
               <div className="flex">
@@ -118,6 +148,7 @@ export function Notifications() {
         if (notification.data?.code === 3008) {
           return;
         }
+        if (!subscribedNotifications.ERROR) return;
         hmsToast("", {
           left: (
             <Text classes={{ root: "flex" }}>
@@ -177,11 +208,11 @@ export function Notifications() {
           ),
         });
         setTimeout(() => {
-          if (params.role) {
-            history.push("/leave/" + params.roomId + "/" + params.role);
-          } else {
-            history.push("/leave/" + params.roomId);
-          }
+          const leaveLocation = history.location.pathname.replace(
+            "meeting",
+            "leave"
+          );
+          history.push(leaveLocation);
         }, 2000);
         break;
       case HMSNotificationTypes.DEVICE_CHANGE_UPDATE:
@@ -192,13 +223,22 @@ export function Notifications() {
       default:
         break;
     }
-  }, [hmsActions, notification]); //eslint-disable-line
+  }, [
+    history,
+    notification,
+    subscribedNotifications.ERROR,
+    subscribedNotifications.NEW_MESSAGE,
+    subscribedNotifications.PEER_JOINED,
+    subscribedNotifications.PEER_LEFT,
+    subscribedNotifications.METADATA_UPDATED,
+  ]);
+
   return (
     <>
       <HMSToastContainer />
       <TrackUnmuteModal notification={notification} />
       <TrackMuteAllModal notification={notification} />
-      <AutoplayBlockedModal />
+      <AutoplayBlockedModal notification={notification} />
     </>
   );
 }

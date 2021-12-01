@@ -30,6 +30,7 @@ import {
   selectRecordingState,
   selectRTMPState,
   StarIcon,
+  ChangeTextIcon,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
@@ -37,6 +38,7 @@ import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 import screenfull from "screenfull";
 import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
 import { MuteAll } from "./MuteAll";
+import { ChangeName } from "./ChangeName";
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + "?token=beam_recording";
@@ -72,6 +74,7 @@ export const MoreSettings = () => {
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
     screenfull.isFullscreen
   );
+  const [showChangeNameModal, setShowChangeNameModal] = useState(false);
 
   const availableSelfChangeRoles = useMemo(
     () => arrayIntersection(selfRoleChangeTo, roles),
@@ -181,6 +184,12 @@ export const MoreSettings = () => {
           },
         }}
       >
+        <ContextMenuItem
+          icon={<ChangeTextIcon />}
+          label="Change my name"
+          key="change-name"
+          onClick={() => setShowChangeNameModal(true)}
+        />
         {permissions.changeRole && (
           <ContextMenuItem
             icon={<PersonIcon />}
@@ -346,6 +355,10 @@ export const MoreSettings = () => {
         }
         show={showRecordingAndRTMPModal}
         onClose={() => setShowRecordingAndRTMPModal(false)}
+      />
+      <ChangeName
+        setShowChangeNameModal={setShowChangeNameModal}
+        showChangeNameModal={showChangeNameModal}
       />
     </Fragment>
   );

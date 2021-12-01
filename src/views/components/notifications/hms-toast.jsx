@@ -39,7 +39,7 @@ export const hmsToast = (message, options) => {
       right={options?.right || <CloseIcon />}
     />,
     {
-      autoClose: 3000,
+      autoClose: options?.autoClose || 3000,
       ...options?.toastProps,
       transition,
     }

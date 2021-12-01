@@ -21,6 +21,7 @@ export const ScreenShareView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
+  videoTileProps,
 }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -58,6 +59,7 @@ export const ScreenShareView = ({
           amIPresenting={amIPresenting}
           peerPresenting={peerPresenting}
           peerSharingPlaylist={peerSharingPlaylist}
+          videoTileProps={videoTileProps}
         />
         <div className="flex flex-wrap overflow-hidden p-2 w-full h-1/3 md:w-2/10 md:h-full ">
           <SidePane
@@ -68,6 +70,7 @@ export const ScreenShareView = ({
             smallTilePeers={smallTilePeers}
             isParticipantListOpen={isParticipantListOpen}
             totalPeers={peers.length}
+            videoTileProps={videoTileProps}
           />
         </div>
       </div>
@@ -85,6 +88,7 @@ export const SidePane = ({
   smallTilePeers,
   isParticipantListOpen,
   totalPeers,
+  videoTileProps,
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
@@ -100,12 +104,14 @@ export const SidePane = ({
             <LargeTilePeerView
               peerScreenSharing={peerScreenSharing}
               isChatOpen={isChatOpen}
+              videoTileProps={videoTileProps}
             />
           )}
           <SmallTilePeersView
             isChatOpen={isChatOpen}
             smallTilePeers={smallTilePeers}
             shouldShowScreenFn={shouldShowScreenFn}
+            videoTileProps={videoTileProps}
           />
           <CustomChatView
             isChatOpen={isChatOpen}
@@ -123,6 +129,7 @@ const ScreenShareComponent = ({
   amIPresenting,
   peerPresenting,
   peerSharingPlaylist,
+  videoTileProps,
 }) => {
   const hmsActions = useHMSActions();
   const screenshareTrack = useHMSStore(
@@ -158,6 +165,7 @@ const ScreenShareComponent = ({
             showScreen={true}
             objectFit="contain"
             hmsVideoTrackId={screenshareTrack?.id}
+            videoTileProps={videoTileProps}
           />
         ))}
     </div>
@@ -188,6 +196,7 @@ const SmallTilePeersView = ({
   isChatOpen,
   smallTilePeers,
   shouldShowScreenFn,
+  videoTileProps,
 }) => {
   return (
     <div className="w-1/2 md:w-full relative md:flex-1">
@@ -199,13 +208,18 @@ const SmallTilePeersView = ({
           maxColCount={2}
           overflow="scroll-x"
           compact={true}
+          videoTileProps={videoTileProps}
         />
       )}
     </div>
   );
 };
 
-const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => {
+const LargeTilePeerView = ({
+  peerScreenSharing,
+  isChatOpen,
+  videoTileProps,
+}) => {
   const isMobile = isMobileDevice();
   return (
     <div
@@ -222,6 +236,7 @@ const LargeTilePeerView = ({ peerScreenSharing, isChatOpen }) => {
             peer={peerScreenSharing}
             compact={true}
             hmsVideoTrackId={peerScreenSharing.videoTrack}
+            videoTileProps={videoTileProps}
           />
         </div>
       )}

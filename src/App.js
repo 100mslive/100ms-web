@@ -20,6 +20,7 @@ import {
   getBackendEndpoint,
 } from "./services/tokenService";
 import { hmsToast } from "./views/components/notifications/hms-toast";
+import { Notifications } from "./views/components/notifications/Notifications";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -95,6 +96,7 @@ export function EdtechComponent({
             policyConfig={policyConfig}
           >
             <Router>
+              <Notifications />
               <Switch>
                 {/* <Route path="/createRoom">
               <CreateRoom />
@@ -130,6 +132,9 @@ export function EdtechComponent({
                         if (match.params.role)
                           previewUrl += "/" + match.params.role;
                         history.push(previewUrl);
+                      }}
+                      getFeedbackOnClick={setShowModal => {
+                        setShowModal(true);
                       }}
                     />
                   )}

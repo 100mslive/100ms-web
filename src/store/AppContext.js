@@ -13,7 +13,7 @@ import {
   setUpLogRocket,
 } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
-import { UI_SETTINGS_KEY } from "../common/constants";
+import { UI_SETTINGS_KEY, USERNAME_KEY } from "../common/constants";
 
 const AppContext = React.createContext(null);
 
@@ -54,6 +54,7 @@ const defaultUiSettings = {
     PEER_LEFT: false,
     NEW_MESSAGE: false,
     ERROR: true,
+    METADATA_UPDATED: true,
   },
   uiViewMode:'grid',
 };
@@ -100,11 +101,12 @@ const AppContextProvider = ({
     );
   }, [state.maxTileCount, state.subscribedNotifications, state.uiViewMode]);
 
-  /* const customLeave = useCallback(() => {
-    console.log("User is leaving the room");
-    hmsActions.leave();
-  }, [hmsActions]);
- */
+  useEffect(() => {
+    if (state.loginInfo.username) {
+      localStorage.setItem(USERNAME_KEY, state.loginInfo.username);
+    }
+  }, [state.loginInfo.username]);
+
   useEffect(() => {
     function resetHeight() {
       // reset the body height to that of the inner browser
@@ -150,7 +152,7 @@ const AppContextProvider = ({
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
-  const deepSetSubscribedNotifications = notification =>
+  const deepSetSubscribedNotifications = notification => {
     setState(prevState => ({
       ...prevState,
       subscribedNotifications: {
@@ -159,7 +161,7 @@ const AppContextProvider = ({
       },
     }));
   const deepSetuiViewMode = layout =>
-  setState(prevState => ({ ...prevState, uiViewMode: layout }));  
+  setState(prevState => ({ ...prevState, uiViewMode: layout }));
   
   return (
     <AppContext.Provider

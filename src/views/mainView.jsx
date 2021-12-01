@@ -12,6 +12,7 @@ import {
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
 import { AppContext } from "../store/AppContext";
+import { metadataProps as videoTileProps } from "../common/utils";
 import { ActiveSpeakerView } from "./ActiveSpeakerView";
 
 export const ConferenceMainView = ({
@@ -26,7 +27,6 @@ export const ConferenceMainView = ({
   const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
   const { audioPlaylist, videoPlaylist, uiViewMode } = useContext(AppContext);
-
   useEffect(() => {
     // set list only when room state is connected
     if (roomState !== HMSRoomState.Connected) {
@@ -60,6 +60,7 @@ export const ConferenceMainView = ({
         toggleChat={toggleChat}
         role={localPeer.roleName}
         isParticipantListOpen={isParticipantListOpen}
+        videoTileProps={videoTileProps}
       />
     )
   );

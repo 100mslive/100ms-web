@@ -12,7 +12,6 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/hms-video-react";
-import { Notifications } from "../views/components/notifications/Notifications";
 import FullPageProgress from "../views/components/FullPageSpinner";
 
 export const Conference = () => {
@@ -66,7 +65,6 @@ export const Conference = () => {
           isParticipantListOpen={isParticipantListOpen}
           toggleChat={toggleChat}
         />
-        <Notifications />
       </div>
       <div className="dark:bg-black" style={{ height: "10%" }}>
         <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />

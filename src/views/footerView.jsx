@@ -22,10 +22,10 @@ import {
   selectIsLocalAudioPluginPresent,
   selectLocalPeerID,
   selectScreenSharesByPeerId,
-  Text,
   selectVideoPlaylist,
   VideoPlaylist,
   selectIsConnectedToRoom,
+  HandIcon,
 } from "@100mslive/hms-video-react";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
@@ -33,6 +33,7 @@ import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
+import { useMetadata } from "./hooks/useMetadata";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -50,7 +51,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [shareAudioModal, setShareAudioModal] = useState(false);
-
+  const { isHandRaised, setIsHandRaised } = useMetadata();
   const isNoiseSuppression = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
@@ -85,7 +86,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   function createVBPlugin() {
     if (!pluginRef.current) {
-      pluginRef.current = new HMSVirtualBackgroundPlugin("none");
+      pluginRef.current = new HMSVirtualBackgroundPlugin("none", true);
     }
   }
 
@@ -207,6 +208,47 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           active={activeVideoPlaylist}
         />
       );
+    leftComponents.push(
+      <Button
+        key="raise-hand"
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={() => setIsHandRaised(!isHandRaised)}
+        active={isHandRaised}
+      >
+        <HandIcon />
+      </Button>
+    );
+  }
+  if (isMobileDevice()) {
+    leftComponents.push(
+      <Button
+        key="chat"
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={toggleChat}
+        active={isChatOpen}
+      >
+        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+      </Button>
+    );
+    leftComponents.push(
+      <Button
+        key="raise-hand"
+        iconOnly
+        variant="no-fill"
+        iconSize="md"
+        shape="rectangle"
+        onClick={() => setIsHandRaised(!isHandRaised)}
+        active={isHandRaised}
+      >
+        <HandIcon />
+      </Button>
+    );
   }
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
@@ -283,14 +325,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         title="How to play music"
         body={
           <>
-            <Text variant="body" classes={{ root: "text-xs" }}>
-              To share your music, select ‘Chrome Tab’ option in the share
-              screen window, then select the tab in which music will be played,
-              then click the ‘Share audio’ button and click the ‘Share’ button
-              on the right to start sharing your music.
-            </Text>
             <img
-              src="/share-audio.gif"
+              src="/share-audio.png"
               className="mt-4"
               alt="select ‘Chrome Tab’ option in the share screen
           window, then click the ‘Share audio’ button"
@@ -308,7 +344,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             Continue
           </Button>
         }
-        classes={{ footer: "justify-center", header: "mb-2" }}
+        classes={{
+          footer: "justify-center",
+          header: "mb-2",
+          boxTransition: "sm:max-w-4xl",
+        }}
       />
     </>
   );

@@ -1,0 +1,25 @@
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'target-newest/latest'
+        required: true
+        default: 'newest'
+
+name: Update sdk packages
+jobs:
+  release:
+    name: Update sdk npm packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update sdk packages
+        uses: technote-space/create-pr-action@v2
+        with:
+          EXECUTE_COMMANDS: |
+            npx --yes npm-check-updates --upgrade --packageManager yarn --filter "/@100mslive.*/" --target ${{ github.event.inputs.target }}
+            yarn install
+          COMMIT_MESSAGE: 'chore: update sdk npm dependencies'
+          COMMIT_NAME: 'github-actions[bot]'
+          COMMIT_EMAIL: '41898282+github-actions[bot]@users.noreply.github.com'
+          PR_BRANCH_NAME: 'chore-sdk-update-${PR_ID}'
+          PR_TITLE: 'chore: update sdk npm dependencies'
