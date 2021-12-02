@@ -49,8 +49,11 @@ export const ConferenceMainView = ({
   ) {
     ViewComponent = ScreenShareView;
   } else {
-    if(uiViewMode=="activeSpeaker")ViewComponent=ActiveSpeakerView;
-    else ViewComponent = MainGridView;
+    if (uiViewMode === "activeSpeaker") {
+      ViewComponent = ActiveSpeakerView;
+    } else {
+      ViewComponent = MainGridView;
+    }
   }
 
   return (

@@ -1,15 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import {
-  selectLocalPeerID,
-  selectPeers,
-  useHMSStore,
-} from "@100mslive/hms-video-react";
+import React, { useEffect } from "react";
+import { selectPeers, useHMSStore } from "@100mslive/hms-video-react";
 import { GridCenterView, GridSidePaneView } from "./components/gridView";
-import { AppContext } from "../store/AppContext";
 import {
-  selectPeerAudioByID,
   selectDominantSpeaker,
-  selectSpeakers,
   selectLocalPeer,
 } from "@100mslive/hms-video-store";
 
@@ -18,57 +11,41 @@ export const ActiveSpeakerView = ({
   toggleChat,
   isParticipantListOpen,
 }) => {
-  const { maxTileCount } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
-  const localPeerId = useHMSStore(selectLocalPeerID);
-  let [centerPeers, setcenterPeers] = React.useState({});
-  let [sidebarPeers, setsidebarPeers] = React.useState({});
   const localPeer = useHMSStore(selectLocalPeer);
+  let [activeSpeaker, setActiveSpeaker] = React.useState(localPeer);
   let dominantSpeaker = useHMSStore(selectDominantSpeaker);
-  let showSidePane;
-  let itsOnlyMeInTheRoom;
-  let nooneIsPublishing;
-  let [prevDominantSpeaker,setprevDominantSpeaker] = React.useState(localPeer);
+  let showSidePane = activeSpeaker && peers.length > 1;
 
-  /* here we are using peer filter function to change the centerPeers and sidebarPeers,
-   on first mount our prevDominantSpeaker points to the localPeer and on each update it points
-   to the dominantSpeaker
+  /** here we are using peer filter function to change the activeSpeaker and sidebarPeers,
+   * on first mount activeSpeaker points to the localPeer and on each update it points
+   * to the dominantSpeaker
    */
-  
-  const peerFilter = async dominantSpeaker => {
-    
+  const peerFilter = dominantSpeaker => {
     if (dominantSpeaker) {
-      setcenterPeers([dominantSpeaker]);
-      const sidebarPeer = peers.filter(peer => peer.id !== dominantSpeaker.id);
-      setsidebarPeers(sidebarPeer);
-      setprevDominantSpeaker(dominantSpeaker)
-    } else {
-      setcenterPeers([prevDominantSpeaker]);
-      const sidePeer = peers.filter(peer => peer.id !== prevDominantSpeaker.id);
-      setsidebarPeers(sidePeer);
+      setActiveSpeaker(dominantSpeaker);
     }
   };
 
   useEffect(() => {
     peerFilter(dominantSpeaker);
-    }, [dominantSpeaker]);  
-  showSidePane = centerPeers.length > 0 && sidebarPeers.length > 0;
+  }, [dominantSpeaker]);
 
   return (
     <React.Fragment>
       <GridCenterView
-        peers={centerPeers}
+        peers={[activeSpeaker]}
         maxTileCount={1}
         isChatOpen={isChatOpen}
         toggleChat={toggleChat}
         allowRemoteMute={false}
-        hideSidePane={showSidePane}
+        hideSidePane={!showSidePane}
         isParticipantListOpen={isParticipantListOpen}
-        totalPeers={peers.length}
+        totalPeers={1}
       />
       {showSidePane && (
         <GridSidePaneView
-          peers={sidebarPeers}
+          peers={peers.filter(peer => peer.id !== activeSpeaker.id)}
           isChatOpen={isChatOpen}
           toggleChat={toggleChat}
           isParticipantListOpen={isParticipantListOpen}

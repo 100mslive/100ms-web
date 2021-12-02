@@ -56,7 +56,7 @@ const defaultUiSettings = {
     ERROR: true,
     METADATA_UPDATED: true,
   },
-  uiViewMode:'grid',
+  uiViewMode: "grid",
 };
 
 const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
@@ -152,7 +152,7 @@ const AppContextProvider = ({
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
-  const deepSetSubscribedNotifications = notification => {
+  const deepSetSubscribedNotifications = notification =>
     setState(prevState => ({
       ...prevState,
       subscribedNotifications: {
@@ -161,8 +161,8 @@ const AppContextProvider = ({
       },
     }));
   const deepSetuiViewMode = layout =>
-  setState(prevState => ({ ...prevState, uiViewMode: layout }));
-  
+    setState(prevState => ({ ...prevState, uiViewMode: layout }));
+
   return (
     <AppContext.Provider
       value={{
