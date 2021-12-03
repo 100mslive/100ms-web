@@ -46,7 +46,7 @@ export function getRandomVirtualBackground() {
     "https://www.100ms.live/images/vb-2.jpg",
   ];
 
-  if(process.env["REACT_APP_VIDEO_VB "] === true){
+  if(process.env["REACT_APP_VIDEO_VB"]){
     let videoList = [
       "https://www.100ms.live/images/video-1.mp4",
       "https://www.100ms.live/images/video-2.mp4",
@@ -68,7 +68,7 @@ export function getRandomVirtualBackground() {
     return img;
   }
   else{
-    if(process.env["REACT_APP_VIDEO_VB "] === true){
+    if(process.env["REACT_APP_VIDEO_VB"]){
       const videoEl = document.createElement('video');
       videoEl.src = backgroundList[randomIdx];
       return videoEl;
