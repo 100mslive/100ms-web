@@ -140,13 +140,13 @@ export function Notifications() {
               ),
             });
           }
-          // Call leave for terminal if any action is not performed within 2secs
+          // goto preview for terminal if any action is not performed within 2secs
           setTimeout(() => {
-            const leaveLocation = history.location.pathname.replace(
+            const previewLocation = history.location.pathname.replace(
               "meeting",
-              "leave"
+              "preview"
             );
-            history.push(leaveLocation);
+            history.push(previewLocation);
           }, 2000);
           return;
         }
