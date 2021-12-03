@@ -140,11 +140,12 @@ export function Notifications() {
               ),
             });
           }
-          // goto preview for terminal if any action is not performed within 2secs
+          // goto leave for terminal if any action is not performed within 2secs
+          // if network is still unavailable going to preview will throw an error
           setTimeout(() => {
             const previewLocation = history.location.pathname.replace(
               "meeting",
-              "preview"
+              "leave"
             );
             history.push(previewLocation);
           }, 2000);
