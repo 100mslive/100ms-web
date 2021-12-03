@@ -68,11 +68,9 @@ export function getRandomVirtualBackground() {
     return img;
   }
   else{
-    if(process.env["REACT_APP_VIDEO_VB"]){
       const videoEl = document.createElement('video');
       videoEl.src = backgroundList[randomIdx];
       return videoEl;
-    }
   }
 }
 
