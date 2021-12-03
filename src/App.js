@@ -22,12 +22,13 @@ import {
 import { hmsToast } from "./views/components/notifications/hms-toast";
 import { Notifications } from "./views/components/notifications/Notifications";
 
-const defaultTokenEndpoint = process.env
-  .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-  ? `${getBackendEndpoint()}${
-      process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-    }/`
-  : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
+const defaultTokenEndpoint = 'https://qa-in2.100ms.live/hmsapi/easc.qa-app.100ms.live/'
+// const defaultTokenEndpoint = process.env
+//   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+//   ? `${getBackendEndpoint()}${
+//       process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+//     }/`
+//   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
