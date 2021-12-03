@@ -32,13 +32,12 @@ const initialLoginInfo = {
   selectedAudioOutput: "default",
 };
 
-const defaultTokenEndpoint = 'https://qa-in2.100ms.live/hmsapi/easc.qa-app.100ms.live/';
-// const defaultTokenEndpoint = process.env
-//   .REACT_APP_TOKEN_GENERATION_ENDPOINT
-//   ? `${getBackendEndpoint()}${
-//       process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT
-//     }/`
-//   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
+const defaultTokenEndpoint = process.env
+  .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+  ? `${getBackendEndpoint()}${
+      process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+    }/`
+  : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 const envAudioPlaylist = JSON.parse(
