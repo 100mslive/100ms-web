@@ -116,33 +116,38 @@ export function Notifications() {
                 autoClose: false,
               },
             });
-            setTimeout(() => {
-              history.push("/");
-            }, 2000);
-            return;
+          } else {
+            // show button action when the error is terminal
+            hmsToast("", {
+              center: (
+                <div className="flex">
+                  <Text classes={{ root: "mr-2" }}>
+                    {notification.data?.message ||
+                      "We couldn’t reconnect you. When you’re back online, try joining the room."}
+                  </Text>
+                  <Button
+                    variant="emphasized"
+                    classes={{
+                      root: "self-center mr-2",
+                    }}
+                    onClick={() => {
+                      window.location.reload();
+                    }}
+                  >
+                    Rejoin
+                  </Button>
+                </div>
+              ),
+            });
           }
-          // show button action when the error is terminal
-          hmsToast("", {
-            center: (
-              <div className="flex">
-                <Text classes={{ root: "mr-2" }}>
-                  {notification.data?.message ||
-                    "We couldn’t reconnect you. When you’re back online, try joining the room."}
-                </Text>
-                <Button
-                  variant="emphasized"
-                  classes={{
-                    root: "self-center mr-2",
-                  }}
-                  onClick={() => {
-                    window.location.reload();
-                  }}
-                >
-                  Rejoin
-                </Button>
-              </div>
-            ),
-          });
+          // Call leave for terminal if any action is not performed within 2secs
+          setTimeout(() => {
+            const leaveLocation = history.location.pathname.replace(
+              "meeting",
+              "leave"
+            );
+            history.push(leaveLocation);
+          }, 2000);
           return;
         }
         if (notification.data?.code === 3008) {
