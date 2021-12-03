@@ -44,15 +44,19 @@ export function getRandomVirtualBackground() {
     "blur",
     "https://www.100ms.live/images/vb-1.jpeg",
     "https://www.100ms.live/images/vb-2.jpg",
-    "https://www.100ms.live/images/video-1.mp4",
-    "https://www.100ms.live/images/video-2.mp4",
-    // "https://www.100ms.live/images/video-3.mp4",
-    // "https://www.100ms.live/images/video-4.mp4",
-    "https://www.100ms.live/images/video-5.mp4",
-    // "https://www.100ms.live/images/video-6.mp4",
-    "https://www.100ms.live/images/video-7.mp4",
-    "https://www.100ms.live/images/video-8.mp4"
   ];
+
+  if(process.env["REACT_APP_VIDEO_VB"]){
+    let videoList = [
+      "https://www.100ms.live/images/video-1.mp4",
+      "https://www.100ms.live/images/video-2.mp4",
+      "https://www.100ms.live/images/video-5.mp4",
+      "https://www.100ms.live/images/video-7.mp4",
+      "https://www.100ms.live/images/video-8.mp4"
+    ]
+
+    backgroundList.push(...videoList)
+  }
 
   let randomIdx = Math.floor(Math.random() * backgroundList.length);
   if (randomIdx === 0) {
@@ -64,9 +68,9 @@ export function getRandomVirtualBackground() {
     return img;
   }
   else{
-    const videoEl = document.createElement('video');
-    videoEl.src = backgroundList[randomIdx];
-    return videoEl;
+      const videoEl = document.createElement('video');
+      videoEl.src = backgroundList[randomIdx];
+      return videoEl;
   }
 }
 
