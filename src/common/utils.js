@@ -39,21 +39,35 @@ export function getBlurClass(isParticipantListOpen, totalPeers) {
 }
 
 export function getRandomVirtualBackground() {
-  let imagesList = [
+
+  let backgroundList = [
+    "blur",
     "https://www.100ms.live/images/vb-1.jpeg",
     "https://www.100ms.live/images/vb-2.jpg",
-    "blur",
+    "https://www.100ms.live/images/video-1.mp4",
+    "https://www.100ms.live/images/video-2.mp4",
+    // "https://www.100ms.live/images/video-3.mp4",
+    // "https://www.100ms.live/images/video-4.mp4",
+    "https://www.100ms.live/images/video-5.mp4",
+    // "https://www.100ms.live/images/video-6.mp4",
+    "https://www.100ms.live/images/video-7.mp4",
+    "https://www.100ms.live/images/video-8.mp4"
   ];
 
-  let randomIdx = Math.floor(Math.random() * imagesList.length);
-  if (randomIdx === 2) {
+  let randomIdx = Math.floor(Math.random() * backgroundList.length);
+  if (randomIdx === 0) {
     return "blur";
+  }else if(randomIdx === 1 || randomIdx === 2){
+    const img = document.createElement("img");
+    img.alt = "VB";
+    img.src = backgroundList[randomIdx];
+    return img;
   }
-
-  const img = document.createElement("img");
-  img.alt = "VB";
-  img.src = imagesList[randomIdx];
-  return img;
+  else{
+    const videoEl = document.createElement('video');
+    videoEl.src = backgroundList[randomIdx];
+    return videoEl;
+  }
 }
 
 /**
