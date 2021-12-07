@@ -86,14 +86,14 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   function createVBPlugin() {
     if (!pluginRef.current) {
-        pluginRef.current = new HMSVirtualBackgroundPlugin("none", true);
+      pluginRef.current = new HMSVirtualBackgroundPlugin("none", true);
     }
   }
 
   async function startPlugin() {
     //create plugin if not present
     createVBPlugin();
-    window.HMS.virtualBackground = pluginRef.current
+    window.HMS.virtualBackground = pluginRef.current;
     try {
       await pluginRef.current.setBackground(getRandomVirtualBackground());
       //Running VB on every alternate frame rate for optimized cpu usage
