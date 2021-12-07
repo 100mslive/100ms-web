@@ -52,15 +52,16 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@1.3.3-alpha":
-  version "1.3.3-alpha"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.3.3-alpha.tgz#0de95f73de8f19bcb6f9750159185b7361cfc36b"
-  integrity sha512-l7OYg/NoXvLwsaalPiZ6hS6gfhTWhx7VXzERejRpacHrMzmufqgES+xyoXegZHxON/l+TPL0JSbigbGTSefpGw==
+"@100mslive/hms-virtual-background@1.3.6":
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.3.6.tgz#7578a2a7eff3a52d2e48b7f6ada2fe707b0846e7"
+  integrity sha512-msePTwAVfUCQbJqPGCKd+alxYUkF7nYH5SbBlafSLKZwEuvE3C1DXpj/AEvOWSmR9nw62N7Z6BTVikbHY9Km2Q==
   dependencies:
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
     "@tensorflow/tfjs-core" "^3.3.0"
     "@webassemblyjs/helper-wasm-bytecode" "^1.11.0"
     "@webassemblyjs/wasm-gen" "^1.11.0"
+    gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
 "@babel/code-frame@7.10.4":
@@ -5827,6 +5828,13 @@ get-value@^2.0.3, get-value@^2.0.6:
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
   integrity sha1-3BXKHGcjh8p2vTesCjlbogQqLCg=
 
+gifuct-js@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/gifuct-js/-/gifuct-js-2.1.2.tgz#06152437ba30ec914db8398bd838bd0fbc8a6ecd"
+  integrity sha512-rI2asw77u0mGgwhV3qA+OEgYqaDn5UNqgs+Bx0FGwSpuqfYn+Ir6RQY5ENNQ8SbIiG/m5gVa7CD5RriO4f4Lsg==
+  dependencies:
+    js-binary-schema-parser "^2.0.3"
+
 glob-parent@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-3.1.0.tgz#9e6af6299d8d3bd2bd40430832bd113df906c5ae"
@@ -7384,6 +7392,11 @@ jest@26.6.0:
     "@jest/core" "^26.6.0"
     import-local "^3.0.2"
     jest-cli "^26.6.0"
+
+js-binary-schema-parser@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/js-binary-schema-parser/-/js-binary-schema-parser-2.0.3.tgz#3d7848748e8586e63b34e8911b643f59cfb6396e"
+  integrity sha512-xezGJmOb4lk/M1ZZLTR/jaBHQ4gG/lqQnJqdIv4721DMggsa1bDVlHXNeHYogaIEHD9vCRv0fcL4hMA+Coarkg==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
