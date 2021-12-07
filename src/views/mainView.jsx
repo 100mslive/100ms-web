@@ -11,9 +11,9 @@ import {
 } from "@100mslive/hms-video-react";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
+import { ActiveSpeakerView } from "./ActiveSpeakerView";
 import { AppContext } from "../store/AppContext";
 import { metadataProps as videoTileProps } from "../common/utils";
-import { ActiveSpeakerView } from "./ActiveSpeakerView";
 
 export const ConferenceMainView = ({
   isChatOpen,
@@ -48,12 +48,10 @@ export const ConferenceMainView = ({
     peerSharingPlaylist
   ) {
     ViewComponent = ScreenShareView;
+  } else if (uiViewMode === "activeSpeaker") {
+    ViewComponent = ActiveSpeakerView;
   } else {
-    if (uiViewMode === "activeSpeaker") {
-      ViewComponent = ActiveSpeakerView;
-    } else {
-      ViewComponent = MainGridView;
-    }
+    ViewComponent = MainGridView;
   }
 
   return (

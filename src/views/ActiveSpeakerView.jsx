@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { selectPeers, useHMSStore } from "@100mslive/hms-video-react";
-import { GridCenterView, GridSidePaneView } from "./components/gridView";
 import {
   selectDominantSpeaker,
   selectLocalPeer,
 } from "@100mslive/hms-video-store";
+import { GridCenterView, GridSidePaneView } from "./components/gridView";
 
 export const ActiveSpeakerView = ({
   isChatOpen,
@@ -13,7 +13,7 @@ export const ActiveSpeakerView = ({
 }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
-  let [activeSpeaker, setActiveSpeaker] = React.useState(localPeer);
+  let [activeSpeaker, setActiveSpeaker] = useState(localPeer);
   let dominantSpeaker = useHMSStore(selectDominantSpeaker);
   let showSidePane = activeSpeaker && peers.length > 1;
 
@@ -32,7 +32,7 @@ export const ActiveSpeakerView = ({
   }, [dominantSpeaker]);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <GridCenterView
         peers={[activeSpeaker]}
         maxTileCount={1}
@@ -52,6 +52,6 @@ export const ActiveSpeakerView = ({
           totalPeers={peers.length - 1}
         />
       )}
-    </React.Fragment>
+    </Fragment>
   );
 };
