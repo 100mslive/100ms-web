@@ -16,6 +16,7 @@ export const convertLoginInfoToJoinConfig = loginInfo => {
       videoDeviceId: loginInfo.selectedVideoInput,
     },
     rememberDeviceSelection: true,
+    alwaysRequestPermissions: window.HMS.ALWAYS_REQUEST_PERMISSIONS,
   };
   console.debug("app: Config is", joinConfig);
   return joinConfig;

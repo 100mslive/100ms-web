@@ -13,6 +13,7 @@ export function FeatureFlags() {
     window.HMS.AUDIO_SINK = true;
     window.HMS.actions = hmsActions;
     window.HMS.store = store;
+    window.HMS.ALWAYS_REQUEST_PERMISSIONS = false;
   }, [hmsActions, store]);
 
   return null;
