@@ -116,7 +116,6 @@ export const LeaveRoom = () => {
           </Button>
         </ContextMenuItem>
       </ContextMenu>
-      ,
       <MessageModal
         show={showEndRoomModal}
         onClose={() => {
