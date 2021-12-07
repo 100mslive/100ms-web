@@ -11,6 +11,7 @@ import {
 } from "@100mslive/hms-video-react";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
+import { ActiveSpeakerView } from "./ActiveSpeakerView";
 import { AppContext } from "../store/AppContext";
 import { metadataProps as videoTileProps } from "../common/utils";
 
@@ -25,7 +26,7 @@ export const ConferenceMainView = ({
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
-  const { audioPlaylist, videoPlaylist } = useContext(AppContext);
+  const { audioPlaylist, videoPlaylist, uiViewMode } = useContext(AppContext);
   useEffect(() => {
     // set list only when room state is connected
     if (roomState !== HMSRoomState.Connected) {
@@ -47,6 +48,8 @@ export const ConferenceMainView = ({
     peerSharingPlaylist
   ) {
     ViewComponent = ScreenShareView;
+  } else if (uiViewMode === "activeSpeaker") {
+    ViewComponent = ActiveSpeakerView;
   } else {
     ViewComponent = MainGridView;
   }

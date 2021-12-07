@@ -56,6 +56,7 @@ const defaultUiSettings = {
     ERROR: true,
     METADATA_UPDATED: true,
   },
+  uiViewMode: "grid",
 };
 
 const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
@@ -84,7 +85,9 @@ const AppContextProvider = ({
     loginInfo: initialLoginInfo,
     maxTileCount: uiSettingsFromStorage.maxTileCount,
     localAppPolicyConfig: {},
-    subscribedNotifications: uiSettingsFromStorage.subscribedNotifications,
+    subscribedNotifications:
+      uiSettingsFromStorage.subscribedNotifications || {},
+    uiViewMode: uiSettingsFromStorage.uiViewMode || "grid",
   });
 
   useEffect(() => {
@@ -93,9 +96,10 @@ const AppContextProvider = ({
       JSON.stringify({
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,
+        uiViewMode: state.uiViewMode,
       })
     );
-  }, [state.maxTileCount, state.subscribedNotifications]);
+  }, [state.maxTileCount, state.subscribedNotifications, state.uiViewMode]);
 
   useEffect(() => {
     if (state.loginInfo.username) {
@@ -148,7 +152,7 @@ const AppContextProvider = ({
   const deepSetAppPolicyConfig = config =>
     setState(prevState => ({ ...prevState, localAppPolicyConfig: config }));
 
-  const deepSetSubscribedNotifications = notification => {
+  const deepSetSubscribedNotifications = notification =>
     setState(prevState => ({
       ...prevState,
       subscribedNotifications: {
@@ -156,7 +160,8 @@ const AppContextProvider = ({
         [notification.type]: notification.isSubscribed,
       },
     }));
-  };
+  const deepSetuiViewMode = layout =>
+    setState(prevState => ({ ...prevState, uiViewMode: layout }));
 
   return (
     <AppContext.Provider
@@ -164,6 +169,8 @@ const AppContextProvider = ({
         setLoginInfo: deepSetLoginInfo,
         setMaxTileCount: deepSetMaxTiles,
         setSubscribedNotifications: deepSetSubscribedNotifications,
+        setuiViewMode: deepSetuiViewMode,
+        uiViewMode: state.uiViewMode,
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,

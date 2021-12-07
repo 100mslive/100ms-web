@@ -49,6 +49,8 @@ export const MoreSettings = () => {
     maxTileCount,
     subscribedNotifications,
     setSubscribedNotifications,
+    uiViewMode,
+    setuiViewMode,
     appPolicyConfig: { selfRoleChangeTo },
   } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
@@ -94,6 +96,9 @@ export const MoreSettings = () => {
   const onNotificationChange = notification => {
     setSubscribedNotifications(notification);
   };
+  const onViewModeChange = layout => {
+    setuiViewMode(layout);
+  };
 
   const uiSettingsProps = {
     sliderProps: {
@@ -103,6 +108,10 @@ export const MoreSettings = () => {
     notificationProps: {
       onNotificationChange,
       subscribedNotifications,
+    },
+    layoutProps: {
+      onViewModeChange,
+      uiViewMode,
     },
   };
   const getText = useCallback(() => {
@@ -181,7 +190,6 @@ export const MoreSettings = () => {
           key="change-name"
           onClick={() => setShowChangeNameModal(true)}
         />
-
         {permissions.changeRole && (
           <ContextMenuItem
             icon={<PersonIcon />}
