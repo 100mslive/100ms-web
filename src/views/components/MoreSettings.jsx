@@ -248,17 +248,15 @@ export const MoreSettings = () => {
             )}
           </ContextMenuItem>
         )}
-        {window.HMS.NEW_BEAM_STATE && (
-          <ContextMenuItem
-            icon={<RecordIcon />}
-            label="Streaming/Recording"
-            key="streaming-recording"
-            onClick={() => {
-              setMeetingURL(defaultMeetingUrl);
-              setShowRecordingAndRTMPModal(true);
-            }}
-          />
-        )}
+        <ContextMenuItem
+          icon={<RecordIcon />}
+          label="Streaming/Recording"
+          key="streaming-recording"
+          onClick={() => {
+            setMeetingURL(defaultMeetingUrl);
+            setShowRecordingAndRTMPModal(true);
+          }}
+        />
         {screenfull.isEnabled && (
           <ContextMenuItem
             icon={<FullScreenIcon />}
