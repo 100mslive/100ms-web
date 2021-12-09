@@ -9,15 +9,13 @@ import { getBlurClass } from "../../common/utils";
 
 const MAX_TILES_FOR_MOBILE = 4;
 
-//100ms Webinar Object
+/**
+ * the below variables are for showing webinar etc. related image if required on certain meeting urls
+ */
 const webinarProps = JSON.parse(process.env.REACT_APP_WEBINAR_PROPS || "{}");
-
-//100ms Webinar Room ids
 const eventRoomIDs = webinarProps?.ROOM_IDS || [];
-
-//100ms Webinar Banner image
-const eventsImg = webinarProps?.IMAGE_FILE || "";
-//100ms Webinar Registration link
+const eventsImg = webinarProps?.IMAGE_FILE || "";  // the image to show in center
+// the link to navigate to when user clicks on the image
 const webinarInfoLink = webinarProps?.LINK_HREF || "https://100ms.live/";
 
 // The center of the screen shows bigger tiles
