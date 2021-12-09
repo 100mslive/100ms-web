@@ -8,7 +8,7 @@ import { ChatView } from "./chatView";
 import { getBlurClass } from "../../common/utils";
 
 let MAX_TILES_FOR_MOBILE = 4;
-const webinarVar = JSON.parse(process.env.REACT_APP_WEBINAR_PROPS);
+const webinarVar = JSON.parse(process.env.REACT_APP_WEBINAR_PROPS || {});
 const EVENT_ROOM_IDS = webinarVar.ROOM_IDS;
 const eventsImg = webinarVar.IMAGE_FILE;
 
