@@ -14,6 +14,7 @@ export function FeatureFlags() {
     window.HMS.actions = hmsActions;
     window.HMS.store = store;
     window.HMS.ALWAYS_REQUEST_PERMISSIONS = false;
+    window.HMS.NEW_BEAM_STATE = process.env.REACT_APP_ENV !== "prod";
   }, [hmsActions, store]);
 
   return null;
