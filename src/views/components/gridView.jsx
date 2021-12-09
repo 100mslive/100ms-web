@@ -6,14 +6,17 @@ import {
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
 import { getBlurClass } from "../../common/utils";
-import eventsImg from "../../images/event-zoom-clone.png";
 
 const MAX_TILES_FOR_MOBILE = 4;
 
 /**
- * this is for showing webinar etc. related image if required on certain meeting urls
+ * the below variables are for showing webinar etc. related image if required on certain meeting urls
  */
-const EVENT_ROOM_IDS = ["yxh-etd-dcc", "iih-tnm-vrb"];
+const webinarProps = JSON.parse(process.env.REACT_APP_WEBINAR_PROPS || "{}");
+const eventRoomIDs = webinarProps?.ROOM_IDS || [];
+const eventsImg = webinarProps?.IMAGE_FILE || "";  // the image to show in center
+// the link to navigate to when user clicks on the image
+const webinarInfoLink = webinarProps?.LINK_HREF || "https://100ms.live/";
 
 // The center of the screen shows bigger tiles
 export const GridCenterView = ({
@@ -43,15 +46,11 @@ export const GridCenterView = ({
           allowRemoteMute={allowRemoteMute}
           videoTileProps={videoTileProps}
         />
-      ) : EVENT_ROOM_IDS.some(id => window.location.href.includes(id)) ? (
+      ) : eventRoomIDs.some(id => window.location.href.includes(id)) ? (
         <div className="h-full w-full grid place-items-center p-5">
-          <a
-            href="https://community.100ms.live/zoom-clone-flutter"            
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={webinarInfoLink} target="_blank" rel="noreferrer">
             <img
-              className="w-full rounded-lg shadow-lg"
+              className="w-full rounded-lg shadow-lg p-2"
               alt=""
               src={eventsImg}
             />
