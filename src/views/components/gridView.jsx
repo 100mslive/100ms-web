@@ -7,7 +7,7 @@ import {
 import { ChatView } from "./chatView";
 import { getBlurClass } from "../../common/utils";
 
-let MAX_TILES_FOR_MOBILE = 4;
+const MAX_TILES_FOR_MOBILE = 4;
 
 //100ms Webinar Object
 const webinarProps = JSON.parse(process.env.REACT_APP_WEBINAR_PROPS || "{}");
