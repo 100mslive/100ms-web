@@ -8,9 +8,11 @@ import { ChatView } from "./chatView";
 import { getBlurClass } from "../../common/utils";
 
 let MAX_TILES_FOR_MOBILE = 4;
-const webinarVar = JSON.parse(process.env.REACT_APP_WEBINAR_PROPS || {});
-const EVENT_ROOM_IDS = webinarVar.ROOM_IDS;
-const eventsImg = webinarVar.IMAGE_FILE;
+
+const webinarProps = JSON.parse(process.env.REACT_APP_WEBINAR_PROPS || "");
+const eventRoomIDs = webinarProps?.ROOM_IDS || [];
+const eventsImg = webinarProps?.IMAGE_FILE || "";
+const webinarInfoLink = webinarProps?.LINK_HREF || "https://100ms.live/";
 
 // The center of the screen shows bigger tiles
 export const GridCenterView = ({
@@ -40,9 +42,9 @@ export const GridCenterView = ({
           allowRemoteMute={allowRemoteMute}
           videoTileProps={videoTileProps}
         />
-      ) : EVENT_ROOM_IDS.some(id => window.location.href.includes(id)) ? (
+      ) : eventRoomIDs.some(id => window.location.href.includes(id)) ? (
         <div className="h-full w-full grid place-items-center p-5">
-          <a href={webinarVar.LINK_HREF} target="_blank" rel="noreferrer">
+          <a href={webinarInfoLink} target="_blank" rel="noreferrer">
             <img
               className="w-full rounded-lg shadow-lg p-2"
               alt=""
