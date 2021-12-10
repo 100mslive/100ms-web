@@ -30,10 +30,9 @@ const PreviewScreen = ({ getUserToken }) => {
 
   const usernameFromStorage = localStorage.getItem(USERNAME_KEY);
 
-  const tokenErrorBody = (errorMessage) => (
+  const tokenErrorBody = errorMessage => (
     <div>
-      {errorMessage} If you think this
-      is a mistake, please create{" "}
+      {errorMessage} If you think this is a mistake, please create{" "}
       <a
         className="text-blue-standard"
         target="_blank"
@@ -42,7 +41,7 @@ const PreviewScreen = ({ getUserToken }) => {
       >
         an issue
       </a>{" "}
-       or reach out over{" "}
+      or reach out over{" "}
       <a
         className="text-blue-standard"
         target="_blank"
@@ -69,7 +68,9 @@ const PreviewScreen = ({ getUserToken }) => {
           if (error.response && error.response.status === 404) {
             setError({
               title: "Room does not exist",
-              body: tokenErrorBody('We could not find the room corresponding to this link.'),
+              body: tokenErrorBody(
+                "We could not find the room corresponding to this link."
+              ),
               fatal: true,
               hideLeave: true,
             });
@@ -91,14 +92,16 @@ const PreviewScreen = ({ getUserToken }) => {
           if (error.response && error.response.status === 404) {
             setError({
               title: "Room does not exist",
-              body: tokenErrorBody('We could not find the room corresponding to this link.'),
+              body: tokenErrorBody(
+                "We could not find the room corresponding to this link."
+              ),
               fatal: true,
               hideLeave: true,
             });
           } else if (error.response && error.response.status === 403) {
             setError({
               title: "Accessing room using this link format is disabled",
-              body: tokenErrorBody(''),
+              body: tokenErrorBody(""),
               fatal: true,
               hideLeave: true,
             });
@@ -131,6 +134,7 @@ const PreviewScreen = ({ getUserToken }) => {
             videoMuted,
             roomId: urlRoomId,
             username: name,
+            isHeadlessMode: skipPreview,
           });
           if (userRole) history.push(`/meeting/${urlRoomId}/${userRole}`);
           else history.push(`/meeting/${urlRoomId}`);
@@ -153,6 +157,7 @@ const PreviewScreen = ({ getUserToken }) => {
             role: userRole,
             roomId: urlRoomId,
             username: name,
+            isHeadlessMode: skipPreview,
           });
           // send to meeting room now
           if (userRole) history.push(`/meeting/${urlRoomId}/${userRole}`);
