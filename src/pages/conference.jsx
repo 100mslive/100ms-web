@@ -32,6 +32,7 @@ export const Conference = () => {
   }, []);
 
   const { loginInfo } = context;
+  const isHeadless = loginInfo.isHeadlessMode;
 
   useEffect(() => {
     if (!roomId) {
@@ -56,9 +57,11 @@ export const Conference = () => {
 
   return (
     <div className="w-full h-full flex flex-col dark:bg-black">
-      <div className="h-14 md:h-16">
-        <ConferenceHeader onParticipantListOpen={onParticipantListOpen} />
-      </div>
+      {!isHeadless && (
+        <div className="h-14 md:h-16">
+          <ConferenceHeader onParticipantListOpen={onParticipantListOpen} />
+        </div>
+      )}
       <div className="w-full flex flex-1 flex-col md:flex-row">
         <ConferenceMainView
           isChatOpen={isChatOpen}
@@ -66,11 +69,13 @@ export const Conference = () => {
           toggleChat={toggleChat}
         />
       </div>
-      <div className="dark:bg-black" style={{ height: "10%" }}>
-        <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
-      </div>
+      {!isHeadless && (
+        <div className="dark:bg-black" style={{ height: "10%" }}>
+          <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
+        </div>
+      )}
       <MessageModal
-        show={!!roleChangeRequest}
+        show={!!roleChangeRequest && !isHeadless}
         onClose={() => hmsActions.rejectChangeRole(roleChangeRequest)}
         title="Role Change Request"
         body={`Role change requested by ${roleChangeRequest?.requestedBy?.name}.

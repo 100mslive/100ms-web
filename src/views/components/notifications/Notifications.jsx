@@ -20,7 +20,8 @@ import { getMetadata } from "../../../common/utils";
 export function Notifications() {
   const notification = useHMSNotifications();
   const history = useHistory();
-  const { subscribedNotifications } = useContext(AppContext);
+  const { subscribedNotifications, loginInfo } = useContext(AppContext);
+  const isHeadless = loginInfo.isHeadlessMode;
   useEffect(() => {
     if (!notification) {
       return;
@@ -243,7 +244,7 @@ export function Notifications() {
     <>
       <HMSToastContainer />
       <TrackUnmuteModal notification={notification} />
-      <TrackMuteAllModal notification={notification} />
+      {!isHeadless && <TrackMuteAllModal notification={notification} />}
       <AutoplayBlockedModal notification={notification} />
     </>
   );
