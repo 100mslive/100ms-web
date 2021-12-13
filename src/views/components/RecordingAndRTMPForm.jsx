@@ -17,7 +17,7 @@ const defaultClasses = {
     "rounded-lg w-full md:w-1/2 bg-gray-600 dark:bg-gray-200 p-2 mx-0 my-2 md:my-0 md:mx-2",
   select:
     "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
-  selectInner: "px-4 pb-4",
+  selectInner: "px-4 pb-5",
   divider: "bg-gray-600 dark:bg-gray-200 h-px w-full my-4",
   gap: "w-full pt-4",
   errorContainer: "flex justify-center items-center w-full px-8 py-4",
@@ -33,6 +33,8 @@ export const RecordingAndRTMPForm = ({
   setIsRecordingOn,
   setMeetingURL,
   setRTMPURLs,
+  isHlsOn,
+  setIsHlsOn,
 }) => {
   return (
     <div>
@@ -67,7 +69,7 @@ export const RecordingAndRTMPForm = ({
               className={`${defaultClasses.select}`}
               value={RTMPURLs}
               onChange={e => setRTMPURLs(e.target.value)}
-              disabled={recordingStatus || rtmpStatus}
+              disabled={recordingStatus || rtmpStatus || isHlsOn}
             />
           </div>
         </div>
@@ -84,11 +86,32 @@ export const RecordingAndRTMPForm = ({
               type="checkbox"
               id="recordingOnCheckbox"
               checked={isRecordingOn || recordingStatus}
+              disabled={isHlsOn}
               onChange={e => setIsRecordingOn(e.target.checked)}
             />
             <label
               className="custom-toggle-label"
               htmlFor="recordingOnCheckbox"
+            ></label>
+          </div>
+        </div>
+        <div className={`${defaultClasses.formInner} -mt-4`}>
+          <div className={defaultClasses.selectLabel}>
+            <Text variant="heading" size="sm">
+              HLS:
+            </Text>
+          </div>
+          <div className={defaultClasses.selectInner}>
+            <input
+              className="custom-toggle"
+              type="checkbox"
+              id="HLSCheckbox"
+              checked={isHlsOn}
+              onChange={e => setIsHlsOn(e.target.checked)}
+            />
+            <label
+              className="custom-toggle-label"
+              htmlFor="HLSCheckbox"
             ></label>
           </div>
         </div>

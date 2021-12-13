@@ -66,6 +66,7 @@ export const MoreSettings = () => {
 
   const [meetingURL, setMeetingURL] = useState(defaultMeetingUrl);
   const [rtmpURL, setRtmpURL] = useState("");
+  const [isHlsOn, setIsHlsOn] = useState(false);
   const recording = useHMSStore(selectRecordingState);
   const rtmp = useHMSStore(selectRTMPState);
   const [isRecordingOn, setIsRecordingOn] = useState(false);
@@ -127,16 +128,20 @@ export const MoreSettings = () => {
     return text;
   }, [recording.browser.running, rtmp.running]);
 
-  const startStopRTMPRecording = async action => {
+  const startStopRTMPRecordingHLS = async action => {
     try {
       if (action === "start") {
-        await hmsActions.startRTMPOrRecording({
-          meetingURL,
-          rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
-          record: isRecordingOn,
-        });
+        isHlsOn
+          ? await hmsActions.startHLSStreaming({ meetingURL: meetingURL })
+          : await hmsActions.startRTMPOrRecording({
+              meetingURL,
+              rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
+              record: isRecordingOn,
+            });
       } else {
-        await hmsActions.stopRTMPAndRecording();
+        isHlsOn
+          ? await hmsActions.stopHLSStreaming()
+          : await hmsActions.stopRTMPAndRecording();
       }
     } catch (error) {
       console.error("failed to start/stop rtmp/recording", error);
@@ -320,6 +325,8 @@ export const MoreSettings = () => {
             setIsRecordingOn={setIsRecordingOn}
             setMeetingURL={setMeetingURL}
             setRTMPURLs={setRtmpURL}
+            isHlsOn={isHlsOn}
+            setIsHlsOn={setIsHlsOn}
           />
         }
         footer={
@@ -337,7 +344,7 @@ export const MoreSettings = () => {
               <Button
                 variant="danger"
                 shape="rectangle"
-                onClick={() => startStopRTMPRecording("stop")}
+                onClick={() => startStopRTMPRecordingHLS("stop")}
                 disabled={!recording.browser.running && !rtmp.running}
               >
                 Stop All
@@ -345,7 +352,7 @@ export const MoreSettings = () => {
               <Button
                 variant="emphasized"
                 shape="rectangle"
-                onClick={() => startStopRTMPRecording("start")}
+                onClick={() => startStopRTMPRecordingHLS("start")}
                 disabled={recording.browser.running || rtmp.running}
               >
                 Start
