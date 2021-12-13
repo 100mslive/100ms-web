@@ -30,6 +30,7 @@ const initialLoginInfo = {
   selectedVideoInput: "default",
   selectedAudioInput: "default",
   selectedAudioOutput: "default",
+  isHeadlessMode: false,
 };
 
 const defaultTokenEndpoint = process.env
