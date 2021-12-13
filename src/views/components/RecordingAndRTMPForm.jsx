@@ -35,6 +35,7 @@ export const RecordingAndRTMPForm = ({
   setRTMPURLs,
   isHlsOn,
   setIsHlsOn,
+  hlsStatus,
 }) => {
   return (
     <div>

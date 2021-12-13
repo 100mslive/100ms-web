@@ -31,6 +31,7 @@ import {
   selectRTMPState,
   StarIcon,
   ChangeTextIcon,
+  selectHLSState,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
@@ -69,6 +70,8 @@ export const MoreSettings = () => {
   const [isHlsOn, setIsHlsOn] = useState(false);
   const recording = useHMSStore(selectRecordingState);
   const rtmp = useHMSStore(selectRTMPState);
+  const hls = useHMSStore(selectHLSState);
+  console.log(hls);
   const [isRecordingOn, setIsRecordingOn] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -327,6 +330,7 @@ export const MoreSettings = () => {
             setRTMPURLs={setRtmpURL}
             isHlsOn={isHlsOn}
             setIsHlsOn={setIsHlsOn}
+            hlsStatus={hls.running}
           />
         }
         footer={
@@ -345,15 +349,19 @@ export const MoreSettings = () => {
                 variant="danger"
                 shape="rectangle"
                 onClick={() => startStopRTMPRecordingHLS("stop")}
-                disabled={!recording.browser.running && !rtmp.running}
+                disabled={
+                  !recording.browser.running && !rtmp.running && !hls.running
+                }
               >
-                Stop All
+                {isHlsOn ? `Stop HLS` : `Stop All`}
               </Button>
               <Button
                 variant="emphasized"
                 shape="rectangle"
                 onClick={() => startStopRTMPRecordingHLS("start")}
-                disabled={recording.browser.running || rtmp.running}
+                disabled={
+                  recording.browser.running || rtmp.running || hls.running
+                }
               >
                 Start
               </Button>

@@ -3,7 +3,7 @@ import { selectPeers, useHMSStore } from "@100mslive/hms-video-react";
 import {
   selectDominantSpeaker,
   selectLocalPeer,
-} from "@100mslive/hms-video-store";
+} from "@100mslive/hms-video-react";
 import { GridCenterView, GridSidePaneView } from "./components/gridView";
 
 export const ActiveSpeakerView = ({
