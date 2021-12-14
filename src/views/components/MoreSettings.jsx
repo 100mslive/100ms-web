@@ -165,9 +165,9 @@ export const MoreSettings = () => {
     }
   };
 
-  const changeToHLSView = async role => {
+  const switchView = async role => {
     try {
-      if (hls.url) {
+      if (localPeer.roleName !== prevRole || hls.url) {
         await hmsActions.changeRole(localPeer.id, role, true);
       } else {
         hmsToast("No URL present in HLS");
@@ -296,8 +296,8 @@ export const MoreSettings = () => {
             key="hls-streaming"
             onClick={() => {
               localPeer.roleName === HLSRole
-                ? changeToHLSView(prevRole)
-                : changeToHLSView(HLSRole);
+                ? switchView(prevRole)
+                : switchView(HLSRole);
             }}
           />
         )}
