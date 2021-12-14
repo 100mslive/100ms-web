@@ -1,57 +1,54 @@
-import Hls from "hls.js";
+import React, { useEffect, useRef, Fragment } from "react";
 import {
-  FirstPersonDisplay,
   isMobileDevice,
-  selectLocalPeer,
+  selectHLSState,
   selectPeers,
-  selectPeerScreenSharing,
-  selectPeerSharingVideoPlaylist,
   useHMSStore,
-  VideoList,
-} from "../../../hms-video-react";
-import eventsImg from "../images/event-zoom-clone.png";
+} from "@100mslive/hms-video-react";
+import Hls from "hls.js";
 import { getBlurClass } from "../common/utils";
 import { ChatView } from "./components/chatView";
-import React, { useMemo } from "react";
-import { ScreenShareComponent, SidePane } from "./screenShareView";
-import { ROLES } from "../common/roles";
 
-export const HLSView = () => {
-  if (
-    showPresenterInSmallTile &&
-    !smallTilePeers.some(peer => peer.id === peerPresenting?.id)
-  ) {
-    if (amIPresenting) {
-      // put presenter on last page
-      smallTilePeers.push(peerPresenting);
-    } else {
-      // put on first page
-      smallTilePeers.unshift(peerPresenting);
+const defaultClasses = {
+  HLSVideo: "w-full contain",
+};
+
+export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
+  const videoRef = useRef(null);
+  const peers = useHMSStore(selectPeers);
+  const hlsState = useHMSStore(selectHLSState);
+  useEffect(() => {
+    if (Hls.isSupported()) {
+      let hls = new Hls({
+        debug: true,
+      });
+      hls.loadSource(hlsState.url);
+      hls.attachMedia(videoRef.current);
+    } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
+      videoRef.current = hlsState.url;
     }
-  }
+  }, [hlsState]);
 
   return (
-    <React.Fragment>
-      <div className="w-full h-full flex flex-col md:flex-row">
-        <ScreenShareComponent
-          amIPresenting={amIPresenting}
-          peerPresenting={peerPresenting}
-          peerSharingPlaylist={peerSharingPlaylist}
-          videoTileProps={videoTileProps}
-        />
-        <div className="flex flex-wrap overflow-hidden p-2 w-full h-1/3 md:w-2/10 md:h-full ">
-          <SidePane
-            isChatOpen={isChatOpen}
-            toggleChat={toggleChat}
-            peerScreenSharing={peerPresenting}
-            isPresenterInSmallTiles={showPresenterInSmallTile}
-            smallTilePeers={smallTilePeers}
-            isParticipantListOpen={isParticipantListOpen}
-            totalPeers={peers.length}
-            videoTileProps={videoTileProps}
-          />
+    <Fragment>
+      <video
+        className={defaultClasses.HLSVideo}
+        ref={videoRef}
+        autoPlay
+        controls
+      ></video>
+      {isChatOpen && (
+        <div
+          className={`h-1/2 ${
+            isMobileDevice() ? `w-3/4` : `w-2/10`
+          } absolute z-40 bottom-20 right-0 ${getBlurClass(
+            isParticipantListOpen,
+            peers.length
+          )}`}
+        >
+          <ChatView toggleChat={toggleChat} />
         </div>
-      </div>
-    </React.Fragment>
+      )}
+    </Fragment>
   );
 };

@@ -46,6 +46,7 @@ export function EdtechComponent({
     avatarType = "initial",
     headerPresent = "false",
     logoClass = "",
+    metadata = "",
   },
   getUserToken = defaultGetUserToken,
   policyConfig = envPolicyConfig,
@@ -94,6 +95,7 @@ export function EdtechComponent({
             roomId={roomId}
             tokenEndpoint={tokenEndpoint}
             policyConfig={policyConfig}
+            roomMetadata={metadata}
           >
             <Router>
               <Notifications />

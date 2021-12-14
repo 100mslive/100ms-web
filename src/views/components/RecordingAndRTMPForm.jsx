@@ -43,7 +43,7 @@ export const RecordingAndRTMPForm = ({
         <div className={defaultClasses.formInner}>
           <div className={defaultClasses.selectLabel}>
             <Text variant="heading" size="sm">
-              meeting_url:
+              Meeting URL:
             </Text>
           </div>
 
@@ -57,10 +57,39 @@ export const RecordingAndRTMPForm = ({
             />
           </div>
         </div>
+
+        <div className={defaultClasses.formInner}>
+          <div className={defaultClasses.selectLabel}>
+            <Text variant="heading" size="sm">
+              HLS:
+            </Text>
+          </div>
+          <div className={defaultClasses.selectInner}>
+            <input
+              className="custom-toggle"
+              type="checkbox"
+              id="HLSCheckbox"
+              checked={isHlsOn || hlsStatus}
+              onChange={e => setIsHlsOn(e.target.checked)}
+              disabled={
+                isRecordingOn ||
+                RTMPURLs[0] ||
+                recordingStatus ||
+                rtmpStatus ||
+                hlsStatus
+              }
+            />
+            <label
+              className="custom-toggle-label"
+              htmlFor="HLSCheckbox"
+            ></label>
+          </div>
+        </div>
+
         <div className={`${defaultClasses.formInner} mb-5`}>
           <div className={defaultClasses.selectLabel}>
             <Text variant="heading" size="sm">
-              rtmp_url:
+              RTMP URL:
             </Text>
           </div>
 
@@ -74,7 +103,6 @@ export const RecordingAndRTMPForm = ({
             />
           </div>
         </div>
-        <hr />
         <div className={defaultClasses.formInner}>
           <div className={defaultClasses.selectLabel}>
             <Text variant="heading" size="sm">
@@ -93,26 +121,6 @@ export const RecordingAndRTMPForm = ({
             <label
               className="custom-toggle-label"
               htmlFor="recordingOnCheckbox"
-            ></label>
-          </div>
-        </div>
-        <div className={`${defaultClasses.formInner} -mt-4`}>
-          <div className={defaultClasses.selectLabel}>
-            <Text variant="heading" size="sm">
-              HLS:
-            </Text>
-          </div>
-          <div className={defaultClasses.selectInner}>
-            <input
-              className="custom-toggle"
-              type="checkbox"
-              id="HLSCheckbox"
-              checked={isHlsOn}
-              onChange={e => setIsHlsOn(e.target.checked)}
-            />
-            <label
-              className="custom-toggle-label"
-              htmlFor="HLSCheckbox"
             ></label>
           </div>
         </div>

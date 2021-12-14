@@ -14,6 +14,7 @@ import {
 } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
 import { UI_SETTINGS_KEY, USERNAME_KEY } from "../common/constants";
+import { getMetadata } from "../common/utils";
 
 const AppContext = React.createContext(null);
 
@@ -71,6 +72,7 @@ const AppContextProvider = ({
   audioPlaylist = envAudioPlaylist,
   videoPlaylist = envVideoPlaylist,
   children,
+  roomMetadata,
 }) => {
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
@@ -176,6 +178,7 @@ const AppContextProvider = ({
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,
         appPolicyConfig: state.localAppPolicyConfig,
+        roomMetadata: getMetadata(roomMetadata),
         tokenEndpoint,
         audioPlaylist,
         videoPlaylist,

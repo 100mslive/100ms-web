@@ -12,8 +12,10 @@ import {
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
 import { ActiveSpeakerView } from "./ActiveSpeakerView";
+import { HLSView } from "./HLSView";
 import { AppContext } from "../store/AppContext";
 import { metadataProps as videoTileProps } from "../common/utils";
+import { DEFAULT_HLS_ROLE, DEFAULT_HLS_ROLE_KEY } from "../common/constants";
 
 export const ConferenceMainView = ({
   isChatOpen,
@@ -26,7 +28,10 @@ export const ConferenceMainView = ({
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
-  const { audioPlaylist, videoPlaylist, uiViewMode } = useContext(AppContext);
+  const { audioPlaylist, videoPlaylist, uiViewMode, roomMetadata } =
+    useContext(AppContext);
+  let HLSViewerRole = roomMetadata[DEFAULT_HLS_ROLE_KEY] || DEFAULT_HLS_ROLE;
+
   useEffect(() => {
     // set list only when room state is connected
     if (roomState !== HMSRoomState.Connected) {
@@ -43,7 +48,9 @@ export const ConferenceMainView = ({
 
   let ViewComponent;
 
-  if (
+  if (localPeer.roleName === HLSViewerRole) {
+    ViewComponent = HLSView;
+  } else if (
     (peerSharing && peerSharing.id !== peerSharingAudio?.id) ||
     peerSharingPlaylist
   ) {

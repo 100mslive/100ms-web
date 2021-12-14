@@ -40,6 +40,7 @@ import screenfull from "screenfull";
 import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
 import { MuteAll } from "./MuteAll";
 import { ChangeName } from "./ChangeName";
+import { DEFAULT_HLS_ROLE_KEY, DEFAULT_HLS_ROLE } from "../../common/constants";
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + "?token=beam_recording";
@@ -53,6 +54,7 @@ export const MoreSettings = () => {
     uiViewMode,
     setuiViewMode,
     appPolicyConfig: { selfRoleChangeTo },
+    roomMetadata,
   } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -71,8 +73,9 @@ export const MoreSettings = () => {
   const recording = useHMSStore(selectRecordingState);
   const rtmp = useHMSStore(selectRTMPState);
   const hls = useHMSStore(selectHLSState);
-  console.log(hls);
+  const [prevRole, setPrevRole] = useState(localPeer.roleName);
   const [isRecordingOn, setIsRecordingOn] = useState(false);
+  const HLSRole = roomMetadata[DEFAULT_HLS_ROLE_KEY] || DEFAULT_HLS_ROLE;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
@@ -118,6 +121,7 @@ export const MoreSettings = () => {
       uiViewMode,
     },
   };
+
   const getText = useCallback(() => {
     let text = "";
     if (rtmp.running) {
@@ -154,6 +158,19 @@ export const MoreSettings = () => {
       setRtmpURL("");
       setIsRecordingOn(false);
       setShowRecordingAndRTMPModal(false);
+    }
+  };
+
+  const changeToHLSView = async role => {
+    console.log(role);
+    try {
+      if (hls.url) {
+        await hmsActions.changeRole(localPeer.id, role, true);
+      } else {
+        hmsToast("No URL present in HLS");
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -265,6 +282,20 @@ export const MoreSettings = () => {
             setShowRecordingAndRTMPModal(true);
           }}
         />
+        <ContextMenuItem
+          icon={<ChangeTextIcon />}
+          label={`${
+            localPeer.roleName === HLSRole
+              ? "WebRTC View Mode"
+              : "HLS View Mode"
+          }`}
+          key="hls-streaming"
+          onClick={() => {
+            localPeer.roleName === HLSRole
+              ? changeToHLSView(prevRole)
+              : changeToHLSView(HLSRole);
+          }}
+        />
         {screenfull.isEnabled && (
           <ContextMenuItem
             icon={<FullScreenIcon />}
@@ -353,7 +384,7 @@ export const MoreSettings = () => {
                   !recording.browser.running && !rtmp.running && !hls.running
                 }
               >
-                {isHlsOn ? `Stop HLS` : `Stop All`}
+                {isHlsOn || hls.running ? `Stop HLS` : `Stop All`}
               </Button>
               <Button
                 variant="emphasized"
