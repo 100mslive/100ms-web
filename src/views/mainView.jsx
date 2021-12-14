@@ -15,7 +15,7 @@ import { ActiveSpeakerView } from "./ActiveSpeakerView";
 import { HLSView } from "./HLSView";
 import { AppContext } from "../store/AppContext";
 import { metadataProps as videoTileProps } from "../common/utils";
-import { DEFAULT_HLS_ROLE, DEFAULT_HLS_ROLE_KEY } from "../common/constants";
+import { DEFAULT_HLS_ROLE_KEY } from "../common/constants";
 
 export const ConferenceMainView = ({
   isChatOpen,
@@ -30,8 +30,9 @@ export const ConferenceMainView = ({
   const hmsActions = useHMSActions();
   const { audioPlaylist, videoPlaylist, uiViewMode, roomMetadata } =
     useContext(AppContext);
-  let HLSViewerRole = roomMetadata[DEFAULT_HLS_ROLE_KEY] || DEFAULT_HLS_ROLE;
-
+  let HLSViewerRole =
+    roomMetadata[DEFAULT_HLS_ROLE_KEY] ||
+    process.env.REACT_APP_DEFAULT_HLS_ROLE;
   useEffect(() => {
     // set list only when room state is connected
     if (roomState !== HMSRoomState.Connected) {

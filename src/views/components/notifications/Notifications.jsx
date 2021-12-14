@@ -16,11 +16,13 @@ import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 import { AppContext } from "../../../store/AppContext";
 import { TrackMuteAllModal } from "./TrackMuteAllModal";
 import { getMetadata } from "../../../common/utils";
+import { DEFAULT_HLS_ROLE_KEY } from "../../../common/constants";
 
 export function Notifications() {
   const notification = useHMSNotifications();
   const history = useHistory();
-  const { subscribedNotifications, loginInfo } = useContext(AppContext);
+  const { subscribedNotifications, loginInfo, roomMetadata } =
+    useContext(AppContext);
   const isHeadless = loginInfo.isHeadlessMode;
   useEffect(() => {
     if (!notification) {
@@ -184,6 +186,12 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.ROLE_UPDATED:
+        if (
+          notification.data.roleName === roomMetadata[DEFAULT_HLS_ROLE_KEY] ||
+          process.env.REACT_APP_DEFAULT_HLS_ROLE
+        ) {
+          return;
+        }
         if (notification.data?.isLocal) {
           hmsToast("", {
             left: <Text>You are now a {notification.data.roleName}.</Text>,

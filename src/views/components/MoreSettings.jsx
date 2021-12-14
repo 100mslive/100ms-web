@@ -40,7 +40,7 @@ import screenfull from "screenfull";
 import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
 import { MuteAll } from "./MuteAll";
 import { ChangeName } from "./ChangeName";
-import { DEFAULT_HLS_ROLE_KEY, DEFAULT_HLS_ROLE } from "../../common/constants";
+import { DEFAULT_HLS_ROLE_KEY } from "../../common/constants";
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + "?token=beam_recording";
@@ -75,7 +75,9 @@ export const MoreSettings = () => {
   const hls = useHMSStore(selectHLSState);
   const [prevRole, setPrevRole] = useState(localPeer.roleName);
   const [isRecordingOn, setIsRecordingOn] = useState(false);
-  const HLSRole = roomMetadata[DEFAULT_HLS_ROLE_KEY] || DEFAULT_HLS_ROLE;
+  const HLSRole =
+    roomMetadata[DEFAULT_HLS_ROLE_KEY] ||
+    process.env.REACT_APP_DEFAULT_HLS_ROLE;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
@@ -151,7 +153,9 @@ export const MoreSettings = () => {
           : await hmsActions.stopRTMPAndRecording();
       }
     } catch (error) {
-      console.error("failed to start/stop rtmp/recording", error);
+      isHlsOn
+        ? console.error("failed to start/stop hls streaming", error)
+        : console.error("failed to start/stop rtmp/recording", error);
       hmsToast(error.message);
     } finally {
       setMeetingURL("");
@@ -162,15 +166,14 @@ export const MoreSettings = () => {
   };
 
   const changeToHLSView = async role => {
-    console.log(role);
     try {
       if (hls.url) {
         await hmsActions.changeRole(localPeer.id, role, true);
       } else {
         hmsToast("No URL present in HLS");
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.error("Failed to change role to HLS Viewer", error);
     }
   };
 
@@ -282,20 +285,22 @@ export const MoreSettings = () => {
             setShowRecordingAndRTMPModal(true);
           }}
         />
-        <ContextMenuItem
-          icon={<ChangeTextIcon />}
-          label={`${
-            localPeer.roleName === HLSRole
-              ? "WebRTC View Mode"
-              : "HLS View Mode"
-          }`}
-          key="hls-streaming"
-          onClick={() => {
-            localPeer.roleName === HLSRole
-              ? changeToHLSView(prevRole)
-              : changeToHLSView(HLSRole);
-          }}
-        />
+        {prevRole !== HLSRole && (
+          <ContextMenuItem
+            icon={<ChangeTextIcon />}
+            label={`${
+              localPeer.roleName === HLSRole
+                ? "WebRTC View Mode"
+                : "HLS View Mode"
+            }`}
+            key="hls-streaming"
+            onClick={() => {
+              localPeer.roleName === HLSRole
+                ? changeToHLSView(prevRole)
+                : changeToHLSView(HLSRole);
+            }}
+          />
+        )}
         {screenfull.isEnabled && (
           <ContextMenuItem
             icon={<FullScreenIcon />}

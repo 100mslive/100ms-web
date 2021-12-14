@@ -19,9 +19,7 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
   const hlsState = useHMSStore(selectHLSState);
   useEffect(() => {
     if (Hls.isSupported()) {
-      let hls = new Hls({
-        debug: true,
-      });
+      let hls = new Hls();
       hls.loadSource(hlsState.url);
       hls.attachMedia(videoRef.current);
     } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {

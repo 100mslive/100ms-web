@@ -186,6 +186,7 @@ export default function App() {
         avatarType: process.env.REACT_APP_AVATAR_TYPE,
         logoClass: process.env.REACT_APP_LOGO_CLASS,
         headerPresent: process.env.REACT_APP_HEADER_PRESENT,
+        metadata: process.env.REACT_APP_DEFAULT_ROOM_METADATA, // A stringified object in env
       }}
       getUserToken={defaultGetUserToken}
     />
