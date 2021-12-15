@@ -46,7 +46,6 @@ export const MoreSettings = () => {
     uiViewMode,
     setuiViewMode,
     appPolicyConfig: { selfRoleChangeTo },
-    HLS_VIEWER_ROLE,
   } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -58,9 +57,6 @@ export const MoreSettings = () => {
   const [showUiSettings, setShowUiSettings] = useState(false);
   const [showRecordingAndRTMPModal, setShowRecordingAndRTMPModal] =
     useState(false);
-
-  const hls = useHMSStore(selectHLSState);
-  const [webRTCRole] = useState(localPeer.roleName);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
@@ -105,19 +101,6 @@ export const MoreSettings = () => {
       onViewModeChange,
       uiViewMode,
     },
-  };
-
-  const switchWebrtcHLSView = async role => {
-    try {
-      const isSwitchingToWebrtcView = localPeer.roleName !== webRTCRole;
-      if (isSwitchingToWebrtcView || hls.url) {
-        await hmsActions.changeRole(localPeer.id, role, true);
-      } else {
-        hmsToast("No URL present in HLS");
-      }
-    } catch (error) {
-      console.error("Failed to change role to HLS Viewer", error);
-    }
   };
 
   return (
@@ -227,22 +210,6 @@ export const MoreSettings = () => {
             setShowRecordingAndRTMPModal(true);
           }}
         />
-        {webRTCRole !== HLS_VIEWER_ROLE && (
-          <ContextMenuItem
-            icon={<HLSStreamingIcon />}
-            label={`${
-              localPeer.roleName === HLS_VIEWER_ROLE
-                ? "WebRTC View Mode"
-                : "HLS View Mode"
-            }`}
-            key="hls-streaming"
-            onClick={() => {
-              localPeer.roleName === HLS_VIEWER_ROLE
-                ? switchWebrtcHLSView(webRTCRole)
-                : switchWebrtcHLSView(HLS_VIEWER_ROLE);
-            }}
-          />
-        )}
         {screenfull.isEnabled && (
           <ContextMenuItem
             icon={<FullScreenIcon />}
