@@ -2,7 +2,8 @@ import React, { useEffect, useRef, Fragment } from "react";
 import {
   isMobileDevice,
   selectHLSState,
-  selectPeers,
+  selectPeerCount,
+  Text,
   useHMSStore,
 } from "@100mslive/hms-video-react";
 import Hls from "hls.js";
@@ -15,36 +16,54 @@ const defaultClasses = {
 
 export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
   const videoRef = useRef(null);
-  const peers = useHMSStore(selectPeers);
+  const peersCount = useHMSStore(selectPeerCount);
   const hlsState = useHMSStore(selectHLSState);
   useEffect(() => {
-    if (Hls.isSupported()) {
-      let hls = new Hls();
-      hls.loadSource(hlsState.url);
-      hls.attachMedia(videoRef.current);
-    } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-      videoRef.current = hlsState.url;
+    if (videoRef.current) {
+      if (Hls.isSupported() && hlsState.url) {
+        let hls = new Hls();
+        hls.loadSource(hlsState.url);
+        hls.attachMedia(videoRef.current);
+      } else if (
+        videoRef.current.canPlayType("application/vnd.apple.mpegurl")
+      ) {
+        videoRef.current = hlsState.url;
+      }
     }
   }, [hlsState]);
 
   return (
     <Fragment>
-      <video
-        className={defaultClasses.HLSVideo}
-        ref={videoRef}
-        autoPlay
-        controls
-      ></video>
-      {isChatOpen && (
-        <div
-          className={`h-1/2 ${
-            isMobileDevice() ? `w-3/4` : `w-2/10`
-          } absolute z-40 bottom-20 right-0 ${getBlurClass(
-            isParticipantListOpen,
-            peers.length
-          )}`}
-        >
-          <ChatView toggleChat={toggleChat} />
+      {hlsState.url ? (
+        <Fragment>
+          <video
+            className={defaultClasses.HLSVideo}
+            ref={videoRef}
+            autoPlay
+            controls
+          ></video>
+          {isChatOpen && (
+            <div
+              className={`h-1/2 ${
+                isMobileDevice() ? `w-3/4` : `w-2/10`
+              } absolute z-40 bottom-20 right-0 ${getBlurClass(
+                isParticipantListOpen,
+                peersCount
+              )}`}
+            >
+              <ChatView toggleChat={toggleChat} />
+            </div>
+          )}
+        </Fragment>
+      ) : (
+        <div className="flex items-center justify-center w-full">
+          <Text
+            variant="heading"
+            size="lg"
+            classes={{ root: "text-white text-center" }}
+          >
+            No HLS URL Present
+          </Text>
         </div>
       )}
     </Fragment>

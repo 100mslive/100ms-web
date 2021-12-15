@@ -95,7 +95,7 @@ export function EdtechComponent({
             roomId={roomId}
             tokenEndpoint={tokenEndpoint}
             policyConfig={policyConfig}
-            roomMetadata={metadata}
+            appDetails={metadata}
           >
             <Router>
               <Notifications />
@@ -186,7 +186,7 @@ export default function App() {
         avatarType: process.env.REACT_APP_AVATAR_TYPE,
         logoClass: process.env.REACT_APP_LOGO_CLASS,
         headerPresent: process.env.REACT_APP_HEADER_PRESENT,
-        metadata: process.env.REACT_APP_DEFAULT_ROOM_METADATA, // A stringified object in env
+        metadata: process.env.REACT_APP_DEFAULT_APP_DETAILS, // A stringified object in env
       }}
       getUserToken={defaultGetUserToken}
     />

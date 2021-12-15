@@ -15,7 +15,6 @@ import { ActiveSpeakerView } from "./ActiveSpeakerView";
 import { HLSView } from "./HLSView";
 import { AppContext } from "../store/AppContext";
 import { metadataProps as videoTileProps } from "../common/utils";
-import { DEFAULT_HLS_ROLE_KEY } from "../common/constants";
 
 export const ConferenceMainView = ({
   isChatOpen,
@@ -28,11 +27,8 @@ export const ConferenceMainView = ({
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
-  const { audioPlaylist, videoPlaylist, uiViewMode, roomMetadata } =
+  const { audioPlaylist, videoPlaylist, uiViewMode, HLS_VIEWER_ROLE } =
     useContext(AppContext);
-  let HLSViewerRole =
-    roomMetadata[DEFAULT_HLS_ROLE_KEY] ||
-    process.env.REACT_APP_DEFAULT_HLS_ROLE;
   useEffect(() => {
     // set list only when room state is connected
     if (roomState !== HMSRoomState.Connected) {
@@ -48,8 +44,7 @@ export const ConferenceMainView = ({
   }
 
   let ViewComponent;
-
-  if (localPeer.roleName === HLSViewerRole) {
+  if (localPeer.roleName === HLS_VIEWER_ROLE) {
     ViewComponent = HLSView;
   } else if (
     (peerSharing && peerSharing.id !== peerSharingAudio?.id) ||

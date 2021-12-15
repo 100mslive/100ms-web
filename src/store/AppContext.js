@@ -13,7 +13,11 @@ import {
   setUpLogRocket,
 } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
-import { UI_SETTINGS_KEY, USERNAME_KEY } from "../common/constants";
+import {
+  UI_SETTINGS_KEY,
+  USERNAME_KEY,
+  DEFAULT_HLS_ROLE_KEY,
+} from "../common/constants";
 import { getMetadata } from "../common/utils";
 
 const AppContext = React.createContext(null);
@@ -72,7 +76,7 @@ const AppContextProvider = ({
   audioPlaylist = envAudioPlaylist,
   videoPlaylist = envVideoPlaylist,
   children,
-  roomMetadata,
+  appDetails,
 }) => {
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
@@ -165,7 +169,6 @@ const AppContextProvider = ({
     }));
   const deepSetuiViewMode = layout =>
     setState(prevState => ({ ...prevState, uiViewMode: layout }));
-
   return (
     <AppContext.Provider
       value={{
@@ -178,7 +181,7 @@ const AppContextProvider = ({
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,
         appPolicyConfig: state.localAppPolicyConfig,
-        roomMetadata: getMetadata(roomMetadata),
+        HLS_VIEWER_ROLE: getMetadata(appDetails)[DEFAULT_HLS_ROLE_KEY],
         tokenEndpoint,
         audioPlaylist,
         videoPlaylist,
