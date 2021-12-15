@@ -78,7 +78,7 @@ export const RecordingAndRTMPModal = ({
               record: isRecordingOn,
             });
       } else {
-        isHlsOn
+        hls.running
           ? await hmsActions.stopHLSStreaming()
           : await hmsActions.stopRTMPAndRecording();
       }
