@@ -60,7 +60,7 @@ export const MoreSettings = () => {
     useState(false);
 
   const hls = useHMSStore(selectHLSState);
-  const [prevRole] = useState(localPeer.roleName);
+  const [webRTCRole] = useState(localPeer.roleName);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
@@ -109,7 +109,7 @@ export const MoreSettings = () => {
 
   const switchWebrtcHLSView = async role => {
     try {
-      const isSwitchingToWebrtcView = localPeer.roleName !== prevRole;
+      const isSwitchingToWebrtcView = localPeer.roleName !== webRTCRole;
       if (isSwitchingToWebrtcView || hls.url) {
         await hmsActions.changeRole(localPeer.id, role, true);
       } else {
@@ -227,7 +227,7 @@ export const MoreSettings = () => {
             setShowRecordingAndRTMPModal(true);
           }}
         />
-        {prevRole !== HLS_VIEWER_ROLE && (
+        {webRTCRole !== HLS_VIEWER_ROLE && (
           <ContextMenuItem
             icon={<HLSStreamingIcon />}
             label={`${
@@ -238,7 +238,7 @@ export const MoreSettings = () => {
             key="hls-streaming"
             onClick={() => {
               localPeer.roleName === HLS_VIEWER_ROLE
-                ? switchWebrtcHLSView(prevRole)
+                ? switchWebrtcHLSView(webRTCRole)
                 : switchWebrtcHLSView(HLS_VIEWER_ROLE);
             }}
           />

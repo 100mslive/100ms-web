@@ -17,6 +17,7 @@ import {
   UI_SETTINGS_KEY,
   USERNAME_KEY,
   DEFAULT_HLS_ROLE_KEY,
+  DEFAULT_HLS_VIEWER_ROLE,
 } from "../common/constants";
 import { getMetadata } from "../common/utils";
 
@@ -181,7 +182,9 @@ const AppContextProvider = ({
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,
         appPolicyConfig: state.localAppPolicyConfig,
-        HLS_VIEWER_ROLE: getMetadata(appDetails)[DEFAULT_HLS_ROLE_KEY],
+        HLS_VIEWER_ROLE:
+          getMetadata(appDetails)[DEFAULT_HLS_ROLE_KEY] ||
+          DEFAULT_HLS_VIEWER_ROLE,
         tokenEndpoint,
         audioPlaylist,
         videoPlaylist,
