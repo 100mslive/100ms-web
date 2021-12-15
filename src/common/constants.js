@@ -87,3 +87,5 @@ export const defaultVideoList = [
 
 export const UI_SETTINGS_KEY = "uiSettings";
 export const USERNAME_KEY = "loginUsername";
+export const DEFAULT_HLS_ROLE_KEY = "HLS_VIEWER_ROLE";
+export const DEFAULT_HLS_VIEWER_ROLE = "hls-viewer";

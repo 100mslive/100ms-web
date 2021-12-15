@@ -4,7 +4,6 @@ import React, {
   Fragment,
   useMemo,
   useEffect,
-  useCallback,
 } from "react";
 import {
   Button,
@@ -24,24 +23,19 @@ import {
   useHMSActions,
   selectPermissions,
   FullScreenIcon,
-  MessageModal,
-  Text,
   RecordIcon,
-  selectRecordingState,
-  selectRTMPState,
   StarIcon,
   ChangeTextIcon,
+  selectHLSState,
+  HLSStreamingIcon,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
 import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 import screenfull from "screenfull";
-import { RecordingAndRTMPForm } from "./RecordingAndRTMPForm";
+import { RecordingAndRTMPModal } from "./RecordingAndRTMPModal";
 import { MuteAll } from "./MuteAll";
 import { ChangeName } from "./ChangeName";
-
-const defaultMeetingUrl =
-  window.location.href.replace("meeting", "preview") + "?token=beam_recording";
 
 export const MoreSettings = () => {
   const {
@@ -52,6 +46,7 @@ export const MoreSettings = () => {
     uiViewMode,
     setuiViewMode,
     appPolicyConfig: { selfRoleChangeTo },
+    HLS_VIEWER_ROLE,
   } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -64,11 +59,8 @@ export const MoreSettings = () => {
   const [showRecordingAndRTMPModal, setShowRecordingAndRTMPModal] =
     useState(false);
 
-  const [meetingURL, setMeetingURL] = useState(defaultMeetingUrl);
-  const [rtmpURL, setRtmpURL] = useState("");
-  const recording = useHMSStore(selectRecordingState);
-  const rtmp = useHMSStore(selectRTMPState);
-  const [isRecordingOn, setIsRecordingOn] = useState(false);
+  const hls = useHMSStore(selectHLSState);
+  const [webRTCRole] = useState(localPeer.roleName);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
@@ -114,38 +106,17 @@ export const MoreSettings = () => {
       uiViewMode,
     },
   };
-  const getText = useCallback(() => {
-    let text = "";
-    if (rtmp.running) {
-      text += "Streaming";
-    }
-    if (recording.browser.running) {
-      if (text) text += "/";
-      text += "Recording";
-    }
-    text += " is running";
-    return text;
-  }, [recording.browser.running, rtmp.running]);
 
-  const startStopRTMPRecording = async action => {
+  const switchWebrtcHLSView = async role => {
     try {
-      if (action === "start") {
-        await hmsActions.startRTMPOrRecording({
-          meetingURL,
-          rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
-          record: isRecordingOn,
-        });
+      const isSwitchingToWebrtcView = localPeer.roleName !== webRTCRole;
+      if (isSwitchingToWebrtcView || hls.url) {
+        await hmsActions.changeRole(localPeer.id, role, true);
       } else {
-        await hmsActions.stopRTMPAndRecording();
+        hmsToast("No URL present in HLS");
       }
     } catch (error) {
-      console.error("failed to start/stop rtmp/recording", error);
-      hmsToast(error.message);
-    } finally {
-      setMeetingURL("");
-      setRtmpURL("");
-      setIsRecordingOn(false);
-      setShowRecordingAndRTMPModal(false);
+      console.error("Failed to change role to HLS Viewer", error);
     }
   };
 
@@ -253,10 +224,25 @@ export const MoreSettings = () => {
           label="Streaming/Recording"
           key="streaming-recording"
           onClick={() => {
-            setMeetingURL(defaultMeetingUrl);
             setShowRecordingAndRTMPModal(true);
           }}
         />
+        {webRTCRole !== HLS_VIEWER_ROLE && (
+          <ContextMenuItem
+            icon={<HLSStreamingIcon />}
+            label={`${
+              localPeer.roleName === HLS_VIEWER_ROLE
+                ? "WebRTC View Mode"
+                : "HLS View Mode"
+            }`}
+            key="hls-streaming"
+            onClick={() => {
+              localPeer.roleName === HLS_VIEWER_ROLE
+                ? switchWebrtcHLSView(webRTCRole)
+                : switchWebrtcHLSView(HLS_VIEWER_ROLE);
+            }}
+          />
+        )}
         {screenfull.isEnabled && (
           <ContextMenuItem
             icon={<FullScreenIcon />}
@@ -308,53 +294,9 @@ export const MoreSettings = () => {
         showModal={showMuteAll}
         onCloseModal={() => setShowMuteAll(false)}
       />
-      <MessageModal
-        title="Start Streaming/Recording"
-        body={
-          <RecordingAndRTMPForm
-            meetingURL={meetingURL}
-            RTMPURLs={rtmpURL}
-            isRecordingOn={isRecordingOn}
-            recordingStatus={recording.browser.running}
-            rtmpStatus={rtmp.running}
-            setIsRecordingOn={setIsRecordingOn}
-            setMeetingURL={setMeetingURL}
-            setRTMPURLs={setRtmpURL}
-          />
-        }
-        footer={
-          <>
-            {(recording.browser.running || rtmp.running) && (
-              <Text
-                variant="body"
-                size="md"
-                classes={{ root: "mx-2 self-center text-yellow-500" }}
-              >
-                {getText()}
-              </Text>
-            )}
-            <div className="space-x-1">
-              <Button
-                variant="danger"
-                shape="rectangle"
-                onClick={() => startStopRTMPRecording("stop")}
-                disabled={!recording.browser.running && !rtmp.running}
-              >
-                Stop All
-              </Button>
-              <Button
-                variant="emphasized"
-                shape="rectangle"
-                onClick={() => startStopRTMPRecording("start")}
-                disabled={recording.browser.running || rtmp.running}
-              >
-                Start
-              </Button>
-            </div>
-          </>
-        }
-        show={showRecordingAndRTMPModal}
-        onClose={() => setShowRecordingAndRTMPModal(false)}
+      <RecordingAndRTMPModal
+        showRecordingAndRTMPModal={showRecordingAndRTMPModal}
+        setShowRecordingAndRTMPModal={setShowRecordingAndRTMPModal}
       />
       <ChangeName
         setShowChangeNameModal={setShowChangeNameModal}

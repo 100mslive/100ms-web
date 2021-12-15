@@ -20,7 +20,8 @@ import { getMetadata } from "../../../common/utils";
 export function Notifications() {
   const notification = useHMSNotifications();
   const history = useHistory();
-  const { subscribedNotifications, loginInfo } = useContext(AppContext);
+  const { subscribedNotifications, loginInfo, HLS_VIEWER_ROLE } =
+    useContext(AppContext);
   const isHeadless = loginInfo.isHeadlessMode;
   useEffect(() => {
     if (!notification) {
@@ -184,6 +185,9 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.ROLE_UPDATED:
+        if (notification.data.roleName === HLS_VIEWER_ROLE) {
+          return;
+        }
         if (notification.data?.isLocal) {
           hmsToast("", {
             left: <Text>You are now a {notification.data.roleName}.</Text>,
@@ -238,6 +242,7 @@ export function Notifications() {
     subscribedNotifications.PEER_JOINED,
     subscribedNotifications.PEER_LEFT,
     subscribedNotifications.METADATA_UPDATED,
+    HLS_VIEWER_ROLE,
   ]);
 
   return (

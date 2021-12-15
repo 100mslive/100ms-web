@@ -46,6 +46,7 @@ export function EdtechComponent({
     avatarType = "initial",
     headerPresent = "false",
     logoClass = "",
+    metadata = "",
   },
   getUserToken = defaultGetUserToken,
   policyConfig = envPolicyConfig,
@@ -94,6 +95,7 @@ export function EdtechComponent({
             roomId={roomId}
             tokenEndpoint={tokenEndpoint}
             policyConfig={policyConfig}
+            appDetails={metadata}
           >
             <Router>
               <Notifications />
@@ -184,6 +186,7 @@ export default function App() {
         avatarType: process.env.REACT_APP_AVATAR_TYPE,
         logoClass: process.env.REACT_APP_LOGO_CLASS,
         headerPresent: process.env.REACT_APP_HEADER_PRESENT,
+        metadata: process.env.REACT_APP_DEFAULT_APP_DETAILS, // A stringified object in env
       }}
       getUserToken={defaultGetUserToken}
     />
