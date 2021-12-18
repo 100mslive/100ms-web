@@ -35,6 +35,10 @@ import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
 import { useMetadata } from "./hooks/useMetadata";
 
+import {brighteningPlugin} from './filters/brightness';
+import {grayscalePlugin} from './filters/gray';
+import {HMSImageTouchUp} from 'hmsimagetouchup';
+import { useEffect } from "react";
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const localPeer = useHMSStore(selectLocalPeerID);
@@ -47,6 +51,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
 
   const pluginRef = useRef(null);
+  const plugin3Ref = useRef(null);
   const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
@@ -61,6 +66,53 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
+
+  const [filtersButton,setFilters] = useState(false);
+
+  let HMSImageFilters = {
+    grayscale : new grayscalePlugin(),
+    brightness  : new brighteningPlugin()
+  }
+  const filters = HMSImageFilters;
+
+  useEffect(()=>{
+       async function startPlugin() {
+      if (!plugin3Ref.current) {
+        plugin3Ref.current = new HMSImageTouchUp([filters.grayscale,filters.brightness]);
+      }
+      await hmsActions.addPluginToVideoTrack(plugin3Ref.current);
+    }
+    async function removePlugin() {
+      if (plugin3Ref.current) {
+        await hmsActions.removePluginFromVideoTrack(plugin3Ref.current);
+      }
+    }
+    if (filtersButton) {
+     // setGray(false);
+      startPlugin();
+    } else {
+      removePlugin();
+    }
+  },[filtersButton]);
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   function createNoiseSuppresionPlugin() {
     if (!audiopluginRef.current) {
@@ -301,6 +353,16 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <NoiseSupressionIcon />
             </Button>
           ) : null,
+          <Button
+          iconOnly
+          variant="no-fill"
+          shape="rectangle"
+          active={filtersButton}
+          onClick={()=>setFilters(!filtersButton)}
+          key="filters"
+        >
+          <NoiseSupressionIcon />
+        </Button>,
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
           ),
