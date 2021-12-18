@@ -39,6 +39,7 @@ import {brighteningPlugin} from './filters/brightness';
 import {grayscalePlugin} from './filters/gray';
 import {HMSImageTouchUp} from 'hmsimagetouchup';
 import { useEffect } from "react";
+
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const localPeer = useHMSStore(selectLocalPeerID);
@@ -67,7 +68,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
-  const [filtersButton,setFilters] = useState(false);
+
+
+  const [state, setSlide] = useState(1);
+
+  //const [filtersButton,setFilters] = useState(false);
 
   let HMSImageFilters = {
     grayscale : new grayscalePlugin(),
@@ -75,7 +80,36 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }
   const filters = HMSImageFilters;
 
+  let useSlider = (min, max, label, id) => {
+    
+    let handleChange = e => {
+      setSlide(e.target.value);
+      filters.brightness.set(e.target.value);
+      console.log(filters.brightness.shouldCallProcess());
+    };
+    let Slider = () => (
+      <input
+        type="range"
+        id={id}
+        min={min}
+        max={max}
+        step={0.1}
+        value={state}
+        onChange={handleChange}
+      />
+    );
+    return [state, Slider, setSlide];
+  };
+  let [slideValue, Slider] = useSlider(
+    0,
+    2,
+    "Threshold",
+    "threshold"
+  );
+
+
   useEffect(()=>{
+    console.error(slideValue);
        async function startPlugin() {
       if (!plugin3Ref.current) {
         plugin3Ref.current = new HMSImageTouchUp([filters.grayscale,filters.brightness]);
@@ -87,14 +121,17 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         await hmsActions.removePluginFromVideoTrack(plugin3Ref.current);
       }
     }
-    if (filtersButton) {
-     // setGray(false);
+    // if (filtersButton) {
+    //  // setGray(false);
       startPlugin();
-    } else {
-      removePlugin();
-    }
-  },[filtersButton]);
-  
+    // } else {
+    //   removePlugin();
+    // }
+
+
+  },[slideValue]);
+
+
 
 
 
@@ -353,16 +390,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <NoiseSupressionIcon />
             </Button>
           ) : null,
-          <Button
-          iconOnly
-          variant="no-fill"
-          shape="rectangle"
-          active={filtersButton}
-          onClick={()=>setFilters(!filtersButton)}
-          key="filters"
-        >
-          <NoiseSupressionIcon />
-        </Button>,
+         <div>
+         <Slider />
+       </div>,
+
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
           ),

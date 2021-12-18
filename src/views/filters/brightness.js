@@ -34,6 +34,7 @@ export class brighteningPlugin {
      * @param output {HTMLCanvasElement}
      */
     processPixels(red,green,blue) {
+       
             red = red * this.brightnessMul;
             green = green * this.brightnessMul;
             blue = blue * this.brightnessMul;
