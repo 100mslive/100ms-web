@@ -20,21 +20,21 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
   const hlsState = useHMSStore(selectHLSState);
   useEffect(() => {
     if (videoRef.current) {
-      if (Hls.isSupported() && hlsState.url) {
+      if (Hls.isSupported() && hlsState.variants[0]?.url) {
         let hls = new Hls();
-        hls.loadSource(hlsState.url);
+        hls.loadSource(hlsState.variants[0].url);
         hls.attachMedia(videoRef.current);
       } else if (
         videoRef.current.canPlayType("application/vnd.apple.mpegurl")
       ) {
-        videoRef.current = hlsState.url;
+        videoRef.current = hlsState.variants[0].url;
       }
     }
   }, [hlsState]);
 
   return (
     <Fragment>
-      {hlsState.url ? (
+      {hlsState.variants[0]?.url ? (
         <Fragment>
           <video
             className={defaultClasses.HLSVideo}
@@ -60,7 +60,7 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
           <Text
             variant="heading"
             size="lg"
-            classes={{ root: "text-white text-center" }}
+            classes={{ root: "light:text-black dark:text-white text-center" }}
           >
             No HLS URL Present
           </Text>

@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.6.tgz#07b629879825442076b051a175e82b56a37c81da"
   integrity sha512-M6VnNnyjKmSx+TvyL/Uy3l0IoyLuv3OVrq834dnzQKNaZ5o8TTDpwJJo0xPwh6543HhWw9otWbwbUC2fKyS4tw==
 
-"@100mslive/hms-video-react@0.3.113-alpha.3":
-  version "0.3.113-alpha.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.113-alpha.3.tgz#760dde2c141ae98b7329175b6463df88c1f4df80"
-  integrity sha512-EHAXQNTj47TBw5S1P7OhFQM6y+LY59DGxgYDRxHv8pBm8aiZKotCHDM5zDbRO1a4mQbs4XPVOoGIJVTPvZF8sg==
+"@100mslive/hms-video-react@0.3.113-alpha.4":
+  version "0.3.113-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.113-alpha.4.tgz#6b2fb700d8eeb742970ce812c13f47afb73cc946"
+  integrity sha512-tTc9EBAkQkvz6dNnhT3/KtJVsBXgAcRrk+b2PMAhP9vL6ZBLb2Bc1zRFaRwpkpxnDgnVj5AjLAvgGz8p0YVMtQ==
   dependencies:
     "@100mslive/hms-video-store" "^0.2.84-alpha.3"
     "@material-ui/core" "^4.11.3"
