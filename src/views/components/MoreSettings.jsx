@@ -26,8 +26,6 @@ import {
   RecordIcon,
   StarIcon,
   ChangeTextIcon,
-  selectHLSState,
-  HLSStreamingIcon,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
