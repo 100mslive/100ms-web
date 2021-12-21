@@ -44,6 +44,7 @@ export const MoreSettings = () => {
     uiViewMode,
     setuiViewMode,
     appPolicyConfig: { selfRoleChangeTo },
+    HLS_VIEWER_ROLE,
   } = useContext(AppContext);
   const roles = useHMSStore(selectAvailableRoleNames);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -227,15 +228,17 @@ export const MoreSettings = () => {
             }}
           />
         )}
-        <ContextMenuItem
-          icon={<GridIcon />}
-          label="UI Settings"
-          key="changeLayout"
-          addDivider={true}
-          onClick={() => {
-            setShowUiSettings(true);
-          }}
-        />
+        {localPeer.roleName !== HLS_VIEWER_ROLE && (
+          <ContextMenuItem
+            icon={<GridIcon />}
+            label="UI Settings"
+            key="changeLayout"
+            addDivider={true}
+            onClick={() => {
+              setShowUiSettings(true);
+            }}
+          />
+        )}
         <ContextMenuItem
           icon={<SettingsIcon />}
           label="Device Settings"

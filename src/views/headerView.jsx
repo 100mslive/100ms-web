@@ -17,9 +17,12 @@ import {
   selectRTMPState,
   selectAudioPlaylist,
   selectHLSState,
+  selectLocalPeer,
 } from "@100mslive/hms-video-react";
 import PIPComponent from "./PIP/PIPComponent";
+import { AppContext } from "../store/AppContext";
 import { metadataProps as participantInListProps } from "../common/utils";
+import { useContext } from "react";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -200,6 +203,8 @@ const StreamingRecording = () => {
 };
 
 export const ConferenceHeader = ({ onParticipantListOpen }) => {
+  const { HLS_VIEWER_ROLE } = useContext(AppContext);
+  const localPeer = useHMSStore(selectLocalPeer);
   return (
     <>
       <Header
@@ -211,7 +216,7 @@ export const ConferenceHeader = ({ onParticipantListOpen }) => {
         ]}
         centerComponents={[<SpeakerTag key={0} />]}
         rightComponents={[
-          <PIPComponent key={0} />,
+          localPeer.roleName !== HLS_VIEWER_ROLE && <PIPComponent key={0} />,
           <ParticipantList
             key={1}
             onToggle={onParticipantListOpen}

@@ -176,7 +176,7 @@ export const RecordingAndRTMPForm = ({
           inputName="Meeting URL:"
           value={meetingURL}
           onChangeHandler={setMeetingURL}
-          disabled={recordingStatus || rtmpStatus}
+          disabled={recordingStatus || rtmpStatus || hlsStatus}
         />
 
         <SwitchInput
@@ -202,7 +202,7 @@ export const RecordingAndRTMPForm = ({
         <SwitchInput
           inputName="Recording:"
           checked={isRecordingOn || recordingStatus}
-          disabled={isHlsOn}
+          disabled={hlsStatus || isHlsOn}
           onChangeHandler={setIsRecordingOn}
         />
       </form>
