@@ -27,7 +27,7 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
       } else if (
         videoRef.current.canPlayType("application/vnd.apple.mpegurl")
       ) {
-        videoRef.current = hlsState.variants[0].url;
+        videoRef.current.src = hlsState.variants[0].url;
       }
     }
   }, [hlsState]);
@@ -35,26 +35,12 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
   return (
     <Fragment>
       {hlsState.variants[0]?.url ? (
-        <Fragment>
-          <video
-            className={defaultClasses.HLSVideo}
-            ref={videoRef}
-            autoPlay
-            controls
-          ></video>
-          {isChatOpen && (
-            <div
-              className={`h-1/2 ${
-                isMobileDevice() ? `w-3/4` : `w-2/10`
-              } absolute z-40 bottom-20 right-0 ${getBlurClass(
-                isParticipantListOpen,
-                peersCount
-              )}`}
-            >
-              <ChatView toggleChat={toggleChat} />
-            </div>
-          )}
-        </Fragment>
+        <video
+          className={defaultClasses.HLSVideo}
+          ref={videoRef}
+          autoPlay
+          controls
+        ></video>
       ) : (
         <div className="flex items-center justify-center w-full">
           <Text
@@ -64,6 +50,18 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
           >
             No HLS URL Present
           </Text>
+        </div>
+      )}
+      {isChatOpen && (
+        <div
+          className={`h-1/2 ${
+            isMobileDevice() ? `w-3/4` : `w-2/10`
+          } absolute z-40 bottom-20 right-0 ${getBlurClass(
+            isParticipantListOpen,
+            peersCount
+          )}`}
+        >
+          <ChatView toggleChat={toggleChat} />
         </div>
       )}
     </Fragment>
