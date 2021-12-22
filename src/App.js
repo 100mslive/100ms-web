@@ -121,81 +121,78 @@ export function EdtechComponent({
               policyConfig={policyConfig}
               appDetails={metadata}
             >
-              <Router>
-                <Notifications />
-                <Switch>
-                  {/* <Route path="/createRoom">
-              <CreateRoom />
-            </Route> */}
-                  <Route
-                    path="/preview/:roomId/:role?"
-                    render={({ match }) => {
-                      const { params } = match;
-                      if (!params.roomId && !params.role) {
-                        return <Redirect to="/" />;
-                      }
-                      if (
-                        !params.roomId ||
-                        ["preview", "meeting", "leave"].includes(params.roomId)
-                      ) {
-                        return <Redirect to="/" />;
-                      }
-                      return <PreviewScreen getUserToken={getUserToken} />;
-                    }}
-                  />
-                  <Route path="/meeting/:roomId/:role?">
-                    <Conference />
-                  </Route>
-                  <Route
-                    path="/leave/:roomId/:role?"
-                    render={({ history, match }) => (
-                      <PostLeaveDisplay
-                        goToDashboardOnClick={() => {
-                          window.open(
-                            "https://dashboard.100ms.live/",
-                            "_blank"
-                          );
-                        }}
-                        joinRoomOnClick={() => {
-                          let previewUrl = "/preview/" + match.params.roomId;
-                          if (match.params.role)
-                            previewUrl += "/" + match.params.role;
-                          history.push(previewUrl);
-                        }}
-                        getFeedbackOnClick={setShowModal => {
-                          setShowModal(true);
-                        }}
-                      />
-                    )}
-                  />
-                  <Route
-                    path="/:roomId/:role?"
-                    render={({ match }) => {
-                      const { params } = match;
-                      if (!params.roomId && !params.role) {
-                        return <Redirect to="/" />;
-                      }
-                      if (!params.roomId) {
-                        return <Redirect to="/" />;
-                      }
-                      return (
-                        <Redirect
-                          to={`/preview/${params.roomId}/${params.role || ""}`}
-                        />
-                      );
-                    }}
-                  />
-                  <Route
-                    path="*"
-                    render={() => <ErrorPage error="Invalid URL!" />}
-                  />
-                </Switch>
-              </Router>
+              <AppRoutes getUserToken={getUserToken} />
             </AppContextProvider>
           </HMSRoomProvider>
         </ReactRoomProvider>
       </HMSThemeProvider>
     </div>
+  );
+}
+
+function AppRoutes({ getUserToken }) {
+  return (
+    <Router>
+      <Notifications />
+      <Switch>
+        {/* <Route path="/createRoom">
+              <CreateRoom />
+            </Route> */}
+        <Route
+          path="/preview/:roomId/:role?"
+          render={({ match }) => {
+            const { params } = match;
+            if (!params.roomId && !params.role) {
+              return <Redirect to="/" />;
+            }
+            if (
+              !params.roomId ||
+              ["preview", "meeting", "leave"].includes(params.roomId)
+            ) {
+              return <Redirect to="/" />;
+            }
+            return <PreviewScreen getUserToken={getUserToken} />;
+          }}
+        />
+        <Route path="/meeting/:roomId/:role?">
+          <Conference />
+        </Route>
+        <Route
+          path="/leave/:roomId/:role?"
+          render={({ history, match }) => (
+            <PostLeaveDisplay
+              goToDashboardOnClick={() => {
+                window.open("https://dashboard.100ms.live/", "_blank");
+              }}
+              joinRoomOnClick={() => {
+                let previewUrl = "/preview/" + match.params.roomId;
+                if (match.params.role) previewUrl += "/" + match.params.role;
+                history.push(previewUrl);
+              }}
+              getFeedbackOnClick={setShowModal => {
+                setShowModal(true);
+              }}
+            />
+          )}
+        />
+        <Route
+          path="/:roomId/:role?"
+          render={({ match }) => {
+            const { params } = match;
+            if (!params.roomId && !params.role) {
+              return <Redirect to="/" />;
+            }
+            if (!params.roomId) {
+              return <Redirect to="/" />;
+            }
+            return (
+              <Redirect to={`/preview/${params.roomId}/${params.role || ""}`} />
+            );
+          }}
+        />
+        <Route path="*" render={() => <ErrorPage error="Invalid URL!" />} />
+      </Switch>
+    </Router>
   );
 }
 
