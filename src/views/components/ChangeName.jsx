@@ -158,6 +158,9 @@ const LocalPeerStats = () => {
 
 const TrackStats = ({ trackID }) => {
   const stats = useHMSStatsStore(selectHMSStats.trackStatsByID(trackID));
+  if (!stats) {
+    return null;
+  }
   const inbound = stats.type.includes("inbound");
 
   return (
