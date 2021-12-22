@@ -90,7 +90,7 @@ export function EdtechComponent({
         }}
         toast={(message, options = {}) => hmsToast(message, options)}
       >
-        <HMSRoomProvider>
+        <HMSRoomProvider isHMSStatsOn={true}>
           <AppContextProvider
             roomId={roomId}
             tokenEndpoint={tokenEndpoint}
