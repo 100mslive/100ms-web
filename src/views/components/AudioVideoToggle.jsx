@@ -1,68 +1,46 @@
+import React, { Fragment } from "react";
 import {
-  Button,
-  CamOffIcon,
-  CamOnIcon,
+  VideoOffIcon,
+  VideoOnIcon,
   MicOffIcon,
   MicOnIcon,
-  selectIsAllowedToPublish,
-  selectIsLocalAudioEnabled,
-  selectIsLocalVideoDisplayEnabled,
-  useHMSActions,
-  useHMSStore,
-} from "@100mslive/hms-video-react";
-import React, { Fragment, useCallback } from "react";
+} from "@100mslive/react-icons";
+import { Tooltip, IconButton } from "@100mslive/react-ui";
+import { useAVToggle } from "@100mslive/react-sdk";
 
 export const AudioVideoToggle = () => {
-  const isLocalAudioEnabled = useHMSStore(selectIsLocalAudioEnabled);
-  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoDisplayEnabled);
-  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
-  const hmsActions = useHMSActions();
-
-  const toggleAudio = useCallback(async () => {
-    try {
-      await hmsActions.setLocalAudioEnabled(!isLocalAudioEnabled);
-    } catch (err) {
-      console.error("Cannot toggle audio", err);
-    }
-  }, [isLocalAudioEnabled]); //eslint-disable-line
-
-  const toggleVideo = useCallback(async () => {
-    try {
-      await hmsActions.setLocalVideoEnabled(!isLocalVideoEnabled);
-    } catch (err) {
-      console.error("Cannot toggle video", err);
-    }
-  }, [isLocalVideoEnabled]); //eslint-disable-line
-
+  const {
+    isAllowedToPublish,
+    isLocalVideoEnabled,
+    isLocalAudioEnabled,
+    toggleAudio,
+    toggleVideo,
+  } = useAVToggle();
   return (
     <Fragment>
       {isAllowedToPublish.audio ? (
-        <Button
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          classes={{ root: "mx-2" }}
-          shape="rectangle"
-          active={!isLocalAudioEnabled}
-          onClick={toggleAudio}
-          key="toggleAudio"
-        >
-          {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
-        </Button>
+        <Tooltip title={`Turn ${isLocalAudioEnabled ? "off" : "on"} audio`}>
+          <IconButton
+            className="mx-2"
+            active={isLocalAudioEnabled}
+            onClick={toggleAudio}
+            key="toggleAudio"
+          >
+            {!isLocalAudioEnabled ? <MicOffIcon /> : <MicOnIcon />}
+          </IconButton>
+        </Tooltip>
       ) : null}
       {isAllowedToPublish.video ? (
-        <Button
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          classes={{ root: "mx-2" }}
-          shape="rectangle"
-          active={!isLocalVideoEnabled}
-          onClick={toggleVideo}
-          key="toggleVideo"
-        >
-          {!isLocalVideoEnabled ? <CamOffIcon /> : <CamOnIcon />}
-        </Button>
+        <Tooltip title={`Turn ${isLocalVideoEnabled ? "off" : "on"} video`}>
+          <IconButton
+            className="mx-2"
+            key="toggleVideo"
+            active={isLocalVideoEnabled}
+            onClick={toggleVideo}
+          >
+            {!isLocalVideoEnabled ? <VideoOffIcon /> : <VideoOnIcon />}
+          </IconButton>
+        </Tooltip>
       ) : null}
     </Fragment>
   );
