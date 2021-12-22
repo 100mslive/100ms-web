@@ -114,6 +114,7 @@ export function EdtechComponent({
               destroy: errFn,
             })}
             notifications={hmsReactiveStore.getNotifications()}
+            webrtcInternals={hmsReactiveStore.getWebrtcInternals()}
           >
             <AppContextProvider
               roomId={roomId}

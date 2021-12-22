@@ -26,6 +26,7 @@ import {
   RecordIcon,
   StarIcon,
   ChangeTextIcon,
+  InfoIcon,
 } from "@100mslive/hms-video-react";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
@@ -33,7 +34,7 @@ import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
 import screenfull from "screenfull";
 import { RecordingAndRTMPModal } from "./RecordingAndRTMPModal";
 import { MuteAll } from "./MuteAll";
-import { ChangeName } from "./ChangeName";
+import { ChangeName, StatsForNerds } from "./ChangeName";
 
 export const MoreSettings = () => {
   const {
@@ -56,6 +57,7 @@ export const MoreSettings = () => {
   const [showUiSettings, setShowUiSettings] = useState(false);
   const [showRecordingAndRTMPModal, setShowRecordingAndRTMPModal] =
     useState(false);
+  const [showStatsForNerds, setShowStatsForNerds] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
@@ -247,6 +249,14 @@ export const MoreSettings = () => {
             setShowSettings(true);
           }}
         />
+        <ContextMenuItem
+          icon={<InfoIcon />}
+          label="Stats for Nerds"
+          key="stats"
+          onClick={() => {
+            setShowStatsForNerds(true);
+          }}
+        />
       </ContextMenu>
       <Settings
         className="hidden"
@@ -269,6 +279,10 @@ export const MoreSettings = () => {
       <ChangeName
         setShowChangeNameModal={setShowChangeNameModal}
         showChangeNameModal={showChangeNameModal}
+      />
+      <StatsForNerds
+        showModal={showStatsForNerds}
+        onCloseModal={() => setShowStatsForNerds(false)}
       />
     </Fragment>
   );
