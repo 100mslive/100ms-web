@@ -3,10 +3,7 @@ import {
   useHMSStore,
   ControlBar,
   AudioPlaylist,
-  VirtualBackgroundIcon,
-  NoiseSupressionIcon,
   Button,
-  ShareScreenIcon,
   ChatIcon,
   ChatUnreadIcon,
   MusicIcon,
@@ -25,7 +22,6 @@ import {
   selectVideoPlaylist,
   VideoPlaylist,
   selectIsConnectedToRoom,
-  HandIcon,
 } from "@100mslive/hms-video-react";
 import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
@@ -34,6 +30,13 @@ import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
 import { useMetadata } from "./hooks/useMetadata";
+import { IconButton, Tooltip } from "@100mslive/react-ui";
+import {
+  HandIcon,
+  AudioLevelIcon,
+  VirtualBackgroundIcon,
+  ShareScreenIcon,
+} from "@100mslive/react-icons";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -210,17 +213,15 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         />
       );
     leftComponents.push(
-      <Button
-        key="raise-hand"
-        iconOnly
-        variant="no-fill"
-        iconSize="md"
-        shape="rectangle"
-        onClick={() => setIsHandRaised(!isHandRaised)}
-        active={isHandRaised}
-      >
-        <HandIcon />
-      </Button>
+      <Tooltip title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}>
+        <IconButton
+          key="raise-hand"
+          onClick={() => setIsHandRaised(!isHandRaised)}
+          active={!isHandRaised}
+        >
+          <HandIcon />
+        </IconButton>
+      </Tooltip>
     );
   }
   if (isMobileDevice()) {
@@ -238,17 +239,13 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       </Button>
     );
     leftComponents.push(
-      <Button
+      <IconButton
         key="raise-hand"
-        iconOnly
-        variant="no-fill"
-        iconSize="md"
-        shape="rectangle"
         onClick={() => setIsHandRaised(!isHandRaised)}
-        active={isHandRaised}
+        active={!isHandRaised}
       >
         <HandIcon />
-      </Button>
+      </IconButton>
     );
   }
 
@@ -264,42 +261,48 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         centerComponents={[
           <AudioVideoToggle key="audioVideoToggle" />,
           isAllowedToPublish.screen && !isMobileDevice() ? (
-            <Button
-              key="toggleScreenShare"
-              iconOnly
-              variant="no-fill"
-              iconSize="md"
-              shape="rectangle"
-              classes={{ root: "mx-2" }}
-              onClick={() => toggleScreenShare(!isScreenShared)}
+            <Tooltip
+              title={`${!isScreenShared ? "Start" : "Stop"} screen sharing`}
             >
-              <ShareScreenIcon />
-            </Button>
+              <IconButton
+                active={!isScreenShared}
+                key="toggleScreenShare"
+                className="mx-2"
+                onClick={() => toggleScreenShare(!isScreenShared)}
+              >
+                <ShareScreenIcon />
+              </IconButton>
+            </Tooltip>
           ) : null,
           isAllowedToPublish.video && pluginRef.current?.isSupported() ? (
-            <Button
-              iconOnly
-              variant="no-fill"
-              shape="rectangle"
-              active={isVBPresent}
-              onClick={handleVirtualBackground}
-              classes={{ root: "mx-2" }}
-              key="VB"
+            <Tooltip
+              title={`Turn ${!isVBPresent ? "on" : "off"} virtual background`}
             >
-              <VirtualBackgroundIcon />
-            </Button>
+              <IconButton
+                active={!isVBPresent}
+                onClick={handleVirtualBackground}
+                className="mx-2"
+                key="VB"
+              >
+                <VirtualBackgroundIcon />
+              </IconButton>
+            </Tooltip>
           ) : null,
           isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
-            <Button
-              iconOnly
-              variant="no-fill"
-              shape="rectangle"
-              active={isNoiseSuppression}
-              onClick={handleNoiseSuppression}
-              key="noiseSuppression"
+            <Tooltip
+              title={`Turn ${
+                !isNoiseSuppression ? "on" : "off"
+              } noise suppression`}
             >
-              <NoiseSupressionIcon />
-            </Button>
+              <IconButton
+                className="ml-2"
+                active={!isNoiseSuppression}
+                onClick={handleNoiseSuppression}
+                key="noiseSuppression"
+              >
+                <AudioLevelIcon />
+              </IconButton>
+            </Tooltip>
           ) : null,
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
