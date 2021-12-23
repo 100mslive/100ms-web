@@ -11,7 +11,8 @@ import { getBlurClass } from "../common/utils";
 import { ChatView } from "./components/chatView";
 
 const defaultClasses = {
-  HLSVideo: "w-full contain",
+  HLSVideo: "w-full contain h-full",
+  NoURLText: "flex items-center justify-center w-full h-full",
 };
 
 export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
@@ -42,7 +43,7 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
           controls
         ></video>
       ) : (
-        <div className="flex items-center justify-center w-full">
+        <div className={defaultClasses.NoURLText}>
           <Text
             variant="heading"
             size="lg"

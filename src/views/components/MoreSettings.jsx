@@ -58,9 +58,7 @@ export const MoreSettings = () => {
     useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
-    screenfull.isFullscreen
-  );
+  const [, setIsFullScreenEnabled] = useState(screenfull.isFullscreen);
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
 
   const availableSelfChangeRoles = useMemo(
@@ -74,6 +72,10 @@ export const MoreSettings = () => {
         setIsFullScreenEnabled(screenfull.isFullscreen);
       });
     }
+    return () =>
+      screenfull.off("change", () => {
+        setIsFullScreenEnabled(screenfull.isFullscreen);
+      });
   }, []);
 
   const onChange = count => {
@@ -212,10 +214,10 @@ export const MoreSettings = () => {
         {screenfull.isEnabled && (
           <ContextMenuItem
             icon={<FullScreenIcon />}
-            label={`${isFullScreenEnabled ? "Exit " : ""}Full Screen`}
+            label={`${screenfull.isFullscreen ? "Exit " : ""}Full Screen`}
             key="toggleFullScreen"
             onClick={() => {
-              setFullScreenEnabled(!isFullScreenEnabled);
+              setFullScreenEnabled(!screenfull.isFullscreen);
             }}
           />
         )}
@@ -228,17 +230,15 @@ export const MoreSettings = () => {
             }}
           />
         )}
-        {localPeer.roleName !== HLS_VIEWER_ROLE && (
-          <ContextMenuItem
-            icon={<GridIcon />}
-            label="UI Settings"
-            key="changeLayout"
-            addDivider={true}
-            onClick={() => {
-              setShowUiSettings(true);
-            }}
-          />
-        )}
+        <ContextMenuItem
+          icon={<GridIcon />}
+          label="UI Settings"
+          key="changeLayout"
+          addDivider={true}
+          onClick={() => {
+            setShowUiSettings(true);
+          }}
+        />
         <ContextMenuItem
           icon={<SettingsIcon />}
           label="Device Settings"
