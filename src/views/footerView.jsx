@@ -31,14 +31,23 @@ import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
 import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
 import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
+import { ImageFilters } from "./components/filters";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
 import { useMetadata } from "./hooks/useMetadata";
 
 import {brighteningPlugin} from './filters/brightness';
 import {grayscalePlugin} from './filters/gray';
+import {contrastPlugin} from './filters/contrast'
 import {HMSImageTouchUp} from 'hmsimagetouchup';
 import { useEffect } from "react";
+
+const HMSImageFilters = {
+  grayscale : new grayscalePlugin(),
+  brightness  : new brighteningPlugin(),
+  contrast : new contrastPlugin()
+}
+export const filters = HMSImageFilters;
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -69,50 +78,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
 
-
-  const [state, setSlide] = useState(1);
-
-  //const [filtersButton,setFilters] = useState(false);
-
-  let HMSImageFilters = {
-    grayscale : new grayscalePlugin(),
-    brightness  : new brighteningPlugin()
-  }
-  const filters = HMSImageFilters;
-
-  let useSlider = (min, max, label, id) => {
-    
-    let handleChange = e => {
-      setSlide(e.target.value);
-      filters.brightness.set(e.target.value);
-      console.log(filters.brightness.shouldCallProcess());
-    };
-    let Slider = () => (
-      <input
-        type="range"
-        id={id}
-        min={min}
-        max={max}
-        step={0.1}
-        value={state}
-        onChange={handleChange}
-      />
-    );
-    return [state, Slider, setSlide];
-  };
-  let [slideValue, Slider] = useSlider(
-    0,
-    2,
-    "Threshold",
-    "threshold"
-  );
-
-
   useEffect(()=>{
-    console.error(slideValue);
        async function startPlugin() {
       if (!plugin3Ref.current) {
-        plugin3Ref.current = new HMSImageTouchUp([filters.grayscale,filters.brightness]);
+        plugin3Ref.current = new HMSImageTouchUp([filters.brightness]);
       }
       await hmsActions.addPluginToVideoTrack(plugin3Ref.current);
     }
@@ -121,34 +90,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         await hmsActions.removePluginFromVideoTrack(plugin3Ref.current);
       }
     }
-    // if (filtersButton) {
-    //  // setGray(false);
+   
       startPlugin();
-    // } else {
-    //   removePlugin();
-    // }
 
-
-  },[slideValue]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  },[]);
 
 
   function createNoiseSuppresionPlugin() {
@@ -391,7 +336,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             </Button>
           ) : null,
          <div>
-         <Slider />
        </div>,
 
           isPublishing && (
@@ -402,6 +346,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             <span key="SettingsRightSpace" className="mx-2 md:mx-3"></span>
           ),
           <MoreSettings key="MoreSettings" />,
+          <ImageFilters key="ImageFilters" />,
         ]}
         rightComponents={[<LeaveRoom key="leaveRoom" />]}
         backgroundButtonOnClick={handleVirtualBackground}

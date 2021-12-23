@@ -10,12 +10,7 @@ export class brighteningPlugin {
     }
 
     shouldCallProcess(){
-        if(this.brightnessMul!=defaultValue){
-            return true;
-        }
-        else{
-            return false;
-        }
+       return this.brightnessMul!=defaultValue;
     }
 
     get(){
@@ -26,18 +21,15 @@ export class brighteningPlugin {
     }
 
     cleanUp() {
-        this.brightnessMul = this.defaultValue;
+        this.brightnessMul = defaultValue;
     }
 
-    /**
-     * @param input {HTMLCanvasElement}
-     * @param output {HTMLCanvasElement}
-     */
     processPixels(red,green,blue) {
-       
+       if(this.brightnessMul!=defaultValue){
             red = red * this.brightnessMul;
             green = green * this.brightnessMul;
             blue = blue * this.brightnessMul;
+       }
             return [red,green,blue];
     }
 }
