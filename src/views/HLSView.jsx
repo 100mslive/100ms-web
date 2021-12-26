@@ -9,6 +9,7 @@ import {
 import Hls from "hls.js";
 import { getBlurClass } from "../common/utils";
 import { ChatView } from "./components/chatView";
+import { FeatureFlags } from "../store/FeatureFlags";
 
 const defaultClasses = {
   HLSVideo: "w-full contain",
@@ -21,7 +22,7 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
   useEffect(() => {
     if (videoRef.current) {
       if (Hls.isSupported() && hlsState.variants[0]?.url) {
-        let hls = new Hls();
+        let hls = new Hls(getHLSConfig());
         hls.loadSource(hlsState.variants[0].url);
         hls.attachMedia(videoRef.current);
       } else if (
@@ -40,7 +41,7 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
           ref={videoRef}
           autoPlay
           controls
-        ></video>
+        />
       ) : (
         <div className="flex items-center justify-center w-full">
           <Text
@@ -48,7 +49,7 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
             size="lg"
             classes={{ root: "light:text-black dark:text-white text-center" }}
           >
-            No HLS URL Present
+            Waiting for the Streaming to start...
           </Text>
         </div>
       )}
@@ -67,3 +68,17 @@ export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
     </Fragment>
   );
 };
+
+function getHLSConfig() {
+  if (FeatureFlags.optimiseHLSLatency()) {
+    // should reduce the latency by around 2-3 more seconds. Won't work well without good internet.
+    return {
+      enableWorker: true,
+      liveSyncDuration: 1,
+      liveMaxLatencyDuration: 5,
+      liveDurationInfinity: true,
+      highBufferWatchdogPeriod: 1,
+    };
+  }
+  return {};
+}
