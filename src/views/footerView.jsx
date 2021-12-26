@@ -43,6 +43,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isVBPresent = useHMSStore(
     selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
   );
+  var isSTTPresent = false;
   const hmsActions = useHMSActions();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
 
@@ -114,6 +115,88 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     isVBPresent ? removePlugin() : startPlugin();
   }
 
+
+
+  //####################################################
+  //Trascription Code Starts Here
+  
+  var speechRecognizer;
+  var speechTxt = "";
+  function createSTTPlugin() {
+    console.log("STT Begins");
+    isSTTPresent = true;
+    if("webkitSpeechRecognition" in window){
+      speechRecognizer = new window.webkitSpeechRecognition();
+      var STARTED = false;
+      var STOP_FLAG = false;
+      var exitcnt = 0;
+      var interim_transcript;
+          speechRecognizer.continuous = true;
+          speechRecognizer.interimResults = true;
+          if(STARTED == false){
+              speechRecognizer.start();
+              STARTED = true;
+              speechRecognizer.onsoundstart = function() {
+                  console.log('Some sound is being received');
+              }
+  
+              speechRecognizer.onresult = function(event){
+                  exitcnt = 0;
+                  if(event.results.length > 0){
+                      let final_transcript = interim_transcript = "";
+                      for (let i = event.resultIndex; i < event.results.length; ++i) {
+                          if (event.results[i].isFinal) {
+                            final_transcript += event.results[i][0].transcript;
+                          } else {
+                            interim_transcript += event.results[i][0].transcript;
+                          }
+                        }
+                      console.log(interim_transcript);
+                      speechTxt = interim_transcript;
+                      document.getElementById("speechtxt").innerText = interim_transcript;
+                  }
+              };
+  
+              speechRecognizer.onerror = function(event){
+                  console.log(event)
+              };
+          
+              speechRecognizer.onend = function(e) {
+                  if(exitcnt <= 5){
+                      console.log(e);
+                      STARTED = false;
+                      exitcnt++;
+                  }else{
+                    console.log("STT Error");
+                  }
+              }
+          }
+    }else{
+      console.log("Sorry, your browser does not support this feature !!");
+    }
+  }
+
+  async function startSTTPlugin() {
+    console.log("Starting STT");
+    createSTTPlugin();
+    document.getElementById("t4txt").style.color = "#0fdf29";
+  }
+
+  async function removeSTTPlugin() {
+    console.log("Stopping STT");
+    if(speechRecognizer){
+      speechRecognizer.stop();
+    }
+    isSTTPresent = false;
+    document.getElementById("t4txt").style.color = "white";
+  }
+
+  function handleSTT() {
+    isSTTPresent ? removeSTTPlugin() : startSTTPlugin();
+  }
+
+  // Trascription nds Here
+  
   function handleNoiseSuppression() {
     isNoiseSuppression
       ? removeNoiseSuppressionPlugin()
@@ -259,6 +342,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   return (
     <>
+      <div id="speechtxt" className="transcribe"></div>
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
@@ -299,6 +383,18 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               key="noiseSuppression"
             >
               <NoiseSupressionIcon />
+            </Button>
+          ) : null,
+          "webkitSpeechRecognition" in window && isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
+            <Button
+              iconOnly
+              variant="no-fill"
+              shape="rectangle"
+              active={isSTTPresent}
+              onClick={handleSTT}
+              key="transcribe"
+            >
+              <span id="t4txt" title="Transcribe"><b>T</b></span>
             </Button>
           ) : null,
           isPublishing && (
