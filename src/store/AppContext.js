@@ -6,7 +6,7 @@ import {
   selectAvailableRoleNames,
   selectRolesMap,
 } from "@100mslive/hms-video-react";
-import { FeatureFlags } from "./FeatureFlags";
+import { FeatureFlagsInit } from "./FeatureFlags";
 import {
   convertLoginInfoToJoinConfig,
   normalizeAppPolicyConfig,
@@ -191,7 +191,7 @@ const AppContextProvider = ({
       }}
     >
       {children}
-      <FeatureFlags />
+      <FeatureFlagsInit />
     </AppContext.Provider>
   );
 };
