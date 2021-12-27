@@ -1,21 +1,32 @@
 import { useEffect } from "react";
-import { useHMSActions, useHMSVanillaStore } from "@100mslive/hms-video-react";
 
-export function FeatureFlags() {
-  const hmsActions = useHMSActions();
-  const store = useHMSVanillaStore();
-  useEffect(() => {
-    // This object will be used for feature flags and storing actions, store globally
+export class FeatureFlags {
+  static init() {
     if (!window.HMS) {
       window.HMS = {};
     }
-    window.HMS.JOIN_DELAY_FIX = true;
+    // unsubscribe for muted audio tracks
     window.HMS.AUDIO_SINK = true;
-    window.HMS.actions = hmsActions;
-    window.HMS.store = store;
+    // some extra config to hls js to bring down latency
+    window.HMS.OPTIMISE_HLS_LATENCY = false;
+    // ask permissions in preview even if role doesn't have it
     window.HMS.ALWAYS_REQUEST_PERMISSIONS = false;
+    // update beam notification after server sends notification(remove flag)
     window.HMS.NEW_BEAM_STATE = true;
-  }, [hmsActions, store]);
+  }
 
+  static optimiseHLSLatency() {
+    return window.HMS.OPTIMISE_HLS_LATENCY;
+  }
+
+  static alwaysRequestPermissions() {
+    return window.HMS.ALWAYS_REQUEST_PERMISSIONS;
+  }
+}
+
+export function FeatureFlagsInit() {
+  useEffect(() => {
+    FeatureFlags.init();
+  }, []);
   return null;
 }
