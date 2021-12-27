@@ -76,7 +76,10 @@ class Transcriber {
           transcript += result.results[i][0].transcript;
         }
       }
-      document.getElementById("speechtxt").innerText = transcript;
+      const elem = document.getElementById("speechtxt");
+      if (elem) {
+        elem.innerText = transcript;
+      }
     }
   }
 }

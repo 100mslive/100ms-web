@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 export class FeatureFlags {
-  static enableTranscription = true; //process.env.REACT_APP_ENABLE_TRANSCRIPTION;
+  static enableTranscription = process.env.REACT_APP_ENABLE_TRANSCRIPTION;
 
   static init() {
     if (!window.HMS) {
