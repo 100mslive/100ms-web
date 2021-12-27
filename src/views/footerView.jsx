@@ -115,9 +115,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     isVBPresent ? removePlugin() : startPlugin();
   }
 
-
-
-  //####################################################
   //Trascription Code Starts Here
   
   var speechRecognizer;
@@ -128,7 +125,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     if("webkitSpeechRecognition" in window){
       speechRecognizer = new window.webkitSpeechRecognition();
       var STARTED = false;
-      var STOP_FLAG = false;
       var exitcnt = 0;
       var interim_transcript;
           speechRecognizer.continuous = true;
@@ -195,7 +191,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     isSTTPresent ? removeSTTPlugin() : startSTTPlugin();
   }
 
-  // Trascription nds Here
+  //Trascription Ends Here
   
   function handleNoiseSuppression() {
     isNoiseSuppression
