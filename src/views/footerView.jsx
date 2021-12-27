@@ -37,6 +37,11 @@ import {
   VirtualBackgroundIcon,
   ShareScreenIcon,
 } from "@100mslive/react-icons";
+import {
+  browserSupportsTranscription,
+  TranscriptionButton,
+} from "./components/Transcription";
+import { FeatureFlags } from "../store/FeatureFlags";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -256,6 +261,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   return (
     <>
+      <div id="speechtxt" className="transcribe"></div>
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
@@ -303,6 +309,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 <AudioLevelIcon />
               </IconButton>
             </Tooltip>
+          ) : null,
+          FeatureFlags.enableTranscription &&
+          browserSupportsTranscription &&
+          isAllowedToPublish.audio ? (
+            <TranscriptionButton />
           ) : null,
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>

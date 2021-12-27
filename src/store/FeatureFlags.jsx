@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 
 export class FeatureFlags {
+  static enableTranscription = process.env.REACT_APP_ENABLE_TRANSCRIPTION;
+
   static init() {
     if (!window.HMS) {
       window.HMS = {};
