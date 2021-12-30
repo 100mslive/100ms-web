@@ -6,7 +6,6 @@ import {
   Button,
   ChatIcon,
   ChatUnreadIcon,
-  MusicIcon,
   VideoPlaylistIcon,
   VerticalDivider,
   MessageModal,
@@ -36,6 +35,7 @@ import {
   AudioLevelIcon,
   VirtualBackgroundIcon,
   ShareScreenIcon,
+  MusicIcon,
 } from "@100mslive/react-icons";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
@@ -169,23 +169,23 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     createNoiseSuppresionPlugin();
     if (isAllowedToPublish.screen) {
       leftComponents.push(
-        <Button
-          key="shareAudio"
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
-          active={isAudioScreenshare}
-          onClick={() => {
-            if (isAudioScreenshare) {
-              toggleScreenShare(false, true);
-            } else {
-              setShareAudioModal(true);
-            }
-          }}
+        <Tooltip
+          title={`${!isAudioScreenshare ? "Start" : "Stop"} audio sharing`}
         >
-          <MusicIcon />
-        </Button>,
+          <IconButton
+            key="shareAudio"
+            active={!isAudioScreenshare}
+            onClick={() => {
+              if (isAudioScreenshare) {
+                toggleScreenShare(false, true);
+              } else {
+                setShareAudioModal(true);
+              }
+            }}
+          >
+            <MusicIcon />
+          </IconButton>
+        </Tooltip>,
         <VerticalDivider key="audioShareDivider" />
       );
     }
