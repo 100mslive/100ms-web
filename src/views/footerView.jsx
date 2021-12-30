@@ -6,7 +6,6 @@ import {
   Button,
   ChatIcon,
   ChatUnreadIcon,
-  MusicIcon,
   VideoPlaylistIcon,
   VerticalDivider,
   MessageModal,
@@ -36,12 +35,8 @@ import {
   AudioLevelIcon,
   VirtualBackgroundIcon,
   ShareScreenIcon,
+  MusicIcon,
 } from "@100mslive/react-icons";
-import {
-  browserSupportsTranscription,
-  TranscriptionButton,
-} from "./components/Transcription";
-import { FeatureFlags } from "../store/FeatureFlags";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -174,23 +169,23 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     createNoiseSuppresionPlugin();
     if (isAllowedToPublish.screen) {
       leftComponents.push(
-        <Button
-          key="shareAudio"
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
-          active={isAudioScreenshare}
-          onClick={() => {
-            if (isAudioScreenshare) {
-              toggleScreenShare(false, true);
-            } else {
-              setShareAudioModal(true);
-            }
-          }}
+        <Tooltip
+          title={`${!isAudioScreenshare ? "Start" : "Stop"} audio sharing`}
         >
-          <MusicIcon />
-        </Button>,
+          <IconButton
+            key="shareAudio"
+            active={!isAudioScreenshare}
+            onClick={() => {
+              if (isAudioScreenshare) {
+                toggleScreenShare(false, true);
+              } else {
+                setShareAudioModal(true);
+              }
+            }}
+          >
+            <MusicIcon />
+          </IconButton>
+        </Tooltip>,
         <VerticalDivider key="audioShareDivider" />
       );
     }
@@ -261,7 +256,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   return (
     <>
-      <div id="speechtxt" className="transcribe"></div>
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
@@ -309,11 +303,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
                 <AudioLevelIcon />
               </IconButton>
             </Tooltip>
-          ) : null,
-          FeatureFlags.enableTranscription &&
-          browserSupportsTranscription &&
-          isAllowedToPublish.audio ? (
-            <TranscriptionButton />
           ) : null,
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
