@@ -6,15 +6,9 @@
     "@100mslive/hms-noise-suppression": "0.1.6",
     "@100mslive/hms-video-react": "0.3.114-alpha.0",
     "@100mslive/hms-virtual-background": "1.3.6",
-<<<<<<< HEAD
-    "@100mslive/react-icons": "^0.0.2-alpha",
-    "@100mslive/react-sdk": "^0.0.2-alpha",
-    "@100mslive/react-ui": "^0.0.3-alpha",
-=======
     "@100mslive/react-icons": "0.0.3-alpha.0",
     "@100mslive/react-sdk": "0.0.3-alpha.2",
     "@100mslive/react-ui": "0.0.3-alpha.0",
->>>>>>> 64eac8b (Merge pull request #84 from 100mslive/import-web-app)
     "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -75,10 +69,7 @@
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.1.0",
     "autoprefixer": "^9.8.6",
-<<<<<<< HEAD
-=======
     "eslint-config-react-app": "^7.0.0",
->>>>>>> 64eac8b (Merge pull request #84 from 100mslive/import-web-app)
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
   },
