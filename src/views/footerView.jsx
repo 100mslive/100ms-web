@@ -223,8 +223,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         </IconButton>
       </Tooltip>
     );
-  }
-  if (isMobileDevice()) {
+  } else {
     leftComponents.push(
       <Button
         key="chat"

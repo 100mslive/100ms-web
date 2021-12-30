@@ -1,9 +1,7 @@
 import { Fragment, useState } from "react";
 import {
-  Button,
   ContextMenu,
   ContextMenuItem,
-  HangUpIcon,
   isMobileDevice,
   MessageModal,
   selectPermissions,
@@ -11,6 +9,8 @@ import {
   useHMSStore,
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
+import { HangUpIcon } from "@100mslive/react-icons";
+import { Button } from "@100mslive/react-ui";
 
 export const LeaveRoom = () => {
   const history = useHistory();
@@ -50,8 +50,6 @@ export const LeaveRoom = () => {
         key="LeaveAction"
         trigger={
           <Button
-            size="md"
-            shape="rectangle"
             variant="danger"
             iconOnly={isMobileDevice()}
             active={isMobileDevice()}
@@ -85,7 +83,6 @@ export const LeaveRoom = () => {
             }}
           >
             <Button
-              shape="rectangle"
               variant="standard"
               classes={{ root: "w-full" }}
               onClick={() => {
@@ -105,9 +102,8 @@ export const LeaveRoom = () => {
           }}
         >
           <Button
-            shape="rectangle"
             variant="danger"
-            classes={{ root: "w-full" }}
+            className="w-full"
             onClick={() => {
               leaveRoom();
             }}
@@ -138,7 +134,8 @@ export const LeaveRoom = () => {
               </label>
             </div>
             <Button
-              classes={{ root: "mr-3 ml-3" }}
+              variant="standard"
+              className="mr-3 ml-3"
               onClick={() => {
                 setShowEndRoomModal(false);
                 setLockRoom(false);
