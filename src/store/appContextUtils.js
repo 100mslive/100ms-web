@@ -1,4 +1,5 @@
 import LogRocket from "logrocket";
+import { FeatureFlags } from "./FeatureFlags";
 
 export const convertLoginInfoToJoinConfig = loginInfo => {
   const joinConfig = {
@@ -16,7 +17,7 @@ export const convertLoginInfoToJoinConfig = loginInfo => {
       videoDeviceId: loginInfo.selectedVideoInput,
     },
     rememberDeviceSelection: true,
-    alwaysRequestPermissions: window.HMS.ALWAYS_REQUEST_PERMISSIONS,
+    alwaysRequestPermissions: FeatureFlags.alwaysRequestPermissions(),
   };
   console.debug("app: Config is", joinConfig);
   return joinConfig;
