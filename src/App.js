@@ -22,7 +22,6 @@ import {
 import { hmsToast } from "./views/components/notifications/hms-toast";
 import { Notifications } from "./views/components/notifications/Notifications";
 import { HMSReactiveStore } from "@100mslive/hms-video-store";
-import create from "zustand";
 import { HMSRoomProvider as ReactRoomProvider } from "@100mslive/react-sdk";
 
 const defaultTokenEndpoint = process.env
@@ -64,9 +63,6 @@ export function EdtechComponent({
   policyConfig = envPolicyConfig,
 }) {
   const hmsReactiveStore = new HMSReactiveStore();
-  const errFn = () => {
-    throw new Error("modifying store is not allowed");
-  };
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
@@ -107,16 +103,16 @@ export function EdtechComponent({
         toast={(message, options = {}) => hmsToast(message, options)}
       >
         <ReactRoomProvider
-          actions={hmsReactiveStore.getHMSActions()}
+          actions={hmsReactiveStore.getActions()}
           store={hmsReactiveStore.getStore()}
           notifications={hmsReactiveStore.getNotifications()}
-          webrtcInternals={hmsReactiveStore.getWebrtcStats()}
+          webrtcInternals={hmsReactiveStore.getStats()}
         >
           <HMSRoomProvider
-            actions={hmsReactiveStore.getHMSActions()}
+            actions={hmsReactiveStore.getActions()}
             store={hmsReactiveStore.getStore()}
             notifications={hmsReactiveStore.getNotifications()}
-            webrtcInternals={hmsReactiveStore.getWebrtcStats()}
+            stats={hmsReactiveStore.getStats()}
           >
             <AppContextProvider
               roomId={roomId}
