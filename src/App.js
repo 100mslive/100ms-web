@@ -34,6 +34,15 @@ const defaultTokenEndpoint = process.env
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
+let appName = "";
+if (window.location.host.includes("localhost")) {
+  appName = "localhost";
+} else {
+  appName = window.location.host.split(".")[0];
+}
+
+document.title = `${document.title}(${appName})`;
+
 export function EdtechComponent({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
@@ -99,22 +108,15 @@ export function EdtechComponent({
       >
         <ReactRoomProvider
           actions={hmsReactiveStore.getHMSActions()}
-          store={create({
-            ...hmsReactiveStore.getStore(),
-            setState: errFn,
-            destroy: errFn,
-          })}
+          store={hmsReactiveStore.getStore()}
           notifications={hmsReactiveStore.getNotifications()}
+          webrtcInternals={hmsReactiveStore.getWebrtcStats()}
         >
           <HMSRoomProvider
             actions={hmsReactiveStore.getHMSActions()}
-            store={create({
-              ...hmsReactiveStore.getStore(),
-              setState: errFn,
-              destroy: errFn,
-            })}
+            store={hmsReactiveStore.getStore()}
             notifications={hmsReactiveStore.getNotifications()}
-            webrtcInternals={hmsReactiveStore.getWebrtcInternals()}
+            webrtcInternals={hmsReactiveStore.getWebrtcStats()}
           >
             <AppContextProvider
               roomId={roomId}
