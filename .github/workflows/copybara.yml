@@ -18,7 +18,7 @@ jobs:
         with:
           ssh_key: ${{ secrets.SSH_KEY }}
           access_token: ${{ secrets.ACCESS_TOKEN }}
-          destination_repo: 100mslive/web-sdks
-          sot_repo: 100mslive/100ms-web
+          sot_repo: 100mslive/web-sdks
+          destination_repo: 100mslive/100ms-web
           push_move: |
             ||apps/100ms-web
