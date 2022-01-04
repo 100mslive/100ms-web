@@ -7,12 +7,12 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.6.tgz#07b629879825442076b051a175e82b56a37c81da"
   integrity sha512-M6VnNnyjKmSx+TvyL/Uy3l0IoyLuv3OVrq834dnzQKNaZ5o8TTDpwJJo0xPwh6543HhWw9otWbwbUC2fKyS4tw==
 
-"@100mslive/hms-video-react@0.3.114-alpha.0":
-  version "0.3.114-alpha.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.114-alpha.0.tgz#8adb2acd2063c772f87262f14215fe01da7511b0"
-  integrity sha512-UpUWTKrPlIOJb9IdZCuOZAc8tqtTS8X8M5ciOyN1gwYJjZR0+M/QgakZzqUfWmC24p2w0IPNBB5XHUqc9yczVg==
+"@100mslive/hms-video-react@0.3.114-alpha.1":
+  version "0.3.114-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.114-alpha.1.tgz#bb896ac2070335370f18b0f3b06eb89eb145a7e8"
+  integrity sha512-1tmS5xuW94WIllzJu0IRl6iq57UUxqNXwlVsJLSdcm0q25UJPkOyS+n9qpYJd+DWPAq8HI7zqq2FVIUSJ9yFHA==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.86-alpha.1"
+    "@100mslive/hms-video-store" "0.2.86-alpha.8"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -30,43 +30,21 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.86-alpha.1":
-  version "0.2.86-alpha.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.86-alpha.1.tgz#5a738a0989d927f8b9ded434eadf4e3766dd2f19"
-  integrity sha512-teuR419/QjHpk+/Da2rnANrUW1atRH7Zy01DyWejTWCZz6mQh0YzvXVXfrDlQVDrVZzhRiOC0NUZLrWbMsOj2A==
+"@100mslive/hms-video-store@0.2.86-alpha.8":
+  version "0.2.86-alpha.8"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.86-alpha.8.tgz#cb1409a87b17628c5b80b55c2ffedfdb454a5ab8"
+  integrity sha512-1x26lDJ5jepz0oY2tTe3yDIDyMCWskiuppPfEEvRe4xCG5Jm2FKw7nDNN+RLr32af2pih2qx+QJKVtKPQT3hMQ==
   dependencies:
-    "@100mslive/hms-video" "0.1.40-alpha.0"
+    "@100mslive/hms-video" "0.1.40-alpha.4"
     eventemitter2 "^6.4.5"
     immer "^9.0.6"
     reselect "4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@^0.2.71":
-  version "0.2.85"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.85.tgz#b94f75a02acb9f6a886a3fedd8f119d6d8cc502e"
-  integrity sha512-FHyGhN1UwOHDnhkK1/uX+L5bhmvLq63VOQpn0bFrG8xLrrtrYgA41zHHJZpgmt4m2LPO9QFYUWZzRB9KY2GjJQ==
-  dependencies:
-    "@100mslive/hms-video" "0.1.39"
-    eventemitter2 "^6.4.5"
-    immer "^9.0.6"
-    reselect "4.0.0"
-    zustand "3.5.7"
-
-"@100mslive/hms-video@0.1.39", "@100mslive/hms-video@^0.1.23":
-  version "0.1.39"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.39.tgz#8b1ca01f6d5af0cefb73392914a66b4de030ce15"
-  integrity sha512-b5bi8BOBvXRz8JMVyhc4q9FlWY7LieoQXsFFWImbDlpn1VWO/SfsfhG5FR5NZJgpPu4OoA6/13TZoikkcAtdKg==
-  dependencies:
-    eventemitter2 "^6.4.5"
-    sdp-transform "^2.14.1"
-    ua-parser-js "^1.0.1"
-    uuid "^8.3.2"
-    webrtc-adapter "^8.0.0"
-
-"@100mslive/hms-video@0.1.40-alpha.0":
-  version "0.1.40-alpha.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.40-alpha.0.tgz#d45515171c231e649b4e342e06c573cc09b2e762"
-  integrity sha512-q2wWY1iFU/h/WDJbgIrqp+g6zcv5Fzypy9u59DClrJFb66x3jB17Ui4d7XJyD3c6ZMqbHK7H8NTy9WRrP85bIg==
+"@100mslive/hms-video@0.1.40-alpha.4":
+  version "0.1.40-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.40-alpha.4.tgz#d2e6e7613b8ed7a70fd08077b81278171191b12b"
+  integrity sha512-2zoGO2PgpgYcYHgtuOoxnqww+w+H3/ZEuW+v2spV43VhVgm+fBj8JSa7Bmxo/Py/IrmYDw4CHUNJ8zmqrSaxxA==
   dependencies:
     eventemitter2 "^6.4.5"
     sdp-transform "^2.14.1"
@@ -86,32 +64,26 @@
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@^0.0.0-alpha":
-  version "0.0.0-alpha"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.0-alpha.tgz#1335e48b221fd183492aa2fbe9528a42d1dfc78a"
-  integrity sha512-u3hXJc65aQkAZMmA+KVXTR24rYAtS5eWC7WMIhqCfoyvyv5QYQIkKiQxLoAt4FQ1aBHq3kF+GWs39ivMoHqciw==
+"@100mslive/react-icons@0.0.3-alpha.1", "@100mslive/react-icons@^0.0.3-alpha.1":
+  version "0.0.3-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.3-alpha.1.tgz#10fe36d17be7e813060403f085c2ce6acc478b4e"
+  integrity sha512-KZ0g4Zxl1oyp7cEcWNdKZRrwSQufl++AQxpNv+2QWxZaUyJtW8YpFau5/jzY/6fvz+ljoDPyKA+XhwkKOGftrg==
 
-"@100mslive/react-icons@^0.0.2-alpha":
-  version "0.0.2-alpha"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.2-alpha.tgz#e77dbbb787d666aad88571aedc166fbaa428bab6"
-  integrity sha512-2PubMM0Cz3YodBGAatFaKbZPgh9gSx0eKfuTzw73IHdQc938AtEizTp8gkJ5NUxvbwq9qwgmMRiCaRq2cMu9uA==
-
-"@100mslive/react-sdk@^0.0.2-alpha":
-  version "0.0.2-alpha"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.2-alpha.tgz#ac46c284224939726d5bc4e8c53a86eec325b7b4"
-  integrity sha512-S0bhaL6oEPlhNRhm9qbTO3TmjaBeMv2U+J3nPfzAuVHJpOdQqnBikGj/QDDciLhPfZIDz0YPr0KbXzPbDsojVA==
+"@100mslive/react-sdk@^0.0.3-alpha.3":
+  version "0.0.3-alpha.3"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.3-alpha.3.tgz#a7a655b78e1f2d119395c38094a799e6b761bcba"
+  integrity sha512-a320A+aTEhaKON5ULG/CSE2JyYX3BTW+EYz9bpOBXmRQHVBW/pPufg/d7pnaElpO3yYy/cNhUHPwRCwO2R+U4g==
   dependencies:
-    "@100mslive/hms-video" "^0.1.23"
-    "@100mslive/hms-video-store" "^0.2.71"
+    "@100mslive/hms-video-store" "0.2.86-alpha.8"
     react-intersection-observer "^8.33.1"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@^0.0.3-alpha":
-  version "0.0.3-alpha"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.3-alpha.tgz#4544f1e9b5325bb5d9ef239c67d1d721a886e605"
-  integrity sha512-827ZBYPjWeokdvS0lTaG+5tNqc+1F9Ipaz7K00fccuh7fxNMbqI2jGzyMM9Dop9mo4tK6oRzkCmaVc6Gy60STQ==
+"@100mslive/react-ui@^0.0.3-alpha.1":
+  version "0.0.3-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.3-alpha.1.tgz#0a88ae2f49c404450881f3e0333ad017d2616548"
+  integrity sha512-ed7tijhjEfwXseu3BxHApezC7uwSAtD2lLjahRFO5VQ4BO8KpoGJEif06Y5g/AQISYKpKq2uwOIeB1+QgEMIxw==
   dependencies:
-    "@100mslive/react-icons" "^0.0.0-alpha"
+    "@100mslive/react-icons" "0.0.3-alpha.1"
     "@radix-ui/react-dialog" "^0.1.1"
     "@radix-ui/react-slider" "^0.1.1"
     "@radix-ui/react-switch" "^0.1.1"

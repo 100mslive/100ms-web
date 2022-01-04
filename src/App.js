@@ -22,7 +22,6 @@ import {
 import { hmsToast } from "./views/components/notifications/hms-toast";
 import { Notifications } from "./views/components/notifications/Notifications";
 import { HMSReactiveStore } from "@100mslive/hms-video-store";
-import create from "zustand";
 import { HMSRoomProvider as ReactRoomProvider } from "@100mslive/react-sdk";
 
 const defaultTokenEndpoint = process.env
@@ -33,6 +32,15 @@ const defaultTokenEndpoint = process.env
   : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
+
+let appName = "";
+if (window.location.host.includes("localhost")) {
+  appName = "localhost";
+} else {
+  appName = window.location.host.split(".")[0];
+}
+
+document.title = `${document.title}(${appName})`;
 
 export function EdtechComponent({
   roomId = "",
@@ -55,9 +63,6 @@ export function EdtechComponent({
   policyConfig = envPolicyConfig,
 }) {
   const hmsReactiveStore = new HMSReactiveStore();
-  const errFn = () => {
-    throw new Error("modifying store is not allowed");
-  };
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
@@ -98,23 +103,16 @@ export function EdtechComponent({
         toast={(message, options = {}) => hmsToast(message, options)}
       >
         <ReactRoomProvider
-          actions={hmsReactiveStore.getHMSActions()}
-          store={create({
-            ...hmsReactiveStore.getStore(),
-            setState: errFn,
-            destroy: errFn,
-          })}
+          actions={hmsReactiveStore.getActions()}
+          store={hmsReactiveStore.getStore()}
           notifications={hmsReactiveStore.getNotifications()}
+          webrtcInternals={hmsReactiveStore.getStats()}
         >
           <HMSRoomProvider
-            actions={hmsReactiveStore.getHMSActions()}
-            store={create({
-              ...hmsReactiveStore.getStore(),
-              setState: errFn,
-              destroy: errFn,
-            })}
+            actions={hmsReactiveStore.getActions()}
+            store={hmsReactiveStore.getStore()}
             notifications={hmsReactiveStore.getNotifications()}
-            webrtcInternals={hmsReactiveStore.getWebrtcInternals()}
+            stats={hmsReactiveStore.getStats()}
           >
             <AppContextProvider
               roomId={roomId}
