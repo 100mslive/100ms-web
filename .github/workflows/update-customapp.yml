@@ -21,6 +21,8 @@ jobs:
         run: |
           git submodule update --init --recursive
           git submodule update --recursive --remote
+          yarn install
+
       - name: Commit
         run: |
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
