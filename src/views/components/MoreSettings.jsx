@@ -35,6 +35,7 @@ import screenfull from "screenfull";
 import { RecordingAndRTMPModal } from "./RecordingAndRTMPModal";
 import { MuteAll } from "./MuteAll";
 import { ChangeName, StatsForNerds } from "./ChangeName";
+import { FeatureFlags } from "../../store/FeatureFlags";
 
 export const MoreSettings = () => {
   const {
@@ -249,14 +250,16 @@ export const MoreSettings = () => {
             setShowSettings(true);
           }}
         />
-        <ContextMenuItem
-          icon={<InfoIcon />}
-          label="Stats for Nerds"
-          key="stats"
-          onClick={() => {
-            setShowStatsForNerds(true);
-          }}
-        />
+        {FeatureFlags.enableStatsForNerds && (
+          <ContextMenuItem
+            icon={<InfoIcon />}
+            label="Stats for Nerds"
+            key="stats"
+            onClick={() => {
+              setShowStatsForNerds(true);
+            }}
+          />
+        )}
       </ContextMenu>
       <Settings
         className="hidden"
@@ -280,10 +283,12 @@ export const MoreSettings = () => {
         setShowChangeNameModal={setShowChangeNameModal}
         showChangeNameModal={showChangeNameModal}
       />
-      <StatsForNerds
-        showModal={showStatsForNerds}
-        onCloseModal={() => setShowStatsForNerds(false)}
-      />
+      {FeatureFlags.enableStatsForNerds && (
+        <StatsForNerds
+          showModal={showStatsForNerds}
+          onCloseModal={() => setShowStatsForNerds(false)}
+        />
+      )}
     </Fragment>
   );
 };
