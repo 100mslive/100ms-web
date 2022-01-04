@@ -49,12 +49,7 @@ export const LeaveRoom = () => {
         menuOpen={showMenu}
         key="LeaveAction"
         trigger={
-          <Button
-            variant="danger"
-            iconOnly={isMobileDevice()}
-            active={isMobileDevice()}
-            key="LeaveRoom"
-          >
+          <Button variant="danger" icon={isMobileDevice()} key="LeaveRoom">
             <HangUpIcon
               className={isMobileDevice() ? "" : "mr-2"}
               key="hangUp"
@@ -84,7 +79,7 @@ export const LeaveRoom = () => {
           >
             <Button
               variant="standard"
-              classes={{ root: "w-full" }}
+              className="w-full"
               onClick={() => {
                 setShowEndRoomModal(true);
               }}

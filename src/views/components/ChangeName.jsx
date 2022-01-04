@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, Fragment } from "react";
 import {
   Button,
   MessageModal,
@@ -210,7 +210,7 @@ export const StatsForNerds = ({ showModal, onCloseModal }) => {
       }}
       title="Stats For Nerds"
       body={
-        <div>
+        <Fragment>
           <div className="flex justify-center items-center">
             Stats for
             <div className={defaultClasses.selectContainer}>
@@ -221,7 +221,7 @@ export const StatsForNerds = ({ showModal, onCloseModal }) => {
               >
                 <option value="local-peer">Your Stats</option>
                 {tracks.map(track => (
-                  <StatsTrackOption track={track} />
+                  <StatsTrackOption key={track.id} track={track} />
                 ))}
               </select>
             </div>
@@ -231,7 +231,7 @@ export const StatsForNerds = ({ showModal, onCloseModal }) => {
           ) : (
             <TrackStats trackID={selectedStat} />
           )}
-        </div>
+        </Fragment>
       }
     />
   );

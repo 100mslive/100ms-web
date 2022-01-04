@@ -171,9 +171,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       leftComponents.push(
         <Tooltip
           title={`${!isAudioScreenshare ? "Start" : "Stop"} audio sharing`}
+          key="shareAudio"
         >
           <IconButton
-            key="shareAudio"
             active={!isAudioScreenshare}
             onClick={() => {
               if (isAudioScreenshare) {
@@ -213,9 +213,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         />
       );
     leftComponents.push(
-      <Tooltip title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}>
+      <Tooltip
+        title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}
+        key="raise-hand"
+      >
         <IconButton
-          key="raise-hand"
           onClick={() => setIsHandRaised(!isHandRaised)}
           active={!isHandRaised}
         >
@@ -262,10 +264,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           isAllowedToPublish.screen && !isMobileDevice() ? (
             <Tooltip
               title={`${!isScreenShared ? "Start" : "Stop"} screen sharing`}
+              key="toggleScreenShare"
             >
               <IconButton
                 active={!isScreenShared}
-                key="toggleScreenShare"
                 className="mx-2"
                 onClick={() => toggleScreenShare(!isScreenShared)}
               >
@@ -276,12 +278,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           isAllowedToPublish.video && pluginRef.current?.isSupported() ? (
             <Tooltip
               title={`Turn ${!isVBPresent ? "on" : "off"} virtual background`}
+              key="VB"
             >
               <IconButton
                 active={!isVBPresent}
                 onClick={handleVirtualBackground}
                 className="mx-2"
-                key="VB"
               >
                 <VirtualBackgroundIcon />
               </IconButton>
@@ -292,12 +294,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               title={`Turn ${
                 !isNoiseSuppression ? "on" : "off"
               } noise suppression`}
+              key="noiseSuppression"
             >
               <IconButton
                 className="ml-2"
                 active={!isNoiseSuppression}
                 onClick={handleNoiseSuppression}
-                key="noiseSuppression"
               >
                 <AudioLevelIcon />
               </IconButton>

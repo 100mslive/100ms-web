@@ -1,0 +1,22 @@
+name: Copybara
+on:
+  push:
+  pull_request_target:
+jobs:
+  move-code:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: olivr/copybara-action@v1.2.3
+        with:
+          ssh_key: ${{ secrets.SSH_KEY }}
+          access_token: ${{ secrets.ACCESS_TOKEN }}
+          sot_repo: 100mslive/web-sdks
+          destination_repo: 100mslive/100ms-web
+          push_include: "apps/100ms-web/**"
+          pr_move: |
+            ||apps/100ms-web
