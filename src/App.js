@@ -23,6 +23,7 @@ import { hmsToast } from "./views/components/notifications/hms-toast";
 import { Notifications } from "./views/components/notifications/Notifications";
 import { HMSReactiveStore } from "@100mslive/hms-video-store";
 import { HMSRoomProvider as ReactRoomProvider } from "@100mslive/react-sdk";
+import { FeatureFlags } from "./store/FeatureFlags";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -106,13 +107,21 @@ export function EdtechComponent({
           actions={hmsReactiveStore.getActions()}
           store={hmsReactiveStore.getStore()}
           notifications={hmsReactiveStore.getNotifications()}
-          webrtcInternals={hmsReactiveStore.getStats()}
+          webrtcInternals={
+            FeatureFlags.enableStatsForNerds
+              ? hmsReactiveStore.getStats()
+              : undefined
+          }
         >
           <HMSRoomProvider
             actions={hmsReactiveStore.getActions()}
             store={hmsReactiveStore.getStore()}
             notifications={hmsReactiveStore.getNotifications()}
-            stats={hmsReactiveStore.getStats()}
+            stats={
+              FeatureFlags.enableStatsForNerds
+                ? hmsReactiveStore.getStats()
+                : undefined
+            }
           >
             <AppContextProvider
               roomId={roomId}
