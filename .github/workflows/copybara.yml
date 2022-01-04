@@ -19,7 +19,7 @@ jobs:
           ssh_key: ${{ secrets.SSH_KEY }}
           access_token: ${{ secrets.ACCESS_TOKEN }}
           destination_repo: 100mslive/web-sdks
-          destionation_branch: sync-web-app
+          destination_branch: sync-web-app
           sot_repo: 100mslive/100ms-web
           pr_move: |
             ||apps/100ms-web
