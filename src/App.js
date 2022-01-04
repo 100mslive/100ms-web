@@ -67,10 +67,6 @@ export function EdtechComponent({
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
-  console.log(
-    FeatureFlags.enableStatsForNerds,
-    typeof FeatureFlags.enableStatsForNerds
-  );
   return (
     <div
       className={`w-full dark:bg-black ${
