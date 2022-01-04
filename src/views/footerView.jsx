@@ -6,7 +6,6 @@ import {
   Button,
   ChatIcon,
   ChatUnreadIcon,
-  MusicIcon,
   VideoPlaylistIcon,
   VerticalDivider,
   MessageModal,
@@ -36,12 +35,8 @@ import {
   AudioLevelIcon,
   VirtualBackgroundIcon,
   ShareScreenIcon,
+  MusicIcon,
 } from "@100mslive/react-icons";
-import {
-  browserSupportsTranscription,
-  TranscriptionButton,
-} from "./components/Transcription";
-import { FeatureFlags } from "../store/FeatureFlags";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -174,23 +169,23 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     createNoiseSuppresionPlugin();
     if (isAllowedToPublish.screen) {
       leftComponents.push(
-        <Button
+        <Tooltip
+          title={`${!isAudioScreenshare ? "Start" : "Stop"} audio sharing`}
           key="shareAudio"
-          iconOnly
-          variant="no-fill"
-          iconSize="md"
-          shape="rectangle"
-          active={isAudioScreenshare}
-          onClick={() => {
-            if (isAudioScreenshare) {
-              toggleScreenShare(false, true);
-            } else {
-              setShareAudioModal(true);
-            }
-          }}
         >
-          <MusicIcon />
-        </Button>,
+          <IconButton
+            active={!isAudioScreenshare}
+            onClick={() => {
+              if (isAudioScreenshare) {
+                toggleScreenShare(false, true);
+              } else {
+                setShareAudioModal(true);
+              }
+            }}
+          >
+            <MusicIcon />
+          </IconButton>
+        </Tooltip>,
         <VerticalDivider key="audioShareDivider" />
       );
     }
@@ -218,9 +213,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         />
       );
     leftComponents.push(
-      <Tooltip title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}>
+      <Tooltip
+        title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}
+        key="raise-hand"
+      >
         <IconButton
-          key="raise-hand"
           onClick={() => setIsHandRaised(!isHandRaised)}
           active={!isHandRaised}
         >
@@ -228,8 +225,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         </IconButton>
       </Tooltip>
     );
-  }
-  if (isMobileDevice()) {
+  } else {
     leftComponents.push(
       <Button
         key="chat"
@@ -261,7 +257,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
 
   return (
     <>
-      <div id="speechtxt" className="transcribe"></div>
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
@@ -269,10 +264,10 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           isAllowedToPublish.screen && !isMobileDevice() ? (
             <Tooltip
               title={`${!isScreenShared ? "Start" : "Stop"} screen sharing`}
+              key="toggleScreenShare"
             >
               <IconButton
                 active={!isScreenShared}
-                key="toggleScreenShare"
                 className="mx-2"
                 onClick={() => toggleScreenShare(!isScreenShared)}
               >
@@ -283,12 +278,12 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           isAllowedToPublish.video && pluginRef.current?.isSupported() ? (
             <Tooltip
               title={`Turn ${!isVBPresent ? "on" : "off"} virtual background`}
+              key="VB"
             >
               <IconButton
                 active={!isVBPresent}
                 onClick={handleVirtualBackground}
                 className="mx-2"
-                key="VB"
               >
                 <VirtualBackgroundIcon />
               </IconButton>
@@ -299,21 +294,16 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               title={`Turn ${
                 !isNoiseSuppression ? "on" : "off"
               } noise suppression`}
+              key="noiseSuppression"
             >
               <IconButton
                 className="ml-2"
                 active={!isNoiseSuppression}
                 onClick={handleNoiseSuppression}
-                key="noiseSuppression"
               >
                 <AudioLevelIcon />
               </IconButton>
             </Tooltip>
-          ) : null,
-          FeatureFlags.enableTranscription &&
-          browserSupportsTranscription &&
-          isAllowedToPublish.audio ? (
-            <TranscriptionButton />
           ) : null,
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>

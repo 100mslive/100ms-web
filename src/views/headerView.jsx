@@ -2,16 +2,12 @@ import {
   Header,
   ParticipantList,
   useHMSStore,
-  VolumeIcon,
   LogoButton,
-  Text,
   selectDominantSpeaker,
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
   selectPeerSharingAudioPlaylist,
   selectAudioPlaylistTrackByPeerID,
-  useHMSActions,
-  RecordingDot,
   GlobeIcon,
   selectRecordingState,
   selectRTMPState,
@@ -19,20 +15,23 @@ import {
   selectHLSState,
   selectLocalPeer,
 } from "@100mslive/hms-video-react";
+import { useContext } from "react";
+import { SpeakerIcon, RecordIcon } from "@100mslive/react-icons";
+import { Text } from "@100mslive/react-ui";
+import { useHMSActions } from "@100mslive/react-sdk";
 import PIPComponent from "./PIP/PIPComponent";
 import { AppContext } from "../store/AppContext";
 import { metadataProps as participantInListProps } from "../common/utils";
-import { useContext } from "react";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
   return dominantSpeaker && dominantSpeaker.name ? (
     <div className="self-center focus:outline-none text-lg flex items-center">
-      <VolumeIcon />
+      <SpeakerIcon />
       <Text
         variant="body"
-        size="md"
-        classes={{ root: "truncate max-w-xs ml-1 flex-1" }}
+        className="truncate max-w-xs"
+        css={{ ml: "$1", flex: "1 1 0" }}
         title={dominantSpeaker.name}
       >
         {dominantSpeaker.name}
@@ -66,15 +65,14 @@ const Music = () => {
 
   return (
     <div className="flex items-center">
-      <VolumeIcon />
-      <Text variant="body" size="md" classes={{ root: "mx-2" }}>
+      <SpeakerIcon />
+      <Text variant="body" css={{ mx: "$1" }}>
         Music is playing
       </Text>
       <Text
         variant="body"
-        size="md"
         onClick={handleMute}
-        classes={{ root: "text-red-tint cursor-pointer" }}
+        css={{ color: "$redMain", cursor: "pointer" }}
       >
         {muted ? "Unmute" : "Mute"}
       </Text>
@@ -102,14 +100,13 @@ const PlaylistMusic = () => {
 
   return (
     <div className="flex items-center">
-      <VolumeIcon />
-      <Text variant="body" size="md" classes={{ root: "mx-2" }}>
+      <SpeakerIcon />
+      <Text variant="body" css={{ mx: "$1" }}>
         Playlist is playing
       </Text>
       {peer.isLocal ? (
         <Text
           variant="body"
-          size="md"
           onClick={async () => {
             if (selection.playing) {
               hmsActions.audioPlaylist.pause();
@@ -117,18 +114,17 @@ const PlaylistMusic = () => {
               await hmsActions.audioPlaylist.play(selection.id);
             }
           }}
-          classes={{ root: "text-red-tint cursor-pointer" }}
+          css={{ color: "$redMain", cursor: "pointer" }}
         >
           {selection.playing ? "Pause" : "Play"}
         </Text>
       ) : (
         <Text
           variant="body"
-          size="md"
           onClick={() => {
             hmsActions.setVolume(!track.volume ? 100 : 0, track.id);
           }}
-          classes={{ root: "text-red-tint cursor-pointer" }}
+          css={{ color: "$redMain", cursor: "pointer" }}
         >
           {track.volume === 0 ? "Unmute" : "Mute"}
         </Text>
@@ -180,12 +176,12 @@ const StreamingRecording = () => {
     <div className="flex mx-2">
       {isRecordingOn && (
         <div className="flex items-center" title={getRecordingText()}>
-          <RecordingDot
+          <RecordIcon
             className="fill-current text-red-600"
             width="20"
             height="20"
           />
-          <Text variant="body" size="md" classes={{ root: "mx-1" }}>
+          <Text variant="body" css={{ mx: "$1" }}>
             Recording
           </Text>
         </div>
@@ -193,7 +189,7 @@ const StreamingRecording = () => {
       {isStreamingOn && (
         <div className="flex items-center mx-2" title={getStreamingText()}>
           <GlobeIcon className="fill-current text-red-600" />
-          <Text variant="body" size="md" classes={{ root: "mx-1" }}>
+          <Text variant="body" css={{ mx: "$1" }}>
             Streaming
           </Text>
         </div>
