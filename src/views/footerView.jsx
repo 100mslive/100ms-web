@@ -36,17 +36,17 @@ import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
 import { useMetadata } from "./hooks/useMetadata";
 
-import {brighteningPlugin} from './filters/brightness';
-import {grayscalePlugin} from './filters/gray';
-import {contrastPlugin} from './filters/contrast'
-import {HMSImageTouchUp} from 'hmsimagetouchup';
+import { brighteningPlugin } from "./filters/brightness";
+import { grayscalePlugin } from "./filters/gray";
+import { contrastPlugin } from "./filters/contrast";
+import { HMSImageTouchUp } from "@100mslive/hmsimagetouchup";
 import { useEffect } from "react";
 
 const HMSImageFilters = {
-  grayscale : new grayscalePlugin(),
-  brightness  : new brighteningPlugin(),
-  contrast : new contrastPlugin()
-}
+  grayscale: new grayscalePlugin(),
+  brightness: new brighteningPlugin(),
+  contrast: new contrastPlugin(),
+};
 export const filters = HMSImageFilters;
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
@@ -77,11 +77,13 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
 
-
-  useEffect(()=>{
-       async function startPlugin() {
+  useEffect(() => {
+    async function startPlugin() {
       if (!plugin3Ref.current) {
-        plugin3Ref.current = new HMSImageTouchUp([filters.brightness]);
+        plugin3Ref.current = new HMSImageTouchUp([
+          filters.contrast,
+          // filters.brightness,
+        ]);
       }
       await hmsActions.addPluginToVideoTrack(plugin3Ref.current);
     }
@@ -90,11 +92,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         await hmsActions.removePluginFromVideoTrack(plugin3Ref.current);
       }
     }
-   
-      startPlugin();
 
-  },[]);
-
+    startPlugin();
+  }, []);
 
   function createNoiseSuppresionPlugin() {
     if (!audiopluginRef.current) {
@@ -335,8 +335,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <NoiseSupressionIcon />
             </Button>
           ) : null,
-         <div>
-       </div>,
+          <div></div>,
 
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
