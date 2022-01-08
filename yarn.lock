@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.6.tgz#07b629879825442076b051a175e82b56a37c81da"
   integrity sha512-M6VnNnyjKmSx+TvyL/Uy3l0IoyLuv3OVrq834dnzQKNaZ5o8TTDpwJJo0xPwh6543HhWw9otWbwbUC2fKyS4tw==
 
-"@100mslive/hms-video-react@0.3.114":
-  version "0.3.114"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.114.tgz#d61087718dd4bb45311ddec25848500c1411425e"
-  integrity sha512-ckDo1WQsXbzfKCW6JukoNTvB/Mvttkw37yY+raHaxsC+Ln+FzGuaXrhFNT6FbFFQFtfn4WCyaMieNMFgVYNhLw==
+"@100mslive/hms-video-react@0.3.115-alpha.0":
+  version "0.3.115-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.115-alpha.0.tgz#8ca9ff220c9607dc80f59026c7038308aa3c0530"
+  integrity sha512-kwsePT23oebFSqRcuSyO0gQSSkkp9z91oPiwg6zM8qgDp4P10/Kz5dYydvz8J3bHFy8DCoZqwQBbYzzK1or2pg==
   dependencies:
     "@100mslive/hms-video-store" "0.2.86"
     "@material-ui/core" "^4.11.3"
@@ -69,19 +69,19 @@
   resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.3.tgz#2fecab25fc63ad0d034b956f6b6594e9b65d217d"
   integrity sha512-Ff9nRb/odrOdl+toWXt3Ce3wbZaKHdY8sSnvsoEYDKnVMMpJgLViwMKarw6NM8MJ0eGjEn/cL7bU5tzYqZPxJQ==
 
-"@100mslive/react-sdk@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.3.tgz#4591a12216fea8cae132469ec5811727c7ee37fe"
-  integrity sha512-lbjFsGdMEWoI+/10+cLAr/9iLRAnkD0iITbDEk8PHpNMyCBNUtNe4ztDXzDlBoLeTqMUSwXQZp7eV84lUpCXrg==
+"@100mslive/react-sdk@0.0.4-alpha.0":
+  version "0.0.4-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.4-alpha.0.tgz#0ddc495f8f6af5cfd5ff78116a5028a55cde4a89"
+  integrity sha512-w+G+n6qixXZ5fGWpEkHz+oBQYhaFfhMPXjaHv2LNO1KTm3RPWvICSF0GcB1x8TK2N2ep4EemGu8PA9oKSCTzIQ==
   dependencies:
     "@100mslive/hms-video-store" "0.2.86"
     react-intersection-observer "^8.33.1"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.3.tgz#b37e9b41c2d96c42182e58785096f201e2258973"
-  integrity sha512-2NCgPISYIX3xZadPiuTMz4wxUBLc5lHdMVxUrp2BBCkNTvHFDdSktd0k+h07gsZjWDAY7+Ck80yi3OLQzOR2bg==
+"@100mslive/react-ui@0.0.4-alpha.1":
+  version "0.0.4-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.4-alpha.1.tgz#cb86a9925cd3fe5540fd50a886fce44835b65c03"
+  integrity sha512-+PIyF1UWKs2cy8F6U7WcfoyBh6YjKC8jkNmUyVr0Rnd1kb2/iwaCtl2uvo6gGOkgQhpSjNQes4MBhp+gbnP8Qw==
   dependencies:
     "@100mslive/react-icons" "0.0.3"
     "@radix-ui/react-dialog" "^0.1.1"
