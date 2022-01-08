@@ -24,6 +24,7 @@ import { Notifications } from "./views/components/notifications/Notifications";
 import { HMSReactiveStore } from "@100mslive/hms-video-store";
 import { HMSRoomProvider as ReactRoomProvider } from "@100mslive/react-sdk";
 import { FeatureFlags } from "./store/FeatureFlags";
+import { lightTheme } from "@100mslive/react-ui";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -71,7 +72,7 @@ export function EdtechComponent({
     <div
       className={`w-full dark:bg-black ${
         headerPresent === "true" ? "flex-1" : "h-full"
-      }`}
+      } ${theme === "light" ? lightTheme : ""}`}
     >
       <HMSThemeProvider
         config={{
