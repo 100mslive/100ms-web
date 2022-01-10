@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { parsedUserAgent } from "@100mslive/hms-video-react";
 
 export class FeatureFlags {
   static enableTranscription =
@@ -18,6 +19,10 @@ export class FeatureFlags {
     window.HMS.ALWAYS_REQUEST_PERMISSIONS = false;
     // update beam notification after server sends notification(remove flag)
     window.HMS.NEW_BEAM_STATE = true;
+
+    if (parsedUserAgent.getOS().name.toLowerCase() === "ios") {
+      window.HMS.GAIN_VALUE = 10;
+    }
   }
 
   static optimiseHLSLatency() {

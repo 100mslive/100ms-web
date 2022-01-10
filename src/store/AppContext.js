@@ -96,6 +96,7 @@ const AppContextProvider = ({
     subscribedNotifications:
       uiSettingsFromStorage.subscribedNotifications || {},
     uiViewMode: uiSettingsFromStorage.uiViewMode || "grid",
+    showStatsOnTiles: false,
   });
 
   useEffect(() => {
@@ -168,8 +169,13 @@ const AppContextProvider = ({
         [notification.type]: notification.isSubscribed,
       },
     }));
+
   const deepSetuiViewMode = layout =>
     setState(prevState => ({ ...prevState, uiViewMode: layout }));
+
+  const deepSetShowStatsOnTiles = show =>
+    setState(prevState => ({ ...prevState, showStatsOnTiles: show }));
+
   return (
     <AppContext.Provider
       value={{
@@ -177,6 +183,8 @@ const AppContextProvider = ({
         setMaxTileCount: deepSetMaxTiles,
         setSubscribedNotifications: deepSetSubscribedNotifications,
         setuiViewMode: deepSetuiViewMode,
+        setShowStatsOnTiles: deepSetShowStatsOnTiles,
+        showStatsOnTiles: state.showStatsOnTiles,
         uiViewMode: state.uiViewMode,
         loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
