@@ -27,8 +27,13 @@ export const ConferenceMainView = ({
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const roomState = useHMSStore(selectRoomState);
   const hmsActions = useHMSActions();
-  const { audioPlaylist, videoPlaylist, uiViewMode, HLS_VIEWER_ROLE } =
-    useContext(AppContext);
+  const {
+    audioPlaylist,
+    videoPlaylist,
+    uiViewMode,
+    HLS_VIEWER_ROLE,
+    showStatsOnTiles,
+  } = useContext(AppContext);
   useEffect(() => {
     // set list only when room state is connected
     if (roomState !== HMSRoomState.Connected) {
@@ -64,7 +69,10 @@ export const ConferenceMainView = ({
         toggleChat={toggleChat}
         role={localPeer.roleName}
         isParticipantListOpen={isParticipantListOpen}
-        videoTileProps={videoTileProps}
+        videoTileProps={(peer, track) => ({
+          ...videoTileProps(peer, track),
+          showStats: showStatsOnTiles,
+        })}
       />
     )
   );

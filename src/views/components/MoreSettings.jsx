@@ -252,7 +252,7 @@ export const MoreSettings = () => {
         />
         {FeatureFlags.enableStatsForNerds && (
           <ContextMenuItem
-            icon={<InfoIcon />}
+            icon={<InfoIcon width={24} />}
             label="Stats for Nerds"
             key="stats"
             onClick={() => {
