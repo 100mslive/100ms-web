@@ -7,12 +7,12 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.6.tgz#07b629879825442076b051a175e82b56a37c81da"
   integrity sha512-M6VnNnyjKmSx+TvyL/Uy3l0IoyLuv3OVrq834dnzQKNaZ5o8TTDpwJJo0xPwh6543HhWw9otWbwbUC2fKyS4tw==
 
-"@100mslive/hms-video-react@0.3.115-alpha.1":
-  version "0.3.115-alpha.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.115-alpha.1.tgz#8e6880b6e4eeabb12d4bf30ac3efe84298b4bb6c"
-  integrity sha512-EqnQyRZxEH4TIcQjM2cQFiHAELY7+VTD4DCOI1gJ/4X2Mgj9hnL7B0J3IqVccL0YJQvVWAo0g57hG8nzrT9d5g==
+"@100mslive/hms-video-react@0.3.115-alpha.2":
+  version "0.3.115-alpha.2"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.115-alpha.2.tgz#40121ae0f9dff6142b5c243373f3f6df3486c077"
+  integrity sha512-XGBjhPPGHrcjHHJrgjbatXPQAJ8wnxrhhnKTq541tFopymcNFzaVWCPtEvGIsYhSzHIz5pOEgFB6Q0z9LDwFeQ==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.87-alpha.1"
+    "@100mslive/hms-video-store" "0.2.87-alpha.4"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -40,17 +40,6 @@
     immer "^9.0.6"
     reselect "4.0.0"
     zustand "3.5.7"
-
-"@100mslive/hms-video@0.1.41-alpha.0":
-  version "0.1.41-alpha.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.41-alpha.0.tgz#0b457cb7375659af4916d906b6bc03eb7e286d77"
-  integrity sha512-y2dJzUaInbvRG3McVnACmvc0AVEL8I1KAz29/Z2GILCJXvQDhw3/Yn9HK8cW/g6sU6ilKMGsPCQNDS0Il02Miw==
-  dependencies:
-    eventemitter2 "^6.4.5"
-    sdp-transform "^2.14.1"
-    ua-parser-js "^1.0.1"
-    uuid "^8.3.2"
-    webrtc-adapter "^8.0.0"
 
 "@100mslive/hms-video@0.1.41-alpha.3":
   version "0.1.41-alpha.3"
