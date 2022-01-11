@@ -64,6 +64,7 @@ const defaultUiSettings = {
     METADATA_UPDATED: true,
   },
   uiViewMode: "grid",
+  showStatsOnTiles: false,
 };
 
 const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
@@ -96,7 +97,7 @@ const AppContextProvider = ({
     subscribedNotifications:
       uiSettingsFromStorage.subscribedNotifications || {},
     uiViewMode: uiSettingsFromStorage.uiViewMode || "grid",
-    showStatsOnTiles: false,
+    showStatsOnTiles: uiSettingsFromStorage.showStatsOnTiles || false,
   });
 
   useEffect(() => {
@@ -106,9 +107,15 @@ const AppContextProvider = ({
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,
         uiViewMode: state.uiViewMode,
+        showStatsOnTiles: state.showStatsOnTiles,
       })
     );
-  }, [state.maxTileCount, state.subscribedNotifications, state.uiViewMode]);
+  }, [
+    state.maxTileCount,
+    state.subscribedNotifications,
+    state.uiViewMode,
+    state.showStatsOnTiles,
+  ]);
 
   useEffect(() => {
     if (state.loginInfo.username) {
