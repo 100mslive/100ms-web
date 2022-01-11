@@ -42,7 +42,7 @@ if (window.location.host.includes("localhost")) {
   appName = window.location.host.split(".")[0];
 }
 
-document.title = `${document.title}(${appName})`;
+document.title = `${appName}'s ${document.title}`;
 
 export function EdtechComponent({
   roomId = "",
