@@ -5,7 +5,7 @@ import {
   isMobileDevice,
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./chatView";
-import { getBlurClass } from "../../common/utils";
+import { chatStyle, getBlurClass } from "../../common/utils";
 
 const MAX_TILES_FOR_MOBILE = 4;
 
@@ -67,6 +67,7 @@ export const GridCenterView = ({
             isParticipantListOpen,
             totalPeers
           )}`}
+          style={chatStyle}
         >
           <ChatView toggleChat={toggleChat} />
         </div>
@@ -117,6 +118,7 @@ export const GridSidePaneView = ({
             isParticipantListOpen,
             totalPeers
           )}`}
+          style={chatStyle}
         >
           <div className="w-full h-full">
             <ChatView toggleChat={toggleChat} />

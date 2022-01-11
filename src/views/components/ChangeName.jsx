@@ -206,8 +206,15 @@ const StatsTrackOption = ({ track }) => {
 export const StatsForNerds = ({ showModal, onCloseModal }) => {
   const tracksMap = useHMSStore(selectTracksMap);
   const trackIDs = useMemo(() => Object.keys(tracksMap), [tracksMap]);
+  const { showStatsOnTiles, setShowStatsOnTiles } = useContext(AppContext);
   const [selectedStat, setSelectedStat] = useState("local-peer");
   const { showStatsOnTiles, setShowStatsOnTiles } = useContext(AppContext);
+
+  useEffect(() => {
+    if (selectedStat !== "local-peer" && !trackIDs.includes(selectedStat)) {
+      setSelectedStat("local-peer");
+    }
+  }, [trackIDs, selectedStat]);
 
   useEffect(() => {
     if (selectedStat !== "local-peer" && !trackIDs.includes(selectedStat)) {

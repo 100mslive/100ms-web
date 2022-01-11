@@ -15,7 +15,7 @@ import {
 } from "@100mslive/hms-video-react";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
-import { getBlurClass } from "../common/utils";
+import { chatStyle, getBlurClass } from "../common/utils";
 
 export const ScreenShareView = ({
   isChatOpen,
@@ -185,6 +185,7 @@ const CustomChatView = ({
           isParticipantListOpen,
           totalPeers
         )}`}
+        style={chatStyle}
       >
         <ChatView toggleChat={toggleChat} />
       </div>
