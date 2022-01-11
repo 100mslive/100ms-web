@@ -73,11 +73,11 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
   },
   "prettier": {
-    "arrowParens": "avoid",
     "printWidth": 80,
     "tabWidth": 2,
     "trailingComma": "es5",
     "semi": true,
-    "singleQuote": false
+    "singleQuote": false,
+    "arrowParens": "avoid"
   }
 }

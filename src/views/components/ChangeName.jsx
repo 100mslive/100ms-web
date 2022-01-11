@@ -222,6 +222,12 @@ export const StatsForNerds = ({ showModal, onCloseModal }) => {
     }
   }, [trackIDs, selectedStat]);
 
+  useEffect(() => {
+    if (selectedStat !== "local-peer" && !trackIDs.includes(selectedStat)) {
+      setSelectedStat("local-peer");
+    }
+  }, [trackIDs, selectedStat]);
+
   return (
     <MessageModal
       show={showModal}
