@@ -44,6 +44,8 @@ if (window.location.host.includes("localhost")) {
 
 document.title = `${appName}'s ${document.title}`;
 
+const hmsReactiveStore = new HMSReactiveStore();
+
 export function EdtechComponent({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
@@ -64,7 +66,6 @@ export function EdtechComponent({
   getUserToken = defaultGetUserToken,
   policyConfig = envPolicyConfig,
 }) {
-  const hmsReactiveStore = new HMSReactiveStore();
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
