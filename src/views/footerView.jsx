@@ -261,7 +261,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         leftComponents={leftComponents}
         centerComponents={[
           <AudioVideoToggle key="audioVideoToggle" />,
-          isAllowedToPublish.screen && !isMobileDevice() ? (
+          isAllowedToPublish.screen &&
+          typeof navigator.mediaDevices.getDisplayMedia !== "undefined" ? (
             <Tooltip
               title={`${!isScreenShared ? "Start" : "Stop"} screen sharing`}
               key="toggleScreenShare"
