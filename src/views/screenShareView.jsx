@@ -13,6 +13,7 @@ import {
   VideoPlayer,
   selectScreenShareByPeerID,
 } from "@100mslive/hms-video-react";
+import { Box } from "@100mslive/react-ui";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
 import { chatStyle, getBlurClass } from "../common/utils";
@@ -180,15 +181,15 @@ const CustomChatView = ({
 }) => {
   return (
     isChatOpen && (
-      <div
+      <Box
         className={`h-1/2 w-full flex-shrink-0 ${getBlurClass(
           isParticipantListOpen,
           totalPeers
         )}`}
-        style={chatStyle}
+        css={{ "@md": chatStyle }}
       >
         <ChatView toggleChat={toggleChat} />
-      </div>
+      </Box>
     )
   );
 };
