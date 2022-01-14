@@ -4,6 +4,7 @@ import {
   FirstPersonDisplay,
   isMobileDevice,
 } from "@100mslive/hms-video-react";
+import { Box } from "@100mslive/react-ui";
 import { ChatView } from "./chatView";
 import { chatStyle, getBlurClass } from "../../common/utils";
 
@@ -28,7 +29,7 @@ export const GridCenterView = ({
   isParticipantListOpen,
   hideSidePane,
   totalPeers,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   return (
     <div
@@ -60,17 +61,19 @@ export const GridCenterView = ({
         <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
       )}
       {isChatOpen && hideSidePane && (
-        <div
+        <Box
           className={`h-1/2 ${
             isMobileDevice() ? `w-3/4` : `w-2/10`
           } absolute z-40 bottom-20 right-0 ${getBlurClass(
             isParticipantListOpen,
             totalPeers
           )}`}
-          style={chatStyle}
+          css={{
+            "@md": chatStyle,
+          }}
         >
           <ChatView toggleChat={toggleChat} />
-        </div>
+        </Box>
       )}
     </div>
   );
@@ -83,7 +86,7 @@ export const GridSidePaneView = ({
   toggleChat,
   isParticipantListOpen,
   totalPeers,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   const isMobile = isMobileDevice();
   const rowCount = isMobile ? 1 : undefined;
@@ -100,30 +103,26 @@ export const GridSidePaneView = ({
             }}
             maxColCount={2}
             maxRowCount={rowCount}
-            compact={true}
+            compact={peers.length > 2}
             // show stats for upto 2 peers in sidepane
-            videoTileProps={(peer, track) => ({
-              ...videoTileProps(peer, track),
-              showStats:
-                peers.length < 3
-                  ? videoTileProps(peer, track).showStats
-                  : false,
-            })}
+            videoTileProps={videoTileProps}
           />
         )}
       </div>
       {isChatOpen && (
-        <div
+        <Box
           className={`flex h-1/2 items-end p-2 ${getBlurClass(
             isParticipantListOpen,
             totalPeers
           )}`}
-          style={chatStyle}
+          css={{
+            "@md": chatStyle,
+          }}
         >
           <div className="w-full h-full">
             <ChatView toggleChat={toggleChat} />
           </div>
-        </div>
+        </Box>
       )}
     </div>
   );

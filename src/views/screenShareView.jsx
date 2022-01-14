@@ -13,6 +13,7 @@ import {
   VideoPlayer,
   selectScreenShareByPeerID,
 } from "@100mslive/hms-video-react";
+import { Box } from "@100mslive/react-ui";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
 import { chatStyle, getBlurClass } from "../common/utils";
@@ -21,7 +22,7 @@ export const ScreenShareView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -88,7 +89,7 @@ export const SidePane = ({
   smallTilePeers,
   isParticipantListOpen,
   totalPeers,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
@@ -129,7 +130,7 @@ const ScreenShareComponent = ({
   amIPresenting,
   peerPresenting,
   peerSharingPlaylist,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   const hmsActions = useHMSActions();
   const screenshareTrack = useHMSStore(
@@ -180,15 +181,15 @@ const CustomChatView = ({
 }) => {
   return (
     isChatOpen && (
-      <div
+      <Box
         className={`h-1/2 w-full flex-shrink-0 ${getBlurClass(
           isParticipantListOpen,
           totalPeers
         )}`}
-        style={chatStyle}
+        css={{ "@md": chatStyle }}
       >
         <ChatView toggleChat={toggleChat} />
-      </div>
+      </Box>
     )
   );
 };
@@ -197,7 +198,7 @@ const SmallTilePeersView = ({
   isChatOpen,
   smallTilePeers,
   shouldShowScreenFn,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   return (
     <div className="w-1/2 md:w-full relative md:flex-1">
@@ -210,10 +211,7 @@ const SmallTilePeersView = ({
           overflow="scroll-x"
           compact={true}
           // dont show stats for small tiles during screenshare
-          videoTileProps={(peer, track) => ({
-            ...videoTileProps(peer, track),
-            showStats: false,
-          })}
+          videoTileProps={videoTileProps}
         />
       )}
     </div>
@@ -223,7 +221,7 @@ const SmallTilePeersView = ({
 const LargeTilePeerView = ({
   peerScreenSharing,
   isChatOpen,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   const isMobile = isMobileDevice();
   return (

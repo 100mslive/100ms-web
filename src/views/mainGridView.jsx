@@ -11,7 +11,7 @@ export const MainGridView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   const {
     maxTileCount,

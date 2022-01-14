@@ -1,6 +1,5 @@
 import { hmsToast } from "../views/components/notifications/hms-toast";
 import screenfull from "screenfull";
-import { isMobileDevice } from "@100mslive/hms-video-react";
 
 export function shadeColor(color, percent) {
   let R = parseInt(color.substring(1, 3), 16);
@@ -136,14 +135,13 @@ export const metadataProps = function (peer, track) {
   };
 };
 
-export const chatStyle = isMobileDevice()
-  ? {
-      position: "fixed",
-      bottom: 64,
-      zIndex: 10,
-      right: 0,
-      left: 0,
-      width: "100%",
-      padding: 8,
-    }
-  : {};
+export const chatStyle = {
+  position: "fixed",
+  bottom: 64,
+  zIndex: 20,
+  right: 0,
+  width: "100%",
+  maxWidth: 300,
+  minHeight: 440,
+  padding: 8,
+};
