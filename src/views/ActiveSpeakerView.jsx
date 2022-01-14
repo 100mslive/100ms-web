@@ -10,6 +10,7 @@ export const ActiveSpeakerView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
+  videoTileProps = () => ({}),
 }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -42,6 +43,7 @@ export const ActiveSpeakerView = ({
         hideSidePane={!showSidePane}
         isParticipantListOpen={isParticipantListOpen}
         totalPeers={1}
+        videoTileProps={videoTileProps}
       />
       {showSidePane && (
         <GridSidePaneView
@@ -50,6 +52,7 @@ export const ActiveSpeakerView = ({
           toggleChat={toggleChat}
           isParticipantListOpen={isParticipantListOpen}
           totalPeers={peers.length - 1}
+          videoTileProps={videoTileProps}
         />
       )}
     </Fragment>

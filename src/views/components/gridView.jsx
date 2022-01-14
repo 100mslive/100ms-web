@@ -29,7 +29,7 @@ export const GridCenterView = ({
   isParticipantListOpen,
   hideSidePane,
   totalPeers,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   return (
     <div
@@ -86,7 +86,7 @@ export const GridSidePaneView = ({
   toggleChat,
   isParticipantListOpen,
   totalPeers,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   const isMobile = isMobileDevice();
   const rowCount = isMobile ? 1 : undefined;
@@ -103,15 +103,9 @@ export const GridSidePaneView = ({
             }}
             maxColCount={2}
             maxRowCount={rowCount}
-            compact={true}
+            compact={peers.length > 2}
             // show stats for upto 2 peers in sidepane
-            videoTileProps={(peer, track) => ({
-              ...videoTileProps(peer, track),
-              showStats:
-                peers.length < 3
-                  ? videoTileProps(peer, track).showStats
-                  : false,
-            })}
+            videoTileProps={videoTileProps}
           />
         )}
       </div>
