@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@100mslive/hms-noise-suppression": "0.1.6",
-    "@100mslive/hms-video-react": "0.3.115-alpha.2",
+    "@100mslive/hms-video-react": "0.3.115",
     "@100mslive/hms-virtual-background": "1.3.6",
     "@100mslive/react-icons": "0.0.4",
     "@100mslive/react-sdk": "0.0.4",
