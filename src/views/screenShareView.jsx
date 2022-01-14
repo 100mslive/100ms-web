@@ -22,7 +22,7 @@ export const ScreenShareView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -89,7 +89,7 @@ export const SidePane = ({
   smallTilePeers,
   isParticipantListOpen,
   totalPeers,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
@@ -130,7 +130,7 @@ const ScreenShareComponent = ({
   amIPresenting,
   peerPresenting,
   peerSharingPlaylist,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   const hmsActions = useHMSActions();
   const screenshareTrack = useHMSStore(
@@ -198,7 +198,7 @@ const SmallTilePeersView = ({
   isChatOpen,
   smallTilePeers,
   shouldShowScreenFn,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   return (
     <div className="w-1/2 md:w-full relative md:flex-1">
@@ -224,7 +224,7 @@ const SmallTilePeersView = ({
 const LargeTilePeerView = ({
   peerScreenSharing,
   isChatOpen,
-  videoTileProps,
+  videoTileProps = () => ({}),
 }) => {
   const isMobile = isMobileDevice();
   return (
