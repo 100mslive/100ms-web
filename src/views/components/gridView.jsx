@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   VideoList,
   FirstPersonDisplay,
@@ -32,55 +32,59 @@ export const GridCenterView = ({
   videoTileProps = () => ({}),
 }) => {
   return (
-    <Box
-      css={{
-        flex: "1 1 0%",
-        height: "100%",
-      }}
-    >
-      {peers && peers.length > 0 ? (
-        <VideoList
-          peers={peers}
-          classes={{
-            videoTileContainer: "rounded-lg",
-          }}
-          maxTileCount={isMobileDevice() ? MAX_TILES_FOR_MOBILE : maxTileCount}
-          allowRemoteMute={allowRemoteMute}
-          videoTileProps={videoTileProps}
-        />
-      ) : eventRoomIDs.some(id => window.location.href.includes(id)) ? (
-        <div className="h-full w-full grid place-items-center p-5">
-          <a href={webinarInfoLink} target="_blank" rel="noreferrer">
-            <img
-              className="w-full rounded-lg shadow-lg p-2"
-              alt=""
-              src={eventsImg}
-            />
-          </a>
-        </div>
-      ) : (
-        <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
-      )}
+    <Fragment>
+      <Box
+        css={{
+          flex: "1 1 0%",
+          height: "100%",
+        }}
+      >
+        {peers && peers.length > 0 ? (
+          <VideoList
+            peers={peers}
+            classes={{
+              videoTileContainer: "rounded-lg",
+            }}
+            maxTileCount={
+              isMobileDevice() ? MAX_TILES_FOR_MOBILE : maxTileCount
+            }
+            allowRemoteMute={allowRemoteMute}
+            videoTileProps={videoTileProps}
+          />
+        ) : eventRoomIDs.some(id => window.location.href.includes(id)) ? (
+          <div className="h-full w-full grid place-items-center p-5">
+            <a href={webinarInfoLink} target="_blank" rel="noreferrer">
+              <img
+                className="w-full rounded-lg shadow-lg p-2"
+                alt=""
+                src={eventsImg}
+              />
+            </a>
+          </div>
+        ) : (
+          <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
+        )}
+      </Box>
       {isChatOpen && hideSidePane && (
-        <Box
+        <Flex
           className={`${getBlurClass(isParticipantListOpen, totalPeers)}`}
           css={{
             height: "45%",
-            position: "absolute",
+            width: "20%",
             zIndex: 40,
-            right: "$2",
-            bottom: "$9",
+            mr: "$2",
+            alignSelf: "flex-end",
             "@md": chatStyle,
             "@ls": {
-              minHeight: "70%",
+              minHeight: "100%", // no sidepeer tiles will be present
               bottom: "$7",
             },
           }}
         >
           <ChatView toggleChat={toggleChat} />
-        </Box>
+        </Flex>
       )}
-    </Box>
+    </Fragment>
   );
 };
 

@@ -64,10 +64,10 @@
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.4.tgz#68fb31cc873bca294d168eae1092776f96d01dd4"
-  integrity sha512-PUJPqkiYqG1KmrojZ4qfEfetqAM8vYwojgBxyrB+vpiq56GnG6JhXBlJw1edXFoUTwhbADqrGcUSRJogF7Z53Q==
+"@100mslive/react-icons@0.0.5-alpha.0":
+  version "0.0.5-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.5-alpha.0.tgz#4af85a88e905a8b363a37d38f902770b9148b185"
+  integrity sha512-Ioltu1XCl2kAJVWvxN4Z2wfrUUvqI8VXRS5Qzg8nX94ZtlnRZk5gLrknhOSX6/ylnaWCasacI0IVMRGj8YxQhA==
 
 "@100mslive/react-sdk@0.0.4":
   version "0.0.4"
@@ -78,12 +78,12 @@
     react-intersection-observer "^8.33.1"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.0.5-alpha.0":
-  version "0.0.5-alpha.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.5-alpha.0.tgz#236c4311364e05ff7ad6c131fd0d4401abfaec3a"
-  integrity sha512-a1MEe12dH93pUehj/rOVhkOVtLb/W3L0Enhi2esKVDAQ/5qAzVSnKFB3+AxE4NuXlc+iP0gwxp+7i+2FB8Azww==
+"@100mslive/react-ui@0.0.5-alpha.1":
+  version "0.0.5-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.5-alpha.1.tgz#ab8fda1f4c8925fdb65bbe505908b276b604576e"
+  integrity sha512-+nTCiZng1q1FVYOeIgv+fW5bLyImN31ZdY2Y9ebXX/+2PUVF0XVtR3FpTnnYquo6pT8pu+Wpg9NoQXKMpZ6ppw==
   dependencies:
-    "@100mslive/react-icons" "0.0.4"
+    "@100mslive/react-icons" "0.0.5-alpha.0"
     "@radix-ui/react-dialog" "^0.1.1"
     "@radix-ui/react-slider" "^0.1.1"
     "@radix-ui/react-switch" "^0.1.1"
