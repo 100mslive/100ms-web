@@ -4,7 +4,7 @@ import {
   FirstPersonDisplay,
   isMobileDevice,
 } from "@100mslive/hms-video-react";
-import { Box } from "@100mslive/react-ui";
+import { Box, Flex } from "@100mslive/react-ui";
 import { ChatView } from "./chatView";
 import { chatStyle, getBlurClass } from "../../common/utils";
 
@@ -32,10 +32,11 @@ export const GridCenterView = ({
   videoTileProps = () => ({}),
 }) => {
   return (
-    <div
-      className={`h-full ${
-        hideSidePane && !isChatOpen ? "w-full" : "w-full md:w-4/5"
-      }`}
+    <Box
+      css={{
+        flex: "1 1 0%",
+        height: "100%",
+      }}
     >
       {peers && peers.length > 0 ? (
         <VideoList
@@ -62,20 +63,23 @@ export const GridCenterView = ({
       )}
       {isChatOpen && hideSidePane && (
         <Box
-          className={`h-1/2 ${
-            isMobileDevice() ? `w-3/4` : `w-2/10`
-          } absolute z-40 bottom-20 right-0 ${getBlurClass(
-            isParticipantListOpen,
-            totalPeers
-          )}`}
+          className={`${getBlurClass(isParticipantListOpen, totalPeers)}`}
           css={{
+            height: "50%",
+            position: "absolute",
+            zIndex: 40,
+            right: "$2",
+            bottom: "$2",
             "@md": chatStyle,
+            "@ls": {
+              minHeight: "70%",
+            },
           }}
         >
           <ChatView toggleChat={toggleChat} />
         </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
@@ -92,8 +96,17 @@ export const GridSidePaneView = ({
   const rowCount = isMobile ? 1 : undefined;
 
   return (
-    <div className="flex flex-col w-full h-1/4 md:w-1/5 md:h-full pl-3 pr-3 md:pl-0 md:pr-0">
-      <div className="flex flex-1 items-end w-full">
+    <Box
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        width: "20%",
+        height: "100%",
+        "@lg": { width: "30%" },
+        "@md": { width: "100%", height: "25%" },
+      }}
+    >
+      <Flex css={{ flex: "1 1 0%" }} align="end">
         {peers && peers.length > 0 && (
           <VideoList
             peers={peers}
@@ -108,22 +121,25 @@ export const GridSidePaneView = ({
             videoTileProps={videoTileProps}
           />
         )}
-      </div>
+      </Flex>
       {isChatOpen && (
         <Box
-          className={`flex h-1/2 items-end p-2 ${getBlurClass(
-            isParticipantListOpen,
-            totalPeers
-          )}`}
+          className={`${getBlurClass(isParticipantListOpen, totalPeers)}`}
           css={{
+            display: "flex",
+            height: "50%",
+            alignItems: "flex-end",
+            p: "$2",
             "@md": chatStyle,
+            "@ls": {
+              ...chatStyle,
+              minHeight: "85%",
+            },
           }}
         >
-          <div className="w-full h-full">
-            <ChatView toggleChat={toggleChat} />
-          </div>
+          <ChatView toggleChat={toggleChat} />
         </Box>
       )}
-    </div>
+    </Box>
   );
 };

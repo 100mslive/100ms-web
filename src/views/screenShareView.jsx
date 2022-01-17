@@ -8,12 +8,11 @@ import {
   selectLocalPeer,
   selectPeerScreenSharing,
   ScreenShareDisplay,
-  isMobileDevice,
   selectPeerSharingVideoPlaylist,
   VideoPlayer,
   selectScreenShareByPeerID,
 } from "@100mslive/hms-video-react";
-import { Box } from "@100mslive/react-ui";
+import { Box, Flex } from "@100mslive/react-ui";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
 import { chatStyle, getBlurClass } from "../common/utils";
@@ -55,14 +54,31 @@ export const ScreenShareView = ({
 
   return (
     <React.Fragment>
-      <div className="w-full h-full flex flex-col md:flex-row">
+      <Flex
+        css={{
+          size: "100%",
+        }}
+        direction={{
+          "@initial": "row",
+          "@md": "column",
+        }}
+      >
         <ScreenShareComponent
           amIPresenting={amIPresenting}
           peerPresenting={peerPresenting}
           peerSharingPlaylist={peerSharingPlaylist}
           videoTileProps={videoTileProps}
         />
-        <div className="flex flex-wrap overflow-hidden p-2 w-full h-1/3 md:w-2/10 md:h-full ">
+        <Flex
+          css={{
+            flexWrap: "wrap",
+            overflow: "hidden",
+            p: "$2",
+            width: "20%",
+            height: "100%",
+            "@md": { height: "30%", width: "100%" },
+          }}
+        >
           <SidePane
             isChatOpen={isChatOpen}
             toggleChat={toggleChat}
@@ -73,8 +89,8 @@ export const ScreenShareView = ({
             totalPeers={peers.length}
             videoTileProps={videoTileProps}
           />
-        </div>
-      </div>
+        </Flex>
+      </Flex>
     </React.Fragment>
   );
 };
@@ -98,31 +114,32 @@ export const SidePane = ({
   );
 
   return (
-    <React.Fragment>
-      <div className="w-full h-full relative">
-        <div className="w-full flex flex-row md:flex-col h-full">
-          {!isPresenterInSmallTiles && (
-            <LargeTilePeerView
-              peerScreenSharing={peerScreenSharing}
-              isChatOpen={isChatOpen}
-              videoTileProps={videoTileProps}
-            />
-          )}
-          <SmallTilePeersView
+    <Box css={{ size: "100%", position: "relative" }}>
+      <Flex
+        css={{ size: "100%" }}
+        direction={{ "@initial": "column", "@md": "row" }}
+      >
+        {!isPresenterInSmallTiles && (
+          <LargeTilePeerView
+            peerScreenSharing={peerScreenSharing}
             isChatOpen={isChatOpen}
-            smallTilePeers={smallTilePeers}
-            shouldShowScreenFn={shouldShowScreenFn}
             videoTileProps={videoTileProps}
           />
-          <CustomChatView
-            isChatOpen={isChatOpen}
-            toggleChat={toggleChat}
-            isParticipantListOpen={isParticipantListOpen}
-            totalPeers={totalPeers}
-          />
-        </div>
-      </div>
-    </React.Fragment>
+        )}
+        <SmallTilePeersView
+          isChatOpen={isChatOpen}
+          smallTilePeers={smallTilePeers}
+          shouldShowScreenFn={shouldShowScreenFn}
+          videoTileProps={videoTileProps}
+        />
+        <CustomChatView
+          isChatOpen={isChatOpen}
+          toggleChat={toggleChat}
+          isParticipantListOpen={isParticipantListOpen}
+          totalPeers={totalPeers}
+        />
+      </Flex>
+    </Box>
   );
 };
 
@@ -139,14 +156,21 @@ const ScreenShareComponent = ({
 
   if (peerSharingPlaylist) {
     return (
-      <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
+      <Box css={{ mx: "$2", flex: "1 1 0%" }}>
         <VideoPlayer peer={peerSharingPlaylist} />
-      </div>
+      </Box>
     );
   }
 
   return (
-    <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
+    <Box
+      css={{
+        flex: "1 1 0%",
+        mx: "$2",
+        ml: "$3",
+        "@md": { ml: "$2" },
+      }}
+    >
       {peerPresenting &&
         (amIPresenting &&
         !["browser", "window", "application"].includes(
@@ -169,7 +193,7 @@ const ScreenShareComponent = ({
             {...videoTileProps(peerPresenting, screenshareTrack)}
           />
         ))}
-    </div>
+    </Box>
   );
 };
 
@@ -182,11 +206,8 @@ const CustomChatView = ({
   return (
     isChatOpen && (
       <Box
-        className={`h-1/2 w-full flex-shrink-0 ${getBlurClass(
-          isParticipantListOpen,
-          totalPeers
-        )}`}
-        css={{ "@md": chatStyle }}
+        className={getBlurClass(isParticipantListOpen, totalPeers)}
+        css={{ height: "50%", flexShrink: 0, "@md": chatStyle }}
       >
         <ChatView toggleChat={toggleChat} />
       </Box>
@@ -201,7 +222,15 @@ const SmallTilePeersView = ({
   videoTileProps = () => ({}),
 }) => {
   return (
-    <div className="w-1/2 md:w-full relative md:flex-1">
+    <Flex
+      css={{
+        width: "100%",
+        flex: "1 1 0%",
+        "@md": {
+          width: "50%",
+        },
+      }}
+    >
       {smallTilePeers && smallTilePeers.length > 0 && (
         <VideoList
           peers={smallTilePeers}
@@ -214,35 +243,30 @@ const SmallTilePeersView = ({
           videoTileProps={videoTileProps}
         />
       )}
-    </div>
+    </Flex>
   );
 };
 
 const LargeTilePeerView = ({
   peerScreenSharing,
-  isChatOpen,
   videoTileProps = () => ({}),
 }) => {
-  const isMobile = isMobileDevice();
   return (
-    <div
-      className="w-1/2 md:w-full relative overflow-hidden"
-      style={{
-        paddingTop: isMobile
-          ? 0
-          : `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
+    <Box
+      css={{
+        width: "100%",
+        height: "35%",
+        "@md": { width: "50%", height: "100%", p: "$3" },
       }}
     >
       {peerScreenSharing && (
-        <div className="absolute left-0 top-0 w-full h-full p-3">
-          <VideoTile
-            peer={peerScreenSharing}
-            compact={true}
-            hmsVideoTrackId={peerScreenSharing.videoTrack}
-            {...videoTileProps(peerScreenSharing, peerScreenSharing.videoTrack)}
-          />
-        </div>
+        <VideoTile
+          peer={peerScreenSharing}
+          compact={true}
+          hmsVideoTrackId={peerScreenSharing.videoTrack}
+          {...videoTileProps(peerScreenSharing, peerScreenSharing.videoTrack)}
+        />
       )}
-    </div>
+    </Box>
   );
 };
