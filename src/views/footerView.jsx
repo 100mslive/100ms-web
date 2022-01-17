@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import {
   useHMSStore,
   ControlBar,
@@ -12,116 +12,41 @@ import {
   useHMSActions,
   selectIsLocalScreenShared,
   selectUnreadHMSMessagesCount,
-  isMobileDevice,
   selectIsAllowedToPublish,
-  selectIsLocalVideoPluginPresent,
-  selectIsLocalAudioPluginPresent,
   selectLocalPeerID,
   selectScreenSharesByPeerId,
   selectVideoPlaylist,
   VideoPlaylist,
   selectIsConnectedToRoom,
 } from "@100mslive/hms-video-react";
-import { HMSVirtualBackgroundPlugin } from "@100mslive/hms-virtual-background";
-import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
-import { getRandomVirtualBackground } from "../common/utils";
 import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
 import { useMetadata } from "./hooks/useMetadata";
-import { IconButton, Tooltip } from "@100mslive/react-ui";
-import {
-  HandIcon,
-  AudioLevelIcon,
-  VirtualBackgroundIcon,
-  ShareScreenIcon,
-  MusicIcon,
-} from "@100mslive/react-icons";
+import { Box, IconButton, Tooltip } from "@100mslive/react-ui";
+import { HandIcon, ShareScreenIcon, MusicIcon } from "@100mslive/react-icons";
+import { VirtualBackground } from "./components/VirtualBackground";
+import { isScreenshareSupported } from "../common/utils";
+import { NoiseSuppression } from "./components/NoiseSuppression";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
   const localPeer = useHMSStore(selectLocalPeerID);
   const { video, audio } = useHMSStore(selectScreenSharesByPeerId(localPeer));
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
-  const isVBPresent = useHMSStore(
-    selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
-  );
   const hmsActions = useHMSActions();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
-
-  const pluginRef = useRef(null);
-  const audiopluginRef = useRef(null);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const activeVideoPlaylist = useHMSStore(selectVideoPlaylist.selection).id;
   const [shareAudioModal, setShareAudioModal] = useState(false);
   const { isHandRaised, setIsHandRaised } = useMetadata();
-  const isNoiseSuppression = useHMSStore(
-    selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
-  );
+
   const initialModalProps = {
     show: false,
     title: "",
     body: "",
   };
   const [errorModal, setErrorModal] = useState(initialModalProps);
-
-  function createNoiseSuppresionPlugin() {
-    if (!audiopluginRef.current) {
-      audiopluginRef.current = new HMSNoiseSuppressionPlugin();
-    }
-  }
-
-  async function addNoiseSuppressionPlugin() {
-    createNoiseSuppresionPlugin();
-    try {
-      await hmsActions.addPluginToAudioTrack(audiopluginRef.current);
-    } catch (err) {
-      console.error("add noise suppression plugin failed", err);
-    }
-  }
-
-  async function removeNoiseSuppressionPlugin() {
-    if (audiopluginRef.current) {
-      await hmsActions.removePluginFromAudioTrack(audiopluginRef.current);
-      audiopluginRef.current = null;
-    }
-  }
-
-  function createVBPlugin() {
-    if (!pluginRef.current) {
-      pluginRef.current = new HMSVirtualBackgroundPlugin("none", true);
-    }
-  }
-
-  async function startPlugin() {
-    //create plugin if not present
-    createVBPlugin();
-    window.HMS.virtualBackground = pluginRef.current;
-    try {
-      await pluginRef.current.setBackground(getRandomVirtualBackground());
-      //Running VB on every alternate frame rate for optimized cpu usage
-      await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);
-    } catch (err) {
-      console.error("add virtual background plugin failed", err);
-    }
-  }
-
-  async function removePlugin() {
-    if (pluginRef.current) {
-      await hmsActions.removePluginFromVideoTrack(pluginRef.current);
-      pluginRef.current = null;
-    }
-  }
-
-  function handleVirtualBackground() {
-    isVBPresent ? removePlugin() : startPlugin();
-  }
-
-  function handleNoiseSuppression() {
-    isNoiseSuppression
-      ? removeNoiseSuppressionPlugin()
-      : addNoiseSuppressionPlugin();
-  }
 
   const toggleScreenShare = useCallback(
     async (enable, audioOnly = false) => {
@@ -163,92 +88,73 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const leftComponents = [];
   const isAudioScreenshare = !video && !!audio;
 
-  if (!isMobileDevice()) {
-    //creating VB button for only web
-    createVBPlugin();
-    createNoiseSuppresionPlugin();
-    if (isAllowedToPublish.screen) {
-      leftComponents.push(
-        <Tooltip
-          title={`${!isAudioScreenshare ? "Start" : "Stop"} audio sharing`}
-          key="shareAudio"
-        >
-          <IconButton
-            active={!isAudioScreenshare}
-            onClick={() => {
-              if (isAudioScreenshare) {
-                toggleScreenShare(false, true);
-              } else {
-                setShareAudioModal(true);
-              }
-            }}
-          >
-            <MusicIcon />
-          </IconButton>
-        </Tooltip>,
-        <VerticalDivider key="audioShareDivider" />
-      );
-    }
-    leftComponents.push(
-      <Button
-        key="chat"
-        iconOnly
-        variant="no-fill"
-        iconSize="md"
-        shape="rectangle"
-        onClick={toggleChat}
-        active={isChatOpen}
-      >
-        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-      </Button>
-    );
-    isAllowedToPublish.screen &&
-      leftComponents.push(<AudioPlaylist key="audioPlaylist" />);
-    isAllowedToPublish.screen &&
-      leftComponents.push(
-        <VideoPlaylist
-          key="videoPlaylist"
-          trigger={<VideoPlaylistIcon key="videoPlaylistIcon" />}
-          active={activeVideoPlaylist}
-        />
-      );
+  if (isAllowedToPublish.screen && isScreenshareSupported()) {
     leftComponents.push(
       <Tooltip
-        title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}
-        key="raise-hand"
+        title={`${!isAudioScreenshare ? "Start" : "Stop"} audio sharing`}
+        key="shareAudio"
       >
         <IconButton
-          onClick={() => setIsHandRaised(!isHandRaised)}
-          active={!isHandRaised}
+          active={!isAudioScreenshare}
+          onClick={() => {
+            if (isAudioScreenshare) {
+              toggleScreenShare(false, true);
+            } else {
+              setShareAudioModal(true);
+            }
+          }}
+          css={{ "@md": { display: "none" } }}
         >
-          <HandIcon />
+          <MusicIcon />
         </IconButton>
-      </Tooltip>
+      </Tooltip>,
+      <Box key="audioShareDivider" css={{ "@md": { display: "none" } }}>
+        <VerticalDivider />
+      </Box>
     );
-  } else {
+  }
+  leftComponents.push(
+    <Button
+      key="chat"
+      iconOnly
+      variant="no-fill"
+      iconSize="md"
+      shape="rectangle"
+      onClick={toggleChat}
+      active={isChatOpen}
+    >
+      {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+    </Button>
+  );
+  isAllowedToPublish.screen &&
     leftComponents.push(
-      <Button
-        key="chat"
-        iconOnly
-        variant="no-fill"
-        iconSize="md"
-        shape="rectangle"
-        onClick={toggleChat}
-        active={isChatOpen}
-      >
-        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-      </Button>
+      <Box css={{ "@md": { display: "none" } }} key="audioPlaylist">
+        <AudioPlaylist />
+      </Box>
     );
+  isAllowedToPublish.screen &&
     leftComponents.push(
+      <Box css={{ "@md": { display: "none" } }} key="videoPlaylistIcon">
+        <VideoPlaylist
+          key="videoPlaylist"
+          trigger={<VideoPlaylistIcon />}
+          active={activeVideoPlaylist}
+        />
+      </Box>
+    );
+  leftComponents.push(
+    <Tooltip
+      title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}
+      key="raise-hand"
+    >
       <IconButton
-        key="raise-hand"
         onClick={() => setIsHandRaised(!isHandRaised)}
         active={!isHandRaised}
       >
         <HandIcon />
       </IconButton>
-    );
-  }
+    </Tooltip>
+  );
 
   const isPublishing = isAllowedToPublish.video || isAllowedToPublish.audio;
   if (!isConnected) {
@@ -261,8 +167,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
         leftComponents={leftComponents}
         centerComponents={[
           <AudioVideoToggle key="audioVideoToggle" />,
-          isAllowedToPublish.screen &&
-          typeof navigator.mediaDevices.getDisplayMedia !== "undefined" ? (
+          isAllowedToPublish.screen && isScreenshareSupported() ? (
             <Tooltip
               title={`${!isScreenShared ? "Start" : "Stop"} screen sharing`}
               key="toggleScreenShare"
@@ -276,35 +181,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               </IconButton>
             </Tooltip>
           ) : null,
-          isAllowedToPublish.video && pluginRef.current?.isSupported() ? (
-            <Tooltip
-              title={`Turn ${!isVBPresent ? "on" : "off"} virtual background`}
-              key="VB"
-            >
-              <IconButton
-                active={!isVBPresent}
-                onClick={handleVirtualBackground}
-                className="mx-2"
-              >
-                <VirtualBackgroundIcon />
-              </IconButton>
-            </Tooltip>
-          ) : null,
-          isAllowedToPublish.audio && audiopluginRef.current?.isSupported() ? (
-            <Tooltip
-              title={`Turn ${
-                !isNoiseSuppression ? "on" : "off"
-              } noise suppression`}
-              key="noiseSuppression"
-            >
-              <IconButton
-                className="ml-2"
-                active={!isNoiseSuppression}
-                onClick={handleNoiseSuppression}
-              >
-                <AudioLevelIcon />
-              </IconButton>
-            </Tooltip>
+          isAllowedToPublish.video ? <VirtualBackground key="vb" /> : null,
+          isAllowedToPublish.audio ? (
+            <NoiseSuppression key="noiseSupression" />
           ) : null,
           isPublishing && (
             <span key="SettingsLeftSpace" className="mx-2 md:mx-3"></span>
@@ -316,8 +195,6 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
           <MoreSettings key="MoreSettings" />,
         ]}
         rightComponents={[<LeaveRoom key="leaveRoom" />]}
-        backgroundButtonOnClick={handleVirtualBackground}
-        isBackgroundEnabled={isVBPresent}
       />
       <MessageModal
         {...errorModal}

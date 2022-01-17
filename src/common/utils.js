@@ -144,3 +144,7 @@ export const chatStyle = {
   maxWidth: 300,
   minHeight: 440,
 };
+
+export const isScreenshareSupported = () => {
+  return typeof navigator.mediaDevices.getDisplayMedia !== "undefined";
+};
