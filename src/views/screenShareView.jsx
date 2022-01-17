@@ -207,7 +207,18 @@ const CustomChatView = ({
     isChatOpen && (
       <Box
         className={getBlurClass(isParticipantListOpen, totalPeers)}
-        css={{ height: "50%", flexShrink: 0, "@md": chatStyle }}
+        css={{
+          height: "45%",
+          flexShrink: 0,
+          "@md": chatStyle,
+          "@ls": {
+            position: "absolute",
+            top: 0,
+            height: "100%",
+            minHeight: 300,
+            zIndex: 40,
+          },
+        }}
       >
         <ChatView toggleChat={toggleChat} />
       </Box>
