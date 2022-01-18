@@ -16,15 +16,19 @@ export const VirtualBackground = () => {
     selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
   );
 
-  useEffect(() => {
+  function createPlugin() {
     if (!pluginRef.current) {
       pluginRef.current = new HMSVirtualBackgroundPlugin("none", true);
     }
+  }
+  useEffect(() => {
+    createPlugin();
   }, []);
 
   async function addPlugin() {
-    window.HMS.virtualBackground = pluginRef.current;
     try {
+      createPlugin();
+      window.HMS.virtualBackground = pluginRef.current;
       await pluginRef.current.setBackground(getRandomVirtualBackground());
       //Running VB on every alternate frame rate for optimized cpu usage
       await hmsActions.addPluginToVideoTrack(pluginRef.current, 15);

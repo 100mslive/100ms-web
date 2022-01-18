@@ -6,6 +6,7 @@ import {
 } from "@100mslive/hms-video-react";
 import { Box, Flex } from "@100mslive/react-ui";
 import { ChatView } from "./chatView";
+import { useWindowSize } from "../hooks/useWindowSize";
 import { chatStyle, getBlurClass } from "../../common/utils";
 
 const MAX_TILES_FOR_MOBILE = 4;
@@ -35,8 +36,9 @@ export const GridCenterView = ({
     <Fragment>
       <Box
         css={{
-          flex: "1 1 0%",
+          flex: "1 1 0",
           height: "100%",
+          "@md": { flex: "2 1 0" },
         }}
       >
         {peers && peers.length > 0 ? (
@@ -70,7 +72,7 @@ export const GridCenterView = ({
           className={`${getBlurClass(isParticipantListOpen, totalPeers)}`}
           css={{
             height: "45%",
-            width: "20%",
+            flex: "0 0 20%",
             zIndex: 40,
             mr: "$2",
             alignSelf: "flex-end",
@@ -97,30 +99,37 @@ export const GridSidePaneView = ({
   totalPeers,
   videoTileProps = () => ({}),
 }) => {
-  const isMobile = isMobileDevice();
-  const rowCount = isMobile ? 1 : undefined;
+  const { width } = useWindowSize();
+  let rows = undefined;
+  if (width < 768) {
+    rows = 2;
+  } else if (width === 768) {
+    rows = 1;
+  }
 
   return (
-    <Box
+    <Flex
+      direction="column"
       css={{
-        display: "flex",
-        flexDirection: "column",
-        width: "20%",
-        height: "100%",
-        "@lg": { width: "30%" },
-        "@md": { width: "100%", height: "25%" },
+        flex: "0 0 20%",
+        mx: "$2",
+        "@lg": {
+          flex: "1 1 0",
+        },
       }}
     >
-      <Flex css={{ flex: "1 1 0%" }} align="end">
+      <Flex css={{ flex: "1 1 0" }} align="end">
         {peers && peers.length > 0 && (
           <VideoList
             peers={peers}
             classes={{
               root: "",
-              videoTileContainer: `rounded-lg ${isMobile ? "p-0 mr-2" : ""}`,
+              videoTileContainer: `rounded-lg ${
+                width <= 768 ? "p-0 mr-2" : ""
+              }`,
             }}
             maxColCount={2}
-            maxRowCount={rowCount}
+            maxRowCount={rows}
             compact={peers.length > 2}
             // show stats for upto 2 peers in sidepane
             videoTileProps={videoTileProps}
@@ -128,12 +137,12 @@ export const GridSidePaneView = ({
         )}
       </Flex>
       {isChatOpen && (
-        <Box
+        <Flex
           className={`${getBlurClass(isParticipantListOpen, totalPeers)}`}
+          align="end"
           css={{
-            display: "flex",
-            height: "50%",
-            alignItems: "flex-end",
+            flex: "1 1 0",
+            h: "50%",
             p: "$2",
             "@md": chatStyle,
             "@ls": {
@@ -143,8 +152,8 @@ export const GridSidePaneView = ({
           }}
         >
           <ChatView toggleChat={toggleChat} />
-        </Box>
+        </Flex>
       )}
-    </Box>
+    </Flex>
   );
 };
