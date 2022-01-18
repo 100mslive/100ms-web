@@ -12,6 +12,7 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/hms-video-react";
+import { Box, Flex } from "@100mslive/react-ui";
 import FullPageProgress from "../views/components/FullPageSpinner";
 
 export const Conference = () => {
@@ -56,23 +57,23 @@ export const Conference = () => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col dark:bg-black">
+    <Flex css={{ size: "100%", bg: "$bg" }} direction="column">
       {!isHeadless && (
-        <div className="h-14 md:h-16">
+        <Box css={{ h: "$6", "@md": { h: "$header" } }}>
           <ConferenceHeader onParticipantListOpen={onParticipantListOpen} />
-        </div>
+        </Box>
       )}
-      <div className="w-full flex flex-1 flex-col md:flex-row">
+      <Box css={{ w: "100%", flex: "1 1 0" }}>
         <ConferenceMainView
           isChatOpen={isChatOpen}
           isParticipantListOpen={isParticipantListOpen}
           toggleChat={toggleChat}
         />
-      </div>
+      </Box>
       {!isHeadless && (
-        <div className="dark:bg-black" style={{ height: "10%" }}>
+        <Box css={{ h: "10%", bg: "$bg" }}>
           <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
-        </div>
+        </Box>
       )}
       <MessageModal
         show={!!roleChangeRequest && !isHeadless}
@@ -90,6 +91,6 @@ export const Conference = () => {
           </div>
         }
       />
-    </div>
+    </Flex>
   );
 };

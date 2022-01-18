@@ -78,10 +78,10 @@
     react-intersection-observer "^8.33.1"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.0.5-alpha.1":
-  version "0.0.5-alpha.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.5-alpha.1.tgz#ab8fda1f4c8925fdb65bbe505908b276b604576e"
-  integrity sha512-+nTCiZng1q1FVYOeIgv+fW5bLyImN31ZdY2Y9ebXX/+2PUVF0XVtR3FpTnnYquo6pT8pu+Wpg9NoQXKMpZ6ppw==
+"@100mslive/react-ui@0.0.5-alpha.2":
+  version "0.0.5-alpha.2"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.5-alpha.2.tgz#0735c3834b428ff81f78994a103681561c25f2f3"
+  integrity sha512-Te682ivU6Sh+0AK2YGw7DzOudRUKz58JtLNmHeggm+hMqNpZwjS6DzwOj/kxxuuHpTRUlP5ea+7qRcu2WDG3lQ==
   dependencies:
     "@100mslive/react-icons" "0.0.5-alpha.0"
     "@radix-ui/react-dialog" "^0.1.1"
