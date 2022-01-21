@@ -29,7 +29,7 @@ const HmsVideoTile = ({ peerId, width, height, showStatsOnTiles }) => {
   const [showTrigger, setShowTrigger] = useState(false);
   const isHandRaised =
     useHMSStore(selectPeerMetadata(peerId))?.isHandRaised || false;
-  const isBRB = useHMSStore(selectPeerMetadata(peerId))?.isBRB || false;
+  const isBRB = useHMSStore(selectPeerMetadata(peerId))?.isBRBOn || false;
   const storeHmsVideoTrack = useHMSStore(selectVideoTrackByPeerID(peer.id));
   const storeIsLocallyMuted = useHMSStore(
     selectIsAudioLocallyMuted(peer.audioTrack)
