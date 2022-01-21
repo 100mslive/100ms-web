@@ -17,6 +17,7 @@ export const MainGridView = ({
   const {
     maxTileCount,
     appPolicyConfig: { center: centerRoles = [], sidepane: sidepaneRoles = [] },
+    showStatsOnTiles,
   } = useContext(AppContext);
   const peers = useHMSStore(selectPeers);
   const localPeerId = useHMSStore(selectLocalPeerID);
@@ -65,6 +66,7 @@ export const MainGridView = ({
         isParticipantListOpen={isParticipantListOpen}
         totalPeers={peers.length}
         videoTileProps={videoTileProps}
+        showStatsOnTiles={showStatsOnTiles}
       />
       {showSidePane && (
         <GridSidePaneView
