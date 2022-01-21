@@ -41,6 +41,17 @@
     reselect "4.0.0"
     zustand "3.5.7"
 
+"@100mslive/hms-video-store@0.2.88-alpha.0":
+  version "0.2.88-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.88-alpha.0.tgz#51d41a0da11df7e356e5f822cdd06884505e025a"
+  integrity sha512-Mq5Et5Y0tAq3WOF8RD65jejXx+RNYQ1ejnToIcMWNg1zKGLqDPuVIVHgK8vicgYqSa0PrVR8CfpklQbI0d63Kg==
+  dependencies:
+    "@100mslive/hms-video" "0.1.42-alpha.0"
+    eventemitter2 "^6.4.5"
+    immer "^9.0.6"
+    reselect "4.0.0"
+    zustand "3.5.7"
+
 "@100mslive/hms-video@0.1.41":
   version "0.1.41"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.41.tgz#97c895b2dc6b98ad39d0906cdcefddd5c6e926b0"
@@ -52,10 +63,21 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.3.6.tgz#7578a2a7eff3a52d2e48b7f6ada2fe707b0846e7"
-  integrity sha512-msePTwAVfUCQbJqPGCKd+alxYUkF7nYH5SbBlafSLKZwEuvE3C1DXpj/AEvOWSmR9nw62N7Z6BTVikbHY9Km2Q==
+"@100mslive/hms-video@0.1.42-alpha.0":
+  version "0.1.42-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.42-alpha.0.tgz#f3463e813fe0c3bc363540d28edd6b087fed7d47"
+  integrity sha512-Whk4H6VA/wVQLpeclm+pf6oOr5152v1Pp/UiX8bIADz6x4sJ5+RDxczKY4pScZtRdnB6CHXR7t4gleO+WCBBAQ==
+  dependencies:
+    eventemitter2 "^6.4.5"
+    sdp-transform "^2.14.1"
+    ua-parser-js "^1.0.1"
+    uuid "^8.3.2"
+    webrtc-adapter "^8.0.0"
+
+"@100mslive/hms-virtual-background@1.3.7":
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.3.7.tgz#0826efa680e90c7e938246b2835e2b65342157ae"
+  integrity sha512-AMMk7t3PTl68zLhUk8hZCivkZlhn7g40rnSTt/sptOo24QAbh9V3MzO1Th4px44GpPKVBZETHB9Pghz6lZ4pvQ==
   dependencies:
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
     "@tensorflow/tfjs-core" "^3.3.0"
@@ -64,27 +86,30 @@
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.4.tgz#68fb31cc873bca294d168eae1092776f96d01dd4"
-  integrity sha512-PUJPqkiYqG1KmrojZ4qfEfetqAM8vYwojgBxyrB+vpiq56GnG6JhXBlJw1edXFoUTwhbADqrGcUSRJogF7Z53Q==
+"@100mslive/react-icons@0.0.5-alpha.1":
+  version "0.0.5-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.5-alpha.1.tgz#dc46fa673b758dc5646c4cad0be3605ccd251899"
+  integrity sha512-aEu+nvVzSieDpCFPV6kqAULORzR8Sw92NXF0ONf3Wdx2Cn61vFLAh0y3ys1xs4TYBVs20SAWIDO5daQzKcphsQ==
 
-"@100mslive/react-sdk@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.4.tgz#1f60453d93e65b48d3075834d6cc83e6b4ff8cf3"
-  integrity sha512-mt1hWaqEHSiO3RArwR4b/5VCX5ScXadZKtWY3Dc9+clu14vzhWB9XD4VK+J2Gww/md9MqDdUoKwfTdOI7ZJeEA==
+"@100mslive/react-sdk@0.0.5-alpha.1":
+  version "0.0.5-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.5-alpha.1.tgz#9abbb574f9d6831a18c2052bfe3e7820b475c691"
+  integrity sha512-ZLl+Q2VyaXVWkMd1y962q70kn66zBbHPmhD0RiGznJX3Q27m68mV2aO/hJmp48vn1jge18rjkLHaVlr3lbtsPw==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.87"
+    "@100mslive/hms-video-store" "0.2.88-alpha.0"
     react-intersection-observer "^8.33.1"
+    react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.0.5-alpha.0":
-  version "0.0.5-alpha.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.5-alpha.0.tgz#236c4311364e05ff7ad6c131fd0d4401abfaec3a"
-  integrity sha512-a1MEe12dH93pUehj/rOVhkOVtLb/W3L0Enhi2esKVDAQ/5qAzVSnKFB3+AxE4NuXlc+iP0gwxp+7i+2FB8Azww==
+"@100mslive/react-ui@0.0.5-alpha.4":
+  version "0.0.5-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.5-alpha.4.tgz#3ae0c03af0ca618567fabef00dda54d3c1511c0a"
+  integrity sha512-ZjoNqYAlQ4js9dbzJkYvczG/VHWvjcBHzEee5DX2Jc2kamackuyfaAmRVyys0iPW/eV/HT3aE13lU/vfhP2njA==
   dependencies:
-    "@100mslive/react-icons" "0.0.4"
+    "@100mslive/react-icons" "0.0.5-alpha.1"
+    "@100mslive/react-sdk" "0.0.5-alpha.1"
     "@radix-ui/react-dialog" "^0.1.1"
+    "@radix-ui/react-popover" "^0.1.4"
     "@radix-ui/react-slider" "^0.1.1"
     "@radix-ui/react-switch" "^0.1.1"
     "@radix-ui/react-tooltip" "^0.1.1"
@@ -1714,6 +1739,27 @@
     "@radix-ui/react-context" "0.1.1"
     "@radix-ui/react-id" "0.1.4"
     "@radix-ui/react-primitive" "0.1.3"
+
+"@radix-ui/react-popover@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-popover/-/react-popover-0.1.4.tgz#f7302ae75f94007edc6294815bc031ec46fa5b4e"
+  integrity sha512-5oaBFkGCGfomXO5HTrhORixDoeAjl3XeSLbVSC9G1Yq//lfaTC5sJYSKSf4mnQulzM9XYchtyjHoBa0O1OBM5Q==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/primitive" "0.1.0"
+    "@radix-ui/react-compose-refs" "0.1.0"
+    "@radix-ui/react-context" "0.1.1"
+    "@radix-ui/react-dismissable-layer" "0.1.3"
+    "@radix-ui/react-focus-guards" "0.1.0"
+    "@radix-ui/react-focus-scope" "0.1.3"
+    "@radix-ui/react-id" "0.1.4"
+    "@radix-ui/react-popper" "0.1.3"
+    "@radix-ui/react-portal" "0.1.3"
+    "@radix-ui/react-presence" "0.1.1"
+    "@radix-ui/react-primitive" "0.1.3"
+    "@radix-ui/react-use-controllable-state" "0.1.0"
+    aria-hidden "^1.1.1"
+    react-remove-scroll "^2.4.0"
 
 "@radix-ui/react-popper@0.1.3":
   version "0.1.3"
@@ -10493,6 +10539,14 @@ react-resize-detector@^6.6.5:
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
     resize-observer-polyfill "^1.5.1"
+
+react-resize-detector@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-resize-detector/-/react-resize-detector-7.0.0.tgz#fbd46917ee905b7796c797aa6b301b454a6b9229"
+  integrity sha512-Xd1POfpVzH9O3F/xB/0xYy2ijtKjE/z7y4c/aJP593YSzhPy2vDhsNPjes+uQbgL1RezxJajQ679qPs8K5LAFw==
+  dependencies:
+    "@types/resize-observer-browser" "^0.1.6"
+    lodash "^4.17.21"
 
 react-router-dom@^5.2.0:
   version "5.3.0"
