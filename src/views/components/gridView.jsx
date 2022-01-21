@@ -1,13 +1,11 @@
 import React, { Fragment } from "react";
-import {
-  VideoList,
-  FirstPersonDisplay,
-  isMobileDevice,
-} from "@100mslive/hms-video-react";
+import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
 import { Box, Flex } from "@100mslive/react-ui";
 import { ChatView } from "./chatView";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { chatStyle, getBlurClass } from "../../common/utils";
+import { HmsVideoList } from "../UIComponents";
+import { FeatureFlags } from "../../store/FeatureFlags";
 
 const MAX_TILES_FOR_MOBILE = 4;
 
@@ -30,8 +28,12 @@ export const GridCenterView = ({
   isParticipantListOpen,
   hideSidePane,
   totalPeers,
+  showStatsOnTiles,
   videoTileProps = () => ({}),
 }) => {
+  const { width } = useWindowSize();
+  const isMobile = width < 760;
+  const rowCount = width < 760 ? 1 : undefined;
   return (
     <Fragment>
       <Box
@@ -42,17 +44,27 @@ export const GridCenterView = ({
         }}
       >
         {peers && peers.length > 0 ? (
-          <VideoList
-            peers={peers}
-            classes={{
-              videoTileContainer: "rounded-lg",
-            }}
-            maxTileCount={
-              isMobileDevice() ? MAX_TILES_FOR_MOBILE : maxTileCount
-            }
-            allowRemoteMute={allowRemoteMute}
-            videoTileProps={videoTileProps}
-          />
+          FeatureFlags.enableNewComponents ? (
+            <HmsVideoList
+              showStatsOnTiles={showStatsOnTiles}
+              peers={peers}
+              maxTileCount={isMobile ? MAX_TILES_FOR_MOBILE : maxTileCount}
+            />
+          ) : (
+            <VideoList
+              peers={peers}
+              classes={{
+                root: "",
+                videoTileContainer: `rounded-lg ${isMobile ? "p-0 mr-2" : ""}`,
+              }}
+              maxTileCount={isMobile ? MAX_TILES_FOR_MOBILE : maxTileCount}
+              maxColCount={2}
+              maxRowCount={rowCount}
+              compact={peers.length > 2}
+              // show stats for upto 2 peers in sidepane
+              videoTileProps={videoTileProps}
+            />
+          )
         ) : eventRoomIDs.some(id => window.location.href.includes(id)) ? (
           <div className="h-full w-full grid place-items-center p-5">
             <a href={webinarInfoLink} target="_blank" rel="noreferrer">
