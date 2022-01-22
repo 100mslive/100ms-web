@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import {
   ContextMenu,
   ContextMenuItem,
+  isMobileDevice,
   MessageModal,
   selectPermissions,
   useHMSActions,
@@ -9,7 +10,7 @@ import {
 } from "@100mslive/hms-video-react";
 import { useHistory, useParams } from "react-router-dom";
 import { HangUpIcon } from "@100mslive/react-icons";
-import { Button, Text } from "@100mslive/react-ui";
+import { Button } from "@100mslive/react-ui";
 
 export const LeaveRoom = () => {
   const history = useHistory();
@@ -48,11 +49,12 @@ export const LeaveRoom = () => {
         menuOpen={showMenu}
         key="LeaveAction"
         trigger={
-          <Button variant="danger" key="LeaveRoom">
-            <HangUpIcon key="hangUp" />
-            <Text variant="body" css={{ ml: "$2", "@md": { display: "none" } }}>
-              Leave Room
-            </Text>
+          <Button variant="danger" icon={isMobileDevice()} key="LeaveRoom">
+            <HangUpIcon
+              className={isMobileDevice() ? "" : "mr-2"}
+              key="hangUp"
+            />
+            {isMobileDevice() ? "" : "Leave room"}
           </Button>
         }
         menuProps={{

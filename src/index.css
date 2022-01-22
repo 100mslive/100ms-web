@@ -57,6 +57,10 @@ code {
   @apply h-4 w-auto;
 }
 
+.hmsui-videoList-videoTileContainer {
+  height: 100vh !important;
+}
+
 /* VideoTile/index.css */
 .hmsui-videoTile-root:hover .hmsui-videoTileControls-controls {
   visibility: visible;

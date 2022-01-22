@@ -21,10 +21,8 @@ import {
 } from "./services/tokenService";
 import { hmsToast } from "./views/components/notifications/hms-toast";
 import { Notifications } from "./views/components/notifications/Notifications";
-import {
-  HMSRoomProvider as ReactRoomProvider,
-  HMSReactiveStore,
-} from "@100mslive/react-sdk";
+import { HMSReactiveStore } from "@100mslive/hms-video-store";
+import { HMSRoomProvider as ReactRoomProvider } from "@100mslive/react-sdk";
 import { FeatureFlags } from "./store/FeatureFlags";
 import { lightTheme } from "@100mslive/react-ui";
 
@@ -44,9 +42,7 @@ if (window.location.host.includes("localhost")) {
   appName = window.location.host.split(".")[0];
 }
 
-document.title = `${appName}'s ${document.title}`;
-
-const hmsReactiveStore = new HMSReactiveStore();
+document.title = `${document.title}(${appName})`;
 
 export function EdtechComponent({
   roomId = "",
@@ -68,6 +64,7 @@ export function EdtechComponent({
   getUserToken = defaultGetUserToken,
   policyConfig = envPolicyConfig,
 }) {
+  const hmsReactiveStore = new HMSReactiveStore();
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
@@ -111,7 +108,7 @@ export function EdtechComponent({
           actions={hmsReactiveStore.getActions()}
           store={hmsReactiveStore.getStore()}
           notifications={hmsReactiveStore.getNotifications()}
-          stats={
+          webrtcInternals={
             FeatureFlags.enableStatsForNerds
               ? hmsReactiveStore.getStats()
               : undefined

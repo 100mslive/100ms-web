@@ -1,105 +1,93 @@
-<p align="center" >
-  <a href="https://100ms.live/">
-  <img src="https://github.com/100mslive/100ms-ios-sdk/blob/main/100ms.gif" height=256/> 
-  <img src="https://github.com/100mslive/100ms-ios-sdk/blob/main/100ms.svg" title="100ms logo" float=center height=256>
-</p>
+# 100ms-websdk
 
-# 100ms 2.0 Sample React App
 
-[![Documentation](https://img.shields.io/badge/Read-Documentation-blue)](https://docs.100ms.live/javascript/v2/foundation/basics)
-[![Discord](https://img.shields.io/badge/Community-Join%20on%20Discord-blue)](https://discord.gg/F8cNgbjSaQ)
-[![Email](https://img.shields.io/badge/Contact-Know%20More-blue)](mailto:founders@100ms.live)
 
-## About
+## Getting started
 
-This is an example React app to demo [100ms' React SDK](https://www.npmjs.com/package/@100mslive/hms-video-react).
+To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Not using React? Find the [Javascript Quickstart here](https://docs.100ms.live/javascript/v2/guides/javascript-quickstart).
+Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 
-## Prerequisites
+## Add your files
 
-You will need [Node.js](https://nodejs.org) version v12.13.0 or greater installed on your system.
+- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
+- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
 
-## Clone the repo
-
-Get the code by cloning this repo using git.
-
-```bash
-git clone git@github.com:100mslive/100ms-web-v2.git
+```
+cd existing_repo
+git remote add origin https://gitlab.com/anubh/100ms-websdk.git
+git branch -M main
+git push -uf origin main
 ```
 
-Once cloned, open the terminal in the project directory, and install dependencies with:
+## Integrate with your tools
 
-```bash
-cd 100ms-web-v2
-yarn install
-```
+- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://gitlab.com/anubh/100ms-websdk/-/settings/integrations)
 
-Create a new file `.env` and copy the values from `example.env`
+## Collaborate with your team
 
-```bash
-cp example.env .env
-```
+- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/user/project/members/)
+- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
+- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
+- [ ] [Enable merge request approvals](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
+- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
 
-### Get the token generation endpoint
+## Test and Deploy
 
-Get your token endpoint from the [Developer section of 100ms' Dashboard](https://dashboard.100ms.live/developer)
-![download](https://user-images.githubusercontent.com/11087313/140727818-43cd8be4-b3bf-4b34-9921-a77f9a1b819d.png)
-Update the `REACT_APP_TOKEN_GENERATION_ENDPOINT` in `.env` file with the above token endpoint value (eg. `https://prod-in.100ms.live/hmsapi/example.app.100ms.live/`)
+Use the built-in continuous integration in GitLab.
 
-### Run the app
-Then start the app with:
+- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/ci/quick_start/index.html)
+- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/user/application_security/sast/)
+- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
+- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/user/clusters/agent/)
+- [ ] [Set up protected environments](https://gitlab.com/-/experiment/new_project_readme_content:d11bab5fd53f5308399308968ce154d7?https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-```bash
-yarn start
-```
+***
 
-The app now should be running at https://localhost:3000/. (Please ignore the 404 message, you need to join the right URL of the room. Next sections describe how to create a room and form the correct URL)
+# Editing this README
 
-### Create a room
+When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com) for this template.
 
-Create room from [100ms Dashboard](https://dashboard.100ms.live/create-room) & get the room_id & role of the created room. Room details page after creating the room gives you room_id and roles allowed in the room.
+## Suggestions for a good README
+Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
 
-![image](https://prod-apps-public.s3.ap-south-1.amazonaws.com/Screenshot+2021-06-26+at+5.52.50+PM.png)
+## Name
+Choose a self-explaining name for your project.
 
-### Configure policy based UI
+## Description
+Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-Depending on the value of REACT_APP_POLICY_CONFIG in .env, you can customize which roles should be displayed in center stage and which roles should be display in side pane.
+## Badges
+On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
 
-The value of REACT_APP_POLICY_CONFIG should be a JSON stringified object of the structure:
+## Visuals
+Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
-```ts
-type HMSRoleName = string;
+## Installation
+Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-/**
- * undefined means none
- * empty array [] for all roles
- */
-interface RoleConfig {
-  center?: HMSRoleName[];
-  sidepane?: HMSRoleName[];
-  selfRoleChangeTo?: HMSRoleName[];
-  remoteRoleChangeFor?: HMSRoleName[];
-}
+## Usage
+Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-interface PolicyConfig {
-  [role: string]: RoleConfig;
-}
-```
+## Support
+Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-Example: `REACT_APP_POLICY_CONFIG = "{"trainer":{"center": ["student"],"sidepane":["trainer"]}}"`
+## Roadmap
+If you have ideas for releases in the future, it is a good idea to list them in the README.
 
-It will be used in the app as:
+## Contributing
+State if you are open to contributions and what your requirements are for accepting them.
 
-```js
-const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
-```
-### Join the room
+For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
 
-*Before running the app locally make sure you update the environment file (.env) with the respective REACT_APP_TOKEN_GENERATION_ENDPOINT and REACT_APP_POLICY_CONFIG to avoid parsing error*
+You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
-Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the room
+## Authors and acknowledgment
+Show your appreciation to those who have contributed to the project.
 
-![image](https://user-images.githubusercontent.com/5078656/119534649-c60da000-bda4-11eb-9847-f283e2daa06f.png)
+## License
+For open source projects, say how it is licensed.
 
-Use any name & Click on join.
+## Project status
+If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+
