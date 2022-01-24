@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, Fragment } from "react";
 import {
   useHMSStore,
   useHMSActions,
@@ -8,13 +8,13 @@ import {
   selectLocalPeer,
   selectPeerScreenSharing,
   ScreenShareDisplay,
-  isMobileDevice,
   selectPeerSharingVideoPlaylist,
   VideoPlayer,
   selectScreenShareByPeerID,
 } from "@100mslive/hms-video-react";
-import { Box } from "@100mslive/react-ui";
+import { Box, Flex } from "@100mslive/react-ui";
 import { ChatView } from "./components/chatView";
+import { useWindowSize } from "./hooks/useWindowSize";
 import { ROLES } from "../common/roles";
 import { chatStyle, getBlurClass } from "../common/utils";
 
@@ -54,28 +54,44 @@ export const ScreenShareView = ({
   }
 
   return (
-    <React.Fragment>
-      <div className="w-full h-full flex flex-col md:flex-row">
-        <ScreenShareComponent
-          amIPresenting={amIPresenting}
-          peerPresenting={peerPresenting}
-          peerSharingPlaylist={peerSharingPlaylist}
+    <Flex
+      css={{
+        size: "100%",
+      }}
+      direction={{
+        "@initial": "row",
+        "@lg": "column",
+      }}
+    >
+      <ScreenShareComponent
+        amIPresenting={amIPresenting}
+        peerPresenting={peerPresenting}
+        peerSharingPlaylist={peerSharingPlaylist}
+        videoTileProps={videoTileProps}
+      />
+      <Flex
+        direction={{ "@initial": "column", "@lg": "row" }}
+        css={{
+          overflow: "hidden",
+          p: "$2",
+          flex: "0 0 20%",
+          "@lg": {
+            flex: "1 1 0",
+          },
+        }}
+      >
+        <SidePane
+          isChatOpen={isChatOpen}
+          toggleChat={toggleChat}
+          peerScreenSharing={peerPresenting}
+          isPresenterInSmallTiles={showPresenterInSmallTile}
+          smallTilePeers={smallTilePeers}
+          isParticipantListOpen={isParticipantListOpen}
+          totalPeers={peers.length}
           videoTileProps={videoTileProps}
         />
-        <div className="flex flex-wrap overflow-hidden p-2 w-full h-1/3 md:w-2/10 md:h-full ">
-          <SidePane
-            isChatOpen={isChatOpen}
-            toggleChat={toggleChat}
-            peerScreenSharing={peerPresenting}
-            isPresenterInSmallTiles={showPresenterInSmallTile}
-            smallTilePeers={smallTilePeers}
-            isParticipantListOpen={isParticipantListOpen}
-            totalPeers={peers.length}
-            videoTileProps={videoTileProps}
-          />
-        </div>
-      </div>
-    </React.Fragment>
+      </Flex>
+    </Flex>
   );
 };
 
@@ -98,31 +114,27 @@ export const SidePane = ({
   );
 
   return (
-    <React.Fragment>
-      <div className="w-full h-full relative">
-        <div className="w-full flex flex-row md:flex-col h-full">
-          {!isPresenterInSmallTiles && (
-            <LargeTilePeerView
-              peerScreenSharing={peerScreenSharing}
-              isChatOpen={isChatOpen}
-              videoTileProps={videoTileProps}
-            />
-          )}
-          <SmallTilePeersView
-            isChatOpen={isChatOpen}
-            smallTilePeers={smallTilePeers}
-            shouldShowScreenFn={shouldShowScreenFn}
-            videoTileProps={videoTileProps}
-          />
-          <CustomChatView
-            isChatOpen={isChatOpen}
-            toggleChat={toggleChat}
-            isParticipantListOpen={isParticipantListOpen}
-            totalPeers={totalPeers}
-          />
-        </div>
-      </div>
-    </React.Fragment>
+    <Fragment>
+      {!isPresenterInSmallTiles && (
+        <LargeTilePeerView
+          peerScreenSharing={peerScreenSharing}
+          isChatOpen={isChatOpen}
+          videoTileProps={videoTileProps}
+        />
+      )}
+      <SmallTilePeersView
+        isChatOpen={isChatOpen}
+        smallTilePeers={smallTilePeers}
+        shouldShowScreenFn={shouldShowScreenFn}
+        videoTileProps={videoTileProps}
+      />
+      <CustomChatView
+        isChatOpen={isChatOpen}
+        toggleChat={toggleChat}
+        isParticipantListOpen={isParticipantListOpen}
+        totalPeers={totalPeers}
+      />
+    </Fragment>
   );
 };
 
@@ -139,14 +151,32 @@ const ScreenShareComponent = ({
 
   if (peerSharingPlaylist) {
     return (
-      <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
+      <Box
+        css={{
+          mx: "$2",
+          flex: "3 1 0",
+          "@lg": {
+            flex: "2 1 0",
+            "& video": {
+              objectFit: "contain",
+            },
+          },
+        }}
+      >
         <VideoPlayer peer={peerSharingPlaylist} />
-      </div>
+      </Box>
     );
   }
 
   return (
-    <div className="mr-2 ml-2 md:ml-3 md:w-8/10 h-2/3 md:h-full">
+    <Box
+      css={{
+        flex: "3 1 0",
+        mx: "$2",
+        ml: "$3",
+        "@lg": { ml: "$2" },
+      }}
+    >
       {peerPresenting &&
         (amIPresenting &&
         !["browser", "window", "application"].includes(
@@ -169,7 +199,7 @@ const ScreenShareComponent = ({
             {...videoTileProps(peerPresenting, screenshareTrack)}
           />
         ))}
-    </div>
+    </Box>
   );
 };
 
@@ -182,11 +212,19 @@ const CustomChatView = ({
   return (
     isChatOpen && (
       <Box
-        className={`h-1/2 w-full flex-shrink-0 ${getBlurClass(
-          isParticipantListOpen,
-          totalPeers
-        )}`}
-        css={{ "@md": chatStyle }}
+        className={getBlurClass(isParticipantListOpen, totalPeers)}
+        css={{
+          h: "45%",
+          flexShrink: 0,
+          "@md": chatStyle,
+          "@ls": {
+            position: "absolute",
+            top: 0,
+            h: "100%",
+            minHeight: 300,
+            zIndex: 40,
+          },
+        }}
       >
         <ChatView toggleChat={toggleChat} />
       </Box>
@@ -195,54 +233,66 @@ const CustomChatView = ({
 };
 
 const SmallTilePeersView = ({
-  isChatOpen,
   smallTilePeers,
   shouldShowScreenFn,
   videoTileProps = () => ({}),
 }) => {
+  const { width } = useWindowSize();
+  let rows = undefined;
+  if (width <= 1024 && width >= 768) {
+    rows = 1;
+  }
   return (
-    <div className="w-1/2 md:w-full relative md:flex-1">
+    <Flex
+      css={{
+        flex: "2 1 0",
+      }}
+    >
       {smallTilePeers && smallTilePeers.length > 0 && (
         <VideoList
           peers={smallTilePeers}
           showScreenFn={shouldShowScreenFn}
           classes={{ videoTileContainer: "rounded-lg " }}
           maxColCount={2}
+          maxRowCount={rows}
           overflow="scroll-x"
           compact={true}
           // dont show stats for small tiles during screenshare
           videoTileProps={videoTileProps}
         />
       )}
-    </div>
+    </Flex>
   );
 };
 
 const LargeTilePeerView = ({
   peerScreenSharing,
-  isChatOpen,
   videoTileProps = () => ({}),
 }) => {
-  const isMobile = isMobileDevice();
-  return (
-    <div
-      className="w-1/2 md:w-full relative overflow-hidden"
-      style={{
-        paddingTop: isMobile
-          ? 0
-          : `${peerScreenSharing ? (isChatOpen ? "50%" : "100%") : "0"}`,
+  return peerScreenSharing ? (
+    <Box
+      css={{
+        flex: "1 1 0",
+        minHeight: "25%",
+        py: "$2",
+        "@lg": {
+          mr: "$2",
+          minHeight: "unset",
+          py: 0,
+        },
+        "@sm": {
+          height: "100%",
+          maxHeight: "75%",
+          alignSelf: "center",
+        },
       }}
     >
-      {peerScreenSharing && (
-        <div className="absolute left-0 top-0 w-full h-full p-3">
-          <VideoTile
-            peer={peerScreenSharing}
-            compact={true}
-            hmsVideoTrackId={peerScreenSharing.videoTrack}
-            {...videoTileProps(peerScreenSharing, peerScreenSharing.videoTrack)}
-          />
-        </div>
-      )}
-    </div>
-  );
+      <VideoTile
+        peer={peerScreenSharing}
+        compact={true}
+        hmsVideoTrackId={peerScreenSharing.videoTrack}
+        {...videoTileProps(peerScreenSharing, peerScreenSharing.videoTrack)}
+      />
+    </Box>
+  ) : null;
 };

@@ -21,8 +21,10 @@ import {
 } from "./services/tokenService";
 import { hmsToast } from "./views/components/notifications/hms-toast";
 import { Notifications } from "./views/components/notifications/Notifications";
-import { HMSReactiveStore } from "@100mslive/hms-video-store";
-import { HMSRoomProvider as ReactRoomProvider } from "@100mslive/react-sdk";
+import {
+  HMSRoomProvider as ReactRoomProvider,
+  HMSReactiveStore,
+} from "@100mslive/react-sdk";
 import { FeatureFlags } from "./store/FeatureFlags";
 import { lightTheme } from "@100mslive/react-ui";
 
@@ -109,7 +111,7 @@ export function EdtechComponent({
           actions={hmsReactiveStore.getActions()}
           store={hmsReactiveStore.getStore()}
           notifications={hmsReactiveStore.getNotifications()}
-          webrtcInternals={
+          stats={
             FeatureFlags.enableStatsForNerds
               ? hmsReactiveStore.getStats()
               : undefined
