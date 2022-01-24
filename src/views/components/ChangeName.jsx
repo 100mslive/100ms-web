@@ -5,17 +5,15 @@ import React, {
   useContext,
   useEffect,
 } from "react";
+import { Button, MessageModal, Text } from "@100mslive/hms-video-react";
 import {
-  Button,
-  MessageModal,
-  Text,
   useHMSActions,
   useHMSStatsStore,
-  selectHMSStats,
   useHMSStore,
+  selectHMSStats,
   selectTracksMap,
   selectPeerNameByID,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 import { Switch } from "@100mslive/react-ui";
 import { hmsToast } from "./notifications/hms-toast";
 import { USERNAME_KEY } from "../../common/constants";
