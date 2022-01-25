@@ -1,3 +1,4 @@
+// @ts-check
 import React, { useState } from "react";
 import {
   AudioLevel,
@@ -22,7 +23,7 @@ import {
   BrbIcon,
 } from "@100mslive/react-icons";
 
-const HmsVideoTile = ({ peerId, width, height, showStatsOnTiles }) => {
+const HmsVideoTile = ({ peerId, showStatsOnTiles, width, height }) => {
   const peer = useHMSStore(selectPeerByID(peerId));
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
@@ -30,16 +31,16 @@ const HmsVideoTile = ({ peerId, width, height, showStatsOnTiles }) => {
   const isHandRaised =
     useHMSStore(selectPeerMetadata(peerId))?.isHandRaised || false;
   const isBRB = useHMSStore(selectPeerMetadata(peerId))?.isBRBOn || false;
-  const storeHmsVideoTrack = useHMSStore(selectVideoTrackByPeerID(peer.id));
-  const storeIsLocallyMuted = useHMSStore(
+  const videoTrack = useHMSStore(selectVideoTrackByPeerID(peer.id));
+  const isLocallyMuted = useHMSStore(
     selectIsAudioLocallyMuted(peer.audioTrack)
   );
   const label = getVideoTileLabel(
     peer.name,
     peer.isLocal,
-    storeHmsVideoTrack?.source,
-    storeIsLocallyMuted,
-    storeHmsVideoTrack?.degraded
+    videoTrack?.source,
+    isLocallyMuted,
+    videoTrack?.degraded
   );
   return (
     <StyledVideoTile.Root
@@ -58,9 +59,9 @@ const HmsVideoTile = ({ peerId, width, height, showStatsOnTiles }) => {
           />
         ) : null}
         <AudioLevel audioTrack={peer?.audioTrack} />
-        <Video isLocal={peer?.isLocal || false} trackId={peer?.videoTrack} />
+        <Video mirror={peer?.isLocal || false} trackId={peer?.videoTrack} />
         {isVideoMuted ? (
-          <Avatar size={getAvatarSize(width)} name={peer?.name || ""} />
+          <Avatar size={getAvatarSize(height)} name={peer?.name || ""} />
         ) : null}
         <StyledVideoTile.Info>{label}</StyledVideoTile.Info>
         {isAudioMuted ? (
@@ -71,14 +72,14 @@ const HmsVideoTile = ({ peerId, width, height, showStatsOnTiles }) => {
         {showTrigger && !peer?.isLocal ? <TileMenu peerId={peerId} /> : null}
 
         {isHandRaised ? (
-          <StyledVideoTile.HandRaiseBox>
+          <StyledVideoTile.AttributeBox>
             <HandRaiseFilledIcon width={40} height={40} />
-          </StyledVideoTile.HandRaiseBox>
+          </StyledVideoTile.AttributeBox>
         ) : null}
         {isBRB ? (
-          <StyledVideoTile.HandRaiseBox css={{ c: "white" }}>
+          <StyledVideoTile.AttributeBox>
             <BrbIcon width={40} height={40} />
-          </StyledVideoTile.HandRaiseBox>
+          </StyledVideoTile.AttributeBox>
         ) : null}
       </StyledVideoTile.Container>
     </StyledVideoTile.Root>
@@ -87,15 +88,29 @@ const HmsVideoTile = ({ peerId, width, height, showStatsOnTiles }) => {
 
 export default HmsVideoTile;
 
-const getAvatarSize = width => {
-  if (width < 200) {
+const getAvatarSize = height => {
+  if (height === "100%") {
+    return "sm";
+  }
+  if (height < 200) {
     return "xs";
-  } else if (width < 500) {
+  } else if (height < 500) {
     return "sm";
   } else {
     return "md";
   }
 };
+
+const PEER_NAME_PLACEHOLDER = "peerName";
+const labelMap = new Map([
+  [[true, "screen"].toString(), "Your Screen"],
+  [[true, "playlist"].toString(), "Your Playlist"],
+  [[true, "regular"].toString(), `You (${PEER_NAME_PLACEHOLDER})`],
+  [[false, "screen"].toString(), `${PEER_NAME_PLACEHOLDER}'s Screen`],
+  [[false, "playlist"].toString(), `${PEER_NAME_PLACEHOLDER}'s Video`],
+  [[false, "regular"].toString(), PEER_NAME_PLACEHOLDER],
+  [[false, undefined].toString(), PEER_NAME_PLACEHOLDER],
+]);
 
 export const getVideoTileLabel = (
   peerName,
@@ -105,17 +120,10 @@ export const getVideoTileLabel = (
   degraded
 ) => {
   // Map [isLocal, videoSource] to the label to be displayed.
-  const labelMap = new Map([
-    [[true, "screen"].toString(), "Your Screen"],
-    [[true, "playlist"].toString(), "Your Video"],
-    [[true, "regular"].toString(), `You (${peerName})`],
-    [[false, "screen"].toString(), `${peerName}'s Screen`],
-    [[false, "playlist"].toString(), `${peerName}'s Video`],
-    [[false, "regular"].toString(), peerName],
-    [[false, undefined].toString(), peerName],
-  ]);
 
-  let label = labelMap.get([isLocal, videoSource].toString());
+  let label = labelMap
+    .get([isLocal, videoSource].toString())
+    .replace(PEER_NAME_PLACEHOLDER, peerName);
   label = `${label}${degraded ? "(Degraded)" : ""}`;
   if (
     (isLocallyMuted === undefined || isLocallyMuted === null) &&

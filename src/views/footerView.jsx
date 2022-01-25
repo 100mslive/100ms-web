@@ -4,8 +4,6 @@ import {
   ControlBar,
   AudioPlaylist,
   Button,
-  ChatIcon,
-  ChatUnreadIcon,
   VideoPlaylistIcon,
   VerticalDivider,
   MessageModal,
@@ -29,6 +27,8 @@ import {
   ShareScreenIcon,
   MusicIcon,
   BrbIcon,
+  ChatUnreadIcon,
+  ChatIcon,
 } from "@100mslive/react-icons";
 import { VirtualBackground } from "./components/VirtualBackground";
 import { isScreenshareSupported } from "../common/utils";
@@ -119,17 +119,11 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     );
   }
   leftComponents.push(
-    <Button
-      key="chat"
-      iconOnly
-      variant="no-fill"
-      iconSize="md"
-      shape="rectangle"
-      onClick={toggleChat}
-      active={isChatOpen}
-    >
-      {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
-    </Button>
+    <Tooltip title={`${isChatOpen ? "Close" : "Open"} chat`}>
+      <IconButton key="chat" onClick={toggleChat} active={!isChatOpen}>
+        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+      </IconButton>
+    </Tooltip>
   );
   isAllowedToPublish.screen &&
     leftComponents.push(
@@ -158,7 +152,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     </Tooltip>
   );
   leftComponents.push(
-    <Tooltip title={` Turn ${!isBRBOn ? "on" : "off"} BRB`} key="brb">
+    <Tooltip title={`${isBRBOn ? `I'm back` : `I'll be right back`}`} key="brb">
       <IconButton
         css={{ mx: "$2", "@md": { display: "none" } }}
         onClick={toggleBRB}
