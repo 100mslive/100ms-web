@@ -14,7 +14,6 @@
     "@100mslive/react-icons": "0.0.5-alpha.1",
     "@100mslive/react-sdk": "0.0.5-alpha.3",
     "@100mslive/react-ui": "0.0.5-alpha.6",
-    "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -24,7 +23,6 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
     "react-toastify": "^7.0.4",
     "screenfull": "^5.1.0",
     "uuid": "^8.3.2",
@@ -32,34 +30,12 @@
     "worker-timers": "^7.0.40"
   },
   "scripts": {
-    "start": "craco start",
-    "dev": "node ../../scripts/dev-webapp",
+    "prebuild": "rm -rf build",
+    "build": "NODE_ENV=production webpack",
+    "start": "webpack serve",
     "esbuild": "node ../../scripts/build-webapp",
-    "build": "craco build --profile",
-    "test": "craco test",
-    "eject": "react-scripts eject",
+    "dev": "node ../../scripts/dev-webapp",
     "build:style": "NODE_ENV=production npx tailwindcss-cli@latest build ./src/index.css -o tailwind.css"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "rules": {
-      "react/jsx-curly-brace-presence": [
-        2,
-        {
-          "props": "never"
-        }
-      ],
-      "react/self-closing-comp": [
-        "error",
-        {
-          "component": true,
-          "html": false
-        }
-      ]
-    }
   },
   "browserslist": {
     "production": [
@@ -74,10 +50,21 @@
     ]
   },
   "devDependencies": {
-    "@tailwindcss/postcss7-compat": "^2.1.0",
-    "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.35",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4"
+    "autoprefixer": "^10.4.2",
+    "copy-webpack-plugin": "^10.2.1",
+    "css-loader": "^6.5.1",
+    "cssnano": "^5.0.15",
+    "dotenv": "^14.2.0",
+    "esbuild-loader": "^2.18.0",
+    "esbuild-plugin-postcss2": "^0.1.1",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-webpack-plugin": "^3.1.1",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.5.2",
+    "postcss": "^8.4.5",
+    "postcss-loader": "^6.2.1",
+    "tailwindcss": "^3.0.15"
   },
   "prettier": {
     "printWidth": 80,

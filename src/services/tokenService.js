@@ -17,12 +17,7 @@ const fetchWithRetry = async (url, options) => {
   throw error;
 };
 
-export default async function getToken(
-  tokenEndpoint,
-  userId,
-  role,
-  roomId
-) {
+export default async function getToken(tokenEndpoint, userId, role, roomId) {
   try {
     const response = await fetchWithRetry(`${tokenEndpoint}api/token`, {
       method: "POST",
@@ -33,18 +28,18 @@ export default async function getToken(
       }),
     });
 
-    if(!response.ok) {
-      let error = new Error('Request failed!')
-      error.response = response
-      throw error
+    if (!response.ok) {
+      let error = new Error("Request failed!");
+      error.response = response;
+      throw error;
     }
-    
-    const data = await response.json()
-    const { token } = data
+
+    const data = await response.json();
+    const { token } = data;
     return token;
   } catch (err) {
-    console.error(err)
-    throw err
+    console.error(err);
+    throw err;
   }
 }
 
