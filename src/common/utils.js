@@ -43,6 +43,7 @@ export function getRandomVirtualBackground() {
     "blur",
     "https://www.100ms.live/images/vb-1.jpeg",
     "https://www.100ms.live/images/vb-2.jpg",
+    "https://www.100ms.live/images/vb-3.png",
   ];
 
   if (process.env["REACT_APP_VIDEO_VB"]) {
@@ -62,12 +63,12 @@ export function getRandomVirtualBackground() {
   let randomIdx = Math.floor(Math.random() * backgroundList.length);
   if (randomIdx === 0) {
     return "blur";
-  } else if (randomIdx === 1 || randomIdx === 2) {
+  } else if (randomIdx <= 3) {
     const img = document.createElement("img");
     img.alt = "VB";
     img.src = backgroundList[randomIdx];
     return img;
-  } else if (randomIdx === 3) {
+  } else if (randomIdx === 4) {
     return backgroundList[randomIdx];
   } else {
     const videoEl = document.createElement("video");
