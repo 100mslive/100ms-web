@@ -53,7 +53,6 @@ const HmsVideoTile = ({ peerId, showStatsOnTiles, width, height }) => {
       <StyledVideoTile.Container>
         {showStatsOnTiles ? (
           <VideoTileStats
-            height={height}
             audioTrackID={peer?.audioTrack}
             videoTrackID={peer?.videoTrack}
           />

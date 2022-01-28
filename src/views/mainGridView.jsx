@@ -76,6 +76,7 @@ export const MainGridView = ({
           isParticipantListOpen={isParticipantListOpen}
           totalPeers={peers.length}
           videoTileProps={videoTileProps}
+          showStatsOnTiles={showStatsOnTiles}
         />
       )}
     </Flex>
