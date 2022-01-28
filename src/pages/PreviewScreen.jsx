@@ -11,6 +11,7 @@ import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
 import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
 import { USERNAME_KEY } from "../common/constants";
+import PeerlistPreview from "../views/components/PeerlistPreview";
 
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
@@ -203,7 +204,6 @@ const PreviewScreen = ({ getUserToken }) => {
   const clearError = () => {
     setError({ title: "", body: "", fatal: false });
   };
-
   if (error.title && error.fatal) {
     return (
       <MessageModal
@@ -214,24 +214,26 @@ const PreviewScreen = ({ getUserToken }) => {
       />
     );
   }
-
   return (
     <div className="h-full">
-      <div className="flex justify-center h-full items-center">
+      <div className="flex flex-col justify-center h-full items-center">
         {token ? (
-          <Preview
-            joinOnClick={join}
-            goBackOnClick={goBack}
-            messageOnClose={goBack}
-            onChange={onChange}
-            config={convertLoginInfoToJoinConfig({
-              role: userRole,
-              roomId: urlRoomId,
-              token,
-              env: loginInfo.env,
-              username: usernameFromStorage,
-            })}
-          />
+          <>
+            <PeerlistPreview />
+            <Preview
+              joinOnClick={join}
+              goBackOnClick={goBack}
+              messageOnClose={goBack}
+              onChange={onChange}
+              config={convertLoginInfoToJoinConfig({
+                role: userRole,
+                roomId: urlRoomId,
+                token,
+                env: loginInfo.env,
+                username: usernameFromStorage,
+              })}
+            />
+          </>
         ) : (
           <ProgressIcon width="100" height="100" />
         )}
