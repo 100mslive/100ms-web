@@ -4,6 +4,7 @@
   <img src="https://github.com/100mslive/100ms-ios-sdk/blob/main/100ms.svg" title="100ms logo" float=center height=256>
 </p>
 
+
 # 100ms 2.0 Sample React App
 
 [![Documentation](https://img.shields.io/badge/Read-Documentation-blue)](https://docs.100ms.live/javascript/v2/foundation/basics)
