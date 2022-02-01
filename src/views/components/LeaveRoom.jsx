@@ -3,6 +3,7 @@ import {
   ContextMenu,
   ContextMenuItem,
   MessageModal,
+  ProgressIcon,
   selectPermissions,
   useHMSActions,
   useHMSStore,
@@ -17,11 +18,11 @@ export const LeaveRoom = () => {
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [disconnecting, setDisconnecting] = useState(false);
   const permissions = useHMSStore(selectPermissions);
   const hmsActions = useHMSActions();
 
-  const leaveRoom = () => {
-    hmsActions.leave();
+  const redirectToLeavePage = () => {
     if (params.role) {
       history.push("/leave/" + params.roomId + "/" + params.role);
     } else {
@@ -29,7 +30,42 @@ export const LeaveRoom = () => {
     }
   };
 
-  return (
+  const leaveRoom = () => {
+    setDisconnecting(true);
+    hmsActions
+      .leave()
+      .then(redirectToLeavePage)
+      .catch(error => {
+        setDisconnecting(false);
+        console.error(error);
+      });
+  };
+
+  const endRoom = () => {
+    setDisconnecting(true);
+    hmsActions
+      .endRoom(lockRoom, "End Room")
+      .then(redirectToLeavePage)
+      .catch(error => {
+        setDisconnecting(false);
+        console.error(error);
+      });
+  };
+
+  const LeaveRoomButton = () => {
+    const loading = !showEndRoomModal && disconnecting;
+    return (
+      <Button variant="danger" key="LeaveRoom">
+        {loading ? <ProgressIcon key="leaving" /> : <HangUpIcon key="hangUp" />}
+        <Text variant="body" css={{ ml: "$2", "@md": { display: "none" } }}>
+          {loading ? "Leaving" : "Leave"} Room
+        </Text>
+      </Button>
+    );
+  };
+
+  // Show Menu only when end room is permitted
+  return permissions.endRoom ? (
     <Fragment>
       <ContextMenu
         classes={{
@@ -47,14 +83,7 @@ export const LeaveRoom = () => {
         }}
         menuOpen={showMenu}
         key="LeaveAction"
-        trigger={
-          <Button variant="danger" key="LeaveRoom">
-            <HangUpIcon key="hangUp" />
-            <Text variant="body" css={{ ml: "$2", "@md": { display: "none" } }}>
-              Leave Room
-            </Text>
-          </Button>
-        }
+        trigger={<LeaveRoomButton />}
         menuProps={{
           anchorOrigin: {
             vertical: "top",
@@ -136,18 +165,17 @@ export const LeaveRoom = () => {
             >
               Cancel
             </Button>
-            <Button
-              variant="danger"
-              onClick={() => {
-                hmsActions.endRoom(lockRoom, "End Room");
-                leaveRoom();
-              }}
-            >
-              End Room
+            <Button variant="danger" onClick={endRoom}>
+              {disconnecting && <ProgressIcon key="ending" />}
+              {disconnecting ? "Ending" : "End"} Room
             </Button>
           </div>
         }
       />
     </Fragment>
+  ) : (
+    <div onClick={leaveRoom}>
+      <LeaveRoomButton />
+    </div>
   );
 };
