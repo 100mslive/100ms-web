@@ -116,4 +116,5 @@ input.custom-toggle:checked + label.custom-toggle-label:after {
   width: 100%;
   font-family: sans-serif;
   font-size: 20px;
+  z-index: 1000000;
 }

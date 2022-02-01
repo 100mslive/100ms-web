@@ -33,6 +33,7 @@ import {
 import { VirtualBackground } from "./components/VirtualBackground";
 import { isScreenshareSupported } from "../common/utils";
 import { NoiseSuppression } from "./components/NoiseSuppression";
+import { TranscriptionButton } from "./components/Transcription";
 
 export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   const isScreenShared = useHMSStore(selectIsLocalScreenShared);
@@ -175,6 +176,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   }
   return (
     <>
+      <div id="speechtxt" className="transcribe"></div>
       <ControlBar
         leftComponents={leftComponents}
         centerComponents={[
@@ -194,6 +196,9 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
             </Tooltip>
           ) : null,
           isAllowedToPublish.video ? <VirtualBackground key="vb" /> : null,
+          isAllowedToPublish.audio ? (
+            <TranscriptionButton key="voiceTranscription" />
+          ) : null,
           isAllowedToPublish.audio ? (
             <NoiseSuppression key="noiseSupression" />
           ) : null,
