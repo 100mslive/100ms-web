@@ -35,36 +35,16 @@ export function TranscriptionButton() {
 
 class Transcriber {
   constructor() {
-    if (browserSupportsTranscription) {
-      this.speechRecognizer = new window.webkitSpeechRecognition();
-      this.speechRecognizer.continuous = true;
-      this.speechRecognizer.interimResults = true;
-    } else {
-      console.log("browser doesn't support transcription");
-    }
     this.enabled = false;
   }
 
   async listen(){
     try {
       let url = "https://pm8n28hjk0.execute-api.ap-south-1.amazonaws.com/mystage/assemblyai";
-      var createCORSRequest = function(method, url) {
-        var xhr = new XMLHttpRequest();
-        if ("withCredentials" in xhr) {
-          xhr.open(method, url, true);
-        } else if (typeof XDomainRequest != "undefined") {
-          xhr = new XDomainRequest();
-          xhr.open(method, url);
-        } else {
-          xhr = null;
-        }
-        return xhr;
-      };
-      var method = 'GET';
-      var xhr = createCORSRequest(method, url);
-      
-      xhr.onload = async function() {
-        const token = JSON.parse(xhr.response).token
+      let res = await fetch(url);
+      var body = await res.json();
+      if(body && body.token){
+        const token = body.token
         const socket = await new WebSocket(`wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000&token=${token}`);
         const texts = {};
         var stime,etime;
@@ -85,65 +65,58 @@ class Transcriber {
             }
             document.getElementById("speechtxt").innerText = msg
         };
-
+  
         socket.onerror = (event) => {
             console.error(event);
             socket.close();
         }
-
+  
         socket.onclose = event => {
             console.log(event);
             socket = null;
         }
-
+  
         socket.onopen = () => {
-            document.getElementById("speechtxt").style.display = '';
-            navigator.mediaDevices.getUserMedia({ audio: true, echoCancellation : true })
-            .then((stream) => {
-                let recorder = new RecordRTC(stream, {
-                type: 'audio',
-                mimeType: 'audio/webm;codecs=pcm',
-                recorderType: StereoAudioRecorder,
-                timeSlice: 250,
-                desiredSampRate: 16000,
-                numberOfAudioChannels: 1,
-                bufferSize: 4096,
-                audioBitsPerSecond: 128000,
-                ondataavailable: (blob) => {
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                    const base64data = reader.result;
-                    if (socket) {
-                      stime = performance.now();
-                      socket.send(JSON.stringify({ audio_data: base64data.split('base64,')[1] }));
-                    }
-                    };
-                    reader.readAsDataURL(blob);
-                },
-                });
-
-                recorder.startRecording();
-            })
-            .catch((err) => console.error(err));
+          document.getElementById("speechtxt").style.display = '';
+          navigator.mediaDevices.getUserMedia({ audio: true, echoCancellation : true })
+          .then((stream) => {
+              let recorder = new RecordRTC(stream, {
+              type: 'audio',
+              mimeType: 'audio/webm;codecs=pcm',
+              recorderType: StereoAudioRecorder,
+              timeSlice: 250,
+              desiredSampRate: 16000,
+              numberOfAudioChannels: 1,
+              bufferSize: 4096,
+              audioBitsPerSecond: 128000,
+              ondataavailable: (blob) => {
+                  const reader = new FileReader();
+                  reader.onload = () => {
+                  const base64data = reader.result;
+                  if (socket) {
+                    stime = performance.now();
+                    socket.send(JSON.stringify({ audio_data: base64data.split('base64,')[1] }));
+                  }
+                  };
+                  reader.readAsDataURL(blob);
+              },
+              });
+  
+              recorder.startRecording();
+          })
+          .catch((err) => console.error(err));
         };
-
-      };
+      }else{
+        console.log("Unable to fetch dynamic token!!")
+      }
       
-      xhr.onerror = function(err) {
-        console.error(err)
-        throw err
-      };
-      xhr.send();
     } catch (err) {
-      console.error(err)
+      console.log(err)
       throw err
     }
   }
 
   enableTranscription(enable) {
-    if (!browserSupportsTranscription) {
-      return;
-    }
     if (enable && !this.enabled) {
       this.enabled = true;
       this.listen()
