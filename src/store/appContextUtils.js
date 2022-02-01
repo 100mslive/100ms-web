@@ -28,6 +28,7 @@ export const setUpLogRocket = (loginInfo, localPeer) => {
     name: loginInfo.username,
     role: loginInfo.role,
     token: loginInfo.token,
+    roomID: loginInfo.roomID,
   });
 };
 
