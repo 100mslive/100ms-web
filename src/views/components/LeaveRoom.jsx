@@ -3,7 +3,6 @@ import {
   ContextMenu,
   ContextMenuItem,
   MessageModal,
-  ProgressIcon,
   selectPermissions,
   useHMSActions,
   useHMSStore,
@@ -18,7 +17,6 @@ export const LeaveRoom = () => {
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [disconnecting, setDisconnecting] = useState(false);
   const permissions = useHMSStore(selectPermissions);
   const hmsActions = useHMSActions();
 
@@ -31,41 +29,15 @@ export const LeaveRoom = () => {
   };
 
   const leaveRoom = () => {
-    setDisconnecting(true);
-    hmsActions
-      .leave()
-      .then(redirectToLeavePage)
-      .catch(error => {
-        setDisconnecting(false);
-        console.error(error);
-      });
+    hmsActions.leave();
+    redirectToLeavePage();
   };
 
   const endRoom = () => {
-    setDisconnecting(true);
-    hmsActions
-      .endRoom(lockRoom, "End Room")
-      .then(redirectToLeavePage)
-      .catch(error => {
-        setDisconnecting(false);
-        console.error(error);
-      });
+    hmsActions.endRoom(lockRoom, "End Room");
+    redirectToLeavePage();
   };
-
-  const LeaveRoomButton = () => {
-    const loading = !showEndRoomModal && disconnecting;
-    return (
-      <Button variant="danger" key="LeaveRoom">
-        {loading ? <ProgressIcon key="leaving" /> : <HangUpIcon key="hangUp" />}
-        <Text variant="body" css={{ ml: "$2", "@md": { display: "none" } }}>
-          {loading ? "Leaving" : "Leave"} Room
-        </Text>
-      </Button>
-    );
-  };
-
-  // Show Menu only when end room is permitted
-  return permissions.endRoom ? (
+  return (
     <Fragment>
       <ContextMenu
         classes={{
@@ -83,7 +55,14 @@ export const LeaveRoom = () => {
         }}
         menuOpen={showMenu}
         key="LeaveAction"
-        trigger={<LeaveRoomButton />}
+        trigger={
+          <Button variant="danger" key="LeaveRoom">
+            <HangUpIcon key="hangUp" />
+            <Text variant="body" css={{ ml: "$2", "@md": { display: "none" } }}>
+              Leave Room
+            </Text>
+          </Button>
+        }
         menuProps={{
           anchorOrigin: {
             vertical: "top",
@@ -123,13 +102,7 @@ export const LeaveRoom = () => {
             menuItemChildren: "my-1 w-full overflow-hidden",
           }}
         >
-          <Button
-            variant="danger"
-            className="w-full"
-            onClick={() => {
-              leaveRoom();
-            }}
-          >
+          <Button variant="danger" className="w-full" onClick={leaveRoom}>
             Just Leave
           </Button>
         </ContextMenuItem>
@@ -166,16 +139,11 @@ export const LeaveRoom = () => {
               Cancel
             </Button>
             <Button variant="danger" onClick={endRoom}>
-              {disconnecting && <ProgressIcon key="ending" />}
-              {disconnecting ? "Ending" : "End"} Room
+              End Room
             </Button>
           </div>
         }
       />
     </Fragment>
-  ) : (
-    <div onClick={leaveRoom}>
-      <LeaveRoomButton />
-    </div>
   );
 };
