@@ -36,6 +36,7 @@ export function TranscriptionButton() {
 class Transcriber {
   constructor() {
     this.enabled = false;
+    this.socket;
   }
 
   async listen(){
@@ -45,10 +46,10 @@ class Transcriber {
       var body = await res.json();
       if(body && body.token){
         const token = body.token
-        const socket = await new WebSocket(`wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000&token=${token}`);
+        this.socket = await new WebSocket(`wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000&token=${token}`);
         const texts = {};
         var stime,etime;
-        socket.onmessage = (message) => {
+        this.socket.onmessage = (message) => {
             let msg = '';
             const res = JSON.parse(message.data);
             texts[res.audio_start] = res.text;
@@ -66,17 +67,17 @@ class Transcriber {
             document.getElementById("speechtxt").innerText = msg
         };
   
-        socket.onerror = (event) => {
+        this.socket.onerror = (event) => {
             console.error(event);
-            socket.close();
+            this.socket.close();
         }
   
-        socket.onclose = event => {
+        this.socket.onclose = event => {
             console.log(event);
-            socket = null;
+            this.socket = null;
         }
   
-        socket.onopen = () => {
+        this.socket.onopen = () => {
           document.getElementById("speechtxt").style.display = '';
           navigator.mediaDevices.getUserMedia({ audio: true, echoCancellation : true })
           .then((stream) => {
@@ -93,9 +94,13 @@ class Transcriber {
                   const reader = new FileReader();
                   reader.onload = () => {
                   const base64data = reader.result;
-                  if (socket) {
+                  if (this.socket && this.enabled) {
                     stime = performance.now();
-                    socket.send(JSON.stringify({ audio_data: base64data.split('base64,')[1] }));
+                    try{
+                      this.socket.send(JSON.stringify({ audio_data: base64data.split('base64,')[1] }));
+                    } catch (err) {
+                      console.log(err)
+                    }
                   }
                   };
                   reader.readAsDataURL(blob);
@@ -118,10 +123,16 @@ class Transcriber {
 
   enableTranscription(enable) {
     if (enable && !this.enabled) {
+      document.getElementById("speechtxt").innerText = "[ Transcripton is initializing.. ]";
       this.enabled = true;
       this.listen()
     } else if (!enable && this.enabled) {
-      //disable the feature
+      this.enabled = false;
+      this.socket.close();
+      this.socket = null;
+      setTimeout(function(){
+        document.getElementById("speechtxt").innerText = "";
+      }, 200);
     }
   }
 
