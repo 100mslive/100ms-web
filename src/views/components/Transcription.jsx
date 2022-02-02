@@ -37,34 +37,32 @@ class Transcriber {
   constructor() {
     this.enabled = false;
     this.socket;
+    this.totalTimeDiff = 0
+    this.totalCount = 0
   }
 
   async listen(){
     try {
-      let url = "https://pm8n28hjk0.execute-api.ap-south-1.amazonaws.com/mystage/assemblyai";
+      let url = process.env.REACT_APP_DYNAMIC_STT_TOKEN_GENERATION_ENDPOINT
       let res = await fetch(url);
-      var body = await res.json();
+      let body = await res.json();
+      let cnt = 0;
       if(body && body.token){
         const token = body.token
         this.socket = await new WebSocket(`wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000&token=${token}`);
         const texts = {};
-        var stime,etime;
+        let startTime,endTime;
         this.socket.onmessage = (message) => {
-            let msg = '';
             const res = JSON.parse(message.data);
-            texts[res.audio_start] = res.text;
-            const keys = Object.keys(texts);
-            keys.sort((a, b) => a - b);
-            for (const key of keys) {
-                if (texts[key]) {
-                    msg = ` ${texts[key]}`;
-                }
+            if(res.text != "" && startTime){
+              this.totalCount++
+              endTime = performance.now();
+              this.totalTimeDiff += (endTime - startTime)
+              if(this.totalCount % 100 === 0 || this.totalCount < 2){
+                console.log("Average Transcription Latency:", this.totalTimeDiff / this.totalCount, " ms")
+              }
             }
-            if(msg != ""){
-              etime = performance.now();
-              console.log((etime - stime) + ' ms.');
-            }
-            document.getElementById("speechtxt").innerText = msg
+            document.getElementById("speechtxt").innerText = res.text || ""
         };
   
         this.socket.onerror = (event) => {
@@ -95,8 +93,8 @@ class Transcriber {
                   reader.onload = () => {
                   const base64data = reader.result;
                   if (this.socket && this.enabled) {
-                    stime = performance.now();
                     try{
+                      startTime = performance.now();
                       this.socket.send(JSON.stringify({ audio_data: base64data.split('base64,')[1] }));
                     } catch (err) {
                       console.log(err)
@@ -117,13 +115,12 @@ class Transcriber {
       
     } catch (err) {
       console.log(err)
-      throw err
     }
   }
 
   enableTranscription(enable) {
     if (enable && !this.enabled) {
-      document.getElementById("speechtxt").innerText = "[ Transcripton is initializing.. ]";
+      document.getElementById("speechtxt").innerText = "[  Initializing.. ]";
       this.enabled = true;
       this.listen()
     } else if (!enable && this.enabled) {
