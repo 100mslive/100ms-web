@@ -65,6 +65,7 @@ const defaultUiSettings = {
   },
   uiViewMode: "grid",
   showStatsOnTiles: false,
+  enableAmbientMusic: true,
 };
 
 const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
@@ -98,6 +99,7 @@ const AppContextProvider = ({
       uiSettingsFromStorage.subscribedNotifications || {},
     uiViewMode: uiSettingsFromStorage.uiViewMode || "grid",
     showStatsOnTiles: uiSettingsFromStorage.showStatsOnTiles || false,
+    enableAmbientMusic: uiSettingsFromStorage.enableAmbientMusic || false,
   });
 
   useEffect(() => {
@@ -108,6 +110,7 @@ const AppContextProvider = ({
         subscribedNotifications: state.subscribedNotifications,
         uiViewMode: state.uiViewMode,
         showStatsOnTiles: state.showStatsOnTiles,
+        enableAmbientMusic: state.enableAmbientMusic,
       })
     );
   }, [
@@ -115,6 +118,7 @@ const AppContextProvider = ({
     state.subscribedNotifications,
     state.uiViewMode,
     state.showStatsOnTiles,
+    state.enableAmbientMusic,
   ]);
 
   useEffect(() => {
@@ -183,6 +187,9 @@ const AppContextProvider = ({
   const deepSetShowStatsOnTiles = show =>
     setState(prevState => ({ ...prevState, showStatsOnTiles: show }));
 
+  const deepSetEnableAmbientMusic = enable =>
+    setState(prevState => ({ ...prevState, enableAmbientMusic: enable }));
+
   return (
     <AppContext.Provider
       value={{
@@ -191,6 +198,8 @@ const AppContextProvider = ({
         setSubscribedNotifications: deepSetSubscribedNotifications,
         setuiViewMode: deepSetuiViewMode,
         setShowStatsOnTiles: deepSetShowStatsOnTiles,
+        setEnableAmbientMusic: deepSetEnableAmbientMusic,
+        enableAmbientMusic: state.enableAmbientMusic,
         showStatsOnTiles: state.showStatsOnTiles,
         uiViewMode: state.uiViewMode,
         loginInfo: state.loginInfo,

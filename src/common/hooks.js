@@ -15,7 +15,7 @@ import { AppContext } from "../store/AppContext";
  * starting from the instant when alone in room.
  * note: the cb is not called when another peer joins during this period.
  */
-const useWhenAloneInRoom = (cb, thresholdMs = 5 * 60 * 1000) => {
+export const useWhenAloneInRoom = (cb, thresholdMs = 5 * 60 * 1000) => {
   const peerCount = useHMSStore(selectPeerCount);
   const cbTimeout = useRef(null);
   const alone = peerCount === 1;
@@ -27,7 +27,14 @@ const useWhenAloneInRoom = (cb, thresholdMs = 5 * 60 * 1000) => {
       cbTimeout.current && clearTimeout(cbTimeout.current);
       cbTimeout.current = null;
     }
+
+    return () => {
+      cbTimeout.current && clearTimeout(cbTimeout.current);
+      cbTimeout.current = null;
+    };
   }, [alone, cb, thresholdMs]);
+
+  return alone;
 };
 
 export const useBeamAutoLeave = () => {

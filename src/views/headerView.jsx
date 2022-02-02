@@ -22,6 +22,7 @@ import { useHMSActions } from "@100mslive/react-sdk";
 import PIPComponent from "./PIP/PIPComponent";
 import { AppContext } from "../store/AppContext";
 import { metadataProps as participantInListProps } from "../common/utils";
+import { AmbientMusic } from "./components/AmbientMusic";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -216,6 +217,7 @@ export const ConferenceHeader = ({
         ]}
         centerComponents={[!isPreview ? <SpeakerTag key={0} /> : null]}
         rightComponents={[
+          <AmbientMusic key={2} />,
           showPip ? <PIPComponent key={0} /> : null,
           <ParticipantList
             key={1}
