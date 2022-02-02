@@ -3,7 +3,6 @@ import { Button } from "@100mslive/hms-video-react";
 import RecordRTC,  { StereoAudioRecorder } from 'recordrtc';
 import { useHMSActions, useHMSNotifications } from "@100mslive/react-sdk";
 
-export const browserSupportsTranscription = "webkitSpeechRecognition" in window;
 export function TranscriptionButton() {
   const [isTranscriptionEnabled, setIsTranscriptionEnabled] = useState(false);
   const transcriber = useRef(null);
@@ -12,18 +11,21 @@ export function TranscriptionButton() {
   const notification = useHMSNotifications()
   useEffect(() => {
     if(notification && notification.type === "NEW_MESSAGE" && notification.data?.type === "Transcription" && notification.data?.message){
-      transcriber.current.displayCaption(notification.data.message)
+        let showTxt = notification.data.senderName + ": " + notification.data.message
+        document.getElementById("speechtxt").innerText = showTxt || ""
+        enableTranscription(true)
     }
   }, [notification])
 
-  const enableTranscription = () => {
+  const enableTranscription = (setas) => {
     if (!transcriber.current) {
       transcriber.current = new Transcriber();
+      transcriber.current.enabled = false;
       transcriber.current.setBroadcast((data) => {
         hmsActions.sendBroadcastMessage(data, "Transcription")
       });
     }
-    transcriber.current.enableTranscription(!isTranscriptionEnabled);
+    transcriber.current.enableTranscription(setas || !isTranscriptionEnabled);
     setIsTranscriptionEnabled(!isTranscriptionEnabled);
   };
 
@@ -60,7 +62,6 @@ class Transcriber {
 
   displayCaption(text){
     document.getElementById("speechtxt").innerText = text || ""
-
   }
 
   async listen(){
