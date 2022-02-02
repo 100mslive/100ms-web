@@ -1,15 +1,27 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@100mslive/hms-video-react";
 import RecordRTC,  { StereoAudioRecorder } from 'recordrtc';
+import { useHMSActions, useHMSNotifications } from "@100mslive/react-sdk";
 
 export const browserSupportsTranscription = "webkitSpeechRecognition" in window;
 export function TranscriptionButton() {
   const [isTranscriptionEnabled, setIsTranscriptionEnabled] = useState(false);
   const transcriber = useRef(null);
 
+  const hmsActions = useHMSActions()
+  const notification = useHMSNotifications()
+  useEffect(() => {
+    if(notification && notification.type === "NEW_MESSAGE" && notification.data?.type === "Transcription" && notification.data?.message){
+      transcriber.current.displayCaption(notification.data.message)
+    }
+  }, [notification])
+
   const enableTranscription = () => {
     if (!transcriber.current) {
       transcriber.current = new Transcriber();
+      transcriber.current.setBroadcast((data) => {
+        hmsActions.sendBroadcastMessage(data, "Transcription")
+      });
     }
     transcriber.current.enableTranscription(!isTranscriptionEnabled);
     setIsTranscriptionEnabled(!isTranscriptionEnabled);
@@ -35,10 +47,20 @@ export function TranscriptionButton() {
 
 class Transcriber {
   constructor() {
+    this.broadcast = () => {};
     this.enabled = false;
-    this.socket;
+    this.socket = null;
     this.totalTimeDiff = 0
     this.totalCount = 0
+  }
+
+  setBroadcast(cb){
+    this.broadcast = cb
+  }
+
+  displayCaption(text){
+    document.getElementById("speechtxt").innerText = text || ""
+
   }
 
   async listen(){
@@ -55,6 +77,7 @@ class Transcriber {
         this.socket.onmessage = (message) => {
             const res = JSON.parse(message.data);
             if(res.text != "" && startTime){
+              this.broadcast(res.text)
               this.totalCount++
               endTime = performance.now();
               this.totalTimeDiff += (endTime - startTime)
@@ -62,7 +85,6 @@ class Transcriber {
                 console.log("Average Transcription Latency:", this.totalTimeDiff / this.totalCount, " ms")
               }
             }
-            document.getElementById("speechtxt").innerText = res.text || ""
         };
   
         this.socket.onerror = (event) => {
