@@ -40,6 +40,7 @@ const defaultMeetingUrl =
 export const RecordingAndRTMPModal = ({
   showRecordingAndRTMPModal,
   setShowRecordingAndRTMPModal,
+  permissions,
 }) => {
   useEffect(() => {
     setMeetingURL(defaultMeetingUrl);
@@ -113,6 +114,7 @@ export const RecordingAndRTMPModal = ({
           isHlsOn={isHlsOn}
           setIsHlsOn={setIsHlsOn}
           hlsStatus={hls.running}
+          permissions={permissions}
         />
       }
       footer={
@@ -168,6 +170,7 @@ export const RecordingAndRTMPForm = ({
   isHlsOn,
   setIsHlsOn,
   hlsStatus,
+  permissions,
 }) => {
   return (
     <div>
@@ -179,32 +182,38 @@ export const RecordingAndRTMPForm = ({
           disabled={recordingStatus || rtmpStatus || hlsStatus}
         />
 
-        <SwitchInput
-          inputName="HLS:"
-          checked={isHlsOn || hlsStatus}
-          onChangeHandler={setIsHlsOn}
-          disabled={
-            isRecordingOn ||
-            RTMPURLs[0] ||
-            recordingStatus ||
-            rtmpStatus ||
-            hlsStatus
-          }
-        />
+        {permissions.streaming && (
+          <SwitchInput
+            inputName="HLS:"
+            checked={isHlsOn || hlsStatus}
+            onChangeHandler={setIsHlsOn}
+            disabled={
+              isRecordingOn ||
+              RTMPURLs[0] ||
+              recordingStatus ||
+              rtmpStatus ||
+              hlsStatus
+            }
+          />
+        )}
 
-        <TextInput
-          inputName="RTMP"
-          value={RTMPURLs}
-          onChangeHandler={setRTMPURLs}
-          disabled={recordingStatus || rtmpStatus || hlsStatus || isHlsOn}
-        />
+        {permissions.streaming && (
+          <TextInput
+            inputName="RTMP"
+            value={RTMPURLs}
+            onChangeHandler={setRTMPURLs}
+            disabled={recordingStatus || rtmpStatus || hlsStatus || isHlsOn}
+          />
+        )}
 
-        <SwitchInput
-          inputName="Recording:"
-          checked={isRecordingOn || recordingStatus}
-          disabled={hlsStatus || isHlsOn}
-          onChangeHandler={setIsRecordingOn}
-        />
+        {permissions.recording && (
+          <SwitchInput
+            inputName="Recording:"
+            checked={isRecordingOn || recordingStatus}
+            disabled={hlsStatus || isHlsOn}
+            onChangeHandler={setIsRecordingOn}
+          />
+        )}
       </form>
     </div>
   );

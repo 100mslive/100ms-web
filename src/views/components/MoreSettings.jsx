@@ -204,14 +204,16 @@ export const MoreSettings = () => {
             )}
           </ContextMenuItem>
         )}
-        <ContextMenuItem
-          icon={<RecordIcon />}
-          label="Streaming/Recording"
-          key="streaming-recording"
-          onClick={() => {
-            setShowRecordingAndRTMPModal(true);
-          }}
-        />
+        {(permissions.streaming || permissions.recording) && (
+          <ContextMenuItem
+            icon={<RecordIcon />}
+            label="Streaming/Recording"
+            key="streaming-recording"
+            onClick={() => {
+              setShowRecordingAndRTMPModal(true);
+            }}
+          />
+        )}
         {screenfull.isEnabled && (
           <ContextMenuItem
             icon={<FullScreenIcon />}
@@ -278,6 +280,7 @@ export const MoreSettings = () => {
       <RecordingAndRTMPModal
         showRecordingAndRTMPModal={showRecordingAndRTMPModal}
         setShowRecordingAndRTMPModal={setShowRecordingAndRTMPModal}
+        permissions={permissions}
       />
       <ChangeName
         setShowChangeNameModal={setShowChangeNameModal}
