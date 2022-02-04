@@ -12,7 +12,7 @@ import { ChatView } from "./components/chatView";
 import { FeatureFlags } from "../store/FeatureFlags";
 
 const defaultClasses = {
-  HLSVideo: "w-full contain",
+  HLSVideo: "h-full m-auto",
 };
 
 export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
