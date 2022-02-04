@@ -203,7 +203,10 @@ export const ConferenceHeader = ({
   onParticipantListOpen,
   isPreview = false,
 }) => {
-  const { HLS_VIEWER_ROLE } = useContext(AppContext);
+  const {
+    HLS_VIEWER_ROLE,
+    loginInfo: { isHeadless },
+  } = useContext(AppContext);
   const localPeer = useHMSStore(selectLocalPeer);
   const showPip = localPeer.roleName !== HLS_VIEWER_ROLE && !isPreview;
   return (
@@ -217,7 +220,7 @@ export const ConferenceHeader = ({
         ]}
         centerComponents={[!isPreview ? <SpeakerTag key={0} /> : null]}
         rightComponents={[
-          <AmbientMusic key={2} />,
+          !isHeadless ? <AmbientMusic key={2} /> : null,
           showPip ? <PIPComponent key={0} /> : null,
           <ParticipantList
             key={1}

@@ -10,10 +10,12 @@ const ambientMusicURL = process.env.REACT_APP_AMBIENT_MUSIC;
  * @type HTMLAudioElement
  */
 let ambientAudio = null;
-try {
-  ambientAudio = new Audio(ambientMusicURL);
-} catch (err) {
-  console.error(err);
+if (ambientMusicURL) {
+  try {
+    ambientAudio = new Audio(ambientMusicURL);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 /**
@@ -28,63 +30,54 @@ try {
  */
 const useAmbientMusic = (threshold = 5 * 1000) => {
   const audioRef = useRef(ambientAudio);
-  const { enableAmbientMusic, setEnableAmbientMusic } = useContext(AppContext);
+  const { enableAmbientMusic: userHasEnabled, setEnableAmbientMusic } =
+    useContext(AppContext); // user settings
   const [playing, setPlaying] = useState(false);
-  const [timedout, setTimedout] = useState(false);
 
-  const alone = useWhenAloneInRoom(() => {
-    play();
-    setTimedout(true);
-  }, threshold);
+  const { alone: aloneRightNow, aloneForLong } = useWhenAloneInRoom(threshold);
 
-  const play = useCallback(() => {
-    if (alone && enableAmbientMusic) {
+  // play if user has enabled the setting and been alone for some time
+  const shouldMusicBePlayed = !playing && userHasEnabled && aloneForLong;
+  // pause immediately if user has disabled the setting or not alone anymore
+  const shouldMusicBePaused = playing && (!userHasEnabled || !aloneRightNow);
+
+  useEffect(() => {
+    if (shouldMusicBePlayed && audioRef.current) {
+      audioRef.current.volume = 0.2;
+      audioRef.current.loop = true;
       audioRef.current
         .play()
         .catch(err => console.error("Unable to play Ambient Music", err));
       setPlaying(true);
     }
-  }, [alone, enableAmbientMusic]);
+  }, [shouldMusicBePlayed]);
 
-  const pause = useCallback(() => {
-    audioRef.current.pause();
-    setPlaying(false);
+  useEffect(() => {
+    if (shouldMusicBePaused) {
+      audioRef.current.pause();
+      setPlaying(false);
+    }
+  }, [shouldMusicBePaused]);
+
+  useEffect(() => {
+    // Stop on leave
+    return () => {
+      audioRef.current?.pause();
+      setPlaying(false);
+    };
   }, []);
 
   const toggleAmbientMusic = useCallback(
-    () => setEnableAmbientMusic(!playing),
+    () => setEnableAmbientMusic(!playing), // save user settings
     [playing, setEnableAmbientMusic]
   );
 
-  useEffect(() => {
-    audioRef.current.volume = 0.2;
-    audioRef.current.loop = true;
-    if (!alone) {
-      pause();
-      setTimedout(false);
-    }
-
-    return () => {
-      pause();
-    };
-  }, [alone, pause]);
-
-  useEffect(() => {
-    if (timedout) {
-      if (enableAmbientMusic) {
-        play();
-      } else {
-        pause();
-      }
-    }
-  }, [enableAmbientMusic, timedout, pause, play]);
-
-  return { ready: timedout, playing, toggleAmbientMusic };
+  return { ready: aloneForLong, playing, toggleAmbientMusic };
 };
 
 export const AmbientMusic = () => {
   const { ready, playing, toggleAmbientMusic } = useAmbientMusic();
-  if (!ready) {
+  if (!ambientAudio || !ready) {
     return null;
   }
 
