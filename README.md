@@ -62,7 +62,19 @@ Create room from [100ms Dashboard](https://dashboard.100ms.live/create-room) & g
 
 ![image](https://prod-apps-public.s3.ap-south-1.amazonaws.com/Screenshot+2021-06-26+at+5.52.50+PM.png)
 
-### Configure policy based UI
+### Join the room
+
+*Before running the app locally make sure you update the environment file (.env) with the respective REACT_APP_TOKEN_GENERATION_ENDPOINT and REACT_APP_POLICY_CONFIG to avoid parsing error*
+
+Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the room
+
+![image](https://user-images.githubusercontent.com/5078656/119534649-c60da000-bda4-11eb-9847-f283e2daa06f.png)
+
+Use any name & Click on join.
+
+## Additional Flags(present in .env file)
+
+### Configure UI layout
 
 Depending on the value of REACT_APP_POLICY_CONFIG in .env, you can customize which roles should be displayed in center stage and which roles should be display in side pane.
 
@@ -89,17 +101,28 @@ interface PolicyConfig {
 
 Example: `REACT_APP_POLICY_CONFIG = "{"trainer":{"center": ["student"],"sidepane":["trainer"]}}"`
 
-It will be used in the app as:
+It is used in the app as:
 
 ```js
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 ```
-### Join the room
 
-*Before running the app locally make sure you update the environment file (.env) with the respective REACT_APP_TOKEN_GENERATION_ENDPOINT and REACT_APP_POLICY_CONFIG to avoid parsing error*
+### Tile Aspect Ratio
 
-Visit the URL : https://localhost:3000/meeting/<room_id>/< role > to join the room
+REACT_APP_TILE_SHAPE can be used for this, the format is `width-height` e.g.
+`1-1` for square tiles, `4-3` for landscape tiles and `16-9` for wide tiles.
 
-![image](https://user-images.githubusercontent.com/5078656/119534649-c60da000-bda4-11eb-9847-f283e2daa06f.png)
+### Env - REACT_APP_THEME
+`dark` - for dark theme
+`light` - for light theme
 
-Use any name & Click on join.
+### Env - REACT_APP_COLOR
+You can give a hex code the color will be used fo buttons, border audio level and such.
+
+### Playlist Tracks(Watch Party)
+
+This is a way to play any music or any videos from a url for everyone in the room to see/vibe to together. The support
+is only for file formats which are supported by the native audio and video elements, but it's super cool.
+
+`REACT_APP_AUDIO_PLAYLIST` - a list of audio tracks which can be played by a person in the room for everyone
+`REACT_APP_VIDEO_PLAYLIST` - a list of video tracks which can be played by a person in the room for everyone
