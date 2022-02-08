@@ -6,7 +6,7 @@ const PeerlistPreview = () => {
   const count = useHMSStore(selectPeerCount);
   return (
     <>
-      {count > 1 ? (
+      {count > 0 ? (
         <div className="w-full h-16 flex items-center justify-between pr-4">
           <ConferenceHeader isPreview={true} />
         </div>
