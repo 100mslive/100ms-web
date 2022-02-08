@@ -7,6 +7,7 @@ import {
   selectHLSState,
   selectRTMPState,
   selectRecordingState,
+  selectIsConnectedToRoom,
 } from "@100mslive/react-sdk";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../store/AppContext";
@@ -17,11 +18,12 @@ import { AppContext } from "../store/AppContext";
  * starting from the instant when alone in room.
  * note: the cb is not called when another peer joins during this period.
  */
-export const useWhenAloneInRoom = (thresholdMs = 5 * 60 * 1000) => {
+export const useWhenAloneInRoom = (cb, thresholdMs = 5 * 60 * 1000) => {
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
   const peerCount = useHMSStore(selectPeerCount);
   const [aloneForLong, setAloneForLong] = useState(false);
   const cbTimeout = useRef(null);
-  const alone = peerCount === 1;
+  const alone = isConnected && peerCount === 1;
 
   useEffect(() => {
     if (alone && !cbTimeout.current) {
