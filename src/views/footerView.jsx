@@ -119,8 +119,8 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
     );
   }
   leftComponents.push(
-    <Tooltip title={`${isChatOpen ? "Close" : "Open"} chat`}>
-      <IconButton key="chat" onClick={toggleChat} active={!isChatOpen}>
+    <Tooltip key="chat" title={`${isChatOpen ? "Close" : "Open"} chat`}>
+      <IconButton onClick={toggleChat} active={!isChatOpen}>
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </IconButton>
     </Tooltip>

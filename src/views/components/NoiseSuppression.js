@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   useHMSActions,
   useHMSStore,
@@ -21,18 +21,22 @@ export const NoiseSuppression = () => {
     }
   };
 
-  useEffect(() => {
-    createPlugin();
-  }, []);
-
-  async function addPlugin() {
+  const addPlugin = useCallback(async () => {
     try {
       createPlugin();
       await hmsActions.addPluginToAudioTrack(pluginRef.current);
     } catch (err) {
       console.error("adding noise suppression plugin failed", err);
     }
-  }
+  }, [hmsActions]);
+
+  useEffect(() => {
+    if (process.env.REACT_APP_ENV === "qa") {
+      addPlugin();
+    } else {
+      createPlugin();
+    }
+  }, [addPlugin]);
 
   async function removePlugin() {
     if (pluginRef.current) {
