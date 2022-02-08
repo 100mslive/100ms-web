@@ -208,7 +208,7 @@ export const ConferenceHeader = ({
     loginInfo: { isHeadless },
   } = useContext(AppContext);
   const localPeer = useHMSStore(selectLocalPeer);
-  const showPip = localPeer.roleName !== HLS_VIEWER_ROLE && !isPreview;
+  const showPip = localPeer?.roleName !== HLS_VIEWER_ROLE && !isPreview;
   return (
     <>
       <Header
