@@ -23,8 +23,10 @@ export const NoiseSuppression = () => {
 
   const addPlugin = useCallback(async () => {
     try {
-      createPlugin();
-      await hmsActions.addPluginToAudioTrack(pluginRef.current);
+      setTimeout(async () => {
+        createPlugin();
+        await hmsActions.addPluginToAudioTrack(pluginRef.current);
+      }, 1500);
     } catch (err) {
       console.error("adding noise suppression plugin failed", err);
     }
