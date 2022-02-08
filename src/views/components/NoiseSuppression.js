@@ -2,7 +2,10 @@ import { useCallback, useEffect, useRef } from "react";
 import {
   useHMSActions,
   useHMSStore,
+  useHMSNotifications,
+  HMSNotificationTypes,
   selectIsLocalAudioPluginPresent,
+  selectLocalAudioTrackID,
 } from "@100mslive/react-sdk";
 import { AudioLevelIcon } from "@100mslive/react-icons";
 import { IconButton, Tooltip } from "@100mslive/react-ui";
@@ -14,6 +17,8 @@ export const NoiseSuppression = () => {
   const isPluginPresent = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
+  const localAudioTrackID = useHMSStore(selectLocalAudioTrackID);
+  const notification = useHMSNotifications();
 
   const createPlugin = () => {
     if (!pluginRef.current) {
@@ -31,12 +36,19 @@ export const NoiseSuppression = () => {
   }, [hmsActions]);
 
   useEffect(() => {
+    if (
+      !notification ||
+      notification.type !== HMSNotificationTypes.TRACK_ADDED ||
+      notification.data?.id !== localAudioTrackID
+    ) {
+      return;
+    }
     if (process.env.REACT_APP_ENV === "qa") {
       addPlugin();
     } else {
       createPlugin();
     }
-  }, [addPlugin]);
+  }, [addPlugin, notification, localAudioTrackID]);
 
   async function removePlugin() {
     if (pluginRef.current) {
