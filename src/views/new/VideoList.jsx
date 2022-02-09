@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import { StyledVideoList, getLeft, Pagination } from "@100mslive/react-ui";
 import { useVideoList } from "@100mslive/react-sdk";
 import HmsVideoTile from "./VideoTile";
+import HmsScreenshareTile from "./ScreenshareTile";
 
-const HmsVideoList = ({
+const VideoList = ({
   maxTileCount,
   peers,
   showStatsOnTiles,
   maxColCount,
   maxRowCount,
+  includeScreenShareForPeer,
 }) => {
   const { ref, pagesWithTiles } = useVideoList({
     peers,
     maxTileCount,
     maxColCount,
     maxRowCount,
+    includeScreenShareForPeer,
   });
   const [page, setPage] = useState(0);
   useEffect(() => {
@@ -35,15 +38,25 @@ const HmsVideoList = ({
                 }}
                 key={pageNo}
               >
-                {tiles.map(tile => (
-                  <HmsVideoTile
-                    showStatsOnTiles={showStatsOnTiles}
-                    key={tile.peer.id}
-                    width={tile.width}
-                    height={tile.height}
-                    peerId={tile.peer.id}
-                  />
-                ))}
+                {tiles.map(tile =>
+                  tile.track?.source === "screen" ? (
+                    <HmsScreenshareTile
+                      showStatsOnTiles={showStatsOnTiles}
+                      key={tile.track.id}
+                      width={tile.width}
+                      height={tile.height}
+                      trackId={tile.track.id}
+                    />
+                  ) : (
+                    <HmsVideoTile
+                      showStatsOnTiles={showStatsOnTiles}
+                      key={tile.track?.id || tile.peer.id}
+                      width={tile.width}
+                      height={tile.height}
+                      trackId={tile.track?.id}
+                    />
+                  )
+                )}
               </StyledVideoList.View>
             ))
           : null}
@@ -58,5 +71,7 @@ const HmsVideoList = ({
     </StyledVideoList.Root>
   );
 };
+
+const HmsVideoList = React.memo(VideoList);
 
 export default HmsVideoList;

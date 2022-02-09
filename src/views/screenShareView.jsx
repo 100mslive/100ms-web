@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, Fragment, useContext } from "react";
+import React, { useCallback, useMemo, Fragment } from "react";
 import {
   useHMSStore,
   useHMSActions,
@@ -17,9 +17,8 @@ import { ChatView } from "./components/chatView";
 import { useWindowSize } from "./hooks/useWindowSize";
 import { ROLES } from "../common/roles";
 import { chatStyle, getBlurClass } from "../common/utils";
-import { HmsVideoList, HmsVideoTile } from "./UIComponents";
+import { HmsScreenshareTile, HmsVideoList, HmsVideoTile } from "./UIComponents";
 import { FeatureFlags } from "../store/FeatureFlags";
-import { AppContext } from "../store/AppContext";
 
 export const ScreenShareView = ({
   showStats,
@@ -68,6 +67,7 @@ export const ScreenShareView = ({
       }}
     >
       <ScreenShareComponent
+        showStats={showStats}
         amIPresenting={amIPresenting}
         peerPresenting={peerPresenting}
         peerSharingPlaylist={peerSharingPlaylist}
@@ -146,6 +146,7 @@ export const SidePane = ({
 };
 
 const ScreenShareComponent = ({
+  showStats,
   amIPresenting,
   peerPresenting,
   peerSharingPlaylist,
@@ -198,13 +199,22 @@ const ScreenShareComponent = ({
             />
           </div>
         ) : (
-          <VideoTile
-            peer={peerPresenting}
-            showScreen={true}
-            objectFit="contain"
-            hmsVideoTrackId={screenshareTrack?.id}
-            {...videoTileProps(peerPresenting, screenshareTrack)}
-          />
+          <>
+            {FeatureFlags.enableNewComponents ? (
+              <HmsScreenshareTile
+                showStatsOnTiles={showStats}
+                trackId={screenshareTrack.id}
+              />
+            ) : (
+              <VideoTile
+                peer={peerPresenting}
+                showScreen={true}
+                objectFit="contain"
+                hmsVideoTrackId={screenshareTrack?.id}
+                {...videoTileProps(peerPresenting, screenshareTrack)}
+              />
+            )}
+          </>
         ))}
     </Box>
   );
@@ -263,7 +273,7 @@ const SmallTilePeersView = ({
               peers={smallTilePeers}
               maxColCount={2}
               maxRowCount={rows}
-              showScreenFn={shouldShowScreenFn}
+              includeScreenShareForPeer={shouldShowScreenFn}
               overflow="scroll-x"
               showStatsOnTiles={showStatsOnTiles}
             />
@@ -314,7 +324,7 @@ const LargeTilePeerView = ({
           showStatsOnTiles={showStatsOnTiles}
           width="100%"
           height="100%"
-          peerId={peerScreenSharing.id}
+          trackId={peerScreenSharing.videoTrack}
         />
       ) : (
         <VideoTile
