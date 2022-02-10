@@ -10,7 +10,11 @@ function ErrorPage({ error }) {
     <Flex
       align="center"
       justify="center"
-      css={{ size: "100%", color: "$fg", backgroundColor: "$bg" }}
+      css={{
+        size: "100%",
+        color: "$textPrimary",
+        backgroundColor: "$bgPrimary",
+      }}
     >
       <Box css={{ position: "relative", overflow: "hidden", r: "$3" }}>
         <img
