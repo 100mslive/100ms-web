@@ -9,10 +9,10 @@ import {
 } from "@100mslive/react-sdk";
 import { ExpandIcon, ShrinkIcon } from "@100mslive/react-icons";
 import { useFullscreen } from "react-use";
-import { HmsTileMenu } from "../UIComponents";
+import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
 
-const HmsScreenshareTile = ({
+const Tile = ({
   trackId,
   showStatsOnTiles,
   width = "100%",
@@ -61,7 +61,7 @@ const HmsScreenshareTile = ({
           ) : null}
           <StyledVideoTile.Info>{label}</StyledVideoTile.Info>
           {isMouseHovered && !peer?.isLocal ? (
-            <HmsTileMenu
+            <TileMenu
               isScreenshare
               peerID={peer?.id}
               audioTrackID={audioTrack?.id}
@@ -74,4 +74,6 @@ const HmsScreenshareTile = ({
   );
 };
 
-export default HmsScreenshareTile;
+const ScreenshareTile = React.memo(Tile);
+
+export default ScreenshareTile;

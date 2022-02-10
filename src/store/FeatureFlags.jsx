@@ -6,8 +6,6 @@ export class FeatureFlags {
     process.env.REACT_APP_ENABLE_TRANSCRIPTION === "true";
   static enableStatsForNerds =
     process.env.REACT_APP_ENABLE_STATS_FOR_NERDS === "true";
-  static enableNewComponents =
-    process.env.REACT_APP_ENABLE_NEW_COMPONENTS === "true";
   static init() {
     if (!window.HMS) {
       window.HMS = {};

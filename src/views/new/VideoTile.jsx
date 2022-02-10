@@ -1,5 +1,5 @@
 // @ts-check
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   AudioLevel,
   Avatar,
@@ -20,10 +20,10 @@ import {
   HandRaiseFilledIcon,
   BrbIcon,
 } from "@100mslive/react-icons";
-import { HmsTileMenu } from "../UIComponents";
+import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
 
-const VideoTile = ({ trackId, showStatsOnTiles, width, height }) => {
+const Tile = ({ trackId, showStatsOnTiles, width, height }) => {
   const track = useHMSStore(selectTrackByID(trackId));
   const peer = useHMSStore(selectPeerByID(track?.peerId));
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(track?.peerId));
@@ -66,7 +66,7 @@ const VideoTile = ({ trackId, showStatsOnTiles, width, height }) => {
             </StyledVideoTile.AudioIndicator>
           ) : null}
           {isMouseHovered && !peer?.isLocal ? (
-            <HmsTileMenu
+            <TileMenu
               peerID={peer?.id}
               audioTrackID={peer?.audioTrack}
               videoTrackID={peer?.videoTrack}
@@ -88,9 +88,9 @@ const VideoTile = ({ trackId, showStatsOnTiles, width, height }) => {
   );
 };
 
-const HmsVideoTile = React.memo(VideoTile);
+const VideoTile = React.memo(Tile);
 
-export default HmsVideoTile;
+export default VideoTile;
 
 const getAvatarSize = height => {
   if (height === "100%") {
