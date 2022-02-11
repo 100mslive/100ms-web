@@ -57,7 +57,7 @@ export const Conference = () => {
   }
 
   return (
-    <Flex css={{ size: "100%", bg: "$bgSecondary" }} direction="column">
+    <Flex css={{ size: "100%" }} direction="column">
       {!isHeadless && (
         <Box css={{ h: "$18", "@md": { h: "$17" } }}>
           <ConferenceHeader onParticipantListOpen={onParticipantListOpen} />

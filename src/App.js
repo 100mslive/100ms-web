@@ -142,6 +142,7 @@ export function EdtechComponent({
             >
               <Box
                 css={{
+                  bg: "$mainBg",
                   w: "100%",
                   ...(headerPresent === "true"
                     ? { flex: "1 1 0" }
