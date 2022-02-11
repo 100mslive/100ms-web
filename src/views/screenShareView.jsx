@@ -72,7 +72,7 @@ export const ScreenShareView = ({
         direction={{ "@initial": "column", "@lg": "row" }}
         css={{
           overflow: "hidden",
-          p: "$2",
+          p: "$4",
           flex: "0 0 20%",
           "@lg": {
             flex: "1 1 0",
@@ -151,7 +151,7 @@ const ScreenShareComponent = ({
     return (
       <Box
         css={{
-          mx: "$2",
+          mx: "$4",
           flex: "3 1 0",
           "@lg": {
             flex: "2 1 0",
@@ -170,9 +170,9 @@ const ScreenShareComponent = ({
     <Box
       css={{
         flex: "3 1 0",
-        mx: "$2",
-        ml: "$3",
-        "@lg": { ml: "$2" },
+        mx: "$4",
+        ml: "$5",
+        "@lg": { ml: "$4" },
       }}
     >
       {peerPresenting &&
@@ -256,9 +256,9 @@ const LargeTilePeerView = ({ peerScreenSharing, showStatsOnTiles }) => {
       css={{
         flex: "1 1 0",
         minHeight: "25%",
-        py: "$2",
+        py: "$4",
         "@lg": {
-          mr: "$2",
+          mr: "$4",
           minHeight: "unset",
           py: 0,
         },

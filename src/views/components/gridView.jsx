@@ -67,7 +67,7 @@ export const GridCenterView = ({
             height: "45%",
             flex: "0 0 20%",
             zIndex: 40,
-            mr: "$2",
+            mr: "$4",
             alignSelf: "flex-end",
             "@md": chatStyle,
             "@ls": {
@@ -105,7 +105,7 @@ export const GridSidePaneView = ({
       direction="column"
       css={{
         flex: "0 0 20%",
-        mx: "$2",
+        mx: "$4",
         "@lg": {
           flex: "1 1 0",
         },
@@ -128,7 +128,7 @@ export const GridSidePaneView = ({
           css={{
             flex: "1 1 0",
             h: "50%",
-            p: "$2",
+            p: "$4",
             "@md": chatStyle,
             "@ls": {
               ...chatStyle,

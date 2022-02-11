@@ -58,7 +58,7 @@ export const LeaveRoom = () => {
         trigger={
           <Button variant="danger" key="LeaveRoom">
             <HangUpIcon key="hangUp" />
-            <Text variant="body" css={{ ml: "$2", "@md": { display: "none" } }}>
+            <Text variant="body" css={{ ml: "$4", "@md": { display: "none" } }}>
               Leave Room
             </Text>
           </Button>

@@ -60,10 +60,12 @@ const useAmbientMusic = (threshold = 5 * 1000) => {
   }, [shouldMusicBePaused]);
 
   useEffect(() => {
+    const ref = audioRef.current;
     // Stop on leave
     return () => {
-      audioRef.current?.pause();
-      setPlaying(false);
+      if (ref) {
+        ref.pause();
+      }
     };
   }, []);
 
@@ -87,7 +89,7 @@ export const AmbientMusic = () => {
       key="ambient-music"
     >
       <IconButton
-        css={{ mx: "$2" }}
+        css={{ mx: "$4" }}
         onClick={toggleAmbientMusic}
         active={!playing}
       >
