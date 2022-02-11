@@ -26,7 +26,7 @@ import {
   HMSReactiveStore,
 } from "@100mslive/react-sdk";
 import { FeatureFlags } from "./store/FeatureFlags";
-import { lightTheme } from "@100mslive/react-ui";
+import { HMSThemeProvider as ReactUIProvider, Box } from "@100mslive/react-ui";
 import "./index.css";
 
 const defaultTokenEndpoint = process.env
@@ -73,40 +73,41 @@ export function EdtechComponent({
     .split("-")
     .map(el => parseInt(el));
   return (
-    <div
-      className={`w-full dark:bg-black ${
-        headerPresent === "true" ? "flex-1" : "h-full"
-      } ${theme === "light" ? lightTheme : ""}`}
-    >
-      <HMSThemeProvider
-        config={{
-          theme: {
-            extend: {
-              fontFamily: {
-                sans: [font, "Inter", "sans-serif"],
-                body: [font, "Inter", "sans-serif"],
-              },
-              colors: {
-                brand: {
-                  main: color,
-                  tint: shadeColor(color, 30),
-                },
+    <HMSThemeProvider
+      config={{
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [font, "Inter", "sans-serif"],
+              body: [font, "Inter", "sans-serif"],
+            },
+            colors: {
+              brand: {
+                main: color,
+                tint: shadeColor(color, 30),
               },
             },
           },
-        }}
+        },
+      }}
+      appBuilder={{
+        theme: theme || "dark",
+        enableChat: showChat === "true",
+        enableScreenShare: showScreenshare === "true",
+        logo: logo,
+        logoClass: logoClass,
+        headerPresent: headerPresent === "true",
+        videoTileAspectRatio: { width, height },
+        showAvatar: showAvatar === "true",
+        avatarType: avatarType,
+      }}
+      toast={(message, options = {}) => hmsToast(message, options)}
+    >
+      <ReactUIProvider
+        type={theme}
         appBuilder={{
-          theme: theme || "dark",
-          enableChat: showChat === "true",
-          enableScreenShare: showScreenshare === "true",
-          logo: logo,
-          logoClass: logoClass,
-          headerPresent: headerPresent === "true",
-          videoTileAspectRatio: { width, height },
-          showAvatar: showAvatar === "true",
-          avatarType: avatarType,
+          aspectRatio: { width, height },
         }}
-        toast={(message, options = {}) => hmsToast(message, options)}
       >
         <ReactRoomProvider
           actions={hmsReactiveStore.getActions()}
@@ -134,12 +135,21 @@ export function EdtechComponent({
               policyConfig={policyConfig}
               appDetails={metadata}
             >
-              <AppRoutes getUserToken={getUserToken} />
+              <Box
+                css={{
+                  w: "100%",
+                  ...(headerPresent === "true"
+                    ? { flex: "1 1 0" }
+                    : { h: "100%" }),
+                }}
+              >
+                <AppRoutes getUserToken={getUserToken} />
+              </Box>
             </AppContextProvider>
           </HMSRoomProvider>
         </ReactRoomProvider>
-      </HMSThemeProvider>
-    </div>
+      </ReactUIProvider>
+    </HMSThemeProvider>
   );
 }
 
