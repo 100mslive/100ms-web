@@ -37,6 +37,12 @@ export const useWhenAloneInRoom = (thresholdMs = 5 * 60 * 1000) => {
     }
   }, [alone, thresholdMs]);
 
+  useEffect(() => {
+    return () => {
+      clearTimeout(cbTimeout.current);
+    };
+  }, []);
+
   return { alone, aloneForLong };
 };
 
