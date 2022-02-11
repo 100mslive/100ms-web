@@ -32,7 +32,7 @@ const SpeakerTag = () => {
       <Text
         variant="body"
         className="truncate max-w-xs"
-        css={{ ml: "$1", flex: "1 1 0" }}
+        css={{ ml: "$2", flex: "1 1 0" }}
         title={dominantSpeaker.name}
       >
         {dominantSpeaker.name}
