@@ -28,7 +28,6 @@ export const GridCenterView = ({
   hideSidePane,
   totalPeers,
   showStatsOnTiles,
-  videoTileProps = () => ({}),
 }) => {
   const { width } = useWindowSize();
   const isMobile = width < 760;
@@ -92,7 +91,6 @@ export const GridSidePaneView = ({
   isParticipantListOpen,
   totalPeers,
   showStatsOnTiles,
-  videoTileProps = () => ({}),
 }) => {
   const { width } = useWindowSize();
   let rows = undefined;

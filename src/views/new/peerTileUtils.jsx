@@ -4,12 +4,18 @@ const labelMap = new Map([
   [[true, "regular"].toString(), `You (${PEER_NAME_PLACEHOLDER})`],
   [[false, "screen"].toString(), `${PEER_NAME_PLACEHOLDER}'s Screen`],
   [[false, "regular"].toString(), PEER_NAME_PLACEHOLDER],
-  [[false, undefined].toString(), PEER_NAME_PLACEHOLDER],
+  [[true, undefined].toString(), `You (${PEER_NAME_PLACEHOLDER})`],
+  [[false, undefined].toString(), `${PEER_NAME_PLACEHOLDER}`],
 ]);
 
 export const getVideoTileLabel = (peer, track) => {
   if (!peer || !track) {
-    return "";
+    // for peers with only audio track
+    return peer
+      ? labelMap
+          .get([peer.isLocal, undefined].toString())
+          .replace(PEER_NAME_PLACEHOLDER, peer.name)
+      : "";
   }
   const isLocallyMuted = track.volume === 0;
   // Map [isLocal, videoSource] to the label to be displayed.

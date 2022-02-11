@@ -22,7 +22,6 @@ export const ScreenShareView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
-  videoTileProps = () => ({}),
 }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -68,7 +67,6 @@ export const ScreenShareView = ({
         amIPresenting={amIPresenting}
         peerPresenting={peerPresenting}
         peerSharingPlaylist={peerSharingPlaylist}
-        videoTileProps={videoTileProps}
       />
       <Flex
         direction={{ "@initial": "column", "@lg": "row" }}
@@ -90,7 +88,6 @@ export const ScreenShareView = ({
           smallTilePeers={smallTilePeers}
           isParticipantListOpen={isParticipantListOpen}
           totalPeers={peers.length}
-          videoTileProps={videoTileProps}
         />
       </Flex>
     </Flex>
@@ -108,7 +105,6 @@ export const SidePane = ({
   smallTilePeers,
   isParticipantListOpen,
   totalPeers,
-  videoTileProps = () => ({}),
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
@@ -121,7 +117,6 @@ export const SidePane = ({
         <LargeTilePeerView
           peerScreenSharing={peerScreenSharing}
           isChatOpen={isChatOpen}
-          videoTileProps={videoTileProps}
           showStatsOnTiles={showStats}
         />
       )}
@@ -129,7 +124,6 @@ export const SidePane = ({
         isChatOpen={isChatOpen}
         smallTilePeers={smallTilePeers}
         shouldShowScreenFn={shouldShowScreenFn}
-        videoTileProps={videoTileProps}
         showStatsOnTiles={showStats}
       />
       <CustomChatView
@@ -147,7 +141,6 @@ const ScreenShareComponent = ({
   amIPresenting,
   peerPresenting,
   peerSharingPlaylist,
-  videoTileProps = () => ({}),
 }) => {
   const hmsActions = useHMSActions();
   const screenshareTrack = useHMSStore(
@@ -198,7 +191,7 @@ const ScreenShareComponent = ({
         ) : (
           <ScreenshareTile
             showStatsOnTiles={showStats}
-            trackId={screenshareTrack.id}
+            peerId={peerPresenting?.id}
           />
         ))}
     </Box>
@@ -257,11 +250,7 @@ const SmallTilePeersView = ({
   );
 };
 
-const LargeTilePeerView = ({
-  peerScreenSharing,
-  showStatsOnTiles,
-  videoTileProps = () => ({}),
-}) => {
+const LargeTilePeerView = ({ peerScreenSharing, showStatsOnTiles }) => {
   return peerScreenSharing ? (
     <Box
       css={{
@@ -284,7 +273,7 @@ const LargeTilePeerView = ({
         showStatsOnTiles={showStatsOnTiles}
         width="100%"
         height="100%"
-        trackId={peerScreenSharing.videoTrack}
+        peerId={peerScreenSharing.id}
       />
     </Box>
   ) : null;

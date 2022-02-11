@@ -4,8 +4,8 @@ import { StyledVideoTile, Video, VideoTileStats } from "@100mslive/react-ui";
 import {
   useHMSStore,
   selectPeerByID,
-  selectTrackByID,
   selectScreenShareAudioByPeerID,
+  selectScreenShareByPeerID,
 } from "@100mslive/react-sdk";
 import { ExpandIcon, ShrinkIcon } from "@100mslive/react-icons";
 import { useFullscreen } from "react-use";
@@ -13,13 +13,13 @@ import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
 
 const Tile = ({
-  trackId,
+  peerId,
   showStatsOnTiles,
   width = "100%",
   height = "100%",
 }) => {
-  const track = useHMSStore(selectTrackByID(trackId));
-  const peer = useHMSStore(selectPeerByID(track?.peerId));
+  const track = useHMSStore(selectScreenShareByPeerID(peerId));
+  const peer = useHMSStore(selectPeerByID(peerId));
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const label = getVideoTileLabel(peer, track);
   const fullscreenRef = useRef(null);

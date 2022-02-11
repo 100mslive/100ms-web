@@ -12,7 +12,6 @@ export const MainGridView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
-  videoTileProps = () => ({}),
 }) => {
   const {
     maxTileCount,
@@ -65,7 +64,6 @@ export const MainGridView = ({
         hideSidePane={!showSidePane}
         isParticipantListOpen={isParticipantListOpen}
         totalPeers={peers.length}
-        videoTileProps={videoTileProps}
         showStatsOnTiles={showStatsOnTiles}
       />
       {showSidePane && (
@@ -75,7 +73,6 @@ export const MainGridView = ({
           toggleChat={toggleChat}
           isParticipantListOpen={isParticipantListOpen}
           totalPeers={peers.length}
-          videoTileProps={videoTileProps}
           showStatsOnTiles={showStatsOnTiles}
         />
       )}

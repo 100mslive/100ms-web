@@ -13,7 +13,7 @@ import {
   selectIsPeerVideoEnabled,
   selectPeerByID,
   selectPeerMetadata,
-  selectTrackByID,
+  selectVideoTrackByPeerID,
 } from "@100mslive/react-sdk";
 import {
   MicOffIcon,
@@ -23,13 +23,13 @@ import {
 import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
 
-const Tile = ({ trackId, showStatsOnTiles, width, height }) => {
-  const track = useHMSStore(selectTrackByID(trackId));
-  const peer = useHMSStore(selectPeerByID(track?.peerId));
-  const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(track?.peerId));
-  const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(track?.peerId));
+const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
+  const track = useHMSStore(selectVideoTrackByPeerID(peerId));
+  const peer = useHMSStore(selectPeerByID(peerId));
+  const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
+  const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const [isMouseHovered, setIsMouseHovered] = useState(false);
-  const metaData = useHMSStore(selectPeerMetadata(track?.peerId));
+  const metaData = useHMSStore(selectPeerMetadata(peerId));
   const isHandRaised = metaData?.isHandRaised || false;
   const isBRB = metaData?.isBRBOn || false;
   const label = getVideoTileLabel(peer, track);
@@ -52,8 +52,8 @@ const Tile = ({ trackId, showStatsOnTiles, width, height }) => {
           <AudioLevel audioTrack={peer?.audioTrack} />
           {track ? (
             <Video
-              mirror={peer.isLocal && track?.source === "regular"}
-              trackId={track.id}
+              mirror={peer?.isLocal && track?.source === "regular"}
+              trackId={track?.id}
             />
           ) : null}
           {isVideoMuted ? (

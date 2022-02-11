@@ -45,7 +45,7 @@ const List = ({
                       key={tile.track.id}
                       width={tile.width}
                       height={tile.height}
-                      trackId={tile.track.id}
+                      peerId={tile.peer.id}
                     />
                   ) : (
                     <VideoTile
@@ -53,7 +53,7 @@ const List = ({
                       key={tile.track?.id || tile.peer.id}
                       width={tile.width}
                       height={tile.height}
-                      trackId={tile.track?.id}
+                      peerId={tile.peer?.id}
                     />
                   )
                 )}
