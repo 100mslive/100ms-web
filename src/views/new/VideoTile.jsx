@@ -1,5 +1,5 @@
 // @ts-check
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   AudioLevel,
   Avatar,
@@ -13,23 +13,23 @@ import {
   selectIsPeerVideoEnabled,
   selectPeerByID,
   selectPeerMetadata,
-  selectTrackByID,
+  selectVideoTrackByPeerID,
 } from "@100mslive/react-sdk";
 import {
   MicOffIcon,
   HandRaiseFilledIcon,
   BrbIcon,
 } from "@100mslive/react-icons";
-import { HmsTileMenu } from "../UIComponents";
+import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
 
-const VideoTile = ({ trackId, showStatsOnTiles, width, height }) => {
-  const track = useHMSStore(selectTrackByID(trackId));
-  const peer = useHMSStore(selectPeerByID(track?.peerId));
-  const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(track?.peerId));
-  const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(track?.peerId));
+const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
+  const track = useHMSStore(selectVideoTrackByPeerID(peerId));
+  const peer = useHMSStore(selectPeerByID(peerId));
+  const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
+  const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const [isMouseHovered, setIsMouseHovered] = useState(false);
-  const metaData = useHMSStore(selectPeerMetadata(track?.peerId));
+  const metaData = useHMSStore(selectPeerMetadata(peerId));
   const isHandRaised = metaData?.isHandRaised || false;
   const isBRB = metaData?.isBRBOn || false;
   const label = getVideoTileLabel(peer, track);
@@ -52,8 +52,8 @@ const VideoTile = ({ trackId, showStatsOnTiles, width, height }) => {
           <AudioLevel audioTrack={peer?.audioTrack} />
           {track ? (
             <Video
-              mirror={peer.isLocal && track?.source === "regular"}
-              trackId={track.id}
+              mirror={peer?.isLocal && track?.source === "regular"}
+              trackId={track?.id}
             />
           ) : null}
           {isVideoMuted ? (
@@ -66,7 +66,7 @@ const VideoTile = ({ trackId, showStatsOnTiles, width, height }) => {
             </StyledVideoTile.AudioIndicator>
           ) : null}
           {isMouseHovered && !peer?.isLocal ? (
-            <HmsTileMenu
+            <TileMenu
               peerID={peer?.id}
               audioTrackID={peer?.audioTrack}
               videoTrackID={peer?.videoTrack}
@@ -88,9 +88,9 @@ const VideoTile = ({ trackId, showStatsOnTiles, width, height }) => {
   );
 };
 
-const HmsVideoTile = React.memo(VideoTile);
+const VideoTile = React.memo(Tile);
 
-export default HmsVideoTile;
+export default VideoTile;
 
 const getAvatarSize = height => {
   if (height === "100%") {

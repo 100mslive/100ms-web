@@ -1,11 +1,10 @@
 import React, { Fragment } from "react";
-import { VideoList, FirstPersonDisplay } from "@100mslive/hms-video-react";
+import { FirstPersonDisplay } from "@100mslive/hms-video-react";
 import { Box, Flex } from "@100mslive/react-ui";
 import { ChatView } from "./chatView";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { chatStyle, getBlurClass } from "../../common/utils";
-import { HmsVideoList } from "../UIComponents";
-import { FeatureFlags } from "../../store/FeatureFlags";
+import VideoList from "../new/VideoList";
 
 const MAX_TILES_FOR_MOBILE = 4;
 
@@ -29,7 +28,6 @@ export const GridCenterView = ({
   hideSidePane,
   totalPeers,
   showStatsOnTiles,
-  videoTileProps = () => ({}),
 }) => {
   const { width } = useWindowSize();
   const isMobile = width < 760;
@@ -43,23 +41,11 @@ export const GridCenterView = ({
         }}
       >
         {peers && peers.length > 0 ? (
-          FeatureFlags.enableNewComponents ? (
-            <HmsVideoList
-              showStatsOnTiles={showStatsOnTiles}
-              peers={peers}
-              maxTileCount={isMobile ? MAX_TILES_FOR_MOBILE : maxTileCount}
-            />
-          ) : (
-            <VideoList
-              peers={peers}
-              classes={{
-                videoTileContainer: "rounded-lg",
-              }}
-              maxTileCount={isMobile ? MAX_TILES_FOR_MOBILE : maxTileCount}
-              // show stats for upto 2 peers in sidepane
-              videoTileProps={videoTileProps}
-            />
-          )
+          <VideoList
+            showStatsOnTiles={showStatsOnTiles}
+            peers={peers}
+            maxTileCount={isMobile ? MAX_TILES_FOR_MOBILE : maxTileCount}
+          />
         ) : eventRoomIDs.some(id => window.location.href.includes(id)) ? (
           <div className="h-full w-full grid place-items-center p-5">
             <a href={webinarInfoLink} target="_blank" rel="noreferrer">
@@ -105,7 +91,6 @@ export const GridSidePaneView = ({
   isParticipantListOpen,
   totalPeers,
   showStatsOnTiles,
-  videoTileProps = () => ({}),
 }) => {
   const { width } = useWindowSize();
   let rows = undefined;
@@ -127,31 +112,14 @@ export const GridSidePaneView = ({
       }}
     >
       <Flex css={{ flex: "1 1 0" }} align="end">
-        {peers &&
-          peers.length > 0 &&
-          (FeatureFlags.enableNewComponents ? (
-            <HmsVideoList
-              showStatsOnTiles={showStatsOnTiles}
-              peers={peers}
-              maxColCount={2}
-              maxRowCount={rows}
-            />
-          ) : (
-            <VideoList
-              peers={peers}
-              classes={{
-                root: "",
-                videoTileContainer: `rounded-lg ${
-                  width <= 768 ? "p-0 mr-2" : ""
-                }`,
-              }}
-              maxColCount={2}
-              maxRowCount={rows}
-              compact={peers.length > 2}
-              // show stats for upto 2 peers in sidepane
-              videoTileProps={videoTileProps}
-            />
-          ))}
+        {peers && peers.length > 0 && (
+          <VideoList
+            showStatsOnTiles={showStatsOnTiles}
+            peers={peers}
+            maxColCount={2}
+            maxRowCount={rows}
+          />
+        )}
       </Flex>
       {isChatOpen && (
         <Flex

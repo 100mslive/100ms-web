@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyledVideoList, getLeft, Pagination } from "@100mslive/react-ui";
 import { useVideoList } from "@100mslive/react-sdk";
-import HmsVideoTile from "./VideoTile";
-import HmsScreenshareTile from "./ScreenshareTile";
+import VideoTile from "./VideoTile";
+import ScreenshareTile from "./ScreenshareTile";
 
-const VideoList = ({
+const List = ({
   maxTileCount,
   peers,
   showStatsOnTiles,
@@ -40,20 +40,20 @@ const VideoList = ({
               >
                 {tiles.map(tile =>
                   tile.track?.source === "screen" ? (
-                    <HmsScreenshareTile
+                    <ScreenshareTile
                       showStatsOnTiles={showStatsOnTiles}
                       key={tile.track.id}
                       width={tile.width}
                       height={tile.height}
-                      trackId={tile.track.id}
+                      peerId={tile.peer.id}
                     />
                   ) : (
-                    <HmsVideoTile
+                    <VideoTile
                       showStatsOnTiles={showStatsOnTiles}
                       key={tile.track?.id || tile.peer.id}
                       width={tile.width}
                       height={tile.height}
-                      trackId={tile.track?.id}
+                      peerId={tile.peer?.id}
                     />
                   )
                 )}
@@ -72,6 +72,6 @@ const VideoList = ({
   );
 };
 
-const HmsVideoList = React.memo(VideoList);
+const VideoList = React.memo(List);
 
-export default HmsVideoList;
+export default VideoList;

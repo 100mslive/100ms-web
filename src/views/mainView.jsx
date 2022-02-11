@@ -76,10 +76,6 @@ export const ConferenceMainView = ({
         role={localPeer.roleName}
         showStats={showStatsOnTiles}
         isParticipantListOpen={isParticipantListOpen}
-        videoTileProps={(peer, track) => ({
-          ...videoTileProps(peer, track),
-          showStats: showStatsOnTiles,
-        })}
       />
     )
   );
