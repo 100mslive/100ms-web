@@ -108,6 +108,11 @@ export function EdtechComponent({
         appBuilder={{
           aspectRatio: { width, height },
         }}
+        theme={{
+          colors: {
+            brandDefault: color,
+          },
+        }}
       >
         <ReactRoomProvider
           actions={hmsReactiveStore.getActions()}
