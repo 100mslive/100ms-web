@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { usePreview, selectLocalPeer, useHMSStore } from "@100mslive/react-sdk";
+import {
+  usePreview,
+  selectLocalPeer,
+  useHMSStore,
+  selectIsLocalVideoEnabled,
+} from "@100mslive/react-sdk";
 import {
   Loading,
   Preview as StyledPreview,
@@ -9,6 +14,7 @@ import {
   Text,
   Input,
   Flex,
+  Avatar,
 } from "@100mslive/react-ui";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
 import { USERNAME_KEY } from "../../common/constants";
@@ -27,7 +33,7 @@ const Preview = ({ token, join, env }) => {
   return (
     <StyledPreview.Container>
       {localPeer ? (
-        <PreviewTile trackId={localPeer.videoTrack} />
+        <PreviewTile name={name} trackId={localPeer.videoTrack} />
       ) : (
         <>
           <StyledVideoTile.Container css={{ width: 360, height: 360 }}>
@@ -65,10 +71,12 @@ const Preview = ({ token, join, env }) => {
   );
 };
 
-const PreviewTile = ({ trackId }) => {
+const PreviewTile = ({ trackId, name }) => {
+  const isVideoOn = useHMSStore(selectIsLocalVideoEnabled);
   return (
     <StyledVideoTile.Container css={{ width: 360, height: 360 }}>
       <Video mirror={true} trackId={trackId} />
+      {!isVideoOn ? <Avatar size="sm" name={name} /> : null}
       <StyledPreview.BottomOverlay />
       <StyledPreview.Controls>
         <AudioVideoToggle />
