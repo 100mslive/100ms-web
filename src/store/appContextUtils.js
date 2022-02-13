@@ -10,8 +10,6 @@ export const convertLoginInfoToJoinConfig = loginInfo => {
       ? `https://${loginInfo.env.split("-")[0]}-init.100ms.live/init`
       : "https://prod-init.100ms.live/init",
     settings: {
-      isAudioMuted: loginInfo.audioMuted,
-      isVideoMuted: loginInfo.videoMuted,
       audioInputDeviceId: loginInfo.selectedAudioInput,
       audioOutputDeviceId: loginInfo.selectedAudioOutput,
       videoDeviceId: loginInfo.selectedVideoInput,

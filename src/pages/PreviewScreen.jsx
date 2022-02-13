@@ -1,22 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
-import {
-  Button,
-  MessageModal,
-  Preview,
-  ProgressIcon,
-} from "@100mslive/hms-video-react";
+import { Button, MessageModal } from "@100mslive/hms-video-react";
 import { v4 } from "uuid";
 import { AppContext } from "../store/AppContext";
 import getToken from "../services/tokenService";
-import { convertLoginInfoToJoinConfig } from "../store/appContextUtils";
-import { USERNAME_KEY } from "../common/constants";
 import PeerlistPreview from "../views/components/PeerlistPreview";
+
+import Preview from "../views/new/Preview";
+import { Loading } from "@100mslive/react-ui";
 
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo, setLoginInfo, setMaxTileCount, tokenEndpoint } = context;
+  const { loginInfo, setLoginInfo, tokenEndpoint } = context;
   const { roomId: urlRoomId, role: userRole } = useParams();
   const location = useLocation();
   const [token, setToken] = useState(null);
@@ -28,8 +24,6 @@ const PreviewScreen = ({ getUserToken }) => {
   });
   const urlSearchParams = new URLSearchParams(location.search);
   const skipPreview = urlSearchParams.get("token") === "beam_recording";
-
-  const usernameFromStorage = localStorage.getItem(USERNAME_KEY);
 
   const tokenErrorBody = errorMessage => (
     <div>
@@ -57,7 +51,7 @@ const PreviewScreen = ({ getUserToken }) => {
 
   useEffect(() => {
     if (skipPreview) {
-      join({ audioMuted: true, videoMuted: true, name: "beam" });
+      join({ name: "beam" });
       return;
     }
     if (!userRole) {
@@ -125,14 +119,12 @@ const PreviewScreen = ({ getUserToken }) => {
     skipPreview,
   ]);
 
-  const join = ({ audioMuted, videoMuted, name }) => {
+  const join = name => {
     if (!userRole) {
       getUserToken(name)
         .then(token => {
           setLoginInfo({
             token,
-            audioMuted,
-            videoMuted,
             roomId: urlRoomId,
             username: name,
             isHeadlessMode: skipPreview,
@@ -153,8 +145,6 @@ const PreviewScreen = ({ getUserToken }) => {
         .then(token => {
           setLoginInfo({
             token,
-            audioMuted,
-            videoMuted,
             role: userRole,
             roomId: urlRoomId,
             username: name,
@@ -173,24 +163,6 @@ const PreviewScreen = ({ getUserToken }) => {
           });
         });
     }
-  };
-
-  const onChange = ({
-    selectedVideoInput,
-    selectedAudioInput,
-    selectedAudioOutput,
-    maxTileCount,
-  }) => {
-    setLoginInfo({
-      selectedVideoInput,
-      selectedAudioInput,
-      selectedAudioOutput,
-    });
-    setMaxTileCount(maxTileCount);
-  };
-
-  const goBack = () => {
-    window.location.reload();
   };
 
   const leaveRoom = () => {
@@ -220,22 +192,10 @@ const PreviewScreen = ({ getUserToken }) => {
         {token ? (
           <>
             <PeerlistPreview />
-            <Preview
-              joinOnClick={join}
-              goBackOnClick={goBack}
-              messageOnClose={goBack}
-              onChange={onChange}
-              config={convertLoginInfoToJoinConfig({
-                role: userRole,
-                roomId: urlRoomId,
-                token,
-                env: loginInfo.env,
-                username: usernameFromStorage,
-              })}
-            />
+            <Preview env={loginInfo.env} join={join} token={token} />
           </>
         ) : (
-          <ProgressIcon width="100" height="100" />
+          <Loading size={100} />
         )}
         {error.title && (
           <MessageModal

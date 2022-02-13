@@ -31,8 +31,6 @@ const initialLoginInfo = {
   env: process.env.REACT_APP_ENV
     ? process.env.REACT_APP_ENV + "-in"
     : "prod-in",
-  audioMuted: false,
-  videoMuted: false,
   selectedVideoInput: "default",
   selectedAudioInput: "default",
   selectedAudioOutput: "default",
