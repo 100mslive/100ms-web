@@ -30,6 +30,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const metaData = useHMSStore(selectPeerMetadata(peerId));
+  const isVideoDegraded = track?.degraded;
   const isHandRaised = metaData?.isHandRaised || false;
   const isBRB = metaData?.isBRBOn || false;
   const label = getVideoTileLabel(peer, track);
@@ -52,11 +53,12 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
           <AudioLevel audioTrack={peer?.audioTrack} />
           {track ? (
             <Video
-              mirror={peer?.isLocal && track?.source === "regular"}
               trackId={track?.id}
+              mirror={peer?.isLocal && track?.source === "regular"}
+              degraded={isVideoDegraded}
             />
           ) : null}
-          {isVideoMuted ? (
+          {isVideoMuted || isVideoDegraded ? (
             <Avatar size={getAvatarSize(height)} name={peer?.name || ""} />
           ) : null}
           <StyledVideoTile.Info>{label}</StyledVideoTile.Info>
