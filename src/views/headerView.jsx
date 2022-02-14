@@ -70,7 +70,7 @@ const Music = () => {
     <div className="flex items-center">
       <SpeakerIcon />
       <Text css={{ mx: "$3" }}>Music is playing</Text>
-      <Text onClick={handleMute} css={{ color: "$redMain", cursor: "pointer" }}>
+      <Text onClick={handleMute} css={{ color: "$error", cursor: "pointer" }}>
         {muted ? "Unmute" : "Mute"}
       </Text>
     </div>
