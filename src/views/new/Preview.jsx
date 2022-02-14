@@ -80,6 +80,10 @@ const PreviewTile = ({ trackId, name }) => {
     <StyledVideoTile.Container css={{ width: 360, height: 360 }}>
       <Video mirror={true} trackId={trackId} />
       {!isVideoOn ? <Avatar size="sm" name={name} /> : null}
+      <StyledPreview.BottomOverlay />
+      <StyledPreview.Controls>
+        <AudioVideoToggle />
+      </StyledPreview.Controls>
       <Settings>
         <StyledPreview.Setting>
           <IconButton>
@@ -87,10 +91,6 @@ const PreviewTile = ({ trackId, name }) => {
           </IconButton>
         </StyledPreview.Setting>
       </Settings>
-      <StyledPreview.BottomOverlay />
-      <StyledPreview.Controls>
-        <AudioVideoToggle />
-      </StyledPreview.Controls>
     </StyledVideoTile.Container>
   );
 };
