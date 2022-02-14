@@ -15,9 +15,12 @@ import {
   Input,
   Flex,
   Avatar,
+  IconButton,
 } from "@100mslive/react-ui";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
 import { USERNAME_KEY } from "../../common/constants";
+import { SettingIcon } from "@100mslive/react-icons";
+import Settings from "./Settings";
 
 const Preview = ({ token, join, env }) => {
   const [name, setName] = useState(localStorage.getItem(USERNAME_KEY) || "");
@@ -77,6 +80,13 @@ const PreviewTile = ({ trackId, name }) => {
     <StyledVideoTile.Container css={{ width: 360, height: 360 }}>
       <Video mirror={true} trackId={trackId} />
       {!isVideoOn ? <Avatar size="sm" name={name} /> : null}
+      <Settings>
+        <StyledPreview.Setting>
+          <IconButton>
+            <SettingIcon />
+          </IconButton>
+        </StyledPreview.Setting>
+      </Settings>
       <StyledPreview.BottomOverlay />
       <StyledPreview.Controls>
         <AudioVideoToggle />
