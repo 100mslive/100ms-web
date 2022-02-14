@@ -1,24 +1,26 @@
 import {
   Header,
   ParticipantList,
-  useHMSStore,
   LogoButton,
+  GlobeIcon,
+} from "@100mslive/hms-video-react";
+import { useCallback, useContext } from "react";
+import { SpeakerIcon, RecordIcon } from "@100mslive/react-icons";
+import { Text } from "@100mslive/react-ui";
+import {
+  useHMSActions,
+  useHMSStore,
   selectDominantSpeaker,
   selectPeerSharingAudio,
   selectScreenShareAudioByPeerID,
   selectPeerSharingAudioPlaylist,
   selectAudioPlaylistTrackByPeerID,
-  GlobeIcon,
   selectRecordingState,
   selectRTMPState,
   selectAudioPlaylist,
   selectHLSState,
   selectLocalPeer,
-} from "@100mslive/hms-video-react";
-import { useContext } from "react";
-import { SpeakerIcon, RecordIcon } from "@100mslive/react-icons";
-import { Text } from "@100mslive/react-ui";
-import { useHMSActions } from "@100mslive/react-sdk";
+} from "@100mslive/react-sdk";
 import PIPComponent from "./PIP/PIPComponent";
 import { AppContext } from "../store/AppContext";
 import { metadataProps as participantInListProps } from "../common/utils";
@@ -110,7 +112,7 @@ const PlaylistMusic = () => {
           variant="body"
           onClick={async () => {
             if (selection.playing) {
-              hmsActions.audioPlaylist.pause();
+              await hmsActions.audioPlaylist.pause();
             } else {
               await hmsActions.audioPlaylist.play(selection.id);
             }
@@ -138,34 +140,43 @@ const StreamingRecording = () => {
   const recording = useHMSStore(selectRecordingState);
   const rtmp = useHMSStore(selectRTMPState);
   const hls = useHMSStore(selectHLSState);
-
-  if (
-    !recording.browser.running &&
-    !recording.server.running &&
-    !hls.running &&
-    !rtmp.running
-  ) {
-    return null;
-  }
-
-  const isRecordingOn = recording.browser.running || recording.server.running;
+  const isRecordingOn =
+    recording.browser.running ||
+    recording.server.running ||
+    recording.hls.running;
   const isStreamingOn = hls.running || rtmp.running;
-  const getRecordingText = () => {
+
+  const getRecordingText = useCallback(() => {
     if (!isRecordingOn) {
       return "";
     }
     let title = "";
     if (recording.browser.running) {
-      title += "Browser Recording: on";
+      title += "Browser";
     }
     if (recording.server.running) {
       if (title) {
-        title += "\n";
+        title += ", ";
       }
-      title += "Server Recording: on";
+      title += "Server";
+    }
+    if (recording.hls.running) {
+      if (title) {
+        title += ", ";
+      }
+      title += "HLS";
     }
     return title;
-  };
+  }, [
+    isRecordingOn,
+    recording.browser.running,
+    recording.hls.running,
+    recording.server.running,
+  ]);
+
+  if (!isRecordingOn && !isStreamingOn) {
+    return null;
+  }
 
   const getStreamingText = () => {
     if (isStreamingOn) {
