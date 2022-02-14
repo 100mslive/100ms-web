@@ -112,6 +112,9 @@ export function EdtechComponent({
           colors: {
             brandDefault: color,
           },
+          fonts: {
+            sans: [font, "Inter", "sans-serif"],
+          },
         }}
       >
         <ReactRoomProvider
