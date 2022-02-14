@@ -24,7 +24,7 @@ export const convertLoginInfoToJoinConfig = loginInfo => {
 };
 
 const logRocketKey = process.env.REACT_APP_LOGROCKET_ID;
-let logRocketSessionUrl;
+let logRocketInitialised;
 export const setUpLogRocket = ({ localPeer, roomId, sessionId }) => {
   LogRocket.identify(localPeer.id, {
     name: localPeer.name,
@@ -35,7 +35,11 @@ export const setUpLogRocket = ({ localPeer, roomId, sessionId }) => {
   });
   LogRocket.getSessionURL(url => {
     window.logrocketURL = url;
-    logRocketSessionUrl = url;
+    console.debug("logrocket url - ", url);
+    if (!logRocketInitialised) {
+      LogRocketRecording.syncStyles();
+      logRocketInitialised = true;
+    }
   });
 };
 
@@ -44,7 +48,8 @@ export const setUpLogRocket = ({ localPeer, roomId, sessionId }) => {
 // https://github.com/modulz/stitches/issues/873
 // https://gist.github.com/oeduardoal/499923b72422e4222c5073ba2a708ad1
 const LogRocketRecording = {
-  conditions: () => logRocketKey && logRocketSessionUrl,
+  conditions: () => logRocketKey && logRocketInitialised,
+  syncStyles: () => {},
   run: () => {
     if (typeof window === "undefined") return;
     const syncStylesNode = document.createElement("style");
@@ -86,6 +91,7 @@ const LogRocketRecording = {
       syncStylesTimeout && clearTimeout(syncStylesTimeout);
       syncStylesTimeout = setTimeout(updateStyles, 1000);
     };
+    LogRocketRecording.syncStyles = debouncedSyncLogRocketStyles;
 
     // proxy insertRule to update styles in DOM manually which logrocket can capture.
     const originalInsertRule = CSSStyleSheet.prototype.insertRule;
