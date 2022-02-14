@@ -23,14 +23,82 @@ export const convertLoginInfoToJoinConfig = loginInfo => {
   return joinConfig;
 };
 
-export const setUpLogRocket = (loginInfo, localPeer) => {
+const logRocketKey = process.env.REACT_APP_LOGROCKET_ID;
+let logRocketSessionUrl;
+export const setUpLogRocket = ({ localPeer, roomId, sessionId }) => {
   LogRocket.identify(localPeer.id, {
-    name: loginInfo.username,
-    role: loginInfo.role,
-    token: loginInfo.token,
-    roomID: loginInfo.roomID,
+    name: localPeer.name,
+    email: roomId,
+    role: localPeer.roleName,
+    roomId,
+    sessionId,
+  });
+  LogRocket.getSessionURL(url => {
+    window.logrocketURL = url;
+    logRocketSessionUrl = url;
   });
 };
+
+// LogRocket recording fix which breaks due to use of insertRule, as css inserted by insertrule is not
+// captured by LogRocket which only relies on Mutation Observers for DOM.
+// https://github.com/modulz/stitches/issues/873
+// https://gist.github.com/oeduardoal/499923b72422e4222c5073ba2a708ad1
+const LogRocketRecording = {
+  conditions: () => logRocketKey && logRocketSessionUrl,
+  run: () => {
+    if (typeof window === "undefined") return;
+    const syncStylesNode = document.createElement("style");
+    // identify our style node tag so we can ignore it to avoid recursive loop later
+    syncStylesNode.dataset.lrWorkaround = "true";
+    document.head.insertBefore(syncStylesNode, document.head.children[0]);
+
+    // start styles sync
+    const updateStyles = () => {
+      const styleNodes = Array.from(document.querySelectorAll("head style"));
+
+      if (!styleNodes.length) return; // no stylesheet
+      const start = performance.now();
+      syncStylesNode.textContent = styleNodes
+        .reduce((aggregation, newNode) => {
+          // ignore the target style node
+          if (newNode.dataset.lrWorkaround) return aggregation;
+
+          if (!newNode.sheet) return aggregation;
+          const stitchesPrefix = "hms-ui"; // given while using createStitches
+          const rulesString = Array.from(newNode.sheet.cssRules)
+            .reduce((previousRuleValue, rule) => {
+              if (!rule.cssText.includes(stitchesPrefix))
+                return previousRuleValue;
+              return previousRuleValue.concat(rule.cssText);
+            }, [])
+            .join(" ");
+
+          return aggregation.concat(rulesString);
+        }, [])
+        .join(" ");
+      console.debug(
+        `syncing stylesheets took ${(performance.now() - start).toFixed(2)}ms`
+      );
+    };
+
+    let syncStylesTimeout;
+    const debouncedSyncLogRocketStyles = () => {
+      syncStylesTimeout && clearTimeout(syncStylesTimeout);
+      syncStylesTimeout = setTimeout(updateStyles, 1000);
+    };
+
+    // proxy insertRule to update styles in DOM manually which logrocket can capture.
+    const originalInsertRule = CSSStyleSheet.prototype.insertRule;
+    CSSStyleSheet.prototype.insertRule = function (style, index) {
+      originalInsertRule.call(this, style, index);
+      if (LogRocketRecording.conditions()) {
+        debouncedSyncLogRocketStyles();
+      }
+    };
+  },
+};
+
+LogRocketRecording.run();
 
 // interface RoleConfig {
 //   center?: HMSRoleName[];
