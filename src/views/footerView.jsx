@@ -5,7 +5,6 @@ import {
   AudioPlaylist,
   Button,
   VideoPlaylistIcon,
-  VerticalDivider,
   MessageModal,
   useHMSActions,
   selectIsLocalScreenShared,
@@ -21,7 +20,7 @@ import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";
 import { useMyMetadata } from "./hooks/useMetadata";
-import { Box, IconButton, Tooltip } from "@100mslive/react-ui";
+import { Box, IconButton, Tooltip, VerticalDivider } from "@100mslive/react-ui";
 import {
   HandIcon,
   ShareScreenIcon,
