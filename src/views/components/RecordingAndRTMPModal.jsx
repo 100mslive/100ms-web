@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { Button, MessageModal, Text } from "@100mslive/hms-video-react";
+import { hmsToast } from "./notifications/hms-toast";
 import {
-  Button,
-  MessageModal,
   selectHLSState,
   selectRecordingState,
   selectRTMPState,
-  Text,
   useHMSStore,
   useHMSActions,
-} from "@100mslive/hms-video-react";
-import { hmsToast } from "./notifications/hms-toast";
+} from "@100mslive/react-sdk";
 
 const defaultClasses = {
   iconContainer: "focus:outline-none mr-3 hover:bg-gray-200 p-2 rounded-lg",
@@ -57,16 +55,21 @@ export const RecordingAndRTMPModal = ({
 
   const getText = useCallback(() => {
     let text = "";
-    if (rtmp.running) {
+    if (rtmp.running || hls.running) {
       text += "Streaming";
     }
-    if (recording.browser.running) {
+    if (recording.browser.running || recording.hls.running) {
       if (text) text += "/";
       text += "Recording";
     }
     text += " is running";
     return text;
-  }, [recording.browser.running, rtmp.running]);
+  }, [
+    recording.browser.running,
+    recording.hls.running,
+    rtmp.running,
+    hls.running,
+  ]);
 
   const startStopRTMPRecordingHLS = async action => {
     try {
@@ -107,7 +110,9 @@ export const RecordingAndRTMPModal = ({
           meetingURL={meetingURL}
           rtmpURL={rtmpURL}
           isRecordingOn={isRecordingOn}
-          isRecordingRunning={recording.browser.running}
+          isRecordingRunning={
+            recording.browser.running || recording.hls.running
+          }
           isRTMPRunning={rtmp.running}
           setIsRecordingOn={setIsRecordingOn}
           setMeetingURL={setMeetingURL}
@@ -120,7 +125,7 @@ export const RecordingAndRTMPModal = ({
       }
       footer={
         <>
-          {(recording.browser.running || rtmp.running) && (
+          {(recording.browser.running || rtmp.running || hls.running) && (
             <Text
               variant="body"
               size="md"
@@ -138,7 +143,7 @@ export const RecordingAndRTMPModal = ({
                 !recording.browser.running && !rtmp.running && !hls.running
               }
             >
-              {isHlsOn || hls.running ? `Stop HLS` : `Stop All`}
+              Stop
             </Button>
             <Button
               variant="emphasized"

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { StyledVideoList, getLeft, Pagination } from "@100mslive/react-ui";
+import {
+  StyledVideoList,
+  getLeft,
+  Pagination,
+  useTheme,
+} from "@100mslive/react-ui";
 import { useVideoList } from "@100mslive/react-sdk";
 import VideoTile from "./VideoTile";
 import ScreenshareTile from "./ScreenshareTile";
@@ -12,12 +17,16 @@ const List = ({
   maxRowCount,
   includeScreenShareForPeer,
 }) => {
+  const {
+    appBuilder: { aspectRatio },
+  } = useTheme();
   const { ref, pagesWithTiles } = useVideoList({
     peers,
     maxTileCount,
     maxColCount,
     maxRowCount,
     includeScreenShareForPeer,
+    aspectRatio,
   });
   const [page, setPage] = useState(0);
   useEffect(() => {

@@ -5,7 +5,8 @@ import {
   selectLocalPeer,
   selectAvailableRoleNames,
   selectRolesMap,
-} from "@100mslive/hms-video-react";
+  selectSessionId,
+} from "@100mslive/react-sdk";
 import { FeatureFlagsInit } from "./FeatureFlags";
 import {
   convertLoginInfoToJoinConfig,
@@ -71,7 +72,6 @@ const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
   : defaultUiSettings;
 
 const AppContextProvider = ({
-  roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
   policyConfig = envPolicyConfig,
   audioPlaylist = envAudioPlaylist,
@@ -83,11 +83,11 @@ const AppContextProvider = ({
   const localPeer = useHMSStore(selectLocalPeer);
   const roleNames = useHMSStore(selectAvailableRoleNames);
   const rolesMap = useHMSStore(selectRolesMap);
+  const sessionId = useHMSStore(selectSessionId);
   const appPolicyConfig = useMemo(
     () => normalizeAppPolicyConfig(roleNames, rolesMap, policyConfig),
     [roleNames, policyConfig, rolesMap]
   );
-  initialLoginInfo.roomId = roomId;
 
   const [state, setState] = useState({
     loginInfo: initialLoginInfo,
@@ -146,9 +146,16 @@ const AppContextProvider = ({
   }, [state.loginInfo.token]); // to avoid calling join again, call it only when token is changed
 
   useEffect(() => {
-    localPeer && setUpLogRocket(state.loginInfo, localPeer);
+    localPeer &&
+      setUpLogRocket({ localPeer, sessionId, roomId: state.loginInfo.roomId });
     // eslint-disable-next-line
-  }, [localPeer?.id]);
+  }, [
+    localPeer?.id,
+    localPeer?.name,
+    localPeer?.roleName,
+    state.loginInfo.roomId,
+    sessionId,
+  ]);
 
   useEffect(() => {
     localPeer && deepSetAppPolicyConfig(appPolicyConfig[localPeer.roleName]);

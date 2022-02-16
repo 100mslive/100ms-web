@@ -111,6 +111,12 @@ export function EdtechComponent({
         theme={{
           colors: {
             brandDefault: color,
+            brandDark: shadeColor(color, -30),
+            brandLight: shadeColor(color, 30),
+            brandDisabled: shadeColor(color, 10),
+          },
+          fonts: {
+            sans: [font, "Inter", "sans-serif"],
           },
         }}
       >

@@ -33,7 +33,7 @@ export const InitErrorModal = ({ notification }) => {
         onPointerDownOutside={e => e.preventDefault()}
         close={info.title !== "Invalid Role"}
       >
-        <Text variant="body" css={{ wordBreak: "break-all" }}>
+        <Text variant="sm" css={{ wordBreak: "break-all" }}>
           {info.description}
           <br />
           {window.location.href}
