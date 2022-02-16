@@ -1,11 +1,21 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDevices, DeviceType } from "@100mslive/react-sdk";
-import { Dialog, Select, Button, Flex } from "@100mslive/react-ui";
+import { Dialog, Select, Button, Flex, Text } from "@100mslive/react-ui";
 import { AudioLevelIcon } from "@100mslive/react-icons";
 
 const Box = ({ children }) => {
   return (
-    <Flex align="center" justify="between" css={{ margin: "1.5rem 0" }}>
+    <Flex
+      align="center"
+      justify="between"
+      css={{
+        margin: "1.5rem 0",
+        "@sm": {
+          flexDirection: "column",
+          alignItems: "flex-start",
+        },
+      }}
+    >
       {children}
     </Flex>
   );
@@ -17,8 +27,16 @@ const Settings = ({ children }) => {
   return (
     <Dialog>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
-      <Dialog.Content title="Settings">
-        {videoInput ? (
+      <Dialog.Content
+        title="Settings"
+        css={{
+          width: "500px",
+          "@sm": {
+            width: "95%",
+          },
+        }}
+      >
+        {videoInput.length > 0 ? (
           <Box>
             <span>Video:</span>
             <Select
@@ -38,7 +56,7 @@ const Settings = ({ children }) => {
             </Select>
           </Box>
         ) : null}
-        {audioInput ? (
+        {audioInput.length > 0 ? (
           <Box>
             <span>Microphone:</span>
             <Select
@@ -58,7 +76,7 @@ const Settings = ({ children }) => {
             </Select>
           </Box>
         ) : null}
-        {audioOutput ? (
+        {audioOutput.length > 0 ? (
           <Box>
             <span>Speaker:</span>
             <Select
@@ -77,6 +95,13 @@ const Settings = ({ children }) => {
               ))}
             </Select>
           </Box>
+        ) : null}
+        {!videoInput.length > 0 && !audioInput.length > 0 ? (
+          <Text css={{ my: "2rem" }}>
+            100ms needs your permission to access your camera/microphone so
+            others can see/hear you. Please go to your browser's settings to
+            grant 100ms access.
+          </Text>
         ) : null}
         {audioOutput ? (
           <Box>
