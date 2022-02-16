@@ -1,7 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDevices, DeviceType } from "@100mslive/react-sdk";
-import { Dialog, Select, styled, Button } from "@100mslive/react-ui";
+import { Dialog, Select, Button, Flex } from "@100mslive/react-ui";
 import { AudioLevelIcon } from "@100mslive/react-icons";
+
+const Box = ({ children }) => {
+  return (
+    <Flex align="center" justify="between" css={{ margin: "1.5rem 0" }}>
+      {children}
+    </Flex>
+  );
+};
 
 const Settings = ({ children }) => {
   const { allDevices, selectedDeviceIDs, updateDevice } = useDevices();
@@ -82,13 +90,6 @@ const Settings = ({ children }) => {
 };
 
 export default Settings;
-
-const Box = styled("div", {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  margin: "1rem 0",
-});
 
 const TEST_AUDIO_URL = "https://100ms.live/test-audio.wav";
 

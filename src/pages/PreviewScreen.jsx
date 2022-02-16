@@ -1,13 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
-import { Button, MessageModal } from "@100mslive/hms-video-react";
+import { MessageModal } from "@100mslive/hms-video-react";
+import { Loading, Button } from "@100mslive/react-ui";
 import { v4 } from "uuid";
 import { AppContext } from "../store/AppContext";
-import getToken from "../services/tokenService";
 import PeerlistPreview from "../views/components/PeerlistPreview";
-
 import Preview from "../views/new/Preview";
-import { Loading } from "@100mslive/react-ui";
+import getToken from "../services/tokenService";
 
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
