@@ -67,14 +67,8 @@ const Music = () => {
   return (
     <div className="flex items-center">
       <SpeakerIcon />
-      <Text variant="body" css={{ mx: "$1" }}>
-        Music is playing
-      </Text>
-      <Text
-        variant="body"
-        onClick={handleMute}
-        css={{ color: "$redMain", cursor: "pointer" }}
-      >
+      <Text css={{ mx: "$3" }}>Music is playing</Text>
+      <Text onClick={handleMute} css={{ color: "$redMain", cursor: "pointer" }}>
         {muted ? "Unmute" : "Mute"}
       </Text>
     </div>
@@ -102,12 +96,9 @@ const PlaylistMusic = () => {
   return (
     <div className="flex items-center">
       <SpeakerIcon />
-      <Text variant="body" css={{ mx: "$1" }}>
-        Playlist is playing
-      </Text>
+      <Text css={{ mx: "$3" }}>Playlist is playing</Text>
       {peer.isLocal ? (
         <Text
-          variant="body"
           onClick={async () => {
             if (selection.playing) {
               hmsActions.audioPlaylist.pause();
@@ -115,7 +106,7 @@ const PlaylistMusic = () => {
               await hmsActions.audioPlaylist.play(selection.id);
             }
           }}
-          css={{ color: "$redMain", cursor: "pointer" }}
+          css={{ color: "$error", cursor: "pointer" }}
         >
           {selection.playing ? "Pause" : "Play"}
         </Text>
@@ -125,7 +116,7 @@ const PlaylistMusic = () => {
           onClick={() => {
             hmsActions.setVolume(!track.volume ? 100 : 0, track.id);
           }}
-          css={{ color: "$redMain", cursor: "pointer" }}
+          css={{ color: "$error", cursor: "pointer" }}
         >
           {track.volume === 0 ? "Unmute" : "Mute"}
         </Text>
@@ -182,17 +173,13 @@ const StreamingRecording = () => {
             width="20"
             height="20"
           />
-          <Text variant="body" css={{ mx: "$1" }}>
-            Recording
-          </Text>
+          <Text css={{ mx: "$3" }}>Recording</Text>
         </div>
       )}
       {isStreamingOn && (
         <div className="flex items-center mx-2" title={getStreamingText()}>
           <GlobeIcon className="fill-current text-red-600" />
-          <Text variant="body" css={{ mx: "$1" }}>
-            Streaming
-          </Text>
+          <Text css={{ mx: "$1" }}>Streaming</Text>
         </div>
       )}
     </div>

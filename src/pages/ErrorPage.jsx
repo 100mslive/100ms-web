@@ -10,7 +10,11 @@ function ErrorPage({ error }) {
     <Flex
       align="center"
       justify="center"
-      css={{ size: "100%", color: "$fg", backgroundColor: "$bg" }}
+      css={{
+        size: "100%",
+        color: "$textPrimary",
+        backgroundColor: "$bgPrimary",
+      }}
     >
       <Box css={{ position: "relative", overflow: "hidden", r: "$3" }}>
         <img
@@ -22,8 +26,8 @@ function ErrorPage({ error }) {
           direction="column"
           css={{ position: "absolute", size: "100%", top: "33.33%", left: 0 }}
         >
-          <Text css={{ fontSize: "2.25rem", lineHeight: "2.5rem" }}>404</Text>
-          <Text variant="heading-md" css={{ mt: "1.75rem" }}>
+          <Text variant="h1">404</Text>
+          <Text variant="h4" css={{ mt: "1.75rem" }}>
             {error}
           </Text>
         </Flex>

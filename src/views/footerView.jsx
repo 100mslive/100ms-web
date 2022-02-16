@@ -154,7 +154,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
   leftComponents.push(
     <Tooltip title={`${isBRBOn ? `I'm back` : `I'll be right back`}`} key="brb">
       <IconButton
-        css={{ mx: "$2", "@md": { display: "none" } }}
+        css={{ mx: "$4", "@md": { display: "none" } }}
         onClick={toggleBRB}
         active={!isBRBOn}
       >
@@ -181,7 +181,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
               <IconButton
                 active={!isScreenShared}
                 onClick={() => toggleScreenShare(!isScreenShared)}
-                css={{ mx: "$2", "@md": { display: "none" } }}
+                css={{ mx: "$4", "@md": { display: "none" } }}
               >
                 <ShareScreenIcon />
               </IconButton>
