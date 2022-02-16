@@ -8,7 +8,7 @@ import {
 import { Tooltip, IconButton } from "@100mslive/react-ui";
 import { useAVToggle } from "@100mslive/react-sdk";
 
-export const AudioVideoToggle = () => {
+export const AudioVideoToggle = ({ compact = false }) => {
   const { isLocalVideoEnabled, isLocalAudioEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
   return (
@@ -16,7 +16,7 @@ export const AudioVideoToggle = () => {
       {toggleAudio ? (
         <Tooltip title={`Turn ${isLocalAudioEnabled ? "off" : "on"} audio`}>
           <IconButton
-            className="mr-2"
+            css={{ mr: `${compact ? "$2" : "$4"}` }}
             active={isLocalAudioEnabled}
             onClick={toggleAudio}
             key="toggleAudio"
@@ -28,7 +28,7 @@ export const AudioVideoToggle = () => {
       {toggleVideo ? (
         <Tooltip title={`Turn ${isLocalVideoEnabled ? "off" : "on"} video`}>
           <IconButton
-            className="mx-2"
+            css={compact ? { ml: "$2" } : { mx: "$4" }}
             key="toggleVideo"
             active={isLocalVideoEnabled}
             onClick={toggleVideo}

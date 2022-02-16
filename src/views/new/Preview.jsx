@@ -45,7 +45,7 @@ const Preview = ({ token, join, env }) => {
         </>
       )}
       <Flex direction="column" align="center">
-        <Text css={{ my: "1rem" }} variant="heading-lg">
+        <Text css={{ my: "1rem" }} variant="h5">
           Hi There
         </Text>
         <Text css={{ mb: "1rem" }}>What's your name?</Text>
@@ -59,6 +59,11 @@ const Preview = ({ token, join, env }) => {
           }}
         >
           <Input
+            css={{
+              "@sm": {
+                width: "100%",
+              },
+            }}
             variant="compact"
             required
             maxLength={20}
@@ -77,12 +82,20 @@ const Preview = ({ token, join, env }) => {
 const PreviewTile = ({ trackId, name }) => {
   const isVideoOn = useHMSStore(selectIsLocalVideoEnabled);
   return (
-    <StyledVideoTile.Container css={{ width: 360, height: 360 }}>
+    <StyledVideoTile.Container
+      css={{
+        width: 360,
+        height: 360,
+        "@sm": {
+          width: "95%",
+        },
+      }}
+    >
       <Video mirror={true} trackId={trackId} />
       {!isVideoOn ? <Avatar size="sm" name={name} /> : null}
       <StyledPreview.BottomOverlay />
       <StyledPreview.Controls>
-        <AudioVideoToggle />
+        <AudioVideoToggle compact />
       </StyledPreview.Controls>
       <Settings>
         <StyledPreview.Setting>
