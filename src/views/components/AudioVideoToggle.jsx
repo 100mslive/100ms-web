@@ -16,7 +16,7 @@ export const AudioVideoToggle = ({ compact = false }) => {
       {toggleAudio ? (
         <Tooltip title={`Turn ${isLocalAudioEnabled ? "off" : "on"} audio`}>
           <IconButton
-            css={{ mr: `${compact ? "$2" : "$4"}` }}
+            css={{ mr: compact ? "$2" : "$4" }}
             active={isLocalAudioEnabled}
             onClick={toggleAudio}
             key="toggleAudio"
