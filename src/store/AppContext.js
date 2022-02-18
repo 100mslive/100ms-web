@@ -11,7 +11,6 @@ import { normalizeAppPolicyConfig, setUpLogRocket } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
 import {
   UI_SETTINGS_KEY,
-  USERNAME_KEY,
   DEFAULT_HLS_ROLE_KEY,
   DEFAULT_HLS_VIEWER_ROLE,
 } from "../common/constants";
@@ -21,7 +20,6 @@ const AppContext = React.createContext(null);
 
 const initialLoginInfo = {
   token: null,
-  username: "",
   role: "",
   roomId: "",
   env: process.env.REACT_APP_ENV
@@ -109,12 +107,6 @@ const AppContextProvider = ({
     state.showStatsOnTiles,
     state.enableAmbientMusic,
   ]);
-
-  useEffect(() => {
-    if (state.loginInfo.username) {
-      localStorage.setItem(USERNAME_KEY, state.loginInfo.username);
-    }
-  }, [state.loginInfo.username]);
 
   useEffect(() => {
     function resetHeight() {

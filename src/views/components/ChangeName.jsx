@@ -16,8 +16,11 @@ import {
 } from "@100mslive/react-sdk";
 import { Switch } from "@100mslive/react-ui";
 import { hmsToast } from "./notifications/hms-toast";
-import { USERNAME_KEY } from "../../common/constants";
 import { AppContext } from "../../store/AppContext";
+import {
+  useUserPreferences,
+  UserPreferencesKeys,
+} from "../hooks/useUserPreferences";
 
 const defaultClasses = {
   formInner: "w-full flex flex-col md:flex-row my-1.5",
@@ -58,6 +61,9 @@ const ChangeNameForm = ({ currentName, setCurrentName, changeName }) => {
 };
 
 export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
+  const [previewPreference, setPreviewPreference] = useUserPreferences(
+    UserPreferencesKeys.PREVIEW
+  );
   const hmsActions = useHMSActions();
   const [currentName, setCurrentName] = useState("");
   const changeName = async () => {
@@ -68,7 +74,10 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
     }
     try {
       await hmsActions.changeName(name);
-      localStorage.setItem(USERNAME_KEY, name);
+      setPreviewPreference({
+        ...(previewPreference || {}),
+        name,
+      });
     } catch (error) {
       console.error("failed to update name", error);
       hmsToast(error.message);
