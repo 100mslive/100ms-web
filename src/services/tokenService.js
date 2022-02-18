@@ -67,21 +67,23 @@ export async function getUserToken(name) {
     subdomain: process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN,
   };
 
-  try {
-    const response = await fetchWithRetry(url, {
-      method: "post",
-      body: JSON.stringify({
-        code: code,
-        user_id: name,
-      }),
-      headers,
-    });
-    const { token } = await response.json();
-    return token;
-  } catch (e) {
-    console.log(e);
-    return null;
+  const response = await fetchWithRetry(url, {
+    method: "post",
+    body: JSON.stringify({
+      code: code,
+      user_id: name,
+    }),
+    headers,
+  });
+
+  if (!response.ok) {
+    let error = new Error("Request failed!");
+    error.response = response;
+    throw error;
   }
+
+  const { token } = await response.json();
+  return token;
 }
 
 export function getBackendEndpoint() {

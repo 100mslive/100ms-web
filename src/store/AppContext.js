@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  useHMSActions,
   useHMSStore,
   selectLocalPeer,
   selectAvailableRoleNames,
@@ -8,11 +7,7 @@ import {
   selectSessionId,
 } from "@100mslive/react-sdk";
 import { FeatureFlagsInit } from "./FeatureFlags";
-import {
-  convertLoginInfoToJoinConfig,
-  normalizeAppPolicyConfig,
-  setUpLogRocket,
-} from "./appContextUtils";
+import { normalizeAppPolicyConfig, setUpLogRocket } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
 import {
   UI_SETTINGS_KEY,
@@ -32,9 +27,6 @@ const initialLoginInfo = {
   env: process.env.REACT_APP_ENV
     ? process.env.REACT_APP_ENV + "-in"
     : "prod-in",
-  selectedVideoInput: "default",
-  selectedAudioInput: "default",
-  selectedAudioOutput: "default",
   isHeadlessMode: false,
 };
 
@@ -79,7 +71,6 @@ const AppContextProvider = ({
   children,
   appDetails,
 }) => {
-  const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
   const roleNames = useHMSStore(selectAvailableRoleNames);
   const rolesMap = useHMSStore(selectRolesMap);
@@ -138,12 +129,6 @@ const AppContextProvider = ({
       window.removeEventListener("resize", resetHeight);
     };
   }, []);
-
-  useEffect(() => {
-    if (!state.loginInfo.token) return;
-    hmsActions.join(convertLoginInfoToJoinConfig(state.loginInfo));
-    // eslint-disable-next-line
-  }, [state.loginInfo.token]); // to avoid calling join again, call it only when token is changed
 
   useEffect(() => {
     localPeer &&

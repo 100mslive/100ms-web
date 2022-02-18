@@ -32,27 +32,40 @@ const defaultPreviewPreference = {
   isVideoMuted: false,
 };
 
-const Preview = ({ token, join, env }) => {
+const Preview = ({
+  token,
+  onJoin,
+  env,
+  skipPreview,
+  setLoginInfo,
+  initialName,
+}) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW,
     defaultPreviewPreference
   );
-  const [name, setName] = useState(previewPreference.name);
+  const [name, setName] = useState(initialName || previewPreference.name);
   const localPeer = useHMSStore(selectLocalPeer);
   const { isLocalAudioEnabled, isLocalVideoEnabled } = useAVToggle();
-  const { enableJoin, preview } = usePreviewJoin({
+  const { enableJoin, preview, join } = usePreviewJoin({
     name,
     token,
     initEndpoint: env
       ? `https://${env.split("-")[0]}-init.100ms.live/init`
       : undefined,
     initialSettings: {
-      isAudioMuted: previewPreference.isAudioMuted,
-      isVideoMuted: previewPreference.isVideoMuted,
+      isAudioMuted: skipPreview ? true : previewPreference.isAudioMuted,
+      isVideoMuted: skipPreview ? true : previewPreference.isVideoMuted,
     },
   });
   React.useEffect(() => {
-    preview();
+    if (token) {
+      if (skipPreview) {
+        savePreferenceAndJoin();
+      } else {
+        preview();
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
   const savePreferenceAndJoin = React.useCallback(() => {
@@ -61,13 +74,15 @@ const Preview = ({ token, join, env }) => {
       isAudioMuted: !isLocalAudioEnabled,
       isVideoMuted: !isLocalVideoEnabled,
     });
-    join(name);
+    join();
+    onJoin && onJoin();
   }, [
     join,
     isLocalAudioEnabled,
     isLocalVideoEnabled,
     name,
     setPreviewPreference,
+    onJoin,
   ]);
   return (
     <StyledPreview.Container>

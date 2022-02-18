@@ -11,7 +11,7 @@ import getToken from "../services/tokenService";
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
   const context = useContext(AppContext);
-  const { loginInfo, setLoginInfo, tokenEndpoint } = context;
+  const { loginInfo, tokenEndpoint, setLoginInfo } = context;
   const { roomId: urlRoomId, role: userRole } = useParams();
   const location = useLocation();
   const [token, setToken] = useState(null);
@@ -24,143 +24,26 @@ const PreviewScreen = ({ getUserToken }) => {
   const urlSearchParams = new URLSearchParams(location.search);
   const skipPreview = urlSearchParams.get("token") === "beam_recording";
 
-  const tokenErrorBody = errorMessage => (
-    <div>
-      {errorMessage} If you think this is a mistake, please create{" "}
-      <a
-        className="text-blue-standard"
-        target="_blank"
-        href="https://github.com/100mslive/100ms-web/issues"
-        rel="noreferrer"
-      >
-        an issue
-      </a>{" "}
-      or reach out over{" "}
-      <a
-        className="text-blue-standard"
-        target="_blank"
-        href="https://discord.com/invite/kGdmszyzq2"
-        rel="noreferrer"
-      >
-        Discord
-      </a>
-      .
-    </div>
-  );
-
   useEffect(() => {
-    if (skipPreview) {
-      join({ name: "beam" });
-      return;
-    }
-    if (!userRole) {
-      getUserToken(v4())
-        .then(token => {
-          setToken(token);
-        })
-        .catch(error => {
-          if (error.response && error.response.status === 404) {
-            setError({
-              title: "Room does not exist",
-              body: tokenErrorBody(
-                "We could not find the room corresponding to this link."
-              ),
-              fatal: true,
-              hideLeave: true,
-            });
-          } else {
-            console.error("Token API Error", error);
-            setError({
-              title: "Error fetching token",
-              body: "An error occurred while fetching token. Please look into logs for more details",
-              fatal: true,
-            });
-          }
-        });
-    } else {
-      getToken(tokenEndpoint, v4(), userRole, urlRoomId)
-        .then(token => {
-          setToken(token);
-        })
-        .catch(error => {
-          if (error.response && error.response.status === 404) {
-            setError({
-              title: "Room does not exist",
-              body: tokenErrorBody(
-                "We could not find the room corresponding to this link."
-              ),
-              fatal: true,
-              hideLeave: true,
-            });
-          } else if (error.response && error.response.status === 403) {
-            setError({
-              title: "Accessing room using this link format is disabled",
-              body: tokenErrorBody(""),
-              fatal: true,
-              hideLeave: true,
-            });
-          } else {
-            setError({
-              title: "Error fetching token",
-              body: "An error occurred while fetching token. Please look into logs for more details",
-              fatal: true,
-            });
-          }
-        });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    loginInfo.env,
-    tokenEndpoint,
-    urlRoomId,
-    getUserToken,
-    userRole,
-    skipPreview,
-  ]);
+    const getTokenFn = !userRole
+      ? () => getUserToken(v4())
+      : () => getToken(tokenEndpoint, v4(), userRole, urlRoomId);
+    getTokenFn()
+      .then(token => {
+        console.log({ token });
+        setToken(token);
+      })
+      .catch(error => {
+        setError(convertError(error));
+      });
+  }, [tokenEndpoint, urlRoomId, getUserToken, userRole]);
 
-  const join = name => {
-    if (!userRole) {
-      getUserToken(name)
-        .then(token => {
-          setLoginInfo({
-            token,
-            roomId: urlRoomId,
-            username: name,
-            isHeadlessMode: skipPreview,
-          });
-          if (userRole) history.push(`/meeting/${urlRoomId}/${userRole}`);
-          else history.push(`/meeting/${urlRoomId}`);
-        })
-        .catch(error => {
-          console.log("Token API Error", error);
-          setError({
-            title: "Unable to join room",
-            body: "Please check your internet connection and try again.",
-            fatal: false,
-          });
-        });
+  const onJoin = () => {
+    setLoginInfo({ isHeadlessMode: skipPreview });
+    if (userRole) {
+      history.push(`/meeting/${urlRoomId}/${userRole}`);
     } else {
-      getToken(tokenEndpoint, name, userRole, urlRoomId)
-        .then(token => {
-          setLoginInfo({
-            token,
-            role: userRole,
-            roomId: urlRoomId,
-            username: name,
-            isHeadlessMode: skipPreview,
-          });
-          // send to meeting room now
-          if (userRole) history.push(`/meeting/${urlRoomId}/${userRole}`);
-          else history.push(`/meeting/${urlRoomId}`);
-        })
-        .catch(error => {
-          console.log("Token API Error", error);
-          setError({
-            title: "Unable to join room",
-            body: "Please check your internet connection and try again.",
-            fatal: false,
-          });
-        });
+      history.push(`/meeting/${urlRoomId}`);
     }
   };
 
@@ -175,6 +58,7 @@ const PreviewScreen = ({ getUserToken }) => {
   const clearError = () => {
     setError({ title: "", body: "", fatal: false });
   };
+
   if (error.title && error.fatal) {
     return (
       <MessageModal
@@ -186,12 +70,42 @@ const PreviewScreen = ({ getUserToken }) => {
     );
   }
   return (
-    <div className="h-full">
-      <div className="flex flex-col justify-center h-full items-center">
+    <>
+      <div className="h-full flex flex-col">
+        <PeerlistPreview />
+        <div className="flex flex-col justify-center h-full items-center">
+          {token ? (
+            <>
+              <Preview
+                initialName={skipPreview ? "Beam" : ""}
+                skipPreview={skipPreview}
+                env={loginInfo.env}
+                onJoin={onJoin}
+                token={token}
+              />
+            </>
+          ) : (
+            <Loading size={100} />
+          )}
+          {error.title && (
+            <MessageModal
+              title={error.title}
+              body={error.body}
+              onClose={clearError}
+              footer={<Button onClick={clearError}>Dismiss</Button>}
+            />
+          )}
+        </div>
+      </div>
+      <div className="flex flex-col justify-center h-full items-center bg-red-400">
         {token ? (
           <>
-            <PeerlistPreview />
-            <Preview env={loginInfo.env} join={join} token={token} />
+            <Preview
+              skipPreview={skipPreview}
+              env={loginInfo.env}
+              onJoin={onJoin}
+              token={token}
+            />
           </>
         ) : (
           <Loading size={100} />
@@ -205,8 +119,60 @@ const PreviewScreen = ({ getUserToken }) => {
           />
         )}
       </div>
-    </div>
+    </>
   );
+};
+
+const tokenErrorBody = errorMessage => (
+  <div>
+    {errorMessage} If you think this is a mistake, please create{" "}
+    <a
+      className="text-blue-standard"
+      target="_blank"
+      href="https://github.com/100mslive/100ms-web/issues"
+      rel="noreferrer"
+    >
+      an issue
+    </a>{" "}
+    or reach out over{" "}
+    <a
+      className="text-blue-standard"
+      target="_blank"
+      href="https://discord.com/invite/kGdmszyzq2"
+      rel="noreferrer"
+    >
+      Discord
+    </a>
+    .
+  </div>
+);
+
+const convertError = error => {
+  console.log("[error]", { error });
+  if (error.response && error.response.status === 404) {
+    return {
+      title: "Room does not exist",
+      body: tokenErrorBody(
+        "We could not find the room corresponding to this link."
+      ),
+      fatal: true,
+      hideLeave: true,
+    };
+  } else if (error.response && error.response.status === 403) {
+    return {
+      title: "Accessing room using this link format is disabled",
+      body: tokenErrorBody(""),
+      fatal: true,
+      hideLeave: true,
+    };
+  } else {
+    console.error("Token API Error", error);
+    return {
+      title: "Error fetching token",
+      body: "An error occurred while fetching token. Please look into logs for more details",
+      fatal: true,
+    };
+  }
 };
 
 export default PreviewScreen;

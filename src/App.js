@@ -170,9 +170,6 @@ function AppRoutes({ getUserToken }) {
     <Router>
       <Notifications />
       <Switch>
-        {/* <Route path="/createRoom">
-              <CreateRoom />
-            </Route> */}
         <Route
           path="/preview/:roomId/:role?"
           render={({ match }) => {
