@@ -35,8 +35,9 @@ export const Conference = () => {
     setIsParticipantListOpen(value);
   }, []);
 
-  const { loginInfo } = context;
-  const isHeadless = loginInfo.isHeadlessMode;
+  const {
+    loginInfo: { isHeadlessMode },
+  } = context;
 
   useEffect(() => {
     if (!roomId) {
@@ -44,9 +45,8 @@ export const Conference = () => {
     }
     if (!isConnectingToRoom || isConnectedToRoom) {
       // redirect to join if token not present
-      if (role)
-        history.push(`/preview/${loginInfo.roomId || roomId || ""}/${role}`);
-      else history.push(`/preview/${loginInfo.roomId || roomId || ""}`);
+      if (role) history.push(`/preview/${roomId || ""}/${role}`);
+      else history.push(`/preview/${roomId || ""}`);
     }
     return () => {
       // This is needed to handle mac touchpad swipe gesture
@@ -61,7 +61,7 @@ export const Conference = () => {
 
   return (
     <Flex css={{ size: "100%" }} direction="column">
-      {!isHeadless && (
+      {!isHeadlessMode && (
         <Box css={{ h: "$18", "@md": { h: "$17" } }}>
           <ConferenceHeader onParticipantListOpen={onParticipantListOpen} />
         </Box>
@@ -73,13 +73,13 @@ export const Conference = () => {
           toggleChat={toggleChat}
         />
       </Box>
-      {!isHeadless && (
+      {!isHeadlessMode && (
         <Box css={{ h: "10%" }}>
           <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
         </Box>
       )}
       <MessageModal
-        show={!!roleChangeRequest && !isHeadless}
+        show={!!roleChangeRequest && !isHeadlessMode}
         onClose={() => hmsActions.rejectChangeRole(roleChangeRequest)}
         title="Role Change Request"
         body={`Role change requested by ${roleChangeRequest?.requestedBy?.name}.

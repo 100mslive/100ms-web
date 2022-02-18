@@ -32,14 +32,7 @@ const defaultPreviewPreference = {
   isVideoMuted: false,
 };
 
-const Preview = ({
-  token,
-  onJoin,
-  env,
-  skipPreview,
-  setLoginInfo,
-  initialName,
-}) => {
+const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW,
     defaultPreviewPreference

@@ -19,8 +19,6 @@ import { getMetadata } from "../common/utils";
 const AppContext = React.createContext(null);
 
 const initialLoginInfo = {
-  token: null,
-  role: "",
   roomId: "",
   env: process.env.REACT_APP_ENV
     ? process.env.REACT_APP_ENV + "-in"

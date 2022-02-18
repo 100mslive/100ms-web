@@ -39,7 +39,10 @@ const PreviewScreen = ({ getUserToken }) => {
   }, [tokenEndpoint, urlRoomId, getUserToken, userRole]);
 
   const onJoin = () => {
-    setLoginInfo({ isHeadlessMode: skipPreview });
+    setLoginInfo({
+      isHeadlessMode: skipPreview,
+      roomId: urlRoomId,
+    });
     if (userRole) {
       history.push(`/meeting/${urlRoomId}/${userRole}`);
     } else {
