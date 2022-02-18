@@ -36,8 +36,8 @@ const List = ({
     }
   }, [pagesWithTiles.length, page]);
   return (
-    <StyledVideoList.Root>
-      <StyledVideoList.Container ref={ref}>
+    <StyledVideoList.Root ref={ref}>
+      <StyledVideoList.Container>
         {pagesWithTiles && pagesWithTiles.length > 0
           ? pagesWithTiles.map((tiles, pageNo) => (
               <StyledVideoList.View
