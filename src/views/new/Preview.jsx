@@ -80,7 +80,7 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
       <PreviewTile name={name} localPeer={localPeer} />
       <Flex direction="column" align="center">
         <Text css={{ my: "1rem" }} variant="h5">
-          Hi There
+          Hi There!
         </Text>
         <Text css={{ mb: "1rem" }}>What's your name?</Text>
         <Flex
@@ -93,19 +93,14 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
           }}
         >
           <Input
-            css={{
-              minHeight: "30px",
-              "@sm": {
-                width: "100%",
-              },
-            }}
-            variant="compact"
+            css={{ mb: "1rem" }}
             required
             maxLength={20}
             value={name}
             onChange={e => setName(e.target.value)}
+            placeholder={"What's your name?"}
           />
-          <Button type="submit" disabled={!enableJoin}>
+          <Button type="submit" disabled={!name || !enableJoin}>
             Join
           </Button>
         </Flex>
