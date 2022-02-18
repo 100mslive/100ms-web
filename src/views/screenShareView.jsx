@@ -9,13 +9,14 @@ import {
   selectScreenShareByPeerID,
 } from "@100mslive/react-sdk";
 import { VideoPlayer, ScreenShareDisplay } from "@100mslive/hms-video-react";
-import { Box, Flex } from "@100mslive/react-ui";
+import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
 import { chatStyle, getBlurClass } from "../common/utils";
 import ScreenshareTile from "./new/ScreenshareTile";
 import VideoList from "./new/VideoList";
 import VideoTile from "./new/VideoTile";
+import { useMedia } from "react-use";
 
 export const ScreenShareView = ({
   showStats,
@@ -23,6 +24,9 @@ export const ScreenShareView = ({
   toggleChat,
   isParticipantListOpen,
 }) => {
+  // for smaller screen we will show sidebar in bottom
+  const mediaQueryLg = cssConfig.media.lg;
+  const showSidebarInBottom = useMedia(mediaQueryLg);
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
@@ -80,6 +84,7 @@ export const ScreenShareView = ({
         }}
       >
         <SidePane
+          showSidebarInBottom={showSidebarInBottom}
           showStats={showStats}
           isChatOpen={isChatOpen}
           toggleChat={toggleChat}
@@ -105,6 +110,7 @@ export const SidePane = ({
   smallTilePeers,
   isParticipantListOpen,
   totalPeers,
+  showSidebarInBottom,
 }) => {
   // The main peer's screenshare is already being shown in center view
   const shouldShowScreenFn = useCallback(
@@ -121,6 +127,7 @@ export const SidePane = ({
         />
       )}
       <SmallTilePeersView
+        showSidebarInBottom={showSidebarInBottom}
         isChatOpen={isChatOpen}
         smallTilePeers={smallTilePeers}
         shouldShowScreenFn={shouldShowScreenFn}
@@ -231,6 +238,7 @@ const SmallTilePeersView = ({
   smallTilePeers,
   shouldShowScreenFn,
   showStatsOnTiles,
+  showSidebarInBottom,
 }) => {
   return (
     <Flex
@@ -241,7 +249,8 @@ const SmallTilePeersView = ({
       {smallTilePeers && smallTilePeers.length > 0 && (
         <VideoList
           peers={smallTilePeers}
-          maxColCount={2}
+          maxColCount={showSidebarInBottom ? undefined : 2}
+          maxRowCount={showSidebarInBottom ? 1 : undefined}
           includeScreenShareForPeer={shouldShowScreenFn}
           showStatsOnTiles={showStatsOnTiles}
         />
