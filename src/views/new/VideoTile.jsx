@@ -59,7 +59,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
             />
           ) : null}
           {isVideoMuted || isVideoDegraded ? (
-            <Avatar size={getAvatarSize(height)} name={peer?.name || ""} />
+            <Avatar name={peer?.name || ""} />
           ) : null}
           <StyledVideoTile.Info>{label}</StyledVideoTile.Info>
           {isAudioMuted ? (
@@ -93,16 +93,3 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
 const VideoTile = React.memo(Tile);
 
 export default VideoTile;
-
-const getAvatarSize = height => {
-  if (height === "100%") {
-    return "sm";
-  }
-  if (height < 200) {
-    return "xs";
-  } else if (height < 500) {
-    return "sm";
-  } else {
-    return "md";
-  }
-};

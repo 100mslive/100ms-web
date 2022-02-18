@@ -124,7 +124,7 @@ const PreviewTile = ({ localPeer, name }) => {
       {localPeer ? (
         <>
           <Video mirror={true} trackId={localPeer.videoTrack} />
-          {!isVideoOn ? <Avatar size="sm" name={name} /> : null}
+          {!isVideoOn ? <Avatar name={name} /> : null}
           <StyledPreview.BottomOverlay />
           <StyledPreview.Controls>
             <AudioVideoToggle compact />

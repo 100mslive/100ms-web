@@ -29,7 +29,6 @@ const PreviewScreen = ({ getUserToken }) => {
       : () => getToken(tokenEndpoint, v4(), userRole, urlRoomId);
     getTokenFn()
       .then(token => {
-        console.log({ token });
         setToken(token);
       })
       .catch(error => {
