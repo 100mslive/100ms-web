@@ -201,10 +201,7 @@ export const ConferenceHeader = ({
   onParticipantListOpen,
   isPreview = false,
 }) => {
-  const {
-    HLS_VIEWER_ROLE,
-    loginInfo: { isHeadless },
-  } = useContext(AppContext);
+  const { HLS_VIEWER_ROLE, isHeadless } = useContext(AppContext);
   const localPeer = useHMSStore(selectLocalPeer);
   const showPip = localPeer?.roleName !== HLS_VIEWER_ROLE && !isPreview;
   return (

@@ -22,9 +22,8 @@ import { InitErrorModal } from "./InitErrorModal";
 export function Notifications() {
   const notification = useHMSNotifications();
   const history = useHistory();
-  const { subscribedNotifications, loginInfo, HLS_VIEWER_ROLE } =
+  const { subscribedNotifications, isHeadless, HLS_VIEWER_ROLE } =
     useContext(AppContext);
-  const isHeadless = loginInfo.isHeadlessMode;
   useEffect(() => {
     if (!notification) {
       return;

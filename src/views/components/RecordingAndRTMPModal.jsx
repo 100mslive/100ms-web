@@ -8,6 +8,7 @@ import {
   useHMSStore,
   useHMSActions,
 } from "@100mslive/react-sdk";
+import { SKIP_PREVIEW } from "../../common/constants";
 
 const defaultClasses = {
   iconContainer: "focus:outline-none mr-3 hover:bg-gray-200 p-2 rounded-lg",
@@ -33,7 +34,7 @@ const defaultClasses = {
 };
 
 const defaultMeetingUrl =
-  window.location.href.replace("meeting", "preview") + "?token=beam_recording";
+  window.location.href.replace("meeting", "preview") + `?${SKIP_PREVIEW}=true`;
 
 export const RecordingAndRTMPModal = ({
   showRecordingAndRTMPModal,

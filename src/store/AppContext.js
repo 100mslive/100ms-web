@@ -10,21 +10,16 @@ import { FeatureFlagsInit } from "./FeatureFlags";
 import { normalizeAppPolicyConfig, setUpLogRocket } from "./appContextUtils";
 import { getBackendEndpoint } from "../services/tokenService";
 import {
-  UI_SETTINGS_KEY,
   DEFAULT_HLS_ROLE_KEY,
   DEFAULT_HLS_VIEWER_ROLE,
 } from "../common/constants";
 import { getMetadata } from "../common/utils";
+import {
+  UserPreferencesKeys,
+  useUserPreferences,
+} from "../views/hooks/useUserPreferences";
 
 const AppContext = React.createContext(null);
-
-const initialLoginInfo = {
-  roomId: "",
-  env: process.env.REACT_APP_ENV
-    ? process.env.REACT_APP_ENV + "-in"
-    : "prod-in",
-  isHeadlessMode: false,
-};
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -55,10 +50,6 @@ const defaultUiSettings = {
   enableAmbientMusic: false,
 };
 
-const uiSettingsFromStorage = localStorage.getItem(UI_SETTINGS_KEY)
-  ? JSON.parse(localStorage.getItem(UI_SETTINGS_KEY))
-  : defaultUiSettings;
-
 const AppContextProvider = ({
   tokenEndpoint = defaultTokenEndpoint,
   policyConfig = envPolicyConfig,
@@ -75,35 +66,36 @@ const AppContextProvider = ({
     () => normalizeAppPolicyConfig(roleNames, rolesMap, policyConfig),
     [roleNames, policyConfig, rolesMap]
   );
+  const [uiSettings, setUISettings] = useUserPreferences(
+    UserPreferencesKeys.UI_SETTINGS,
+    defaultUiSettings
+  );
 
   const [state, setState] = useState({
-    loginInfo: initialLoginInfo,
-    maxTileCount: uiSettingsFromStorage.maxTileCount,
+    isHeadless: false,
+    maxTileCount: uiSettings.maxTileCount,
     localAppPolicyConfig: {},
-    subscribedNotifications:
-      uiSettingsFromStorage.subscribedNotifications || {},
-    uiViewMode: uiSettingsFromStorage.uiViewMode || "grid",
-    showStatsOnTiles: uiSettingsFromStorage.showStatsOnTiles || false,
-    enableAmbientMusic: uiSettingsFromStorage.enableAmbientMusic || false,
+    subscribedNotifications: uiSettings.subscribedNotifications || {},
+    uiViewMode: uiSettings.uiViewMode || "grid",
+    showStatsOnTiles: uiSettings.showStatsOnTiles || false,
+    enableAmbientMusic: uiSettings.enableAmbientMusic || false,
   });
 
   useEffect(() => {
-    localStorage.setItem(
-      UI_SETTINGS_KEY,
-      JSON.stringify({
-        maxTileCount: state.maxTileCount,
-        subscribedNotifications: state.subscribedNotifications,
-        uiViewMode: state.uiViewMode,
-        showStatsOnTiles: state.showStatsOnTiles,
-        enableAmbientMusic: state.enableAmbientMusic,
-      })
-    );
+    setUISettings({
+      maxTileCount: state.maxTileCount,
+      subscribedNotifications: state.subscribedNotifications,
+      uiViewMode: state.uiViewMode,
+      showStatsOnTiles: state.showStatsOnTiles,
+      enableAmbientMusic: state.enableAmbientMusic,
+    });
   }, [
     state.maxTileCount,
     state.subscribedNotifications,
     state.uiViewMode,
     state.showStatsOnTiles,
     state.enableAmbientMusic,
+    setUISettings,
   ]);
 
   useEffect(() => {
@@ -121,30 +113,13 @@ const AppContextProvider = ({
   }, []);
 
   useEffect(() => {
-    localPeer &&
-      setUpLogRocket({ localPeer, sessionId, roomId: state.loginInfo.roomId });
+    localPeer && setUpLogRocket({ localPeer, sessionId });
     // eslint-disable-next-line
-  }, [
-    localPeer?.id,
-    localPeer?.name,
-    localPeer?.roleName,
-    state.loginInfo.roomId,
-    sessionId,
-  ]);
+  }, [localPeer?.id, localPeer?.name, localPeer?.roleName, sessionId]);
 
   useEffect(() => {
     localPeer && deepSetAppPolicyConfig(appPolicyConfig[localPeer.roleName]);
   }, [localPeer, localPeer?.roleName, appPolicyConfig]);
-
-  // deep set with clone so react re renders on any change
-  const deepSetLoginInfo = loginInfo => {
-    const newState = {
-      ...state,
-      loginInfo: { ...state.loginInfo, ...loginInfo },
-    };
-    setState(newState);
-    console.log(newState); // note: component won't reflect changes at time of this log
-  };
 
   const deepSetMaxTiles = maxTiles =>
     setState(prevState => ({ ...prevState, maxTileCount: maxTiles }));
@@ -170,10 +145,12 @@ const AppContextProvider = ({
   const deepSetEnableAmbientMusic = enable =>
     setState(prevState => ({ ...prevState, enableAmbientMusic: enable }));
 
+  const deepSetIsHeadLess = isHeadless =>
+    setState(prevState => ({ ...prevState, isHeadless: isHeadless }));
+
   return (
     <AppContext.Provider
       value={{
-        setLoginInfo: deepSetLoginInfo,
         setMaxTileCount: deepSetMaxTiles,
         setSubscribedNotifications: deepSetSubscribedNotifications,
         setuiViewMode: deepSetuiViewMode,
@@ -182,7 +159,6 @@ const AppContextProvider = ({
         enableAmbientMusic: state.enableAmbientMusic,
         showStatsOnTiles: state.showStatsOnTiles,
         uiViewMode: state.uiViewMode,
-        loginInfo: state.loginInfo,
         maxTileCount: state.maxTileCount,
         subscribedNotifications: state.subscribedNotifications,
         appPolicyConfig: state.localAppPolicyConfig,
@@ -192,6 +168,8 @@ const AppContextProvider = ({
         tokenEndpoint,
         audioPlaylist,
         videoPlaylist,
+        isHeadless: state.isHeadless,
+        setIsHeadless: deepSetIsHeadLess,
       }}
     >
       {children}
