@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import {
-  usePreview,
+  usePreviewJoin,
   selectLocalPeer,
   useHMSStore,
   selectIsLocalVideoEnabled,
+  useAVToggle,
 } from "@100mslive/react-sdk";
 import {
   Loading,
@@ -18,32 +19,59 @@ import {
   IconButton,
 } from "@100mslive/react-ui";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
-import { USERNAME_KEY } from "../../common/constants";
 import { SettingIcon } from "@100mslive/react-icons";
 import Settings from "./Settings";
+import {
+  UserPreferencesKeys,
+  useUserPreferences,
+} from "../hooks/useUserPreferences";
+
+const defaultPreviewPreference = {
+  name: "",
+  isAudioMuted: false,
+  isVideoMuted: false,
+};
 
 const Preview = ({ token, join, env }) => {
-  const [name, setName] = useState(localStorage.getItem(USERNAME_KEY) || "");
+  const [previewPreference, setPreviewPreference] = useUserPreferences(
+    UserPreferencesKeys.PREVIEW,
+    defaultPreviewPreference
+  );
+  const [name, setName] = useState(previewPreference.name);
   const localPeer = useHMSStore(selectLocalPeer);
-  const { enableJoin } = usePreview({
+  const { isLocalAudioEnabled, isLocalVideoEnabled } = useAVToggle();
+  const { enableJoin, preview } = usePreviewJoin({
     name,
     token,
     initEndpoint: env
       ? `https://${env.split("-")[0]}-init.100ms.live/init`
-      : "https://prod-init.100ms.live/init",
-    metadata: {},
+      : undefined,
+    initialSettings: {
+      isAudioMuted: previewPreference.isAudioMuted,
+      isVideoMuted: previewPreference.isVideoMuted,
+    },
   });
+  React.useEffect(() => {
+    preview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+  const savePreferenceAndJoin = React.useCallback(() => {
+    setPreviewPreference({
+      name,
+      isAudioMuted: !isLocalAudioEnabled,
+      isVideoMuted: !isLocalVideoEnabled,
+    });
+    join(name);
+  }, [
+    join,
+    isLocalAudioEnabled,
+    isLocalVideoEnabled,
+    name,
+    setPreviewPreference,
+  ]);
   return (
     <StyledPreview.Container>
-      {localPeer ? (
-        <PreviewTile name={name} trackId={localPeer.videoTrack} />
-      ) : (
-        <>
-          <StyledVideoTile.Container css={{ width: 360, height: 360 }}>
-            <Loading size={100} />
-          </StyledVideoTile.Container>
-        </>
-      )}
+      <PreviewTile name={name} localPeer={localPeer} />
       <Flex direction="column" align="center">
         <Text css={{ my: "1rem" }} variant="h5">
           Hi There
@@ -55,11 +83,12 @@ const Preview = ({ token, join, env }) => {
           align="center"
           onSubmit={e => {
             e.preventDefault();
-            join(name);
+            savePreferenceAndJoin();
           }}
         >
           <Input
             css={{
+              minHeight: "30px",
               "@sm": {
                 width: "100%",
               },
@@ -79,7 +108,7 @@ const Preview = ({ token, join, env }) => {
   );
 };
 
-const PreviewTile = ({ trackId, name }) => {
+const PreviewTile = ({ localPeer, name }) => {
   const isVideoOn = useHMSStore(selectIsLocalVideoEnabled);
   return (
     <StyledVideoTile.Container
@@ -91,19 +120,25 @@ const PreviewTile = ({ trackId, name }) => {
         },
       }}
     >
-      <Video mirror={true} trackId={trackId} />
-      {!isVideoOn ? <Avatar size="sm" name={name} /> : null}
-      <StyledPreview.BottomOverlay />
-      <StyledPreview.Controls>
-        <AudioVideoToggle compact />
-      </StyledPreview.Controls>
-      <Settings>
-        <StyledPreview.Setting>
-          <IconButton>
-            <SettingIcon />
-          </IconButton>
-        </StyledPreview.Setting>
-      </Settings>
+      {localPeer ? (
+        <>
+          <Video mirror={true} trackId={localPeer.videoTrack} />
+          {!isVideoOn ? <Avatar size="sm" name={name} /> : null}
+          <StyledPreview.BottomOverlay />
+          <StyledPreview.Controls>
+            <AudioVideoToggle compact />
+          </StyledPreview.Controls>
+          <Settings>
+            <StyledPreview.Setting>
+              <IconButton>
+                <SettingIcon />
+              </IconButton>
+            </StyledPreview.Setting>
+          </Settings>
+        </>
+      ) : (
+        <Loading size={100} />
+      )}
     </StyledVideoTile.Container>
   );
 };

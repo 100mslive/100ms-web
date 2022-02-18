@@ -96,13 +96,6 @@ const Settings = ({ children }) => {
             </Select>
           </Box>
         ) : null}
-        {!videoInput.length > 0 && !audioInput.length > 0 ? (
-          <Text css={{ my: "2rem" }}>
-            100ms needs your permission to access your camera/microphone so
-            others can see/hear you. Please go to your browser's settings to
-            grant 100ms access.
-          </Text>
-        ) : null}
         {audioOutput ? (
           <Box>
             <span>Test Audio Level:</span>
