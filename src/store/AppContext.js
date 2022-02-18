@@ -80,6 +80,7 @@ const AppContextProvider = ({
   videoPlaylist = envVideoPlaylist,
   children,
   appDetails,
+  logo,
 }) => {
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
@@ -219,6 +220,7 @@ const AppContextProvider = ({
         tokenEndpoint,
         audioPlaylist,
         videoPlaylist,
+        logo,
       }}
     >
       {children}

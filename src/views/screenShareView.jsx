@@ -12,17 +12,12 @@ import { VideoPlayer, ScreenShareDisplay } from "@100mslive/hms-video-react";
 import { Box, Flex } from "@100mslive/react-ui";
 import { ChatView } from "./components/chatView";
 import { ROLES } from "../common/roles";
-import { chatStyle, getBlurClass } from "../common/utils";
+import { chatStyle } from "../common/utils";
 import ScreenshareTile from "./new/ScreenshareTile";
 import VideoList from "./new/VideoList";
 import VideoTile from "./new/VideoTile";
 
-export const ScreenShareView = ({
-  showStats,
-  isChatOpen,
-  toggleChat,
-  isParticipantListOpen,
-}) => {
+export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
@@ -86,7 +81,6 @@ export const ScreenShareView = ({
           peerScreenSharing={peerPresenting}
           isPresenterInSmallTiles={showPresenterInSmallTile}
           smallTilePeers={smallTilePeers}
-          isParticipantListOpen={isParticipantListOpen}
           totalPeers={peers.length}
         />
       </Flex>
@@ -103,7 +97,6 @@ export const SidePane = ({
   isPresenterInSmallTiles,
   peerScreenSharing, // the peer who is screensharing
   smallTilePeers,
-  isParticipantListOpen,
   totalPeers,
 }) => {
   // The main peer's screenshare is already being shown in center view
@@ -129,7 +122,6 @@ export const SidePane = ({
       <CustomChatView
         isChatOpen={isChatOpen}
         toggleChat={toggleChat}
-        isParticipantListOpen={isParticipantListOpen}
         totalPeers={totalPeers}
       />
     </Fragment>
@@ -198,16 +190,10 @@ const ScreenShareComponent = ({
   );
 };
 
-const CustomChatView = ({
-  isChatOpen,
-  toggleChat,
-  isParticipantListOpen,
-  totalPeers,
-}) => {
+const CustomChatView = ({ isChatOpen, toggleChat, totalPeers }) => {
   return (
     isChatOpen && (
       <Box
-        className={getBlurClass(isParticipantListOpen, totalPeers)}
         css={{
           h: "45%",
           flexShrink: 0,

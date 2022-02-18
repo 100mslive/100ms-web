@@ -14,14 +14,9 @@ import { MainGridView } from "./mainGridView";
 import { ActiveSpeakerView } from "./ActiveSpeakerView";
 import { HLSView } from "./HLSView";
 import { AppContext } from "../store/AppContext";
-import { metadataProps as videoTileProps } from "../common/utils";
 import { useBeamAutoLeave } from "../common/hooks";
 
-export const ConferenceMainView = ({
-  isChatOpen,
-  toggleChat,
-  isParticipantListOpen,
-}) => {
+export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
   const localPeer = useHMSStore(selectLocalPeer);
   const peerSharing = useHMSStore(selectPeerScreenSharing);
   const peerSharingAudio = useHMSStore(selectPeerSharingAudio);
@@ -75,7 +70,6 @@ export const ConferenceMainView = ({
         toggleChat={toggleChat}
         role={localPeer.roleName}
         showStats={showStatsOnTiles}
-        isParticipantListOpen={isParticipantListOpen}
       />
     )
   );

@@ -104,10 +104,8 @@ export function EdtechComponent({
       toast={(message, options = {}) => hmsToast(message, options)}
     >
       <ReactUIProvider
-        type={theme}
-        appBuilder={{
-          aspectRatio: { width, height },
-        }}
+        themeType={theme}
+        aspectRatio={{ width, height }}
         theme={{
           colors: {
             brandDefault: color,
@@ -145,6 +143,7 @@ export function EdtechComponent({
               tokenEndpoint={tokenEndpoint}
               policyConfig={policyConfig}
               appDetails={metadata}
+              logo={logo}
             >
               <Box
                 css={{
