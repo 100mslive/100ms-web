@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { MessageModal } from "@100mslive/hms-video-react";
-import { Flex, Loading } from "@100mslive/react-ui";
+import { Box, Loading } from "@100mslive/react-ui";
 import { v4 } from "uuid";
 import { AppContext } from "../store/AppContext";
 import Preview from "../views/new/Preview";
 import getToken from "../services/tokenService";
 import { useSearchParam } from "react-use";
 import { SKIP_PREVIEW } from "../common/constants";
-import { ConferenceHeader } from "../views/headerView";
+import { Header } from "../views/new/Header";
 
 const env = process.env.REACT_APP_ENV;
 
@@ -60,9 +60,9 @@ const PreviewScreen = ({ getUserToken }) => {
   }
   return (
     <div className="h-full flex flex-col">
-      <Flex align="center" justify="between" css={{ w: "100%", h: "$18" }}>
-        <ConferenceHeader isPreview={true} />
-      </Flex>
+      <Box css={{ h: "$18", "@md": { h: "$17" } }}>
+        <Header isPreview={true} />
+      </Box>
       <div className="flex flex-col justify-center h-full items-center">
         {token ? (
           <>

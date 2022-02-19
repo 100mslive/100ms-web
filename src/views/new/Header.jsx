@@ -20,13 +20,19 @@ import {
   GlobeIcon,
   MusicIcon,
 } from "@100mslive/react-icons";
-import { useHMSStore, selectDominantSpeaker } from "@100mslive/react-sdk";
+import {
+  useHMSStore,
+  selectDominantSpeaker,
+  selectLocalPeer,
+  selectPeerCount,
+} from "@100mslive/react-sdk";
 import { ParticipantList } from "./ParticipantList";
 import PIPComponent from "../PIP/PIPComponent";
 import { usePlaylistMusic } from "../hooks/usePlaylistMusic";
 import { useRecordingStreaming } from "../hooks/useRecordingStreaming";
 import { getRecordingText, getStreamingText } from "../../common/utils";
 import { AppContext } from "../../store/AppContext";
+import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -292,7 +298,10 @@ const Logo = () => {
   return <LogoImg src={logo} alt="Brand Logo" />;
 };
 
-export const Header = () => {
+export const Header = ({ isPreview }) => {
+  const localPeer = useHMSStore(selectLocalPeer);
+  const peerCount = useHMSStore(selectPeerCount);
+  const showPip = localPeer?.roleName !== DEFAULT_HLS_VIEWER_ROLE && !isPreview;
   return (
     <Flex
       justify="between"
@@ -313,10 +322,12 @@ export const Header = () => {
           <PlaylistAndStreaming />
         </Flex>
 
-        <PIPComponent />
-        <Box css={{ mx: "$2" }}>
-          <ParticipantList />
-        </Box>
+        {showPip && <PIPComponent />}
+        {peerCount && (
+          <Box css={{ mx: "$2" }}>
+            <ParticipantList />
+          </Box>
+        )}
       </Flex>
     </Flex>
   );

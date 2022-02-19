@@ -1,5 +1,4 @@
 import {
-  selectAvailableRoleNames,
   selectIsConnectedToRoom,
   selectPeerCount,
   selectPeers,
@@ -15,10 +14,10 @@ export const useParticipantList = () => {
     isConnected ? selectPeers : selectRemotePeers
   );
   const peerCount = useHMSStore(selectPeerCount);
-  const roles = useHMSStore(selectAvailableRoleNames);
   const participantsByRoles = useMemo(
     () => groupByRoles(participantList),
     [participantList]
   );
-  return { roles, participantsByRoles, peerCount };
+  const roles = Object.keys(participantsByRoles);
+  return { roles, participantsByRoles, peerCount, isConnected };
 };

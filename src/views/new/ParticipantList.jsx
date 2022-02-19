@@ -48,7 +48,8 @@ const ParticipantActions = React.memo(({ peerId, onSettings }) => {
 });
 
 export const ParticipantList = () => {
-  const { roles, participantsByRoles, peerCount } = useParticipantList();
+  const { roles, participantsByRoles, peerCount, isConnected } =
+    useParticipantList();
   const [open, setOpen] = useState(false);
   const [selectedPeerId, setSelectedPeerId] = useState(null);
   return (
@@ -58,24 +59,14 @@ export const ParticipantList = () => {
           <Flex
             css={{
               color: "$textPrimary",
-              "@md": {
-                borderRadius: "$1",
-                border: "1px solid $textPrimary",
-              },
+              borderRadius: "$1",
+              border: "1px solid $textPrimary",
             }}
           >
-            <Box
-              css={{ display: "none", "@md": { display: "block", mr: "$2" } }}
-            >
+            <Box css={{ display: "block", mr: "$2" }}>
               <PeopleIcon />
             </Box>
             <Text variant="md">{peerCount}</Text>
-            <Flex align="center" css={{ "@md": { display: "none" } }}>
-              <Text variant="md" css={{ mr: "$2" }}>
-                &nbsp;in room
-              </Text>
-              {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            </Flex>
           </Flex>
         </DropdownTrigger>
         <DropdownContent
@@ -122,12 +113,14 @@ export const ParticipantList = () => {
                       >
                         {peer.name}
                       </Text>
-                      <ParticipantActions
-                        peerId={peer.id}
-                        onSettings={peerId => {
-                          setSelectedPeerId(peerId);
-                        }}
-                      />
+                      {isConnected && (
+                        <ParticipantActions
+                          peerId={peer.id}
+                          onSettings={peerId => {
+                            setSelectedPeerId(peerId);
+                          }}
+                        />
+                      )}
                     </DropdownItem>
                   );
                 })}
