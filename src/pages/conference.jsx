@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState, useCallback } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
-import { ConferenceHeader } from "../views/headerView";
+import { Header } from "../views/new/Header";
 import { ConferenceFooter } from "../views/footerView";
 import { ConferenceMainView } from "../views/mainView";
 import { Button, MessageModal } from "@100mslive/hms-video-react";
@@ -19,9 +19,8 @@ import FullPageProgress from "../views/components/FullPageSpinner";
 export const Conference = () => {
   const history = useHistory();
   const { roomId, role } = useParams();
-  const context = useContext(AppContext);
+  const { isHeadless } = useContext(AppContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [isParticipantListOpen, setIsParticipantListOpen] = useState(false);
   const toggleChat = useCallback(() => {
     setIsChatOpen(open => !open);
   }, []);
@@ -30,12 +29,6 @@ export const Conference = () => {
   const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);
   const roleChangeRequest = useHMSStore(selectRoleChangeRequest);
   const hmsActions = useHMSActions();
-
-  const onParticipantListOpen = useCallback(value => {
-    setIsParticipantListOpen(value);
-  }, []);
-
-  const { isHeadless } = context;
 
   useEffect(() => {
     if (!roomId) {
@@ -61,15 +54,11 @@ export const Conference = () => {
     <Flex css={{ size: "100%" }} direction="column">
       {!isHeadless && (
         <Box css={{ h: "$18", "@md": { h: "$17" } }}>
-          <ConferenceHeader onParticipantListOpen={onParticipantListOpen} />
+          <Header />
         </Box>
       )}
       <Box css={{ w: "100%", flex: "1 1 0" }}>
-        <ConferenceMainView
-          isChatOpen={isChatOpen}
-          isParticipantListOpen={isParticipantListOpen}
-          toggleChat={toggleChat}
-        />
+        <ConferenceMainView isChatOpen={isChatOpen} toggleChat={toggleChat} />
       </Box>
       {!isHeadless && (
         <Box css={{ h: "10%" }}>

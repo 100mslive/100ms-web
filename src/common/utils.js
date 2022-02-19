@@ -24,20 +24,6 @@ export function shadeColor(color, percent) {
   return "#" + RR + GG + BB;
 }
 
-/**
- * @param {boolean} isParticipantListOpen
- * @param {number} totalPeers
- * @returns {string}
- * This util is to add blur to chatbox when participants are more than 4 below 1024 and
- * more than 7 above 1024 screens
- */
-export function getBlurClass(isParticipantListOpen, totalPeers) {
-  const OVERLAP_THRESHOLD = window.innerHeight >= 1024 ? 7 : 4;
-  return isParticipantListOpen && totalPeers > OVERLAP_THRESHOLD
-    ? "filter blur-sm"
-    : "";
-}
-
 export function getRandomVirtualBackground() {
   let backgroundList = [
     "blur",
@@ -148,4 +134,56 @@ export const chatStyle = {
 
 export const isScreenshareSupported = () => {
   return typeof navigator.mediaDevices.getDisplayMedia !== "undefined";
+};
+
+/**
+ * Give array like [
+ * { name: 'peer1', id: 1, roleName: 'role1' },
+ * { name: 'peer2', id: 2, roleName: 'role2' }
+ *]
+ * the output will be
+ * {
+ * 'role1': [{'name': 'peer1', id: 1, roleName: 'role1'}],
+ * 'role2': [{ name: 'peer2', id: 2, roleName: 'role2' }]
+ * }
+ * @param {Array} peers
+ * @returns
+ */
+export const groupByRoles = peers => {
+  if (!peers || !Array.isArray(peers) || peers.length === 0) {
+    return {};
+  }
+  return peers.reduce((res, peer) => {
+    if (!res[peer.roleName]) {
+      res[peer.roleName] = [];
+    }
+    res[peer.roleName].push(peer);
+    return res;
+  }, {});
+};
+
+export const getRecordingText = (
+  { isBrowserRecordingOn, isServerRecordingOn, isHLSRecordingOn },
+  delimiter = ", "
+) => {
+  if (!isBrowserRecordingOn && !isServerRecordingOn && !isHLSRecordingOn) {
+    return "";
+  }
+  const title = [];
+  if (isBrowserRecordingOn) {
+    title.push("Browser");
+  }
+  if (isServerRecordingOn) {
+    title.push("Server");
+  }
+  if (isHLSRecordingOn) {
+    title.push("HLS");
+  }
+  return title.join(delimiter);
+};
+
+export const getStreamingText = ({ isStreamingOn, isHLSRunning }) => {
+  if (isStreamingOn) {
+    return isHLSRunning ? "HLS" : "RTMP";
+  }
 };

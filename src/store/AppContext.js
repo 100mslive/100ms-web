@@ -57,6 +57,7 @@ const AppContextProvider = ({
   videoPlaylist = envVideoPlaylist,
   children,
   appDetails,
+  logo,
 }) => {
   const localPeer = useHMSStore(selectLocalPeer);
   const roleNames = useHMSStore(selectAvailableRoleNames);
@@ -168,6 +169,7 @@ const AppContextProvider = ({
         tokenEndpoint,
         audioPlaylist,
         videoPlaylist,
+        logo,
         isHeadless: state.isHeadless,
         setIsHeadless: deepSetIsHeadLess,
       }}

@@ -17,9 +17,7 @@ const List = ({
   maxRowCount,
   includeScreenShareForPeer,
 }) => {
-  const {
-    appBuilder: { aspectRatio },
-  } = useTheme();
+  const { aspectRatio } = useTheme();
   const { ref, pagesWithTiles } = useVideoList({
     peers,
     maxTileCount,
