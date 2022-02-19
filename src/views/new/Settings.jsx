@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDevices, DeviceType } from "@100mslive/react-sdk";
-import { Dialog, Select, Button, Flex, Text } from "@100mslive/react-ui";
+import { Dialog, Select, Button, Flex } from "@100mslive/react-ui";
 import { AudioLevelIcon } from "@100mslive/react-icons";
+import { HorizontalDivider } from "@100mslive/react-ui";
 
-const Box = ({ children }) => {
+const Row = ({ children }) => {
   return (
     <Flex
       align="center"
@@ -27,91 +28,83 @@ const Settings = ({ children }) => {
   return (
     <Dialog>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
-      <Dialog.Content
-        title="Settings"
-        css={{
-          width: "500px",
-          "@sm": {
-            width: "95%",
-          },
-        }}
-      >
-        {videoInput.length > 0 ? (
-          <Box>
-            <span>Video:</span>
-            <Select
-              onChange={e =>
-                updateDevice({
-                  deviceId: e.target.value,
-                  deviceType: DeviceType.videoInput,
-                })
-              }
-              value={selectedDeviceIDs.videoInput}
-            >
-              {videoInput.map(device => (
-                <option value={device.deviceId} key={device.deviceId}>
-                  {device.label}
-                </option>
-              ))}
-            </Select>
-          </Box>
-        ) : null}
-        {audioInput.length > 0 ? (
-          <Box>
-            <span>Microphone:</span>
-            <Select
-              onChange={e =>
-                updateDevice({
-                  deviceId: e.target.value,
-                  deviceType: DeviceType.audioInput,
-                })
-              }
-              value={selectedDeviceIDs.audioInput}
-            >
-              {audioInput.map(device => (
-                <option value={device.deviceId} key={device.deviceId}>
-                  {device.label}
-                </option>
-              ))}
-            </Select>
-          </Box>
-        ) : null}
-        {audioOutput.length > 0 ? (
-          <Box>
-            <span>Speaker:</span>
-            <Select
-              onChange={e =>
-                updateDevice({
-                  deviceId: e.target.value,
-                  deviceType: DeviceType.audioOutput,
-                })
-              }
-              value={selectedDeviceIDs.audioOutput}
-            >
-              {audioOutput.map(device => (
-                <option value={device.deviceId} key={device.deviceId}>
-                  {device.label}
-                </option>
-              ))}
-            </Select>
-          </Box>
-        ) : null}
-        {audioOutput ? (
-          <Box>
-            <span>Test Audio Level:</span>
+      <Dialog.Content title="Settings" css={{ width: "min(600px, 100%)" }}>
+        <HorizontalDivider css={{ mt: "0.8rem" }} />
+        {videoInput.length && (
+          <DeviceSelector
+            title="Video"
+            devices={videoInput}
+            selection={selectedDeviceIDs.videoInput}
+            onChange={deviceId =>
+              updateDevice({
+                deviceId,
+                deviceType: DeviceType.videoInput,
+              })
+            }
+          />
+        )}
+        {audioInput.length && (
+          <DeviceSelector
+            title="Microphone"
+            devices={audioInput}
+            selection={selectedDeviceIDs.audioInput}
+            onChange={deviceId =>
+              updateDevice({
+                deviceId,
+                deviceType: DeviceType.audioInput,
+              })
+            }
+          />
+        )}
+        {audioOutput.length && (
+          <DeviceSelector
+            title="Speaker"
+            devices={audioOutput}
+            selection={selectedDeviceIDs.audioOutput}
+            onChange={deviceId =>
+              updateDevice({
+                deviceId,
+                deviceType: DeviceType.audioOutput,
+              })
+            }
+          />
+        )}
+        {audioOutput && (
+          <Row>
+            <span>Test Speaker:</span>
             <TestAudio id={selectedDeviceIDs.audioOutput} />
-          </Box>
-        ) : null}
+          </Row>
+        )}
       </Dialog.Content>
     </Dialog>
   );
 };
 
-export default Settings;
+const DeviceSelector = ({ title, devices, selection, onChange }) => {
+  return (
+    <Row>
+      <span>{title}:</span>
+      <Select.Root css={{ width: "70%", "@sm": { width: "100%" } }}>
+        <Select.DefaultDownIcon />
+        <Select.Select
+          onChange={e => onChange(e.target.value)}
+          value={selection}
+          css={{ width: "100%" }}
+        >
+          {devices.map(device => (
+            <option value={device.deviceId} key={device.deviceId}>
+              {device.label}
+            </option>
+          ))}
+        </Select.Select>
+      </Select.Root>
+    </Row>
+  );
+};
 
 const TEST_AUDIO_URL = "https://100ms.live/test-audio.wav";
 
-export const TestAudio = ({ id }) => {
+const TestAudio = ({ id }) => {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   useEffect(() => {
@@ -122,7 +115,7 @@ export const TestAudio = ({ id }) => {
         console.log(error);
       }
     }
-  }, [audioRef.current, id]);
+  }, [id]);
   return (
     <>
       <Button
@@ -130,7 +123,7 @@ export const TestAudio = ({ id }) => {
         onClick={() => audioRef.current?.play()}
         disabled={playing}
       >
-        <AudioLevelIcon className="mr-2" /> Play Audio Level Test
+        <AudioLevelIcon className="mr-2" /> Play
       </Button>
       <audio
         ref={audioRef}
@@ -141,3 +134,5 @@ export const TestAudio = ({ id }) => {
     </>
   );
 };
+
+export default Settings;

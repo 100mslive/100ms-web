@@ -98,7 +98,6 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
             maxLength={20}
             value={name}
             onChange={e => setName(e.target.value)}
-            placeholder={"What's your name?"}
           />
           <Button type="submit" disabled={!name || !enableJoin}>
             Join
