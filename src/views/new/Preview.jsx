@@ -18,6 +18,7 @@ import {
   Avatar,
   IconButton,
   useTheme,
+  useBorderAudioLevel,
 } from "@100mslive/react-ui";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
 import { SettingIcon } from "@100mslive/react-icons";
@@ -39,7 +40,6 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
     defaultPreviewPreference
   );
   const [name, setName] = useState(initialName || previewPreference.name);
-  const localPeer = useHMSStore(selectLocalPeer);
   const { isLocalAudioEnabled, isLocalVideoEnabled } = useAVToggle();
   const { enableJoin, preview, join } = usePreviewJoin({
     name,
@@ -78,7 +78,7 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
   ]);
   return (
     <StyledPreview.Container css={{ padding: "2rem 6rem" }}>
-      <PreviewTile name={name} localPeer={localPeer} />
+      <PreviewTile name={name} />
       <Flex direction="column" align="center">
         <Text css={{ my: "1rem" }} variant="h5">
           Hi There!
@@ -109,12 +109,13 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
   );
 };
 
-const PreviewTile = ({ localPeer, name }) => {
+const PreviewTile = ({ name }) => {
+  const localPeer = useHMSStore(selectLocalPeer);
+  const borderAudioRef = useBorderAudioLevel(localPeer?.audioTrack);
   const isVideoOn = useHMSStore(selectIsLocalVideoEnabled);
   const {
     aspectRatio: { width, height },
   } = useTheme();
-  console.log("preview", width, height);
   return (
     <StyledVideoTile.Container
       css={{
@@ -122,6 +123,7 @@ const PreviewTile = ({ localPeer, name }) => {
         width: "min(500px, 100vw)",
         height: "unset",
       }}
+      ref={borderAudioRef}
     >
       {localPeer ? (
         <>

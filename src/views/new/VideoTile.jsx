@@ -1,11 +1,11 @@
 // @ts-check
 import React, { useState } from "react";
 import {
-  AudioLevel,
   Avatar,
   StyledVideoTile,
   Video,
   VideoTileStats,
+  useBorderAudioLevel,
 } from "@100mslive/react-ui";
 import {
   useHMSStore,
@@ -30,6 +30,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const metaData = useHMSStore(selectPeerMetadata(peerId));
+  const borderAudioRef = useBorderAudioLevel(peer?.audioTrack);
   const isVideoDegraded = track?.degraded;
   const isHandRaised = metaData?.isHandRaised || false;
   const isBRB = metaData?.isBRBOn || false;
@@ -42,6 +43,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
           onMouseLeave={() => {
             setIsMouseHovered(false);
           }}
+          ref={borderAudioRef}
         >
           {showStatsOnTiles ? (
             <VideoTileStats
@@ -50,7 +52,6 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
             />
           ) : null}
 
-          <AudioLevel audioTrack={peer?.audioTrack} />
           {track ? (
             <Video
               trackId={track?.id}
