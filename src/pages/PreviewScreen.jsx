@@ -92,20 +92,24 @@ const convertPreviewError = error => {
   } else if (error.response && error.response.status === 403) {
     return {
       title: "Accessing room using this link format is disabled",
-      body: ErrorWithSupportLink(""),
+      body: ErrorWithSupportLink(
+        "You can re-enable this from the developer section in Dashboard."
+      ),
     };
   } else {
     console.error("Token API Error", error);
     return {
       title: "Error fetching token",
-      body: "An error occurred while fetching token. Please look into logs for more details",
+      body: ErrorWithSupportLink(
+        "An error occurred while fetching token. Please look into logs for more details."
+      ),
     };
   }
 };
 
 const ErrorWithSupportLink = errorMessage => (
   <div>
-    {errorMessage} If you think this is a mistake, please create{" "}
+    {errorMessage} If you think this is a mistake on our side, please create{" "}
     <a
       className="text-blue-standard"
       target="_blank"
