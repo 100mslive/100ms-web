@@ -107,13 +107,13 @@ export const ParticipantList = () => {
                   return (
                     <DropdownItem key={peer.id} css={{ w: "100%", h: "$14" }}>
                       <Avatar
-                        size="tiny"
                         shape="square"
                         name={peer.name}
                         css={{
                           position: "unset",
                           transform: "unset",
                           mr: "$4",
+                          fontSize: "12px",
                         }}
                       />
                       <Text

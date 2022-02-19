@@ -17,6 +17,7 @@ import {
   Flex,
   Avatar,
   IconButton,
+  useTheme,
 } from "@100mslive/react-ui";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
 import { SettingIcon } from "@100mslive/react-icons";
@@ -76,7 +77,7 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
     onJoin,
   ]);
   return (
-    <StyledPreview.Container>
+    <StyledPreview.Container css={{ padding: "2rem 6rem" }}>
       <PreviewTile name={name} localPeer={localPeer} />
       <Flex direction="column" align="center">
         <Text css={{ my: "1rem" }} variant="h5">
@@ -110,21 +111,22 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
 
 const PreviewTile = ({ localPeer, name }) => {
   const isVideoOn = useHMSStore(selectIsLocalVideoEnabled);
+  const {
+    aspectRatio: { width, height },
+  } = useTheme();
+  console.log("preview", width, height);
   return (
     <StyledVideoTile.Container
       css={{
-        width: 360,
-        height: 360,
-        "@sm": {
-          width: "95%",
-        },
+        aspectRatio: width / height,
+        width: "min(500px, 100vw)",
+        height: "unset",
       }}
     >
       {localPeer ? (
         <>
           <Video mirror={true} trackId={localPeer.videoTrack} />
           {!isVideoOn ? <Avatar name={name} /> : null}
-          <StyledPreview.BottomOverlay />
           <StyledPreview.Controls>
             <AudioVideoToggle compact />
           </StyledPreview.Controls>

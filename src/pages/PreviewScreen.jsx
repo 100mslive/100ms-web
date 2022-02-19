@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { MessageModal } from "@100mslive/hms-video-react";
-import { Loading } from "@100mslive/react-ui";
+import { Flex, Loading } from "@100mslive/react-ui";
 import { v4 } from "uuid";
 import { AppContext } from "../store/AppContext";
-import PeerlistPreview from "../views/components/PeerlistPreview";
 import Preview from "../views/new/Preview";
 import getToken from "../services/tokenService";
 import { useSearchParam } from "react-use";
 import { SKIP_PREVIEW } from "../common/constants";
+import { ConferenceHeader } from "../views/headerView";
 
 const env = process.env.REACT_APP_ENV;
 
@@ -60,7 +60,9 @@ const PreviewScreen = ({ getUserToken }) => {
   }
   return (
     <div className="h-full flex flex-col">
-      <PeerlistPreview />
+      <Flex align="center" justify="between" css={{ w: "100%", h: "$18" }}>
+        <ConferenceHeader isPreview={true} />
+      </Flex>
       <div className="flex flex-col justify-center h-full items-center">
         {token ? (
           <>

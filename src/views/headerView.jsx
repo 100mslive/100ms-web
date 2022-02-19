@@ -20,6 +20,7 @@ import {
   selectAudioPlaylist,
   selectHLSState,
   selectLocalPeer,
+  selectPeerCount,
 } from "@100mslive/react-sdk";
 import PIPComponent from "./PIP/PIPComponent";
 import { AppContext } from "../store/AppContext";
@@ -203,6 +204,7 @@ export const ConferenceHeader = ({
 }) => {
   const { HLS_VIEWER_ROLE, isHeadless } = useContext(AppContext);
   const localPeer = useHMSStore(selectLocalPeer);
+  const peerCount = useHMSStore(selectPeerCount);
   const showPip = localPeer?.roleName !== HLS_VIEWER_ROLE && !isPreview;
   return (
     <>
@@ -217,11 +219,13 @@ export const ConferenceHeader = ({
         rightComponents={[
           !isHeadless ? <AmbientMusic key={2} /> : null,
           showPip ? <PIPComponent key={0} /> : null,
-          <ParticipantList
-            key={1}
-            onToggle={onParticipantListOpen}
-            participantInListProps={participantInListProps}
-          />,
+          peerCount ? (
+            <ParticipantList
+              key={1}
+              onToggle={onParticipantListOpen}
+              participantInListProps={participantInListProps}
+            />
+          ) : null,
         ]}
         classes={{ root: "h-full", rightRoot: "items-center" }}
       />
