@@ -11,7 +11,6 @@ import {
 import { VideoPlayer, ScreenShareDisplay } from "@100mslive/hms-video-react";
 import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { ChatView } from "./components/chatView";
-import { ROLES } from "../common/roles";
 import { chatStyle } from "../common/utils";
 import ScreenshareTile from "./new/ScreenshareTile";
 import VideoList from "./new/VideoList";
@@ -26,40 +25,27 @@ export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
   const localPeer = useHMSStore(selectLocalPeer);
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
-  const smallTilePeers = useMemo(
-    () => peers.filter(peer => peer.id !== peerPresenting?.id),
-    [peers, peerPresenting]
-  );
-
-  const amITeacher = localPeer?.roleName.toLowerCase() === ROLES.TEACHER;
-  const isPresenterTeacher =
-    peerPresenting?.roleName.toLowerCase() === ROLES.TEACHER;
+  const isPresenterFromMyRole =
+    peerPresenting?.roleName?.toLowerCase() ===
+    localPeer?.roleName?.toLowerCase();
   const amIPresenting = localPeer && localPeer.id === peerPresenting?.id;
   const showPresenterInSmallTile =
-    amIPresenting || (amITeacher && isPresenterTeacher);
+    showSidebarInBottom || amIPresenting || isPresenterFromMyRole;
 
-  if (
-    showPresenterInSmallTile &&
-    !smallTilePeers.some(peer => peer.id === peerPresenting?.id)
-  ) {
-    if (amIPresenting) {
-      // put presenter on last page
-      smallTilePeers.push(peerPresenting);
-    } else {
-      // put on first page
-      smallTilePeers.unshift(peerPresenting);
+  const smallTilePeers = useMemo(() => {
+    const smallTilePeers = peers.filter(peer => peer.id !== peerPresenting?.id);
+    if (showPresenterInSmallTile) {
+      smallTilePeers.unshift(peerPresenting); // put presenter on first page
     }
-  }
+    return smallTilePeers;
+  }, [peers, peerPresenting, showPresenterInSmallTile]);
 
   return (
     <Flex
       css={{
         size: "100%",
       }}
-      direction={{
-        "@initial": "row",
-        "@lg": "column",
-      }}
+      direction={showSidebarInBottom ? "column" : "row"}
     >
       <ScreenShareComponent
         showStats={showStats}
