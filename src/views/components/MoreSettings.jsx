@@ -11,7 +11,6 @@ import {
   ContextMenuItem,
   HamburgerMenuIcon,
   PersonIcon,
-  Settings,
   UiSettings,
   SettingsIcon,
   useHMSStore,
@@ -36,6 +35,7 @@ import { RecordingAndRTMPModal } from "./RecordingAndRTMPModal";
 import { MuteAll } from "./MuteAll";
 import { ChangeName, StatsForNerds } from "./ChangeName";
 import { FeatureFlags } from "../../store/FeatureFlags";
+import Settings from "../new/Settings";
 
 export const MoreSettings = () => {
   const {
@@ -264,9 +264,8 @@ export const MoreSettings = () => {
         )}
       </ContextMenu>
       <Settings
-        className="hidden"
-        showModal={showSettings}
-        onModalClose={() => setShowSettings(false)}
+        open={showSettings}
+        onOpenChange={state => setShowSettings(state)}
       />
       <UiSettings
         {...uiSettingsProps}

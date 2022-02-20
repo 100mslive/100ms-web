@@ -4,14 +4,19 @@ import { Dialog, Button, Text } from "@100mslive/react-ui";
 import { AudioLevelIcon, SettingIcon } from "@100mslive/react-icons";
 import { DialogContent, DialogRow, DialogSelect } from "./DialogContent";
 
-const Settings = ({ children }) => {
+/**
+ * wrap the button on click of whom settings should open, this component will take care of the rest,
+ * it'll give the user options to change input/output device as well as check speaker.
+ * There is also another controlled way of using this by passing in open and onOpenChange.
+ */
+const Settings = ({ open, onOpenChange, children }) => {
   const { allDevices, selectedDeviceIDs, updateDevice } = useDevices();
   const { videoInput, audioInput, audioOutput } = allDevices;
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <DialogContent Icon={SettingIcon} title="Settings">
-        {videoInput.length ? (
+        {videoInput?.length ? (
           <DeviceSelector
             title="Video"
             devices={videoInput}
@@ -24,7 +29,7 @@ const Settings = ({ children }) => {
             }
           />
         ) : null}
-        {audioInput.length ? (
+        {audioInput?.length ? (
           <DeviceSelector
             title="Microphone"
             devices={audioInput}
@@ -37,7 +42,7 @@ const Settings = ({ children }) => {
             }
           />
         ) : null}
-        {audioOutput.length ? (
+        {audioOutput?.length ? (
           <DeviceSelector
             title="Speaker"
             devices={audioOutput}
