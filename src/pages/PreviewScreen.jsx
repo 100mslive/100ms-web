@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { MessageModal } from "@100mslive/hms-video-react";
 import { Box, Loading } from "@100mslive/react-ui";
 import { v4 } from "uuid";
 import { AppContext } from "../store/AppContext";
@@ -9,6 +8,7 @@ import getToken from "../services/tokenService";
 import { useSearchParam } from "react-use";
 import { SKIP_PREVIEW } from "../common/constants";
 import { Header } from "../views/new/Header";
+import { ErrorDialog } from "../views/new/DialogContent";
 
 const env = process.env.REACT_APP_ENV;
 
@@ -45,18 +45,8 @@ const PreviewScreen = ({ getUserToken }) => {
     history.push(meetingURL);
   };
 
-  const leaveRoom = () => {
-    let leaveURL = `/leave/${urlRoomId}`;
-    if (userRole) {
-      leaveURL += `/${userRole}`;
-    }
-    history.push(leaveURL);
-  };
-
   if (error.title) {
-    return (
-      <MessageModal title={error.title} body={error.body} onClose={leaveRoom} />
-    );
+    return <ErrorDialog title={error.title}>{error.body}</ErrorDialog>;
   }
   return (
     <div className="h-full flex flex-col">
@@ -88,7 +78,7 @@ const convertPreviewError = error => {
     return {
       title: "Room does not exist",
       body: ErrorWithSupportLink(
-        "We could not find the room corresponding to this link."
+        "We could not find a room corresponding to this link."
       ),
     };
   } else if (error.response && error.response.status === 403) {
@@ -103,7 +93,7 @@ const convertPreviewError = error => {
     return {
       title: "Error fetching token",
       body: ErrorWithSupportLink(
-        "An error occurred while fetching token. Please look into logs for more details."
+        "An error occurred while fetching the app token. Please look into logs for more details."
       ),
     };
   }

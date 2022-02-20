@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Dialog, Text } from "@100mslive/react-ui";
+import { Text } from "@100mslive/react-ui";
+import { ErrorDialog } from "../../new/DialogContent";
 
 export const InitErrorModal = ({ notification }) => {
   const [showModal, setShowModal] = useState(false);
@@ -14,7 +15,7 @@ export const InitErrorModal = ({ notification }) => {
     let title;
     if (data.description.includes("role is invalid")) {
       description =
-        "The role does not exist for the given room. Try again with valid role.";
+        "This role does not exist for the given room. Try again with a valid role.";
       title = "Invalid Role";
     } else {
       description = data.description;
@@ -25,20 +26,14 @@ export const InitErrorModal = ({ notification }) => {
   }, [notification]);
 
   return (
-    <Dialog open={showModal} onOpenChange={setShowModal}>
-      <Dialog.Content
-        title={info.title}
-        onInteractOutside={e => e.preventDefault()}
-        onEscapeKeyDown={e => e.preventDefault()}
-        onPointerDownOutside={e => e.preventDefault()}
-        close={info.title !== "Invalid Role"}
-      >
-        <Text variant="sm" css={{ wordBreak: "break-all" }}>
-          {info.description}
-          <br />
-          {window.location.href}
-        </Text>
-      </Dialog.Content>
-    </Dialog>
+    <ErrorDialog
+      open={showModal}
+      onOpenChange={setShowModal}
+      title={info.title}
+    >
+      <Text variant="sm" css={{ wordBreak: "break-all" }}>
+        {info.description} Current URL - {window.location.href}
+      </Text>
+    </ErrorDialog>
   );
 };

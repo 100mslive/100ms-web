@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useDevices, DeviceType } from "@100mslive/react-sdk";
 import { Dialog, Select, Button, Flex, Text } from "@100mslive/react-ui";
 import { AudioLevelIcon, SettingIcon } from "@100mslive/react-icons";
-import { DialogContent } from "./Dialog";
+import { DialogContent } from "./DialogContent";
 
 const Row = ({ children }) => {
   return (
