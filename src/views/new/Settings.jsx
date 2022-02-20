@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDevices, DeviceType } from "@100mslive/react-sdk";
 import { Dialog, Select, Button, Flex, Text } from "@100mslive/react-ui";
-import { AudioLevelIcon } from "@100mslive/react-icons";
-import { HorizontalDivider } from "@100mslive/react-ui";
+import { AudioLevelIcon, SettingIcon } from "@100mslive/react-icons";
+import { DialogContent } from "./Dialog";
 
 const Row = ({ children }) => {
   return (
@@ -28,8 +28,11 @@ const Settings = ({ children }) => {
   return (
     <Dialog>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
-      <Dialog.Content title="Settings" css={{ width: "min(600px, 100%)" }}>
-        <HorizontalDivider css={{ mt: "0.8rem" }} />
+      <DialogContent
+        Icon={SettingIcon}
+        title="Settings"
+        css={{ width: "min(600px, 100%)" }}
+      >
         {videoInput.length && (
           <DeviceSelector
             title="Video"
@@ -75,7 +78,7 @@ const Settings = ({ children }) => {
             <TestAudio id={selectedDeviceIDs.audioOutput} />
           </Row>
         )}
-      </Dialog.Content>
+      </DialogContent>
     </Dialog>
   );
 };
