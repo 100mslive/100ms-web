@@ -6,6 +6,10 @@ export class FeatureFlags {
     process.env.REACT_APP_ENABLE_TRANSCRIPTION === "true";
   static enableStatsForNerds =
     process.env.REACT_APP_ENABLE_STATS_FOR_NERDS === "true";
+  static enableWhiteboard =
+    process.env.REACT_APP_PUSHER_APP_KEY &&
+    process.env.REACT_APP_PUSHER_AUTHENDPOINT;
+
   static init() {
     if (!window.HMS) {
       window.HMS = {};
