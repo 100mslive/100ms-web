@@ -3,9 +3,13 @@ import LogRocket from "logrocket";
 const logRocketKey = process.env.REACT_APP_LOGROCKET_ID;
 let logRocketInitialised;
 export const setUpLogRocket = ({ localPeer, roomId, sessionId }) => {
+  let domain;
+  if (typeof window !== undefined) {
+    domain = window.location.hostname;
+  }
   LogRocket.identify(localPeer.id, {
     name: localPeer.name,
-    email: roomId,
+    email: domain,
     role: localPeer.roleName,
     roomId,
     sessionId,
