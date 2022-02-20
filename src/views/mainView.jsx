@@ -8,7 +8,7 @@ import {
   selectPeerSharingVideoPlaylist,
   selectRoomState,
   selectLocalPeer,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 import { ScreenShareView } from "./screenShareView";
 import { MainGridView } from "./mainGridView";
 import { ActiveSpeakerView } from "./ActiveSpeakerView";
