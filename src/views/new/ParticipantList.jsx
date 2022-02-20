@@ -128,8 +128,8 @@ const ParticipantListInARole = ({
             {showActions && (
               <ParticipantActions
                 peerId={peer.id}
-                onSettings={peerId => {
-                  onParticipantAction(peerId);
+                onSettings={() => {
+                  onParticipantAction(peer.id);
                 }}
                 canChangeRole={canChangeRole}
               />

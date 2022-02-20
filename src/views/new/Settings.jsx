@@ -1,26 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDevices, DeviceType } from "@100mslive/react-sdk";
-import { Dialog, Select, Button, Flex, Text } from "@100mslive/react-ui";
+import { Dialog, Button, Text } from "@100mslive/react-ui";
 import { AudioLevelIcon, SettingIcon } from "@100mslive/react-icons";
-import { DialogContent } from "./DialogContent";
-
-const Row = ({ children }) => {
-  return (
-    <Flex
-      align="center"
-      justify="between"
-      css={{
-        margin: "1.5rem 0",
-        "@sm": {
-          flexDirection: "column",
-          alignItems: "flex-start",
-        },
-      }}
-    >
-      {children}
-    </Flex>
-  );
-};
+import { DialogContent, DialogRow, DialogSelect } from "./DialogContent";
 
 const Settings = ({ children }) => {
   const { allDevices, selectedDeviceIDs, updateDevice } = useDevices();
@@ -28,11 +10,7 @@ const Settings = ({ children }) => {
   return (
     <Dialog>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
-      <DialogContent
-        Icon={SettingIcon}
-        title="Settings"
-        css={{ width: "min(600px, 100%)" }}
-      >
+      <DialogContent Icon={SettingIcon} title="Settings">
         {videoInput.length && (
           <DeviceSelector
             title="Video"
@@ -73,10 +51,10 @@ const Settings = ({ children }) => {
           />
         )}
         {audioOutput && (
-          <Row>
+          <DialogRow>
             <Text>Test Speaker:</Text>
             <TestAudio id={selectedDeviceIDs.audioOutput} />
-          </Row>
+          </DialogRow>
         )}
       </DialogContent>
     </Dialog>
@@ -85,23 +63,14 @@ const Settings = ({ children }) => {
 
 const DeviceSelector = ({ title, devices, selection, onChange }) => {
   return (
-    <Row>
-      <Text>{title}:</Text>
-      <Select.Root css={{ width: "70%", "@sm": { width: "100%" } }}>
-        <Select.DefaultDownIcon />
-        <Select.Select
-          onChange={e => onChange(e.target.value)}
-          value={selection}
-          css={{ width: "100%" }}
-        >
-          {devices.map(device => (
-            <option value={device.deviceId} key={device.deviceId}>
-              {device.label}
-            </option>
-          ))}
-        </Select.Select>
-      </Select.Root>
-    </Row>
+    <DialogSelect
+      title={title}
+      options={devices}
+      keyField="deviceId"
+      labelField="label"
+      selected={selection}
+      onChange={onChange}
+    />
   );
 };
 
