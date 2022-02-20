@@ -49,13 +49,13 @@ const TileMenu = ({
         {toggleVideo ? (
           <StyledMenuTile.ItemButton onClick={toggleVideo}>
             {isVideoEnabled ? <VideoOnIcon /> : <VideoOffIcon />}
-            <span>{`${isVideoEnabled ? "Mute" : "Unmute"} Video`}</span>
+            <span>{`${isVideoEnabled ? "Mute" : "Request Unmute"}`}</span>
           </StyledMenuTile.ItemButton>
         ) : null}
         {toggleAudio ? (
           <StyledMenuTile.ItemButton onClick={toggleAudio}>
             {isAudioEnabled ? <MicOnIcon /> : <MicOffIcon />}
-            <span>{`${isAudioEnabled ? "Mute" : "Unmute"} Audio`}</span>
+            <span>{`${isAudioEnabled ? "Mute" : "Request Unmute"}`}</span>
           </StyledMenuTile.ItemButton>
         ) : null}
         {audioTrackID ? (
