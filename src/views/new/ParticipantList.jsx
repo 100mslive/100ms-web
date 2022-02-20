@@ -24,6 +24,10 @@ export const ParticipantList = () => {
   const [open, setOpen] = useState(false);
   const [selectedPeerId, setSelectedPeerId] = useState(null);
   const canChangeRole = useHMSStore(selectPermissions)?.changeRole;
+  if (peerCount === 0) {
+    return null;
+  }
+
   return (
     <Fragment>
       <Dropdown open={open} onOpenChange={value => setOpen(value)}>

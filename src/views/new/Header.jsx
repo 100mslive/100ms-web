@@ -300,7 +300,6 @@ const Logo = () => {
 
 export const Header = ({ isPreview }) => {
   const localPeer = useHMSStore(selectLocalPeer);
-  const peerCount = useHMSStore(selectPeerCount);
   const showPip = localPeer?.roleName !== DEFAULT_HLS_VIEWER_ROLE && !isPreview;
   return (
     <Flex
@@ -323,11 +322,9 @@ export const Header = ({ isPreview }) => {
         </Flex>
 
         {showPip && <PIPComponent />}
-        {peerCount && (
-          <Box css={{ mx: "$2" }}>
-            <ParticipantList />
-          </Box>
-        )}
+        <Box css={{ mx: "$2" }}>
+          <ParticipantList />
+        </Box>
       </Flex>
     </Flex>
   );

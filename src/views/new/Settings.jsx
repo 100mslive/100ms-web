@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDevices, DeviceType } from "@100mslive/react-sdk";
-import { Dialog, Select, Button, Flex } from "@100mslive/react-ui";
+import { Dialog, Select, Button, Flex, Text } from "@100mslive/react-ui";
 import { AudioLevelIcon } from "@100mslive/react-icons";
 import { HorizontalDivider } from "@100mslive/react-ui";
 
@@ -71,7 +71,7 @@ const Settings = ({ children }) => {
         )}
         {audioOutput && (
           <Row>
-            <span>Test Speaker:</span>
+            <Text>Test Speaker:</Text>
             <TestAudio id={selectedDeviceIDs.audioOutput} />
           </Row>
         )}
@@ -83,7 +83,7 @@ const Settings = ({ children }) => {
 const DeviceSelector = ({ title, devices, selection, onChange }) => {
   return (
     <Row>
-      <span>{title}:</span>
+      <Text>{title}:</Text>
       <Select.Root css={{ width: "70%", "@sm": { width: "100%" } }}>
         <Select.DefaultDownIcon />
         <Select.Select
