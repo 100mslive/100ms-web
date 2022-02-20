@@ -5,13 +5,7 @@ import {
   useHMSActions,
   selectAvailableRoleNames,
 } from "@100mslive/react-sdk";
-import {
-  Dialog,
-  Checkbox,
-  CheckboxIndicator,
-  CheckboxLabel,
-  Button,
-} from "@100mslive/react-ui";
+import { Dialog, Label, Checkbox, Button } from "@100mslive/react-ui";
 import { CheckIcon, SettingIcon } from "@100mslive/react-icons";
 import { DialogContent, DialogRow, DialogSelect } from "./DialogContent";
 
@@ -19,7 +13,7 @@ export const RoleChangeModal = ({ peerId, onClose }) => {
   const peer = useHMSStore(selectPeerByID(peerId));
   const roles = useHMSStore(selectAvailableRoleNames);
   const [selectedRole, setRole] = useState(peer?.roleName);
-  const [forceChange, setForceChange] = useState(false);
+  const [requestPermission, setRequestPermission] = useState(true);
   const hmsActions = useHMSActions();
   return (
     <Dialog defaultOpen onOpenChange={value => !value && onClose()}>
@@ -34,23 +28,26 @@ export const RoleChangeModal = ({ peerId, onClose }) => {
           onChange={setRole}
         />
         <DialogRow>
-          <CheckboxLabel htmlFor="permissionCheckbox">
-            Don't ask for permissions:
-          </CheckboxLabel>
-          <Checkbox
+          <Label htmlFor="permissionCheckbox">Request Permission:</Label>
+          <Checkbox.Root
             id="permissionCheckbox"
-            onCheckedChange={value => setForceChange(value)}
+            checked={requestPermission}
+            onCheckedChange={value => setRequestPermission(value)}
           >
-            <CheckboxIndicator>
+            <Checkbox.Indicator>
               <CheckIcon width={16} height={16} />
-            </CheckboxIndicator>
-          </Checkbox>
+            </Checkbox.Indicator>
+          </Checkbox.Root>
         </DialogRow>
         <DialogRow justify="end">
           <Button
             variant="primary"
             onClick={async () => {
-              await hmsActions.changeRole(peerId, selectedRole, forceChange);
+              await hmsActions.changeRole(
+                peerId,
+                selectedRole,
+                !requestPermission
+              );
               onClose();
             }}
           >
