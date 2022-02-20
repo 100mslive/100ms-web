@@ -72,6 +72,12 @@ export function EdtechComponent({
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
+  const [themeType, setThemeType] = useState(theme);
+  useEffect(() => {
+    window.toggleUiTheme = () => {
+      setThemeType(themeType === "dark" ? "light" : "dark");
+    };
+  }, [themeType]);
   return (
     <HMSThemeProvider
       config={{
@@ -91,7 +97,7 @@ export function EdtechComponent({
         },
       }}
       appBuilder={{
-        theme: theme || "dark",
+        theme: themeType,
         enableChat: showChat === "true",
         enableScreenShare: showScreenshare === "true",
         logo: logo,
@@ -104,7 +110,7 @@ export function EdtechComponent({
       toast={(message, options = {}) => hmsToast(message, options)}
     >
       <ReactUIProvider
-        themeType={theme}
+        themeType={themeType}
         aspectRatio={{ width, height }}
         theme={{
           colors: {
@@ -228,18 +234,11 @@ function AppRoutes({ getUserToken }) {
 }
 
 export default function App() {
-  const [theme, setTheme] = useState(process.env.REACT_APP_THEME || "dark");
-  useEffect(() => {
-    window.toggleUiTheme = () => {
-      setTheme(theme === "dark" ? "light" : "dark");
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme]);
   return (
     <EdtechComponent
       themeConfig={{
         aspectRatio: process.env.REACT_APP_TILE_SHAPE,
-        theme: theme,
+        theme: process.env.REACT_APP_THEME,
         color: process.env.REACT_APP_COLOR,
         logo: process.env.REACT_APP_LOGO,
         font: process.env.REACT_APP_FONT,
