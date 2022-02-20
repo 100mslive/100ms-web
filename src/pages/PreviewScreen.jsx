@@ -11,6 +11,8 @@ import { Header } from "../views/new/Header";
 import { ErrorDialog } from "../views/new/DialogContent";
 
 const env = process.env.REACT_APP_ENV;
+// use this field to join directly for quick testing while in local
+const directJoinNoHeadless = false;
 
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
@@ -21,7 +23,7 @@ const PreviewScreen = ({ getUserToken }) => {
   // skip preview for beam recording and streaming
   const beamInToken = useSearchParam("token") === "beam_recording"; // old format to remove
   let skipPreview = useSearchParam(SKIP_PREVIEW) === "true";
-  skipPreview = skipPreview || beamInToken;
+  skipPreview = skipPreview || beamInToken || directJoinNoHeadless;
 
   useEffect(() => {
     const getTokenFn = !userRole
@@ -37,7 +39,7 @@ const PreviewScreen = ({ getUserToken }) => {
   }, [tokenEndpoint, urlRoomId, getUserToken, userRole]);
 
   const onJoin = () => {
-    setIsHeadless(skipPreview);
+    !directJoinNoHeadless && setIsHeadless(skipPreview);
     let meetingURL = `/meeting/${urlRoomId}`;
     if (userRole) {
       meetingURL += `/${userRole}`;
