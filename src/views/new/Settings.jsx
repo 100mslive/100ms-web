@@ -11,7 +11,7 @@ const Settings = ({ children }) => {
     <Dialog>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <DialogContent Icon={SettingIcon} title="Settings">
-        {videoInput.length && (
+        {videoInput.length ? (
           <DeviceSelector
             title="Video"
             devices={videoInput}
@@ -23,8 +23,8 @@ const Settings = ({ children }) => {
               })
             }
           />
-        )}
-        {audioInput.length && (
+        ) : null}
+        {audioInput.length ? (
           <DeviceSelector
             title="Microphone"
             devices={audioInput}
@@ -36,8 +36,8 @@ const Settings = ({ children }) => {
               })
             }
           />
-        )}
-        {audioOutput.length && (
+        ) : null}
+        {audioOutput.length ? (
           <DeviceSelector
             title="Speaker"
             devices={audioOutput}
@@ -49,13 +49,11 @@ const Settings = ({ children }) => {
               })
             }
           />
-        )}
-        {audioOutput && (
-          <DialogRow>
-            <Text>Test Speaker:</Text>
-            <TestAudio id={selectedDeviceIDs.audioOutput} />
-          </DialogRow>
-        )}
+        ) : null}
+        <DialogRow>
+          <Text>Test Speaker:</Text>
+          <TestAudio id={selectedDeviceIDs.audioOutput} />
+        </DialogRow>
       </DialogContent>
     </Dialog>
   );
@@ -82,7 +80,9 @@ const TestAudio = ({ id }) => {
   useEffect(() => {
     if (audioRef.current && id) {
       try {
-        audioRef.current.setSinkId(id);
+        if (typeof audioRef.current.setSinkId !== undefined) {
+          audioRef.current.setSinkId(id);
+        }
       } catch (error) {
         console.log(error);
       }
