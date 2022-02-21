@@ -1,11 +1,6 @@
 import React, { Fragment, useState } from "react";
 import {
   Dropdown,
-  DropdownTrigger,
-  DropdownContent,
-  DropdownItem,
-  DropdownGroup,
-  DropdownLabel,
   Flex,
   Box,
   Text,
@@ -13,9 +8,17 @@ import {
   textEllipsis,
   IconButton,
 } from "@100mslive/react-ui";
-import { PeopleIcon, SettingIcon } from "@100mslive/react-icons";
-import { selectPermissions, useHMSStore } from "@100mslive/react-sdk";
-import { useParticipantList } from "../hooks/useParticipantList";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  PeopleIcon,
+  SettingIcon,
+} from "@100mslive/react-icons";
+import {
+  selectPermissions,
+  useHMSStore,
+  useParticipantList,
+} from "@100mslive/react-sdk";
 import { RoleChangeModal } from "./RoleChangeModal";
 
 export const ParticipantList = () => {
@@ -30,19 +33,25 @@ export const ParticipantList = () => {
 
   return (
     <Fragment>
-      <Dropdown open={open} onOpenChange={value => setOpen(value)}>
-        <DropdownTrigger asChild>
+      <Dropdown.Root open={open} onOpenChange={value => setOpen(value)}>
+        <Dropdown.Trigger
+          css={{
+            borderRadius: "$1",
+            border: "1px solid $textPrimary",
+          }}
+        >
           <Flex
             css={{
               color: "$textPrimary",
-              borderRadius: "$1",
-              border: "1px solid $textPrimary",
             }}
           >
             <ParticipantCount peerCount={peerCount} />
+            <Box css={{ ml: "$2", "@lg": { display: "none" } }}>
+              {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            </Box>
           </Flex>
-        </DropdownTrigger>
-        <DropdownContent
+        </Dropdown.Trigger>
+        <Dropdown.Content
           sideOffset={5}
           align="end"
           css={{ height: "auto", maxHeight: "$96" }}
@@ -50,7 +59,7 @@ export const ParticipantList = () => {
           {roles.map(role => {
             const participants = participantsByRoles[role];
             return (
-              <DropdownGroup
+              <Dropdown.Group
                 css={{
                   h: "auto",
                   flexDirection: "column",
@@ -66,11 +75,11 @@ export const ParticipantList = () => {
                   showActions={isConnected}
                   onParticipantAction={setSelectedPeerId}
                 />
-              </DropdownGroup>
+              </Dropdown.Group>
             );
           })}
-        </DropdownContent>
-      </Dropdown>
+        </Dropdown.Content>
+      </Dropdown.Root>
       {selectedPeerId && (
         <RoleChangeModal
           peerId={selectedPeerId}
@@ -104,24 +113,26 @@ const ParticipantListInARole = ({
 }) => {
   return (
     <>
-      <DropdownLabel css={{ h: "$14" }}>
+      <Dropdown.Label css={{ h: "$14" }}>
         <Text variant="md" css={{ pl: "$8" }}>
           {roleName}({participants.length})
         </Text>
-      </DropdownLabel>
+      </Dropdown.Label>
       {participants.map(peer => {
         return (
-          <DropdownItem key={peer.id} css={{ w: "100%", h: "$14" }}>
-            <Avatar
-              shape="square"
-              name={peer.name}
-              css={{
-                position: "unset",
-                transform: "unset",
-                mr: "$4",
-                fontSize: "$sm",
-              }}
-            />
+          <Dropdown.Item key={peer.id} css={{ w: "100%", h: "$14" }}>
+            <Box css={{ width: "$13" }}>
+              <Avatar
+                shape="square"
+                name={peer.name}
+                css={{
+                  position: "unset",
+                  transform: "unset",
+                  mr: "$4",
+                  fontSize: "$sm",
+                }}
+              />
+            </Box>
             <Text variant="md" css={{ ...textEllipsis(150), flex: "1 1 0" }}>
               {peer.name}
             </Text>
@@ -134,7 +145,7 @@ const ParticipantListInARole = ({
                 canChangeRole={canChangeRole}
               />
             )}
-          </DropdownItem>
+          </Dropdown.Item>
         );
       })}
     </>

@@ -52,7 +52,7 @@ export const ErrorDialog = ({
   ...props
 }) => {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <DialogContent
         Icon={CrossIcon}
         title={title}
@@ -65,7 +65,7 @@ export const ErrorDialog = ({
       >
         <Box css={{ mt: "$lg" }}>{children}</Box>
       </DialogContent>
-    </Dialog>
+    </Dialog.Root>
   );
 };
 

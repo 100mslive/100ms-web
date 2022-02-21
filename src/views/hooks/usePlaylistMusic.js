@@ -26,21 +26,10 @@ export const usePlaylistMusic = () => {
 
   const setVolume = useCallback(
     value => {
-      hmsActions.audioPlaylist.setVolume(value);
+      hmsActions.setVolume(value, track?.id);
     },
-    [hmsActions]
+    [hmsActions, track]
   );
 
-  if (!peer || !track) {
-    return null;
-  }
-  // Don't show mute option if remote peer has disabled
-  if (!peer.isLocal && !track.enabled) {
-    return null;
-  }
-
-  if (peer.isLocal && !selection) {
-    return null;
-  }
   return { selection, peer, track, play, pause, setVolume };
 };
