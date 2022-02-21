@@ -21,7 +21,8 @@ export class FeatureFlags {
     // ask permissions in preview even if role doesn't have it
     window.HMS.ALWAYS_REQUEST_PERMISSIONS = false;
     // add support for server degradation
-    window.HMS.SERVER_SUB_DEGRADE = process.env.REACT_APP_SERVER_SUB_DEGRADE === "true"
+    window.HMS.SERVER_SUB_DEGRADE =
+      process.env.REACT_APP_SERVER_SUB_DEGRADE === "true";
 
     if (parsedUserAgent.getOS().name.toLowerCase() === "ios") {
       window.HMS.GAIN_VALUE = 10;

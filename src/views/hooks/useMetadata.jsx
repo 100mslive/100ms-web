@@ -3,7 +3,7 @@ import {
   useHMSStore,
   selectPeerMetadata,
   selectLocalPeerID,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 
 export const useMyMetadata = () => {
   const hmsActions = useHMSActions();

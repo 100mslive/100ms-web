@@ -2,8 +2,6 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import {
-  useHMSNotifications,
-  HMSNotificationTypes,
   Text,
   PoorConnectivityIcon,
   ConnectivityIcon,
@@ -11,6 +9,10 @@ import {
   Button,
   HandIcon,
 } from "@100mslive/hms-video-react";
+import {
+  useHMSNotifications,
+  HMSNotificationTypes,
+} from "@100mslive/react-sdk";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";

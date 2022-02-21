@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, Fragment } from "react";
-import {
-  isMobileDevice,
-  selectHLSState,
-  Text,
-  useHMSStore,
-} from "@100mslive/hms-video-react";
+import { isMobileDevice, Text } from "@100mslive/hms-video-react";
+import { useHMSStore, selectHLSState } from "@100mslive/react-sdk";
 import Hls from "hls.js";
 import { ChatView } from "./components/chatView";
 import { FeatureFlags } from "../store/FeatureFlags";

@@ -1,10 +1,10 @@
 import { Fragment, useState } from "react";
+import { MessageModal } from "@100mslive/hms-video-react";
 import {
-  MessageModal,
   selectPermissions,
   useHMSActions,
   useHMSStore,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 import { useHistory, useParams } from "react-router-dom";
 import { HangUpIcon } from "@100mslive/react-icons";
 import { Button, Text, Popover } from "@100mslive/react-ui";

@@ -13,19 +13,21 @@ import {
   PersonIcon,
   UiSettings,
   SettingsIcon,
-  useHMSStore,
-  selectAvailableRoleNames,
-  selectLocalPeer,
   TickIcon,
   GridIcon,
   ArrowRightIcon,
-  useHMSActions,
-  selectPermissions,
   FullScreenIcon,
   RecordIcon,
   StarIcon,
   ChangeTextIcon,
 } from "@100mslive/hms-video-react";
+import {
+  selectPermissions,
+  useHMSActions,
+  useHMSStore,
+  selectAvailableRoleNames,
+  selectLocalPeer,
+} from "@100mslive/react-sdk";
 import { InfoIcon } from "@100mslive/react-icons";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";

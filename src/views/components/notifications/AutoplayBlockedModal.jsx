@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  MessageModal,
-  useHMSActions,
-} from "@100mslive/hms-video-react";
+import { Button, MessageModal } from "@100mslive/hms-video-react";
+import { useHMSActions } from "@100mslive/react-sdk";
 
 export function AutoplayBlockedModal({ notification }) {
   const hmsActions = useHMSActions();

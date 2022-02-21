@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { selectPeers, useHMSStore } from "@100mslive/hms-video-react";
 import {
+  selectPeers,
+  useHMSStore,
   selectDominantSpeaker,
   selectLocalPeer,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 import { GridCenterView, GridSidePaneView } from "./components/gridView";
 
 export const ActiveSpeakerView = ({

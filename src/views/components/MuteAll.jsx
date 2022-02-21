@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from "react";
+import { MessageModal, Button } from "@100mslive/hms-video-react";
 import {
-  MessageModal,
   selectAvailableRoleNames,
   useHMSStore,
-  Button,
   useHMSActions,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 
 const defaultClasses = {
   form: "flex flex-col justify-center",

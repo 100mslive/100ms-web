@@ -1,10 +1,6 @@
 import { useState } from "react";
-import {
-  Button,
-  HMSNotificationTypes,
-  MessageModal,
-  useHMSActions,
-} from "@100mslive/hms-video-react";
+import { Button, MessageModal } from "@100mslive/hms-video-react";
+import { HMSNotificationTypes, useHMSActions } from "@100mslive/react-sdk";
 import { useEffect } from "react";
 
 export const TrackUnmuteModal = ({ notification }) => {
