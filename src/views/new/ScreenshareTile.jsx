@@ -11,6 +11,7 @@ import { ExpandIcon, ShrinkIcon } from "@100mslive/react-icons";
 import { useFullscreen } from "react-use";
 import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
+import screenfull from "screenfull";
 
 const Tile = ({
   peerId,
@@ -29,6 +30,7 @@ const Tile = ({
   const isFullscreen = useFullscreen(fullscreenRef, fullscreen, {
     onClose: () => setFullscreen(false),
   });
+  const isFullScreenSupported = screenfull.isEnabled;
   const audioTrack = useHMSStore(selectScreenShareAudioByPeerID(peer?.id));
   return (
     <StyledVideoTile.Root css={{ width, height }}>
@@ -47,11 +49,13 @@ const Tile = ({
               videoTrackID={track?.id}
             />
           ) : null}
-          <StyledVideoTile.FullScreenButton
-            onClick={() => setFullscreen(!fullscreen)}
-          >
-            {isFullscreen ? <ShrinkIcon /> : <ExpandIcon />}
-          </StyledVideoTile.FullScreenButton>
+          {isFullScreenSupported ? (
+            <StyledVideoTile.FullScreenButton
+              onClick={() => setFullscreen(!fullscreen)}
+            >
+              {isFullscreen ? <ShrinkIcon /> : <ExpandIcon />}
+            </StyledVideoTile.FullScreenButton>
+          ) : null}
           {track ? (
             <Video
               screenShare={true}
