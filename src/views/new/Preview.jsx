@@ -122,6 +122,7 @@ const PreviewTile = ({ name }) => {
         aspectRatio: width / height,
         width: "unset",
         height: "min(360px, 60vh)",
+        backgroundColor: "$previewBg",
       }}
       ref={borderAudioRef}
     >
