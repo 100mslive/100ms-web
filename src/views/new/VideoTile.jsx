@@ -1,5 +1,5 @@
 // @ts-check
-import React, { useState } from "react";
+import React from "react";
 import {
   Avatar,
   StyledVideoTile,
@@ -9,32 +9,22 @@ import {
 } from "@100mslive/react-ui";
 import {
   useHMSStore,
-  selectIsPeerAudioEnabled,
   selectIsPeerVideoEnabled,
   selectPeerByID,
   selectPeerMetadata,
   selectVideoTrackByPeerID,
 } from "@100mslive/react-sdk";
-import {
-  MicOffIcon,
-  HandRaiseFilledIcon,
-  BrbIcon,
-} from "@100mslive/react-icons";
-import TileMenu from "./TileMenu";
-import { getVideoTileLabel } from "./peerTileUtils";
+import { HandRaiseFilledIcon, BrbIcon } from "@100mslive/react-icons";
 
 const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
   const track = useHMSStore(selectVideoTrackByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
-  const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
-  const [isMouseHovered, setIsMouseHovered] = useState(false);
   const metaData = useHMSStore(selectPeerMetadata(peerId));
   const borderAudioRef = useBorderAudioLevel(peer?.audioTrack);
   const isVideoDegraded = track?.degraded;
   const isHandRaised = metaData?.isHandRaised || false;
   const isBRB = metaData?.isBRBOn || false;
-  const label = getVideoTileLabel(peer, track);
   return (
     <StyledVideoTile.Root css={{ width, height }}>
       {peer ? (
@@ -61,19 +51,6 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
           ) : null}
           {isVideoMuted || isVideoDegraded ? (
             <Avatar name={peer?.name || ""} />
-          ) : null}
-          <StyledVideoTile.Info>{label}</StyledVideoTile.Info>
-          {isAudioMuted ? (
-            <StyledVideoTile.AudioIndicator>
-              <MicOffIcon />
-            </StyledVideoTile.AudioIndicator>
-          ) : null}
-          {isMouseHovered && !peer?.isLocal ? (
-            <TileMenu
-              peerID={peer?.id}
-              audioTrackID={peer?.audioTrack}
-              videoTrackID={peer?.videoTrack}
-            />
           ) : null}
           {isHandRaised ? (
             <StyledVideoTile.AttributeBox>

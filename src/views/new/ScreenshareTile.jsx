@@ -9,8 +9,6 @@ import {
 } from "@100mslive/react-sdk";
 import { ExpandIcon, ShrinkIcon } from "@100mslive/react-icons";
 import { useFullscreen } from "react-use";
-import TileMenu from "./TileMenu";
-import { getVideoTileLabel } from "./peerTileUtils";
 import screenfull from "screenfull";
 
 const Tile = ({
@@ -21,8 +19,6 @@ const Tile = ({
 }) => {
   const track = useHMSStore(selectScreenShareByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
-  const [isMouseHovered, setIsMouseHovered] = useState(false);
-  const label = getVideoTileLabel(peer, track);
   const fullscreenRef = useRef(null);
   // fullscreen is for desired state
   const [fullscreen, setFullscreen] = useState(false);
@@ -61,15 +57,6 @@ const Tile = ({
               screenShare={true}
               mirror={peer.isLocal && track?.source === "regular"}
               trackId={track.id}
-            />
-          ) : null}
-          <StyledVideoTile.Info>{label}</StyledVideoTile.Info>
-          {isMouseHovered && !peer?.isLocal ? (
-            <TileMenu
-              isScreenshare
-              peerID={peer?.id}
-              audioTrackID={audioTrack?.id}
-              videoTrackID={track?.id}
             />
           ) : null}
         </StyledVideoTile.Container>
