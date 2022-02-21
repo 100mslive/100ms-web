@@ -22,11 +22,7 @@ const Editor = React.memo(({ roomId }) => {
   );
 });
 
-export const WhiteboardView = ({
-  isChatOpen,
-  toggleChat,
-  isParticipantListOpen,
-}) => {
+export const WhiteboardView = ({ isChatOpen, toggleChat }) => {
   const peers = useHMSStore(selectPeers);
   const roomId = useHMSStore(selectRoomID);
   return (
@@ -56,7 +52,6 @@ export const WhiteboardView = ({
           toggleChat={toggleChat}
           isPresenterInSmallTiles={true}
           smallTilePeers={peers}
-          isParticipantListOpen={isParticipantListOpen}
           totalPeers={peers.length}
         />
       </Flex>
