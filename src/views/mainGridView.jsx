@@ -3,7 +3,7 @@ import {
   selectLocalPeerID,
   selectPeers,
   useHMSStore,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
 import { GridCenterView, GridSidePaneView } from "./components/gridView";
 import { AppContext } from "../store/AppContext";

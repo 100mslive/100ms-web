@@ -120,8 +120,8 @@ const PreviewTile = ({ name }) => {
     <StyledVideoTile.Container
       css={{
         aspectRatio: width / height,
-        width: "min(500px, 100vw)",
-        height: "unset",
+        width: "unset",
+        height: "min(360px, 60vh)",
       }}
       ref={borderAudioRef}
     >

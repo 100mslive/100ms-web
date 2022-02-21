@@ -13,7 +13,7 @@ const defaultClasses = {
   HLSVideo: "h-full m-auto",
 };
 
-export const HLSView = ({ isChatOpen, toggleChat, isParticipantListOpen }) => {
+export const HLSView = ({ isChatOpen, toggleChat }) => {
   const videoRef = useRef(null);
   const hlsState = useHMSStore(selectHLSState);
   useEffect(() => {

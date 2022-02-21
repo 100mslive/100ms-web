@@ -1,21 +1,23 @@
 import { useState, useCallback } from "react";
 import {
-  useHMSStore,
   ControlBar,
   AudioPlaylist,
   Button,
   VideoPlaylistIcon,
   MessageModal,
+  VideoPlaylist,
+} from "@100mslive/hms-video-react";
+import {
   useHMSActions,
+  useHMSStore,
   selectIsLocalScreenShared,
   selectUnreadHMSMessagesCount,
   selectIsAllowedToPublish,
   selectLocalPeerID,
   selectScreenSharesByPeerId,
   selectVideoPlaylist,
-  VideoPlaylist,
   selectIsConnectedToRoom,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 import { MoreSettings } from "./components/MoreSettings";
 import { AudioVideoToggle } from "./components/AudioVideoToggle";
 import { LeaveRoom } from "./components/LeaveRoom";

@@ -34,8 +34,7 @@ export const Conference = () => {
     if (!roomId) {
       history.push(`/`);
     }
-    if (!isConnectingToRoom || isConnectedToRoom) {
-      // redirect to join if token not present
+    if (!(isConnectingToRoom || isConnectedToRoom)) {
       if (role) history.push(`/preview/${roomId || ""}/${role}`);
       else history.push(`/preview/${roomId || ""}`);
     }
