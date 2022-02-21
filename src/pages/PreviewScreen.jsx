@@ -12,7 +12,7 @@ import { ErrorDialog } from "../views/new/DialogContent";
 
 const env = process.env.REACT_APP_ENV;
 // use this field to join directly for quick testing while in local
-const directJoinNoHeadless = false;
+const directJoinNoHeadless = true;
 
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();

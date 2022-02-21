@@ -9,17 +9,7 @@ import {
   Button,
   ContextMenu,
   ContextMenuItem,
-  HamburgerMenuIcon,
-  PersonIcon,
   UiSettings,
-  SettingsIcon,
-  TickIcon,
-  GridIcon,
-  ArrowRightIcon,
-  FullScreenIcon,
-  RecordIcon,
-  StarIcon,
-  ChangeTextIcon,
 } from "@100mslive/hms-video-react";
 import {
   selectPermissions,
@@ -28,7 +18,19 @@ import {
   selectAvailableRoleNames,
   selectLocalPeer,
 } from "@100mslive/react-sdk";
-import { InfoIcon } from "@100mslive/react-icons";
+import {
+  InfoIcon,
+  MenuIcon,
+  PersonIcon,
+  CheckIcon,
+  SettingIcon,
+  SpotlightIcon,
+  GridIcon,
+  ArrowRightIcon,
+  ComputerIcon,
+  RecordIcon,
+  TextboxIcon,
+} from "@100mslive/react-icons";
 import { AppContext } from "../../store/AppContext";
 import { hmsToast } from "./notifications/hms-toast";
 import { arrayIntersection, setFullScreenEnabled } from "../../common/utils";
@@ -128,7 +130,7 @@ export const MoreSettings = () => {
             active={showMenu}
             key="hamburgerIcon"
           >
-            <HamburgerMenuIcon />
+            <MenuIcon />
           </Button>
         }
         menuProps={{
@@ -143,7 +145,7 @@ export const MoreSettings = () => {
         }}
       >
         <ContextMenuItem
-          icon={<ChangeTextIcon />}
+          icon={<TextboxIcon />}
           label="Change my name"
           key="change-name"
           onClick={() => setShowChangeNameModal(true)}
@@ -196,7 +198,7 @@ export const MoreSettings = () => {
                       }}
                       iconRight={
                         localPeer && localPeer.roleName === role ? (
-                          <TickIcon width={16} height={16} />
+                          <CheckIcon width={16} height={16} />
                         ) : null
                       }
                     />
@@ -218,7 +220,7 @@ export const MoreSettings = () => {
         )}
         {screenfull.isEnabled && (
           <ContextMenuItem
-            icon={<FullScreenIcon />}
+            icon={<ComputerIcon />}
             label={`${isFullScreenEnabled ? "Exit " : ""}Full Screen`}
             key="toggleFullScreen"
             onClick={() => {
@@ -229,7 +231,7 @@ export const MoreSettings = () => {
         {permissions.mute && (
           <ContextMenuItem
             label="Mute All"
-            icon={<StarIcon />}
+            icon={<SpotlightIcon />}
             onClick={() => {
               setShowMuteAll(true);
             }}
@@ -247,7 +249,7 @@ export const MoreSettings = () => {
           />
         )}
         <ContextMenuItem
-          icon={<SettingsIcon />}
+          icon={<SettingIcon />}
           label="Device Settings"
           key="settings"
           onClick={() => {

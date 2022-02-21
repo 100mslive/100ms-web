@@ -3,7 +3,6 @@ import {
   ControlBar,
   AudioPlaylist,
   Button,
-  VideoPlaylistIcon,
   MessageModal,
   VideoPlaylist,
 } from "@100mslive/hms-video-react";
@@ -30,6 +29,7 @@ import {
   BrbIcon,
   ChatUnreadIcon,
   ChatIcon,
+  VideoPlayerIcon,
 } from "@100mslive/react-icons";
 import { VirtualBackground } from "./components/VirtualBackground";
 import { isScreenshareSupported } from "../common/utils";
@@ -139,7 +139,7 @@ export const ConferenceFooter = ({ isChatOpen, toggleChat }) => {
       <Box css={{ "@md": { display: "none" } }} key="videoPlaylistIcon">
         <VideoPlaylist
           key="videoPlaylist"
-          trigger={<VideoPlaylistIcon />}
+          trigger={<VideoPlayerIcon />}
           active={activeVideoPlaylist}
         />
       </Box>

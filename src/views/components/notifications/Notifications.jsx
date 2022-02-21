@@ -1,14 +1,13 @@
 /* eslint-disable no-case-declarations */
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { Text, Button } from "@100mslive/hms-video-react";
 import {
-  Text,
-  PoorConnectivityIcon,
-  ConnectivityIcon,
-  PersonIcon,
-  Button,
   HandIcon,
-} from "@100mslive/hms-video-react";
+  PersonIcon,
+  ConnectivityIcon,
+  PoorConnectivityIcon,
+} from "@100mslive/react-icons";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
