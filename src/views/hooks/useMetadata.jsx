@@ -32,5 +32,12 @@ export const useMyMetadata = () => {
     await update({ isHandRaised, isBRBOn });
   };
 
-  return { isHandRaised, isBRBOn, toggleHandRaise, toggleBRB };
+  return {
+    isHandRaised,
+    isBRBOn,
+    metaData,
+    updateMetaData: update,
+    toggleHandRaise,
+    toggleBRB,
+  };
 };
