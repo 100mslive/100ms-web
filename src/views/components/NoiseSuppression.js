@@ -4,6 +4,7 @@ import {
   useHMSStore,
   // useHMSNotifications,
   selectIsLocalAudioPluginPresent,
+  selectIsAllowedToPublish,
   // selectLocalAudioTrackID,
 } from "@100mslive/react-sdk";
 import { AudioLevelIcon } from "@100mslive/react-icons";
@@ -12,6 +13,7 @@ import { HMSNoiseSuppressionPlugin } from "@100mslive/hms-noise-suppression";
 
 export const NoiseSuppression = () => {
   const pluginRef = useRef(null);
+  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const hmsActions = useHMSActions();
   const isPluginPresent = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
@@ -58,7 +60,10 @@ export const NoiseSuppression = () => {
     }
   }
 
-  if (pluginRef.current && !pluginRef.current.isSupported()) {
+  if (
+    !isAllowedToPublish.audio ||
+    (pluginRef.current && !pluginRef.current.isSupported())
+  ) {
     return null;
   }
 

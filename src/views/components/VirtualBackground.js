@@ -5,6 +5,7 @@ import {
   useHMSActions,
   useHMSStore,
   selectIsLocalVideoPluginPresent,
+  selectIsAllowedToPublish,
 } from "@100mslive/react-sdk";
 import { VirtualBackgroundIcon } from "@100mslive/react-icons";
 import { IconButton, Tooltip } from "@100mslive/react-ui";
@@ -12,6 +13,7 @@ import { IconButton, Tooltip } from "@100mslive/react-ui";
 export const VirtualBackground = () => {
   const pluginRef = useRef(null);
   const hmsActions = useHMSActions();
+  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const isVBPresent = useHMSStore(
     selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
   );
@@ -44,7 +46,10 @@ export const VirtualBackground = () => {
     }
   }
 
-  if (pluginRef.current && !pluginRef.current.isSupported()) {
+  if (
+    !isAllowedToPublish.video ||
+    (pluginRef.current && !pluginRef.current.isSupported())
+  ) {
     return null;
   }
 

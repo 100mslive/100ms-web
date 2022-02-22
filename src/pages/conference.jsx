@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState, useCallback } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
 import { Header } from "../views/new/Header";
-import { ConferenceFooter } from "../views/footerView";
+// import { ConferenceFooter } from "../views/footerView";
 import { ConferenceMainView } from "../views/mainView";
 import { Button, MessageModal } from "@100mslive/hms-video-react";
 import {
@@ -15,6 +15,7 @@ import {
 } from "@100mslive/react-sdk";
 import { Box, Flex } from "@100mslive/react-ui";
 import FullPageProgress from "../views/components/FullPageSpinner";
+import { Footer } from "../views/new/Footer";
 
 export const Conference = () => {
   const history = useHistory();
@@ -61,7 +62,9 @@ export const Conference = () => {
       </Box>
       {!isHeadless && (
         <Box css={{ h: "10%" }}>
-          <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
+          {/* <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
+           */}
+          <Footer />
         </Box>
       )}
       <MessageModal
