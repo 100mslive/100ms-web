@@ -5,6 +5,7 @@ import {
   useScreenShare,
 } from "@100mslive/react-sdk";
 import {
+  Box,
   Flex,
   IconButton,
   Tooltip,
@@ -14,6 +15,7 @@ import { Fragment, useState } from "react";
 import { isScreenshareSupported } from "../../common/utils";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
 import { LeaveRoom } from "../components/LeaveRoom";
+import { MoreSettings } from "../components/MoreSettings";
 import { NoiseSuppression } from "../components/NoiseSuppression";
 import { VirtualBackground } from "../components/VirtualBackground";
 import { useMyMetadata } from "../hooks/useMetadata";
@@ -89,9 +91,25 @@ export const Footer = () => {
     <Flex
       justify="between"
       align="center"
-      css={{ position: "relative", height: "100%" }}
+      css={{
+        position: "relative",
+        height: "100%",
+        "@md": { flexWrap: "wrap" },
+      }}
     >
-      <Flex align="center" css={{ position: "absolute", left: "$4" }}>
+      <Flex
+        align="center"
+        css={{
+          position: "absolute",
+          left: "$7",
+          "@md": {
+            position: "unset",
+            ml: "$4",
+            justifyContent: "center",
+            w: "100%",
+          },
+        }}
+      >
         <ScreenshareAudio />
         <AudioPlaylist />
         <MetaActions />
@@ -101,8 +119,22 @@ export const Footer = () => {
         <Screenshare css={{ mx: "$4" }} />
         <VirtualBackground />
         <NoiseSuppression />
+        <VerticalDivider space={4} />
+        <MoreSettings key="MoreSettings" />
+        <Box css={{ display: "none", "@md": { display: "block", ml: "$4" } }}>
+          <LeaveRoom />
+        </Box>
       </Flex>
-      <Flex align="center" css={{ position: "absolute", right: "$4" }}>
+      <Flex
+        align="center"
+        css={{
+          position: "absolute",
+          right: "$7",
+          "@md": {
+            display: "none",
+          },
+        }}
+      >
         <LeaveRoom />
       </Flex>
     </Flex>
