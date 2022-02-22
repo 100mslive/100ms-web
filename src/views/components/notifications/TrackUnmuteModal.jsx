@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Button, MessageModal } from "@100mslive/hms-video-react";
+import { useState, useEffect } from "react";
 import { HMSNotificationTypes, useHMSActions } from "@100mslive/react-sdk";
-import { useEffect } from "react";
+import { Button, Dialog, Text } from "@100mslive/react-ui";
+import { DialogContent, DialogRow } from "../../new/DialogContent";
 
 export const TrackUnmuteModal = ({ notification }) => {
   const hmsActions = useHMSActions();
@@ -26,14 +26,17 @@ export const TrackUnmuteModal = ({ notification }) => {
   const { requestedBy: peer, track, enabled } = muteNotification;
 
   return (
-    <MessageModal
-      show
-      onClose={() => setMuteNotification(null)}
-      title="Track Unmute Request"
-      body={`${peer?.name} requested to unmute your ${track?.source} ${track?.type}`}
-      footer={
-        <div className="flex space-x-1">
+    <Dialog.Root defaultOpen>
+      <DialogContent title="Track Unmute Request">
+        <DialogRow>
+          <Text size="md">
+            {peer?.name} requested to unmute your {track?.source}
+            {track?.type}
+          </Text>
+        </DialogRow>
+        <DialogRow justify="end">
           <Button
+            variant="primary"
             onClick={() => {
               hmsActions.setEnabledTrack(track.id, enabled);
               setMuteNotification(null);
@@ -41,8 +44,8 @@ export const TrackUnmuteModal = ({ notification }) => {
           >
             Accept
           </Button>
-        </div>
-      }
-    />
+        </DialogRow>
+      </DialogContent>
+    </Dialog.Root>
   );
 };
