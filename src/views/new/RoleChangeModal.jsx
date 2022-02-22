@@ -16,7 +16,7 @@ export const RoleChangeModal = ({ peerId, onClose }) => {
   const [requestPermission, setRequestPermission] = useState(true);
   const hmsActions = useHMSActions();
   return (
-    <Dialog defaultOpen onOpenChange={value => !value && onClose()}>
+    <Dialog.Root defaultOpen onOpenChange={value => !value && onClose()}>
       <DialogContent
         Icon={SettingIcon}
         title={`User Settings (${peer?.name || "peer left"})`}
@@ -55,6 +55,6 @@ export const RoleChangeModal = ({ peerId, onClose }) => {
           </Button>
         </DialogRow>
       </DialogContent>
-    </Dialog>
+    </Dialog.Root>
   );
 };
