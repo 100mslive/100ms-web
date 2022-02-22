@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, MessageModal } from "@100mslive/hms-video-react";
 import { useHMSActions } from "@100mslive/react-sdk";
+import { Dialog, Text, Button } from "@100mslive/react-ui";
+import { DialogContent, DialogRow } from "../../new/DialogContent";
 
 export function AutoplayBlockedModal({ notification }) {
   const hmsActions = useHMSActions();
@@ -13,27 +14,33 @@ export function AutoplayBlockedModal({ notification }) {
   }, [notification]);
 
   return (
-    <MessageModal
-      show={showModal}
-      onClose={async () => {
-        setShowModal(false);
-        await hmsActions.unblockAudio();
+    <Dialog.Root
+      open={showModal}
+      onOpenChange={value => {
+        if (!value) {
+          hmsActions.unblockAudio();
+        }
+        setShowModal(value);
       }}
-      title="Autoplay blocked"
-      body="Autoplay blocked by browser please click on unblock for audio to work"
-      footer={
-        <div className="flex space-x-1">
+    >
+      <DialogContent title="Autoplay Error">
+        <DialogRow>
+          <Text size="md">
+            Autoplay blocked by browser, click on unblock for audio to work
+          </Text>
+        </DialogRow>
+        <DialogRow justify="end">
           <Button
+            variant="primary"
             onClick={async () => {
               setShowModal(false);
               await hmsActions.unblockAudio();
             }}
-            variant="emphasized"
           >
-            Unblock
+            Accept
           </Button>
-        </div>
-      }
-    />
+        </DialogRow>
+      </DialogContent>
+    </Dialog.Root>
   );
 }
