@@ -84,7 +84,7 @@ export const PlaylistAndStreaming = () => {
           css={{
             color: "$textPrimary",
             borderRadius: "$1",
-            border: "1px solid $textPrimary",
+            border: "1px solid $previewBg",
           }}
         >
           {!isScreenshareInactive && (
@@ -134,7 +134,7 @@ export const PlaylistAndStreaming = () => {
               </Tooltip>
             )}
           </Flex>
-          <Box css={{ "@lg": { display: "none" } }}>
+          <Box css={{ "@lg": { display: "none" }, color: "$textDisabled" }}>
             {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
           </Box>
         </Flex>
