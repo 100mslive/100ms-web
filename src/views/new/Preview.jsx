@@ -122,7 +122,6 @@ const PreviewTile = ({ name }) => {
         aspectRatio: width / height,
         width: "unset",
         height: "min(360px, 60vh)",
-        backgroundColor: "$previewBg",
       }}
       ref={borderAudioRef}
     >
@@ -130,15 +129,15 @@ const PreviewTile = ({ name }) => {
         <>
           <Video mirror={true} trackId={localPeer.videoTrack} />
           {!isVideoOn ? <Avatar name={name} /> : null}
-          <Controls>
+          <StyledVideoTile.AttributeBox css={controlStyles}>
             <AudioVideoToggle compact />
-          </Controls>
+          </StyledVideoTile.AttributeBox>
           <Settings>
-            <Setting>
+            <StyledVideoTile.AttributeBox css={settingStyles}>
               <IconButton>
                 <SettingIcon />
               </IconButton>
-            </Setting>
+            </StyledVideoTile.AttributeBox>
           </Settings>
         </>
       ) : (
@@ -150,7 +149,7 @@ const PreviewTile = ({ name }) => {
 
 const Container = styled("div", {
   borderRadius: "$2",
-  backgroundColor: "$tileBg",
+  backgroundColor: "$previewBg",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -164,8 +163,7 @@ const Container = styled("div", {
   },
 });
 
-const Controls = styled("div", {
-  position: "absolute",
+const controlStyles = {
   bottom: "10px",
   left: "50%",
   transform: "translate(-50%, 0)",
@@ -174,12 +172,11 @@ const Controls = styled("div", {
     marginRight: "0",
     marginLeft: "0.5rem",
   },
-});
+};
 
-const Setting = styled("div", {
-  position: "absolute",
+const settingStyles = {
   bottom: "10px",
   right: "20px",
-});
+};
 
 export default Preview;

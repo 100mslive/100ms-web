@@ -84,7 +84,7 @@ export const PlaylistAndStreaming = () => {
           css={{
             color: "$textPrimary",
             borderRadius: "$1",
-            border: "1px solid $previewBg",
+            border: "1px solid $bgTertiary",
           }}
         >
           {!isScreenshareInactive && (

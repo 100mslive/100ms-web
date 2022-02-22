@@ -76,12 +76,12 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
             />
           ) : null}
           {isHandRaised ? (
-            <StyledVideoTile.AttributeBox>
+            <StyledVideoTile.AttributeBox css={metaStyles}>
               <HandRaiseFilledIcon width={40} height={40} />
             </StyledVideoTile.AttributeBox>
           ) : null}
           {isBRB ? (
-            <StyledVideoTile.AttributeBox>
+            <StyledVideoTile.AttributeBox css={metaStyles}>
               <BrbIcon width={40} height={40} />
             </StyledVideoTile.AttributeBox>
           ) : null}
@@ -90,6 +90,8 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
     </StyledVideoTile.Root>
   );
 };
+
+const metaStyles = { left: "20px", bottom: "20px" };
 
 const VideoTile = React.memo(Tile);
 

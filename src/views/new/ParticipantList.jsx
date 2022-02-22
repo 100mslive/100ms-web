@@ -37,7 +37,7 @@ export const ParticipantList = () => {
         <Dropdown.Trigger
           css={{
             borderRadius: "$1",
-            border: "1px solid $previewBg",
+            border: "1px solid $bgTertiary",
           }}
         >
           <Flex
