@@ -34,15 +34,12 @@ export const ParticipantList = () => {
   return (
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={value => setOpen(value)}>
-        <Dropdown.Trigger
-          css={{
-            borderRadius: "$1",
-            border: "1px solid $bgTertiary",
-          }}
-        >
+        <Dropdown.Trigger asChild>
           <Flex
             css={{
               color: "$textPrimary",
+              borderRadius: "$1",
+              border: "1px solid $bgTertiary",
             }}
           >
             <ParticipantCount peerCount={peerCount} />

@@ -14,7 +14,7 @@ const Settings = ({ open, onOpenChange, children }) => {
   const { videoInput, audioInput, audioOutput } = allDevices;
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Trigger>{children}</Dialog.Trigger>
+      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <DialogContent Icon={SettingIcon} title="Settings">
         {videoInput?.length ? (
           <DeviceSelector

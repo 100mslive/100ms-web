@@ -78,6 +78,9 @@ export function EdtechComponent({
       setThemeType(themeType === "dark" ? "light" : "dark");
     };
   }, [themeType]);
+  useEffect(() => {
+    setThemeType(theme);
+  }, [theme]);
   return (
     <HMSThemeProvider
       config={{
