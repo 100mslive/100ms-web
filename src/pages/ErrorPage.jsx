@@ -25,7 +25,7 @@ function ErrorPage({ error }) {
           direction="column"
           css={{ position: "absolute", size: "100%", top: "33.33%", left: 0 }}
         >
-          <Text variant="h1">404</Text>
+          <Text variant="h2">404</Text>
           <Text variant="h4" css={{ mt: "1.75rem" }}>
             {error}
           </Text>
