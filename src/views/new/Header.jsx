@@ -24,7 +24,6 @@ import {
   useHMSStore,
   selectDominantSpeaker,
   selectLocalPeer,
-  selectPeerCount,
 } from "@100mslive/react-sdk";
 import { ParticipantList } from "./ParticipantList";
 import PIPComponent from "../PIP/PIPComponent";
