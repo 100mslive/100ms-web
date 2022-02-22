@@ -1,6 +1,13 @@
-import { BrbIcon, HandIcon, MusicIcon } from "@100mslive/react-icons";
+import {
+  BrbIcon,
+  ChatIcon,
+  ChatUnreadIcon,
+  HandIcon,
+  MusicIcon,
+} from "@100mslive/react-icons";
 import {
   selectIsAllowedToPublish,
+  selectUnreadHMSMessagesCount,
   useHMSStore,
   useScreenShare,
 } from "@100mslive/react-sdk";
@@ -86,7 +93,19 @@ export const MetaActions = () => {
   );
 };
 
-export const Footer = () => {
+const Chat = ({ isChatOpen, toggleChat }) => {
+  const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
+
+  return (
+    <Tooltip key="chat" title={`${isChatOpen ? "Close" : "Open"} chat`}>
+      <IconButton onClick={toggleChat} active={!isChatOpen}>
+        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+      </IconButton>
+    </Tooltip>
+  );
+};
+
+export const Footer = ({ isChatOpen, toggleChat }) => {
   return (
     <Flex
       justify="between"
@@ -111,6 +130,7 @@ export const Footer = () => {
         }}
       >
         <ScreenshareAudio />
+        <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
         <AudioPlaylist />
         <MetaActions />
       </Flex>

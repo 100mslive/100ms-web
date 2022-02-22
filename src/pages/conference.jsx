@@ -2,7 +2,6 @@ import React, { useEffect, useContext, useState, useCallback } from "react";
 import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
 import { Header } from "../views/new/Header";
-// import { ConferenceFooter } from "../views/footerView";
 import { ConferenceMainView } from "../views/mainView";
 import { Button, MessageModal } from "@100mslive/hms-video-react";
 import {
@@ -62,9 +61,7 @@ export const Conference = () => {
       </Box>
       {!isHeadless && (
         <Box css={{ h: "10%" }}>
-          {/* <ConferenceFooter isChatOpen={isChatOpen} toggleChat={toggleChat} />
-           */}
-          <Footer />
+          <Footer isChatOpen={isChatOpen} toggleChat={toggleChat} />
         </Box>
       )}
       <MessageModal
