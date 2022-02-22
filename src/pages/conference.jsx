@@ -1,8 +1,5 @@
 import React, { useEffect, useContext, useState, useCallback } from "react";
-import { AppContext } from "../store/AppContext";
 import { useHistory, useParams } from "react-router-dom";
-import { Header } from "../views/new/Header";
-import { ConferenceMainView } from "../views/mainView";
 import { Button, MessageModal } from "@100mslive/hms-video-react";
 import {
   selectRoomState,
@@ -13,8 +10,11 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { Box, Flex } from "@100mslive/react-ui";
-import FullPageProgress from "../views/components/FullPageSpinner";
+import { Header } from "../views/new/Header";
+import { ConferenceMainView } from "../views/mainView";
 import { Footer } from "../views/new/Footer";
+import FullPageProgress from "../views/components/FullPageSpinner";
+import { AppContext } from "../store/AppContext";
 
 export const Conference = () => {
   const history = useHistory();
