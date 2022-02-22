@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { parsedUserAgent } from "@100mslive/hms-video-react";
+import { parsedUserAgent } from "@100mslive/react-sdk";
 
 export class FeatureFlags {
   static enableTranscription =
