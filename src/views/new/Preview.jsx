@@ -95,6 +95,8 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
         >
           <Input
             css={{ mb: "1rem" }}
+            autoComplete="name"
+            type="text"
             required
             maxLength={20}
             value={name}
@@ -122,6 +124,10 @@ const PreviewTile = ({ name }) => {
         aspectRatio: width / height,
         width: "unset",
         height: "min(360px, 60vh)",
+        "@sm": {
+          height: "unset",
+          width: "min(360px, 90%)",
+        },
       }}
       ref={borderAudioRef}
     >
