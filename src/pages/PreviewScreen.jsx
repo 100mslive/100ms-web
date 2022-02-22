@@ -12,8 +12,7 @@ import { ErrorDialog } from "../views/new/DialogContent";
 
 const env = process.env.REACT_APP_ENV;
 // use this field to join directly for quick testing while in local
-const directJoinNoHeadless = true;
-
+const directJoinNoHeadless = process.env.REACT_APP_HEADLESS_JOIN === "true";
 const PreviewScreen = ({ getUserToken }) => {
   const history = useHistory();
   const { tokenEndpoint, setIsHeadless } = useContext(AppContext);
