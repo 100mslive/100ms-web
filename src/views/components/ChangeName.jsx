@@ -40,10 +40,6 @@ export const ChangeName = ({ show, onToggle }) => {
   const [currentName, setCurrentName] = useState("");
   const changeName = async () => {
     const name = currentName.trim();
-    if (name.length < 1) {
-      hmsToast("Enter a valid name!");
-      return;
-    }
     try {
       await hmsActions.changeName(name);
       setPreviewPreference({
@@ -79,6 +75,7 @@ export const ChangeName = ({ show, onToggle }) => {
               id="changeNameInput"
               type="text"
               autoFocus
+              required
               value={currentName}
               onChange={e => setCurrentName(e.target.value)}
               css={{ flex: "1 1 0", ml: "$8" }}
