@@ -12,7 +12,6 @@ import {
   useScreenShare,
 } from "@100mslive/react-sdk";
 import {
-  Box,
   Flex,
   IconButton,
   Tooltip,
@@ -132,7 +131,6 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
       >
         <ScreenshareAudio />
         <AudioPlaylist />
-        <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
         <MetaActions />
         {FeatureFlags.enableWhiteboard && <ToggleWhiteboard />}
       </Flex>
@@ -143,9 +141,13 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <NoiseSuppression />
         <VerticalDivider space={4} />
         <MoreSettings />
-        <Box css={{ display: "none", "@md": { display: "block", ml: "$4" } }}>
+        <Flex
+          align="center"
+          css={{ display: "none", "@md": { display: "flex", ml: "$4" } }}
+        >
+          <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
           <LeaveRoom showText={false} />
-        </Box>
+        </Flex>
       </Flex>
       <Flex
         align="center"
@@ -157,6 +159,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
           },
         }}
       >
+        <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
         <LeaveRoom />
       </Flex>
     </Flex>

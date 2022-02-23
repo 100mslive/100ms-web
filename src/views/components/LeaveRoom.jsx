@@ -52,7 +52,7 @@ export const LeaveRoom = ({ showText = true }) => {
                   color: "$white",
                 }}
               >
-                Leave Room
+                Leave
               </Text>
             </Button>
           </Popover.Trigger>
