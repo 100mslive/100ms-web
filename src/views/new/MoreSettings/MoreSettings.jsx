@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import {
   HamburgerMenuIcon,
   RecordIcon,
+  SettingIcon,
   SpotlightIcon,
   TextboxIcon,
 } from "@100mslive/react-icons";
@@ -12,6 +13,7 @@ import { ChangeSelfRole } from "./ChangeSelfRole";
 import { RecordingAndRTMPModal } from "../../components/RecordingAndRTMPModal";
 import { FullScreenItem } from "./FullScreenItem";
 import { MuteAll } from "../../components/MuteAll";
+import Settings from "../Settings";
 
 const hoverStyles = {
   "&:hover": {
@@ -26,6 +28,7 @@ export const MoreSettings = () => {
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
   const [showRecordingModal, setShowRecordingModal] = useState(false);
   const [showMuteAll, setShowMuteAll] = useState(false);
+  const [showDeviceSettings, setShowDeviceSettings] = useState(false);
 
   return (
     <Fragment>
@@ -40,7 +43,7 @@ export const MoreSettings = () => {
         <Dropdown.Content
           sideOffset={5}
           align="center"
-          css={{ bg: "$bgSecondary" }}
+          css={{ bg: "$bgSecondary", maxHeight: "$80" }}
         >
           <Dropdown.Item
             css={hoverStyles}
@@ -75,6 +78,16 @@ export const MoreSettings = () => {
               </Text>
             </Dropdown.Item>
           )}
+          <Dropdown.ItemSeparator />
+          <Dropdown.Item
+            onClick={() => setShowDeviceSettings(true)}
+            css={hoverStyles}
+          >
+            <SettingIcon />
+            <Text variant="sm" css={{ ml: "$4" }}>
+              Device Settings
+            </Text>
+          </Dropdown.Item>
         </Dropdown.Content>
       </Dropdown.Root>
       <MuteAll
@@ -89,6 +102,10 @@ export const MoreSettings = () => {
         show={showRecordingModal}
         onToggle={value => setShowRecordingModal(value)}
         permissions={permissions}
+      />
+      <Settings
+        open={showDeviceSettings}
+        onOpenChange={setShowDeviceSettings}
       />
     </Fragment>
   );
