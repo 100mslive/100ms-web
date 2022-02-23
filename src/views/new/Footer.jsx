@@ -11,13 +11,7 @@ import {
   useHMSStore,
   useScreenShare,
 } from "@100mslive/react-sdk";
-import {
-  Box,
-  Flex,
-  IconButton,
-  Tooltip,
-  VerticalDivider,
-} from "@100mslive/react-ui";
+import { Box, Flex, IconButton, Tooltip } from "@100mslive/react-ui";
 import { Fragment, useState } from "react";
 import { isScreenshareSupported } from "../../common/utils";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
@@ -63,7 +57,6 @@ const ScreenshareAudio = () => {
           <MusicIcon />
         </IconButton>
       </Tooltip>
-      <VerticalDivider space={4} />
       {showModal && (
         <ScreenShareHintModal onClose={() => setShowModal(false)} />
       )}
@@ -130,8 +123,8 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         }}
       >
         <ScreenshareAudio />
-        <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
         <AudioPlaylist />
+        <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
         <MetaActions />
       </Flex>
       <Flex align="center" justify="center" css={{ w: "100%" }}>
@@ -139,7 +132,6 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <Screenshare css={{ mx: "$4" }} />
         <VirtualBackground />
         <NoiseSuppression />
-        <VerticalDivider space={4} />
         <MoreSettings />
         <Box css={{ display: "none", "@md": { display: "block", ml: "$4" } }}>
           <LeaveRoom />
