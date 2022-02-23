@@ -17,7 +17,7 @@ export function AutoplayBlockedModal() {
     >
       <DialogContent title="Autoplay Error">
         <DialogRow>
-          <Text size="md">
+          <Text variant="md">
             Autoplay blocked by browser, click on unblock for audio to work
           </Text>
         </DialogRow>

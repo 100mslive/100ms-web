@@ -29,7 +29,7 @@ export const TrackUnmuteModal = ({ notification }) => {
     <Dialog.Root defaultOpen>
       <DialogContent title="Track Unmute Request">
         <DialogRow>
-          <Text size="md">
+          <Text variant="md">
             {peer?.name} requested to unmute your {track?.source}
             {track?.type}
           </Text>

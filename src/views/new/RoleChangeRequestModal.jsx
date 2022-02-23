@@ -17,7 +17,7 @@ export const RoleChangeRequestModal = () => {
     <Dialog.Root open={roleChangeRequest?.role && !isHeadless}>
       <DialogContent title="Role Change Request">
         <DialogRow>
-          <Text size="md">
+          <Text variant="md">
             Role change requested by {roleChangeRequest?.requestedBy?.name}.
             Changing role to {roleChangeRequest?.role?.name}.
           </Text>
