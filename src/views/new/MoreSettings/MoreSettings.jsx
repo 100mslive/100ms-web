@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import {
   HamburgerMenuIcon,
+  InfoIcon,
   RecordIcon,
   SettingIcon,
   SpotlightIcon,
@@ -8,12 +9,13 @@ import {
 } from "@100mslive/react-icons";
 import { selectPermissions, useHMSStore } from "@100mslive/react-sdk";
 import { Dropdown, IconButton, Text, Tooltip } from "@100mslive/react-ui";
-import { ChangeName } from "../../components/ChangeName";
+import { ChangeName, StatsForNerds } from "../../components/ChangeName";
 import { ChangeSelfRole } from "./ChangeSelfRole";
 import { RecordingAndRTMPModal } from "../../components/RecordingAndRTMPModal";
 import { FullScreenItem } from "./FullScreenItem";
 import { MuteAll } from "../../components/MuteAll";
 import Settings from "../Settings";
+import { FeatureFlags } from "../../../store/FeatureFlags";
 
 const hoverStyles = {
   "&:hover": {
@@ -29,6 +31,7 @@ export const MoreSettings = () => {
   const [showRecordingModal, setShowRecordingModal] = useState(false);
   const [showMuteAll, setShowMuteAll] = useState(false);
   const [showDeviceSettings, setShowDeviceSettings] = useState(false);
+  const [showStatsForNerds, setShowStatsForNerds] = useState(false);
 
   return (
     <Fragment>
@@ -88,6 +91,17 @@ export const MoreSettings = () => {
               Device Settings
             </Text>
           </Dropdown.Item>
+          {FeatureFlags.enableStatsForNerds && (
+            <Dropdown.Item
+              onClick={() => setShowStatsForNerds(true)}
+              css={hoverStyles}
+            >
+              <InfoIcon />
+              <Text variant="sm" css={{ ml: "$4" }}>
+                Stats for Nerds
+              </Text>
+            </Dropdown.Item>
+          )}
         </Dropdown.Content>
       </Dropdown.Root>
       <MuteAll
@@ -107,6 +121,12 @@ export const MoreSettings = () => {
         open={showDeviceSettings}
         onOpenChange={setShowDeviceSettings}
       />
+      {FeatureFlags.enableStatsForNerds && (
+        <StatsForNerds
+          showModal={showStatsForNerds}
+          onCloseModal={() => setShowStatsForNerds(false)}
+        />
+      )}
     </Fragment>
   );
 };
