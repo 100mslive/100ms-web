@@ -9,10 +9,12 @@ import { Dropdown, IconButton, Text, Tooltip } from "@100mslive/react-ui";
 import { ChangeName } from "../../components/ChangeName";
 import { ChangeSelfRole } from "./ChangeSelfRole";
 import { RecordingAndRTMPModal } from "../../components/RecordingAndRTMPModal";
+import { FullScreenItem } from "./FullScreenItem";
 
 const hoverStyles = {
   "&:hover": {
     cursor: "pointer",
+    bg: "$menuBg",
   },
 };
 
@@ -32,7 +34,11 @@ export const MoreSettings = () => {
             </IconButton>
           </Dropdown.Trigger>
         </Tooltip>
-        <Dropdown.Content sideOffset={5} align="center">
+        <Dropdown.Content
+          sideOffset={5}
+          align="center"
+          css={{ bg: "$bgSecondary" }}
+        >
           <Dropdown.Item
             css={hoverStyles}
             onClick={() => setShowChangeNameModal(value => !value)}
@@ -54,6 +60,7 @@ export const MoreSettings = () => {
               </Text>
             </Dropdown.Item>
           )}
+          <FullScreenItem hoverStyles={hoverStyles} />
         </Dropdown.Content>
       </Dropdown.Root>
       <ChangeName
