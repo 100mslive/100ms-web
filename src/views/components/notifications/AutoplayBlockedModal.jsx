@@ -1,26 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useHMSActions } from "@100mslive/react-sdk";
+import React from "react";
+import { useAutoplayError } from "@100mslive/react-sdk";
 import { Dialog, Text, Button } from "@100mslive/react-ui";
 import { DialogContent, DialogRow } from "../../new/DialogContent";
 
-export function AutoplayBlockedModal({ notification }) {
-  const hmsActions = useHMSActions();
-  const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    if (notification?.data?.code === 3008) {
-      setShowModal(true);
-    }
-  }, [notification]);
-
+export function AutoplayBlockedModal() {
+  const { error, resetError, unblockAudio } = useAutoplayError();
   return (
     <Dialog.Root
-      open={showModal}
+      open={!!error}
       onOpenChange={value => {
         if (!value) {
-          hmsActions.unblockAudio();
+          unblockAudio();
         }
-        setShowModal(value);
+        resetError();
       }}
     >
       <DialogContent title="Autoplay Error">
@@ -32,9 +24,9 @@ export function AutoplayBlockedModal({ notification }) {
         <DialogRow justify="end">
           <Button
             variant="primary"
-            onClick={async () => {
-              setShowModal(false);
-              await hmsActions.unblockAudio();
+            onClick={() => {
+              unblockAudio();
+              resetError();
             }}
           >
             Accept
