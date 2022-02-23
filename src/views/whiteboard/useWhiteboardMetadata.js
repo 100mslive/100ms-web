@@ -47,7 +47,9 @@ export const useWhiteboardMetadata = () => {
   }, [provider, whiteboardOwner, updateMetaData, amIWhiteboardOwner]);
 
   return {
+    /** is whiteboard enabled for the room */
     whiteboardEnabled: !!provider,
+    /** owner of the active whiteboard, can also be used to check if whiteboard is active */
     whiteboardOwner,
     amIWhiteboardOwner,
     toggleWhiteboard,
