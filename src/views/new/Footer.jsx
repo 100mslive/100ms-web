@@ -142,7 +142,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <VerticalDivider space={4} />
         <MoreSettings key="MoreSettings" />
         <Box css={{ display: "none", "@md": { display: "block", ml: "$4" } }}>
-          <LeaveRoom />
+          <LeaveRoom showText={false} />
         </Box>
       </Flex>
       <Flex

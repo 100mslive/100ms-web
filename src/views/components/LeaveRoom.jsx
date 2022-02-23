@@ -9,7 +9,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { HangUpIcon } from "@100mslive/react-icons";
 import { Button, Text, Popover } from "@100mslive/react-ui";
 
-export const LeaveRoom = () => {
+export const LeaveRoom = ({ showText = true }) => {
   const history = useHistory();
   const params = useParams();
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
@@ -42,7 +42,11 @@ export const LeaveRoom = () => {
             <Button variant="danger" key="LeaveRoom">
               <HangUpIcon key="hangUp" />
               <Text
-                css={{ ml: "$4", "@md": { display: "none" }, color: "$white" }}
+                css={{
+                  ml: "$4",
+                  display: showText ? "block" : "none",
+                  color: "$white",
+                }}
               >
                 Leave Room
               </Text>
