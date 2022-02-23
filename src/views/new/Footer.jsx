@@ -11,7 +11,13 @@ import {
   useHMSStore,
   useScreenShare,
 } from "@100mslive/react-sdk";
-import { Box, Flex, IconButton, Tooltip } from "@100mslive/react-ui";
+import {
+  Box,
+  Flex,
+  IconButton,
+  Tooltip,
+  VerticalDivider,
+} from "@100mslive/react-ui";
 import { Fragment, useState } from "react";
 import { isScreenshareSupported } from "../../common/utils";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
@@ -91,7 +97,7 @@ const Chat = ({ isChatOpen, toggleChat }) => {
 
   return (
     <Tooltip key="chat" title={`${isChatOpen ? "Close" : "Open"} chat`}>
-      <IconButton onClick={toggleChat} active={!isChatOpen}>
+      <IconButton css={{ mx: "$4" }} onClick={toggleChat} active={!isChatOpen}>
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </IconButton>
     </Tooltip>
@@ -132,6 +138,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <Screenshare css={{ mx: "$4" }} />
         <VirtualBackground />
         <NoiseSuppression />
+        <VerticalDivider space={4} />
         <MoreSettings />
         <Box css={{ display: "none", "@md": { display: "block", ml: "$4" } }}>
           <LeaveRoom />

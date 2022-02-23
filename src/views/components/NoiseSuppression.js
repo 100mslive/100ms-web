@@ -76,7 +76,7 @@ export const NoiseSuppression = () => {
         onClick={() => {
           !isPluginPresent ? addPlugin() : removePlugin();
         }}
-        css={{ ml: "$4" }}
+        css={{ mx: "$4" }}
       >
         <AudioLevelIcon />
       </IconButton>
