@@ -39,7 +39,11 @@ export const LeaveRoom = () => {
       {permissions.endRoom ? (
         <Popover.Root>
           <Popover.Trigger asChild>
-            <Button variant="danger" key="LeaveRoom">
+            <Button
+              variant="danger"
+              key="LeaveRoom"
+              css={{ "@md": { p: "$2" } }}
+            >
               <HangUpIcon key="hangUp" />
               <Text
                 css={{ ml: "$4", "@md": { display: "none" }, color: "$white" }}
