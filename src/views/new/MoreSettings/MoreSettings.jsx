@@ -22,7 +22,7 @@ import { UISettings } from "./UISettings";
 const hoverStyles = {
   "&:hover": {
     cursor: "pointer",
-    bg: "$menuBg",
+    bg: "$iconHoverBg",
   },
 };
 
@@ -49,7 +49,7 @@ export const MoreSettings = () => {
         <Dropdown.Content
           sideOffset={5}
           align="center"
-          css={{ bg: "$bgSecondary", maxHeight: "$96" }}
+          css={{ maxHeight: "$96" }}
         >
           <Dropdown.Item
             css={hoverStyles}

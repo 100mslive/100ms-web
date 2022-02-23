@@ -45,7 +45,7 @@ export const ChangeSelfRole = ({ css }) => {
       <Dropdown.Content
         sideOffset={2}
         alignOffset={-5}
-        css={{ maxHeight: "$64", bg: "$bgSecondary" }}
+        css={{ maxHeight: "$64" }}
       >
         {availableSelfChangeRoles.map(role => (
           <Dropdown.Item
