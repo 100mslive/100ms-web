@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { parsedUserAgent } from "@100mslive/react-sdk";
 
 export class FeatureFlags {
   static enableTranscription =
@@ -23,10 +22,6 @@ export class FeatureFlags {
     // add support for server degradation
     window.HMS.SERVER_SUB_DEGRADE =
       process.env.REACT_APP_SERVER_SUB_DEGRADE === "true";
-
-    if (parsedUserAgent.getOS().name.toLowerCase() === "ios") {
-      window.HMS.GAIN_VALUE = 10;
-    }
   }
 
   static optimiseHLSLatency() {
