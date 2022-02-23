@@ -11,7 +11,7 @@ import React, { useContext, useMemo } from "react";
 import { arrayIntersection } from "../../../common/utils";
 import { AppContext } from "../../../store/AppContext";
 
-export const ChangeSelfRole = () => {
+export const ChangeSelfRole = ({ css }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const permissions = useHMSStore(selectPermissions);
   const localPeerId = useHMSStore(selectLocalPeerID);
@@ -31,8 +31,8 @@ export const ChangeSelfRole = () => {
   }
   return (
     <Dropdown.Root>
-      <Dropdown.TriggerItem asChild>
-        <Flex css={{ color: "$textPrimary" }}>
+      <Dropdown.TriggerItem css={css}>
+        <Flex css={{ color: "$textPrimary", w: "100%" }}>
           <PersonIcon />
           <Text variant="sm" css={{ flex: "1 1 0", mx: "$4" }}>
             Change My Role
@@ -43,7 +43,7 @@ export const ChangeSelfRole = () => {
       <Dropdown.Content
         sideOffset={2}
         alignOffset={-5}
-        css={{ maxHeight: "unset" }}
+        css={{ maxHeight: "$64" }}
       >
         {availableSelfChangeRoles.map(role => (
           <Dropdown.Item

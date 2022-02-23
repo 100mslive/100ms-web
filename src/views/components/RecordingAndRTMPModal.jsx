@@ -36,14 +36,10 @@ const defaultClasses = {
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + `?${SKIP_PREVIEW}=true`;
 
-export const RecordingAndRTMPModal = ({
-  showRecordingAndRTMPModal,
-  setShowRecordingAndRTMPModal,
-  permissions,
-}) => {
+export const RecordingAndRTMPModal = ({ show, onToggle, permissions }) => {
   useEffect(() => {
     setMeetingURL(defaultMeetingUrl);
-  }, [showRecordingAndRTMPModal]);
+  }, [show]);
   const hmsActions = useHMSActions();
   const recording = useHMSStore(selectRecordingState);
   const rtmp = useHMSStore(selectRTMPState);
@@ -99,7 +95,7 @@ export const RecordingAndRTMPModal = ({
       setMeetingURL("");
       setRTMPURL("");
       setIsRecordingOn(false);
-      setShowRecordingAndRTMPModal(false);
+      onToggle(false);
     }
   };
 
@@ -159,8 +155,8 @@ export const RecordingAndRTMPModal = ({
           </div>
         </>
       }
-      show={showRecordingAndRTMPModal}
-      onClose={() => setShowRecordingAndRTMPModal(false)}
+      show={show}
+      onClose={() => onToggle(false)}
     />
   );
 };
