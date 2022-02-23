@@ -1,7 +1,8 @@
-import { ArrowRightIcon, PersonIcon } from "@100mslive/react-icons";
+import { ArrowRightIcon, CheckIcon, PersonIcon } from "@100mslive/react-icons";
 import {
   selectAvailableRoleNames,
   selectLocalPeerID,
+  selectLocalPeerRole,
   selectPermissions,
   useHMSActions,
   useHMSStore,
@@ -15,6 +16,7 @@ export const ChangeSelfRole = ({ css }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const permissions = useHMSStore(selectPermissions);
   const localPeerId = useHMSStore(selectLocalPeerID);
+  const localPeerRole = useHMSStore(selectLocalPeerRole);
   const hmsActions = useHMSActions();
   const {
     hmsToast,
@@ -43,11 +45,12 @@ export const ChangeSelfRole = ({ css }) => {
       <Dropdown.Content
         sideOffset={2}
         alignOffset={-5}
-        css={{ maxHeight: "$64" }}
+        css={{ maxHeight: "$64", bg: "$bgSecondary" }}
       >
         {availableSelfChangeRoles.map(role => (
           <Dropdown.Item
             key={role}
+            css={{ ...css, justifyContent: "space-between" }}
             onClick={async () => {
               try {
                 await hmsActions.changeRole(localPeerId, role, true);
@@ -56,7 +59,10 @@ export const ChangeSelfRole = ({ css }) => {
               }
             }}
           >
-            {role}
+            <Text variant="sm">{role}</Text>
+            {localPeerRole.name === role && (
+              <CheckIcon width={16} height={16} />
+            )}
           </Dropdown.Item>
         ))}
       </Dropdown.Content>
