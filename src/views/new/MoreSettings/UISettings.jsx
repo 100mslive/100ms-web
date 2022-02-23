@@ -53,7 +53,7 @@ export const UISettings = ({ show, onToggle }) => {
   return (
     <Dialog.Root open={show} onOpenChange={onToggle}>
       <DialogContent title="UI Settings">
-        <DialogRow>
+        <DialogRow css={{ "@md": { display: "none" } }}>
           <Text variant="md">Tiles In View</Text>
           <Slider
             step={1}
