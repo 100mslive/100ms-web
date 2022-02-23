@@ -60,7 +60,7 @@ const ChangeNameForm = ({ currentName, setCurrentName, changeName }) => {
   );
 };
 
-export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
+export const ChangeName = ({ show, onToggle }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW
   );
@@ -82,13 +82,13 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
       console.error("failed to update name", error);
       hmsToast(error.message);
     } finally {
-      setShowChangeNameModal(false);
+      onToggle(false);
       setCurrentName("");
     }
   };
 
   const resetState = () => {
-    setShowChangeNameModal(false);
+    onToggle(false);
     setCurrentName("");
   };
 
@@ -112,7 +112,7 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
           Change
         </Button>
       }
-      show={showChangeNameModal}
+      show={show}
       onClose={() => resetState()}
     />
   );

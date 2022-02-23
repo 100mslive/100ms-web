@@ -22,10 +22,10 @@ import { Fragment, useState } from "react";
 import { isScreenshareSupported } from "../../common/utils";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
 import { LeaveRoom } from "../components/LeaveRoom";
-import { MoreSettings } from "../components/MoreSettings";
 import { NoiseSuppression } from "../components/NoiseSuppression";
 import { VirtualBackground } from "../components/VirtualBackground";
 import { useMyMetadata } from "../hooks/useMetadata";
+import { MoreSettings } from "./MoreSettings/MoreSettings";
 import { AudioPlaylist } from "./Playlist/AudioPlaylist";
 import { Screenshare } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
@@ -140,7 +140,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <VirtualBackground />
         <NoiseSuppression />
         <VerticalDivider space={4} />
-        <MoreSettings key="MoreSettings" />
+        <MoreSettings />
         <Box css={{ display: "none", "@md": { display: "block", ml: "$4" } }}>
           <LeaveRoom />
         </Box>
