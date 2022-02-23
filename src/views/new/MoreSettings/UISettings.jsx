@@ -16,6 +16,31 @@ const cssStyle = {
   alignItems: "flex-start",
   maxWidth: "70%",
 };
+
+const NotificationItem = ({ onClick, type, label, checked }) => {
+  return (
+    <Flex align="center" key={type} css={{ my: "$2" }}>
+      <Checkbox.Root
+        id={label}
+        checked={checked}
+        onCheckedChange={value => {
+          onClick({
+            type,
+            isSubscribed: value,
+          });
+        }}
+      >
+        <Checkbox.Indicator>
+          <CheckIcon width={16} height={16} />
+        </Checkbox.Indicator>
+      </Checkbox.Root>
+      <Label htmlFor={label} css={{ ml: "$4", fontSize: "$sm" }}>
+        {label}
+      </Label>
+    </Flex>
+  );
+};
+
 export const UISettings = ({ show, onToggle }) => {
   const {
     setMaxTileCount,
@@ -28,55 +53,56 @@ export const UISettings = ({ show, onToggle }) => {
   return (
     <Dialog.Root open={show} onOpenChange={onToggle}>
       <DialogContent title="UI Settings">
-        <DialogRow css={cssStyle}>
-          <Text variant="h5" css={{ mb: "$8" }}>
-            Participants In View
-          </Text>
+        <DialogRow>
+          <Text variant="md">Tiles In View</Text>
           <Slider
             step={1}
             value={[maxTileCount]}
+            min={1}
+            max={49}
             onValueChange={e => {
               setMaxTileCount(e[0]);
             }}
+            css={{ w: "70%" }}
           />
         </DialogRow>
         <DialogRow css={cssStyle}>
-          <Text variant="h5" css={{ mb: "$8" }}>
-            Receive notifications for
+          <Text variant="md" css={{ mb: "$8" }}>
+            Configure Notifications
           </Text>
-          {Object.keys(subscribedNotifications).map(type => {
-            return (
-              <Flex align="center" key={type}>
-                <Checkbox.Root
-                  id={type}
-                  checked={subscribedNotifications[type]}
-                  onCheckedChange={value => {
-                    setSubscribedNotifications({
-                      type,
-                      isSubscribed: value,
-                    });
-                  }}
-                >
-                  <Checkbox.Indicator>
-                    <CheckIcon width={16} height={16} />
-                  </Checkbox.Indicator>
-                </Checkbox.Root>
-                <Label htmlFor={type} css={{ ml: "$4" }}>
-                  {type
-                    .toLowerCase()
-                    .split("_")
-                    .map(
-                      name =>
-                        `${name.charAt(0).toUpperCase()}${name.substring(1)}`
-                    )
-                    .join(" ")}
-                </Label>
-              </Flex>
-            );
-          })}
+          <NotificationItem
+            label="Peer Joined"
+            type="PEER_JOINED"
+            onClick={setSubscribedNotifications}
+            checked={subscribedNotifications.PEER_JOINED}
+          />
+          <NotificationItem
+            label="Peer Leave"
+            type="PEER_LEFT"
+            onClick={setSubscribedNotifications}
+            checked={subscribedNotifications.PEER_LEFT}
+          />
+          <NotificationItem
+            label="New Message"
+            type="NEW_MESSAGE"
+            onClick={setSubscribedNotifications}
+            checked={subscribedNotifications.NEW_MESSAGE}
+          />
+          <NotificationItem
+            label="Error"
+            type="ERROR"
+            onClick={setSubscribedNotifications}
+            checked={subscribedNotifications.ERROR}
+          />
+          <NotificationItem
+            label="Hand Raised"
+            type="METADATA_UPDATED"
+            onClick={setSubscribedNotifications}
+            checked={subscribedNotifications.METADATA_UPDATED}
+          />
         </DialogRow>
         <DialogRow css={cssStyle}>
-          <Text variant="h5" css={{ mb: "$8" }}>
+          <Text variant="md" css={{ mb: "$8" }}>
             View Layout
           </Text>
           <Flex align="center">
@@ -91,7 +117,7 @@ export const UISettings = ({ show, onToggle }) => {
                 <CheckIcon width={16} height={16} />
               </Checkbox.Indicator>
             </Checkbox.Root>
-            <Label htmlFor="viewMode" css={{ ml: "$4" }}>
+            <Label htmlFor="viewMode" css={{ ml: "$4", fontSize: "$sm" }}>
               Active Speaker Mode
             </Label>
           </Flex>
