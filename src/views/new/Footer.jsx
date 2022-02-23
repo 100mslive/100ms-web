@@ -123,9 +123,9 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
           left: "$7",
           "@md": {
             position: "unset",
-            ml: "$4",
             justifyContent: "center",
             w: "100%",
+            p: "$4 0",
           },
         }}
       >
