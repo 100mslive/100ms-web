@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import {
   HamburgerMenuIcon,
   RecordIcon,
+  SpotlightIcon,
   TextboxIcon,
 } from "@100mslive/react-icons";
 import { selectPermissions, useHMSStore } from "@100mslive/react-sdk";
@@ -10,6 +11,7 @@ import { ChangeName } from "../../components/ChangeName";
 import { ChangeSelfRole } from "./ChangeSelfRole";
 import { RecordingAndRTMPModal } from "../../components/RecordingAndRTMPModal";
 import { FullScreenItem } from "./FullScreenItem";
+import { MuteAll } from "../../components/MuteAll";
 
 const hoverStyles = {
   "&:hover": {
@@ -23,6 +25,7 @@ export const MoreSettings = () => {
   const [open, setOpen] = useState(false);
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
   const [showRecordingModal, setShowRecordingModal] = useState(false);
+  const [showMuteAll, setShowMuteAll] = useState(false);
 
   return (
     <Fragment>
@@ -61,8 +64,23 @@ export const MoreSettings = () => {
             </Dropdown.Item>
           )}
           <FullScreenItem hoverStyles={hoverStyles} />
+          {permissions.mute && (
+            <Dropdown.Item
+              onClick={() => setShowMuteAll(true)}
+              css={hoverStyles}
+            >
+              <SpotlightIcon />
+              <Text variant="sm" css={{ ml: "$4" }}>
+                Mute All
+              </Text>
+            </Dropdown.Item>
+          )}
         </Dropdown.Content>
       </Dropdown.Root>
+      <MuteAll
+        showModal={showMuteAll}
+        onCloseModal={() => setShowMuteAll(false)}
+      />
       <ChangeName
         show={showChangeNameModal}
         onToggle={value => setShowChangeNameModal(value)}
