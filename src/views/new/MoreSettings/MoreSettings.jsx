@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import {
+  GridIcon,
   HamburgerMenuIcon,
   InfoIcon,
   RecordIcon,
@@ -16,6 +17,7 @@ import { FullScreenItem } from "./FullScreenItem";
 import { MuteAll } from "../../components/MuteAll";
 import Settings from "../Settings";
 import { FeatureFlags } from "../../../store/FeatureFlags";
+import { UISettings } from "./UISettings";
 
 const hoverStyles = {
   "&:hover": {
@@ -32,6 +34,7 @@ export const MoreSettings = () => {
   const [showMuteAll, setShowMuteAll] = useState(false);
   const [showDeviceSettings, setShowDeviceSettings] = useState(false);
   const [showStatsForNerds, setShowStatsForNerds] = useState(false);
+  const [showUISettings, setShowUISettings] = useState(false);
 
   return (
     <Fragment>
@@ -46,7 +49,7 @@ export const MoreSettings = () => {
         <Dropdown.Content
           sideOffset={5}
           align="center"
-          css={{ bg: "$bgSecondary", maxHeight: "$80" }}
+          css={{ bg: "$bgSecondary", maxHeight: "$96" }}
         >
           <Dropdown.Item
             css={hoverStyles}
@@ -82,6 +85,15 @@ export const MoreSettings = () => {
             </Dropdown.Item>
           )}
           <Dropdown.ItemSeparator />
+          <Dropdown.Item
+            onClick={() => setShowUISettings(true)}
+            css={hoverStyles}
+          >
+            <GridIcon />
+            <Text variant="sm" css={{ ml: "$4" }}>
+              UI Settings
+            </Text>
+          </Dropdown.Item>
           <Dropdown.Item
             onClick={() => setShowDeviceSettings(true)}
             css={hoverStyles}
@@ -127,6 +139,10 @@ export const MoreSettings = () => {
           onCloseModal={() => setShowStatsForNerds(false)}
         />
       )}
+      <UISettings
+        show={showUISettings}
+        onToggle={value => setShowUISettings(value)}
+      />
     </Fragment>
   );
 };
