@@ -15,7 +15,7 @@ export function AutoplayBlockedModal() {
         resetError();
       }}
     >
-      <DialogContent title="Autoplay Error">
+      <DialogContent title="Autoplay Error" closeable={false}>
         <DialogRow>
           <Text size="md">
             Autoplay blocked by browser, click on unblock for audio to work
@@ -29,7 +29,7 @@ export function AutoplayBlockedModal() {
               resetError();
             }}
           >
-            Accept
+            Unblock
           </Button>
         </DialogRow>
       </DialogContent>
