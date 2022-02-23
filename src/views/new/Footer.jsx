@@ -20,11 +20,13 @@ import {
 } from "@100mslive/react-ui";
 import { Fragment, useState } from "react";
 import { isScreenshareSupported } from "../../common/utils";
+import { FeatureFlags } from "../../store/FeatureFlags";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
 import { LeaveRoom } from "../components/LeaveRoom";
 import { NoiseSuppression } from "../components/NoiseSuppression";
 import { VirtualBackground } from "../components/VirtualBackground";
 import { useMyMetadata } from "../hooks/useMetadata";
+import { ToggleWhiteboard } from "../whiteboard";
 import { MoreSettings } from "./MoreSettings/MoreSettings";
 import { AudioPlaylist } from "./Playlist/AudioPlaylist";
 import { Screenshare } from "./ScreenShare";
@@ -132,6 +134,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <AudioPlaylist />
         <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
         <MetaActions />
+        {FeatureFlags.enableWhiteboard && <ToggleWhiteboard />}
       </Flex>
       <Flex align="center" justify="center" css={{ w: "100%" }}>
         <AudioVideoToggle />
