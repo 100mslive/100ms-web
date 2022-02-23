@@ -80,7 +80,7 @@ export const DialogRow = ({
   justify = "between",
 }) => {
   let finalCSS = {
-    margin: "1.5rem 0",
+    margin: "$10 0",
   };
   if (breakSm) {
     finalCSS["@sm"] = {

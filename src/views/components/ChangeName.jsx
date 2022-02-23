@@ -5,7 +5,7 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { Button, MessageModal, Text } from "@100mslive/hms-video-react";
+import { MessageModal } from "@100mslive/hms-video-react";
 import {
   useHMSActions,
   useHMSStatsStore,
@@ -14,13 +14,14 @@ import {
   selectTracksMap,
   selectPeerNameByID,
 } from "@100mslive/react-sdk";
-import { Switch } from "@100mslive/react-ui";
+import { Dialog, Input, Label, Switch, Button } from "@100mslive/react-ui";
 import { hmsToast } from "./notifications/hms-toast";
 import { AppContext } from "../../store/AppContext";
 import {
   useUserPreferences,
   UserPreferencesKeys,
 } from "../hooks/useUserPreferences";
+import { DialogContent, DialogRow } from "../new/DialogContent";
 
 const defaultClasses = {
   formInner: "w-full flex flex-col md:flex-row my-1.5",
@@ -29,35 +30,6 @@ const defaultClasses = {
     "rounded-lg w-full md:w-1/2 bg-gray-600 dark:bg-gray-200 p-2 mx-0 my-2 md:my-0 md:mx-2",
   select:
     "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
-};
-
-const ChangeNameForm = ({ currentName, setCurrentName, changeName }) => {
-  return (
-    <form
-      onSubmit={e => {
-        e.preventDefault();
-        changeName();
-      }}
-    >
-      <div className={defaultClasses.formInner}>
-        <div className={defaultClasses.selectLabel}>
-          <Text variant="heading" size="sm">
-            Name:
-          </Text>
-        </div>
-
-        <div className={defaultClasses.selectContainer}>
-          <input
-            autoFocus
-            type="text"
-            className={defaultClasses.select}
-            value={currentName}
-            onChange={e => setCurrentName(e.target.value)}
-          />
-        </div>
-      </div>
-    </form>
-  );
 };
 
 export const ChangeName = ({ show, onToggle }) => {
@@ -93,28 +65,40 @@ export const ChangeName = ({ show, onToggle }) => {
   };
 
   return (
-    <MessageModal
-      title="Change my name"
-      body={
-        <ChangeNameForm
-          currentName={currentName}
-          setCurrentName={setCurrentName}
-          changeName={changeName}
-        />
-      }
-      footer={
-        <Button
-          variant="emphasized"
-          shape="rectangle"
-          onClick={changeName}
-          disabled={currentName.trim().length < 1}
+    <Dialog.Root open={show} onOpenChange={value => !value && resetState()}>
+      <DialogContent title="Change my name">
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            changeName();
+          }}
         >
-          Change
-        </Button>
-      }
-      show={show}
-      onClose={() => resetState()}
-    />
+          <DialogRow css={{ maxWidth: "70%", margin: "$10 auto" }}>
+            <Label htmlFor="changeNameInput">Name:</Label>
+            <Input
+              id="changeNameInput"
+              type="text"
+              autoFocus
+              value={currentName}
+              onChange={e => setCurrentName(e.target.value)}
+              css={{ flex: "1 1 0", ml: "$8" }}
+            />
+          </DialogRow>
+          <DialogRow justify="end">
+            <Button
+              variant="primary"
+              disabled={!currentName.trim()}
+              onClick={async () => {
+                await changeName();
+                onToggle(false);
+              }}
+            >
+              Change
+            </Button>
+          </DialogRow>
+        </form>
+      </DialogContent>
+    </Dialog.Root>
   );
 };
 
