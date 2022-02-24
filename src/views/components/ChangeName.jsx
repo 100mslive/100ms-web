@@ -40,6 +40,9 @@ export const ChangeName = ({ show, onToggle }) => {
   const [currentName, setCurrentName] = useState("");
   const changeName = async () => {
     const name = currentName.trim();
+    if (!name) {
+      return;
+    }
     try {
       await hmsActions.changeName(name);
       setPreviewPreference({
@@ -66,7 +69,6 @@ export const ChangeName = ({ show, onToggle }) => {
         <form
           onSubmit={e => {
             e.preventDefault();
-            changeName();
           }}
         >
           <DialogRow css={{ maxWidth: "70%", margin: "$10 auto" }}>
