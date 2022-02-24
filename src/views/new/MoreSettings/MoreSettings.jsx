@@ -24,6 +24,9 @@ const hoverStyles = {
     cursor: "pointer",
     bg: "$iconHoverBg",
   },
+  "&:focus-visible": {
+    bg: "$iconHoverBg",
+  },
 };
 
 export const MoreSettings = () => {
