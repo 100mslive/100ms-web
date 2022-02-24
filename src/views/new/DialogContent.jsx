@@ -4,6 +4,7 @@ import {
   Flex,
   HorizontalDivider,
   Text,
+  Button,
 } from "@100mslive/react-ui";
 import React from "react";
 import { Box } from "@100mslive/react-ui";
@@ -68,6 +69,28 @@ export const ErrorDialog = ({
     </Dialog.Root>
   );
 };
+
+export const RequestDialog = ({
+  open = true,
+  onOpenChange,
+  title,
+  body,
+  actionText = "Accept",
+  onAction,
+}) => (
+  <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <DialogContent title={title}>
+      <DialogRow>
+        <Text variant="md">{body}</Text>
+      </DialogRow>
+      <DialogRow justify="end">
+        <Button variant="primary" onClick={onAction}>
+          {actionText}
+        </Button>
+      </DialogRow>
+    </DialogContent>
+  </Dialog.Root>
+);
 
 /**
  * a row of items which breaks into column on small screen. For e.g. title on left and options to select

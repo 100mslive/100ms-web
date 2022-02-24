@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { HMSNotificationTypes, useHMSActions } from "@100mslive/react-sdk";
-import { Button, Dialog, Text } from "@100mslive/react-ui";
-import { DialogContent, DialogRow } from "../../new/DialogContent";
+import { RequestDialog } from "../../new/DialogContent";
 
 export const TrackUnmuteModal = ({ notification }) => {
   const hmsActions = useHMSActions();
@@ -26,26 +25,13 @@ export const TrackUnmuteModal = ({ notification }) => {
   const { requestedBy: peer, track, enabled } = muteNotification;
 
   return (
-    <Dialog.Root defaultOpen>
-      <DialogContent title="Track Unmute Request">
-        <DialogRow>
-          <Text variant="md">
-            {peer?.name} requested to unmute your {track?.source}
-            {track?.type}
-          </Text>
-        </DialogRow>
-        <DialogRow justify="end">
-          <Button
-            variant="primary"
-            onClick={() => {
-              hmsActions.setEnabledTrack(track.id, enabled);
-              setMuteNotification(null);
-            }}
-          >
-            Accept
-          </Button>
-        </DialogRow>
-      </DialogContent>
-    </Dialog.Root>
+    <RequestDialog
+      title="Track Unmute Request"
+      body={`${peer?.name} requested to unmute your {track?.source} ${track?.type}`}
+      onAction={() => {
+        hmsActions.setEnabledTrack(track.id, enabled);
+        setMuteNotification(null);
+      }}
+    />
   );
 };
