@@ -42,12 +42,12 @@ export const LeaveRoom = ({ showText = true }) => {
             <Button
               variant="danger"
               key="LeaveRoom"
-              css={{ "@md": { p: "$2" } }}
+              css={{ p: "$2 $4", "@md": { p: "$2" } }}
             >
               <HangUpIcon key="hangUp" />
               <Text
                 css={{
-                  ml: "$4",
+                  mx: "$4",
                   display: showText ? "block" : "none",
                   color: "$white",
                 }}
@@ -76,9 +76,16 @@ export const LeaveRoom = ({ showText = true }) => {
           </Popover.Content>
         </Popover.Root>
       ) : (
-        <Button variant="danger" className="w-full" onClick={leaveRoom}>
+        <Button
+          variant="danger"
+          className="w-full"
+          onClick={leaveRoom}
+          css={{ p: "$2 $4", "@md": { p: "$2" } }}
+        >
           <HangUpIcon />
-          <Text css={{ ml: "$4", "@md": { display: "none" } }}>Leave Room</Text>
+          <Text css={{ mx: "$4", display: showText ? "block" : "none" }}>
+            Leave
+          </Text>
         </Button>
       )}
 

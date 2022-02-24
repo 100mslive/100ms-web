@@ -41,7 +41,7 @@ export const MoreSettings = () => {
       <Dropdown.Root open={open} onOpenChange={setOpen}>
         <Tooltip title="More Settings">
           <Dropdown.Trigger asChild>
-            <IconButton active={!open}>
+            <IconButton active={!open} css={{ mx: "$4" }}>
               <HamburgerMenuIcon />
             </IconButton>
           </Dropdown.Trigger>
