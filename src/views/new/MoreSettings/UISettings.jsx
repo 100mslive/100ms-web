@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CheckIcon } from "@100mslive/react-icons";
+import { CheckIcon, GridIcon } from "@100mslive/react-icons";
 import {
   Flex,
   Checkbox,
@@ -52,10 +52,10 @@ export const UISettings = ({ show, onToggle }) => {
   } = useContext(AppContext);
   return (
     <Dialog.Root open={show} onOpenChange={onToggle}>
-      <DialogContent title="UI Settings">
+      <DialogContent title="UI Settings" Icon={GridIcon}>
         <DialogRow css={{ "@md": { display: "none" } }}>
           <Text variant="md">Tiles In View</Text>
-          <Box css={{ w: "70%" }}>
+          <Flex justify="end" css={{ w: "70%" }}>
             <Slider
               step={1}
               value={[maxTileCount]}
@@ -66,42 +66,48 @@ export const UISettings = ({ show, onToggle }) => {
               }}
               css={{ w: "70%" }}
             />
-          </Box>
+          </Flex>
         </DialogRow>
         <DialogRow css={cssStyle}>
           <Text variant="md" css={{ mb: "$8" }}>
             Configure Notifications
           </Text>
-          <NotificationItem
-            label="Peer Joined"
-            type="PEER_JOINED"
-            onClick={setSubscribedNotifications}
-            checked={subscribedNotifications.PEER_JOINED}
-          />
-          <NotificationItem
-            label="Peer Leave"
-            type="PEER_LEFT"
-            onClick={setSubscribedNotifications}
-            checked={subscribedNotifications.PEER_LEFT}
-          />
-          <NotificationItem
-            label="New Message"
-            type="NEW_MESSAGE"
-            onClick={setSubscribedNotifications}
-            checked={subscribedNotifications.NEW_MESSAGE}
-          />
-          <NotificationItem
-            label="Error"
-            type="ERROR"
-            onClick={setSubscribedNotifications}
-            checked={subscribedNotifications.ERROR}
-          />
-          <NotificationItem
-            label="Hand Raised"
-            type="METADATA_UPDATED"
-            onClick={setSubscribedNotifications}
-            checked={subscribedNotifications.METADATA_UPDATED}
-          />
+          <Flex justify="between" css={{ w: "100%" }}>
+            <Box css={{ flex: "1 1 0" }}>
+              <NotificationItem
+                label="Peer Joined"
+                type="PEER_JOINED"
+                onClick={setSubscribedNotifications}
+                checked={subscribedNotifications.PEER_JOINED}
+              />
+              <NotificationItem
+                label="Peer Leave"
+                type="PEER_LEFT"
+                onClick={setSubscribedNotifications}
+                checked={subscribedNotifications.PEER_LEFT}
+              />
+              <NotificationItem
+                label="New Message"
+                type="NEW_MESSAGE"
+                onClick={setSubscribedNotifications}
+                checked={subscribedNotifications.NEW_MESSAGE}
+              />
+            </Box>
+            <Box css={{ flex: "1 1 0", ml: "$4" }}>
+              <NotificationItem
+                label="Error"
+                type="ERROR"
+                onClick={setSubscribedNotifications}
+                checked={subscribedNotifications.ERROR}
+              />
+              <NotificationItem
+                label="Hand Raised"
+                type="METADATA_UPDATED"
+                onClick={setSubscribedNotifications}
+                checked={subscribedNotifications.METADATA_UPDATED}
+              />
+            </Box>
+          </Flex>
         </DialogRow>
         <DialogRow css={cssStyle}>
           <Text variant="md" css={{ mb: "$8" }}>
