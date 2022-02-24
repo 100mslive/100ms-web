@@ -15,7 +15,6 @@ import { AppContext } from "../../../store/AppContext";
 const cssStyle = {
   flexDirection: "column",
   alignItems: "flex-start",
-  maxWidth: "70%",
 };
 
 const NotificationItem = ({ onClick, type, label, checked }) => {
