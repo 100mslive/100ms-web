@@ -32,13 +32,15 @@ export const AudioPlaylist = () => {
   return (
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={setOpen}>
-        <Tooltip title="Audio Playlist">
-          <Dropdown.Trigger asChild>
-            <IconButton active={!active}>
-              <AudioPlayerIcon />
-            </IconButton>
-          </Dropdown.Trigger>
-        </Tooltip>
+        <Dropdown.Trigger asChild>
+          <IconButton active={!active}>
+            <Tooltip title="Audio Playlist">
+              <Box>
+                <AudioPlayerIcon />
+              </Box>
+            </Tooltip>
+          </IconButton>
+        </Dropdown.Trigger>
         <Dropdown.Content
           sideOffset={5}
           align="center"

@@ -30,6 +30,9 @@ export const PlaylistItem = React.memo(
             cursor: "pointer",
             bg: "$menuBg",
           },
+          "&:focus-visible": {
+            bg: "$menuBg",
+          },
         }}
         onClick={onClick}
       >
