@@ -7,6 +7,7 @@ import {
   Label,
   Slider,
   Text,
+  Box,
 } from "@100mslive/react-ui";
 import { DialogContent, DialogRow } from "../DialogContent";
 import { AppContext } from "../../../store/AppContext";
@@ -55,16 +56,18 @@ export const UISettings = ({ show, onToggle }) => {
       <DialogContent title="UI Settings">
         <DialogRow css={{ "@md": { display: "none" } }}>
           <Text variant="md">Tiles In View</Text>
-          <Slider
-            step={1}
-            value={[maxTileCount]}
-            min={1}
-            max={49}
-            onValueChange={e => {
-              setMaxTileCount(e[0]);
-            }}
-            css={{ w: "70%" }}
-          />
+          <Box css={{ w: "70%" }}>
+            <Slider
+              step={1}
+              value={[maxTileCount]}
+              min={1}
+              max={49}
+              onValueChange={e => {
+                setMaxTileCount(e[0]);
+              }}
+              css={{ w: "70%" }}
+            />
+          </Box>
         </DialogRow>
         <DialogRow css={cssStyle}>
           <Text variant="md" css={{ mb: "$8" }}>
