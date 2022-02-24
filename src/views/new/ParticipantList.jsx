@@ -39,7 +39,7 @@ export const ParticipantList = () => {
             css={{
               color: "$textPrimary",
               borderRadius: "$1",
-              border: "1px solid $bgTertiary",
+              border: "1px solid $textDisabled",
             }}
           >
             <ParticipantCount peerCount={peerCount} />
