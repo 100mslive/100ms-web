@@ -3,9 +3,9 @@ import {
   GridIcon,
   HamburgerMenuIcon,
   InfoIcon,
+  MicOffIcon,
   RecordIcon,
   SettingIcon,
-  SpotlightIcon,
   TextboxIcon,
 } from "@100mslive/react-icons";
 import { selectPermissions, useHMSStore } from "@100mslive/react-sdk";
@@ -83,7 +83,7 @@ export const MoreSettings = () => {
               onClick={() => setShowMuteAll(true)}
               css={hoverStyles}
             >
-              <SpotlightIcon />
+              <MicOffIcon />
               <Text variant="sm" css={{ ml: "$4" }}>
                 Mute All
               </Text>
