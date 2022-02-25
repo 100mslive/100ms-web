@@ -102,7 +102,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
               >
                 <RadioGroup.Indicator />
               </RadioGroup.Item>
-              <Label htmlFor="trackEnableRadio">Enabled</Label>
+              <Label htmlFor="trackEnableRadio">Request Unmute</Label>
             </Flex>
             <Flex align="center">
               <RadioGroup.Item
@@ -112,7 +112,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
               >
                 <RadioGroup.Indicator />
               </RadioGroup.Item>
-              <Label htmlFor="trackDisableRadio">Disabled</Label>
+              <Label htmlFor="trackDisableRadio">Mute</Label>
             </Flex>
           </RadioGroup.Root>
         </DialogRow>
