@@ -4,6 +4,7 @@ import {
   useHMSStore,
   useHMSActions,
 } from "@100mslive/react-sdk";
+import { MicOffIcon } from "@100mslive/react-icons";
 import {
   Dialog,
   Text,
@@ -63,7 +64,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
       open={showModal}
       onOpenChange={value => !value && resetState()}
     >
-      <DialogContent title="Mute/Unmute Remote Tracks">
+      <DialogContent title="Mute/Unmute Remote Tracks" Icon={MicOffIcon}>
         <DialogSelect
           title="Role"
           options={[
@@ -92,9 +93,9 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
           labelField="label"
         />
         <DialogRow>
-          <Text variant="md">Track status</Text>
+          <Text variant="md">Track status:</Text>
           <RadioGroup.Root value={enabled} onValueChange={setEnabled}>
-            <Flex align="center" css={{ cursor: "pointer", mr: "$8" }}>
+            <Flex align="center" css={{ mr: "$8" }}>
               <RadioGroup.Item
                 value="false"
                 id="trackDisableRadio"

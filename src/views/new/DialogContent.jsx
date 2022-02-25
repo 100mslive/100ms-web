@@ -1,3 +1,5 @@
+import React from "react";
+import { CrossIcon } from "@100mslive/react-icons";
 import {
   Dialog,
   Select,
@@ -6,10 +8,9 @@ import {
   Text,
   Button,
   Input,
+  Box,
+  Switch,
 } from "@100mslive/react-ui";
-import React from "react";
-import { Box } from "@100mslive/react-ui";
-import { CrossIcon } from "@100mslive/react-icons";
 
 export const DialogContent = ({
   Icon,
@@ -165,6 +166,7 @@ export const DialogInput = ({
   placeholder,
   disabled,
   type,
+  ...props
 }) => {
   return (
     <DialogRow breakSm>
@@ -176,7 +178,23 @@ export const DialogInput = ({
         placeholder={placeholder}
         disabled={disabled}
         type={type}
+        {...props}
       />
+    </DialogRow>
+  );
+};
+
+export const DialogSwitch = ({ title, value, onChange, disabled }) => {
+  return (
+    <DialogRow>
+      <Text>{title}:</Text>
+      <Flex justify="end" css={{ width: "70%" }}>
+        <Switch
+          checked={value}
+          disabled={disabled}
+          onCheckedChange={onChange}
+        />
+      </Flex>
     </DialogRow>
   );
 };

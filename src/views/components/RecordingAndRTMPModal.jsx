@@ -1,19 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
-  Input,
-  Button,
-  Text,
-  Dialog,
-  Label,
-  Switch,
-} from "@100mslive/react-ui";
-import {
   selectPermissions,
   useHMSActions,
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
-import { DialogContent, DialogRow } from "../new/DialogContent";
+import { RecordIcon } from "@100mslive/react-icons";
+import { Button, Text, Dialog } from "@100mslive/react-ui";
+import {
+  DialogContent,
+  DialogInput,
+  DialogRow,
+  DialogSwitch,
+} from "../new/DialogContent";
 import { hmsToast } from "./notifications/hms-toast";
 import { SKIP_PREVIEW } from "../../common/constants";
 
@@ -90,52 +89,43 @@ export const RecordingAndRTMPModal = ({ show, onToggle }) => {
 
   return (
     <Dialog.Root open={show} onOpenChange={onToggle}>
-      <DialogContent title="Streaming/Recording">
+      <DialogContent title="Streaming/Recording" Icon={RecordIcon}>
         <form onSubmit={e => e.preventDefault()}>
-          <DialogRow>
-            <Label>Meeting URL:</Label>
-            <Input
-              type="text"
-              value={meetingURL}
-              onChange={e => setMeetingURL(e.target.value)}
-              disabled={isAnythingRunning}
-            />
-          </DialogRow>
-
+          <DialogInput
+            title="Meeting URL"
+            value={meetingURL}
+            onChange={setMeetingURL}
+            placeholder="Enter meeting url"
+            disabled={isAnythingRunning}
+          />
           {permissions.streaming && (
-            <DialogRow>
-              <Label>HLS:</Label>
-              <Switch
-                checked={hlsSelected || isHLSRunning}
-                onCheckedChange={setHLS}
-                disabled={isAnythingRunning || rtmpURL[0]}
-              />
-            </DialogRow>
+            <DialogSwitch
+              title="HLS"
+              value={hlsSelected || isHLSRunning}
+              onChange={setHLS}
+              disabled={isAnythingRunning || rtmpURL[0]}
+            />
           )}
 
           {permissions.streaming && (
-            <DialogRow>
-              <Label>RTMP:</Label>
-              <Input
-                type="text"
-                value={rtmpURL}
-                onChange={e => setRTMPURL(e.target.value)}
-                disabled={isAnythingRunning}
-              />
-            </DialogRow>
+            <DialogInput
+              title="RTMP Out"
+              value={rtmpURL}
+              onChange={setRTMPURL}
+              placeholder="Enter rtmp out url"
+              disabled={isAnythingRunning}
+            />
           )}
 
           {permissions.recording && (
-            <DialogRow>
-              <Label>Recording:</Label>
-              <Switch
-                checked={
-                  recordingSelected || isBrowserRecordingOn || isHLSRecordingOn
-                }
-                disabled={isAnythingRunning}
-                onCheckedChange={setRecording}
-              />
-            </DialogRow>
+            <DialogSwitch
+              title="Recording"
+              value={
+                recordingSelected || isBrowserRecordingOn || isHLSRecordingOn
+              }
+              disabled={isAnythingRunning}
+              onChange={setRecording}
+            />
           )}
           <DialogRow justify="end">
             {isAnythingRunning && (

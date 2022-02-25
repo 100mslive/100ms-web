@@ -15,14 +15,14 @@ import {
   selectPeerNameByID,
   selectLocalPeer,
 } from "@100mslive/react-sdk";
-import { Dialog, Input, Label, Switch, Button } from "@100mslive/react-ui";
+import { Dialog, Switch, Button } from "@100mslive/react-ui";
+import { DialogContent, DialogInput, DialogRow } from "../new/DialogContent";
 import { hmsToast } from "./notifications/hms-toast";
 import { AppContext } from "../../store/AppContext";
 import {
   useUserPreferences,
   UserPreferencesKeys,
 } from "../hooks/useUserPreferences";
-import { DialogContent, DialogRow } from "../new/DialogContent";
 
 const defaultClasses = {
   formInner: "w-full flex flex-col md:flex-row my-1.5",
@@ -80,18 +80,13 @@ export const ChangeName = ({ show, onToggle }) => {
             e.preventDefault();
           }}
         >
-          <DialogRow css={{ maxWidth: "70%", margin: "$10 auto" }}>
-            <Label htmlFor="changeNameInput">Name:</Label>
-            <Input
-              id="changeNameInput"
-              type="text"
-              autoComplete="name"
-              required
-              value={currentName}
-              onChange={e => setCurrentName(e.target.value)}
-              css={{ flex: "1 1 0", ml: "$8" }}
-            />
-          </DialogRow>
+          <DialogInput
+            title="Name"
+            value={currentName}
+            onChange={setCurrentName}
+            autoComplete="name"
+            required
+          />
           <DialogRow justify="end">
             <Button
               variant="primary"
