@@ -23,6 +23,7 @@ import {
   useUserPreferences,
   UserPreferencesKeys,
 } from "../hooks/useUserPreferences";
+import { TextboxIcon } from "@100mslive/react-icons";
 
 const defaultClasses = {
   formInner: "w-full flex flex-col md:flex-row my-1.5",
@@ -74,7 +75,7 @@ export const ChangeName = ({ show, onToggle }) => {
 
   return (
     <Dialog.Root open={show} onOpenChange={value => !value && resetState()}>
-      <DialogContent title="Change my name">
+      <DialogContent title="Change my name" Icon={TextboxIcon}>
         <form
           onSubmit={e => {
             e.preventDefault();
