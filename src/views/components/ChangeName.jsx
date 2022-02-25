@@ -13,6 +13,7 @@ import {
   selectHMSStats,
   selectTracksMap,
   selectPeerNameByID,
+  selectLocalPeer,
 } from "@100mslive/react-sdk";
 import { Dialog, Input, Label, Switch, Button } from "@100mslive/react-ui";
 import { hmsToast } from "./notifications/hms-toast";
@@ -37,10 +38,18 @@ export const ChangeName = ({ show, onToggle }) => {
     UserPreferencesKeys.PREVIEW
   );
   const hmsActions = useHMSActions();
+  const localPeer = useHMSStore(selectLocalPeer);
   const [currentName, setCurrentName] = useState("");
+
+  useEffect(() => {
+    if (show) {
+      setCurrentName(localPeer?.name);
+    }
+  }, [show, localPeer?.name]);
+
   const changeName = async () => {
     const name = currentName.trim();
-    if (!name) {
+    if (!name || name === localPeer?.name) {
       return;
     }
     try {
@@ -76,7 +85,7 @@ export const ChangeName = ({ show, onToggle }) => {
             <Input
               id="changeNameInput"
               type="text"
-              autoFocus
+              autoComplete="name"
               required
               value={currentName}
               onChange={e => setCurrentName(e.target.value)}
@@ -86,7 +95,10 @@ export const ChangeName = ({ show, onToggle }) => {
           <DialogRow justify="end">
             <Button
               variant="primary"
-              disabled={!currentName.trim()}
+              type="submit"
+              disabled={
+                !currentName.trim() || currentName.trim() === localPeer?.name
+              }
               onClick={async () => {
                 await changeName();
                 onToggle(false);
