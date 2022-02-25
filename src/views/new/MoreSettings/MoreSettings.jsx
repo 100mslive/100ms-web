@@ -9,7 +9,7 @@ import {
   TextboxIcon,
 } from "@100mslive/react-icons";
 import { selectPermissions, useHMSStore } from "@100mslive/react-sdk";
-import { Dropdown, IconButton, Text, Tooltip } from "@100mslive/react-ui";
+import { Box, Dropdown, IconButton, Text, Tooltip } from "@100mslive/react-ui";
 import { ChangeName, StatsForNerds } from "../../components/ChangeName";
 import { ChangeSelfRole } from "./ChangeSelfRole";
 import { RecordingAndRTMPModal } from "../../components/RecordingAndRTMPModal";
@@ -42,13 +42,15 @@ export const MoreSettings = () => {
   return (
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={setOpen}>
-        <Tooltip title="More Options">
-          <Dropdown.Trigger asChild>
-            <IconButton active={!open} css={{ mx: "$4" }}>
-              <HamburgerMenuIcon />
-            </IconButton>
-          </Dropdown.Trigger>
-        </Tooltip>
+        <Dropdown.Trigger asChild>
+          <IconButton css={{ mx: "$4" }}>
+            <Tooltip title="More Options">
+              <Box>
+                <HamburgerMenuIcon />
+              </Box>
+            </Tooltip>
+          </IconButton>
+        </Dropdown.Trigger>
         <Dropdown.Content
           sideOffset={5}
           align="center"
