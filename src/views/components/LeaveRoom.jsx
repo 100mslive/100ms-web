@@ -13,6 +13,8 @@ import {
   Checkbox,
   Label,
   Flex,
+  Tooltip,
+  Box,
 } from "@100mslive/react-ui";
 import { DialogContent, DialogRow } from "../new/DialogContent";
 
@@ -49,9 +51,13 @@ export const LeaveRoom = () => {
             <Button
               variant="danger"
               key="LeaveRoom"
-              css={{ p: "$2 $6", "@md": { p: "$4" } }}
+              css={{ p: "$2 $6", "@md": { p: "$2 $4" } }}
             >
-              <HangUpIcon key="hangUp" />
+              <Tooltip title="Leave Room">
+                <Box>
+                  <HangUpIcon key="hangUp" />
+                </Box>
+              </Tooltip>
             </Button>
           </Popover.Trigger>
           <Popover.Content sideOffset={10}>
@@ -78,7 +84,7 @@ export const LeaveRoom = () => {
           variant="danger"
           className="w-full"
           onClick={leaveRoom}
-          css={{ p: "$2 $6", "@md": { p: "$4" } }}
+          css={{ p: "$2 $6", "@md": { p: "$2 $4" } }}
         >
           <HangUpIcon />
         </Button>
