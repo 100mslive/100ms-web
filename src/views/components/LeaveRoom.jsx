@@ -1,13 +1,21 @@
 import { Fragment, useState } from "react";
-import { MessageModal } from "@100mslive/hms-video-react";
+import { useHistory, useParams } from "react-router-dom";
 import {
   selectPermissions,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { useHistory, useParams } from "react-router-dom";
-import { HangUpIcon } from "@100mslive/react-icons";
-import { Button, Text, Popover } from "@100mslive/react-ui";
+import { CheckIcon, HangUpIcon } from "@100mslive/react-icons";
+import {
+  Button,
+  Text,
+  Popover,
+  Dialog,
+  Checkbox,
+  Label,
+  Flex,
+} from "@100mslive/react-ui";
+import { DialogContent, DialogRow } from "../new/DialogContent";
 
 export const LeaveRoom = ({ showText = true }) => {
   const history = useHistory();
@@ -89,43 +97,53 @@ export const LeaveRoom = ({ showText = true }) => {
         </Button>
       )}
 
-      <MessageModal
-        show={showEndRoomModal}
-        onClose={() => {
-          setShowEndRoomModal(false);
-          setLockRoom(false);
+      <Dialog.Root
+        open={showEndRoomModal}
+        onOpenChange={value => {
+          if (!value) {
+            setLockRoom(false);
+          }
+          setShowEndRoomModal(value);
         }}
-        title="End Room"
-        body="Are you sure you want to end the room?"
-        footer={
-          <div className="flex">
-            <div className="flex items-center">
-              <label className="text-base dark:text-white text-gray-100">
-                <input
-                  type="checkbox"
-                  className="mr-1"
-                  onChange={() => setLockRoom(prev => !prev)}
+      >
+        <DialogContent title="End Room">
+          <DialogRow>Are you sure you want to end the room?</DialogRow>
+          <DialogRow justify="end">
+            <Flex>
+              <Flex align="center" css={{ cursor: "pointer" }}>
+                <Checkbox.Root
+                  id="lockRoomCheckbox"
+                  onCheckedChange={value => {
+                    console.error({ lock: value });
+                    setLockRoom(value);
+                  }}
                   checked={lockRoom}
-                />
-                <span>Lock room</span>
-              </label>
-            </div>
-            <Button
-              variant="standard"
-              className="mr-3 ml-3"
-              onClick={() => {
-                setShowEndRoomModal(false);
-                setLockRoom(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button variant="danger" onClick={endRoom}>
-              End Room
-            </Button>
-          </div>
-        }
-      />
+                >
+                  <Checkbox.Indicator>
+                    <CheckIcon width={16} height={16} />
+                  </Checkbox.Indicator>
+                </Checkbox.Root>
+                <Label htmlFor="lockRoomCheckbox" css={{ mx: "$4" }}>
+                  Lock Room
+                </Label>
+              </Flex>
+              <Button
+                variant="standard"
+                css={{ bg: "$bgSecondary", mx: "$4" }}
+                onClick={() => {
+                  setShowEndRoomModal(false);
+                  setLockRoom(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button variant="danger" onClick={endRoom}>
+                End Room
+              </Button>
+            </Flex>
+          </DialogRow>
+        </DialogContent>
+      </Dialog.Root>
     </Fragment>
   );
 };
