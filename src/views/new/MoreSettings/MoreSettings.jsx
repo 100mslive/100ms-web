@@ -42,7 +42,7 @@ export const MoreSettings = () => {
   return (
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={setOpen}>
-        <Tooltip title="More Settings">
+        <Tooltip title="More Options">
           <Dropdown.Trigger asChild>
             <IconButton active={!open} css={{ mx: "$4" }}>
               <HamburgerMenuIcon />
@@ -130,7 +130,6 @@ export const MoreSettings = () => {
       <RecordingAndRTMPModal
         show={showRecordingModal}
         onToggle={value => setShowRecordingModal(value)}
-        permissions={permissions}
       />
       <Settings
         open={showDeviceSettings}
