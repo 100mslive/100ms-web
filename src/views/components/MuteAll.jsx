@@ -96,16 +96,6 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
           <RadioGroup.Root value={enabled} onValueChange={setEnabled}>
             <Flex align="center" css={{ cursor: "pointer", mr: "$8" }}>
               <RadioGroup.Item
-                value="true"
-                id="trackEnableRadio"
-                css={{ mr: "$4" }}
-              >
-                <RadioGroup.Indicator />
-              </RadioGroup.Item>
-              <Label htmlFor="trackEnableRadio">Request Unmute</Label>
-            </Flex>
-            <Flex align="center">
-              <RadioGroup.Item
                 value="false"
                 id="trackDisableRadio"
                 css={{ mr: "$4" }}
@@ -113,6 +103,16 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
                 <RadioGroup.Indicator />
               </RadioGroup.Item>
               <Label htmlFor="trackDisableRadio">Mute</Label>
+            </Flex>
+            <Flex align="center" css={{ cursor: "pointer" }}>
+              <RadioGroup.Item
+                value="true"
+                id="trackEnableRadio"
+                css={{ mr: "$4" }}
+              >
+                <RadioGroup.Indicator />
+              </RadioGroup.Item>
+              <Label htmlFor="trackEnableRadio">Request Unmute</Label>
             </Flex>
           </RadioGroup.Root>
         </DialogRow>
