@@ -65,7 +65,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
     >
       <DialogContent title="Mute/Unmute Remote Tracks">
         <DialogSelect
-          title="Roles"
+          title="Role"
           options={[
             { label: "All Roles", value: "" },
             ...roles.map(role => ({ label: role, value: role })),
@@ -76,7 +76,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
           onChange={setRole}
         />
         <DialogSelect
-          title="Track types"
+          title="Track type"
           options={trackTypeOptions}
           selected={trackType}
           onChange={setTrackType}
@@ -84,7 +84,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
           labelField="label"
         />
         <DialogSelect
-          title="Track sources"
+          title="Track source"
           options={trackSourceOptions}
           selected={selectedSource}
           onChange={setSource}
