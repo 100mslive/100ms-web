@@ -63,31 +63,27 @@ export const LeaveRoom = () => {
           <Popover.Content sideOffset={10}>
             <Button
               variant="standard"
-              className="w-full"
               onClick={() => {
                 setShowEndRoomModal(true);
               }}
             >
               End Room
             </Button>
-            <Button
-              variant="danger"
-              className="w-full mt-2"
-              onClick={leaveRoom}
-            >
+            <Button variant="danger" css={{ mt: "$4" }} onClick={leaveRoom}>
               Just Leave
             </Button>
           </Popover.Content>
         </Popover.Root>
       ) : (
-        <Button
-          variant="danger"
-          className="w-full"
-          onClick={leaveRoom}
-          css={{ p: "$2 $6", "@md": { p: "$2 $4" } }}
-        >
-          <HangUpIcon />
-        </Button>
+        <Tooltip title="Leave Room">
+          <Button
+            variant="danger"
+            onClick={leaveRoom}
+            css={{ p: "$2 $6", "@md": { p: "$2 $4" } }}
+          >
+            <HangUpIcon />
+          </Button>
+        </Tooltip>
       )}
 
       <Dialog.Root
