@@ -6,7 +6,7 @@ import {
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
 import { RecordIcon } from "@100mslive/react-icons";
-import { Button, Text, Dialog } from "@100mslive/react-ui";
+import { Button, Text, Dialog, Box } from "@100mslive/react-ui";
 import {
   DialogContent,
   DialogInput,
@@ -90,7 +90,7 @@ export const RecordingAndRTMPModal = ({ show, onToggle }) => {
   return (
     <Dialog.Root open={show} onOpenChange={onToggle}>
       <DialogContent title="Streaming/Recording" Icon={RecordIcon}>
-        <form onSubmit={e => e.preventDefault()}>
+        <Box as="form" onSubmit={e => e.preventDefault()}>
           <DialogInput
             title="Meeting URL"
             value={meetingURL}
@@ -113,7 +113,7 @@ export const RecordingAndRTMPModal = ({ show, onToggle }) => {
               value={rtmpURL}
               onChange={setRTMPURL}
               placeholder="Enter rtmp out url"
-              disabled={isAnythingRunning}
+              disabled={isAnythingRunning || hlsSelected}
             />
           )}
 
@@ -146,12 +146,15 @@ export const RecordingAndRTMPModal = ({ show, onToggle }) => {
               variant="primary"
               type="submit"
               onClick={() => startStopRTMPRecordingHLS("start")}
-              disabled={isAnythingRunning}
+              disabled={
+                isAnythingRunning ||
+                (!hlsSelected && !recordingSelected && !rtmpURL)
+              }
             >
               Start
             </Button>
           </DialogRow>
-        </form>
+        </Box>
       </DialogContent>
     </Dialog.Root>
   );
