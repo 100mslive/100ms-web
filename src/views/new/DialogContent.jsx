@@ -5,6 +5,7 @@ import {
   HorizontalDivider,
   Text,
   Button,
+  Input,
 } from "@100mslive/react-ui";
 import React from "react";
 import { Box } from "@100mslive/react-ui";
@@ -153,6 +154,29 @@ export const DialogSelect = ({
           })}
         </Select.Select>
       </Select.Root>
+    </DialogRow>
+  );
+};
+
+export const DialogInput = ({
+  title,
+  value,
+  onChange,
+  placeholder,
+  disabled,
+  type,
+}) => {
+  return (
+    <DialogRow breakSm>
+      <Text>{title}:</Text>
+      <Input
+        css={{ width: "70%", "@sm": { width: "100%" } }}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        disabled={disabled}
+        type={type}
+      />
     </DialogRow>
   );
 };
