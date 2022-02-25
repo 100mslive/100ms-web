@@ -15,14 +15,14 @@ import {
 import { DialogContent, DialogRow, DialogSelect } from "../new/DialogContent";
 
 const trackSourceOptions = [
-  { label: "Select Track Source", value: "" },
+  { label: "All Track Sources", value: "" },
   { label: "regular", value: "regular" },
   { label: "screen", value: "screen" },
   { label: "audioplaylist", value: "audioplaylist" },
   { label: "videoplaylist", value: "videoplaylist" },
 ];
 const trackTypeOptions = [
-  { label: "Select Track Type", value: "" },
+  { label: "All Track Types", value: "" },
   { label: "audio", value: "audio" },
   { label: "video", value: "video" },
 ];
@@ -67,7 +67,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
         <DialogSelect
           title="Roles"
           options={[
-            { label: "Select Role", value: "" },
+            { label: "All Roles", value: "" },
             ...roles.map(role => ({ label: role, value: role })),
           ]}
           selected={selectedRole}
