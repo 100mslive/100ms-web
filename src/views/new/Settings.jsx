@@ -97,6 +97,7 @@ const TestAudio = ({ id }) => {
     <>
       <Button
         variant="standard"
+        css={{ backgroundColor: "$bgSecondary" }}
         onClick={() => audioRef.current?.play()}
         disabled={playing}
       >
