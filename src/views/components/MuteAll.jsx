@@ -1,118 +1,127 @@
 import React, { useCallback, useState } from "react";
-import { MessageModal, Button } from "@100mslive/hms-video-react";
 import {
   selectAvailableRoleNames,
   useHMSStore,
   useHMSActions,
 } from "@100mslive/react-sdk";
+import {
+  Dialog,
+  Text,
+  Button,
+  RadioGroup,
+  Flex,
+  Label,
+} from "@100mslive/react-ui";
+import { DialogContent, DialogRow, DialogSelect } from "../new/DialogContent";
 
-const defaultClasses = {
-  form: "flex flex-col justify-center",
-  formItem: "flex items-center h-8 mb-3",
-  label: "w-1/4 mr-2",
-  input:
-    "rounded-lg w-1/2 h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
-  checkBoxLabel: "text-sm space-x-1 flex items-center",
-};
-
+const trackSourceOptions = [
+  { label: "Select Track Source", value: "" },
+  { label: "regular", value: "regular" },
+  { label: "screen", value: "screen" },
+  { label: "audioplaylist", value: "audioplaylist" },
+  { label: "videoplaylist", value: "videoplaylist" },
+];
+const trackTypeOptions = [
+  { label: "Select Track Type", value: "" },
+  { label: "audio", value: "audio" },
+  { label: "video", value: "video" },
+];
 export const MuteAll = ({ showModal, onCloseModal }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const hmsActions = useHMSActions();
-  const [enabled, setEnabled] = useState(false);
-  const [type, setType] = useState();
-  const [role, setRole] = useState();
-  const [source, setSource] = useState();
+  const [enabled, setEnabled] = useState("false");
+  const [trackType, setTrackType] = useState();
+  const [selectedRole, setRole] = useState();
+  const [selectedSource, setSource] = useState();
+
+  const resetState = useCallback(() => {
+    setEnabled("false");
+    setTrackType("");
+    setSource("");
+    onCloseModal();
+  }, [onCloseModal]);
 
   const muteAll = useCallback(async () => {
     await hmsActions.setRemoteTracksEnabled({
-      enabled,
-      type,
-      source,
-      roles: role ? [role] : undefined,
+      enabled: enabled === "true",
+      type: trackType,
+      source: selectedSource,
+      roles: selectedRole ? [selectedRole] : undefined,
     });
-    onCloseModal();
-  }, [role, enabled, type, source]); //eslint-disable-line
-
-  const resetState = () => {
-    setEnabled(false);
-    setType("");
-    setSource("");
-  };
+    resetState();
+  }, [
+    selectedRole,
+    enabled,
+    trackType,
+    selectedSource,
+    hmsActions,
+    resetState,
+  ]);
 
   return (
-    <MessageModal
-      show={showModal}
-      onClose={() => {
-        onCloseModal();
-        resetState();
-      }}
-      title="Mute/Unmute Remote Tracks"
-      body={
-        <form className={defaultClasses.form}>
-          <div className={defaultClasses.formItem}>
-            <div className={defaultClasses.label}>Roles</div>
-            <select
-              className={defaultClasses.input}
-              onChange={event => {
-                setRole(event.currentTarget.value);
-              }}
-            >
-              <option value="">Select Role</option>
-              {roles.map(role => {
-                return (
-                  <option key={role} value={role}>
-                    {role}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className={defaultClasses.formItem}>
-            <div className={defaultClasses.label}>Track Type</div>
-            <select
-              className={defaultClasses.input}
-              onChange={event => {
-                setType(event.currentTarget.value);
-              }}
-            >
-              <option value="">Select track type</option>
-              <option value="video">Video</option>
-              <option value="audio">Audio</option>
-            </select>
-          </div>
-          <div className={defaultClasses.formItem}>
-            <div className={defaultClasses.label}>Track Source</div>
-            <select
-              className={defaultClasses.input}
-              onChange={event => {
-                setSource(event.currentTarget.value);
-              }}
-            >
-              <option value="">Select track source</option>
-              <option value="regular">Regular</option>
-              <option value="screen">Screen</option>
-              <option value="audioplaylist">Audio Playlist</option>
-              <option value="videoplaylist">Video Playlist</option>
-            </select>
-          </div>
-          <div className={defaultClasses.formItem}>
-            <div className={defaultClasses.label}>Enabled</div>
-            <label className={defaultClasses.checkBoxLabel}>
-              <input
-                type="checkbox"
-                onChange={() => setEnabled(prev => !prev)}
-                checked={enabled}
-              />
-              <span></span>
-            </label>
-          </div>
-        </form>
-      }
-      footer={
-        <Button variant="emphasized" onClick={muteAll}>
-          Apply
-        </Button>
-      }
-    />
+    <Dialog.Root
+      open={showModal}
+      onOpenChange={value => !value && resetState()}
+    >
+      <DialogContent title="Mute/Unmute Remote Tracks">
+        <DialogSelect
+          title="Roles"
+          options={[
+            { label: "Select Role", value: "" },
+            ...roles.map(role => ({ label: role, value: role })),
+          ]}
+          selected={selectedRole}
+          keyField="value"
+          labelField="label"
+          onChange={setRole}
+        />
+        <DialogSelect
+          title="Track types"
+          options={trackTypeOptions}
+          selected={trackType}
+          onChange={setTrackType}
+          keyField="value"
+          labelField="label"
+        />
+        <DialogSelect
+          title="Track sources"
+          options={trackSourceOptions}
+          selected={selectedSource}
+          onChange={setSource}
+          keyField="value"
+          labelField="label"
+        />
+        <DialogRow>
+          <Text variant="md">Track status</Text>
+          <RadioGroup.Root value={enabled} onValueChange={setEnabled}>
+            <Flex align="center" css={{ cursor: "pointer", mr: "$8" }}>
+              <RadioGroup.Item
+                value="true"
+                id="trackEnableRadio"
+                css={{ mr: "$4" }}
+              >
+                <RadioGroup.Indicator />
+              </RadioGroup.Item>
+              <Label htmlFor="trackEnableRadio">Enabled</Label>
+            </Flex>
+            <Flex align="center">
+              <RadioGroup.Item
+                value="false"
+                id="trackDisableRadio"
+                css={{ mr: "$4" }}
+              >
+                <RadioGroup.Indicator />
+              </RadioGroup.Item>
+              <Label htmlFor="trackDisableRadio">Disabled</Label>
+            </Flex>
+          </RadioGroup.Root>
+        </DialogRow>
+        <DialogRow justify="end">
+          <Button variant="primary" onClick={muteAll}>
+            Apply
+          </Button>
+        </DialogRow>
+      </DialogContent>
+    </Dialog.Root>
   );
 };
