@@ -101,7 +101,8 @@ const TestAudio = ({ id }) => {
         onClick={() => audioRef.current?.play()}
         disabled={playing}
       >
-        <AudioLevelIcon className="mr-2" /> Play
+        <AudioLevelIcon />
+        &nbsp;Play
       </Button>
       <audio
         ref={audioRef}
