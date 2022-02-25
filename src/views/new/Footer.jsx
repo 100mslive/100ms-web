@@ -146,7 +146,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
           css={{ display: "none", "@md": { display: "flex", ml: "$4" } }}
         >
           <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
-          <LeaveRoom showText={false} />
+          <LeaveRoom />
         </Flex>
       </Flex>
       <Flex

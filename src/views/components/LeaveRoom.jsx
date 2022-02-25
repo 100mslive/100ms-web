@@ -8,7 +8,6 @@ import {
 import { CheckIcon, HangUpIcon } from "@100mslive/react-icons";
 import {
   Button,
-  Text,
   Popover,
   Dialog,
   Checkbox,
@@ -17,7 +16,7 @@ import {
 } from "@100mslive/react-ui";
 import { DialogContent, DialogRow } from "../new/DialogContent";
 
-export const LeaveRoom = ({ showText = true }) => {
+export const LeaveRoom = () => {
   const history = useHistory();
   const params = useParams();
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
@@ -50,18 +49,9 @@ export const LeaveRoom = ({ showText = true }) => {
             <Button
               variant="danger"
               key="LeaveRoom"
-              css={{ p: "$2 $4", "@md": { p: "$2" } }}
+              css={{ p: "$2 $6", "@md": { p: "$4" } }}
             >
               <HangUpIcon key="hangUp" />
-              <Text
-                css={{
-                  mx: "$4",
-                  display: showText ? "block" : "none",
-                  color: "$white",
-                }}
-              >
-                Leave
-              </Text>
             </Button>
           </Popover.Trigger>
           <Popover.Content sideOffset={10}>
@@ -72,7 +62,7 @@ export const LeaveRoom = ({ showText = true }) => {
                 setShowEndRoomModal(true);
               }}
             >
-              End Room for all
+              End Room
             </Button>
             <Button
               variant="danger"
@@ -88,12 +78,9 @@ export const LeaveRoom = ({ showText = true }) => {
           variant="danger"
           className="w-full"
           onClick={leaveRoom}
-          css={{ p: "$2 $4", "@md": { p: "$2" } }}
+          css={{ p: "$2 $6", "@md": { p: "$4" } }}
         >
           <HangUpIcon />
-          <Text css={{ mx: "$4", display: showText ? "block" : "none" }}>
-            Leave
-          </Text>
         </Button>
       )}
 
