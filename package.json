@@ -20,6 +20,7 @@
     "@testing-library/user-event": "^12.1.10",
     "@tldraw/tldraw": "^1.5.0",
     "hls.js": "^1.1.1",
+    "js-confetti": "^0.10.2",
     "logrocket": "^2.2.0",
     "logrocket-react": "^5.0.1",
     "mobx": "^6.3.12",

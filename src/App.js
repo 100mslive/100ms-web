@@ -28,6 +28,7 @@ import {
 import { FeatureFlags } from "./store/FeatureFlags";
 import { HMSThemeProvider as ReactUIProvider, Box } from "@100mslive/react-ui";
 import "./index.css";
+import { Confetti } from "../plugins/confetti";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -177,6 +178,7 @@ function AppRoutes({ getUserToken }) {
   return (
     <Router>
       <Notifications />
+      <Confetti />
       <Switch>
         <Route
           path="/preview/:roomId/:role?"
