@@ -92,7 +92,8 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        if (!subscribedNotifications.NEW_MESSAGE) return;
+        if (!subscribedNotifications.NEW_MESSAGE || notification.data?.ignored)
+          return;
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
