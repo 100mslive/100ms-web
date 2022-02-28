@@ -17,7 +17,7 @@ export function AutoplayBlockedModal() {
     >
       <DialogContent title="Autoplay Error" closeable={false}>
         <DialogRow>
-          <Text size="md">
+          <Text variant="md">
             The browser wants us to get a confirmation for playing the Audio.
             Please allow audio to proceed.
           </Text>

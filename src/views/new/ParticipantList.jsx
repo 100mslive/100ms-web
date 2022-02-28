@@ -7,6 +7,7 @@ import {
   Avatar,
   textEllipsis,
   IconButton,
+  Tooltip,
 } from "@100mslive/react-ui";
 import {
   ChevronDownIcon,
@@ -39,19 +40,23 @@ export const ParticipantList = () => {
             css={{
               color: "$textPrimary",
               borderRadius: "$1",
-              border: "1px solid $bgTertiary",
+              border: "1px solid $textDisabled",
             }}
           >
-            <ParticipantCount peerCount={peerCount} />
-            <Box
-              css={{
-                ml: "$2",
-                "@lg": { display: "none" },
-                color: "$textDisabled",
-              }}
-            >
-              {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            </Box>
+            <Tooltip title="Participant List">
+              <Flex>
+                <ParticipantCount peerCount={peerCount} />
+                <Box
+                  css={{
+                    ml: "$2",
+                    "@lg": { display: "none" },
+                    color: "$textDisabled",
+                  }}
+                >
+                  {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                </Box>
+              </Flex>
+            </Tooltip>
           </Flex>
         </Dropdown.Trigger>
         <Dropdown.Content

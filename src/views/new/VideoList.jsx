@@ -25,6 +25,7 @@ const List = ({
     maxRowCount,
     includeScreenShareForPeer,
     aspectRatio,
+    offsetY: 32,
   });
   const [page, setPage] = useState(0);
   useEffect(() => {

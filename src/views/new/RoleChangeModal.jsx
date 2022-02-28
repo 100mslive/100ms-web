@@ -5,9 +5,14 @@ import {
   useHMSActions,
   selectAvailableRoleNames,
 } from "@100mslive/react-sdk";
-import { Dialog, Label, Checkbox, Button } from "@100mslive/react-ui";
-import { CheckIcon, SettingIcon } from "@100mslive/react-icons";
-import { DialogContent, DialogRow, DialogSelect } from "./DialogContent";
+import { Dialog, Button } from "@100mslive/react-ui";
+import { SettingIcon } from "@100mslive/react-icons";
+import {
+  DialogCheckbox,
+  DialogContent,
+  DialogRow,
+  DialogSelect,
+} from "./DialogContent";
 
 export const RoleChangeModal = ({ peerId, onClose }) => {
   const peer = useHMSStore(selectPeerByID(peerId));
@@ -27,18 +32,11 @@ export const RoleChangeModal = ({ peerId, onClose }) => {
           selected={selectedRole}
           onChange={setRole}
         />
-        <DialogRow>
-          <Label htmlFor="permissionCheckbox">Request Permission:</Label>
-          <Checkbox.Root
-            id="permissionCheckbox"
-            checked={requestPermission}
-            onCheckedChange={value => setRequestPermission(value)}
-          >
-            <Checkbox.Indicator>
-              <CheckIcon width={16} height={16} />
-            </Checkbox.Indicator>
-          </Checkbox.Root>
-        </DialogRow>
+        <DialogCheckbox
+          title="Request Permission"
+          value={requestPermission}
+          onChange={setRequestPermission}
+        />
         <DialogRow justify="end">
           <Button
             variant="primary"

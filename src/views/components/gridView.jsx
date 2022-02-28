@@ -60,7 +60,7 @@ export const GridCenterView = ({
       {isChatOpen && hideSidePane && (
         <Flex
           css={{
-            height: "45%",
+            height: "75%",
             flex: "0 0 20%",
             zIndex: 40,
             mr: "$4",

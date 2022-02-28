@@ -60,7 +60,7 @@ export const VirtualBackground = () => {
         onClick={() => {
           !isVBPresent ? addPlugin() : removePlugin();
         }}
-        css={{ mx: "$4", "@md": { display: "none" } }}
+        css={{ mx: "$4" }}
       >
         <VirtualBackgroundIcon />
       </IconButton>

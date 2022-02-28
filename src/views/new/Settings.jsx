@@ -97,10 +97,12 @@ const TestAudio = ({ id }) => {
     <>
       <Button
         variant="standard"
+        css={{ backgroundColor: "$bgSecondary" }}
         onClick={() => audioRef.current?.play()}
         disabled={playing}
       >
-        <AudioLevelIcon className="mr-2" /> Play
+        <AudioLevelIcon />
+        &nbsp;Play
       </Button>
       <audio
         ref={audioRef}

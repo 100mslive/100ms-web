@@ -12,7 +12,6 @@ import {
   useScreenShare,
 } from "@100mslive/react-sdk";
 import {
-  Box,
   Flex,
   IconButton,
   Tooltip,
@@ -20,12 +19,14 @@ import {
 } from "@100mslive/react-ui";
 import { Fragment, useState } from "react";
 import { isScreenshareSupported } from "../../common/utils";
+import { FeatureFlags } from "../../store/FeatureFlags";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
 import { LeaveRoom } from "../components/LeaveRoom";
-import { MoreSettings } from "../components/MoreSettings";
 import { NoiseSuppression } from "../components/NoiseSuppression";
 import { VirtualBackground } from "../components/VirtualBackground";
 import { useMyMetadata } from "../hooks/useMetadata";
+import { ToggleWhiteboard } from "../whiteboard";
+import { MoreSettings } from "./MoreSettings/MoreSettings";
 import { AudioPlaylist } from "./Playlist/AudioPlaylist";
 import { Screenshare } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
@@ -63,7 +64,6 @@ const ScreenshareAudio = () => {
           <MusicIcon />
         </IconButton>
       </Tooltip>
-      <VerticalDivider space={4} />
       {showModal && (
         <ScreenShareHintModal onClose={() => setShowModal(false)} />
       )}
@@ -98,7 +98,7 @@ const Chat = ({ isChatOpen, toggleChat }) => {
 
   return (
     <Tooltip key="chat" title={`${isChatOpen ? "Close" : "Open"} chat`}>
-      <IconButton onClick={toggleChat} active={!isChatOpen}>
+      <IconButton css={{ mx: "$4" }} onClick={toggleChat} active={!isChatOpen}>
         {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
       </IconButton>
     </Tooltip>
@@ -130,9 +130,9 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         }}
       >
         <ScreenshareAudio />
-        <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
         <AudioPlaylist />
         <MetaActions />
+        {FeatureFlags.enableWhiteboard && <ToggleWhiteboard />}
       </Flex>
       <Flex align="center" justify="center" css={{ w: "100%" }}>
         <AudioVideoToggle />
@@ -140,10 +140,14 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <VirtualBackground />
         <NoiseSuppression />
         <VerticalDivider space={4} />
-        <MoreSettings key="MoreSettings" />
-        <Box css={{ display: "none", "@md": { display: "block", ml: "$4" } }}>
-          <LeaveRoom showText={false} />
-        </Box>
+        <MoreSettings />
+        <Flex
+          align="center"
+          css={{ display: "none", "@md": { display: "flex", ml: "$4" } }}
+        >
+          <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
+          <LeaveRoom />
+        </Flex>
       </Flex>
       <Flex
         align="center"
@@ -155,6 +159,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
           },
         }}
       >
+        <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
         <LeaveRoom />
       </Flex>
     </Flex>

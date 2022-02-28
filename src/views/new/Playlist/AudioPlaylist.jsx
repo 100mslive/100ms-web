@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { AudioPlayerIcon, CrossIcon } from "@100mslive/react-icons";
 import {
   Dropdown,
@@ -7,6 +7,7 @@ import {
   Flex,
   Tooltip,
   Box,
+  VerticalDivider,
 } from "@100mslive/react-ui";
 import {
   HMSPlaylistType,
@@ -29,70 +30,75 @@ export const AudioPlaylist = () => {
   }
 
   return (
-    <Dropdown.Root open={open} onOpenChange={setOpen}>
-      <Tooltip title="Audio Playlist">
+    <Fragment>
+      <Dropdown.Root open={open} onOpenChange={setOpen}>
         <Dropdown.Trigger asChild>
           <IconButton active={!active}>
-            <AudioPlayerIcon />
+            <Tooltip title="Audio Playlist">
+              <Box>
+                <AudioPlayerIcon />
+              </Box>
+            </Tooltip>
           </IconButton>
         </Dropdown.Trigger>
-      </Tooltip>
-      <Dropdown.Content
-        sideOffset={5}
-        align="center"
-        css={{
-          maxHeight: "unset",
-          width: "$60",
-          p: "$0",
-          bg: "$bgSecondary",
-          border: "1px solid $menuBg",
-        }}
-      >
-        <Flex
+        <Dropdown.Content
+          sideOffset={5}
           align="center"
           css={{
-            p: "$4 $8",
-            borderBottom: "1px solid $borderLight",
-            bg: "$menuBg",
+            maxHeight: "unset",
+            width: "$60",
+            p: "$0",
+            bg: "$bgSecondary",
+            border: "1px solid $menuBg",
           }}
         >
-          <Text variant="md" css={{ flex: "1 1 0" }}>
-            Audio Player
-          </Text>
-          <IconButton
-            css={{ mr: "-$4" }}
-            onClick={() => {
-              if (active) {
-                hmsActions.audioPlaylist.stop();
-              }
-              setOpen(false);
-              setCollapse(false);
+          <Flex
+            align="center"
+            css={{
+              p: "$4 $8",
+              borderBottom: "1px solid $borderLight",
+              bg: "$menuBg",
             }}
           >
-            <CrossIcon width={24} height={24} />
-          </IconButton>
-        </Flex>
-        {!collapse && (
-          <Box css={{ maxHeight: "$96", overflowY: "auto" }}>
-            {playlist.map(playlistItem => {
-              return (
-                <PlaylistItem
-                  key={playlistItem.id}
-                  {...playlistItem}
-                  onClick={e => {
-                    e.preventDefault();
-                    hmsActions.audioPlaylist.play(playlistItem.id);
-                  }}
-                />
-              );
-            })}
-          </Box>
-        )}
-        <PlaylistControls
-          type={HMSPlaylistType.audio}
-          onToggle={() => setCollapse(value => !value)}
-        />
-      </Dropdown.Content>
-    </Dropdown.Root>
+            <Text variant="md" css={{ flex: "1 1 0" }}>
+              Audio Player
+            </Text>
+            <IconButton
+              css={{ mr: "-$4" }}
+              onClick={() => {
+                if (active) {
+                  hmsActions.audioPlaylist.stop();
+                }
+                setOpen(false);
+                setCollapse(false);
+              }}
+            >
+              <CrossIcon width={24} height={24} />
+            </IconButton>
+          </Flex>
+          {!collapse && (
+            <Box css={{ maxHeight: "$96", overflowY: "auto" }}>
+              {playlist.map(playlistItem => {
+                return (
+                  <PlaylistItem
+                    key={playlistItem.id}
+                    {...playlistItem}
+                    onClick={e => {
+                      e.preventDefault();
+                      hmsActions.audioPlaylist.play(playlistItem.id);
+                    }}
+                  />
+                );
+              })}
+            </Box>
+          )}
+          <PlaylistControls
+            type={HMSPlaylistType.audio}
+            onToggle={() => setCollapse(value => !value)}
+          />
+        </Dropdown.Content>
+      </Dropdown.Root>
+      <VerticalDivider space={4} />
+    </Fragment>
   );
 };

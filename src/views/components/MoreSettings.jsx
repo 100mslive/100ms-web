@@ -267,29 +267,39 @@ export const MoreSettings = () => {
           />
         )}
       </ContextMenu>
-      <Settings
-        open={showSettings}
-        onOpenChange={state => setShowSettings(state)}
-      />
-      <UiSettings
-        {...uiSettingsProps}
-        showModal={showUiSettings}
-        onModalClose={() => setShowUiSettings(false)}
-      />
-      <MuteAll
-        showModal={showMuteAll}
-        onCloseModal={() => setShowMuteAll(false)}
-      />
-      <RecordingAndRTMPModal
-        showRecordingAndRTMPModal={showRecordingAndRTMPModal}
-        setShowRecordingAndRTMPModal={setShowRecordingAndRTMPModal}
-        permissions={permissions}
-      />
-      <ChangeName
-        setShowChangeNameModal={setShowChangeNameModal}
-        showChangeNameModal={showChangeNameModal}
-      />
-      {FeatureFlags.enableStatsForNerds && (
+      {showSettings && (
+        <Settings
+          open={showSettings}
+          onOpenChange={state => setShowSettings(state)}
+        />
+      )}
+      {showUiSettings && (
+        <UiSettings
+          {...uiSettingsProps}
+          showModal={showUiSettings}
+          onModalClose={() => setShowUiSettings(false)}
+        />
+      )}
+      {showMuteAll && (
+        <MuteAll
+          showModal={showMuteAll}
+          onCloseModal={() => setShowMuteAll(false)}
+        />
+      )}
+      {showRecordingAndRTMPModal && (
+        <RecordingAndRTMPModal
+          showRecordingAndRTMPModal={showRecordingAndRTMPModal}
+          setShowRecordingAndRTMPModal={setShowRecordingAndRTMPModal}
+          permissions={permissions}
+        />
+      )}
+      {showChangeNameModal && (
+        <ChangeName
+          setShowChangeNameModal={setShowChangeNameModal}
+          showChangeNameModal={showChangeNameModal}
+        />
+      )}
+      {FeatureFlags.enableStatsForNerds && showStatsForNerds && (
         <StatsForNerds
           showModal={showStatsForNerds}
           onCloseModal={() => setShowStatsForNerds(false)}

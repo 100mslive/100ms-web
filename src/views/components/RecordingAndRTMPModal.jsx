@@ -1,278 +1,159 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, MessageModal, Text } from "@100mslive/hms-video-react";
-import { hmsToast } from "./notifications/hms-toast";
+import React, { useMemo, useEffect, useState } from "react";
 import {
-  selectHLSState,
-  selectRecordingState,
-  selectRTMPState,
-  useHMSStore,
+  selectPermissions,
   useHMSActions,
+  useHMSStore,
+  useRecordingStreaming,
 } from "@100mslive/react-sdk";
+import { RecordIcon } from "@100mslive/react-icons";
+import { Button, Text, Dialog, Box } from "@100mslive/react-ui";
+import {
+  DialogContent,
+  DialogInput,
+  DialogRow,
+  DialogSwitch,
+} from "../new/DialogContent";
+import { hmsToast } from "./notifications/hms-toast";
 import { SKIP_PREVIEW } from "../../common/constants";
-
-const defaultClasses = {
-  iconContainer: "focus:outline-none mr-3 hover:bg-gray-200 p-2 rounded-lg",
-  dialogRoot: "rounded-xl ",
-  dialogContainer:
-    "bg-white text-gray-100 dark:bg-gray-100 dark:text-white w-full p-2 overflow-y-auto rounded-xl",
-  dialogInner: "text-2xl p-2 flex justify-between",
-  titleContainer: "flex items-center",
-  titleIcon: "pr-4",
-  titleText: "text-2xl leading-7",
-  formContainer: "flex flex-wrap p-3 pt-0 md:p-0 text-base md:mb-0",
-  formInner: "w-full flex flex-col md:flex-row my-1.5",
-  selectLabel: "w-full md:w-1/3 flex justify-start md:justify-end items-center",
-  selectContainer:
-    "rounded-lg w-full md:w-1/2 bg-gray-600 dark:bg-gray-200 p-2 mx-0 my-2 md:my-0 md:mx-2",
-  select:
-    "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
-  selectInner: "px-4 pb-5",
-  divider: "bg-gray-600 dark:bg-gray-200 h-px w-full my-4",
-  gap: "w-full pt-4",
-  errorContainer: "flex justify-center items-center w-full px-8 py-4",
-  testAudioContainer: "mx-0 my-2 md:my-0 md:mx-2",
-};
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + `?${SKIP_PREVIEW}=true`;
 
-export const RecordingAndRTMPModal = ({
-  showRecordingAndRTMPModal,
-  setShowRecordingAndRTMPModal,
-  permissions,
-}) => {
-  useEffect(() => {
-    setMeetingURL(defaultMeetingUrl);
-  }, [showRecordingAndRTMPModal]);
+export const RecordingAndRTMPModal = ({ show, onToggle }) => {
   const hmsActions = useHMSActions();
-  const recording = useHMSStore(selectRecordingState);
-  const rtmp = useHMSStore(selectRTMPState);
-  const hls = useHMSStore(selectHLSState);
+  const permissions = useHMSStore(selectPermissions);
+  const {
+    isHLSRecordingOn,
+    isHLSRunning,
+    isStreamingOn,
+    isBrowserRecordingOn,
+  } = useRecordingStreaming();
 
   const [meetingURL, setMeetingURL] = useState(defaultMeetingUrl);
   const [rtmpURL, setRTMPURL] = useState("");
-  const [isHlsOn, setIsHlsOn] = useState(false);
-  const [isRecordingOn, setIsRecordingOn] = useState(false);
+  const [hlsSelected, setHLS] = useState(false);
+  const [recordingSelected, setRecording] = useState(false);
+  const isRecordingOn = isBrowserRecordingOn || isHLSRecordingOn;
+  const isAnythingRunning = isRecordingOn || isStreamingOn;
 
-  const getText = useCallback(() => {
+  const recordingStreamingStatusText = useMemo(() => {
     let text = "";
-    if (rtmp.running || hls.running) {
+    if (isStreamingOn) {
       text += "Streaming";
     }
-    if (recording.browser.running || recording.hls.running) {
+    if (isRecordingOn) {
       if (text) text += "/";
       text += "Recording";
     }
     text += " is running";
     return text;
-  }, [
-    recording.browser.running,
-    recording.hls.running,
-    rtmp.running,
-    hls.running,
-  ]);
+  }, [isStreamingOn, isRecordingOn]);
+
+  useEffect(() => {
+    setMeetingURL(defaultMeetingUrl);
+  }, [show]);
 
   const startStopRTMPRecordingHLS = async action => {
     try {
       if (action === "start") {
-        isHlsOn
+        hlsSelected
           ? await hmsActions.startHLSStreaming({
               variants: [{ meetingURL: meetingURL }],
-              recording: isRecordingOn ? {} : undefined,
+              recording: recordingSelected ? {} : undefined,
             })
           : await hmsActions.startRTMPOrRecording({
               meetingURL,
               rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
-              record: isRecordingOn,
+              record: recordingSelected,
             });
       } else {
-        hls.running
+        isHLSRunning
           ? await hmsActions.stopHLSStreaming()
           : await hmsActions.stopRTMPAndRecording();
       }
     } catch (error) {
-      isHlsOn
-        ? console.error("failed to start/stop hls streaming", error)
-        : console.error("failed to start/stop rtmp/recording", error);
+      console.error(
+        `failed to start/stop ${
+          hlsSelected ? "hls streaming" : "rtmp/recording"
+        }`,
+        error
+      );
       hmsToast(error.message);
     } finally {
       setMeetingURL("");
       setRTMPURL("");
-      setIsRecordingOn(false);
-      setShowRecordingAndRTMPModal(false);
+      setRecording(false);
+      onToggle(false);
     }
   };
 
   return (
-    <MessageModal
-      title="Start Streaming/Recording"
-      body={
-        <RecordingAndStreamingForm
-          meetingURL={meetingURL}
-          rtmpURL={rtmpURL}
-          isRecordingOn={isRecordingOn}
-          isRecordingRunning={
-            recording.browser.running || recording.hls.running
-          }
-          isRTMPRunning={rtmp.running}
-          setIsRecordingOn={setIsRecordingOn}
-          setMeetingURL={setMeetingURL}
-          setRTMPURL={setRTMPURL}
-          isHlsOn={isHlsOn}
-          setIsHlsOn={setIsHlsOn}
-          isHLSRunning={hls.running}
-          permissions={permissions}
-        />
-      }
-      footer={
-        <>
-          {(recording.browser.running || rtmp.running || hls.running) && (
-            <Text
-              variant="body"
-              size="md"
-              classes={{ root: "mx-2 self-center text-yellow-500" }}
-            >
-              {getText()}
-            </Text>
+    <Dialog.Root open={show} onOpenChange={onToggle}>
+      <DialogContent title="Streaming/Recording" Icon={RecordIcon}>
+        <Box as="form" onSubmit={e => e.preventDefault()}>
+          <DialogInput
+            title="Meeting URL"
+            value={meetingURL}
+            onChange={setMeetingURL}
+            placeholder="Enter meeting url"
+            disabled={isAnythingRunning}
+          />
+          {permissions.streaming && (
+            <DialogSwitch
+              title="HLS"
+              value={hlsSelected || isHLSRunning}
+              onChange={setHLS}
+              disabled={isAnythingRunning || rtmpURL[0]}
+            />
           )}
-          <div className="space-x-1">
+
+          {permissions.streaming && (
+            <DialogInput
+              title="RTMP Out"
+              value={rtmpURL}
+              onChange={setRTMPURL}
+              placeholder="Enter rtmp out url"
+              disabled={isAnythingRunning || hlsSelected}
+            />
+          )}
+
+          {permissions.recording && (
+            <DialogSwitch
+              title="Recording"
+              value={recordingSelected || isRecordingOn}
+              disabled={isAnythingRunning}
+              onChange={setRecording}
+            />
+          )}
+          <DialogRow justify="end">
+            {isAnythingRunning && (
+              <Text variant="sm" css={{ color: "$error" }}>
+                {recordingStreamingStatusText}
+              </Text>
+            )}
             <Button
               variant="danger"
-              shape="rectangle"
+              type="reset"
+              css={{ mx: "$4" }}
               onClick={() => startStopRTMPRecordingHLS("stop")}
-              disabled={
-                !recording.browser.running && !rtmp.running && !hls.running
-              }
+              disabled={!isAnythingRunning}
             >
               Stop
             </Button>
             <Button
-              variant="emphasized"
-              shape="rectangle"
+              variant="primary"
+              type="submit"
               onClick={() => startStopRTMPRecordingHLS("start")}
               disabled={
-                recording.browser.running || rtmp.running || hls.running
+                isAnythingRunning ||
+                (!hlsSelected && !recordingSelected && !rtmpURL)
               }
             >
               Start
             </Button>
-          </div>
-        </>
-      }
-      show={showRecordingAndRTMPModal}
-      onClose={() => setShowRecordingAndRTMPModal(false)}
-    />
-  );
-};
-
-export const RecordingAndStreamingForm = ({
-  isRecordingRunning,
-  isRTMPRunning,
-  isHLSRunning,
-  isRecordingOn,
-  setIsRecordingOn,
-  meetingURL,
-  setMeetingURL,
-  rtmpURL,
-  setRTMPURL,
-  isHlsOn,
-  setIsHlsOn,
-  permissions,
-}) => {
-  const isAnythingRunning = isRecordingRunning || isRTMPRunning || isHLSRunning;
-  return (
-    <div>
-      <form>
-        <TextInput
-          inputName="Meeting URL:"
-          value={meetingURL}
-          onChangeHandler={setMeetingURL}
-          disabled={isAnythingRunning}
-        />
-
-        {permissions.streaming && (
-          <SwitchInput
-            inputName="HLS:"
-            checked={isHlsOn || isHLSRunning}
-            onChangeHandler={setIsHlsOn}
-            disabled={isAnythingRunning || rtmpURL[0]}
-          />
-        )}
-
-        {permissions.streaming && (
-          <TextInput
-            inputName="RTMP"
-            value={rtmpURL}
-            onChangeHandler={setRTMPURL}
-            disabled={isAnythingRunning || isHlsOn}
-          />
-        )}
-
-        {permissions.recording && (
-          <SwitchInput
-            inputName="Recording:"
-            checked={isRecordingOn || isRecordingRunning}
-            disabled={isAnythingRunning}
-            onChangeHandler={setIsRecordingOn}
-          />
-        )}
-      </form>
-    </div>
-  );
-};
-
-const TextInput = ({ inputName, disabled, value, onChangeHandler, props }) => {
-  return (
-    <div className={defaultClasses.formInner}>
-      <div className={defaultClasses.selectLabel}>
-        <Text variant="heading" size="sm">
-          {inputName}
-        </Text>
-      </div>
-
-      <div className={defaultClasses.selectContainer}>
-        <input
-          type="text"
-          className={defaultClasses.select}
-          value={value}
-          onChange={e => onChangeHandler(e.target.value)}
-          disabled={disabled}
-          {...props}
-        />
-      </div>
-    </div>
-  );
-};
-
-const SwitchInput = ({
-  inputName,
-  checked,
-  disabled,
-  onChangeHandler,
-  props,
-}) => {
-  return (
-    <div className={defaultClasses.formInner}>
-      <div className={defaultClasses.selectLabel}>
-        <Text variant="heading" size="sm">
-          {inputName}
-        </Text>
-      </div>
-      <div className={defaultClasses.selectInner}>
-        <input
-          className="custom-toggle"
-          type="checkbox"
-          id={`${inputName}Checkbox`}
-          checked={checked}
-          onChange={e => onChangeHandler(e.target.checked)}
-          disabled={disabled}
-          {...props}
-        />
-        <label
-          className="custom-toggle-label"
-          htmlFor={`${inputName}Checkbox`}
-        ></label>
-      </div>
-    </div>
+          </DialogRow>
+        </Box>
+      </DialogContent>
+    </Dialog.Root>
   );
 };

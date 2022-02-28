@@ -5,7 +5,7 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { Button, MessageModal, Text } from "@100mslive/hms-video-react";
+import { MessageModal } from "@100mslive/hms-video-react";
 import {
   useHMSActions,
   useHMSStatsStore,
@@ -13,14 +13,17 @@ import {
   selectHMSStats,
   selectTracksMap,
   selectPeerNameByID,
+  selectLocalPeer,
 } from "@100mslive/react-sdk";
-import { Switch } from "@100mslive/react-ui";
+import { Dialog, Switch, Button } from "@100mslive/react-ui";
+import { DialogContent, DialogInput, DialogRow } from "../new/DialogContent";
 import { hmsToast } from "./notifications/hms-toast";
 import { AppContext } from "../../store/AppContext";
 import {
   useUserPreferences,
   UserPreferencesKeys,
 } from "../hooks/useUserPreferences";
+import { TextboxIcon } from "@100mslive/react-icons";
 
 const defaultClasses = {
   formInner: "w-full flex flex-col md:flex-row my-1.5",
@@ -31,45 +34,23 @@ const defaultClasses = {
     "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
 };
 
-const ChangeNameForm = ({ currentName, setCurrentName, changeName }) => {
-  return (
-    <form
-      onSubmit={e => {
-        e.preventDefault();
-        changeName();
-      }}
-    >
-      <div className={defaultClasses.formInner}>
-        <div className={defaultClasses.selectLabel}>
-          <Text variant="heading" size="sm">
-            Name:
-          </Text>
-        </div>
-
-        <div className={defaultClasses.selectContainer}>
-          <input
-            autoFocus
-            type="text"
-            className={defaultClasses.select}
-            value={currentName}
-            onChange={e => setCurrentName(e.target.value)}
-          />
-        </div>
-      </div>
-    </form>
-  );
-};
-
-export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
+export const ChangeName = ({ show, onToggle }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW
   );
   const hmsActions = useHMSActions();
+  const localPeer = useHMSStore(selectLocalPeer);
   const [currentName, setCurrentName] = useState("");
+
+  useEffect(() => {
+    if (show) {
+      setCurrentName(localPeer?.name);
+    }
+  }, [show, localPeer?.name]);
+
   const changeName = async () => {
     const name = currentName.trim();
-    if (name.length < 1) {
-      hmsToast("Enter a valid name!");
+    if (!name || name === localPeer?.name) {
       return;
     }
     try {
@@ -82,39 +63,49 @@ export const ChangeName = ({ showChangeNameModal, setShowChangeNameModal }) => {
       console.error("failed to update name", error);
       hmsToast(error.message);
     } finally {
-      setShowChangeNameModal(false);
+      onToggle(false);
       setCurrentName("");
     }
   };
 
   const resetState = () => {
-    setShowChangeNameModal(false);
+    onToggle(false);
     setCurrentName("");
   };
 
   return (
-    <MessageModal
-      title="Change my name"
-      body={
-        <ChangeNameForm
-          currentName={currentName}
-          setCurrentName={setCurrentName}
-          changeName={changeName}
-        />
-      }
-      footer={
-        <Button
-          variant="emphasized"
-          shape="rectangle"
-          onClick={changeName}
-          disabled={currentName.trim().length < 1}
+    <Dialog.Root open={show} onOpenChange={value => !value && resetState()}>
+      <DialogContent title="Change my name" Icon={TextboxIcon}>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+          }}
         >
-          Change
-        </Button>
-      }
-      show={showChangeNameModal}
-      onClose={() => resetState()}
-    />
+          <DialogInput
+            title="Name"
+            value={currentName}
+            onChange={setCurrentName}
+            autoComplete="name"
+            required
+          />
+          <DialogRow justify="end">
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={
+                !currentName.trim() || currentName.trim() === localPeer?.name
+              }
+              onClick={async () => {
+                await changeName();
+                onToggle(false);
+              }}
+            >
+              Change
+            </Button>
+          </DialogRow>
+        </form>
+      </DialogContent>
+    </Dialog.Root>
   );
 };
 

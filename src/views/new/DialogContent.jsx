@@ -1,13 +1,18 @@
+import React from "react";
+import { CheckIcon, CrossIcon } from "@100mslive/react-icons";
 import {
   Dialog,
   Select,
   Flex,
   HorizontalDivider,
   Text,
+  Button,
+  Input,
+  Box,
+  Switch,
+  Checkbox,
+  Label,
 } from "@100mslive/react-ui";
-import React from "react";
-import { Box } from "@100mslive/react-ui";
-import { CrossIcon } from "@100mslive/react-icons";
 
 export const DialogContent = ({
   Icon,
@@ -69,6 +74,28 @@ export const ErrorDialog = ({
   );
 };
 
+export const RequestDialog = ({
+  open = true,
+  onOpenChange,
+  title,
+  body,
+  actionText = "Accept",
+  onAction,
+}) => (
+  <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <DialogContent title={title}>
+      <DialogRow>
+        <Text variant="md">{body}</Text>
+      </DialogRow>
+      <DialogRow justify="end">
+        <Button variant="primary" onClick={onAction}>
+          {actionText}
+        </Button>
+      </DialogRow>
+    </DialogContent>
+  </Dialog.Root>
+);
+
 /**
  * a row of items which breaks into column on small screen. For e.g. title on left and options to select
  * from on right for select component.
@@ -80,7 +107,7 @@ export const DialogRow = ({
   justify = "between",
 }) => {
   let finalCSS = {
-    margin: "1.5rem 0",
+    margin: "$10 0",
   };
   if (breakSm) {
     finalCSS["@sm"] = {
@@ -111,7 +138,7 @@ export const DialogSelect = ({
 }) => {
   return (
     <DialogRow breakSm>
-      <Text>{title}:</Text>
+      <Label>{title}:</Label>
       <Select.Root css={{ width: "70%", "@sm": { width: "100%" } }}>
         <Select.DefaultDownIcon />
         <Select.Select
@@ -130,6 +157,63 @@ export const DialogSelect = ({
           })}
         </Select.Select>
       </Select.Root>
+    </DialogRow>
+  );
+};
+
+export const DialogInput = ({
+  title,
+  value,
+  onChange,
+  placeholder,
+  disabled,
+  type,
+  ...props
+}) => {
+  return (
+    <DialogRow breakSm>
+      <Label>{title}:</Label>
+      <Input
+        css={{ width: "70%", "@sm": { width: "100%" } }}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        disabled={disabled}
+        type={type}
+        {...props}
+      />
+    </DialogRow>
+  );
+};
+
+export const DialogSwitch = ({ title, value, onChange, disabled }) => {
+  return (
+    <DialogRow>
+      <Text>{title}:</Text>
+      <Flex justify="end" css={{ width: "70%" }}>
+        <Switch
+          checked={value}
+          disabled={disabled}
+          onCheckedChange={onChange}
+        />
+      </Flex>
+    </DialogRow>
+  );
+};
+
+export const DialogCheckbox = ({ title, value, onChange, disabled }) => {
+  return (
+    <DialogRow>
+      <Label>{title}:</Label>
+      <Checkbox.Root
+        checked={value}
+        onCheckedChange={value => onChange(value)}
+        disabled={disabled}
+      >
+        <Checkbox.Indicator>
+          <CheckIcon width={16} height={16} />
+        </Checkbox.Indicator>
+      </Checkbox.Root>
     </DialogRow>
   );
 };

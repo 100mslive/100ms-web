@@ -98,6 +98,7 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
             autoComplete="name"
             type="text"
             required
+            autoFocus
             maxLength={20}
             value={name}
             onChange={e => setName(e.target.value)}
