@@ -6,14 +6,13 @@ import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
 import { WhiteboardEvents as Events } from "./WhiteboardEvents";
 
 const useWhiteboardState = () => {
-  const { amIWhiteboardOwner, whiteboardOwner: whiteboardActive } =
-    useWhiteboardMetadata();
+  const { amIWhiteboardOwner, whiteboardOwner } = useWhiteboardMetadata();
   const shouldRequestState = useHMSStore(selectDidIJoinWithin(500));
 
   return {
     shouldRequestState,
     amIWhiteboardOwner,
-    whiteboardActive,
+    whiteboardOwner,
   };
 };
 
@@ -23,7 +22,8 @@ const useWhiteboardState = () => {
 export function useMultiplayerState(roomId) {
   const [app, setApp] = useState(null);
   const [isReady, setIsReady] = useState(false);
-  const { amIWhiteboardOwner, shouldRequestState } = useWhiteboardState();
+  const { amIWhiteboardOwner, whiteboardOwner, shouldRequestState } =
+    useWhiteboardState();
 
   /**
    * Stores current state(shapes, bindings, [assets]) of the whiteboard
@@ -210,7 +210,7 @@ export function useMultiplayerState(roomId) {
   }, [handleUnmount]);
 
   return {
-    onMount,
-    onChangePage,
+    metadata: { amIWhiteboardOwner, whiteboardOwner },
+    events: { onMount, onChangePage },
   };
 }
