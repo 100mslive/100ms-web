@@ -112,7 +112,7 @@ export const LeaveRoom = () => {
                   </Checkbox.Indicator>
                 </Checkbox.Root>
                 <Label htmlFor="lockRoomCheckbox" css={{ mx: "$4" }}>
-                  Disable future join's
+                  Disable future joins
                 </Label>
               </Flex>
               <Button
