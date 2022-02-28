@@ -4,13 +4,13 @@ import {
   selectPeerByCondition,
 } from "@100mslive/react-sdk";
 import { useCallback, useMemo } from "react";
+import { getMetadata } from "../../common/utils";
 import { useMyMetadata } from "../hooks/useMetadata";
 import { useCommunication } from "./useCommunication";
 
-const isWhiteboardOwner = peer =>
-  peer?.metadata && peer.metadata !== ""
-    ? JSON.parse(peer.metadata).whiteboardOwner
-    : false;
+const isWhiteboardOwner = peer => {
+  return !!getMetadata(peer?.metadata).whiteboardOwner;
+};
 
 export const useWhiteboardMetadata = () => {
   /**
