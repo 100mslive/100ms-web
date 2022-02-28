@@ -103,7 +103,6 @@ export const LeaveRoom = () => {
                 <Checkbox.Root
                   id="lockRoomCheckbox"
                   onCheckedChange={value => {
-                    console.error({ lock: value });
                     setLockRoom(value);
                   }}
                   checked={lockRoom}
@@ -113,7 +112,7 @@ export const LeaveRoom = () => {
                   </Checkbox.Indicator>
                 </Checkbox.Root>
                 <Label htmlFor="lockRoomCheckbox" css={{ mx: "$4" }}>
-                  Lock Room
+                  Disable future join's
                 </Label>
               </Flex>
               <Button
