@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import {
   selectPermissions,
   useHMSActions,
@@ -33,21 +33,21 @@ export const RecordingAndRTMPModal = ({ show, onToggle }) => {
   const [rtmpURL, setRTMPURL] = useState("");
   const [hlsSelected, setHLS] = useState(false);
   const [recordingSelected, setRecording] = useState(false);
-  const isAnythingRunning =
-    isBrowserRecordingOn || isHLSRecordingOn || isStreamingOn;
+  const isRecordingOn = isBrowserRecordingOn || isHLSRecordingOn;
+  const isAnythingRunning = isRecordingOn || isStreamingOn;
 
-  const getText = useCallback(() => {
+  const recordingStreamingStatusText = useMemo(() => {
     let text = "";
     if (isStreamingOn) {
       text += "Streaming";
     }
-    if (isBrowserRecordingOn || isHLSRecordingOn) {
+    if (isRecordingOn) {
       if (text) text += "/";
       text += "Recording";
     }
     text += " is running";
     return text;
-  }, [isStreamingOn, isBrowserRecordingOn, isHLSRecordingOn]);
+  }, [isStreamingOn, isRecordingOn]);
 
   useEffect(() => {
     setMeetingURL(defaultMeetingUrl);
@@ -120,17 +120,15 @@ export const RecordingAndRTMPModal = ({ show, onToggle }) => {
           {permissions.recording && (
             <DialogSwitch
               title="Recording"
-              value={
-                recordingSelected || isBrowserRecordingOn || isHLSRecordingOn
-              }
+              value={recordingSelected || isRecordingOn}
               disabled={isAnythingRunning}
               onChange={setRecording}
             />
           )}
           <DialogRow justify="end">
             {isAnythingRunning && (
-              <Text variant="sm" css={{ color: "$eror" }}>
-                {getText()}
+              <Text variant="sm" css={{ color: "$error" }}>
+                {recordingStreamingStatusText}
               </Text>
             )}
             <Button
