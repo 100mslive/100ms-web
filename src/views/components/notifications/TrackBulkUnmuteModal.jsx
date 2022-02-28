@@ -29,7 +29,7 @@ export const TrackBulkUnmuteModal = () => {
   return (
     <RequestDialog
       title="Track Unmute Request"
-      body={`${peer?.name} requested to unmute your tracks`}
+      body={`${peer?.name} has requested you to unmute your tracks.`}
       onOpenChange={value => !value && setMuteNotification(null)}
       onAction={() => {
         tracks.forEach(track => {

@@ -30,7 +30,7 @@ export const TrackUnmuteModal = () => {
     <RequestDialog
       title="Track Unmute Request"
       onOpenChange={value => !value && setMuteNotification(null)}
-      body={`${peer?.name} requested to unmute your ${track?.source} ${track?.type}`}
+      body={`${peer?.name} has requested you to unmute your ${track?.source} ${track?.type}.`}
       onAction={() => {
         hmsActions.setEnabledTrack(track.id, enabled);
         setMuteNotification(null);
