@@ -13,7 +13,7 @@ import {
 } from "../hooks/useUserPreferences";
 import { TextboxIcon } from "@100mslive/react-icons";
 
-export const ChangeName = ({ open, onOpenChange }) => {
+export const ChangeName = ({ onOpenChange }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW
   );
@@ -41,7 +41,7 @@ export const ChangeName = ({ open, onOpenChange }) => {
   };
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
       <DialogContent title="Change my name" Icon={TextboxIcon}>
         <form
           onSubmit={e => {
