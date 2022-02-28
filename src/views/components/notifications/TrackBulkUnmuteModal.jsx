@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { HMSNotificationTypes, useHMSActions } from "@100mslive/react-sdk";
 import { RequestDialog } from "../../new/DialogContent";
 
-export const TrackMuteAllModal = ({ notification }) => {
+export const TrackBulkUnmuteModal = ({ notification }) => {
   const hmsActions = useHMSActions();
   const [muteNotification, setMuteNotification] = useState(null);
 
@@ -29,6 +29,7 @@ export const TrackMuteAllModal = ({ notification }) => {
     <RequestDialog
       title="Track Unmute Request"
       body={`${peer?.name} requested to unmute your tracks`}
+      onOpenChange={value => value && setMuteNotification(null)}
       onAction={() => {
         tracks.forEach(track => {
           hmsActions.setEnabledTrack(track.id, enabled);

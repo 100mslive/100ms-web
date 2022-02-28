@@ -4,8 +4,7 @@ import {
   selectRoleChangeRequest,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Dialog, Button, Text } from "@100mslive/react-ui";
-import { DialogContent, DialogRow } from "./DialogContent";
+import { RequestDialog } from "./DialogContent";
 import { AppContext } from "../../store/AppContext";
 
 export const RoleChangeRequestModal = () => {
@@ -13,26 +12,18 @@ export const RoleChangeRequestModal = () => {
   const { isHeadless } = useContext(AppContext);
   const roleChangeRequest = useHMSStore(selectRoleChangeRequest);
 
+  if (!roleChangeRequest?.role && !isHeadless) {
+    return null;
+  }
+
   return (
-    <Dialog.Root open={roleChangeRequest?.role && !isHeadless}>
-      <DialogContent title="Role Change Request">
-        <DialogRow>
-          <Text variant="md">
-            Role change requested by {roleChangeRequest?.requestedBy?.name}.
-            Changing role to {roleChangeRequest?.role?.name}.
-          </Text>
-        </DialogRow>
-        <DialogRow justify="end">
-          <Button
-            variant="primary"
-            onClick={() => {
-              hmsActions.acceptChangeRole(roleChangeRequest);
-            }}
-          >
-            Accept
-          </Button>
-        </DialogRow>
-      </DialogContent>
-    </Dialog.Root>
+    <RequestDialog
+      title="Role Change Request"
+      body={`Role change requested by ${roleChangeRequest?.requestedBy?.name}.
+      Changing role to ${roleChangeRequest?.role?.name}.`}
+      onAction={() => {
+        hmsActions.acceptChangeRole(roleChangeRequest);
+      }}
+    />
   );
 };
