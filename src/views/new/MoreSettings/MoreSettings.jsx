@@ -18,7 +18,8 @@ import { ChangeSelfRole } from "./ChangeSelfRole";
 import { FullScreenItem } from "./FullScreenItem";
 import { UISettings } from "./UISettings";
 import Settings from "../Settings";
-import { ChangeName, StatsForNerds } from "../../components/ChangeName";
+import { ChangeName } from "../../components/ChangeName";
+import { StatsForNerds } from "../../components/StatsForNerds";
 import { RecordingAndRTMPModal } from "../../components/RecordingAndRTMPModal";
 import { MuteAll } from "../../components/MuteAll";
 import { FeatureFlags } from "../../../store/FeatureFlags";
@@ -154,8 +155,8 @@ export const MoreSettings = () => {
       )}
       {FeatureFlags.enableStatsForNerds && showStatsForNerds && (
         <StatsForNerds
-          showModal={showStatsForNerds}
-          onCloseModal={() => setShowStatsForNerds(false)}
+          open={showStatsForNerds}
+          onOpenChange={setShowStatsForNerds}
         />
       )}
       {showUISettings && (
