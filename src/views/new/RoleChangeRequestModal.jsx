@@ -6,6 +6,7 @@ import {
 } from "@100mslive/react-sdk";
 import { RequestDialog } from "./DialogContent";
 import { AppContext } from "../../store/AppContext";
+import { PersonIcon } from "@100mslive/react-icons";
 
 export const RoleChangeRequestModal = () => {
   const hmsActions = useHMSActions();
@@ -27,6 +28,7 @@ export const RoleChangeRequestModal = () => {
       onAction={() => {
         hmsActions.acceptChangeRole(roleChangeRequest);
       }}
+      Icon={PersonIcon}
     />
   );
 };

@@ -5,6 +5,7 @@ import {
   useHMSNotifications,
 } from "@100mslive/react-sdk";
 import { RequestDialog } from "../../new/DialogContent";
+import { MicOffIcon } from "@100mslive/react-icons";
 
 export const TrackBulkUnmuteModal = () => {
   const hmsActions = useHMSActions();
@@ -36,6 +37,7 @@ export const TrackBulkUnmuteModal = () => {
         });
         setMuteNotification(null);
       }}
+      Icon={MicOffIcon}
     />
   );
 };

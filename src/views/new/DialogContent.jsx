@@ -81,9 +81,10 @@ export const RequestDialog = ({
   body,
   actionText = "Accept",
   onAction,
+  Icon,
 }) => (
   <Dialog.Root open={open} onOpenChange={onOpenChange}>
-    <DialogContent title={title}>
+    <DialogContent title={title} Icon={Icon}>
       <DialogRow>
         <Text variant="md">{body}</Text>
       </DialogRow>
