@@ -19,6 +19,9 @@ export const RoleChangeRequestModal = () => {
   return (
     <RequestDialog
       title="Role Change Request"
+      onOpenChange={value =>
+        !value && hmsActions.rejectChangeRole(roleChangeRequest)
+      }
       body={`Role change requested by ${roleChangeRequest?.requestedBy?.name}.
       Changing role to ${roleChangeRequest?.role?.name}.`}
       onAction={() => {
