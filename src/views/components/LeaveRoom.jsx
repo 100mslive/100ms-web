@@ -5,18 +5,9 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { CheckIcon, HangUpIcon } from "@100mslive/react-icons";
-import {
-  Button,
-  Popover,
-  Dialog,
-  Checkbox,
-  Label,
-  Flex,
-  Tooltip,
-  Box,
-} from "@100mslive/react-ui";
-import { DialogContent, DialogRow } from "../new/DialogContent";
+import { HangUpIcon } from "@100mslive/react-icons";
+import { Button, Popover, Dialog, Tooltip, Box } from "@100mslive/react-ui";
+import { DialogCheckbox, DialogContent, DialogRow } from "../new/DialogContent";
 
 export const LeaveRoom = () => {
   const history = useHistory();
@@ -97,38 +88,15 @@ export const LeaveRoom = () => {
       >
         <DialogContent title="End Room">
           <DialogRow>Are you sure you want to end the room?</DialogRow>
+          <DialogCheckbox
+            title="Disable future joins"
+            value={lockRoom}
+            onChange={setLockRoom}
+          />
           <DialogRow justify="end">
-            <Flex>
-              <Flex align="center" css={{ cursor: "pointer" }}>
-                <Checkbox.Root
-                  id="lockRoomCheckbox"
-                  onCheckedChange={value => {
-                    setLockRoom(value);
-                  }}
-                  checked={lockRoom}
-                >
-                  <Checkbox.Indicator>
-                    <CheckIcon width={16} height={16} />
-                  </Checkbox.Indicator>
-                </Checkbox.Root>
-                <Label htmlFor="lockRoomCheckbox" css={{ mx: "$4" }}>
-                  Disable future joins
-                </Label>
-              </Flex>
-              <Button
-                variant="standard"
-                css={{ bg: "$bgSecondary", mx: "$4" }}
-                onClick={() => {
-                  setShowEndRoomModal(false);
-                  setLockRoom(false);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button variant="danger" onClick={endRoom}>
-                End Room
-              </Button>
-            </Flex>
+            <Button variant="danger" onClick={endRoom}>
+              End Room
+            </Button>
           </DialogRow>
         </DialogContent>
       </Dialog.Root>
