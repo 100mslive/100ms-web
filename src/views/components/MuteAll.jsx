@@ -30,13 +30,13 @@ const trackTypeOptions = [
 export const MuteAll = ({ showModal, onCloseModal }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const hmsActions = useHMSActions();
-  const [enabled, setEnabled] = useState("false");
+  const [enabled, setEnabled] = useState(false);
   const [trackType, setTrackType] = useState();
   const [selectedRole, setRole] = useState();
   const [selectedSource, setSource] = useState();
 
   const resetState = useCallback(() => {
-    setEnabled("false");
+    setEnabled(false);
     setTrackType("");
     setSource("");
     onCloseModal();
@@ -44,7 +44,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
 
   const muteAll = useCallback(async () => {
     await hmsActions.setRemoteTracksEnabled({
-      enabled: enabled === "true",
+      enabled: enabled,
       type: trackType,
       source: selectedSource,
       roles: selectedRole ? [selectedRole] : undefined,
@@ -97,7 +97,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
           <RadioGroup.Root value={enabled} onValueChange={setEnabled}>
             <Flex align="center" css={{ mr: "$8" }}>
               <RadioGroup.Item
-                value="false"
+                value={false}
                 id="trackDisableRadio"
                 css={{ mr: "$4" }}
               >
@@ -107,7 +107,7 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
             </Flex>
             <Flex align="center" css={{ cursor: "pointer" }}>
               <RadioGroup.Item
-                value="true"
+                value={true}
                 id="trackEnableRadio"
                 css={{ mr: "$4" }}
               >
