@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
-import { HMSNotificationTypes, useHMSActions } from "@100mslive/react-sdk";
+import {
+  HMSNotificationTypes,
+  useHMSActions,
+  useHMSNotifications,
+} from "@100mslive/react-sdk";
 import { RequestDialog } from "../../new/DialogContent";
 
-export const TrackBulkUnmuteModal = ({ notification }) => {
+export const TrackBulkUnmuteModal = () => {
   const hmsActions = useHMSActions();
   const [muteNotification, setMuteNotification] = useState(null);
+  const notification = useHMSNotifications(
+    HMSNotificationTypes.CHANGE_MULTI_TRACK_STATE_REQUEST
+  );
 
   useEffect(() => {
-    if (!notification || !notification.data) {
-      return;
-    }
-    if (
-      notification.type ===
-        HMSNotificationTypes.CHANGE_MULTI_TRACK_STATE_REQUEST &&
-      notification.data.enabled
-    ) {
+    if (notification?.data.enabled) {
       setMuteNotification(notification.data);
     }
   }, [notification]);

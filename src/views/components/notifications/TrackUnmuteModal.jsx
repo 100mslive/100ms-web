@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { HMSNotificationTypes, useHMSActions, useHMSNotifications } from "@100mslive/react-sdk";
+import {
+  HMSNotificationTypes,
+  useHMSActions,
+  useHMSNotifications,
+} from "@100mslive/react-sdk";
 import { RequestDialog } from "../../new/DialogContent";
 
 export const TrackUnmuteModal = () => {

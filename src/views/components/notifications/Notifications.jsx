@@ -254,8 +254,8 @@ export function Notifications() {
   return (
     <>
       <HMSToastContainer />
-      {!isHeadless && <TrackUnmuteModal notification={notification} />}
-      {!isHeadless && <TrackBulkUnmuteModal notification={notification} />}
+      {!isHeadless && <TrackUnmuteModal />}
+      {!isHeadless && <TrackBulkUnmuteModal />}
       <AutoplayBlockedModal />
       <InitErrorModal notification={notification} />
     </>
