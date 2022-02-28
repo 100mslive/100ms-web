@@ -16,9 +16,9 @@ import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 import { AppContext } from "../../../store/AppContext";
-import { TrackMuteAllModal } from "./TrackMuteAllModal";
 import { getMetadata } from "../../../common/utils";
 import { InitErrorModal } from "./InitErrorModal";
+import { TrackBulkUnmuteModal } from "./TrackBulkUnmuteModal";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -254,7 +254,7 @@ export function Notifications() {
     <>
       <HMSToastContainer />
       {!isHeadless && <TrackUnmuteModal notification={notification} />}
-      {!isHeadless && <TrackMuteAllModal notification={notification} />}
+      {!isHeadless && <TrackBulkUnmuteModal notification={notification} />}
       <AutoplayBlockedModal />
       <InitErrorModal notification={notification} />
     </>
