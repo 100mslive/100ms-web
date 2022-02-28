@@ -121,23 +121,31 @@ export const MoreSettings = () => {
           )}
         </Dropdown.Content>
       </Dropdown.Root>
-      <MuteAll
-        showModal={showMuteAll}
-        onCloseModal={() => setShowMuteAll(false)}
-      />
-      <ChangeName
-        show={showChangeNameModal}
-        onToggle={value => setShowChangeNameModal(value)}
-      />
-      <RecordingAndRTMPModal
-        show={showRecordingModal}
-        onToggle={value => setShowRecordingModal(value)}
-      />
-      <Settings
-        open={showDeviceSettings}
-        onOpenChange={setShowDeviceSettings}
-      />
-      {FeatureFlags.enableStatsForNerds && (
+      {showMuteAll && (
+        <MuteAll
+          showModal={showMuteAll}
+          onCloseModal={() => setShowMuteAll(false)}
+        />
+      )}
+      {showChangeNameModal && (
+        <ChangeName
+          show={showChangeNameModal}
+          onToggle={value => setShowChangeNameModal(value)}
+        />
+      )}
+      {showRecordingModal && (
+        <RecordingAndRTMPModal
+          show={showRecordingModal}
+          onToggle={value => setShowRecordingModal(value)}
+        />
+      )}
+      {showDeviceSettings && (
+        <Settings
+          open={showDeviceSettings}
+          onOpenChange={setShowDeviceSettings}
+        />
+      )}
+      {FeatureFlags.enableStatsForNerds && showStatsForNerds && (
         <StatsForNerds
           showModal={showStatsForNerds}
           onCloseModal={() => setShowStatsForNerds(false)}
