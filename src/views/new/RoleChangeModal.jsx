@@ -14,14 +14,14 @@ import {
   DialogSelect,
 } from "./DialogContent";
 
-export const RoleChangeModal = ({ peerId, onClose }) => {
+export const RoleChangeModal = ({ peerId, onOpenChange }) => {
   const peer = useHMSStore(selectPeerByID(peerId));
   const roles = useHMSStore(selectAvailableRoleNames);
   const [selectedRole, setRole] = useState(peer?.roleName);
   const [requestPermission, setRequestPermission] = useState(true);
   const hmsActions = useHMSActions();
   return (
-    <Dialog.Root defaultOpen onOpenChange={value => !value && onClose()}>
+    <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
       <DialogContent
         Icon={SettingIcon}
         title={`User Settings (${peer?.name || "peer left"})`}
@@ -32,11 +32,14 @@ export const RoleChangeModal = ({ peerId, onClose }) => {
           selected={selectedRole}
           onChange={setRole}
         />
-        <DialogCheckbox
-          title="Request Permission"
-          value={requestPermission}
-          onChange={setRequestPermission}
-        />
+        {!peer.isLocal && (
+          <DialogCheckbox
+            title="Request Permission"
+            value={requestPermission}
+            onChange={setRequestPermission}
+            id="requestRoleChangePermission"
+          />
+        )}
         <DialogRow justify="end">
           <Button
             variant="primary"
@@ -44,9 +47,9 @@ export const RoleChangeModal = ({ peerId, onClose }) => {
               await hmsActions.changeRole(
                 peerId,
                 selectedRole,
-                !requestPermission
+                peer.isLocal ? true : !requestPermission
               );
-              onClose();
+              onOpenChange(false);
             }}
           >
             Confirm

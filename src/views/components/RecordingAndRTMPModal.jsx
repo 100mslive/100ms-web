@@ -8,10 +8,10 @@ import {
 import { RecordIcon } from "@100mslive/react-icons";
 import { Button, Text, Dialog, Box } from "@100mslive/react-ui";
 import {
+  DialogCheckbox,
   DialogContent,
   DialogInput,
   DialogRow,
-  DialogSwitch,
 } from "../new/DialogContent";
 import { hmsToast } from "./notifications/hms-toast";
 import { SKIP_PREVIEW } from "../../common/constants";
@@ -99,15 +99,6 @@ export const RecordingAndRTMPModal = ({ show, onToggle }) => {
             disabled={isAnythingRunning}
           />
           {permissions.streaming && (
-            <DialogSwitch
-              title="HLS"
-              value={hlsSelected || isHLSRunning}
-              onChange={setHLS}
-              disabled={isAnythingRunning || rtmpURL[0]}
-            />
-          )}
-
-          {permissions.streaming && (
             <DialogInput
               title="RTMP Out"
               value={rtmpURL}
@@ -116,12 +107,21 @@ export const RecordingAndRTMPModal = ({ show, onToggle }) => {
               disabled={isAnythingRunning || hlsSelected}
             />
           )}
-
+          {permissions.streaming && (
+            <DialogCheckbox
+              title="HLS"
+              id="hlsCheckbox"
+              value={hlsSelected || isHLSRunning}
+              onChange={setHLS}
+              disabled={isAnythingRunning || rtmpURL[0]}
+            />
+          )}
           {permissions.recording && (
-            <DialogSwitch
+            <DialogCheckbox
               title="Recording"
               value={recordingSelected || isRecordingOn}
               disabled={isAnythingRunning}
+              id="recordingCheckbox"
               onChange={setRecording}
             />
           )}

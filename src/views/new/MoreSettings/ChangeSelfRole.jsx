@@ -1,4 +1,5 @@
-import { ArrowRightIcon, CheckIcon, PersonIcon } from "@100mslive/react-icons";
+import React, { useContext, useMemo } from "react";
+import { useMedia } from "react-use";
 import {
   selectAvailableRoleNames,
   selectLocalPeerID,
@@ -7,17 +8,18 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Dropdown, Flex, Text } from "@100mslive/react-ui";
-import React, { useContext, useMemo } from "react";
+import { ArrowRightIcon, CheckIcon, PersonIcon } from "@100mslive/react-icons";
+import { Dropdown, Text, config } from "@100mslive/react-ui";
 import { arrayIntersection } from "../../../common/utils";
 import { AppContext } from "../../../store/AppContext";
 
-export const ChangeSelfRole = ({ css }) => {
+export const ChangeSelfRole = ({ css, onClick }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const permissions = useHMSStore(selectPermissions);
   const localPeerId = useHMSStore(selectLocalPeerID);
   const localPeerRole = useHMSStore(selectLocalPeerRole);
   const hmsActions = useHMSActions();
+  const hideTriggerItem = useMedia(config.media.sm);
   const {
     hmsToast,
     appPolicyConfig: { selfRoleChangeTo },
@@ -31,16 +33,21 @@ export const ChangeSelfRole = ({ css }) => {
   if (!permissions.changeRole) {
     return null;
   }
-  return (
+  return hideTriggerItem ? (
+    <Dropdown.Item css={css} onClick={onClick}>
+      <PersonIcon />
+      <Text variant="sm" css={{ mx: "$4" }}>
+        Change My Role
+      </Text>
+    </Dropdown.Item>
+  ) : (
     <Dropdown.Root>
       <Dropdown.TriggerItem css={css}>
-        <Flex css={{ color: "$textPrimary", w: "100%" }}>
-          <PersonIcon />
-          <Text variant="sm" css={{ flex: "1 1 0", mx: "$4" }}>
-            Change My Role
-          </Text>
-          <ArrowRightIcon />
-        </Flex>
+        <PersonIcon />
+        <Text variant="sm" css={{ flex: "1 1 0", mx: "$4" }}>
+          Change My Role
+        </Text>
+        <ArrowRightIcon />
       </Dropdown.TriggerItem>
       <Dropdown.Content
         sideOffset={2}

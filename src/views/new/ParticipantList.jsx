@@ -91,7 +91,9 @@ export const ParticipantList = () => {
       {selectedPeerId && (
         <RoleChangeModal
           peerId={selectedPeerId}
-          onClose={() => setSelectedPeerId(null)}
+          onOpenChange={value => {
+            !value && setSelectedPeerId(null);
+          }}
         />
       )}
     </Fragment>

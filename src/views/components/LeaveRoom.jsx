@@ -86,9 +86,9 @@ export const LeaveRoom = () => {
           setShowEndRoomModal(value);
         }}
       >
-        <DialogContent title="End Room">
-          <DialogRow>Are you sure you want to end the room?</DialogRow>
+        <DialogContent title="End Room" Icon={HangUpIcon}>
           <DialogCheckbox
+            id="lockRoom"
             title="Disable future joins"
             value={lockRoom}
             onChange={setLockRoom}

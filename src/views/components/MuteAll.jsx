@@ -27,20 +27,13 @@ const trackTypeOptions = [
   { label: "audio", value: "audio" },
   { label: "video", value: "video" },
 ];
-export const MuteAll = ({ showModal, onCloseModal }) => {
+export const MuteAll = ({ open, onOpenChange }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const hmsActions = useHMSActions();
   const [enabled, setEnabled] = useState(false);
   const [trackType, setTrackType] = useState();
   const [selectedRole, setRole] = useState();
   const [selectedSource, setSource] = useState();
-
-  const resetState = useCallback(() => {
-    setEnabled(false);
-    setTrackType("");
-    setSource("");
-    onCloseModal();
-  }, [onCloseModal]);
 
   const muteAll = useCallback(async () => {
     await hmsActions.setRemoteTracksEnabled({
@@ -49,21 +42,18 @@ export const MuteAll = ({ showModal, onCloseModal }) => {
       source: selectedSource,
       roles: selectedRole ? [selectedRole] : undefined,
     });
-    resetState();
+    onOpenChange(false);
   }, [
     selectedRole,
     enabled,
     trackType,
     selectedSource,
     hmsActions,
-    resetState,
+    onOpenChange,
   ]);
 
   return (
-    <Dialog.Root
-      open={showModal}
-      onOpenChange={value => !value && resetState()}
-    >
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <DialogContent title="Mute/Unmute Remote Tracks" Icon={MicOffIcon}>
         <DialogSelect
           title="Role"

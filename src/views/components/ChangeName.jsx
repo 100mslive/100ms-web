@@ -34,19 +34,13 @@ const defaultClasses = {
     "rounded-lg w-full h-full bg-gray-600 dark:bg-gray-200 focus:outline-none",
 };
 
-export const ChangeName = ({ show, onToggle }) => {
+export const ChangeName = ({ open, onOpenChange }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW
   );
   const hmsActions = useHMSActions();
   const localPeer = useHMSStore(selectLocalPeer);
-  const [currentName, setCurrentName] = useState("");
-
-  useEffect(() => {
-    if (show) {
-      setCurrentName(localPeer?.name);
-    }
-  }, [show, localPeer?.name]);
+  const [currentName, setCurrentName] = useState(localPeer?.name);
 
   const changeName = async () => {
     const name = currentName.trim();
@@ -63,18 +57,12 @@ export const ChangeName = ({ show, onToggle }) => {
       console.error("failed to update name", error);
       hmsToast(error.message);
     } finally {
-      onToggle(false);
-      setCurrentName("");
+      onOpenChange(false);
     }
   };
 
-  const resetState = () => {
-    onToggle(false);
-    setCurrentName("");
-  };
-
   return (
-    <Dialog.Root open={show} onOpenChange={value => !value && resetState()}>
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <DialogContent title="Change my name" Icon={TextboxIcon}>
         <form
           onSubmit={e => {
@@ -97,7 +85,6 @@ export const ChangeName = ({ show, onToggle }) => {
               }
               onClick={async () => {
                 await changeName();
-                onToggle(false);
               }}
             >
               Change

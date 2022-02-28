@@ -109,6 +109,7 @@ export const DialogRow = ({
 }) => {
   let finalCSS = {
     margin: "$10 0",
+    w: "100%",
   };
   if (breakSm) {
     finalCSS["@sm"] = {
@@ -202,14 +203,24 @@ export const DialogSwitch = ({ title, value, onChange, disabled }) => {
   );
 };
 
-export const DialogCheckbox = ({ title, value, onChange, disabled }) => {
+export const DialogCheckbox = ({
+  title,
+  value,
+  onChange,
+  disabled,
+  css,
+  id,
+}) => {
   return (
-    <DialogRow>
-      <Label>{title}:</Label>
+    <DialogRow css={css}>
+      <Label htmlFor={id} css={{ cursor: "pointer" }}>
+        {title}:
+      </Label>
       <Checkbox.Root
         checked={value}
         onCheckedChange={value => onChange(value)}
         disabled={disabled}
+        id={id}
       >
         <Checkbox.Indicator>
           <CheckIcon width={16} height={16} />
