@@ -1,5 +1,5 @@
 import React from "react";
-import { CrossIcon } from "@100mslive/react-icons";
+import { CheckIcon, CrossIcon } from "@100mslive/react-icons";
 import {
   Dialog,
   Select,
@@ -10,6 +10,8 @@ import {
   Input,
   Box,
   Switch,
+  Checkbox,
+  Label,
 } from "@100mslive/react-ui";
 
 export const DialogContent = ({
@@ -136,7 +138,7 @@ export const DialogSelect = ({
 }) => {
   return (
     <DialogRow breakSm>
-      <Text>{title}:</Text>
+      <Label>{title}:</Label>
       <Select.Root css={{ width: "70%", "@sm": { width: "100%" } }}>
         <Select.DefaultDownIcon />
         <Select.Select
@@ -170,7 +172,7 @@ export const DialogInput = ({
 }) => {
   return (
     <DialogRow breakSm>
-      <Text>{title}:</Text>
+      <Label>{title}:</Label>
       <Input
         css={{ width: "70%", "@sm": { width: "100%" } }}
         value={value}
@@ -195,6 +197,23 @@ export const DialogSwitch = ({ title, value, onChange, disabled }) => {
           onCheckedChange={onChange}
         />
       </Flex>
+    </DialogRow>
+  );
+};
+
+export const DialogCheckbox = ({ title, value, onChange, disabled }) => {
+  return (
+    <DialogRow>
+      <Label>{title}:</Label>
+      <Checkbox.Root
+        checked={value}
+        onCheckedChange={value => onChange(value)}
+        disabled={disabled}
+      >
+        <Checkbox.Indicator>
+          <CheckIcon width={16} height={16} />
+        </Checkbox.Indicator>
+      </Checkbox.Root>
     </DialogRow>
   );
 };
