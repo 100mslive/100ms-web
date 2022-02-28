@@ -29,7 +29,7 @@ export const TrackBulkUnmuteModal = ({ notification }) => {
     <RequestDialog
       title="Track Unmute Request"
       body={`${peer?.name} requested to unmute your tracks`}
-      onOpenChange={value => value && setMuteNotification(null)}
+      onOpenChange={value => !value && setMuteNotification(null)}
       onAction={() => {
         tracks.forEach(track => {
           hmsActions.setEnabledTrack(track.id, enabled);
