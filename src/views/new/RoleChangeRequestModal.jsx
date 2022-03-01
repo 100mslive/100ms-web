@@ -13,7 +13,7 @@ export const RoleChangeRequestModal = () => {
   const { isHeadless } = useContext(AppContext);
   const roleChangeRequest = useHMSStore(selectRoleChangeRequest);
 
-  if (!roleChangeRequest?.role && !isHeadless) {
+  if (!roleChangeRequest?.role || isHeadless) {
     return null;
   }
 
