@@ -1,5 +1,5 @@
 import React from "react";
-import { Toast as ToastUI } from "@100mslive/react-ui";
+import { Toast as ToastPrimitive } from "@100mslive/react-ui";
 
 export const Toast = ({
   title,
@@ -10,10 +10,16 @@ export const Toast = ({
   onOpenChange,
 }) => {
   return (
-    <ToastUI.Root open={open} onOpenChange={onOpenChange} duration={duration}>
-      <ToastUI.Title>{title}</ToastUI.Title>
-      {description && <ToastUI.Description>{description}</ToastUI.Description>}
-      {close && <ToastUI.Close />}
-    </ToastUI.Root>
+    <ToastPrimitive.Root
+      open={open}
+      onOpenChange={onOpenChange}
+      duration={duration}
+    >
+      <ToastPrimitive.Title>{title}</ToastPrimitive.Title>
+      {description && (
+        <ToastPrimitive.Description>{description}</ToastPrimitive.Description>
+      )}
+      {close && <ToastPrimitive.Close />}
+    </ToastPrimitive.Root>
   );
 };
