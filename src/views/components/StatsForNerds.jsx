@@ -145,7 +145,7 @@ const TrackStats = ({ trackID }) => {
 
 const StatsRow = ({ label, value }) => (
   <DialogRow justify="between" css={{ my: "0.5rem" }}>
-    <Text>{label}</Text>
+    <Text>{label}: </Text>
     <Text>{value}</Text>
   </DialogRow>
 );
