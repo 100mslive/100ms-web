@@ -9,7 +9,7 @@ export const ToastManager = () => {
   const { toasts, removeToast } = useToast();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   return (
-    <ToastPrimitive.Provider>
+    <ToastPrimitive.Provider swipeDirection="left">
       {toasts.slice(0, MAX_TOASTS).map(toast => {
         return (
           <Toast
