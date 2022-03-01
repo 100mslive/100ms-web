@@ -25,10 +25,11 @@ import {
   HMSRoomProvider as ReactRoomProvider,
   HMSReactiveStore,
 } from "@100mslive/react-sdk";
+import { Confetti } from "../plugins/confetti";
+import { ToastManager } from "./views/new/Toast/ToastManager";
 import { FeatureFlags } from "./store/FeatureFlags";
 import { HMSThemeProvider as ReactUIProvider, Box } from "@100mslive/react-ui";
 import "./index.css";
-import { Confetti } from "../plugins/confetti";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -177,6 +178,7 @@ export function EdtechComponent({
 function AppRoutes({ getUserToken }) {
   return (
     <Router>
+      <ToastManager />
       <Notifications />
       <Confetti />
       <Switch>
