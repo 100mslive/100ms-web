@@ -6,11 +6,11 @@ export const Toast = ({
   description,
   close = true,
   open,
+  duration,
   onOpenChange,
-  css,
 }) => {
   return (
-    <ToastUI.Root open={open} onOpenChange={onOpenChange} css={css}>
+    <ToastUI.Root open={open} onOpenChange={onOpenChange} duration={duration}>
       <ToastUI.Title>{title}</ToastUI.Title>
       {description && <ToastUI.Description>{description}</ToastUI.Description>}
       {close && <ToastUI.Close />}

@@ -8,6 +8,7 @@ export const useToast = () => {
     document.dispatchEvent(
       new CustomEvent("addToast", { detail: Object.assign(toast, { id: id }) })
     );
+    return id;
   }, []);
 
   const removeToast = useCallback(id => {

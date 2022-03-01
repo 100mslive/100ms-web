@@ -75,6 +75,7 @@ export function Notifications() {
               {notification.data?.name} raised their hand.
             </TextWithIcon>
           ),
+          duration: 2000,
         });
         break;
       case HMSNotificationTypes.NAME_UPDATED:
