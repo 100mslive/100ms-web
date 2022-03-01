@@ -18,12 +18,12 @@ import { ChangeSelfRole } from "./ChangeSelfRole";
 import { FullScreenItem } from "./FullScreenItem";
 import { UISettings } from "./UISettings";
 import Settings from "../Settings";
+import { RoleChangeModal } from "../RoleChangeModal";
 import { ChangeName } from "../../components/ChangeName";
 import { StatsForNerds } from "../../components/StatsForNerds";
 import { RecordingAndRTMPModal } from "../../components/RecordingAndRTMPModal";
 import { MuteAll } from "../../components/MuteAll";
 import { FeatureFlags } from "../../../store/FeatureFlags";
-import { RoleChangeModal } from "../RoleChangeModal";
 
 const hoverStyles = {
   "&:hover": {

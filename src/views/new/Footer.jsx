@@ -1,3 +1,4 @@
+import { Fragment, useState } from "react";
 import {
   BrbIcon,
   ChatIcon,
@@ -17,9 +18,6 @@ import {
   Tooltip,
   VerticalDivider,
 } from "@100mslive/react-ui";
-import { Fragment, useState } from "react";
-import { isScreenshareSupported } from "../../common/utils";
-import { FeatureFlags } from "../../store/FeatureFlags";
 import { AudioVideoToggle } from "../components/AudioVideoToggle";
 import { LeaveRoom } from "../components/LeaveRoom";
 import { NoiseSuppression } from "../components/NoiseSuppression";
@@ -30,6 +28,8 @@ import { MoreSettings } from "./MoreSettings/MoreSettings";
 import { AudioPlaylist } from "./Playlist/AudioPlaylist";
 import { Screenshare } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
+import { isScreenshareSupported } from "../../common/utils";
+import { FeatureFlags } from "../../store/FeatureFlags";
 
 const ScreenshareAudio = () => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
