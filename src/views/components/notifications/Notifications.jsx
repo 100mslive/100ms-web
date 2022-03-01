@@ -110,16 +110,8 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.TRACK_MUTED:
         console.log("[Track Muted]", notification);
-        addToast({
-          title: "Test",
-          description: "kjefkwjefew fjkewnfkjnewfnew",
-        });
         break;
       case HMSNotificationTypes.TRACK_UNMUTED:
-        addToast({
-          title: "Test",
-          description: "kjefkwjefew fjkewnfkjnewfnew",
-        });
         console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
