@@ -30,6 +30,7 @@ import { MoreSettings } from "./MoreSettings/MoreSettings";
 import { AudioPlaylist } from "./Playlist/AudioPlaylist";
 import { Screenshare } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
+import { TranscriptionButton } from "../../../plugins/transcription"
 
 const ScreenshareAudio = () => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
@@ -138,6 +139,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <AudioVideoToggle />
         <Screenshare css={{ mx: "$4" }} />
         <VirtualBackground />
+        {FeatureFlags.enableTranscription && <TranscriptionButton />}
         <NoiseSuppression />
         <VerticalDivider space={4} />
         <MoreSettings />
