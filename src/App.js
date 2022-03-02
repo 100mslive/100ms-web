@@ -22,7 +22,7 @@ import { AppContextProvider } from "./store/AppContext.js";
 import { hmsToast } from "./views/components/notifications/hms-toast";
 import { Notifications } from "./views/components/notifications/Notifications";
 import { Confetti } from "../plugins/confetti";
-import { ToastManager } from "./views/new/Toast/ToastManager";
+import { ToastContainer } from "./views/new/Toast/ToastContainer";
 import { FeatureFlags } from "./store/FeatureFlags";
 import { shadeColor } from "./common/utils";
 import {
@@ -178,7 +178,7 @@ export function EdtechComponent({
 function AppRoutes({ getUserToken }) {
   return (
     <Router>
-      <ToastManager />
+      <ToastContainer />
       <Notifications />
       <Confetti />
       <Switch>

@@ -5,7 +5,7 @@ import { Toast } from "./Toast";
 import { useToast } from "./useToast";
 import { MAX_TOASTS } from "../../../common/constants";
 
-export const ToastManager = () => {
+export const ToastContainer = () => {
   const { toasts, removeToast } = useToast();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   return (
