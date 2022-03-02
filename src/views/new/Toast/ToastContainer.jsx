@@ -4,18 +4,19 @@ import { Toast as ToastPrimitive } from "@100mslive/react-ui";
 import { Toast } from "./Toast";
 import { useToast } from "./useToast";
 import { MAX_TOASTS } from "../../../common/constants";
+import { ToastManager } from "./ToastManager";
 
 export const ToastContainer = () => {
-  const { toasts, removeToast } = useToast();
+  const { toasts } = useToast();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   return (
-    <ToastPrimitive.Provider swipeDirection="left">
+    <ToastPrimitive.Provider swipeDirection="left" duration={30000}>
       {toasts.slice(0, MAX_TOASTS).map(toast => {
         return (
           <Toast
             key={toast.id}
             {...toast}
-            onOpenChange={value => !value && removeToast(toast.id)}
+            onOpenChange={value => !value && ToastManager.removeToast(toast.id)}
           />
         );
       })}

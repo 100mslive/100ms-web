@@ -19,7 +19,7 @@ import { AppContext } from "../../../store/AppContext";
 import { getMetadata } from "../../../common/utils";
 import { InitErrorModal } from "./InitErrorModal";
 import { TrackBulkUnmuteModal } from "./TrackBulkUnmuteModal";
-import { useToast } from "../../new/Toast/useToast";
+import { ToastManager } from "../../new/Toast/ToastManager";
 
 const TextWithIcon = ({ Icon, children }) => (
   <Flex>
@@ -33,7 +33,6 @@ export function Notifications() {
   const history = useHistory();
   const { subscribedNotifications, isHeadless, HLS_VIEWER_ROLE } =
     useContext(AppContext);
-  const { addToast } = useToast();
   useEffect(() => {
     if (!notification) {
       return;
@@ -42,7 +41,7 @@ export function Notifications() {
       case HMSNotificationTypes.PEER_LIST:
         console.debug("[Peer List]", notification.data);
         if (!subscribedNotifications.PEER_JOINED) return;
-        addToast({
+        ToastManager.addToast({
           title: (
             <TextWithIcon Icon={PersonIcon}>
               {notification.data?.length} peers joined
@@ -53,7 +52,7 @@ export function Notifications() {
       case HMSNotificationTypes.PEER_JOINED:
         console.debug("[Peer Joined]", notification.data);
         if (!subscribedNotifications.PEER_JOINED) return;
-        addToast({
+        ToastManager.addToast({
           title: (
             <TextWithIcon Icon={PersonIcon}>
               {notification.data?.name} joined
@@ -69,7 +68,7 @@ export function Notifications() {
 
         console.debug("Metadata updated", notification.data);
         if (!subscribedNotifications.METADATA_UPDATED) return;
-        addToast({
+        ToastManager.addToast({
           title: (
             <TextWithIcon Icon={HandIcon}>
               {notification.data?.name} raised their hand.
@@ -88,7 +87,7 @@ export function Notifications() {
       case HMSNotificationTypes.PEER_LEFT:
         console.debug("[Peer Left]", notification.data);
         if (!subscribedNotifications.PEER_LEFT) return;
-        addToast({
+        ToastManager.addToast({
           title: (
             <TextWithIcon Icon={PersonIcon}>
               {notification.data?.name} left
@@ -99,7 +98,7 @@ export function Notifications() {
       case HMSNotificationTypes.NEW_MESSAGE:
         if (!subscribedNotifications.NEW_MESSAGE || notification.data?.ignored)
           return;
-        addToast({
+        ToastManager.addToast({
           title: `New message from ${notification.data?.senderName}`,
         });
         break;
@@ -118,12 +117,12 @@ export function Notifications() {
       case HMSNotificationTypes.ERROR:
         if (notification.data?.isTerminal) {
           if ([500, 6008].includes(notification.data?.code)) {
-            addToast({
+            ToastManager.addToast({
               title: `Error: ${notification.data?.message}`,
             });
           } else {
             // show button action when the error is terminal
-            addToast({
+            ToastManager.addToast({
               title: (
                 <Flex justify="between">
                   <Text css={{ mr: "$4" }}>
@@ -162,12 +161,12 @@ export function Notifications() {
           return;
         }
         if (!subscribedNotifications.ERROR) return;
-        addToast({
+        ToastManager.addToast({
           title: `Error: ${notification.data?.message} - ${notification.data?.description}`,
         });
         break;
       case HMSNotificationTypes.RECONNECTED:
-        addToast({
+        ToastManager.addToast({
           title: (
             <TextWithIcon Icon={ConnectivityIcon}>
               You are now connected
@@ -176,7 +175,7 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.RECONNECTING:
-        addToast({
+        ToastManager.addToast({
           title: (
             <TextWithIcon Icon={PoorConnectivityIcon}>
               You are offline for now. while we try to reconnect, please check
@@ -190,7 +189,7 @@ export function Notifications() {
           return;
         }
         if (notification.data?.isLocal) {
-          addToast({
+          ToastManager.addToast({
             title: `You are now a ${notification.data.roleName}`,
           });
         }
@@ -198,7 +197,7 @@ export function Notifications() {
       case HMSNotificationTypes.CHANGE_TRACK_STATE_REQUEST:
         const track = notification.data?.track;
         if (!notification.data.enabled) {
-          addToast({
+          ToastManager.addToast({
             title: `Your ${track.source} ${track.type} was muted by
                 ${notification.data.requestedBy?.name}.`,
           });
@@ -206,7 +205,7 @@ export function Notifications() {
         break;
       case HMSNotificationTypes.REMOVED_FROM_ROOM:
       case HMSNotificationTypes.ROOM_ENDED:
-        addToast({
+        ToastManager.addToast({
           title: `${notification.message}. 
               ${
                 notification.data.reason &&
