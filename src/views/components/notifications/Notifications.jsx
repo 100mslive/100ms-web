@@ -11,7 +11,7 @@ import {
   useHMSNotifications,
   HMSNotificationTypes,
 } from "@100mslive/react-sdk";
-import { Flex, Text, Button } from "@100mslive/react-ui";
+import { Flex, Text, Button, Box } from "@100mslive/react-ui";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
@@ -23,7 +23,9 @@ import { ToastManager } from "../../new/Toast/ToastManager";
 
 const TextWithIcon = ({ Icon, children }) => (
   <Flex>
-    <Icon />
+    <Box css={{ flexShrink: 0 }}>
+      <Icon />
+    </Box>
     <Text css={{ ml: "$4" }}>{children}</Text>
   </Flex>
 );
