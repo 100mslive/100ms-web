@@ -1,9 +1,9 @@
-import { ProgressIcon } from "@100mslive/hms-video-react";
+import { Loading } from "@100mslive/react-ui";
 
 const FullPageProgress = () => (
   <div className="h-full">
     <div className="flex justify-center h-full items-center">
-      <ProgressIcon width="100" height="100" />
+      <Loading size={100} />
     </div>
   </div>
 );

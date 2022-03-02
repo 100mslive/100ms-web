@@ -1,6 +1,6 @@
 import React from "react";
 import { toast, ToastContainer, Slide, Zoom, Bounce } from "react-toastify";
-import { Text } from "@100mslive/hms-video-react";
+import { Text } from "@100mslive/react-ui";
 import { CrossIcon } from "@100mslive/react-icons";
 import "./notifications.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,7 +35,7 @@ export const hmsToast = (message, options) => {
 
   const id = toast(
     <Toast
-      left={options?.left || <Text variant="body">{message}</Text>}
+      left={options?.left || <Text variant="md">{message}</Text>}
       center={options?.center}
       right={options?.right || <CrossIcon />}
     />,

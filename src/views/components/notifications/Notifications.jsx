@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Text, Button } from "@100mslive/hms-video-react";
+import { Text, Button } from "@100mslive/react-ui";
 import {
   HandIcon,
   PersonIcon,
@@ -20,6 +20,10 @@ import { getMetadata } from "../../../common/utils";
 import { InitErrorModal } from "./InitErrorModal";
 import { TrackBulkUnmuteModal } from "./TrackBulkUnmuteModal";
 
+const ToastText = ({ children }) => (
+  <Text css={{ display: "flex" }}>{children}</Text>
+);
+
 export function Notifications() {
   const notification = useHMSNotifications();
   const history = useHistory();
@@ -35,10 +39,10 @@ export function Notifications() {
         if (!subscribedNotifications.PEER_JOINED) return;
         hmsToast("", {
           left: (
-            <Text classes={{ root: "flex" }}>
+            <ToastText>
               <PersonIcon className="mr-2" />
               {notification.data?.length} peers joined
-            </Text>
+            </ToastText>
           ),
         });
         break;
@@ -47,10 +51,10 @@ export function Notifications() {
         if (!subscribedNotifications.PEER_JOINED) return;
         hmsToast("", {
           left: (
-            <Text classes={{ root: "flex" }}>
+            <ToastText>
               <PersonIcon className="mr-2" />
               {notification.data?.name} joined
-            </Text>
+            </ToastText>
           ),
         });
         break;
@@ -64,10 +68,10 @@ export function Notifications() {
         if (!subscribedNotifications.METADATA_UPDATED) return;
         hmsToast("", {
           left: (
-            <Text classes={{ root: "flex" }}>
+            <ToastText>
               <HandIcon className="mr-2" />
               {notification.data?.name} raised their hand.
-            </Text>
+            </ToastText>
           ),
           autoClose: 2000,
         });
@@ -84,10 +88,10 @@ export function Notifications() {
         if (!subscribedNotifications.PEER_LEFT) return;
         hmsToast("", {
           left: (
-            <Text classes={{ root: "flex" }}>
+            <ToastText>
               <PersonIcon className="mr-2" />
               {notification.data?.name} left
-            </Text>
+            </ToastText>
           ),
         });
         break;
@@ -112,11 +116,7 @@ export function Notifications() {
         if (notification.data?.isTerminal) {
           if ([500, 6008].includes(notification.data?.code)) {
             hmsToast("", {
-              left: (
-                <Text classes={{ root: "flex" }}>
-                  {`Error: ${notification.data?.message}`}
-                </Text>
-              ),
+              left: <Text>{`Error: ${notification.data?.message}`}</Text>,
               toastProps: {
                 autoClose: false,
               },
@@ -126,15 +126,11 @@ export function Notifications() {
             hmsToast("", {
               center: (
                 <div className="flex">
-                  <Text classes={{ root: "mr-2" }}>
+                  <Text css={{ mr: "0.5rem" }}>
                     {notification.data?.message ||
                       "We couldn’t reconnect you. When you’re back online, try joining the room."}
                   </Text>
                   <Button
-                    variant="emphasized"
-                    classes={{
-                      root: "self-center mr-2",
-                    }}
                     onClick={() => {
                       window.location.reload();
                     }}
@@ -165,7 +161,7 @@ export function Notifications() {
         if (!subscribedNotifications.ERROR) return;
         hmsToast("", {
           left: (
-            <Text classes={{ root: "flex" }}>
+            <Text>
               {`Error: ${notification.data?.message} - ${notification.data?.description}`}
             </Text>
           ),
@@ -174,19 +170,19 @@ export function Notifications() {
       case HMSNotificationTypes.RECONNECTED:
         hmsToast("", {
           left: (
-            <Text classes={{ root: "flex" }}>
+            <ToastText>
               <ConnectivityIcon className="mr-2" /> You are now connected
-            </Text>
+            </ToastText>
           ),
         });
         break;
       case HMSNotificationTypes.RECONNECTING:
         hmsToast("", {
           left: (
-            <Text classes={{ root: "flex" }}>
+            <ToastText>
               <PoorConnectivityIcon className="mr-2" /> You are offline for now.
               while we try to reconnect, please check your internet connection.
-            </Text>
+            </ToastText>
           ),
         });
         break;

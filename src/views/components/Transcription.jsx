@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button } from "@100mslive/hms-video-react";
+import { IconButton } from "@100mslive/react-ui";
 
 export const browserSupportsTranscription = "webkitSpeechRecognition" in window;
 export function TranscriptionButton() {
@@ -16,18 +16,15 @@ export function TranscriptionButton() {
 
   return (
     <>
-      <Button
-        iconOnly
-        variant="no-fill"
-        shape="rectangle"
-        active={isTranscriptionEnabled}
+      <IconButton
+        active={!isTranscriptionEnabled}
         onClick={enableTranscription}
         key="transcribe"
       >
         <span title="Transcribe">
           <b>T</b>
         </span>
-      </Button>
+      </IconButton>
     </>
   );
 }
