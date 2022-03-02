@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, Fragment } from "react";
-import { isMobileDevice, Text } from "@100mslive/hms-video-react";
 import { useHMSStore, selectHLSState } from "@100mslive/react-sdk";
+import { Box, Flex, Text } from "@100mslive/react-ui";
 import Hls from "hls.js";
 import { ChatView } from "./components/chatView";
 import { FeatureFlags } from "../store/FeatureFlags";
@@ -36,24 +36,28 @@ export const HLSView = ({ isChatOpen, toggleChat }) => {
           controls
         />
       ) : (
-        <div className="flex items-center justify-center w-full">
-          <Text
-            variant="heading"
-            size="lg"
-            classes={{ root: "light:text-black dark:text-white text-center" }}
-          >
+        <Flex align="center" justify="center" css={{ width: "100%" }}>
+          <Text variant="md" css={{ textAlign: "center" }}>
             Waiting for the Streaming to start...
           </Text>
-        </div>
+        </Flex>
       )}
       {isChatOpen && (
-        <div
-          className={`h-1/2 ${
-            isMobileDevice() ? `w-3/4` : `w-2/10`
-          } absolute z-40 bottom-20 right-0`}
+        <Box
+          css={{
+            height: "50%",
+            position: "absolute",
+            zIndex: 40,
+            bottom: "$20",
+            right: 0,
+            width: "20%",
+            "@sm": {
+              width: "75%",
+            },
+          }}
         >
           <ChatView toggleChat={toggleChat} />
-        </div>
+        </Box>
       )}
     </Fragment>
   );

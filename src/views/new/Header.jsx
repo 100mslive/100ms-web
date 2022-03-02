@@ -10,7 +10,7 @@ import { ParticipantList } from "./ParticipantList";
 import PIPComponent from "../PIP/PIPComponent";
 import { AppContext } from "../../store/AppContext";
 import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
-import { PlaylistAndStreaming } from "./PlaylistAndStreaming";
+import { AdditionalRoomState } from "./AdditionalRoomState";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -62,7 +62,7 @@ export const Header = ({ isPreview }) => {
       <Flex align="center" css={{ position: "absolute", right: "$4" }}>
         {showPip && <PIPComponent />}
         <Flex align="center" css={{ mx: "$2" }}>
-          <PlaylistAndStreaming />
+          <AdditionalRoomState />
         </Flex>
         <Box css={{ mx: "$2" }}>
           <ParticipantList />

@@ -55,7 +55,9 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
         hlsSelected
           ? await hmsActions.startHLSStreaming({
               variants: [{ meetingURL: meetingURL }],
-              recording: recordingSelected ? {} : undefined,
+              recording: recordingSelected
+                ? { hlsVod: true, singleFilePerLayer: true }
+                : undefined,
             })
           : await hmsActions.startRTMPOrRecording({
               meetingURL,
