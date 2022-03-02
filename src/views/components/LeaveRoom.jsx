@@ -1,27 +1,23 @@
 import { Fragment, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import {
-  ContextMenu,
-  ContextMenuItem,
-  MessageModal,
   selectPermissions,
   useHMSActions,
   useHMSStore,
-} from "@100mslive/hms-video-react";
-import { useHistory, useParams } from "react-router-dom";
+} from "@100mslive/react-sdk";
 import { HangUpIcon } from "@100mslive/react-icons";
-import { Button, Text } from "@100mslive/react-ui";
+import { Button, Popover, Dialog, Tooltip, Box } from "@100mslive/react-ui";
+import { DialogCheckbox, DialogContent, DialogRow } from "../new/DialogContent";
 
 export const LeaveRoom = () => {
   const history = useHistory();
   const params = useParams();
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
   const permissions = useHMSStore(selectPermissions);
   const hmsActions = useHMSActions();
 
-  const leaveRoom = () => {
-    hmsActions.leave();
+  const redirectToLeavePage = () => {
     if (params.role) {
       history.push("/leave/" + params.roomId + "/" + params.role);
     } else {
@@ -29,125 +25,81 @@ export const LeaveRoom = () => {
     }
   };
 
+  const leaveRoom = () => {
+    hmsActions.leave();
+    redirectToLeavePage();
+  };
+
+  const endRoom = () => {
+    hmsActions.endRoom(lockRoom, "End Room");
+    redirectToLeavePage();
+  };
   return (
     <Fragment>
-      <ContextMenu
-        classes={{
-          trigger: "w-auto h-auto",
-          root: "static",
-          menu: "w-56 bg-white dark:bg-gray-100",
-          menuItem: "hover:bg-transparent-0 dark:hover:bg-transparent-0",
-        }}
-        onTrigger={value => {
-          if (permissions?.endRoom) {
-            setShowMenu(value);
-          } else {
-            leaveRoom();
-          }
-        }}
-        menuOpen={showMenu}
-        key="LeaveAction"
-        trigger={
-          <Button variant="danger" key="LeaveRoom">
-            <HangUpIcon key="hangUp" />
-            <Text variant="body" css={{ ml: "$2", "@md": { display: "none" } }}>
-              Leave Room
-            </Text>
-          </Button>
-        }
-        menuProps={{
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "center",
-          },
-          transformOrigin: {
-            vertical: 128,
-            horizontal: "center",
-          },
-        }}
-      >
-        {permissions?.endRoom && (
-          <ContextMenuItem
-            label="End Room"
-            key="endRoom"
-            classes={{
-              menuTitleContainer: "hidden",
-              menuItemChildren: "my-1 w-full",
-            }}
-          >
+      {permissions.endRoom ? (
+        <Popover.Root>
+          <Popover.Trigger asChild>
+            <Button
+              variant="danger"
+              key="LeaveRoom"
+              css={{ p: "$2 $6", "@md": { p: "$2 $4" } }}
+            >
+              <Tooltip title="Leave Room">
+                <Box>
+                  <HangUpIcon key="hangUp" />
+                </Box>
+              </Tooltip>
+            </Button>
+          </Popover.Trigger>
+          <Popover.Content sideOffset={10}>
             <Button
               variant="standard"
-              className="w-full"
               onClick={() => {
                 setShowEndRoomModal(true);
               }}
             >
-              End Room for all
-            </Button>
-          </ContextMenuItem>
-        )}
-        <ContextMenuItem
-          label="Leave Room"
-          key="leaveRoom"
-          classes={{
-            menuTitleContainer: "hidden",
-            menuItemChildren: "my-1 w-full overflow-hidden",
-          }}
-        >
-          <Button
-            variant="danger"
-            className="w-full"
-            onClick={() => {
-              leaveRoom();
-            }}
-          >
-            Just Leave
-          </Button>
-        </ContextMenuItem>
-      </ContextMenu>
-      <MessageModal
-        show={showEndRoomModal}
-        onClose={() => {
-          setShowEndRoomModal(false);
-          setLockRoom(false);
-        }}
-        title="End Room"
-        body="Are you sure you want to end the room?"
-        footer={
-          <div className="flex">
-            <div className="flex items-center">
-              <label className="text-base dark:text-white text-gray-100">
-                <input
-                  type="checkbox"
-                  className="mr-1"
-                  onChange={() => setLockRoom(prev => !prev)}
-                  checked={lockRoom}
-                />
-                <span>Lock room</span>
-              </label>
-            </div>
-            <Button
-              variant="standard"
-              className="mr-3 ml-3"
-              onClick={() => {
-                setShowEndRoomModal(false);
-                setLockRoom(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => {
-                hmsActions.endRoom(lockRoom, "End Room");
-                leaveRoom();
-              }}
-            >
               End Room
             </Button>
-          </div>
-        }
-      />
+            <Button variant="danger" css={{ mt: "$4" }} onClick={leaveRoom}>
+              Just Leave
+            </Button>
+          </Popover.Content>
+        </Popover.Root>
+      ) : (
+        <Tooltip title="Leave Room">
+          <Button
+            variant="danger"
+            onClick={leaveRoom}
+            css={{ p: "$2 $6", "@md": { p: "$2 $4" } }}
+          >
+            <HangUpIcon />
+          </Button>
+        </Tooltip>
+      )}
+
+      <Dialog.Root
+        open={showEndRoomModal}
+        onOpenChange={value => {
+          if (!value) {
+            setLockRoom(false);
+          }
+          setShowEndRoomModal(value);
+        }}
+      >
+        <DialogContent title="End Room" Icon={HangUpIcon}>
+          <DialogCheckbox
+            id="lockRoom"
+            title="Disable future joins"
+            value={lockRoom}
+            onChange={setLockRoom}
+          />
+          <DialogRow justify="end">
+            <Button variant="danger" onClick={endRoom}>
+              End Room
+            </Button>
+          </DialogRow>
+        </DialogContent>
+      </Dialog.Root>
     </Fragment>
   );
 };

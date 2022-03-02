@@ -1,42 +1,39 @@
-import { useState, useEffect } from "react";
-import {
-  Button,
-  MessageModal,
-  useHMSActions,
-} from "@100mslive/hms-video-react";
+import React from "react";
+import { useAutoplayError } from "@100mslive/react-sdk";
+import { Dialog, Text, Button } from "@100mslive/react-ui";
+import { DialogContent, DialogRow } from "../../new/DialogContent";
 
-export function AutoplayBlockedModal({ notification }) {
-  const hmsActions = useHMSActions();
-  const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    if (notification?.data?.code === 3008) {
-      setShowModal(true);
-    }
-  }, [notification]);
-
+export function AutoplayBlockedModal() {
+  const { error, resetError, unblockAudio } = useAutoplayError();
   return (
-    <MessageModal
-      show={showModal}
-      onClose={async () => {
-        setShowModal(false);
-        await hmsActions.unblockAudio();
+    <Dialog.Root
+      open={!!error}
+      onOpenChange={value => {
+        if (!value) {
+          unblockAudio();
+        }
+        resetError();
       }}
-      title="Autoplay blocked"
-      body="Autoplay blocked by browser please click on unblock for audio to work"
-      footer={
-        <div className="flex space-x-1">
+    >
+      <DialogContent title="Autoplay Error" closeable={false}>
+        <DialogRow>
+          <Text variant="md">
+            The browser wants us to get a confirmation for playing the Audio.
+            Please allow audio to proceed.
+          </Text>
+        </DialogRow>
+        <DialogRow justify="end">
           <Button
-            onClick={async () => {
-              setShowModal(false);
-              await hmsActions.unblockAudio();
+            variant="primary"
+            onClick={() => {
+              unblockAudio();
+              resetError();
             }}
-            variant="emphasized"
           >
-            Unblock
+            Allow Audio
           </Button>
-        </div>
-      }
-    />
+        </DialogRow>
+      </DialogContent>
+    </Dialog.Root>
   );
 }

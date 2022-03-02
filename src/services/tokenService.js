@@ -17,12 +17,7 @@ const fetchWithRetry = async (url, options) => {
   throw error;
 };
 
-export default async function getToken(
-  tokenEndpoint,
-  userId,
-  role,
-  roomId
-) {
+export default async function getToken(tokenEndpoint, userId, role, roomId) {
   try {
     const response = await fetchWithRetry(`${tokenEndpoint}api/token`, {
       method: "POST",
@@ -33,18 +28,18 @@ export default async function getToken(
       }),
     });
 
-    if(!response.ok) {
-      let error = new Error('Request failed!')
-      error.response = response
-      throw error
+    if (!response.ok) {
+      let error = new Error("Request failed!");
+      error.response = response;
+      throw error;
     }
-    
-    const data = await response.json()
-    const { token } = data
+
+    const data = await response.json();
+    const { token } = data;
     return token;
   } catch (err) {
-    console.error(err)
-    throw err
+    console.error(err);
+    throw err;
   }
 }
 
@@ -72,21 +67,23 @@ export async function getUserToken(name) {
     subdomain: process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN,
   };
 
-  try {
-    const response = await fetchWithRetry(url, {
-      method: "post",
-      body: JSON.stringify({
-        code: code,
-        user_id: name,
-      }),
-      headers,
-    });
-    const { token } = await response.json();
-    return token;
-  } catch (e) {
-    console.log(e);
-    return null;
+  const response = await fetchWithRetry(url, {
+    method: "post",
+    body: JSON.stringify({
+      code: code,
+      user_id: name,
+    }),
+    headers,
+  });
+
+  if (!response.ok) {
+    let error = new Error("Request failed!");
+    error.response = response;
+    throw error;
   }
+
+  const { token } = await response.json();
+  return token;
 }
 
 export function getBackendEndpoint() {

@@ -1,6 +1,7 @@
 import React from "react";
 import { toast, ToastContainer, Slide, Zoom, Bounce } from "react-toastify";
-import { CloseIcon, Text } from "@100mslive/hms-video-react";
+import { Text } from "@100mslive/hms-video-react";
+import { CrossIcon } from "@100mslive/react-icons";
 import "./notifications.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,7 +37,7 @@ export const hmsToast = (message, options) => {
     <Toast
       left={options?.left || <Text variant="body">{message}</Text>}
       center={options?.center}
-      right={options?.right || <CloseIcon />}
+      right={options?.right || <CrossIcon />}
     />,
     {
       autoClose: options?.autoClose || 3000,

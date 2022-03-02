@@ -1,34 +1,41 @@
-import React, { useState, Fragment } from "react";
-import { Button, PIPIcon } from "@100mslive/hms-video-react";
-
+import React, { useState } from "react";
+import { selectLocalPeer, useHMSStore } from "@100mslive/react-sdk";
+import { IconButton, Tooltip } from "@100mslive/react-ui";
+import { PipIcon } from "@100mslive/react-icons";
 import ActivatedPIP from "./ActivatedPIP";
 import { PictureInPicture } from "./PIPManager";
+import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
 
 /**
  * shows a button which when clicked shows some videos in PIP, clicking
  * again turns it off.
  */
 const PIPComponent = () => {
+  const localPeer = useHMSStore(selectLocalPeer);
   const [isPipOn, setIsPipOn] = useState(PictureInPicture.isOn());
 
-  if (!PictureInPicture.isSupported()) {
+  if (
+    !PictureInPicture.isSupported() ||
+    localPeer.roleName === DEFAULT_HLS_VIEWER_ROLE
+  ) {
     return null;
   }
 
   return (
-    <Fragment>
-      <Button
-        variant="no-fill"
-        iconSize="md"
-        shape="rectangle"
-        key="pip"
-        onClick={() => setIsPipOn(!isPipOn)}
-        classes={{ rootSizeMd: "pr-0" }}
+    <>
+      <Tooltip
+        title={`${isPipOn ? "Deactivate" : "Activate"} Person in Person view`}
       >
-        <PIPIcon />
-      </Button>
+        <IconButton
+          active={!isPipOn}
+          key="pip"
+          onClick={() => setIsPipOn(!isPipOn)}
+        >
+          <PipIcon />
+        </IconButton>
+      </Tooltip>
       {isPipOn && <ActivatedPIP setIsPipOn={setIsPipOn} />}
-    </Fragment>
+    </>
   );
 };
 

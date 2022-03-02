@@ -1,16 +1,16 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { selectPeers, useHMSStore } from "@100mslive/hms-video-react";
 import {
+  selectPeers,
+  useHMSStore,
   selectDominantSpeaker,
   selectLocalPeer,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 import { GridCenterView, GridSidePaneView } from "./components/gridView";
 
 export const ActiveSpeakerView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
-  videoTileProps = () => ({}),
 }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
@@ -43,7 +43,6 @@ export const ActiveSpeakerView = ({
         hideSidePane={!showSidePane}
         isParticipantListOpen={isParticipantListOpen}
         totalPeers={1}
-        videoTileProps={videoTileProps}
       />
       {showSidePane && (
         <GridSidePaneView
@@ -52,7 +51,6 @@ export const ActiveSpeakerView = ({
           toggleChat={toggleChat}
           isParticipantListOpen={isParticipantListOpen}
           totalPeers={peers.length - 1}
-          videoTileProps={videoTileProps}
         />
       )}
     </Fragment>

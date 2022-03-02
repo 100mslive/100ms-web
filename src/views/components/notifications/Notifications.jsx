@@ -1,28 +1,30 @@
+/* eslint-disable no-case-declarations */
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { Text, Button } from "@100mslive/hms-video-react";
+import {
+  HandIcon,
+  PersonIcon,
+  ConnectivityIcon,
+  PoorConnectivityIcon,
+} from "@100mslive/react-icons";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
-  Text,
-  PoorConnectivityIcon,
-  ConnectivityIcon,
-  PersonIcon,
-  Button,
-  HandIcon,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 import { AppContext } from "../../../store/AppContext";
-import { TrackMuteAllModal } from "./TrackMuteAllModal";
 import { getMetadata } from "../../../common/utils";
+import { InitErrorModal } from "./InitErrorModal";
+import { TrackBulkUnmuteModal } from "./TrackBulkUnmuteModal";
 
 export function Notifications() {
   const notification = useHMSNotifications();
   const history = useHistory();
-  const { subscribedNotifications, loginInfo, HLS_VIEWER_ROLE } =
+  const { subscribedNotifications, isHeadless, HLS_VIEWER_ROLE } =
     useContext(AppContext);
-  const isHeadless = loginInfo.isHeadlessMode;
   useEffect(() => {
     if (!notification) {
       return;
@@ -90,7 +92,8 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        if (!subscribedNotifications.NEW_MESSAGE) return;
+        if (!subscribedNotifications.NEW_MESSAGE || notification.data?.ignored)
+          return;
         hmsToast(`New message from ${notification.data?.senderName}`);
         break;
       case HMSNotificationTypes.TRACK_ADDED:
@@ -154,6 +157,9 @@ export function Notifications() {
           return;
         }
         if (notification.data?.code === 3008) {
+          return;
+        }
+        if (notification.data?.action === "INIT") {
           return;
         }
         if (!subscribedNotifications.ERROR) return;
@@ -248,9 +254,10 @@ export function Notifications() {
   return (
     <>
       <HMSToastContainer />
-      {!isHeadless && <TrackUnmuteModal notification={notification} />}
-      {!isHeadless && <TrackMuteAllModal notification={notification} />}
-      <AutoplayBlockedModal notification={notification} />
+      {!isHeadless && <TrackUnmuteModal />}
+      {!isHeadless && <TrackBulkUnmuteModal />}
+      <AutoplayBlockedModal />
+      <InitErrorModal notification={notification} />
     </>
   );
 }

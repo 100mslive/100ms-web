@@ -5,7 +5,7 @@ import {
   useHMSStore,
   useHMSActions,
   selectRemotePeers,
-} from "@100mslive/hms-video-react";
+} from "@100mslive/react-sdk";
 
 const ActivatedPIP = ({ setIsPipOn }) => {
   const hmsActions = useHMSActions();

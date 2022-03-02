@@ -1,24 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  Button,
   HMSNotificationTypes,
-  MessageModal,
   useHMSActions,
-} from "@100mslive/hms-video-react";
-import { useEffect } from "react";
+  useHMSNotifications,
+} from "@100mslive/react-sdk";
+import { RequestDialog } from "../../new/DialogContent";
+import { MicOnIcon } from "@100mslive/react-icons";
 
-export const TrackUnmuteModal = ({ notification }) => {
+export const TrackUnmuteModal = () => {
   const hmsActions = useHMSActions();
+  const notification = useHMSNotifications(
+    HMSNotificationTypes.CHANGE_TRACK_STATE_REQUEST
+  );
   const [muteNotification, setMuteNotification] = useState(null);
 
   useEffect(() => {
-    if (!notification || !notification.data) {
-      return;
-    }
-    if (
-      notification.type === HMSNotificationTypes.CHANGE_TRACK_STATE_REQUEST &&
-      notification.data.enabled
-    ) {
+    if (notification?.data.enabled) {
       setMuteNotification(notification.data);
     }
   }, [notification]);
@@ -30,23 +27,15 @@ export const TrackUnmuteModal = ({ notification }) => {
   const { requestedBy: peer, track, enabled } = muteNotification;
 
   return (
-    <MessageModal
-      show
-      onClose={() => setMuteNotification(null)}
+    <RequestDialog
       title="Track Unmute Request"
-      body={`${peer?.name} requested to unmute your ${track?.source} ${track?.type}`}
-      footer={
-        <div className="flex space-x-1">
-          <Button
-            onClick={() => {
-              hmsActions.setEnabledTrack(track.id, enabled);
-              setMuteNotification(null);
-            }}
-          >
-            Accept
-          </Button>
-        </div>
-      }
+      onOpenChange={value => !value && setMuteNotification(null)}
+      body={`${peer?.name} has requested you to unmute your ${track?.source} ${track?.type}.`}
+      onAction={() => {
+        hmsActions.setEnabledTrack(track.id, enabled);
+        setMuteNotification(null);
+      }}
+      Icon={MicOnIcon}
     />
   );
 };

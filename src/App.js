@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,7 +26,9 @@ import {
   HMSReactiveStore,
 } from "@100mslive/react-sdk";
 import { FeatureFlags } from "./store/FeatureFlags";
-import { lightTheme } from "@100mslive/react-ui";
+import { HMSThemeProvider as ReactUIProvider, Box } from "@100mslive/react-ui";
+import "./index.css";
+import { Confetti } from "../plugins/confetti";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -71,41 +73,60 @@ export function EdtechComponent({
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
+  const [themeType, setThemeType] = useState(theme);
+  useEffect(() => {
+    window.toggleUiTheme = () => {
+      setThemeType(themeType === "dark" ? "light" : "dark");
+    };
+  }, [themeType]);
+  useEffect(() => {
+    setThemeType(theme);
+  }, [theme]);
   return (
-    <div
-      className={`w-full dark:bg-black ${
-        headerPresent === "true" ? "flex-1" : "h-full"
-      } ${theme === "light" ? lightTheme : ""}`}
-    >
-      <HMSThemeProvider
-        config={{
-          theme: {
-            extend: {
-              fontFamily: {
-                sans: [font, "Inter", "sans-serif"],
-                body: [font, "Inter", "sans-serif"],
-              },
-              colors: {
-                brand: {
-                  main: color,
-                  tint: shadeColor(color, 30),
-                },
+    <HMSThemeProvider
+      config={{
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [font, "Inter", "sans-serif"],
+              body: [font, "Inter", "sans-serif"],
+            },
+            colors: {
+              brand: {
+                main: color,
+                tint: shadeColor(color, 30),
               },
             },
           },
+        },
+      }}
+      appBuilder={{
+        theme: themeType,
+        enableChat: showChat === "true",
+        enableScreenShare: showScreenshare === "true",
+        logo: logo,
+        logoClass: logoClass,
+        headerPresent: headerPresent === "true",
+        videoTileAspectRatio: { width, height },
+        showAvatar: showAvatar === "true",
+        avatarType: avatarType,
+      }}
+      toast={(message, options = {}) => hmsToast(message, options)}
+    >
+      <ReactUIProvider
+        themeType={themeType}
+        aspectRatio={{ width, height }}
+        theme={{
+          colors: {
+            brandDefault: color,
+            brandDark: shadeColor(color, -30),
+            brandLight: shadeColor(color, 30),
+            brandDisabled: shadeColor(color, 10),
+          },
+          fonts: {
+            sans: [font, "Inter", "sans-serif"],
+          },
         }}
-        appBuilder={{
-          theme: theme || "dark",
-          enableChat: showChat === "true",
-          enableScreenShare: showScreenshare === "true",
-          logo: logo,
-          logoClass: logoClass,
-          headerPresent: headerPresent === "true",
-          videoTileAspectRatio: { width, height },
-          showAvatar: showAvatar === "true",
-          avatarType: avatarType,
-        }}
-        toast={(message, options = {}) => hmsToast(message, options)}
       >
         <ReactRoomProvider
           actions={hmsReactiveStore.getActions()}
@@ -132,13 +153,24 @@ export function EdtechComponent({
               tokenEndpoint={tokenEndpoint}
               policyConfig={policyConfig}
               appDetails={metadata}
+              logo={logo}
             >
-              <AppRoutes getUserToken={getUserToken} />
+              <Box
+                css={{
+                  bg: "$mainBg",
+                  w: "100%",
+                  ...(headerPresent === "true"
+                    ? { flex: "1 1 0" }
+                    : { h: "100%" }),
+                }}
+              >
+                <AppRoutes getUserToken={getUserToken} />
+              </Box>
             </AppContextProvider>
           </HMSRoomProvider>
         </ReactRoomProvider>
-      </HMSThemeProvider>
-    </div>
+      </ReactUIProvider>
+    </HMSThemeProvider>
   );
 }
 
@@ -146,10 +178,8 @@ function AppRoutes({ getUserToken }) {
   return (
     <Router>
       <Notifications />
+      <Confetti />
       <Switch>
-        {/* <Route path="/createRoom">
-              <CreateRoom />
-            </Route> */}
         <Route
           path="/preview/:roomId/:role?"
           render={({ match }) => {

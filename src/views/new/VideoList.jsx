@@ -1,59 +1,85 @@
 import React, { useEffect, useState } from "react";
-import { StyledVideoList, getLeft, Pagination } from "@100mslive/react-ui";
+import {
+  StyledVideoList,
+  getLeft,
+  Pagination,
+  useTheme,
+} from "@100mslive/react-ui";
 import { useVideoList } from "@100mslive/react-sdk";
-import HmsVideoTile from "./VideoTile";
+import VideoTile from "./VideoTile";
+import ScreenshareTile from "./ScreenshareTile";
 
-const HmsVideoList = ({
+const List = ({
   maxTileCount,
   peers,
   showStatsOnTiles,
   maxColCount,
   maxRowCount,
+  includeScreenShareForPeer,
 }) => {
-  const { ref, chunkedTracksWithPeer } = useVideoList({
+  const { aspectRatio } = useTheme();
+  const { ref, pagesWithTiles } = useVideoList({
     peers,
     maxTileCount,
     maxColCount,
     maxRowCount,
+    includeScreenShareForPeer,
+    aspectRatio,
+    offsetY: 32,
   });
   const [page, setPage] = useState(0);
   useEffect(() => {
     // currentPageIndex should not exceed pages length
-    if (page >= chunkedTracksWithPeer.length) {
+    if (page >= pagesWithTiles.length) {
       setPage(0);
     }
-  }, [chunkedTracksWithPeer.length, page]);
-  const list = new Array(chunkedTracksWithPeer.length).fill("");
+  }, [pagesWithTiles.length, page]);
   return (
-    <StyledVideoList.Root>
-      <StyledVideoList.Container ref={ref}>
-        {chunkedTracksWithPeer && chunkedTracksWithPeer.length > 0
-          ? chunkedTracksWithPeer.map((l, i) => (
+    <StyledVideoList.Root ref={ref}>
+      <StyledVideoList.Container>
+        {pagesWithTiles && pagesWithTiles.length > 0
+          ? pagesWithTiles.map((tiles, pageNo) => (
               <StyledVideoList.View
                 css={{
-                  left: getLeft(i, page),
+                  left: getLeft(pageNo, page),
                   transition: "left 0.3s ease-in-out",
                 }}
-                key={i}
+                key={pageNo}
               >
-                {l.map(p => (
-                  <HmsVideoTile
-                    showStatsOnTiles={showStatsOnTiles}
-                    key={p.peer.id}
-                    width={p.width}
-                    height={p.height}
-                    peerId={p.peer.id}
-                  />
-                ))}
+                {tiles.map(tile =>
+                  tile.track?.source === "screen" ? (
+                    <ScreenshareTile
+                      showStatsOnTiles={showStatsOnTiles}
+                      key={tile.track.id}
+                      width={tile.width}
+                      height={tile.height}
+                      peerId={tile.peer.id}
+                    />
+                  ) : (
+                    <VideoTile
+                      showStatsOnTiles={showStatsOnTiles}
+                      key={tile.track?.id || tile.peer.id}
+                      width={tile.width}
+                      height={tile.height}
+                      peerId={tile.peer?.id}
+                    />
+                  )
+                )}
               </StyledVideoList.View>
             ))
           : null}
       </StyledVideoList.Container>
-      {chunkedTracksWithPeer.length > 1 ? (
-        <Pagination page={page} setPage={setPage} list={list} />
+      {pagesWithTiles.length > 1 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          numPages={pagesWithTiles.length}
+        />
       ) : null}
     </StyledVideoList.Root>
   );
 };
 
-export default HmsVideoList;
+const VideoList = React.memo(List);
+
+export default VideoList;

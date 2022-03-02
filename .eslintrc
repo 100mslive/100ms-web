@@ -1,0 +1,25 @@
+{
+  "extends": ["eslint:recommended", "react-app", "react-app/jest"],
+  "plugins": ["prettier"],
+  "rules": {
+    "react/jsx-curly-brace-presence": [
+      2,
+      {
+        "props": "never"
+      }
+    ],
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": true,
+        "html": false
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto" // This is need to handle different end-of-line in windows/mac
+      }
+    ]
+  }
+}
