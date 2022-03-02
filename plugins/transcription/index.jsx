@@ -4,11 +4,14 @@ import RecordRTC, { StereoAudioRecorder } from "recordrtc";
 import { useHMSStore, selectRoom } from "@100mslive/react-sdk";
 import Pusher from "pusher-js";
 import { Box, Tooltip } from "@100mslive/react-ui";
+import { FeatureFlags } from "../../src/store/FeatureFlags";
 
-const pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
-  cluster: "ap2",
-  authEndpoint: process.env.REACT_APP_PUSHER_AUTHENDPOINT,
-});
+const pusher =
+  FeatureFlags.enableTranscription &&
+  new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
+    cluster: "ap2",
+    authEndpoint: process.env.REACT_APP_PUSHER_AUTHENDPOINT,
+  });
 let channel = null;
 
 export function TranscriptionButton() {
