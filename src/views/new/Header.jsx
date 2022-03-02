@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { Flex, Text, textEllipsis, Box, styled } from "@100mslive/react-ui";
+import {
+  Flex,
+  Text,
+  textEllipsis,
+  Box,
+  styled,
+  useTheme,
+} from "@100mslive/react-ui";
 import { SpeakerIcon } from "@100mslive/react-icons";
 import {
   useHMSStore,
@@ -43,7 +50,17 @@ const LogoImg = styled("img", {
 
 const Logo = () => {
   const { logo } = useContext(AppContext);
-  return <LogoImg src={logo} alt="Brand Logo" />;
+  const isDark = useTheme().themeType === "dark";
+  return (
+    <LogoImg
+      src={
+        logo || isDark
+          ? require("../../images/logo-light.svg")
+          : require("../../images/logo-dark.svg")
+      }
+      alt="Brand Logo"
+    />
+  );
 };
 
 export const Header = ({ isPreview }) => {
