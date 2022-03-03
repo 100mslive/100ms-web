@@ -15,7 +15,7 @@ import {
   VerticalDivider,
 } from "@100mslive/react-ui";
 import { PlaylistItem } from "./PlaylistItem";
-import { PlaylistControls } from "./PlaylistControls";
+import { AudioPlaylistControls } from "./PlaylistControls";
 import { usePlaylist } from "../../hooks/usePlaylist";
 
 export const Playlist = ({ type }) => {
@@ -98,8 +98,7 @@ export const Playlist = ({ type }) => {
             </Box>
           )}
           {isAudioPlaylist && (
-            <PlaylistControls
-              type={HMSPlaylistType.audio}
+            <AudioPlaylistControls
               onToggle={() => setCollapse(value => !value)}
             />
           )}
