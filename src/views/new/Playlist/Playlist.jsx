@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { HMSPlaylistType } from "@100mslive/react-sdk";
 import {
   AudioPlayerIcon,
   CrossIcon,
@@ -13,25 +14,13 @@ import {
   Box,
   VerticalDivider,
 } from "@100mslive/react-ui";
-import {
-  HMSPlaylistType,
-  selectAudioPlaylist,
-  selectVideoPlaylist,
-  useHMSActions,
-  useHMSStore,
-} from "@100mslive/react-sdk";
 import { PlaylistItem } from "./PlaylistItem";
 import { PlaylistControls } from "./PlaylistControls";
+import { usePlaylist } from "../../hooks/usePlaylist";
 
 export const Playlist = ({ type }) => {
   const isAudioPlaylist = type === HMSPlaylistType.audio;
-  const selector = isAudioPlaylist ? selectAudioPlaylist : selectVideoPlaylist;
-  const playlist = useHMSStore(selector.list);
-  const active = useHMSStore(selector.selectedItem);
-  const hmsActions = useHMSActions();
-  const action = isAudioPlaylist
-    ? hmsActions.audioPlaylist
-    : hmsActions.videoPlaylist;
+  const { active, list: playlist, actions } = usePlaylist(type);
   const [open, setOpen] = useState(false);
   const [collapse, setCollapse] = useState(false);
 
@@ -77,9 +66,9 @@ export const Playlist = ({ type }) => {
             </Text>
             <IconButton
               css={{ mr: "-$4" }}
-              onClick={() => {
+              onClick={async () => {
                 if (active) {
-                  action.stop();
+                  await actions.stop();
                 }
                 setOpen(false);
                 setCollapse(false);
@@ -95,9 +84,13 @@ export const Playlist = ({ type }) => {
                   <PlaylistItem
                     key={playlistItem.id}
                     {...playlistItem}
-                    onClick={e => {
+                    onClick={async e => {
                       e.preventDefault();
-                      action.play(playlistItem.id);
+                      await actions.play(playlistItem.id);
+                      // Close the dropdown list for videoplaylist
+                      if (!isAudioPlaylist) {
+                        setOpen(false);
+                      }
                     }}
                   />
                 );
