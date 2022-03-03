@@ -79,7 +79,7 @@ export const Playlist = ({ type }) => {
               css={{ mr: "-$4" }}
               onClick={() => {
                 if (active) {
-                  hmsActions.audioPlaylist.stop();
+                  action.stop();
                 }
                 setOpen(false);
                 setCollapse(false);
