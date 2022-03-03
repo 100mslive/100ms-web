@@ -19,6 +19,7 @@ import { AppContext } from "../../../store/AppContext";
 import { getMetadata } from "../../../common/utils";
 import { InitErrorModal } from "./InitErrorModal";
 import { TrackBulkUnmuteModal } from "./TrackBulkUnmuteModal";
+import LogRocket from "logrocket";
 
 const ToastText = ({ children }) => (
   <Text css={{ display: "flex" }}>{children}</Text>
@@ -122,6 +123,7 @@ export function Notifications() {
               },
             });
           } else {
+            LogRocket.track("Disconnected");
             // show button action when the error is terminal
             hmsToast("", {
               center: (
@@ -168,6 +170,7 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.RECONNECTED:
+        LogRocket.track("Reconnected");
         hmsToast("", {
           left: (
             <ToastText>
@@ -177,6 +180,7 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.RECONNECTING:
+        LogRocket.track("Reconnecting");
         hmsToast("", {
           left: (
             <ToastText>
