@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import LogRocket from "logrocket";
 import {
   HandIcon,
   PersonIcon,
@@ -123,6 +124,7 @@ export function Notifications() {
               title: `Error: ${notification.data?.message}`,
             });
           } else {
+            LogRocket.track("Disconnected");
             // show button action when the error is terminal
             ToastManager.addToast({
               title: (
@@ -168,6 +170,7 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.RECONNECTED:
+        LogRocket.track("Reconnected");
         ToastManager.addToast({
           title: (
             <TextWithIcon Icon={ConnectivityIcon}>
@@ -177,6 +180,7 @@ export function Notifications() {
         });
         break;
       case HMSNotificationTypes.RECONNECTING:
+        LogRocket.track("Reconnecting");
         ToastManager.addToast({
           title: (
             <TextWithIcon Icon={PoorConnectivityIcon}>
