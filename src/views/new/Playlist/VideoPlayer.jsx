@@ -2,18 +2,18 @@ import React, { useRef } from "react";
 import { useFullscreen, useToggle } from "react-use";
 import screenfull from "screenfull";
 import {
-  selectLocalPeerID,
+  selectVideoPlaylist,
   selectVideoPlaylistVideoTrackByPeerID,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { ShrinkIcon, ExpandIcon, CrossIcon } from "@100mslive/react-icons";
-import { Box, IconButton, Video } from "@100mslive/react-ui";
+import { Flex, IconButton, Text, Video } from "@100mslive/react-ui";
 import { VideoPlaylistControls } from "./PlaylistControls";
 
-export const VideoPlayer = ({ peerId }) => {
+export const VideoPlayer = React.memo(({ peerId }) => {
   const videoTrack = useHMSStore(selectVideoPlaylistVideoTrackByPeerID(peerId));
-  const localPeerId = useHMSStore(selectLocalPeerID);
+  const active = useHMSStore(selectVideoPlaylist.selectedItem);
   const hmsActions = useHMSActions();
   const ref = useRef(null);
   const [show, toggle] = useToggle(false);
@@ -21,23 +21,45 @@ export const VideoPlayer = ({ peerId }) => {
     onClose: () => toggle(false),
   });
   return (
-    <Box css={{ position: "relative", w: "100%", h: "100%" }} ref={ref}>
-      <Video trackId={videoTrack?.id} />
-      {videoTrack.peerId === localPeerId && (
-        <IconButton
+    <Flex
+      direction="column"
+      justify="center"
+      css={{ w: "100%", h: "100%" }}
+      ref={ref}
+    >
+      {active && (
+        <Flex
+          justify="between"
+          align="center"
           css={{
-            position: "absolute",
-            top: "$8",
-            right: "$8",
-            color: "$white",
-          }}
-          onClick={() => {
-            hmsActions.videoPlaylist.stop();
+            bg: "$menuBg",
+            p: "$2 $2 $2 $6",
+            borderTopLeftRadius: "$1",
+            borderTopRightRadius: "$1",
           }}
         >
-          <CrossIcon />
-        </IconButton>
+          <Text css={{ color: "$textPrimary" }}>{active.name}</Text>
+          <IconButton
+            css={{
+              color: "$white",
+            }}
+            onClick={() => {
+              hmsActions.videoPlaylist.stop();
+            }}
+          >
+            <CrossIcon />
+          </IconButton>
+        </Flex>
       )}
+      <Video
+        trackId={videoTrack?.id}
+        css={{
+          "@lg": { objectFit: "contain", h: "auto" },
+          r: "$1",
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+        }}
+      />
       <VideoPlaylistControls>
         {screenfull.enabled && (
           <IconButton
@@ -53,6 +75,6 @@ export const VideoPlayer = ({ peerId }) => {
           </IconButton>
         )}
       </VideoPlaylistControls>
-    </Box>
+    </Flex>
   );
-};
+});

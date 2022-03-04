@@ -120,7 +120,7 @@ const VolumeControl = () => {
 
   return (
     <Flex align="center" css={{ color: "$white" }}>
-      <SpeakerIcon width={24} height={24} />
+      <SpeakerIcon />
       <Slider
         css={{ mx: "$4", w: "$20" }}
         min={0}
@@ -135,6 +135,7 @@ const VolumeControl = () => {
             hmsActions.setVolume(value, audioTrack.id);
           }
         }}
+        thumbStyles={{ w: "$6", h: "$6" }}
       />
     </Flex>
   );
@@ -167,10 +168,14 @@ export const VideoPlaylistControls = ({ children }) => {
     <Box
       css={{
         p: "$8",
-        position: "absolute",
-        bottom: 0,
+        mt: "-$24",
         boxShadow: "$sm",
         w: "100%",
+        zIndex: 1,
+        "@lg": {
+          mt: 0,
+          p: "$6",
+        },
       }}
     >
       {active && (

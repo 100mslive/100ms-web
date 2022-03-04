@@ -141,9 +141,8 @@ const ScreenShareComponent = ({
           flex: "3 1 0",
           "@lg": {
             flex: "2 1 0",
-            "& video": {
-              objectFit: "contain",
-            },
+            display: "flex",
+            alignItems: "center",
           },
         }}
       >
