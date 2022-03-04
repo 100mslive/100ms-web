@@ -34,7 +34,6 @@ import { FeatureFlags } from "../../store/FeatureFlags";
 import { TranscriptionButton } from "../../../plugins/transcription";
 
 const ScreenshareAudio = () => {
-  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const {
     amIScreenSharing,
     screenShareVideoTrackId: video,
@@ -43,7 +42,7 @@ const ScreenshareAudio = () => {
   } = useScreenShare();
   const isAudioScreenshare = amIScreenSharing && !video && !!audio;
   const [showModal, setShowModal] = useState(false);
-  if (!isAllowedToPublish.screen || !isScreenshareSupported()) {
+  if (!isScreenshareSupported()) {
     return null;
   }
   return (
@@ -108,6 +107,7 @@ const Chat = ({ isChatOpen, toggleChat }) => {
 };
 
 export const Footer = ({ isChatOpen, toggleChat }) => {
+  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   return (
     <Flex
       justify="between"
@@ -131,10 +131,14 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
           },
         }}
       >
-        <ScreenshareAudio />
-        <Playlist type={HMSPlaylistType.audio} />
-        <Playlist type={HMSPlaylistType.video} />
-        <VerticalDivider space={4} />
+        {isAllowedToPublish.screen && (
+          <Fragment>
+            <ScreenshareAudio />
+            <Playlist type={HMSPlaylistType.audio} />
+            <Playlist type={HMSPlaylistType.video} />
+            <VerticalDivider space={4} />
+          </Fragment>
+        )}
         <MetaActions />
         {FeatureFlags.enableWhiteboard && <ToggleWhiteboard />}
       </Flex>
