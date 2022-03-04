@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import LogRocket from "logrocket";
 import {
   HandIcon,
-  PersonIcon,
   ConnectivityIcon,
   PoorConnectivityIcon,
 } from "@100mslive/react-icons";
@@ -12,24 +11,18 @@ import {
   useHMSNotifications,
   HMSNotificationTypes,
 } from "@100mslive/react-sdk";
-import { Flex, Text, Button, Box } from "@100mslive/react-ui";
-import { HMSToastContainer, hmsToast } from "./hms-toast";
+import { Flex, Text, Button } from "@100mslive/react-ui";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
 import { AppContext } from "../../../store/AppContext";
-import { getMetadata } from "../../../common/utils";
 import { InitErrorModal } from "./InitErrorModal";
 import { TrackBulkUnmuteModal } from "./TrackBulkUnmuteModal";
 import { ToastManager } from "../../new/Toast/ToastManager";
-
-const TextWithIcon = ({ Icon, children }) => (
-  <Flex>
-    <Box css={{ flexShrink: 0 }}>
-      <Icon />
-    </Box>
-    <Text css={{ ml: "$4" }}>{children}</Text>
-  </Flex>
-);
+import { TrackNotifications } from "./TrackNotifications";
+import { TextWithIcon } from "./TextWithIcon";
+import { PeerNotifications } from "./PeerNotifications";
+import { getMetadata } from "../../../common/utils";
+import { HMSToastContainer, hmsToast } from "./hms-toast";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -41,28 +34,6 @@ export function Notifications() {
       return;
     }
     switch (notification.type) {
-      case HMSNotificationTypes.PEER_LIST:
-        console.debug("[Peer List]", notification.data);
-        if (!subscribedNotifications.PEER_JOINED) return;
-        ToastManager.addToast({
-          title: (
-            <TextWithIcon Icon={PersonIcon}>
-              {notification.data?.length} peers joined
-            </TextWithIcon>
-          ),
-        });
-        break;
-      case HMSNotificationTypes.PEER_JOINED:
-        console.debug("[Peer Joined]", notification.data);
-        if (!subscribedNotifications.PEER_JOINED) return;
-        ToastManager.addToast({
-          title: (
-            <TextWithIcon Icon={PersonIcon}>
-              {notification.data?.name} joined
-            </TextWithIcon>
-          ),
-        });
-        break;
       case HMSNotificationTypes.METADATA_UPDATED:
         // Don't toast message when metadata is updated and raiseHand is false.
         // Don't toast message in case of local peer.
@@ -87,35 +58,12 @@ export function Notifications() {
             notification.data.name
         );
         break;
-      case HMSNotificationTypes.PEER_LEFT:
-        console.debug("[Peer Left]", notification.data);
-        if (!subscribedNotifications.PEER_LEFT) return;
-        ToastManager.addToast({
-          title: (
-            <TextWithIcon Icon={PersonIcon}>
-              {notification.data?.name} left
-            </TextWithIcon>
-          ),
-        });
-        break;
       case HMSNotificationTypes.NEW_MESSAGE:
         if (!subscribedNotifications.NEW_MESSAGE || notification.data?.ignored)
           return;
         ToastManager.addToast({
           title: `New message from ${notification.data?.senderName}`,
         });
-        break;
-      case HMSNotificationTypes.TRACK_ADDED:
-        console.debug("[Track Added] data", notification.data);
-        break;
-      case HMSNotificationTypes.TRACK_REMOVED:
-        console.debug("[Track Removed]", notification);
-        break;
-      case HMSNotificationTypes.TRACK_MUTED:
-        console.log("[Track Muted]", notification);
-        break;
-      case HMSNotificationTypes.TRACK_UNMUTED:
-        console.log("[Track Unmuted]", notification);
         break;
       case HMSNotificationTypes.ERROR:
         if (notification.data?.isTerminal) {
@@ -251,6 +199,8 @@ export function Notifications() {
       <HMSToastContainer />
       {!isHeadless && <TrackUnmuteModal />}
       {!isHeadless && <TrackBulkUnmuteModal />}
+      <TrackNotifications />
+      <PeerNotifications />
       <AutoplayBlockedModal />
       <InitErrorModal notification={notification} />
     </>
