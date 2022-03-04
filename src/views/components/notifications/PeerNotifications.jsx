@@ -3,9 +3,9 @@ import {
   HMSNotificationTypes,
   useHMSNotifications,
 } from "@100mslive/react-sdk";
+import { PersonIcon } from "@100mslive/react-icons";
 import { ToastManager } from "../../new/Toast/ToastManager";
 import { TextWithIcon } from "./TextWithIcon";
-import { PersonIcon } from "@100mslive/react-icons";
 import {
   UserPreferencesKeys,
   useUserPreferences,

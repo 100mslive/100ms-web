@@ -18,8 +18,8 @@ import { TrackNotifications } from "./TrackNotifications";
 import { TextWithIcon } from "./TextWithIcon";
 import { PeerNotifications } from "./PeerNotifications";
 import { ReconnectNotifications } from "./ReconnectNotifications";
+import { HMSToastContainer } from "./hms-toast";
 import { getMetadata } from "../../../common/utils";
-import { HMSToastContainer, hmsToast } from "./hms-toast";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -151,8 +151,8 @@ export function Notifications() {
         }, 2000);
         break;
       case HMSNotificationTypes.DEVICE_CHANGE_UPDATE:
-        hmsToast("", {
-          left: <Text>{notification.message}.</Text>,
+        ToastManager.addToast({
+          title: notification.message,
         });
         break;
       default:
