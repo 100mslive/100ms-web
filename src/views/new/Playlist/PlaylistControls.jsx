@@ -168,7 +168,7 @@ export const VideoPlaylistControls = ({ children }) => {
     <Box
       css={{
         p: "$8",
-        mt: "-$20",
+        mt: "-$24",
         boxShadow: "$sm",
         w: "100%",
         zIndex: 1,

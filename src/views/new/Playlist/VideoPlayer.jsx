@@ -10,7 +10,7 @@ import { ShrinkIcon, ExpandIcon, CrossIcon } from "@100mslive/react-icons";
 import { Flex, IconButton, Text, Video } from "@100mslive/react-ui";
 import { VideoPlaylistControls } from "./PlaylistControls";
 
-export const VideoPlayer = ({ peerId }) => {
+export const VideoPlayer = React.memo(({ peerId }) => {
   const videoTrack = useHMSStore(selectVideoPlaylistVideoTrackByPeerID(peerId));
   const active = useHMSStore(selectVideoPlaylist.selectedItem);
   const hmsActions = useHMSActions();
@@ -27,7 +27,16 @@ export const VideoPlayer = ({ peerId }) => {
       ref={ref}
     >
       {active && (
-        <Flex justify="between" css={{ bg: "$bgPrimary", p: "$2 $4" }}>
+        <Flex
+          justify="between"
+          align="center"
+          css={{
+            bg: "$menuBg",
+            p: "$2 $2 $2 $6",
+            borderTopLeftRadius: "$1",
+            borderTopRightRadius: "$1",
+          }}
+        >
           <Text css={{ color: "$textPrimary" }}>{active.name}</Text>
           <IconButton
             css={{
@@ -45,7 +54,9 @@ export const VideoPlayer = ({ peerId }) => {
         trackId={videoTrack?.id}
         css={{
           "@lg": { objectFit: "contain", h: "auto" },
-          r: 0,
+          r: "$1",
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
         }}
       />
       <VideoPlaylistControls>
@@ -63,4 +74,4 @@ export const VideoPlayer = ({ peerId }) => {
       </VideoPlaylistControls>
     </Flex>
   );
-};
+});
