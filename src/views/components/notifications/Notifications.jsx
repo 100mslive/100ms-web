@@ -188,8 +188,6 @@ export function Notifications() {
     notification,
     subscribedNotifications.ERROR,
     subscribedNotifications.NEW_MESSAGE,
-    subscribedNotifications.PEER_JOINED,
-    subscribedNotifications.PEER_LEFT,
     subscribedNotifications.METADATA_UPDATED,
     HLS_VIEWER_ROLE,
   ]);
