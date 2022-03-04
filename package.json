@@ -30,11 +30,11 @@
     "react-router-dom": "^5.2.0",
     "react-toastify": "^7.0.4",
     "react-use": "^17.3.2",
+    "recordrtc": "^5.6.2",
     "screenfull": "^5.1.0",
     "uuid": "^8.3.2",
     "web-vitals": "^1.0.1",
-    "worker-timers": "^7.0.40",
-    "recordrtc": "^5.6.2"
+    "worker-timers": "^7.0.40"
   },
   "scripts": {
     "prebuild": "rm -rf build",
@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
     "autoprefixer": "^10.4.2",
     "copy-webpack-plugin": "^10.2.1",
     "css-loader": "^6.5.1",

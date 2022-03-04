@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, Fragment } from "react";
+import { useMedia } from "react-use";
 import {
   useHMSStore,
   useHMSActions,
@@ -8,14 +9,14 @@ import {
   selectPeerSharingVideoPlaylist,
   selectScreenShareByPeerID,
 } from "@100mslive/react-sdk";
-import { VideoPlayer, ScreenShareDisplay } from "@100mslive/hms-video-react";
+import { ScreenShareDisplay } from "@100mslive/hms-video-react";
 import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { ChatView } from "./components/chatView";
-import { chatStyle } from "../common/utils";
 import ScreenshareTile from "./new/ScreenshareTile";
 import VideoList from "./new/VideoList";
 import VideoTile from "./new/VideoTile";
-import { useMedia } from "react-use";
+import { VideoPlayer } from "./new/Playlist/VideoPlayer";
+import { chatStyle } from "../common/utils";
 
 export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
   // for smaller screen we will show sidebar in bottom
@@ -34,7 +35,7 @@ export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
 
   const smallTilePeers = useMemo(() => {
     const smallTilePeers = peers.filter(peer => peer.id !== peerPresenting?.id);
-    if (showPresenterInSmallTile) {
+    if (showPresenterInSmallTile && peerPresenting) {
       smallTilePeers.unshift(peerPresenting); // put presenter on first page
     }
     return smallTilePeers;
@@ -146,7 +147,7 @@ const ScreenShareComponent = ({
           },
         }}
       >
-        <VideoPlayer peer={peerSharingPlaylist} />
+        <VideoPlayer peerId={peerSharingPlaylist.id} />
       </Box>
     );
   }

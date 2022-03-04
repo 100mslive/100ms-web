@@ -1,41 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ComputerIcon } from "@100mslive/react-icons";
-import screenfull from "screenfull";
 import { Dropdown, Text } from "@100mslive/react-ui";
-import { setFullScreenEnabled } from "../../../common/utils";
+import { useFullscreen } from "../../hooks/useFullscreen";
 
 export const FullScreenItem = ({ hoverStyles }) => {
-  const [isFullScreenEnabled, setIsFullScreenEnabled] = useState(
-    screenfull.isFullscreen
-  );
+  const { allowed, isFullscreen, toggleFullscreen } = useFullscreen();
 
-  useEffect(() => {
-    const onChange = () => {
-      setIsFullScreenEnabled(screenfull.isFullscreen);
-    };
-    if (screenfull.isEnabled) {
-      screenfull.on("change", onChange);
-    }
-    return () => {
-      if (screenfull.isEnabled) {
-        screenfull.off("change", onChange);
-      }
-    };
-  }, []);
+  if (!allowed) {
+    return null;
+  }
 
   return (
-    screenfull.isEnabled && (
-      <Dropdown.Item
-        onClick={() => {
-          setFullScreenEnabled(!isFullScreenEnabled);
-        }}
-        css={hoverStyles}
-      >
-        <ComputerIcon />
-        <Text variant="sm" css={{ ml: "$4" }}>
-          {isFullScreenEnabled ? "Exit " : ""}Full Screen
-        </Text>
-      </Dropdown.Item>
-    )
+    <Dropdown.Item
+      onClick={() => {
+        toggleFullscreen();
+      }}
+      css={hoverStyles}
+    >
+      <ComputerIcon />
+      <Text variant="sm" css={{ ml: "$4" }}>
+        {isFullscreen ? "Exit " : ""}Full Screen
+      </Text>
+    </Dropdown.Item>
   );
 };
