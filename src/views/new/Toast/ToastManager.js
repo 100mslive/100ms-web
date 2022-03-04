@@ -12,8 +12,13 @@ export const ToastManager = {
     this.onChange();
   },
   replaceToast(id, toast) {
-    this.toasts.set(id, toast);
-    this.onChange();
+    if (this.isActive(id)) {
+      this.toasts.set(id, { ...this.toasts.get(id), ...toast });
+      this.onChange();
+      return id;
+    } else {
+      return this.addToast(toast);
+    }
   },
   addListener(cb) {
     this.listeners.set(cb, cb);
