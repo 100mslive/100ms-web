@@ -2,11 +2,7 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import LogRocket from "logrocket";
-import {
-  HandIcon,
-  ConnectivityIcon,
-  PoorConnectivityIcon,
-} from "@100mslive/react-icons";
+import { HandIcon } from "@100mslive/react-icons";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
@@ -21,6 +17,7 @@ import { ToastManager } from "../../new/Toast/ToastManager";
 import { TrackNotifications } from "./TrackNotifications";
 import { TextWithIcon } from "./TextWithIcon";
 import { PeerNotifications } from "./PeerNotifications";
+import { ReconnectNotifications } from "./ReconnectNotifications";
 import { getMetadata } from "../../../common/utils";
 import { HMSToastContainer, hmsToast } from "./hms-toast";
 
@@ -76,7 +73,7 @@ export function Notifications() {
             // show button action when the error is terminal
             ToastManager.addToast({
               title: (
-                <Flex justify="between">
+                <Flex justify="between" css={{ w: "100%" }}>
                   <Text css={{ mr: "$4" }}>
                     {notification.data?.message ||
                       "We couldn’t reconnect you. When you’re back online, try joining the room."}
@@ -115,27 +112,6 @@ export function Notifications() {
         if (!subscribedNotifications.ERROR) return;
         ToastManager.addToast({
           title: `Error: ${notification.data?.message} - ${notification.data?.description}`,
-        });
-        break;
-      case HMSNotificationTypes.RECONNECTED:
-        LogRocket.track("Reconnected");
-        ToastManager.addToast({
-          title: (
-            <TextWithIcon Icon={ConnectivityIcon}>
-              You are now connected
-            </TextWithIcon>
-          ),
-        });
-        break;
-      case HMSNotificationTypes.RECONNECTING:
-        LogRocket.track("Reconnecting");
-        ToastManager.addToast({
-          title: (
-            <TextWithIcon Icon={PoorConnectivityIcon}>
-              You are offline for now. while we try to reconnect, please check
-              your internet connection.
-            </TextWithIcon>
-          ),
         });
         break;
       case HMSNotificationTypes.ROLE_UPDATED:
@@ -199,6 +175,7 @@ export function Notifications() {
       {!isHeadless && <TrackBulkUnmuteModal />}
       <TrackNotifications />
       <PeerNotifications />
+      <ReconnectNotifications />
       <AutoplayBlockedModal />
       <InitErrorModal notification={notification} />
     </>
