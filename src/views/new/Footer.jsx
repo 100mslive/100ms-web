@@ -134,6 +134,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <ScreenshareAudio />
         <Playlist type={HMSPlaylistType.audio} />
         <Playlist type={HMSPlaylistType.video} />
+        <VerticalDivider space={4} />
         <MetaActions />
         {FeatureFlags.enableWhiteboard && <ToggleWhiteboard />}
       </Flex>

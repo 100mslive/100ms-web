@@ -12,7 +12,6 @@ import {
   Flex,
   Tooltip,
   Box,
-  VerticalDivider,
 } from "@100mslive/react-ui";
 import { PlaylistItem } from "./PlaylistItem";
 import { AudioPlaylistControls } from "./PlaylistControls";
@@ -104,7 +103,6 @@ export const Playlist = ({ type }) => {
           )}
         </Dropdown.Content>
       </Dropdown.Root>
-      <VerticalDivider space={4} />
     </Fragment>
   );
 };
