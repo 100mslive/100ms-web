@@ -148,7 +148,9 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         <VirtualBackground />
         {FeatureFlags.enableTranscription && <TranscriptionButton />}
         <NoiseSuppression />
-        <VerticalDivider space={4} />
+        {(isAllowedToPublish.audio || isAllowedToPublish.video) && (
+          <VerticalDivider space={4} />
+        )}
         <MoreSettings />
         <Flex
           align="center"
