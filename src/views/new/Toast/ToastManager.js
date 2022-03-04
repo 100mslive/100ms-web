@@ -22,6 +22,9 @@ export const ToastManager = {
   removeListener(cb) {
     this.listeners.delete(cb);
   },
+  isActive(id) {
+    return this.toasts.has(id);
+  },
   onChange() {
     const toasts = Array.from(this.toasts.values());
     this.listeners.forEach(listener => listener(toasts));
