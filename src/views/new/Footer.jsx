@@ -7,6 +7,7 @@ import {
   MusicIcon,
 } from "@100mslive/react-icons";
 import {
+  HMSPlaylistType,
   selectIsAllowedToPublish,
   selectUnreadHMSMessagesCount,
   useHMSStore,
@@ -25,7 +26,7 @@ import { VirtualBackground } from "../components/VirtualBackground";
 import { useMyMetadata } from "../hooks/useMetadata";
 import { ToggleWhiteboard } from "../whiteboard";
 import { MoreSettings } from "./MoreSettings/MoreSettings";
-import { AudioPlaylist } from "./Playlist/AudioPlaylist";
+import { Playlist } from "./Playlist/Playlist";
 import { Screenshare } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
 import { isScreenshareSupported } from "../../common/utils";
@@ -131,7 +132,9 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         }}
       >
         <ScreenshareAudio />
-        <AudioPlaylist />
+        <Playlist type={HMSPlaylistType.audio} />
+        <Playlist type={HMSPlaylistType.video} />
+        <VerticalDivider space={4} />
         <MetaActions />
         {FeatureFlags.enableWhiteboard && <ToggleWhiteboard />}
       </Flex>

@@ -1,5 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { AudioPlayerIcon, CrossIcon } from "@100mslive/react-icons";
+import { HMSPlaylistType } from "@100mslive/react-sdk";
+import {
+  AudioPlayerIcon,
+  CrossIcon,
+  VideoPlayerIcon,
+} from "@100mslive/react-icons";
 import {
   Dropdown,
   IconButton,
@@ -7,21 +12,14 @@ import {
   Flex,
   Tooltip,
   Box,
-  VerticalDivider,
 } from "@100mslive/react-ui";
-import {
-  HMSPlaylistType,
-  selectAudioPlaylist,
-  useHMSActions,
-  useHMSStore,
-} from "@100mslive/react-sdk";
 import { PlaylistItem } from "./PlaylistItem";
-import { PlaylistControls } from "./PlaylistControls";
+import { AudioPlaylistControls } from "./PlaylistControls";
+import { usePlaylist } from "../../hooks/usePlaylist";
 
-export const AudioPlaylist = () => {
-  const playlist = useHMSStore(selectAudioPlaylist.list);
-  const active = useHMSStore(selectAudioPlaylist.selectedItem);
-  const hmsActions = useHMSActions();
+export const Playlist = ({ type }) => {
+  const isAudioPlaylist = type === HMSPlaylistType.audio;
+  const { active, list: playlist, actions } = usePlaylist(type);
   const [open, setOpen] = useState(false);
   const [collapse, setCollapse] = useState(false);
 
@@ -34,9 +32,11 @@ export const AudioPlaylist = () => {
       <Dropdown.Root open={open} onOpenChange={setOpen}>
         <Dropdown.Trigger asChild>
           <IconButton active={!active}>
-            <Tooltip title="Audio Playlist">
+            <Tooltip
+              title={isAudioPlaylist ? "Audio Playlist" : "Video Playlist"}
+            >
               <Box>
-                <AudioPlayerIcon />
+                {isAudioPlaylist ? <AudioPlayerIcon /> : <VideoPlayerIcon />}
               </Box>
             </Tooltip>
           </IconButton>
@@ -61,13 +61,13 @@ export const AudioPlaylist = () => {
             }}
           >
             <Text variant="md" css={{ flex: "1 1 0" }}>
-              Audio Player
+              {isAudioPlaylist ? "Audio Player" : "Video Playlist"}
             </Text>
             <IconButton
               css={{ mr: "-$4" }}
-              onClick={() => {
+              onClick={async () => {
                 if (active) {
-                  hmsActions.audioPlaylist.stop();
+                  await actions.stop();
                 }
                 setOpen(false);
                 setCollapse(false);
@@ -83,22 +83,26 @@ export const AudioPlaylist = () => {
                   <PlaylistItem
                     key={playlistItem.id}
                     {...playlistItem}
-                    onClick={e => {
+                    onClick={async e => {
                       e.preventDefault();
-                      hmsActions.audioPlaylist.play(playlistItem.id);
+                      await actions.play(playlistItem.id);
+                      // Close the dropdown list for videoplaylist
+                      if (!isAudioPlaylist) {
+                        setOpen(false);
+                      }
                     }}
                   />
                 );
               })}
             </Box>
           )}
-          <PlaylistControls
-            type={HMSPlaylistType.audio}
-            onToggle={() => setCollapse(value => !value)}
-          />
+          {isAudioPlaylist && (
+            <AudioPlaylistControls
+              onToggle={() => setCollapse(value => !value)}
+            />
+          )}
         </Dropdown.Content>
       </Dropdown.Root>
-      <VerticalDivider space={4} />
     </Fragment>
   );
 };
