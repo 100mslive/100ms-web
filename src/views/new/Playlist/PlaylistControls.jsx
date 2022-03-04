@@ -163,10 +163,6 @@ export const AudioPlaylistControls = ({ onToggle }) => {
 export const VideoPlaylistControls = ({ children }) => {
   const { active } = usePlaylist(HMSPlaylistType.video);
 
-  if (!active) {
-    return null;
-  }
-
   return (
     <Box
       css={{
@@ -177,10 +173,12 @@ export const VideoPlaylistControls = ({ children }) => {
         w: "100%",
       }}
     >
-      <Progress type={HMSPlaylistType.video} duration={active.duration} />
-      <Flex align="center">
+      {active && (
+        <Progress type={HMSPlaylistType.video} duration={active.duration} />
+      )}
+      <Flex align="center" justify="between">
         <VolumeControl />
-        <Controls css={{ flex: "1 1 0" }} />
+        {active && <Controls css={{ flex: "1 1 0" }} />}
         {children}
       </Flex>
     </Box>
