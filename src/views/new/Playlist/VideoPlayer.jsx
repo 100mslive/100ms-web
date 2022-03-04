@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useFullscreen, useToggle } from "react-use";
+import screenfull from "screenfull";
 import {
   selectLocalPeerID,
   selectVideoPlaylistVideoTrackByPeerID,
@@ -38,17 +39,19 @@ export const VideoPlayer = ({ peerId }) => {
         </IconButton>
       )}
       <VideoPlaylistControls>
-        <IconButton
-          onClick={() => toggle()}
-          css={{
-            color: "$white",
-            height: "max-content",
-            alignSelf: "center",
-            cursor: "pointer",
-          }}
-        >
-          {isFullscreen ? <ShrinkIcon /> : <ExpandIcon />}
-        </IconButton>
+        {screenfull.enabled && (
+          <IconButton
+            onClick={() => toggle()}
+            css={{
+              color: "$white",
+              height: "max-content",
+              alignSelf: "center",
+              cursor: "pointer",
+            }}
+          >
+            {isFullscreen ? <ShrinkIcon /> : <ExpandIcon />}
+          </IconButton>
+        )}
       </VideoPlaylistControls>
     </Box>
   );
