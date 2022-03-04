@@ -1,20 +1,27 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import {
   HMSNotificationTypes,
   useHMSNotifications,
 } from "@100mslive/react-sdk";
-import { AppContext } from "../../../store/AppContext";
 import { ToastManager } from "../../new/Toast/ToastManager";
 import { TextWithIcon } from "./TextWithIcon";
 import { PersonIcon } from "@100mslive/react-icons";
+import {
+  UserPreferencesKeys,
+  useUserPreferences,
+} from "../../hooks/useUserPreferences";
+
+const notificationTypes = [
+  HMSNotificationTypes.PEER_LIST,
+  HMSNotificationTypes.PEER_JOINED,
+  HMSNotificationTypes.PEER_LEFT,
+];
 
 export const PeerNotifications = () => {
-  const notification = useHMSNotifications([
-    HMSNotificationTypes.PEER_LIST,
-    HMSNotificationTypes.PEER_JOINED,
-    HMSNotificationTypes.PEER_LEFT,
-  ]);
-  const { subscribedNotifications } = useContext(AppContext);
+  const notification = useHMSNotifications(notificationTypes);
+  const [{ subscribedNotifications }] = useUserPreferences(
+    UserPreferencesKeys.UI_SETTINGS
+  );
   useEffect(() => {
     if (!notification) {
       return;
@@ -40,10 +47,11 @@ export const PeerNotifications = () => {
       default:
         break;
     }
-    toastText &&
+    if (toastText) {
       ToastManager.addToast({
         title: <TextWithIcon Icon={PersonIcon}>{toastText}</TextWithIcon>,
       });
+    }
   }, [
     notification,
     subscribedNotifications.PEER_JOINED,
