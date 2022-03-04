@@ -5,7 +5,6 @@ export const ToastManager = {
     const id = Date.now();
     this.toasts.set(id, { id, ...toast });
     this.onChange();
-    console.error("addToast:", id);
     return id;
   },
   removeToast(id) {
