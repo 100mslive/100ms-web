@@ -10,7 +10,7 @@ import {
   selectIsConnectedToRoom,
 } from "@100mslive/react-sdk";
 import { useContext, useEffect, useRef, useState } from "react";
-import { AppContext } from "../store/AppContext";
+import { AppContext } from "../components/context/AppContext";
 
 /**
  * Hook to execute a callback when alone in room(after a certain 5d of time)
