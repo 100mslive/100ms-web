@@ -4,7 +4,7 @@ import { useSearchParam } from "react-use";
 import { v4 } from "uuid";
 import { Box, Loading } from "@100mslive/react-ui";
 import Preview from "./Preview";
-import { Header } from "./Header/Header";
+import { Header } from "./Header";
 import { ErrorDialog } from "../primitives/DialogContent";
 import { AppContext } from "./context/AppContext";
 import { SKIP_PREVIEW } from "../common/constants";
