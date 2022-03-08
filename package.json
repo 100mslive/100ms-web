@@ -37,7 +37,7 @@
     "worker-timers": "^7.0.40"
   },
   "scripts": {
-    "prebuild": "rm -rf build",
+    "prebuild": "rm -rf build && rm -rf .cache",
     "build": "NODE_ENV=production webpack",
     "start": "webpack serve",
     "esbuild": "node ../../scripts/build-webapp",
