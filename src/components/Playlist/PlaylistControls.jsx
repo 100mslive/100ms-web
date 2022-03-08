@@ -169,7 +169,6 @@ export const VideoPlaylistControls = ({ children }) => {
       css={{
         p: "$8",
         mt: "-$24",
-        boxShadow: "$sm",
         w: "100%",
         zIndex: 1,
         "@lg": {
