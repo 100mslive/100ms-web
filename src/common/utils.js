@@ -1,4 +1,4 @@
-import { hmsToast } from "../components/notifications/hms-toast";
+import { hmsToast } from "../components/Notifications/hms-toast";
 import screenfull from "screenfull";
 
 export function shadeColor(color, percent) {
