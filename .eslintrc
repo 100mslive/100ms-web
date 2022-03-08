@@ -1,5 +1,10 @@
 {
-  "extends": ["eslint:recommended", "react-app", "react-app/jest"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "react-app",
+    "react-app/jest"
+  ],
   "plugins": ["prettier"],
   "rules": {
     "react/jsx-curly-brace-presence": [
@@ -21,5 +26,12 @@
         "endOfLine": "auto" // This is need to handle different end-of-line in windows/mac
       }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx"]
+      }
+    }
   }
 }

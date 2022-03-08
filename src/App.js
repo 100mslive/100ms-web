@@ -10,25 +10,26 @@ import {
   HMSThemeProvider,
   PostLeaveDisplay,
 } from "@100mslive/hms-video-react";
-import PreviewScreen from "./pages/PreviewScreen";
-import { Conference } from "./pages/conference.jsx";
-import ErrorPage from "./pages/ErrorPage";
-import { AppContextProvider } from "./store/AppContext.js";
+import {
+  HMSRoomProvider as ReactRoomProvider,
+  HMSReactiveStore,
+} from "@100mslive/react-sdk";
+import { HMSThemeProvider as ReactUIProvider, Box } from "@100mslive/react-ui";
+import PreviewScreen from "./components/PreviewScreen";
+import { Conference } from "./components/conference";
+import ErrorPage from "./components/ErrorPage";
+import { AppContextProvider } from "./components/context/AppContext.js";
+import { hmsToast } from "./components/notifications/hms-toast";
+import { Notifications } from "./components/notifications/Notifications";
+import { Confetti } from "./plugins/confetti";
+import { ToastContainer } from "./components/Toast/ToastContainer";
+import { FeatureFlags } from "./services/FeatureFlags";
 import { shadeColor } from "./common/utils";
 import {
   getUserToken as defaultGetUserToken,
   getBackendEndpoint,
 } from "./services/tokenService";
-import { hmsToast } from "./views/components/notifications/hms-toast";
-import { Notifications } from "./views/components/notifications/Notifications";
-import {
-  HMSRoomProvider as ReactRoomProvider,
-  HMSReactiveStore,
-} from "@100mslive/react-sdk";
-import { FeatureFlags } from "./store/FeatureFlags";
-import { HMSThemeProvider as ReactUIProvider, Box } from "@100mslive/react-ui";
 import "./index.css";
-import { Confetti } from "../plugins/confetti";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -177,6 +178,7 @@ export function EdtechComponent({
 function AppRoutes({ getUserToken }) {
   return (
     <Router>
+      <ToastContainer />
       <Notifications />
       <Confetti />
       <Switch>

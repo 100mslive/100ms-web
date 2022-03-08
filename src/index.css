@@ -106,14 +106,3 @@ input.custom-toggle:checked + label.custom-toggle-label:after {
     transform: translate(70%, -50%);
     background: #2f80ff;
 }
-
-.transcribe {
-  text-align: center;
-  color: white;
-  font-weight: 500;
-  bottom: 120px;
-  position: fixed;
-  width: 100%;
-  font-family: sans-serif;
-  font-size: 20px;
-}
