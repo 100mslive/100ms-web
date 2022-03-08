@@ -10,7 +10,7 @@ import {
   DialogInput,
   DialogRow,
 } from "../../primitives/DialogContent";
-import { hmsToast } from "../Notifications/hms-toast";
+import { hmsToast } from "../Notifications";
 import {
   useUserPreferences,
   UserPreferencesKeys,

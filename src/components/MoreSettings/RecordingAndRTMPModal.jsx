@@ -13,7 +13,7 @@ import {
   DialogInput,
   DialogRow,
 } from "../../primitives/DialogContent";
-import { hmsToast } from "../Notifications/hms-toast";
+import { hmsToast } from "../Notifications";
 import { SKIP_PREVIEW } from "../../common/constants";
 
 const defaultMeetingUrl =

@@ -8,7 +8,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { Box, Flex } from "@100mslive/react-ui";
-import { Header } from "./Header/Header";
+import { Header } from "./Header";
 import { Footer } from "./Footer";
 import FullPageProgress from "./FullPageSpinner";
 import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
