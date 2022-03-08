@@ -55,8 +55,8 @@ const Logo = () => {
     <LogoImg
       src={
         logo || isDark
-          ? require("../../images/logo-light.svg")
-          : require("../../images/logo-dark.svg")
+          ? require("../images/logo-light.svg")
+          : require("../images/logo-dark.svg")
       }
       alt="Brand Logo"
     />
