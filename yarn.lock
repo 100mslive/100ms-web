@@ -42,12 +42,12 @@
     reselect "4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.91-alpha.1":
-  version "0.2.91-alpha.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.91-alpha.1.tgz#cff5608b96f773ccf776fdfc29b33dedad51e350"
-  integrity sha512-bZ8CCpeD99rd3tneiC7f8vOjFw2r+mk5Vb7QtP76fjwDMH6QNsEunVHuHF4v5lVH81mT3GiqgtoLGQ90tB4/EQ==
+"@100mslive/hms-video-store@0.2.91-alpha.2":
+  version "0.2.91-alpha.2"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.91-alpha.2.tgz#815e9ca4d25d435bc2946488230ddba85d0326ec"
+  integrity sha512-UvM2sOFLJYk8IOjmq6NPnkevJCEzh1YgG/14kcIYw+6esL5TnVegAbTvmgg2NWq6j6ZpqAsORDc4QYjiCSNEbQ==
   dependencies:
-    "@100mslive/hms-video" "0.1.45-alpha.1"
+    "@100mslive/hms-video" "0.1.45-alpha.2"
     eventemitter2 "^6.4.5"
     immer "^9.0.6"
     reselect "4.0.0"
@@ -64,10 +64,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-video@0.1.45-alpha.1":
-  version "0.1.45-alpha.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.45-alpha.1.tgz#18feac5ba1e9cf3733b26d7090a14f9028e4585f"
-  integrity sha512-uoX4SqWLjEWF6WAnkxBKFGzhmJuHtjKIirL0cv12sCUa4N3WJ/zgJuGfIyXJbw/Iur1QSJNB/a7PAXfSP9QlaQ==
+"@100mslive/hms-video@0.1.45-alpha.2":
+  version "0.1.45-alpha.2"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.45-alpha.2.tgz#0b520a98881a034370d87aaf1f4471a0780fe37a"
+  integrity sha512-oB/Oydpr1LPZvQLfF+mZkMzFblDxwFz2eTulAKD5nBd/5U0eT8nVXGr2KqXM+czJ57AqzazAF9d9/3Vetcz8kw==
   dependencies:
     eventemitter2 "^6.4.5"
     sdp-transform "^2.14.1"
@@ -92,10 +92,10 @@
   resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.7.tgz#033923665563645c102b534d15c02e5b8b688664"
   integrity sha512-VOW11tA7Ij/RUBYMaLiBKDwckXOq8NIM9j57eUsLW6iFpIqGq038mkgxppn3qDFkQxo9uyZlPSFKg6DTB+SHFA==
 
-"@100mslive/react-icons@0.0.8-alpha.1":
-  version "0.0.8-alpha.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.8-alpha.1.tgz#48116dde3b9ffd6367dbb09a54d52a933c0b2904"
-  integrity sha512-Vtf568ckXQmKjiURxqBCPxYQy5wRzl9YPNFs6AougTqcssY3sagCwT9rUj2Fft0yC7hy/pjqeawWx2HsTUYEaA==
+"@100mslive/react-icons@0.0.8-alpha.2":
+  version "0.0.8-alpha.2"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.8-alpha.2.tgz#f147495541209b73be225b156067c69f2d981bb5"
+  integrity sha512-imYDiDBozjeVrFdrtskAT1rBsLe38te5toDw1ehWpowJWckOcRwWN7DoPua9ATBQO1e5QhFKXxVQ3jTgrtjWaA==
 
 "@100mslive/react-sdk@0.0.7":
   version "0.0.7"
@@ -107,12 +107,12 @@
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-sdk@0.0.8-alpha.1":
-  version "0.0.8-alpha.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.8-alpha.1.tgz#fed4d7f72555da6dd8faa7ab86f4a47a337f980f"
-  integrity sha512-6wTxARjemDELSMWskgoLyUBaOpH0b1lecrdBE9ACbHbrShDy3eGioUmlKfHL/LTuns0UXXrN7eJ6HTURMVUJ6w==
+"@100mslive/react-sdk@0.0.8-alpha.2":
+  version "0.0.8-alpha.2"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.8-alpha.2.tgz#c6dc2c33de3be336c022f2f37f691738931bfa80"
+  integrity sha512-mSW4Gtlf+Vw6LCKk4ROhsoINLD9GhqJwq5xQ05/wd02nFtqlthVvWGspmhLX5F2GLnAoYxOqKurg+6g04FBRQA==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.91-alpha.1"
+    "@100mslive/hms-video-store" "0.2.91-alpha.2"
     react-intersection-observer "^8.33.1"
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
@@ -134,19 +134,20 @@
     "@stitches/react" "^1.2.5"
     lodash.merge "^4.6.2"
 
-"@100mslive/react-ui@0.0.8-alpha.1":
-  version "0.0.8-alpha.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.8-alpha.1.tgz#e26d176950006ebb183a6ef2b0463ae8b13d0699"
-  integrity sha512-woiJ1HoE4eDO0oj8s5bApSpCXTzITLOhOa8fuaaAJRmjtRi2F6EB6J9NZcbB76DYq8uSlMYRHM6ukEkN2AENoA==
+"@100mslive/react-ui@0.0.8-alpha.2":
+  version "0.0.8-alpha.2"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.8-alpha.2.tgz#8ca4a2bd5d44d13d8b538340834843071ce2a48b"
+  integrity sha512-L7Gqv9LNR+uZtOuuBbsqQmeEchxRyZKdCxgEFLcHo69Z5xG+0zeCyJkA3pndibPfB85wdtIlpo+PaYn/GlRzqQ==
   dependencies:
-    "@100mslive/react-icons" "0.0.8-alpha.1"
-    "@100mslive/react-sdk" "0.0.8-alpha.1"
+    "@100mslive/react-icons" "0.0.8-alpha.2"
+    "@100mslive/react-sdk" "0.0.8-alpha.2"
     "@radix-ui/react-checkbox" "^0.1.4"
     "@radix-ui/react-dialog" "^0.1.1"
     "@radix-ui/react-dropdown-menu" "^0.1.4"
     "@radix-ui/react-popover" "^0.1.4"
     "@radix-ui/react-slider" "^0.1.1"
     "@radix-ui/react-switch" "^0.1.1"
+    "@radix-ui/react-toast" "^0.1.1"
     "@radix-ui/react-tooltip" "^0.1.1"
     "@stitches/react" "^1.2.5"
     lodash.merge "^4.6.2"
@@ -1679,6 +1680,24 @@
     "@radix-ui/react-use-controllable-state" "0.1.0"
     "@radix-ui/react-use-previous" "0.1.1"
     "@radix-ui/react-use-size" "0.1.1"
+
+"@radix-ui/react-toast@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-toast/-/react-toast-0.1.1.tgz#d544e796b307e56f1298e40f356f468680958e93"
+  integrity sha512-9JWC4mPP78OE6muDrpaPf/71dIeozppdcnik1IvsjTxZpDnt9PbTtQj94DdWjlCphbv3S5faD3KL0GOpqKBpTQ==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/primitive" "0.1.0"
+    "@radix-ui/react-compose-refs" "0.1.0"
+    "@radix-ui/react-context" "0.1.1"
+    "@radix-ui/react-dismissable-layer" "0.1.5"
+    "@radix-ui/react-portal" "0.1.4"
+    "@radix-ui/react-presence" "0.1.2"
+    "@radix-ui/react-primitive" "0.1.4"
+    "@radix-ui/react-use-callback-ref" "0.1.0"
+    "@radix-ui/react-use-controllable-state" "0.1.0"
+    "@radix-ui/react-use-layout-effect" "0.1.0"
+    "@radix-ui/react-visually-hidden" "0.1.4"
 
 "@radix-ui/react-tooltip@^0.1.1", "@radix-ui/react-tooltip@^0.1.6":
   version "0.1.7"
