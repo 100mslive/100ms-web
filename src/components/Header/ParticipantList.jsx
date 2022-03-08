@@ -20,7 +20,7 @@ import {
   useHMSStore,
   useParticipantList,
 } from "@100mslive/react-sdk";
-import { RoleChangeModal } from "./RoleChangeModal";
+import { RoleChangeModal } from "../RoleChangeModal";
 
 export const ParticipantList = () => {
   const { roles, participantsByRoles, peerCount, isConnected } =

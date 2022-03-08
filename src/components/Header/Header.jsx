@@ -8,9 +8,9 @@ import {
 } from "@100mslive/react-sdk";
 import { ParticipantList } from "./ParticipantList";
 import { AdditionalRoomState } from "./AdditionalRoomState";
-import PIPComponent from "./PIP/PIPComponent";
-import { AppContext } from "./context/AppContext";
-import { DEFAULT_HLS_VIEWER_ROLE } from "../common/constants";
+import PIPComponent from "../PIP/PIPComponent";
+import { AppContext } from "../context/AppContext";
+import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
