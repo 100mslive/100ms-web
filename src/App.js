@@ -5,11 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import {
-  HMSRoomProvider,
-  HMSThemeProvider,
-  PostLeaveDisplay,
-} from "@100mslive/hms-video-react";
+import { HMSRoomProvider, HMSThemeProvider } from "@100mslive/hms-video-react";
 import {
   HMSRoomProvider as ReactRoomProvider,
   HMSReactiveStore,
@@ -29,6 +25,7 @@ import {
   getBackendEndpoint,
 } from "./services/tokenService";
 import "./index.css";
+import { PostLeave } from "./components/PostLeave";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -200,24 +197,7 @@ function AppRoutes({ getUserToken }) {
         <Route path="/meeting/:roomId/:role?">
           <Conference />
         </Route>
-        <Route
-          path="/leave/:roomId/:role?"
-          render={({ history, match }) => (
-            <PostLeaveDisplay
-              goToDashboardOnClick={() => {
-                window.open("https://dashboard.100ms.live/", "_blank");
-              }}
-              joinRoomOnClick={() => {
-                let previewUrl = "/preview/" + match.params.roomId;
-                if (match.params.role) previewUrl += "/" + match.params.role;
-                history.push(previewUrl);
-              }}
-              getFeedbackOnClick={setShowModal => {
-                setShowModal(true);
-              }}
-            />
-          )}
-        />
+        <Route path="/leave/:roomId/:role?" component={PostLeave} />
         <Route
           path="/:roomId/:role?"
           render={({ match }) => {
