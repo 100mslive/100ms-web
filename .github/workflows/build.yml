@@ -1,14 +1,11 @@
-name: test-build
+name: Build
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
 
 jobs:
-  lint-test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +13,9 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
+
       - name: Install packages
         run: yarn install
-      - name: Test
-        run: yarn test --watchAll=false
+
+      - name: Build
+        run: yarn build
