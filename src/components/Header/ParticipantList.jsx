@@ -46,47 +46,51 @@ export const ParticipantList = () => {
             <Tooltip title="Participant List">
               <Flex>
                 <ParticipantCount peerCount={peerCount} />
-                <Box
-                  css={{
-                    ml: "$2",
-                    "@lg": { display: "none" },
-                    color: "$textDisabled",
-                  }}
-                >
-                  {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                </Box>
+                {roles.length > 0 && (
+                  <Box
+                    css={{
+                      ml: "$2",
+                      "@lg": { display: "none" },
+                      color: "$textDisabled",
+                    }}
+                  >
+                    {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                  </Box>
+                )}
               </Flex>
             </Tooltip>
           </Flex>
         </Dropdown.Trigger>
-        <Dropdown.Content
-          sideOffset={5}
-          align="end"
-          css={{ height: "auto", maxHeight: "$96" }}
-        >
-          {roles.map(role => {
-            const participants = participantsByRoles[role];
-            return (
-              <Dropdown.Group
-                css={{
-                  h: "auto",
-                  flexDirection: "column",
-                  flexWrap: "wrap",
-                  alignItems: "flex-start",
-                }}
-                key={role}
-              >
-                <ParticipantListInARole
-                  roleName={role}
-                  participants={participants}
-                  canChangeRole={canChangeRole}
-                  showActions={isConnected}
-                  onParticipantAction={setSelectedPeerId}
-                />
-              </Dropdown.Group>
-            );
-          })}
-        </Dropdown.Content>
+        {roles.length > 0 && (
+          <Dropdown.Content
+            sideOffset={5}
+            align="end"
+            css={{ height: "auto", maxHeight: "$96" }}
+          >
+            {roles.map(role => {
+              const participants = participantsByRoles[role];
+              return (
+                <Dropdown.Group
+                  css={{
+                    h: "auto",
+                    flexDirection: "column",
+                    flexWrap: "wrap",
+                    alignItems: "flex-start",
+                  }}
+                  key={role}
+                >
+                  <ParticipantListInARole
+                    roleName={role}
+                    participants={participants}
+                    canChangeRole={canChangeRole}
+                    showActions={isConnected}
+                    onParticipantAction={setSelectedPeerId}
+                  />
+                </Dropdown.Group>
+              );
+            })}
+          </Dropdown.Content>
+        )}
       </Dropdown.Root>
       {selectedPeerId && (
         <RoleChangeModal
