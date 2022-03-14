@@ -7,13 +7,12 @@
   resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.1.7-alpha.tgz#d69a48e6b4c674dcec3ec26e0bac4719c7d1608b"
   integrity sha512-x8sBSWb1Xi19CiZR6pX6yS/D0toLj6IAAHGIErq814IrYRXSNwqTIoAqajM35MGhW0TDejtqY3J0IJFIQ2blKg==
 
-"@100mslive/hms-video-react@0.3.120":
-  version "0.3.120"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.120.tgz#bb79d06eeae4e8d47be4a754ad3dee5d891c32c6"
-  integrity sha512-HQ45aZfzJC3zrCd5yv8YxLffk9ODpn98oriO5Upedp7CPppbQ5wVpldnn+G3FvR3M02uZQNbYX/lCtZ8LhgH6A==
+"@100mslive/hms-video-react@0.3.121-alpha.0":
+  version "0.3.121-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-react/-/hms-video-react-0.3.121-alpha.0.tgz#dcf00467e8fc17da1afb145d404362bd6ee85e48"
+  integrity sha512-BO0A5w4KSnsr7f/Q9OLR/3tz2NscfrW9zEYtqRclpPt+TMqqUaem9MxfRye+m+6u7mm48bdH2mcbKv8J7ExDEA==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.90"
-    "@100mslive/react-ui" "0.0.7"
+    "@100mslive/hms-video-store" "0.2.91-alpha.2"
     "@material-ui/core" "^4.11.3"
     "@twind/aspect-ratio" "^0.1.4"
     autoprefixer "^9.8.6"
@@ -31,7 +30,7 @@
     twind "^0.16.12"
     zustand "3.5.7"
 
-"@100mslive/hms-video-store@0.2.90", "@100mslive/hms-video-store@0.2.91-alpha.2":
+"@100mslive/hms-video-store@0.2.91-alpha.2":
   version "0.2.91-alpha.2"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.91-alpha.2.tgz#815e9ca4d25d435bc2946488230ddba85d0326ec"
   integrity sha512-UvM2sOFLJYk8IOjmq6NPnkevJCEzh1YgG/14kcIYw+6esL5TnVegAbTvmgg2NWq6j6ZpqAsORDc4QYjiCSNEbQ==
@@ -80,7 +79,7 @@
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.0.7", "@100mslive/react-ui@0.0.8-alpha.2":
+"@100mslive/react-ui@0.0.8-alpha.2":
   version "0.0.8-alpha.2"
   resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.8-alpha.2.tgz#8ca4a2bd5d44d13d8b538340834843071ce2a48b"
   integrity sha512-L7Gqv9LNR+uZtOuuBbsqQmeEchxRyZKdCxgEFLcHo69Z5xG+0zeCyJkA3pndibPfB85wdtIlpo+PaYn/GlRzqQ==
