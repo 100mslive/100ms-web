@@ -49,6 +49,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
             <VideoTileStats
               audioTrackID={peer?.audioTrack}
               videoTrackID={peer?.videoTrack}
+              peerID={peer?.id}
             />
           ) : null}
 

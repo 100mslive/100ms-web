@@ -19,10 +19,10 @@ import { FullScreenItem } from "./FullScreenItem";
 import { UISettings } from "./UISettings";
 import Settings from "../Settings";
 import { RoleChangeModal } from "../RoleChangeModal";
-import { ChangeName } from "../ChangeName";
+import { ChangeNameModal } from "./ChangeNameModal";
 import { StatsForNerds } from "../StatsForNerds";
-import { RecordingAndRTMPModal } from "../../components/RecordingAndRTMPModal";
-import { MuteAll } from "../MuteAll";
+import { MuteAllModal } from "./MuteAllModal";
+import { RecordingAndRTMPModal } from "./RecordingAndRTMPModal";
 import { FeatureFlags } from "../../services/FeatureFlags";
 
 const hoverStyles = {
@@ -132,9 +132,9 @@ export const MoreSettings = () => {
           )}
         </Dropdown.Content>
       </Dropdown.Root>
-      {showMuteAll && <MuteAll onOpenChange={setShowMuteAll} />}
+      {showMuteAll && <MuteAllModal onOpenChange={setShowMuteAll} />}
       {showChangeNameModal && (
-        <ChangeName onOpenChange={setShowChangeNameModal} />
+        <ChangeNameModal onOpenChange={setShowChangeNameModal} />
       )}
       {showRecordingModal && (
         <RecordingAndRTMPModal onOpenChange={setShowRecordingModal} />

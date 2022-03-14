@@ -1,12 +1,5 @@
 import React, { useContext } from "react";
-import {
-  Flex,
-  Text,
-  textEllipsis,
-  Box,
-  styled,
-  useTheme,
-} from "@100mslive/react-ui";
+import { Flex, Text, textEllipsis, Box, styled } from "@100mslive/react-ui";
 import { SpeakerIcon } from "@100mslive/react-icons";
 import {
   useHMSStore,
@@ -15,9 +8,9 @@ import {
 } from "@100mslive/react-sdk";
 import { ParticipantList } from "./ParticipantList";
 import { AdditionalRoomState } from "./AdditionalRoomState";
-import PIPComponent from "./PIP/PIPComponent";
-import { AppContext } from "./context/AppContext";
-import { DEFAULT_HLS_VIEWER_ROLE } from "../common/constants";
+import PIPComponent from "../PIP/PIPComponent";
+import { AppContext } from "../context/AppContext";
+import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
 
 const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -50,17 +43,7 @@ const LogoImg = styled("img", {
 
 const Logo = () => {
   const { logo } = useContext(AppContext);
-  const isDark = useTheme().themeType === "dark";
-  return (
-    <LogoImg
-      src={
-        logo || isDark
-          ? require("../images/logo-light.svg")
-          : require("../images/logo-dark.svg")
-      }
-      alt="Brand Logo"
-    />
-  );
+  return <LogoImg src={logo} alt="Brand Logo" />;
 };
 
 export const Header = ({ isPreview }) => {

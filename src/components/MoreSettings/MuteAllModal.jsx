@@ -17,7 +17,7 @@ import {
   DialogContent,
   DialogRow,
   DialogSelect,
-} from "../primitives/DialogContent";
+} from "../../primitives/DialogContent";
 
 const trackSourceOptions = [
   { label: "All Track Sources", value: "" },
@@ -31,7 +31,7 @@ const trackTypeOptions = [
   { label: "audio", value: "audio" },
   { label: "video", value: "video" },
 ];
-export const MuteAll = ({ onOpenChange }) => {
+export const MuteAllModal = ({ onOpenChange }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const hmsActions = useHMSActions();
   const [enabled, setEnabled] = useState(false);

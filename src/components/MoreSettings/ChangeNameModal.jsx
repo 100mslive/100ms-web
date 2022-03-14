@@ -9,15 +9,15 @@ import {
   DialogContent,
   DialogInput,
   DialogRow,
-} from "../primitives/DialogContent";
-import { hmsToast } from "./notifications/hms-toast";
+} from "../../primitives/DialogContent";
+import { hmsToast } from "../Notifications";
 import {
   useUserPreferences,
   UserPreferencesKeys,
-} from "./hooks/useUserPreferences";
+} from "../hooks/useUserPreferences";
 import { TextboxIcon } from "@100mslive/react-icons";
 
-export const ChangeName = ({ onOpenChange }) => {
+export const ChangeNameModal = ({ onOpenChange }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW
   );

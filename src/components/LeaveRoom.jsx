@@ -30,13 +30,11 @@ export const LeaveRoom = () => {
   };
 
   const leaveRoom = () => {
-    hmsActions.leave();
-    redirectToLeavePage();
+    hmsActions.leave().then(redirectToLeavePage);
   };
 
   const endRoom = () => {
-    hmsActions.endRoom(lockRoom, "End Room");
-    redirectToLeavePage();
+    hmsActions.endRoom(lockRoom, "End Room").then(redirectToLeavePage);
   };
   return (
     <Fragment>

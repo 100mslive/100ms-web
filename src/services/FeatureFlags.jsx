@@ -6,6 +6,7 @@ export class FeatureFlags {
   static enableStatsForNerds =
     process.env.REACT_APP_ENABLE_STATS_FOR_NERDS === "true";
   static enableWhiteboard =
+    process.env.REACT_APP_ENABLE_WHITEBOARD &&
     process.env.REACT_APP_PUSHER_APP_KEY &&
     process.env.REACT_APP_PUSHER_AUTHENDPOINT;
 

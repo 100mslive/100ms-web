@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import { useMedia } from "react-use";
-import { FirstPersonDisplay } from "@100mslive/hms-video-react";
 import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
+import { FirstPersonDisplay } from "./FirstPersonDisplay";
 import { ChatView } from "./chatView";
-import { chatStyle } from "../common/utils";
 import VideoList from "./VideoList";
+import { chatStyle } from "../common/utils";
 
 const MAX_TILES_FOR_MOBILE = 4;
 

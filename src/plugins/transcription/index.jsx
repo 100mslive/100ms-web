@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@100mslive/hms-video-react";
+import Pusher from "pusher-js";
 import RecordRTC, { StereoAudioRecorder } from "recordrtc";
 import { useHMSStore, selectRoom } from "@100mslive/react-sdk";
-import Pusher from "pusher-js";
-import { Box, Tooltip } from "@100mslive/react-ui";
+import { Box, Tooltip, IconButton } from "@100mslive/react-ui";
 import { FeatureFlags } from "../../services/FeatureFlags";
 
 const pusher =
@@ -56,11 +55,8 @@ export function TranscriptionButton() {
       >
         {transcript}
       </Box>
-      <Button
-        iconOnly
-        variant="no-fill"
-        shape="rectangle"
-        active={isTranscriptionEnabled}
+      <IconButton
+        active={!isTranscriptionEnabled}
         onClick={enableTranscription}
         key="transcribe"
       >
@@ -71,7 +67,7 @@ export function TranscriptionButton() {
             <b>T</b>
           </span>
         </Tooltip>
-      </Button>
+      </IconButton>
     </>
   );
 }
