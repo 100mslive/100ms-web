@@ -1,5 +1,5 @@
 // @ts-check
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Avatar,
   StyledVideoTile,
@@ -22,10 +22,12 @@ import {
 } from "@100mslive/react-icons";
 import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
+import { AppContext } from "./context/AppContext";
 
 const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
   const track = useHMSStore(selectVideoTrackByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
+  const { isAudioOnly } = useContext(AppContext);
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const [isMouseHovered, setIsMouseHovered] = useState(false);
@@ -35,6 +37,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
   const isHandRaised = metaData?.isHandRaised || false;
   const isBRB = metaData?.isBRBOn || false;
   const label = getVideoTileLabel(peer, track);
+
   return (
     <StyledVideoTile.Root css={{ width, height }}>
       {peer ? (
@@ -52,14 +55,14 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
             />
           ) : null}
 
-          {track ? (
+          {track && !isAudioOnly ? (
             <Video
               trackId={track?.id}
               mirror={peer?.isLocal && track?.source === "regular"}
               degraded={isVideoDegraded}
             />
           ) : null}
-          {isVideoMuted || isVideoDegraded ? (
+          {isVideoMuted || isVideoDegraded || isAudioOnly ? (
             <Avatar name={peer?.name || ""} />
           ) : null}
           <StyledVideoTile.Info>{label}</StyledVideoTile.Info>

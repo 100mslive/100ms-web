@@ -74,6 +74,7 @@ const AppContextProvider = ({
 
   const [state, setState] = useState({
     isHeadless: false,
+    isAudioOnly: false,
     maxTileCount: uiSettings.maxTileCount,
     localAppPolicyConfig: {},
     subscribedNotifications: uiSettings.subscribedNotifications || {},
@@ -149,6 +150,13 @@ const AppContextProvider = ({
   const deepSetIsHeadLess = isHeadless =>
     setState(prevState => ({ ...prevState, isHeadless: isHeadless }));
 
+  const deepToggleIsAudioOnly = () => {
+    setState(prevState => ({
+      ...prevState,
+      isAudioOnly: !prevState.isAudioOnly,
+    }));
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -172,6 +180,8 @@ const AppContextProvider = ({
         logo,
         isHeadless: state.isHeadless,
         setIsHeadless: deepSetIsHeadLess,
+        isAudioOnly: state.isAudioOnly,
+        toggleIsAudioOnly: deepToggleIsAudioOnly,
       }}
     >
       {children}

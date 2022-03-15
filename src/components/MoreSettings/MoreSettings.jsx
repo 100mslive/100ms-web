@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import {
   GridIcon,
   HamburgerMenuIcon,
@@ -7,6 +7,8 @@ import {
   RecordIcon,
   SettingIcon,
   TextboxIcon,
+  VideoOffIcon,
+  VideoOnIcon,
 } from "@100mslive/react-icons";
 import {
   selectLocalPeerID,
@@ -24,6 +26,7 @@ import { StatsForNerds } from "../StatsForNerds";
 import { RecordingAndRTMPModal } from "../../components/RecordingAndRTMPModal";
 import { MuteAll } from "../MuteAll";
 import { FeatureFlags } from "../../services/FeatureFlags";
+import { AppContext } from "../context/AppContext";
 
 const hoverStyles = {
   "&:hover": {
@@ -38,6 +41,7 @@ const hoverStyles = {
 export const MoreSettings = () => {
   const permissions = useHMSStore(selectPermissions);
   const localPeerId = useHMSStore(selectLocalPeerID);
+  const { isAudioOnly, toggleIsAudioOnly } = useContext(AppContext);
   const [open, setOpen] = useState(false);
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
   const [showRecordingModal, setShowRecordingModal] = useState(false);
@@ -89,6 +93,12 @@ export const MoreSettings = () => {
             </Dropdown.Item>
           )}
           <FullScreenItem hoverStyles={hoverStyles} />
+          <Dropdown.Item onClick={() => toggleIsAudioOnly()} css={hoverStyles}>
+            {isAudioOnly ? <VideoOffIcon /> : <VideoOnIcon />}
+            <Text variant="sm" css={{ ml: "$4" }}>
+              {`${!isAudioOnly ? 'Enable' : 'Disable'} Audio Only Mode`}
+            </Text>
+          </Dropdown.Item>
           {permissions.mute && (
             <Dropdown.Item
               onClick={() => setShowMuteAll(true)}
