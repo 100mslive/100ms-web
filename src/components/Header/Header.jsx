@@ -36,6 +36,8 @@ const SpeakerTag = () => {
 
 const LogoImg = styled("img", {
   maxHeight: "$14",
+  width: "100%",
+  p: "$2",
   "@md": {
     maxHeight: "$12",
   },

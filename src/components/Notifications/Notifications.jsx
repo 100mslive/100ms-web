@@ -18,7 +18,6 @@ import { TrackNotifications } from "./TrackNotifications";
 import { TextWithIcon } from "./TextWithIcon";
 import { PeerNotifications } from "./PeerNotifications";
 import { ReconnectNotifications } from "./ReconnectNotifications";
-import { HMSToastContainer } from "./hms-toast";
 import { getMetadata } from "../../common/utils";
 
 export function Notifications() {
@@ -170,7 +169,6 @@ export function Notifications() {
 
   return (
     <>
-      <HMSToastContainer />
       {!isHeadless && <TrackUnmuteModal />}
       {!isHeadless && <TrackBulkUnmuteModal />}
       <TrackNotifications />

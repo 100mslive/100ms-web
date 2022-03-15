@@ -15,7 +15,7 @@ import PreviewScreen from "./components/PreviewScreen";
 import { Conference } from "./components/conference";
 import ErrorPage from "./components/ErrorPage";
 import { AppContextProvider } from "./components/context/AppContext.js";
-import { hmsToast, Notifications } from "./components/Notifications";
+import { Notifications } from "./components/Notifications";
 import { Confetti } from "./plugins/confetti";
 import { ToastContainer } from "./components/Toast/ToastContainer";
 import { FeatureFlags } from "./services/FeatureFlags";
@@ -26,6 +26,7 @@ import {
 } from "./services/tokenService";
 import "./index.css";
 import { PostLeave } from "./components/PostLeave";
+import { ToastManager } from "./components/Toast/ToastManager";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -108,7 +109,7 @@ export function EdtechComponent({
         showAvatar: showAvatar === "true",
         avatarType: avatarType,
       }}
-      toast={(message, options = {}) => hmsToast(message, options)}
+      toast={message => ToastManager.addToast({ title: message })}
     >
       <ReactUIProvider
         themeType={themeType}
@@ -150,7 +151,11 @@ export function EdtechComponent({
               tokenEndpoint={tokenEndpoint}
               policyConfig={policyConfig}
               appDetails={metadata}
-              logo={logo}
+              logo={
+                logo || theme === "dark"
+                  ? require("./images/logo-light.svg")
+                  : require("./images/logo-dark.svg")
+              }
             >
               <Box
                 css={{

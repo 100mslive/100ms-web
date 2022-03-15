@@ -25,6 +25,12 @@ export const PostLeave = ({ history, match }) => {
           backgroundImage: `url(${PlaceholderBg})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
+          "@md": {
+            width: "100%",
+            height: "100%",
+            maxWidth: "unset",
+            maxHeight: "unset",
+          },
         }}
       >
         <Flex

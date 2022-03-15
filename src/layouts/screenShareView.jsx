@@ -9,9 +9,9 @@ import {
   selectPeerSharingVideoPlaylist,
   selectScreenShareByPeerID,
 } from "@100mslive/react-sdk";
-import { ScreenShareDisplay } from "@100mslive/hms-video-react";
 import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { ChatView } from "../components/chatView";
+import { ScreenshareDisplay } from "../components/ScreenshareDisplay";
 import ScreenshareTile from "../components/ScreenshareTile";
 import VideoList from "../components/VideoList";
 import VideoTile from "../components/VideoTile";
@@ -165,14 +165,14 @@ const ScreenShareComponent = ({
         !["browser", "window", "application"].includes(
           screenshareTrack?.displaySurface
         ) ? (
-          <div className="object-contain h-full">
-            <ScreenShareDisplay
+          <Box css={{ objectFit: "contain", h: "100%" }}>
+            <ScreenshareDisplay
               stopScreenShare={async () => {
                 await hmsActions.setScreenShareEnabled(false);
               }}
               classes={{ rootBg: "h-full" }}
             />
-          </div>
+          </Box>
         ) : (
           <ScreenshareTile
             showStatsOnTiles={showStats}
