@@ -190,7 +190,7 @@ const CustomChatView = ({ isChatOpen, toggleChat, totalPeers }) => {
         css={{
           h: "45%",
           flexShrink: 0,
-          "@md": chatStyle,
+          "@lg": chatStyle,
           "@ls": {
             position: "absolute",
             top: 0,

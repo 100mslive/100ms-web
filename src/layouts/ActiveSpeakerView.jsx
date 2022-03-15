@@ -1,10 +1,11 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import {
   selectPeers,
   useHMSStore,
   selectDominantSpeaker,
   selectLocalPeer,
 } from "@100mslive/react-sdk";
+import { Flex } from "@100mslive/react-ui";
 import { GridCenterView, GridSidePaneView } from "../components/gridView";
 
 export const ActiveSpeakerView = ({
@@ -33,7 +34,7 @@ export const ActiveSpeakerView = ({
   }, [dominantSpeaker]);
 
   return (
-    <Fragment>
+    <Flex css={{ size: "100%", "@lg": { flexDirection: "column" } }}>
       <GridCenterView
         peers={[activeSpeaker]}
         maxTileCount={1}
@@ -53,6 +54,6 @@ export const ActiveSpeakerView = ({
           totalPeers={peers.length - 1}
         />
       )}
-    </Fragment>
+    </Flex>
   );
 };
