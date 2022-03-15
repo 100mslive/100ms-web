@@ -27,6 +27,8 @@ import {
 import "./index.css";
 import { PostLeave } from "./components/PostLeave";
 import { ToastManager } from "./components/Toast/ToastManager";
+import LogoForLight from "./images/logo-dark.svg";
+import LogoForDark from "./images/logo-light.svg";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -151,11 +153,7 @@ export function EdtechComponent({
               tokenEndpoint={tokenEndpoint}
               policyConfig={policyConfig}
               appDetails={metadata}
-              logo={
-                logo || theme === "dark"
-                  ? require("./images/logo-light.svg")
-                  : require("./images/logo-dark.svg")
-              }
+              logo={logo || (theme === "dark" ? LogoForDark : LogoForLight)}
             >
               <Box
                 css={{
