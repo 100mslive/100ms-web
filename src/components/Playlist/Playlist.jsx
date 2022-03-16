@@ -1,5 +1,9 @@
 import React, { Fragment, useState } from "react";
-import { HMSPlaylistType } from "@100mslive/react-sdk";
+import {
+  HMSPlaylistType,
+  useHMSStore,
+  selectIsAllowedToPublish,
+} from "@100mslive/react-sdk";
 import {
   AudioPlayerIcon,
   CrossIcon,
@@ -16,14 +20,19 @@ import {
 import { PlaylistItem } from "./PlaylistItem";
 import { AudioPlaylistControls } from "./PlaylistControls";
 import { usePlaylist } from "../hooks/usePlaylist";
+import { isScreenshareSupported } from "../../common/utils";
 
 export const Playlist = ({ type }) => {
   const isAudioPlaylist = type === HMSPlaylistType.audio;
   const { active, list: playlist, actions } = usePlaylist(type);
   const [open, setOpen] = useState(false);
   const [collapse, setCollapse] = useState(false);
-
-  if (playlist.length === 0) {
+  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
+  if (
+    !isAllowedToPublish.screen ||
+    !isScreenshareSupported() ||
+    playlist.length === 0
+  ) {
     return null;
   }
 
@@ -31,7 +40,7 @@ export const Playlist = ({ type }) => {
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={setOpen}>
         <Dropdown.Trigger asChild>
-          <IconButton active={!active}>
+          <IconButton css={{ mx: "$4" }} active={!active}>
             <Tooltip
               title={isAudioPlaylist ? "Audio Playlist" : "Video Playlist"}
             >
