@@ -53,7 +53,7 @@ export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
         peerPresenting={peerPresenting}
         peerSharingPlaylist={peerSharingPlaylist}
       />
-      <Flex
+      {/* <Flex
         direction={{ "@initial": "column", "@lg": "row" }}
         css={{
           overflow: "hidden",
@@ -74,7 +74,7 @@ export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
           smallTilePeers={smallTilePeers}
           totalPeers={peers.length}
         />
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 };
@@ -162,9 +162,9 @@ const ScreenShareComponent = ({
     >
       {peerPresenting &&
         (amIPresenting &&
-        !["browser", "window", "application"].includes(
-          screenshareTrack?.displaySurface
-        ) ? (
+          !["browser", "window", "application"].includes(
+            screenshareTrack?.displaySurface
+          ) ? (
           <div className="object-contain h-full">
             <ScreenShareDisplay
               stopScreenShare={async () => {

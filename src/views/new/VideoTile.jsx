@@ -21,7 +21,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
   const peer = useHMSStore(selectPeerByID(peerId));
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const metaData = useHMSStore(selectPeerMetadata(peerId));
-  const borderAudioRef = useBorderAudioLevel(peer?.audioTrack);
+  // const borderAudioRef = useBorderAudioLevel(peer?.audioTrack);
   const isVideoDegraded = track?.degraded;
   const isHandRaised = metaData?.isHandRaised || false;
   const isBRB = metaData?.isBRBOn || false;
@@ -33,7 +33,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
           onMouseLeave={() => {
             setIsMouseHovered(false);
           }}
-          ref={borderAudioRef}
+        // ref={borderAudioRef}
         >
           {showStatsOnTiles ? (
             <VideoTileStats
