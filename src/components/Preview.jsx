@@ -27,6 +27,7 @@ import {
   UserPreferencesKeys,
   useUserPreferences,
 } from "./hooks/useUserPreferences";
+import { ConnectionQuality } from "./Connection/ConnectionQuality";
 
 const defaultPreviewPreference = {
   name: "",
@@ -141,6 +142,7 @@ const PreviewTile = ({ name }) => {
     >
       {localPeer ? (
         <>
+          <ConnectionQuality peerId={localPeer.id} />
           <Video mirror={true} trackId={localPeer.videoTrack} />
           {!isVideoOn ? <Avatar name={name} /> : null}
           <StyledVideoTile.AttributeBox css={controlStyles}>
