@@ -27,11 +27,11 @@ import { ScreenShareHintModal } from "./ScreenshareHintModal";
 import { NoiseSuppression } from "../plugins/NoiseSuppression";
 import { ToggleWhiteboard } from "../plugins/whiteboard";
 import { VirtualBackground } from "../plugins/VirtualBackground";
-import { TranscriptionButton } from "../plugins/transcription";
 import { useMyMetadata } from "./hooks/useMetadata";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { isScreenshareSupported } from "../common/utils";
 import { Playlist } from "../components/Playlist/Playlist";
+import { TranscriptionButton } from "../plugins/transcription";
 
 const ScreenshareAudio = () => {
   const {
