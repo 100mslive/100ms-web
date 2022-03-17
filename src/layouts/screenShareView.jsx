@@ -18,7 +18,12 @@ import VideoTile from "../components/VideoTile";
 import { VideoPlayer } from "../components/Playlist/VideoPlayer";
 import { chatStyle } from "../common/utils";
 
-export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
+export const ScreenShareView = ({
+  showStats,
+  isChatOpen,
+  toggleChat,
+  isAudioOnly,
+}) => {
   // for smaller screen we will show sidebar in bottom
   const mediaQueryLg = cssConfig.media.lg;
   const showSidebarInBottom = useMedia(mediaQueryLg);
@@ -53,6 +58,7 @@ export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
         amIPresenting={amIPresenting}
         peerPresenting={peerPresenting}
         peerSharingPlaylist={peerSharingPlaylist}
+        isAudioOnly={isAudioOnly}
       />
       <Flex
         direction={{ "@initial": "column", "@lg": "row" }}
@@ -68,6 +74,7 @@ export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
         <SidePane
           showSidebarInBottom={showSidebarInBottom}
           showStats={showStats}
+          isAudioOnly={isAudioOnly}
           isChatOpen={isChatOpen}
           toggleChat={toggleChat}
           peerScreenSharing={peerPresenting}
@@ -84,6 +91,7 @@ export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
 // and both camera + screen(if applicable) of others
 export const SidePane = ({
   showStats,
+  isAudioOnly,
   isChatOpen,
   toggleChat,
   isPresenterInSmallTiles,
@@ -104,6 +112,7 @@ export const SidePane = ({
           peerScreenSharing={peerScreenSharing}
           isChatOpen={isChatOpen}
           showStatsOnTiles={showStats}
+          isAudioOnly={isAudioOnly}
         />
       )}
       <SmallTilePeersView
@@ -112,6 +121,7 @@ export const SidePane = ({
         smallTilePeers={smallTilePeers}
         shouldShowScreenFn={shouldShowScreenFn}
         showStatsOnTiles={showStats}
+        isAudioOnly={isAudioOnly}
       />
       <CustomChatView
         isChatOpen={isChatOpen}
@@ -124,6 +134,7 @@ export const SidePane = ({
 
 const ScreenShareComponent = ({
   showStats,
+  isAudioOnly,
   amIPresenting,
   peerPresenting,
   peerSharingPlaylist,
@@ -176,6 +187,7 @@ const ScreenShareComponent = ({
         ) : (
           <ScreenshareTile
             showStatsOnTiles={showStats}
+            isAudioOnly={isAudioOnly}
             peerId={peerPresenting?.id}
           />
         ))}
@@ -211,6 +223,7 @@ const SmallTilePeersView = ({
   shouldShowScreenFn,
   showStatsOnTiles,
   showSidebarInBottom,
+  isAudioOnly,
 }) => {
   return (
     <Flex
@@ -225,6 +238,7 @@ const SmallTilePeersView = ({
           maxRowCount={showSidebarInBottom ? 1 : undefined}
           includeScreenShareForPeer={shouldShowScreenFn}
           showStatsOnTiles={showStatsOnTiles}
+          isAudioOnly={isAudioOnly}
         />
       )}
     </Flex>
@@ -254,6 +268,7 @@ const LargeTilePeerView = ({ peerScreenSharing, showStatsOnTiles }) => {
         showStatsOnTiles={showStatsOnTiles}
         width="100%"
         height="100%"
+        isAudioOnly={isAudioOnly}
         peerId={peerScreenSharing.id}
       />
     </Box>

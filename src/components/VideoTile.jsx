@@ -1,5 +1,5 @@
 // @ts-check
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Avatar,
   StyledVideoTile,
@@ -24,7 +24,7 @@ import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
 import { ConnectionIndicator } from "./Connection/ConnectionIndicator";
 
-const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
+const Tile = ({ peerId, showStatsOnTiles, isAudioOnly,  width, height }) => {
   const track = useHMSStore(selectVideoTrackByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
@@ -58,11 +58,12 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
           {track ? (
             <Video
               trackId={track?.id}
+              attach={!isAudioOnly}
               mirror={peer?.isLocal && track?.source === "regular"}
               degraded={isVideoDegraded}
             />
           ) : null}
-          {isVideoMuted || isVideoDegraded ? (
+          {isVideoMuted || isVideoDegraded || isAudioOnly ? (
             <Avatar name={peer?.name || ""} />
           ) : null}
           <StyledVideoTile.Info>{label}</StyledVideoTile.Info>
