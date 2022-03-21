@@ -54,9 +54,6 @@ export const MoreSettings = () => {
           <IconButton
             css={{
               mx: "$4",
-              '&[data-state="open"]': {
-                borderRadius: "$0",
-              },
             }}
           >
             <Tooltip title="More Options">
