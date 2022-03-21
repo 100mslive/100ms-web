@@ -51,11 +51,16 @@ export const MoreSettings = () => {
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={setOpen}>
         <Dropdown.Trigger asChild>
-          <IconButton css={{ mx: "$4" }}>
+          <IconButton
+            css={{
+              mx: "$4",
+              '&[data-state="open"]': {
+                borderRadius: "$0",
+              },
+            }}
+          >
             <Tooltip title="More Options">
-              <Box>
-                <HamburgerMenuIcon />
-              </Box>
+              <HamburgerMenuIcon />
             </Tooltip>
           </IconButton>
         </Dropdown.Trigger>

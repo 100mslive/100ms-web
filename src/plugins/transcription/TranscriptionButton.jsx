@@ -8,8 +8,8 @@ import {
   HMSNotificationTypes,
   selectRoomID,
 } from "@100mslive/react-sdk";
-import { Box, Tooltip, Text } from "@100mslive/react-ui";
-import { Button } from "@100mslive/hms-video-react";
+import { Box, Tooltip, Text, IconButton } from "@100mslive/react-ui";
+import { ClosedCaptionIcon } from "@100mslive/react-icons";
 import { FeatureFlags } from "../../services/FeatureFlags";
 
 const pusher =
@@ -140,24 +140,17 @@ export function TranscriptionButton() {
         </Text>
       </Box>
       {isAllowedToPublish.audio && (
-        <Button
-          iconOnly
-          variant="no-fill"
-          shape="rectangle"
-          active={isTranscriptionEnabled}
-          onClick={enableTranscription}
-          key="transcribe"
+        <Tooltip
+          title={`Turn ${!isTranscriptionEnabled ? "on" : "off"} transcription`}
         >
-          <Tooltip
-            title={`Turn ${
-              !isTranscriptionEnabled ? "on" : "off"
-            } transcription`}
+          <IconButton
+            css={{ mx: "$4" }}
+            active={!isTranscriptionEnabled}
+            onClick={enableTranscription}
           >
-            <span>
-              <b>T</b>
-            </span>
-          </Tooltip>
-        </Button>
+            <ClosedCaptionIcon />
+          </IconButton>
+        </Tooltip>
       )}
     </>
   );
@@ -237,7 +230,7 @@ class Transcriber {
         };
 
         this.socket.onerror = event => {
-          console.error("transcription", err);
+          console.error("transcription", event);
           this.socket.close();
         };
 
