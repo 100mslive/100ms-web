@@ -14,10 +14,19 @@ const Wrapper = styled("span", {
   justifyContent: "center",
   backgroundColor: "$transparentBg",
   borderRadius: "$round",
-  marginRight: "0.25rem",
+  variants: {
+    isTile: {
+      true: {
+        position: "absolute",
+        top: "2px",
+        left: "2px",
+        zIndex: 10,
+      },
+    },
+  },
 });
 
-export const ConnectionIndicator = ({ peerId }) => {
+export const ConnectionIndicator = ({ peerId, isTile = false }) => {
   const downlinkScore = useHMSStore(
     selectConnectionQualityByPeerID(peerId)
   )?.downlinkScore;
@@ -28,7 +37,7 @@ export const ConnectionIndicator = ({ peerId }) => {
   }
   return (
     <Tooltip title={getText(downlinkScore)}>
-      <Wrapper>
+      <Wrapper isTile={isTile}>
         <svg
           width={16}
           height={16}

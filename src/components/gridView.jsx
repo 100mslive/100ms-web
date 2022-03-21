@@ -5,6 +5,7 @@ import { FirstPersonDisplay } from "./FirstPersonDisplay";
 import { ChatView } from "./chatView";
 import VideoList from "./VideoList";
 import { chatStyle } from "../common/utils";
+import { Image } from "./Image";
 
 const MAX_TILES_FOR_MOBILE = 4;
 
@@ -25,6 +26,7 @@ export const GridCenterView = ({
   toggleChat,
   hideSidePane,
   showStatsOnTiles,
+  isAudioOnly,
 }) => {
   const mediaQueryLg = cssConfig.media.md;
   const limitMaxTiles = useMedia(mediaQueryLg);
@@ -41,20 +43,28 @@ export const GridCenterView = ({
           <VideoList
             showStatsOnTiles={showStatsOnTiles}
             peers={peers}
+            isAudioOnly={isAudioOnly}
             maxTileCount={limitMaxTiles ? MAX_TILES_FOR_MOBILE : maxTileCount}
           />
         ) : eventRoomIDs.some(id => window.location.href.includes(id)) ? (
-          <div className="h-full w-full grid place-items-center p-5">
+          <Box
+            css={{
+              display: "grid",
+              placeItems: "center",
+              size: "100%",
+              p: "$12",
+            }}
+          >
             <a href={webinarInfoLink} target="_blank" rel="noreferrer">
-              <img
-                className="w-full rounded-lg shadow-lg p-2"
-                alt=""
+              <Image
+                css={{ p: "$4", boxShadow: "$sm" }}
+                alt="Event template"
                 src={eventsImg}
               />
             </a>
-          </div>
+          </Box>
         ) : (
-          <FirstPersonDisplay classes={{ rootBg: "h-full" }} />
+          <FirstPersonDisplay />
         )}
       </Box>
       {isChatOpen && hideSidePane && (
@@ -85,6 +95,7 @@ export const GridSidePaneView = ({
   isChatOpen,
   toggleChat,
   showStatsOnTiles,
+  isAudioOnly,
 }) => {
   return (
     <Flex
@@ -104,6 +115,7 @@ export const GridSidePaneView = ({
         {peers && peers.length > 0 && (
           <VideoList
             showStatsOnTiles={showStatsOnTiles}
+            isAudioOnly={isAudioOnly}
             peers={peers}
             maxColCount={2}
           />

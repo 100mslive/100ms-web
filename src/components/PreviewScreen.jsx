@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useSearchParam } from "react-use";
 import { v4 } from "uuid";
-import { Box, Loading } from "@100mslive/react-ui";
+import { Box, Flex, Loading, styled } from "@100mslive/react-ui";
 import Preview from "./Preview";
 import { Header } from "./Header";
 import { ErrorDialog } from "../primitives/DialogContent";
@@ -50,11 +50,11 @@ const PreviewScreen = ({ getUserToken }) => {
     return <ErrorDialog title={error.title}>{error.body}</ErrorDialog>;
   }
   return (
-    <div className="h-full flex flex-col">
+    <Flex direction="column" css={{ size: "100%" }}>
       <Box css={{ h: "$18", "@md": { h: "$17" } }}>
         <Header isPreview={true} />
       </Box>
-      <div className="flex flex-col justify-center h-full items-center">
+      <Flex css={{ flex: "1 1 0" }} justify="center" align="center">
         {token ? (
           <>
             <Preview
@@ -68,8 +68,8 @@ const PreviewScreen = ({ getUserToken }) => {
         ) : (
           <Loading size={100} />
         )}
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 
@@ -100,26 +100,28 @@ const convertPreviewError = error => {
   }
 };
 
+const Link = styled("a", {
+  color: "#2f80e1",
+});
+
 const ErrorWithSupportLink = errorMessage => (
   <div>
     {errorMessage} If you think this is a mistake on our side, please create{" "}
-    <a
-      className="text-blue-standard"
+    <Link
       target="_blank"
       href="https://github.com/100mslive/100ms-web/issues"
       rel="noreferrer"
     >
       an issue
-    </a>{" "}
+    </Link>{" "}
     or reach out over{" "}
-    <a
-      className="text-blue-standard"
+    <Link
       target="_blank"
       href="https://discord.com/invite/kGdmszyzq2"
       rel="noreferrer"
     >
       Discord
-    </a>
+    </Link>
     .
   </div>
 );

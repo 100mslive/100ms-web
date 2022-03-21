@@ -15,6 +15,7 @@ const List = ({
   showStatsOnTiles,
   maxColCount,
   maxRowCount,
+  isAudioOnly,
   includeScreenShareForPeer,
 }) => {
   const { aspectRatio } = useTheme();
@@ -54,6 +55,7 @@ const List = ({
                       width={tile.width}
                       height={tile.height}
                       peerId={tile.peer.id}
+                      isAudioOnly={isAudioOnly}
                     />
                   ) : (
                     <VideoTile
@@ -62,6 +64,7 @@ const List = ({
                       width={tile.width}
                       height={tile.height}
                       peerId={tile.peer?.id}
+                      isAudioOnly={isAudioOnly}
                     />
                   )
                 )}

@@ -8,8 +8,8 @@ import {
 } from "@100mslive/react-icons";
 import {
   HMSPlaylistType,
-  selectIsAllowedToPublish,
   selectUnreadHMSMessagesCount,
+  selectIsAllowedToPublish,
   useHMSStore,
   useScreenShare,
 } from "@100mslive/react-sdk";
@@ -22,16 +22,16 @@ import {
 import { AudioVideoToggle } from "./AudioVideoToggle";
 import { LeaveRoom } from "./LeaveRoom";
 import { MoreSettings } from "./MoreSettings/MoreSettings";
-import { Playlist } from "./Playlist/Playlist";
 import { Screenshare } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
 import { NoiseSuppression } from "../plugins/NoiseSuppression";
 import { ToggleWhiteboard } from "../plugins/whiteboard";
 import { VirtualBackground } from "../plugins/VirtualBackground";
-import { TranscriptionButton } from "../plugins/transcription";
 import { useMyMetadata } from "./hooks/useMetadata";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { isScreenshareSupported } from "../common/utils";
+import { Playlist } from "../components/Playlist/Playlist";
+import { TranscriptionButton } from "../plugins/transcription";
 
 const ScreenshareAudio = () => {
   const {
@@ -40,9 +40,10 @@ const ScreenshareAudio = () => {
     screenShareAudioTrackId: audio,
     toggleScreenShare,
   } = useScreenShare();
+  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const isAudioScreenshare = amIScreenSharing && !video && !!audio;
   const [showModal, setShowModal] = useState(false);
-  if (!isScreenshareSupported()) {
+  if (!isAllowedToPublish.screen || !isScreenshareSupported()) {
     return null;
   }
   return (
@@ -107,12 +108,12 @@ const Chat = ({ isChatOpen, toggleChat }) => {
 };
 
 export const Footer = ({ isChatOpen, toggleChat }) => {
-  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   return (
     <Flex
       justify="between"
       align="center"
       css={{
+        padding: "$2",
         position: "relative",
         height: "100%",
         "@md": { flexWrap: "wrap" },
@@ -131,33 +132,38 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
           },
         }}
       >
-        {isAllowedToPublish.screen && (
-          <Fragment>
-            <ScreenshareAudio />
-            <Playlist type={HMSPlaylistType.audio} />
-            <Playlist type={HMSPlaylistType.video} />
-            <VerticalDivider space={4} />
-          </Fragment>
-        )}
-        <MetaActions />
-        {FeatureFlags.enableWhiteboard && <ToggleWhiteboard />}
+        <ScreenshareAudio />
+        <Playlist type={HMSPlaylistType.audio} />
+        <Playlist type={HMSPlaylistType.video} />
+        {FeatureFlags.enableWhiteboard ? <ToggleWhiteboard /> : null}
+        <LeftDivider />
+        <VirtualBackground />
+        <NoiseSuppression />
+        {FeatureFlags.enableTranscription && <TranscriptionButton />}
+        <Flex
+          align="center"
+          css={{
+            display: "none",
+            "@md": {
+              display: "flex",
+            },
+          }}
+        >
+          <VerticalDivider space={4} />
+          <MetaActions />
+        </Flex>
       </Flex>
       <Flex align="center" justify="center" css={{ w: "100%" }}>
         <AudioVideoToggle />
         <Screenshare css={{ mx: "$4" }} />
-        <VirtualBackground />
-        {FeatureFlags.enableTranscription && <TranscriptionButton />}
-        <NoiseSuppression />
-        {(isAllowedToPublish.audio || isAllowedToPublish.video) && (
-          <VerticalDivider space={4} />
-        )}
         <MoreSettings />
+        <VerticalDivider space={4} />
+        <LeaveRoom />
         <Flex
           align="center"
           css={{ display: "none", "@md": { display: "flex", ml: "$4" } }}
         >
           <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
-          <LeaveRoom />
         </Flex>
       </Flex>
       <Flex
@@ -170,9 +176,21 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
           },
         }}
       >
+        <MetaActions />
+        <VerticalDivider space={4} />
         <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
-        <LeaveRoom />
       </Flex>
     </Flex>
+  );
+};
+
+const LeftDivider = () => {
+  const allowedToPublish = useHMSStore(selectIsAllowedToPublish);
+  return (
+    <>
+      {allowedToPublish.screen || FeatureFlags.enableWhiteboard ? (
+        <VerticalDivider space={4} />
+      ) : null}
+    </>
   );
 };

@@ -13,8 +13,8 @@ import {
   DialogInput,
   DialogRow,
 } from "../../primitives/DialogContent";
-import { hmsToast } from "../Notifications";
 import { SKIP_PREVIEW } from "../../common/constants";
+import { ToastManager } from "../Toast/ToastManager";
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") + `?${SKIP_PREVIEW}=true`;
@@ -77,7 +77,7 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
         }`,
         error
       );
-      hmsToast(error.message);
+      ToastManager.addToast({ title: error.message });
     }
   };
 

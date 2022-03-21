@@ -12,6 +12,7 @@ import { ArrowRightIcon, CheckIcon, PersonIcon } from "@100mslive/react-icons";
 import { Dropdown, Text, config } from "@100mslive/react-ui";
 import { arrayIntersection } from "../../common/utils";
 import { AppContext } from "../context/AppContext";
+import { ToastManager } from "../Toast/ToastManager";
 
 export const ChangeSelfRole = ({ css, onClick }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
@@ -21,7 +22,6 @@ export const ChangeSelfRole = ({ css, onClick }) => {
   const hmsActions = useHMSActions();
   const hideTriggerItem = useMedia(config.media.sm);
   const {
-    hmsToast,
     appPolicyConfig: { selfRoleChangeTo },
   } = useContext(AppContext);
 
@@ -62,7 +62,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
               try {
                 await hmsActions.changeRole(localPeerId, role, true);
               } catch (error) {
-                hmsToast(error.message);
+                ToastManager.addToast({ title: error.message });
               }
             }}
           >
