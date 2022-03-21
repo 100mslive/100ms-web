@@ -109,6 +109,7 @@ export const LeaveRoom = () => {
 };
 
 const LeaveIconButton = styled(IconButton, {
+  width: "45px",
   mx: "$4",
   bg: "$error",
   "&:not([disabled]):hover": {
