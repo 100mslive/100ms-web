@@ -41,6 +41,10 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
     showSidePane = itsOnlyMeInTheRoom || nooneIsPublishing;
   }
 
+  const filteredPeer = peers.reduce(function (prev, current) {
+    return prev.joinedAt > current.joinedAt ? prev : current;
+  });
+
   return (
     <Flex
       css={{
@@ -52,7 +56,7 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
       }}
     >
       <GridCenterView
-        peers={showSidePane ? centerPeers : peers}
+        peers={[filteredPeer]}
         maxTileCount={maxTileCount}
         isChatOpen={isChatOpen}
         toggleChat={toggleChat}
@@ -61,15 +65,6 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
         totalPeers={peers.length}
         showStatsOnTiles={showStatsOnTiles}
       />
-      {showSidePane && (
-        <GridSidePaneView
-          peers={sidebarPeers}
-          isChatOpen={isChatOpen}
-          toggleChat={toggleChat}
-          totalPeers={peers.length}
-          showStatsOnTiles={showStatsOnTiles}
-        />
-      )}
     </Flex>
   );
 };
