@@ -48,10 +48,15 @@ export const PostLeave = ({ history, match }) => {
           }}
         >
           <SunWithFace width={72} height={72} />
-          <Text variant="h5" css={{ fontWeight: "$semiBold", mt: "$12" }}>
+          <Text
+            color="white"
+            variant="h5"
+            css={{ fontWeight: "$semiBold", mt: "$12" }}
+          >
             You left the room
           </Text>
           <Text
+            color="white"
             variant="h5"
             css={{
               mt: "$8",

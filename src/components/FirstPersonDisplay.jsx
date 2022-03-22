@@ -29,13 +29,21 @@ export const FirstPersonDisplay = () => {
           textAlign: "center",
         }}
       >
-        <Text variant="h4" css={{ "@md": { fontSize: "$md" } }}>
+        <Text color="white" variant="h4" css={{ "@md": { fontSize: "$md" } }}>
           Welcome!
         </Text>
-        <Text variant="h6" css={{ mt: "$4", "@md": { fontSize: "$sm" } }}>
+        <Text
+          color="white"
+          variant="h6"
+          css={{ mt: "$4", "@md": { fontSize: "$sm" } }}
+        >
           You’re the first one here.
         </Text>
-        <Text variant="h6" css={{ mt: "$2", "@md": { fontSize: "$sm" } }}>
+        <Text
+          color="white"
+          variant="h6"
+          css={{ mt: "$2", "@md": { fontSize: "$sm" } }}
+        >
           Sit back and relax till the others join.
         </Text>
       </Flex>
