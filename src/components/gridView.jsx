@@ -37,7 +37,7 @@ export const GridCenterView = ({
           "@md": { flex: "2 1 0" },
         }}
       >
-        {peers && peers.length > 0 ? (
+        {peers && peers.length > -1 ? (
           <VideoList
             showStatsOnTiles={showStatsOnTiles}
             peers={peers}
