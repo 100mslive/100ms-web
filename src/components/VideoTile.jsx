@@ -5,7 +5,6 @@ import {
   StyledVideoTile,
   Video,
   VideoTileStats,
-  useBorderAudioLevel,
 } from "@100mslive/react-ui";
 import {
   useHMSStore,
@@ -21,14 +20,14 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
   const peer = useHMSStore(selectPeerByID(peerId));
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const metaData = useHMSStore(selectPeerMetadata(peerId));
-  const borderAudioRef = useBorderAudioLevel(peer?.audioTrack);
+
   const isVideoDegraded = track?.degraded;
   const isHandRaised = metaData?.isHandRaised || false;
   const isBRB = metaData?.isBRBOn || false;
   return (
     <StyledVideoTile.Root css={{ width, height }}>
       {peer ? (
-        <StyledVideoTile.Container ref={borderAudioRef}>
+        <StyledVideoTile.Container>
           {showStatsOnTiles ? (
             <VideoTileStats
               audioTrackID={peer?.audioTrack}

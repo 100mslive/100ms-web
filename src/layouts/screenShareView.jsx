@@ -54,7 +54,7 @@ export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
         peerPresenting={peerPresenting}
         peerSharingPlaylist={peerSharingPlaylist}
       />
-      <Flex
+      {/* <Flex
         direction={{ "@initial": "column", "@lg": "row" }}
         css={{
           overflow: "hidden",
@@ -75,7 +75,7 @@ export const ScreenShareView = ({ showStats, isChatOpen, toggleChat }) => {
           smallTilePeers={smallTilePeers}
           totalPeers={peers.length}
         />
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 };
