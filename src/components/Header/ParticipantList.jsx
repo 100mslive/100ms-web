@@ -41,6 +41,7 @@ export const ParticipantList = () => {
               color: "$textPrimary",
               borderRadius: "$1",
               border: "1px solid $textDisabled",
+              padding: "$2 $4",
             }}
           >
             <Tooltip title="Participant List">
