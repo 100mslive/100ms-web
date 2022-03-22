@@ -245,7 +245,11 @@ const SmallTilePeersView = ({
   );
 };
 
-const LargeTilePeerView = ({ peerScreenSharing, showStatsOnTiles }) => {
+const LargeTilePeerView = ({
+  peerScreenSharing,
+  showStatsOnTiles,
+  isAudioOnly,
+}) => {
   return peerScreenSharing ? (
     <Box
       css={{
