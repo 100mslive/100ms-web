@@ -57,7 +57,9 @@ export const MoreSettings = () => {
             }}
           >
             <Tooltip title="More Options">
-              <HamburgerMenuIcon />
+              <Box>
+                <HamburgerMenuIcon />
+              </Box>
             </Tooltip>
           </IconButton>
         </Dropdown.Trigger>
