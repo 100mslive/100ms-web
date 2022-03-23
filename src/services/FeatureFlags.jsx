@@ -15,7 +15,7 @@ export class FeatureFlags {
       window.HMS = {};
     }
     // unsubscribe for muted audio tracks
-    window.HMS.AUDIO_SINK = true;
+    window.HMS.AUDIO_SINK = false;
     // some extra config to hls js to bring down latency
     window.HMS.OPTIMISE_HLS_LATENCY = false;
     // ask permissions in preview even if role doesn't have it
