@@ -5,7 +5,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
-import { GridCenterView, GridSidePaneView } from "../components/gridView";
+import { GridCenterView } from "../components/gridView";
 import { AppContext } from "../components/context/AppContext";
 
 export const MainGridView = ({ isChatOpen, toggleChat }) => {
@@ -14,7 +14,7 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
     appPolicyConfig: { center: centerRoles = [], sidepane: sidepaneRoles = [] },
     showStatsOnTiles,
   } = useContext(AppContext);
-  const peers = useHMSStore(selectPeers);
+  const peers = preserveLateJoinedPeer(useHMSStore(selectPeers));
   const localPeerId = useHMSStore(selectLocalPeerID);
   const centerPeers = peers.filter(peer => centerRoles.includes(peer.roleName));
   const sidebarPeers = peers.filter(peer =>
@@ -41,10 +41,6 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
     showSidePane = itsOnlyMeInTheRoom || nooneIsPublishing;
   }
 
-  const filteredPeer = peers.reduce(function (prev, current) {
-    return prev.joinedAt > current.joinedAt ? prev : current;
-  });
-
   return (
     <Flex
       css={{
@@ -56,7 +52,7 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
       }}
     >
       <GridCenterView
-        peers={[filteredPeer]}
+        peers={peers}
         maxTileCount={maxTileCount}
         isChatOpen={isChatOpen}
         toggleChat={toggleChat}
@@ -68,3 +64,28 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
     </Flex>
   );
 };
+
+// for each peer name only keep the one who last joined
+// this handles the case of not showing a stale peer whose reconnection failed,
+// but they joined again
+function preserveLateJoinedPeer(peers) {
+  const names = new Set();
+  for (const peer of peers) {
+    names.add(peer.name);
+  }
+  const filtered = [];
+  names.forEach(name => {
+    let chosenPeer;
+    for (const peer of peers) {
+      if (peer.name === name) {
+        if (!chosenPeer) {
+          chosenPeer = peer;
+        } else if (peer.joinedAt > chosenPeer.joinedAt) {
+          chosenPeer = peer;
+        }
+      }
+    }
+    chosenPeer && filtered.push(chosenPeer);
+  });
+  return filtered;
+}
