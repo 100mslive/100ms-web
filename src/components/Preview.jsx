@@ -5,6 +5,9 @@ import {
   useHMSStore,
   selectIsLocalVideoEnabled,
   useAVToggle,
+  selectLocalPeerID,
+  selectRoomState,
+  HMSRoomState,
 } from "@100mslive/react-sdk";
 import {
   Loading,
@@ -36,7 +39,8 @@ const defaultPreviewPreference = {
 };
 
 const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
-  const localPeer = useHMSStore(selectLocalPeer);
+  const localPeer = useHMSStore(selectLocalPeerID);
+  const roomState = useHMSStore(selectRoomState);
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW,
     defaultPreviewPreference
@@ -52,22 +56,7 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
       isVideoMuted: skipPreview ? true : previewPreference.isVideoMuted,
     },
   });
-  useEffect(() => {
-    if (token) {
-      if (skipPreview) {
-        savePreferenceAndJoin();
-      } else {
-        preview();
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
-  useEffect(() => {
-    if (!localPeer) {
-      preview();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localPeer]);
+
   const savePreferenceAndJoin = useCallback(() => {
     setPreviewPreference({
       name,
@@ -84,6 +73,17 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
     setPreviewPreference,
     onJoin,
   ]);
+  useEffect(() => {
+    if (token && roomState === HMSRoomState.Disconnected) {
+      if (skipPreview) {
+        savePreferenceAndJoin();
+      } else if (!localPeer) {
+        preview();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, localPeer, roomState, skipPreview]);
+
   return (
     <Container>
       <PreviewTile name={name} />

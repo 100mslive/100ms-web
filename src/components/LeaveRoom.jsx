@@ -38,12 +38,15 @@ export const LeaveRoom = () => {
   };
 
   const leaveRoom = () => {
-    hmsActions.leave().then(redirectToLeavePage);
+    hmsActions.leave();
+    redirectToLeavePage();
   };
 
   const endRoom = () => {
-    hmsActions.endRoom(lockRoom, "End Room").then(redirectToLeavePage);
+    hmsActions.endRoom(lockRoom, "End Room");
+    redirectToLeavePage();
   };
+
   return (
     <Fragment>
       {permissions.endRoom ? (
