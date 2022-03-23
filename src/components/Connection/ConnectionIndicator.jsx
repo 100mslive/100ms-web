@@ -29,7 +29,7 @@ const Wrapper = styled("span", {
 export const ConnectionIndicator = ({ peerId, isTile = false }) => {
   const downlinkScore = useHMSStore(
     selectConnectionQualityByPeerID(peerId)
-  )?.downlinkScore;
+  )?.downlinkQuality;
   const { theme } = useTheme();
   const defaultColor = theme.colors.bgTertiary;
   if (downlinkScore === -1 || downlinkScore === undefined) {
