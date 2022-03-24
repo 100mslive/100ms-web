@@ -11,7 +11,22 @@ import {
 const RefreshDevices = () => {
   const hmsActions = useHMSActions();
   return (
-    <Button onClick={() => hmsActions.refreshDevices()}>Refresh Devices</Button>
+    <Button
+      onClick={() => {
+        navigator.mediaDevices
+          .getUserMedia({
+            audio: true,
+            video: true,
+          })
+          .then(stream => {
+            stream.getTracks().forEach(track => track.stop());
+            hmsActions.refreshDevices();
+          })
+          .catch(console.error);
+      }}
+    >
+      Refresh Devices
+    </Button>
   );
 };
 
