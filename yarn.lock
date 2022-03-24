@@ -41,10 +41,32 @@
     reselect "4.0.0"
     zustand "3.5.7"
 
+"@100mslive/hms-video-store@0.2.94-alpha.1":
+  version "0.2.94-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.2.94-alpha.1.tgz#93d100c13d7d71ed7e73401080f78131c3bd7a4a"
+  integrity sha512-Qzr9CmwSCbJUqLB0PE888OreaPa96Mk6vN7u+Iiv63BdVsDAxoFu9a7MVgvImyCmkzYJ+AvdyCeoAe4NtWE8UQ==
+  dependencies:
+    "@100mslive/hms-video" "0.1.48-alpha.1"
+    eventemitter2 "^6.4.5"
+    immer "^9.0.6"
+    reselect "4.0.0"
+    zustand "3.5.7"
+
 "@100mslive/hms-video@0.1.45-alpha.2":
   version "0.1.45-alpha.2"
   resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.45-alpha.2.tgz#0b520a98881a034370d87aaf1f4471a0780fe37a"
   integrity sha512-oB/Oydpr1LPZvQLfF+mZkMzFblDxwFz2eTulAKD5nBd/5U0eT8nVXGr2KqXM+czJ57AqzazAF9d9/3Vetcz8kw==
+  dependencies:
+    eventemitter2 "^6.4.5"
+    sdp-transform "^2.14.1"
+    ua-parser-js "^1.0.1"
+    uuid "^8.3.2"
+    webrtc-adapter "^8.0.0"
+
+"@100mslive/hms-video@0.1.48-alpha.1":
+  version "0.1.48-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.1.48-alpha.1.tgz#27d20c8577677c888fdd8f965dc2f77d0154d1ff"
+  integrity sha512-ENU+ZNhqRUxMs+EFRGJx0N4o52j8Wnz6gzB0hyyfpt7kPDrAjB5AfJfwr1rgGqn7p1M8i8IsSrua+l55MFyQ5w==
   dependencies:
     eventemitter2 "^6.4.5"
     sdp-transform "^2.14.1"
@@ -64,28 +86,28 @@
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@0.0.8-alpha.2":
-  version "0.0.8-alpha.2"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.8-alpha.2.tgz#f147495541209b73be225b156067c69f2d981bb5"
-  integrity sha512-imYDiDBozjeVrFdrtskAT1rBsLe38te5toDw1ehWpowJWckOcRwWN7DoPua9ATBQO1e5QhFKXxVQ3jTgrtjWaA==
+"@100mslive/react-icons@0.0.11-alpha.1":
+  version "0.0.11-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.0.11-alpha.1.tgz#b5d9993bce5af13292c8de718543134ca87bdf29"
+  integrity sha512-g8FqDBksVhs2SCfp2Va7FMOFRB6pwvhNz5V+9l3n+qTolvEpE6fXVsr1QMS7Snxd4/zmUcrMWIPE1WCrgHTWEQ==
 
-"@100mslive/react-sdk@0.0.8-alpha.2":
-  version "0.0.8-alpha.2"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.8-alpha.2.tgz#c6dc2c33de3be336c022f2f37f691738931bfa80"
-  integrity sha512-mSW4Gtlf+Vw6LCKk4ROhsoINLD9GhqJwq5xQ05/wd02nFtqlthVvWGspmhLX5F2GLnAoYxOqKurg+6g04FBRQA==
+"@100mslive/react-sdk@0.0.11-alpha.1":
+  version "0.0.11-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.0.11-alpha.1.tgz#fcaae1ad27774bf781a4fc4ee2f7f2b47658436b"
+  integrity sha512-SnLzCGgTQOC7HjpGFZTM8o02j0eS7aC9BZUtZWbVqTrCy/AmrZRuD7WYQ9X2MCxbDGyLq5hpVvkRC1mzvG5OZA==
   dependencies:
-    "@100mslive/hms-video-store" "0.2.91-alpha.2"
+    "@100mslive/hms-video-store" "0.2.94-alpha.1"
     react-intersection-observer "^8.33.1"
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.0.8-alpha.2":
-  version "0.0.8-alpha.2"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.8-alpha.2.tgz#8ca4a2bd5d44d13d8b538340834843071ce2a48b"
-  integrity sha512-L7Gqv9LNR+uZtOuuBbsqQmeEchxRyZKdCxgEFLcHo69Z5xG+0zeCyJkA3pndibPfB85wdtIlpo+PaYn/GlRzqQ==
+"@100mslive/react-ui@0.0.11-alpha.1":
+  version "0.0.11-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.0.11-alpha.1.tgz#cba9512fa98d6b99f9b5d335f78b10814e5538c1"
+  integrity sha512-nhwUc1gZwYv4HLy+AZQJq8RfsY18hes2NL1gdVVE//2E+xLFPxf6n4+aR8CTDNQDY+bEahoNW/l1i5BuueGafA==
   dependencies:
-    "@100mslive/react-icons" "0.0.8-alpha.2"
-    "@100mslive/react-sdk" "0.0.8-alpha.2"
+    "@100mslive/react-icons" "0.0.11-alpha.1"
+    "@100mslive/react-sdk" "0.0.11-alpha.1"
     "@radix-ui/react-checkbox" "^0.1.4"
     "@radix-ui/react-dialog" "^0.1.1"
     "@radix-ui/react-dropdown-menu" "^0.1.4"
@@ -6964,13 +6986,6 @@ react-style-singleton@^2.1.0:
     get-nonce "^1.0.0"
     invariant "^2.2.4"
     tslib "^1.0.0"
-
-react-toastify@^7.0.4:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-7.0.4.tgz#7d0b743f2b96f65754264ca6eae31911a82378db"
-  integrity sha512-Rol7+Cn39hZp5hQ/k6CbMNE2CKYV9E5OQdC/hBLtIQU2xz7DdAm7xil4NITQTHR6zEbE5RVFbpgSwTD7xRGLeQ==
-  dependencies:
-    clsx "^1.1.1"
 
 react-transition-group@^4.4.0:
   version "4.4.2"
