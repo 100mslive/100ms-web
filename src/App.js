@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,7 +12,6 @@ import {
 } from "@100mslive/react-sdk";
 import { HMSThemeProvider as ReactUIProvider, Box } from "@100mslive/react-ui";
 import PreviewScreen from "./components/PreviewScreen";
-import { Conference } from "./components/conference";
 import ErrorPage from "./components/ErrorPage";
 import { AppContextProvider } from "./components/context/AppContext.js";
 import { Notifications } from "./components/Notifications";
@@ -29,6 +28,9 @@ import { PostLeave } from "./components/PostLeave";
 import { ToastManager } from "./components/Toast/ToastManager";
 import LogoForLight from "./images/logo-dark.svg";
 import LogoForDark from "./images/logo-light.svg";
+import FullPageProgress from "./components/FullPageSpinner";
+
+const Conference = React.lazy(() => import("./components/conference"));
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -198,7 +200,9 @@ function AppRoutes({ getUserToken }) {
           }}
         />
         <Route path="/meeting/:roomId/:role?">
-          <Conference />
+          <Suspense fallback={<FullPageProgress />}>
+            <Conference />
+          </Suspense>
         </Route>
         <Route path="/leave/:roomId/:role?" component={PostLeave} />
         <Route
