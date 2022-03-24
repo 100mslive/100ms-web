@@ -10,12 +10,12 @@ import {
   DialogInput,
   DialogRow,
 } from "../../primitives/DialogContent";
-import { hmsToast } from "../Notifications";
 import {
   useUserPreferences,
   UserPreferencesKeys,
 } from "../hooks/useUserPreferences";
 import { TextboxIcon } from "@100mslive/react-icons";
+import { ToastManager } from "../Toast/ToastManager";
 
 export const ChangeNameModal = ({ onOpenChange }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
@@ -38,7 +38,7 @@ export const ChangeNameModal = ({ onOpenChange }) => {
       });
     } catch (error) {
       console.error("failed to update name", error);
-      hmsToast(error.message);
+      ToastManager.addToast({ title: error.message });
     } finally {
       onOpenChange(false);
     }

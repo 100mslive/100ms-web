@@ -93,6 +93,7 @@ export const AdditionalRoomState = () => {
             color: "$textPrimary",
             borderRadius: "$1",
             border: "1px solid $textDisabled",
+            padding: "$2 $4",
           }}
         >
           {!isScreenshareInactive && (
