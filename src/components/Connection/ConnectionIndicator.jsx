@@ -5,6 +5,7 @@ import {
 } from "@100mslive/react-sdk";
 import { styled, Tooltip, useTheme } from "@100mslive/react-ui";
 import { getColor, getText } from "./utils";
+import { PoorConnectivityIcon } from "@100mslive/react-icons";
 
 const Wrapper = styled("span", {
   width: "28px",
@@ -32,8 +33,14 @@ export const ConnectionIndicator = ({ peerId, isTile = false }) => {
   )?.downlinkQuality;
   const { theme } = useTheme();
   const defaultColor = theme.colors.bgTertiary;
-  if (downlinkScore === -1 || downlinkScore === undefined) {
-    return null;
+  if (downlinkScore === -1 || !downlinkScore) {
+    return (
+      <Tooltip title="Poor Connection">
+        <Wrapper isTile={isTile} css={{ color: "#ED4C5A" }}>
+          <PoorConnectivityIcon />
+        </Wrapper>
+      </Tooltip>
+    );
   }
   return (
     <Tooltip title={getText(downlinkScore)}>
