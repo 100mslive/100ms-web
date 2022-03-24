@@ -46,6 +46,7 @@ export const VideoPlayer = React.memo(({ peerId }) => {
             onClick={() => {
               hmsActions.videoPlaylist.stop();
             }}
+            data-testid="videoplaylist_cross_btn"
           >
             <CrossIcon />
           </IconButton>

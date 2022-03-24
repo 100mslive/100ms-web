@@ -26,6 +26,7 @@ export const Screenshare = ({ css }) => {
         onClick={() => {
           toggleScreenShare();
         }}
+        data-testid="screen_share_btn"
       >
         <ShareScreenIcon />
       </IconButton>

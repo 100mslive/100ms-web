@@ -19,6 +19,7 @@ export const ScreenShareHintModal = ({ onClose }) => {
               hmsActions.setScreenShareEnabled(true, true);
               onClose();
             }}
+            data-testid="audio_screenshare_continue"
           >
             Continue
           </Button>

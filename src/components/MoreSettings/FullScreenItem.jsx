@@ -16,6 +16,7 @@ export const FullScreenItem = ({ hoverStyles }) => {
         toggleFullscreen();
       }}
       css={hoverStyles}
+      data-testid="full_screen_btn"
     >
       <ComputerIcon />
       <Text variant="sm" css={{ ml: "$4" }}>

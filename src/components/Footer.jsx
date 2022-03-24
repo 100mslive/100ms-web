@@ -62,6 +62,7 @@ const ScreenshareAudio = () => {
               setShowModal(true);
             }
           }}
+          data-testid="screenshare_audio"
         >
           <MusicIcon />
         </IconButton>
@@ -82,12 +83,12 @@ export const MetaActions = () => {
         title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}
         css={{ mx: "$4" }}
       >
-        <IconButton onClick={toggleHandRaise} active={!isHandRaised}>
+        <IconButton onClick={toggleHandRaise} active={!isHandRaised} data-testid="raise_hand_btn">
           <HandIcon />
         </IconButton>
       </Tooltip>
       <Tooltip title={`${isBRBOn ? `I'm back` : `I'll be right back`}`}>
-        <IconButton css={{ mx: "$4" }} onClick={toggleBRB} active={!isBRBOn}>
+        <IconButton css={{ mx: "$4" }} onClick={toggleBRB} active={!isBRBOn} data-testid="brb_btn">
           <BrbIcon />
         </IconButton>
       </Tooltip>
@@ -100,8 +101,8 @@ const Chat = ({ isChatOpen, toggleChat }) => {
 
   return (
     <Tooltip key="chat" title={`${isChatOpen ? "Close" : "Open"} chat`}>
-      <IconButton css={{ mx: "$4" }} onClick={toggleChat} active={!isChatOpen}>
-        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon />}
+      <IconButton css={{ mx: "$4" }} onClick={toggleChat} active={!isChatOpen} data-testid="chat_btn">
+        {countUnreadMessages === 0 ? <ChatIcon /> : <ChatUnreadIcon data-testid="chat_unread_btn"/>}
       </IconButton>
     </Tooltip>
   );

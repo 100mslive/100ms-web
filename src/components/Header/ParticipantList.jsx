@@ -36,7 +36,7 @@ export const ParticipantList = () => {
   return (
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={value => setOpen(value)}>
-        <Dropdown.Trigger asChild>
+        <Dropdown.Trigger asChild data-testid="participant_list">
           <Flex
             css={{
               color: "$textPrimary",
@@ -134,9 +134,10 @@ const ParticipantListInARole = ({
           {roleName}({participants.length})
         </Text>
       </Dropdown.Label>
-      {participants.map(peer => {
+      {participants.map((peer,i) => {
         return (
-          <Dropdown.Item key={peer.id} css={{ w: "100%", h: "$14" }}>
+          <Dropdown.Item key={peer.id} css={{ w: "100%", h: "$14" }} 
+          data-testid= {"participant_"+i} >
             <Box css={{ width: "$13" }}>
               <Avatar
                 shape="square"

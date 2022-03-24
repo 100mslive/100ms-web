@@ -39,7 +39,9 @@ export const DialogContent = ({
                 {title}
               </Text>
             </Flex>
-            {closeable && <Dialog.DefaultClose />}
+            {closeable && (
+              <Dialog.DefaultClose data-testid="dialoge_cross_icon" />
+            )}
           </Flex>
         </Dialog.Title>
         <HorizontalDivider css={{ mt: "0.8rem" }} />

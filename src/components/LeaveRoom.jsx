@@ -38,18 +38,21 @@ export const LeaveRoom = () => {
   };
 
   const leaveRoom = () => {
-    hmsActions.leave().then(redirectToLeavePage);
+    hmsActions.leave();
+    redirectToLeavePage();
   };
 
   const endRoom = () => {
-    hmsActions.endRoom(lockRoom, "End Room").then(redirectToLeavePage);
+    hmsActions.endRoom(lockRoom, "End Room");
+    redirectToLeavePage();
   };
+
   return (
     <Fragment>
       {permissions.endRoom ? (
         <Popover.Root>
           <Popover.Trigger asChild>
-            <LeaveIconButton variant="danger" key="LeaveRoom">
+            <LeaveIconButton variant="danger" key="LeaveRoom" data-testid="leave_room_btn">
               <Tooltip title="Leave Room">
                 <Box>
                   <HangUpIcon key="hangUp" />
@@ -63,10 +66,11 @@ export const LeaveRoom = () => {
               onClick={() => {
                 setShowEndRoomModal(true);
               }}
+              data-testid="end_room_btn"
             >
               End Room
             </Button>
-            <Button variant="danger" css={{ mt: "$4" }} onClick={leaveRoom}>
+            <Button variant="danger" css={{ mt: "$4" }} onClick={leaveRoom} data-testid="just_leave_btn">
               Just Leave
             </Button>
           </Popover.Content>
@@ -98,7 +102,7 @@ export const LeaveRoom = () => {
             onChange={setLockRoom}
           />
           <DialogRow justify="end">
-            <Button variant="danger" onClick={endRoom}>
+            <Button variant="danger" onClick={endRoom} data-testid="lock_end_room">
               End Room
             </Button>
           </DialogRow>
