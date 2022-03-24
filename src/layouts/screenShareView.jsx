@@ -195,7 +195,7 @@ const ScreenShareComponent = ({
   );
 };
 
-const CustomChatView = ({ isChatOpen, toggleChat, totalPeers }) => {
+const CustomChatView = ({ isChatOpen, toggleChat }) => {
   return (
     isChatOpen && (
       <Box
@@ -245,7 +245,11 @@ const SmallTilePeersView = ({
   );
 };
 
-const LargeTilePeerView = ({ peerScreenSharing, showStatsOnTiles }) => {
+const LargeTilePeerView = ({
+  peerScreenSharing,
+  showStatsOnTiles,
+  isAudioOnly,
+}) => {
   return peerScreenSharing ? (
     <Box
       css={{
