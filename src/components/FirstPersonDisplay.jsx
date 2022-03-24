@@ -17,6 +17,7 @@ export const FirstPersonDisplay = () => {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
+      data-testid="first_person_img"
     >
       <Flex
         align="center"

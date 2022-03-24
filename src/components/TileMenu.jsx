@@ -42,24 +42,24 @@ const TileMenu = ({
   }
   return (
     <StyledMenuTile.Root>
-      <StyledMenuTile.Trigger>
+      <StyledMenuTile.Trigger data-testid="participant_menu_btn">
         <HorizontalMenuIcon />
       </StyledMenuTile.Trigger>
       <StyledMenuTile.Content side="left" align="start" sideOffset={10}>
         {toggleVideo ? (
-          <StyledMenuTile.ItemButton onClick={toggleVideo}>
+          <StyledMenuTile.ItemButton onClick={toggleVideo} data-testid={isVideoEnabled ? 'mute_video_participant_btn':'unmute_video_participant_btn'}>
             {isVideoEnabled ? <VideoOnIcon /> : <VideoOffIcon />}
             <span>{`${isVideoEnabled ? "Mute" : "Request Unmute"}`}</span>
           </StyledMenuTile.ItemButton>
         ) : null}
         {toggleAudio ? (
-          <StyledMenuTile.ItemButton onClick={toggleAudio}>
+          <StyledMenuTile.ItemButton onClick={toggleAudio} data-testid={isVideoEnabled ? 'mute_audio_participant_btn':'unmute_audio_participant_btn'}>
             {isAudioEnabled ? <MicOnIcon /> : <MicOffIcon />}
             <span>{`${isAudioEnabled ? "Mute" : "Request Unmute"}`}</span>
           </StyledMenuTile.ItemButton>
         ) : null}
         {audioTrackID ? (
-          <StyledMenuTile.VolumeItem>
+          <StyledMenuTile.VolumeItem data-testid="participant_volume_slider">
             <Flex align="center" gap={1}>
               <SpeakerIcon /> <span>Volume ({volume})</span>
             </Flex>
@@ -81,6 +81,7 @@ const TileMenu = ({
                 // TODO: Toast here
               }
             }}
+            data-testid="remove_participant_btn"
           >
             <RemoveUserIcon />
             <span>Remove Participant</span>

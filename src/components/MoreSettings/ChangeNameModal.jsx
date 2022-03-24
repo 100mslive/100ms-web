@@ -58,6 +58,7 @@ export const ChangeNameModal = ({ onOpenChange }) => {
             onChange={setCurrentName}
             autoComplete="name"
             required
+            data-testid="change_name_field"
           />
           <DialogRow justify="end">
             <Button
@@ -69,6 +70,7 @@ export const ChangeNameModal = ({ onOpenChange }) => {
               onClick={async () => {
                 await changeName();
               }}
+              data-testid="popup_change_btn"
             >
               Change
             </Button>

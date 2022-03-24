@@ -37,7 +37,7 @@ export const ConnectionIndicator = ({ peerId, isTile = false }) => {
   }
   return (
     <Tooltip title={getText(downlinkScore)}>
-      <Wrapper isTile={isTile}>
+      <Wrapper isTile={isTile} data-testid="tile_network">
         <svg
           width={16}
           height={16}

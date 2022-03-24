@@ -50,7 +50,7 @@ export const MoreSettings = () => {
   return (
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={setOpen}>
-        <Dropdown.Trigger asChild>
+        <Dropdown.Trigger asChild data-testid="more_settings_btn">
           <IconButton
             css={{
               mx: "$4",
@@ -71,6 +71,7 @@ export const MoreSettings = () => {
           <Dropdown.Item
             css={hoverStyles}
             onClick={() => setShowChangeNameModal(value => !value)}
+            data-testid="change_name_btn"
           >
             <TextboxIcon />
             <Text variant="sm" css={{ ml: "$4" }}>
@@ -85,6 +86,7 @@ export const MoreSettings = () => {
             <Dropdown.Item
               onClick={() => setShowRecordingModal(true)}
               css={hoverStyles}
+              data-testid="streaming_recording_btn"
             >
               <RecordIcon />
               <Text variant="sm" css={{ ml: "$4" }}>
@@ -97,6 +99,7 @@ export const MoreSettings = () => {
             <Dropdown.Item
               onClick={() => setShowMuteAll(true)}
               css={hoverStyles}
+              data-testid="mute_all_btn"
             >
               <MicOffIcon />
               <Text variant="sm" css={{ ml: "$4" }}>
@@ -108,6 +111,7 @@ export const MoreSettings = () => {
           <Dropdown.Item
             onClick={() => setShowUISettings(true)}
             css={hoverStyles}
+            data-testid="ui_settings_btn"
           >
             <GridIcon />
             <Text variant="sm" css={{ ml: "$4" }}>
@@ -117,6 +121,7 @@ export const MoreSettings = () => {
           <Dropdown.Item
             onClick={() => setShowDeviceSettings(true)}
             css={hoverStyles}
+            data-testid="device_settings_btn"
           >
             <SettingIcon />
             <Text variant="sm" css={{ ml: "$4" }}>
@@ -127,6 +132,7 @@ export const MoreSettings = () => {
             <Dropdown.Item
               onClick={() => setShowStatsForNerds(true)}
               css={hoverStyles}
+              data-testid="stats_for_nreds_btn"
             >
               <InfoIcon />
               <Text variant="sm" css={{ ml: "$4" }}>

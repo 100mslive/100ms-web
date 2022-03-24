@@ -95,6 +95,7 @@ export const AdditionalRoomState = () => {
             border: "1px solid $textDisabled",
             padding: "$2 $4",
           }}
+          data-testid="record_status_dropdown"
         >
           {!isScreenshareInactive && (
             <Tooltip title="Screenshare Audio">

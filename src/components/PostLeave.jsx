@@ -76,6 +76,7 @@ export const PostLeave = ({ history, match }) => {
                 history.push(previewUrl);
               }}
               css={{ mx: "$4" }}
+              data-testid="join_again_btn"
             >
               Join Again
             </Button>
@@ -85,6 +86,7 @@ export const PostLeave = ({ history, match }) => {
                 window.open("https://dashboard.100ms.live/", "_blank");
               }}
               css={{ mx: "$4" }}
+              data-testid="go_to_dashboard_btn"
             >
               Go to dashboard
             </Button>
