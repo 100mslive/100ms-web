@@ -34,13 +34,7 @@ export const ConnectionIndicator = ({ peerId, isTile = false }) => {
   const { theme } = useTheme();
   const defaultColor = theme.colors.bgTertiary;
   if (downlinkScore === -1 || !downlinkScore) {
-    return (
-      <Tooltip title="Poor Connection">
-        <Wrapper isTile={isTile} css={{ color: "#ED4C5A" }}>
-          <PoorConnectivityIcon />
-        </Wrapper>
-      </Tooltip>
-    );
+    return null;
   }
   return (
     <Tooltip title={getText(downlinkScore)}>
