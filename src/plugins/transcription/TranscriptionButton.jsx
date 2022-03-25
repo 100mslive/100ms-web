@@ -147,6 +147,7 @@ export function TranscriptionButton() {
             css={{ mx: "$4" }}
             active={!isTranscriptionEnabled}
             onClick={enableTranscription}
+            data-testid="transcription_btn"
           >
             <ClosedCaptionIcon />
           </IconButton>

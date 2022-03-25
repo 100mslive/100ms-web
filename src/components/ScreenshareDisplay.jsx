@@ -33,6 +33,7 @@ export const ScreenshareDisplay = () => {
         onClick={async () => {
           await hmsActions.setScreenShareEnabled(false);
         }}
+        data-testid="stop_screen_share_btn"
       >
         <CrossIcon width={18} height={18} />
         &nbsp; Stop screen share

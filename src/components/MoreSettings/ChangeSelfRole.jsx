@@ -42,7 +42,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
     </Dropdown.Item>
   ) : (
     <Dropdown.Root>
-      <Dropdown.TriggerItem css={css}>
+      <Dropdown.TriggerItem css={css} data-testid="change_my_role_btn">
         <PersonIcon />
         <Text variant="sm" css={{ flex: "1 1 0", mx: "$4" }}>
           Change My Role
@@ -54,7 +54,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
         alignOffset={-5}
         css={{ maxHeight: "$64" }}
       >
-        {availableSelfChangeRoles.map(role => (
+        {availableSelfChangeRoles.map((role, i) => (
           <Dropdown.Item
             key={role}
             css={{ ...css, justifyContent: "space-between" }}
@@ -65,6 +65,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
                 ToastManager.addToast({ title: error.message });
               }
             }}
+            data-testid={"change_to_role_" + i}
           >
             <Text variant="sm">{role}</Text>
             {localPeerRole.name === role && (

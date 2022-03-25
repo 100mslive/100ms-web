@@ -32,6 +32,7 @@ export const ToggleWhiteboard = () => {
         onClick={toggleWhiteboard}
         active={!whiteboardActive}
         disabled={whiteboardActive && !amIWhiteboardOwner}
+        data-testid="white_board_btn"
       >
         <PencilDrawIcon />
       </IconButton>

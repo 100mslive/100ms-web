@@ -5,6 +5,9 @@ import {
   useHMSStore,
   selectIsLocalVideoEnabled,
   useAVToggle,
+  selectLocalPeerID,
+  selectRoomState,
+  HMSRoomState,
 } from "@100mslive/react-sdk";
 import {
   Loading,
@@ -36,7 +39,8 @@ const defaultPreviewPreference = {
 };
 
 const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
-  const localPeer = useHMSStore(selectLocalPeer);
+  const localPeer = useHMSStore(selectLocalPeerID);
+  const roomState = useHMSStore(selectRoomState);
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW,
     defaultPreviewPreference
@@ -52,22 +56,7 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
       isVideoMuted: skipPreview ? true : previewPreference.isVideoMuted,
     },
   });
-  useEffect(() => {
-    if (token) {
-      if (skipPreview) {
-        savePreferenceAndJoin();
-      } else {
-        preview();
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
-  useEffect(() => {
-    if (!localPeer) {
-      preview();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localPeer]);
+
   const savePreferenceAndJoin = useCallback(() => {
     setPreviewPreference({
       name,
@@ -84,6 +73,17 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
     setPreviewPreference,
     onJoin,
   ]);
+  useEffect(() => {
+    if (token && roomState === HMSRoomState.Disconnected) {
+      if (skipPreview) {
+        savePreferenceAndJoin();
+      } else if (!localPeer) {
+        preview();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, localPeer, roomState, skipPreview]);
+
   return (
     <Container>
       <PreviewTile name={name} />
@@ -110,8 +110,13 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
             maxLength={20}
             value={name}
             onChange={e => setName(e.target.value)}
+            data-testid="preview_name_field"
           />
-          <Button type="submit" disabled={!name || !enableJoin}>
+          <Button
+            type="submit"
+            disabled={!name || !enableJoin}
+            data-testid="preview_join_btn"
+          >
             Join
           </Button>
         </Flex>
@@ -143,14 +148,20 @@ const PreviewTile = ({ name }) => {
       {localPeer ? (
         <>
           <ConnectionIndicator isTile peerId={localPeer.id} />
-          <Video mirror={true} trackId={localPeer.videoTrack} />
-          {!isVideoOn ? <Avatar name={name} /> : null}
+          <Video
+            mirror={true}
+            trackId={localPeer.videoTrack}
+            data-testid="preview_tile"
+          />
+          {!isVideoOn ? (
+            <Avatar name={name} data-testid="preview_avatar_tile" />
+          ) : null}
           <StyledVideoTile.AttributeBox css={controlStyles}>
             <AudioVideoToggle compact />
           </StyledVideoTile.AttributeBox>
           <Settings>
             <StyledVideoTile.AttributeBox css={settingStyles}>
-              <IconButton>
+              <IconButton data-testid="preview_setting_btn">
                 <SettingIcon />
               </IconButton>
             </StyledVideoTile.AttributeBox>

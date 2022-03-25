@@ -61,7 +61,11 @@ export const PlaylistActive = ({ type, onToggle }) => {
             <Text variant="xs">{active.metadata?.description}</Text>
           )}
         </Box>
-        <IconButton onClick={onToggle} css={{ alignSelf: "center" }}>
+        <IconButton
+          onClick={onToggle}
+          css={{ alignSelf: "center" }}
+          data-testid="playlist_collapse_btn"
+        >
           <PlaylistIcon />
         </IconButton>
       </Flex>
@@ -81,6 +85,7 @@ const Controls = ({ type, css = {} }) => {
         onClick={() => {
           actions.playPrevious();
         }}
+        data-testid="playlist_prev_btn"
       >
         <PrevIcon />
       </IconButton>
@@ -88,6 +93,7 @@ const Controls = ({ type, css = {} }) => {
         onClick={() => {
           active.playing ? actions.pause() : actions.play(active.id);
         }}
+        data-testid="playlist_play_pause_btn"
       >
         {active.playing ? (
           <PauseIcon width={32} height={32} />
@@ -100,6 +106,7 @@ const Controls = ({ type, css = {} }) => {
         onClick={() => {
           actions.playNext();
         }}
+        data-testid="playlist_next_btn"
       >
         <NextIcon />
       </IconButton>

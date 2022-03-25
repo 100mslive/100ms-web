@@ -91,6 +91,7 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
             onChange={setMeetingURL}
             placeholder="Enter meeting url"
             disabled={isAnythingRunning}
+            data-testid="metting_url_field"
           />
           {permissions.streaming && (
             <DialogInput
@@ -99,6 +100,7 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
               onChange={setRTMPURL}
               placeholder="Enter rtmp out url"
               disabled={isAnythingRunning || hlsSelected}
+              data-testid="rtmp_url_field"
             />
           )}
           {permissions.streaming && (
@@ -131,6 +133,7 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
               css={{ mx: "$4" }}
               onClick={() => startStopRTMPRecordingHLS("stop")}
               disabled={!isAnythingRunning}
+              data-testid="rtmp_recording_stop"
             >
               Stop
             </Button>
@@ -142,6 +145,7 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
                 isAnythingRunning ||
                 (!hlsSelected && !recordingSelected && !rtmpURL)
               }
+              data-testid="rtmp_recording_start"
             >
               Start
             </Button>

@@ -48,10 +48,15 @@ export const PostLeave = ({ history, match }) => {
           }}
         >
           <SunWithFace width={72} height={72} />
-          <Text variant="h5" css={{ fontWeight: "$semiBold", mt: "$12" }}>
+          <Text
+            color="white"
+            variant="h5"
+            css={{ fontWeight: "$semiBold", mt: "$12" }}
+          >
             You left the room
           </Text>
           <Text
+            color="white"
             variant="h5"
             css={{
               mt: "$8",
@@ -71,6 +76,7 @@ export const PostLeave = ({ history, match }) => {
                 history.push(previewUrl);
               }}
               css={{ mx: "$4" }}
+              data-testid="join_again_btn"
             >
               Join Again
             </Button>
@@ -80,6 +86,7 @@ export const PostLeave = ({ history, match }) => {
                 window.open("https://dashboard.100ms.live/", "_blank");
               }}
               css={{ mx: "$4" }}
+              data-testid="go_to_dashboard_btn"
             >
               Go to dashboard
             </Button>

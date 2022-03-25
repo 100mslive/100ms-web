@@ -30,6 +30,7 @@ const PIPComponent = () => {
           active={!isPipOn}
           key="pip"
           onClick={() => setIsPipOn(!isPipOn)}
+          data-testid="pip_btn"
         >
           <PipIcon />
         </IconButton>

@@ -35,7 +35,7 @@ const dots = [1, 2, 3, 4, 5];
 export const ConnectionQuality = ({ peerId }) => {
   const downlinkScore = useHMSStore(
     selectConnectionQualityByPeerID(peerId)
-  )?.downlinkScore;
+  )?.downlinkQuality;
   if (downlinkScore === -1 || downlinkScore === undefined) {
     return null;
   }
