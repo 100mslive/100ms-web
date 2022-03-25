@@ -195,7 +195,7 @@ const ScreenShareComponent = ({
   );
 };
 
-const CustomChatView = ({ isChatOpen, toggleChat, totalPeers }) => {
+const CustomChatView = ({ isChatOpen, toggleChat }) => {
   return (
     isChatOpen && (
       <Box
