@@ -39,7 +39,8 @@
     "build": "NODE_ENV=production webpack",
     "start": "webpack serve",
     "esbuild": "node ../../scripts/build-webapp",
-    "dev": "node ../../scripts/dev-webapp"
+    "dev": "node ../../scripts/dev-webapp",
+    "format": "prettier -w src"
   },
   "browserslist": {
     "production": [
@@ -77,13 +78,5 @@
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
     "webpack-manifest-plugin": "^4.1.1"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "semi": true,
-    "singleQuote": false,
-    "arrowParens": "avoid"
   }
 }

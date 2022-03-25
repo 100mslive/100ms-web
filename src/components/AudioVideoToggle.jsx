@@ -22,7 +22,11 @@ export const AudioVideoToggle = ({ compact = false }) => {
             key="toggleAudio"
             data-testid="audio_btn"
           >
-            {!isLocalAudioEnabled ? <MicOffIcon data-testid="audio_off_btn"/> : <MicOnIcon data-testid="audio_on_btn"/>}
+            {!isLocalAudioEnabled ? (
+              <MicOffIcon data-testid="audio_off_btn" />
+            ) : (
+              <MicOnIcon data-testid="audio_on_btn" />
+            )}
           </IconButton>
         </Tooltip>
       ) : null}
@@ -35,7 +39,11 @@ export const AudioVideoToggle = ({ compact = false }) => {
             onClick={toggleVideo}
             data-testid="video_btn"
           >
-            {!isLocalVideoEnabled ? <VideoOffIcon data-testid="video_off_btn"/> : <VideoOnIcon data-testid="video_on_btn"/>}
+            {!isLocalVideoEnabled ? (
+              <VideoOffIcon data-testid="video_off_btn" />
+            ) : (
+              <VideoOnIcon data-testid="video_on_btn" />
+            )}
           </IconButton>
         </Tooltip>
       ) : null}

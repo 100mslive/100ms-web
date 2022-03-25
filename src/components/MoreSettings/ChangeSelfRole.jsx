@@ -54,7 +54,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
         alignOffset={-5}
         css={{ maxHeight: "$64" }}
       >
-        {availableSelfChangeRoles.map((role,i) => (
+        {availableSelfChangeRoles.map((role, i) => (
           <Dropdown.Item
             key={role}
             css={{ ...css, justifyContent: "space-between" }}
@@ -65,7 +65,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
                 ToastManager.addToast({ title: error.message });
               }
             }}
-            data-testid={"change_to_role_"+i}
+            data-testid={"change_to_role_" + i}
           >
             <Text variant="sm">{role}</Text>
             {localPeerRole.name === role && (
