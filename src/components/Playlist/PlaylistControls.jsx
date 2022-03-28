@@ -61,7 +61,11 @@ export const PlaylistActive = ({ type, onToggle }) => {
             <Text variant="xs">{active.metadata?.description}</Text>
           )}
         </Box>
-        <IconButton onClick={onToggle} css={{ alignSelf: "center" }} data-testid="playlist_collapse_btn">
+        <IconButton
+          onClick={onToggle}
+          css={{ alignSelf: "center" }}
+          data-testid="playlist_collapse_btn"
+        >
           <PlaylistIcon />
         </IconButton>
       </Flex>

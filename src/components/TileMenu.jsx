@@ -47,13 +47,27 @@ const TileMenu = ({
       </StyledMenuTile.Trigger>
       <StyledMenuTile.Content side="left" align="start" sideOffset={10}>
         {toggleVideo ? (
-          <StyledMenuTile.ItemButton onClick={toggleVideo} data-testid={isVideoEnabled ? 'mute_video_participant_btn':'unmute_video_participant_btn'}>
+          <StyledMenuTile.ItemButton
+            onClick={toggleVideo}
+            data-testid={
+              isVideoEnabled
+                ? "mute_video_participant_btn"
+                : "unmute_video_participant_btn"
+            }
+          >
             {isVideoEnabled ? <VideoOnIcon /> : <VideoOffIcon />}
             <span>{`${isVideoEnabled ? "Mute" : "Request Unmute"}`}</span>
           </StyledMenuTile.ItemButton>
         ) : null}
         {toggleAudio ? (
-          <StyledMenuTile.ItemButton onClick={toggleAudio} data-testid={isVideoEnabled ? 'mute_audio_participant_btn':'unmute_audio_participant_btn'}>
+          <StyledMenuTile.ItemButton
+            onClick={toggleAudio}
+            data-testid={
+              isVideoEnabled
+                ? "mute_audio_participant_btn"
+                : "unmute_audio_participant_btn"
+            }
+          >
             {isAudioEnabled ? <MicOnIcon /> : <MicOffIcon />}
             <span>{`${isAudioEnabled ? "Mute" : "Request Unmute"}`}</span>
           </StyledMenuTile.ItemButton>

@@ -134,10 +134,13 @@ const ParticipantListInARole = ({
           {roleName}({participants.length})
         </Text>
       </Dropdown.Label>
-      {participants.map((peer,i) => {
+      {participants.map((peer, i) => {
         return (
-          <Dropdown.Item key={peer.id} css={{ w: "100%", h: "$14" }} 
-          data-testid= {"participant_"+i} >
+          <Dropdown.Item
+            key={peer.id}
+            css={{ w: "100%", h: "$14" }}
+            data-testid={"participant_" + i}
+          >
             <Box css={{ width: "$13" }}>
               <Avatar
                 shape="square"
