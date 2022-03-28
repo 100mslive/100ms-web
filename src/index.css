@@ -14,7 +14,10 @@ body,
   overflow: hidden;
 }
 
-code {
+code,
+kbd,
+samp,
+pre {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

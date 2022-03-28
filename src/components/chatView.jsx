@@ -1,6 +1,6 @@
-import { ChatBox } from "@100mslive/hms-video-react";
 import React from "react";
+import { Chat } from "./Chat/Chat";
 
 export const ChatView = ({ toggleChat }) => {
-  return <ChatBox onClose={toggleChat} />;
+  return <Chat onClose={toggleChat} />;
 };

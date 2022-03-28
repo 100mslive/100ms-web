@@ -1,27 +1,20 @@
 import {
   selectIsLocalAudioEnabled,
   selectIsLocalVideoEnabled,
+  parsedUserAgent,
+  useHMSVanillaStore,
+  useHMSActions,
 } from "@100mslive/react-sdk";
+import { useEffect } from "react";
 
 let isEvenListenersAttached = false;
-/**
- * 'navigator.useAgentData.platform' is the recommended way to
- * 'platform sniff'. Although, it's still not implemented in
- * Firefox and Safari. So when not available, the deprecated
- * 'navigator.platform' is used for backward compatibility.
- */
-let isMacOS = /mac/i.test(
-  navigator.userAgentData
-    ? navigator.userAgentData.platform
-    : navigator.platform
-);
-
+let isMacOS = parsedUserAgent.getOS().name.toLowerCase() === "mac os";
 export class KeyboardInputManager {
   #actions;
   #store;
-  constructor(hmsReactiveStore) {
-    this.#actions = hmsReactiveStore.getActions();
-    this.#store = hmsReactiveStore.getStore();
+  constructor(store, actions) {
+    this.#actions = actions;
+    this.#store = store;
   }
   async #toggleAudio() {
     const enabled = this.#store.getState(selectIsLocalAudioEnabled);
@@ -72,3 +65,15 @@ export class KeyboardInputManager {
     }
   }
 }
+
+export const KeyboardHandler = () => {
+  const store = useHMSVanillaStore();
+  const actions = useHMSActions();
+
+  useEffect(() => {
+    const keyboardManager = new KeyboardInputManager(store, actions);
+    keyboardManager.bindAllShortcuts();
+    return keyboardManager.unbindAllShortcuts;
+  }, [actions, store]);
+  return null;
+};

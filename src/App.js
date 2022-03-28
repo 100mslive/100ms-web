@@ -5,12 +5,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { HMSRoomProvider, HMSThemeProvider } from "@100mslive/hms-video-react";
-import {
-  HMSRoomProvider as ReactRoomProvider,
-  HMSReactiveStore,
-} from "@100mslive/react-sdk";
-import { HMSThemeProvider as ReactUIProvider, Box } from "@100mslive/react-ui";
+import { HMSRoomProvider } from "@100mslive/react-sdk";
+import { HMSThemeProvider, Box } from "@100mslive/react-ui";
 import PreviewScreen from "./components/PreviewScreen";
 import { Conference } from "./components/conference";
 import ErrorPage from "./components/ErrorPage";
@@ -26,10 +22,9 @@ import {
 } from "./services/tokenService";
 import "./index.css";
 import { PostLeave } from "./components/PostLeave";
-import { ToastManager } from "./components/Toast/ToastManager";
 import LogoForLight from "./images/logo-dark.svg";
 import LogoForDark from "./images/logo-light.svg";
-import { KeyboardInputManager } from "./components/Input/KeyboardInputManager";
+import { KeyboardHandler } from "./components/Input/KeyboardInputManager";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -49,9 +44,6 @@ if (window.location.host.includes("localhost")) {
 
 document.title = `${appName}'s ${document.title}`;
 
-const hmsReactiveStore = new HMSReactiveStore();
-const keyboardInputManager = new KeyboardInputManager(hmsReactiveStore);
-
 export function EdtechComponent({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
@@ -60,13 +52,8 @@ export function EdtechComponent({
     font = "Roboto",
     color = "#2F80FF",
     theme = "dark",
-    showChat = "true",
-    showScreenshare = "true",
     logo = "",
-    showAvatar = "true",
-    avatarType = "initial",
     headerPresent = "false",
-    logoClass = "",
     metadata = "",
   },
   getUserToken = defaultGetUserToken,
@@ -85,99 +72,41 @@ export function EdtechComponent({
     setThemeType(theme);
   }, [theme]);
 
-  useEffect(() => {
-    keyboardInputManager.bindAllShortcuts();
-    return keyboardInputManager.unbindAllShortcuts;
-  }, []);
-
   return (
     <HMSThemeProvider
-      config={{
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: [font, "Inter", "sans-serif"],
-              body: [font, "Inter", "sans-serif"],
-            },
-            colors: {
-              brand: {
-                main: color,
-                tint: shadeColor(color, 30),
-              },
-            },
-          },
+      themeType={themeType}
+      aspectRatio={{ width, height }}
+      theme={{
+        colors: {
+          brandDefault: color,
+          brandDark: shadeColor(color, -30),
+          brandLight: shadeColor(color, 30),
+          brandDisabled: shadeColor(color, 10),
+        },
+        fonts: {
+          sans: [font, "Inter", "sans-serif"],
         },
       }}
-      appBuilder={{
-        theme: themeType,
-        enableChat: showChat === "true",
-        enableScreenShare: showScreenshare === "true",
-        logo: logo,
-        logoClass: logoClass,
-        headerPresent: headerPresent === "true",
-        videoTileAspectRatio: { width, height },
-        showAvatar: showAvatar === "true",
-        avatarType: avatarType,
-      }}
-      toast={message => ToastManager.addToast({ title: message })}
     >
-      <ReactUIProvider
-        themeType={themeType}
-        aspectRatio={{ width, height }}
-        theme={{
-          colors: {
-            brandDefault: color,
-            brandDark: shadeColor(color, -30),
-            brandLight: shadeColor(color, 30),
-            brandDisabled: shadeColor(color, 10),
-          },
-          fonts: {
-            sans: [font, "Inter", "sans-serif"],
-          },
-        }}
-      >
-        <ReactRoomProvider
-          actions={hmsReactiveStore.getActions()}
-          store={hmsReactiveStore.getStore()}
-          notifications={hmsReactiveStore.getNotifications()}
-          stats={
-            FeatureFlags.enableStatsForNerds
-              ? hmsReactiveStore.getStats()
-              : undefined
-          }
+      <HMSRoomProvider isHMSStatsOn={FeatureFlags.enableStatsForNerds}>
+        <AppContextProvider
+          roomId={roomId}
+          tokenEndpoint={tokenEndpoint}
+          policyConfig={policyConfig}
+          appDetails={metadata}
+          logo={logo || (theme === "dark" ? LogoForDark : LogoForLight)}
         >
-          <HMSRoomProvider
-            actions={hmsReactiveStore.getActions()}
-            store={hmsReactiveStore.getStore()}
-            notifications={hmsReactiveStore.getNotifications()}
-            stats={
-              FeatureFlags.enableStatsForNerds
-                ? hmsReactiveStore.getStats()
-                : undefined
-            }
+          <Box
+            css={{
+              bg: "$mainBg",
+              w: "100%",
+              ...(headerPresent === "true" ? { flex: "1 1 0" } : { h: "100%" }),
+            }}
           >
-            <AppContextProvider
-              roomId={roomId}
-              tokenEndpoint={tokenEndpoint}
-              policyConfig={policyConfig}
-              appDetails={metadata}
-              logo={logo || (theme === "dark" ? LogoForDark : LogoForLight)}
-            >
-              <Box
-                css={{
-                  bg: "$mainBg",
-                  w: "100%",
-                  ...(headerPresent === "true"
-                    ? { flex: "1 1 0" }
-                    : { h: "100%" }),
-                }}
-              >
-                <AppRoutes getUserToken={getUserToken} />
-              </Box>
-            </AppContextProvider>
-          </HMSRoomProvider>
-        </ReactRoomProvider>
-      </ReactUIProvider>
+            <AppRoutes getUserToken={getUserToken} />
+          </Box>
+        </AppContextProvider>
+      </HMSRoomProvider>
     </HMSThemeProvider>
   );
 }
@@ -188,6 +117,7 @@ function AppRoutes({ getUserToken }) {
       <ToastContainer />
       <Notifications />
       <Confetti />
+      <KeyboardHandler />
       <Switch>
         <Route
           path="/preview/:roomId/:role?"
