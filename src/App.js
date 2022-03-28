@@ -29,6 +29,7 @@ import { PostLeave } from "./components/PostLeave";
 import { ToastManager } from "./components/Toast/ToastManager";
 import LogoForLight from "./images/logo-dark.svg";
 import LogoForDark from "./images/logo-light.svg";
+import { KeyboardInputManager } from "./components/Input/KeyboardInputManager";
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -49,6 +50,7 @@ if (window.location.host.includes("localhost")) {
 document.title = `${appName}'s ${document.title}`;
 
 const hmsReactiveStore = new HMSReactiveStore();
+const keyboardInputManager = new KeyboardInputManager(hmsReactiveStore);
 
 export function EdtechComponent({
   roomId = "",
@@ -82,6 +84,12 @@ export function EdtechComponent({
   useEffect(() => {
     setThemeType(theme);
   }, [theme]);
+
+  useEffect(() => {
+    keyboardInputManager.bindAllShortcuts();
+    return keyboardInputManager.unbindAllShortcuts;
+  }, []);
+
   return (
     <HMSThemeProvider
       config={{
