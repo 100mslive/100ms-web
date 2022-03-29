@@ -37,6 +37,7 @@ const SpeakerTag = () => {
 const LogoImg = styled("img", {
   maxHeight: "$14",
   p: "$2",
+  w: "auto",
   "@md": {
     maxHeight: "$12",
   },
@@ -44,7 +45,7 @@ const LogoImg = styled("img", {
 
 const Logo = () => {
   const { logo } = useContext(AppContext);
-  return <LogoImg src={logo} alt="Brand Logo" />;
+  return <LogoImg src={logo} alt="Brand Logo" width={132} height={40} />;
 };
 
 export const Header = ({ isPreview }) => {
