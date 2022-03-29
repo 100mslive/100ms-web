@@ -19,8 +19,9 @@ const RefreshDevices = () => {
             video: true,
           })
           .then(stream => {
-            stream.getTracks().forEach(track => track.stop());
-            hmsActions.refreshDevices();
+            hmsActions.refreshDevices().then(() => {
+              stream.getTracks().forEach(track => track.stop());
+            });
           })
           .catch(console.error);
       }}

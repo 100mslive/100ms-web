@@ -22,6 +22,40 @@ import { AudioPlaylistControls } from "./PlaylistControls";
 import { usePlaylist } from "../hooks/usePlaylist";
 import { isScreenshareSupported } from "../../common/utils";
 
+const BrowseAndPlayFromLocal = ({ type, actions }) => {
+  return (
+    <Fragment>
+      <Text
+        as="label"
+        htmlFor={`${type}PlaylistBrowse`}
+        variant="sm"
+        css={{ cursor: "pointer", mr: "$2" }}
+      >
+        Browse
+      </Text>
+      <input
+        type="file"
+        id={`${type}PlaylistBrowse`}
+        accept={type === HMSPlaylistType.audio ? "audio/*" : "video/*"}
+        onChange={e => {
+          const file = e.target.files[0];
+          const id = file.lastModified;
+          actions.setList([
+            {
+              type,
+              id,
+              name: file.name,
+              url: URL.createObjectURL(file),
+            },
+          ]);
+          actions.play(id);
+        }}
+        style={{ display: "none" }}
+      />
+    </Fragment>
+  );
+};
+
 export const Playlist = ({ type }) => {
   const isAudioPlaylist = type === HMSPlaylistType.audio;
   const { active, list: playlist, actions } = usePlaylist(type);
@@ -77,6 +111,7 @@ export const Playlist = ({ type }) => {
             <Text variant="md" css={{ flex: "1 1 0" }}>
               {isAudioPlaylist ? "Audio Player" : "Video Playlist"}
             </Text>
+            <BrowseAndPlayFromLocal type={type} actions={actions} />
             <IconButton
               css={{ mr: "-$4" }}
               onClick={async () => {

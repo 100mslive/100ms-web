@@ -33,6 +33,7 @@ export function getRandomVirtualBackground() {
     let gifList = ["https://www.100ms.live/images/vb-1.gif"];
     backgroundList.push(...gifList);
 
+    /* //Not Supporting video backgrounds until web worker issue is resolved
     let videoList = [
       "https://www.100ms.live/images/video-1.mp4",
       "https://www.100ms.live/images/video-2.mp4",
@@ -40,7 +41,7 @@ export function getRandomVirtualBackground() {
       "https://www.100ms.live/images/video-7.mp4",
       "https://www.100ms.live/images/video-8.mp4",
     ];
-    backgroundList.push(...videoList);
+    backgroundList.push(...videoList);*/
   }
 
   let randomIdx = Math.floor(Math.random() * backgroundList.length);
@@ -53,11 +54,12 @@ export function getRandomVirtualBackground() {
     return img;
   } else if (randomIdx === 4) {
     return backgroundList[randomIdx];
-  } else {
+  }
+  /*} else {
     const videoEl = document.createElement("video");
     videoEl.src = backgroundList[randomIdx];
     return videoEl;
-  }
+  }*/
 }
 
 /**
