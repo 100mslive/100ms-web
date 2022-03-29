@@ -23,7 +23,6 @@ export class FeatureFlags {
     // add support for server degradation
     window.HMS.SERVER_SUB_DEGRADE =
       process.env.REACT_APP_SERVER_SUB_DEGRADE === "true";
-    window.HMS.NETWORK_TEST = process.env.REACT_APP_ENV === "qa";
   }
 
   static optimiseHLSLatency() {
