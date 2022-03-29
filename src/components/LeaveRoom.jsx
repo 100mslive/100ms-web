@@ -52,7 +52,11 @@ export const LeaveRoom = () => {
       {permissions.endRoom ? (
         <Popover.Root>
           <Popover.Trigger asChild>
-            <LeaveIconButton variant="danger" key="LeaveRoom" data-testid="leave_room_btn">
+            <LeaveIconButton
+              variant="danger"
+              key="LeaveRoom"
+              data-testid="leave_room_btn"
+            >
               <Tooltip title="Leave Room">
                 <Box>
                   <HangUpIcon key="hangUp" />
@@ -70,7 +74,12 @@ export const LeaveRoom = () => {
             >
               End Room
             </Button>
-            <Button variant="danger" css={{ mt: "$4" }} onClick={leaveRoom} data-testid="just_leave_btn">
+            <Button
+              variant="danger"
+              css={{ mt: "$4" }}
+              onClick={leaveRoom}
+              data-testid="just_leave_btn"
+            >
               Just Leave
             </Button>
           </Popover.Content>
@@ -102,7 +111,11 @@ export const LeaveRoom = () => {
             onChange={setLockRoom}
           />
           <DialogRow justify="end">
-            <Button variant="danger" onClick={endRoom} data-testid="lock_end_room">
+            <Button
+              variant="danger"
+              onClick={endRoom}
+              data-testid="lock_end_room"
+            >
               End Room
             </Button>
           </DialogRow>

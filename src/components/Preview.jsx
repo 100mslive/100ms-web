@@ -112,7 +112,11 @@ const Preview = ({ token, onJoin, env, skipPreview, initialName }) => {
             onChange={e => setName(e.target.value)}
             data-testid="preview_name_field"
           />
-          <Button type="submit" disabled={!name || !enableJoin}  data-testid="preview_join_btn">
+          <Button
+            type="submit"
+            disabled={!name || !enableJoin}
+            data-testid="preview_join_btn"
+          >
             Join
           </Button>
         </Flex>
@@ -144,8 +148,14 @@ const PreviewTile = ({ name }) => {
       {localPeer ? (
         <>
           <ConnectionIndicator isTile peerId={localPeer.id} />
-          <Video mirror={true} trackId={localPeer.videoTrack} data-testid="preview_tile"/>
-          {!isVideoOn ? <Avatar name={name} data-testid="preview_avatar_tile"/> : null}
+          <Video
+            mirror={true}
+            trackId={localPeer.videoTrack}
+            data-testid="preview_tile"
+          />
+          {!isVideoOn ? (
+            <Avatar name={name} data-testid="preview_avatar_tile" />
+          ) : null}
           <StyledVideoTile.AttributeBox css={controlStyles}>
             <AudioVideoToggle compact />
           </StyledVideoTile.AttributeBox>
