@@ -54,7 +54,12 @@ export const Conference = () => {
           <Header />
         </Box>
       )}
-      <Box css={{ w: "100%", flex: "1 1 0" }}>
+      <Box
+        css={{
+          w: "100%",
+          flex: "1 1 0",
+        }}
+      >
         <ConferenceMainView isChatOpen={isChatOpen} toggleChat={toggleChat} />
       </Box>
       {!isHeadless && (
