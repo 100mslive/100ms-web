@@ -59,8 +59,9 @@ export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
   } else if (whiteboardShared) {
     ViewComponent = WhiteboardView;
   } else if (
-    (peerSharing && peerSharing.id !== peerSharingAudio?.id) ||
-    peerSharingPlaylist
+    ((peerSharing && peerSharing.id !== peerSharingAudio?.id) ||
+      peerSharingPlaylist) &&
+    !isAudioOnly
   ) {
     ViewComponent = ScreenShareView;
   } else if (uiViewMode === "activeSpeaker") {
