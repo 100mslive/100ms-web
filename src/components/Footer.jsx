@@ -26,7 +26,7 @@ import { Screenshare } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
 import { NoiseSuppression } from "../plugins/NoiseSuppression";
 import { ToggleWhiteboard } from "../plugins/whiteboard";
-import { VirtualBackground } from "../plugins/VirtualBackground";
+import { VirtualBackground } from "../plugins/VirtualBackground/VirtualBackground";
 import { useMyMetadata } from "./hooks/useMetadata";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { isScreenshareSupported } from "../common/utils";

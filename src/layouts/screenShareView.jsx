@@ -16,7 +16,7 @@ import ScreenshareTile from "../components/ScreenshareTile";
 import VideoList from "../components/VideoList";
 import VideoTile from "../components/VideoTile";
 import { VideoPlayer } from "../components/Playlist/VideoPlayer";
-import { chatStyle } from "../common/utils";
+import { mobileChatStyle } from "../common/utils";
 
 export const ScreenShareView = ({
   showStats,
@@ -195,14 +195,14 @@ const ScreenShareComponent = ({
   );
 };
 
-const CustomChatView = ({ isChatOpen, toggleChat, totalPeers }) => {
+const CustomChatView = ({ isChatOpen, toggleChat }) => {
   return (
     isChatOpen && (
       <Box
         css={{
           h: "45%",
           flexShrink: 0,
-          "@lg": chatStyle,
+          "@lg": mobileChatStyle,
           "@ls": {
             position: "absolute",
             top: 0,
