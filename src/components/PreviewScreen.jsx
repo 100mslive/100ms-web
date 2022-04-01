@@ -23,8 +23,13 @@ const PreviewScreen = ({ getUserToken }) => {
   const beamInToken = useSearchParam("token") === "beam_recording"; // old format to remove
   let skipPreview = useSearchParam(SKIP_PREVIEW) === "true";
   skipPreview = skipPreview || beamInToken || directJoinNoHeadless;
+  let authToken = useSearchParam("auth_token");
 
   useEffect(() => {
+    if (authToken) {
+      setToken(authToken);
+      return;
+    }
     const getTokenFn = !userRole
       ? () => getUserToken(v4())
       : () => getToken(tokenEndpoint, v4(), userRole, urlRoomId);
@@ -35,7 +40,7 @@ const PreviewScreen = ({ getUserToken }) => {
       .catch(error => {
         setError(convertPreviewError(error));
       });
-  }, [tokenEndpoint, urlRoomId, getUserToken, userRole]);
+  }, [tokenEndpoint, urlRoomId, getUserToken, userRole, authToken]);
 
   const onJoin = () => {
     !directJoinNoHeadless && setIsHeadless(skipPreview);
