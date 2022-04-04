@@ -20,6 +20,7 @@ import {
   getUserToken as defaultGetUserToken,
   getBackendEndpoint,
 } from "./services/tokenService";
+import "./base.css";
 import "./index.css";
 import { PostLeave } from "./components/PostLeave";
 import LogoForLight from "./images/logo-dark.svg";
