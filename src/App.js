@@ -23,7 +23,7 @@ import "./index.css";
 import { PostLeave } from "./components/PostLeave";
 import LogoForLight from "./images/logo-dark.svg";
 import LogoForDark from "./images/logo-light.svg";
-import FullPageProgress from "./components/FullPageSpinner";
+import FullPageProgress from "./components/FullPageProgress";
 import { KeyboardHandler } from "./components/Input/KeyboardInputManager";
 
 const Conference = React.lazy(() => import("./components/conference"));

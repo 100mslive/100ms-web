@@ -10,7 +10,7 @@ import {
 import { Box, Flex } from "@100mslive/react-ui";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import FullPageProgress from "./FullPageSpinner";
+import FullPageProgress from "./FullPageProgress";
 import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
 import { ConferenceMainView } from "../layouts/mainView";
 import { AppContext } from "./context/AppContext";

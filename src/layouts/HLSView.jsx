@@ -9,7 +9,7 @@ const HLSVideo = styled("video", {
   margin: "0 auto",
 });
 
-export const HLSView = ({ isChatOpen, toggleChat }) => {
+const HLSView = ({ isChatOpen, toggleChat }) => {
   const videoRef = useRef(null);
   const hlsState = useHMSStore(selectHLSState);
   useEffect(() => {
@@ -73,3 +73,5 @@ function getHLSConfig() {
   }
   return {};
 }
+
+export default HLSView;
