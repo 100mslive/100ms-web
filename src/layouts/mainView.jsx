@@ -10,7 +10,6 @@ import {
   selectLocalPeer,
 } from "@100mslive/react-sdk";
 import { MainGridView } from "./mainGridView";
-import { ActiveSpeakerView } from "./ActiveSpeakerView";
 import { AppContext } from "../components/context/AppContext";
 import FullPageProgress from "../components/FullPageProgress";
 import { useWhiteboardMetadata } from "../plugins/whiteboard";
@@ -19,6 +18,7 @@ import { useBeamAutoLeave } from "../common/hooks";
 const WhiteboardView = React.lazy(() => import("./WhiteboardView"));
 const HLSView = React.lazy(() => import("./HLSView"));
 const ScreenShareView = React.lazy(() => import("./screenShareView"));
+const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 
 export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
   const localPeer = useHMSStore(selectLocalPeer);
