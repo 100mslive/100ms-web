@@ -9,7 +9,7 @@ import {
 } from "@100mslive/react-ui";
 import PlaceholderBg from "../images/post_leave.png";
 
-export const PostLeave = ({ history, match }) => {
+const PostLeave = ({ history, match }) => {
   return (
     <Flex justify="center" align="center" css={{ size: "100%", bg: "$mainBg" }}>
       <Box
@@ -96,3 +96,5 @@ export const PostLeave = ({ history, match }) => {
     </Flex>
   );
 };
+
+export default PostLeave;
