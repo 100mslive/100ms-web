@@ -87,5 +87,8 @@ export const defaultVideoList = [
 
 export const DEFAULT_HLS_ROLE_KEY = "HLS_VIEWER_ROLE";
 export const DEFAULT_HLS_VIEWER_ROLE = "hls-viewer";
-export const SKIP_PREVIEW = "skip_preview";
+export const QUERY_PARAM_SKIP_PREVIEW = "skip_preview";
+export const QUERY_PARAM_VIEW_MODE = "ui_mode";
+export const UI_MODE_ACTIVE_SPEAKER = "activespeaker";
+export const UI_MODE_GRID = "grid";
 export const MAX_TOASTS = 5;
