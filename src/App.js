@@ -17,7 +17,6 @@ import {
   getUserToken as defaultGetUserToken,
   getBackendEndpoint,
 } from "./services/tokenService";
-import "./base.css";
 import "./index.css";
 import LogoForLight from "./images/logo-dark.svg";
 import LogoForDark from "./images/logo-light.svg";
@@ -186,6 +185,11 @@ export default function App() {
         color: process.env.REACT_APP_COLOR,
         logo: process.env.REACT_APP_LOGO,
         font: process.env.REACT_APP_FONT,
+        showChat: process.env.REACT_APP_SHOW_CHAT,
+        showScreenshare: process.env.REACT_APP_SHOW_SCREENSHARE,
+        showAvatar: process.env.REACT_APP_VIDEO_AVATAR,
+        avatarType: process.env.REACT_APP_AVATAR_TYPE,
+        logoClass: process.env.REACT_APP_LOGO_CLASS,
         headerPresent: process.env.REACT_APP_HEADER_PRESENT,
         metadata: process.env.REACT_APP_DEFAULT_APP_DETAILS, // A stringified object in env
       }}

@@ -25,3 +25,8 @@ pre {
 :focus {
   outline: none;
 }
+
+* {
+  min-height: 0;
+  min-width: 0;
+}
