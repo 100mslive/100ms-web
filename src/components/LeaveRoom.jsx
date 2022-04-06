@@ -67,6 +67,7 @@ export const LeaveRoom = () => {
           <Popover.Content sideOffset={10}>
             <Button
               variant="standard"
+              css={{ w: "100%" }}
               onClick={() => {
                 setShowEndRoomModal(true);
               }}
