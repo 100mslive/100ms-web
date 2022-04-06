@@ -16,6 +16,7 @@ import {
   DialogRow,
 } from "../../primitives/DialogContent";
 import { AppContext } from "../context/AppContext";
+import { UI_MODE_ACTIVE_SPEAKER, UI_MODE_GRID } from "../../common/constants";
 
 const cssStyle = {
   flexDirection: "column",
@@ -112,9 +113,9 @@ export const UISettings = ({ open, onOpenChange }) => {
           <DialogCheckbox
             title="Active Speaker Mode"
             id="activeSpeakerMode"
-            value={uiViewMode === "activeSpeaker"}
+            value={uiViewMode === UI_MODE_ACTIVE_SPEAKER}
             onChange={value => {
-              setuiViewMode(value ? "activeSpeaker" : "grid");
+              setuiViewMode(value ? UI_MODE_ACTIVE_SPEAKER : UI_MODE_GRID);
             }}
             css={{ margin: "0 0" }}
           />

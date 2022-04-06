@@ -7,7 +7,7 @@ import Preview from "./Preview";
 import { Header } from "./Header";
 import { ErrorDialog } from "../primitives/DialogContent";
 import { AppContext } from "./context/AppContext";
-import { SKIP_PREVIEW } from "../common/constants";
+import { QUERY_PARAM_SKIP_PREVIEW } from "../common/constants";
 import getToken from "../services/tokenService";
 
 const env = process.env.REACT_APP_ENV;
@@ -21,7 +21,7 @@ const PreviewScreen = ({ getUserToken }) => {
   const [error, setError] = useState({ title: "", body: "" });
   // skip preview for beam recording and streaming
   const beamInToken = useSearchParam("token") === "beam_recording"; // old format to remove
-  let skipPreview = useSearchParam(SKIP_PREVIEW) === "true";
+  let skipPreview = useSearchParam(QUERY_PARAM_SKIP_PREVIEW) === "true";
   skipPreview = skipPreview || beamInToken || directJoinNoHeadless;
   let authToken = useSearchParam("auth_token");
 
