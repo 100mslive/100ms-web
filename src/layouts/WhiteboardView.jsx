@@ -36,7 +36,7 @@ const Editor = React.memo(({ roomId }) => {
   );
 });
 
-export const WhiteboardView = ({ showStats, isChatOpen, toggleChat }) => {
+const WhiteboardView = ({ showStats, isChatOpen, toggleChat }) => {
   // for smaller screen we will show sidebar in bottom
   const mediaQueryLg = cssConfig.media.lg;
   const showSidebarInBottom = useMedia(mediaQueryLg);
@@ -74,3 +74,5 @@ export const WhiteboardView = ({ showStats, isChatOpen, toggleChat }) => {
     </Flex>
   );
 };
+
+export default WhiteboardView;

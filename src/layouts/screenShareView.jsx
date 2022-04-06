@@ -18,7 +18,7 @@ import VideoTile from "../components/VideoTile";
 import { VideoPlayer } from "../components/Playlist/VideoPlayer";
 import { mobileChatStyle } from "../common/utils";
 
-export const ScreenShareView = ({
+const ScreenShareView = ({
   showStats,
   isChatOpen,
   toggleChat,
@@ -278,3 +278,5 @@ const LargeTilePeerView = ({
     </Box>
   ) : null;
 };
+
+export default ScreenShareView;
