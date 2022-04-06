@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,9 +7,6 @@ import {
 } from "react-router-dom";
 import { HMSRoomProvider } from "@100mslive/react-sdk";
 import { HMSThemeProvider, Box } from "@100mslive/react-ui";
-import PreviewScreen from "./components/PreviewScreen";
-import { Conference } from "./components/conference";
-import ErrorPage from "./components/ErrorPage";
 import { AppContextProvider } from "./components/context/AppContext.js";
 import { Notifications } from "./components/Notifications";
 import { Confetti } from "./plugins/confetti";
@@ -22,10 +19,15 @@ import {
 } from "./services/tokenService";
 import "./base.css";
 import "./index.css";
-import { PostLeave } from "./components/PostLeave";
 import LogoForLight from "./images/logo-dark.svg";
 import LogoForDark from "./images/logo-light.svg";
+import FullPageProgress from "./components/FullPageProgress";
 import { KeyboardHandler } from "./components/Input/KeyboardInputManager";
+
+const Conference = React.lazy(() => import("./components/conference"));
+const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
+const ErrorPage = React.lazy(() => import("./components/ErrorPage"));
+const PostLeave = React.lazy(() => import("./components/PostLeave"));
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -133,13 +135,23 @@ function AppRoutes({ getUserToken }) {
             ) {
               return <Redirect to="/" />;
             }
-            return <PreviewScreen getUserToken={getUserToken} />;
+            return (
+              <Suspense fallback={<FullPageProgress />}>
+                <PreviewScreen getUserToken={getUserToken} />
+              </Suspense>
+            );
           }}
         />
         <Route path="/meeting/:roomId/:role?">
-          <Conference />
+          <Suspense fallback={<FullPageProgress />}>
+            <Conference />
+          </Suspense>
         </Route>
-        <Route path="/leave/:roomId/:role?" component={PostLeave} />
+        <Route path="/leave/:roomId/:role?">
+          <Suspense fallback={<FullPageProgress />}>
+            <PostLeave />
+          </Suspense>
+        </Route>
         <Route
           path="/:roomId/:role?"
           render={({ match }) => {
@@ -155,7 +167,11 @@ function AppRoutes({ getUserToken }) {
             );
           }}
         />
-        <Route path="*" render={() => <ErrorPage error="Invalid URL!" />} />
+        <Route path="*">
+          <Suspense fallback={<FullPageProgress />}>
+            <ErrorPage error="Invalid URL!" />
+          </Suspense>
+        </Route>
       </Switch>
     </Router>
   );

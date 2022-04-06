@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
-import RecordRTC, { StereoAudioRecorder } from "recordrtc";
 import {
   useHMSStore,
   selectIsAllowedToPublish,
@@ -28,6 +27,21 @@ export function TranscriptionButton() {
   const roomId = useHMSStore(selectRoomID);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const notification = useHMSNotifications();
+
+  const enableTranscription = useCallback(
+    (enabled = null) => {
+      if (!transcriber.current) {
+        transcriber.current = new Transcriber(setTranscript, setSpeakingPeer);
+        transcriber.current.enabled = false;
+      }
+      if (enabled !== false) {
+        enabled = !isTranscriptionEnabled;
+      }
+      transcriber.current.enableTranscription(enabled);
+      setIsTranscriptionEnabled(enabled);
+    },
+    [isTranscriptionEnabled]
+  );
 
   useEffect(() => {
     channel = pusher.subscribe(`private-${roomId}`);
@@ -61,7 +75,7 @@ export function TranscriptionButton() {
         }
       }
     });
-  }, [roomId]);
+  }, [roomId, isTranscriptionEnabled, enableTranscription]);
 
   useEffect(() => {
     if (!notification) {
@@ -76,19 +90,7 @@ export function TranscriptionButton() {
         JSON.stringify({ transcriptionConfig: { isEnabled: true } })
       );
     }
-  }, [notification]);
-
-  const enableTranscription = (enabled = null) => {
-    if (!transcriber.current) {
-      transcriber.current = new Transcriber(setTranscript, setSpeakingPeer);
-      transcriber.current.enabled = false;
-    }
-    if (enabled !== false) {
-      enabled = !isTranscriptionEnabled;
-    }
-    transcriber.current.enableTranscription(enabled);
-    setIsTranscriptionEnabled(enabled);
-  };
+  }, [notification, isTranscriptionEnabled]);
 
   return (
     <>
@@ -264,12 +266,13 @@ class Transcriber {
     }
   }
 
-  observeStream(stream) {
-    let recorder = new RecordRTC(stream, {
+  async observeStream(stream) {
+    const RecordRTC = await import("recordrtc");
+    let recorder = new RecordRTC.default(stream, {
       ...this.sttTuningConfig,
       type: "audio",
       mimeType: "audio/webm;codecs=pcm",
-      recorderType: StereoAudioRecorder,
+      recorderType: RecordRTC.StereoAudioRecorder,
       ondataavailable: blob => {
         const reader = new FileReader();
         reader.onload = () => {

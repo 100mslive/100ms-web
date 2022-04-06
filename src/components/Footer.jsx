@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import {
   BrbIcon,
   ChatIcon,
@@ -31,7 +31,10 @@ import { useMyMetadata } from "./hooks/useMetadata";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { isScreenshareSupported } from "../common/utils";
 import { Playlist } from "../components/Playlist/Playlist";
-import { TranscriptionButton } from "../plugins/transcription";
+
+const TranscriptionButton = React.lazy(() =>
+  import("../plugins/transcription")
+);
 
 const ScreenshareAudio = () => {
   const {
