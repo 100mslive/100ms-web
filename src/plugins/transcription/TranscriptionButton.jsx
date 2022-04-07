@@ -7,6 +7,7 @@ import {
   HMSNotificationTypes,
   selectRoomID,
 } from "@100mslive/react-sdk";
+import RecordRTC, { StereoAudioRecorder } from "recordrtc";
 import { Box, Tooltip, Text, IconButton } from "@100mslive/react-ui";
 import { ClosedCaptionIcon } from "@100mslive/react-icons";
 import { FeatureFlags } from "../../services/FeatureFlags";
@@ -267,12 +268,11 @@ class Transcriber {
   }
 
   async observeStream(stream) {
-    const RecordRTC = await import("recordrtc");
-    let recorder = new RecordRTC.default(stream, {
+    let recorder = new RecordRTC(stream, {
       ...this.sttTuningConfig,
       type: "audio",
       mimeType: "audio/webm;codecs=pcm",
-      recorderType: RecordRTC.StereoAudioRecorder,
+      recorderType: StereoAudioRecorder,
       ondataavailable: blob => {
         const reader = new FileReader();
         reader.onload = () => {
