@@ -58,6 +58,7 @@ const Conference = () => {
         css={{
           w: "100%",
           flex: "1 1 0",
+          minHeight: 0,
         }}
       >
         <ConferenceMainView isChatOpen={isChatOpen} toggleChat={toggleChat} />
