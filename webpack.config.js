@@ -76,39 +76,12 @@ module.exports = {
     ],
   },
   optimization: {
-    splitChunks: {
-      /**
-       * This is used to split code into to two bundles
-       * - vendor - this includes all dependencies
-       * - main(default) - this includes the source code
-       */
-      cacheGroups: {
-        vendor: {
-          name(module) {
-            // get the name. E.g. node_modules/packageName/not/this/part.js
-            // or node_modules/packageName
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-            )[1];
-            // npm package names are URL-safe, but some servers don't like @ symbols
-            return `vendor-${packageName.replace("@", "")}`;
-          },
-          enforce: true,
-          test: /[\\/]node_modules[\\/](?!react|react-dom)/,
-          reuseExistingChunk: true,
-          maxSize: 204800,
-        },
-        default: {
-          reuseExistingChunk: true,
-          chunks: "all",
-        },
-      },
-    },
+    splitChunks: {},
     runtimeChunk: false,
     minimize: process.env.NODE_ENV === "production",
     minimizer: [
       new TerserPlugin({
-        minify: TerserPlugin.uglifyJsMinify,
+        minify: TerserPlugin.esbuildMinify,
       }),
     ],
   },
