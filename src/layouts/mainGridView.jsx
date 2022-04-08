@@ -69,7 +69,7 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
 function preserveLateJoinedPeer(peers) {
   let tutor;
   for (const peer of peers) {
-    if (!peer.roleName === "tutor") {
+    if (!(peer.roleName === "stage")) {
       continue;
     }
     if (!tutor) {
@@ -78,5 +78,5 @@ function preserveLateJoinedPeer(peers) {
       tutor = peer;
     }
   }
-  return [tutor];
+  return tutor ? [tutor] : [];
 }
