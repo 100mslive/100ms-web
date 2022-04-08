@@ -65,27 +65,18 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
   );
 };
 
-// for each peer name only keep the one who last joined
-// this handles the case of not showing a stale peer whose reconnection failed,
-// but they joined again
+// pick the tutor who joined last
 function preserveLateJoinedPeer(peers) {
-  const names = new Set();
+  let tutor;
   for (const peer of peers) {
-    names.add(peer.name);
-  }
-  const filtered = [];
-  names.forEach(name => {
-    let chosenPeer;
-    for (const peer of peers) {
-      if (peer.name === name) {
-        if (!chosenPeer) {
-          chosenPeer = peer;
-        } else if (peer.joinedAt > chosenPeer.joinedAt) {
-          chosenPeer = peer;
-        }
-      }
+    if (!peer.roleName === "tutor") {
+      continue;
     }
-    chosenPeer && filtered.push(chosenPeer);
-  });
-  return filtered;
+    if (!tutor) {
+      tutor = peer;
+    } else if (peer.joinedAt > peer.joinedAt) {
+      tutor = peer;
+    }
+  }
+  return [tutor];
 }
