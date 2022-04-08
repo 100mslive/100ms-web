@@ -14,7 +14,7 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
     appPolicyConfig: { center: centerRoles = [], sidepane: sidepaneRoles = [] },
     showStatsOnTiles,
   } = useContext(AppContext);
-  const peers = preserveLateJoinedPeer(useHMSStore(selectPeers));
+  const peers = pickLastJoinedTutor(useHMSStore(selectPeers));
   const localPeerId = useHMSStore(selectLocalPeerID);
   const centerPeers = peers.filter(peer => centerRoles.includes(peer.roleName));
   const sidebarPeers = peers.filter(peer =>
@@ -66,10 +66,10 @@ export const MainGridView = ({ isChatOpen, toggleChat }) => {
 };
 
 // pick the tutor who joined last
-function preserveLateJoinedPeer(peers) {
+function pickLastJoinedTutor(peers) {
   let tutor;
   for (const peer of peers) {
-    if (!(peer.roleName === "stage")) {
+    if (!(peer.roleName === "tutor")) {
       continue;
     }
     if (!tutor) {
