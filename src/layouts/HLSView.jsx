@@ -14,7 +14,7 @@ const HLSView = ({ isChatOpen, toggleChat }) => {
   const hlsState = useHMSStore(selectHLSState);
   useEffect(() => {
     if (videoRef.current) {
-      import("hls.js").then(Hls => {
+      import("hls.js").then(({ default: Hls }) => {
         if (Hls.isSupported() && hlsState.variants[0]?.url) {
           let hls = new Hls(getHLSConfig());
           hls.loadSource(hlsState.variants[0].url);
