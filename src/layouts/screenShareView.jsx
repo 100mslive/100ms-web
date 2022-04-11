@@ -177,12 +177,7 @@ const ScreenShareComponent = ({
           screenshareTrack?.displaySurface
         ) ? (
           <Box css={{ objectFit: "contain", h: "100%" }}>
-            <ScreenshareDisplay
-              stopScreenShare={async () => {
-                await hmsActions.setScreenShareEnabled(false);
-              }}
-              classes={{ rootBg: "h-full" }}
-            />
+            <ScreenshareDisplay />
           </Box>
         ) : (
           <ScreenshareTile
