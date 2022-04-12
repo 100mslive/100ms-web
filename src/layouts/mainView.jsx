@@ -38,6 +38,7 @@ export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
     showStatsOnTiles,
     isAudioOnly,
   } = useContext(AppContext);
+
   useEffect(() => {
     // set list only when room state is connected
     if (roomState !== HMSRoomState.Connected) {

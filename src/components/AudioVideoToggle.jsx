@@ -10,7 +10,7 @@ import { useAVToggle, parsedUserAgent } from "@100mslive/react-sdk";
 
 const isMacOS = parsedUserAgent.getOS().name.toLowerCase() === "mac os";
 
-export const AudioVideoToggle = ({ compact = false }) => {
+export const AudioVideoToggle = ({ compact = false, isAudioOnly }) => {
   const { isLocalVideoEnabled, isLocalAudioEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
   return (
@@ -46,6 +46,7 @@ export const AudioVideoToggle = ({ compact = false }) => {
             css={compact ? { ml: "$2" } : { mx: "$4" }}
             key="toggleVideo"
             active={isLocalVideoEnabled}
+            disabled={isAudioOnly}
             onClick={toggleVideo}
             data-testid="video_btn"
           >

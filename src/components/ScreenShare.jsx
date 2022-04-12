@@ -7,7 +7,7 @@ import {
 import { IconButton, Tooltip } from "@100mslive/react-ui";
 import { isScreenshareSupported } from "../common/utils";
 
-export const Screenshare = ({ css }) => {
+export const Screenshare = ({ css, isAudioOnly }) => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const {
     amIScreenSharing,
@@ -23,6 +23,7 @@ export const Screenshare = ({ css }) => {
       <IconButton
         active={!isVideoScreenshare}
         css={css}
+        disabled={isAudioOnly}
         onClick={() => {
           toggleScreenShare();
         }}

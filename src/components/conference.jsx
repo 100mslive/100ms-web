@@ -18,7 +18,7 @@ import { AppContext } from "./context/AppContext";
 const Conference = () => {
   const history = useHistory();
   const { roomId, role } = useParams();
-  const { isHeadless } = useContext(AppContext);
+  const { isHeadless, isAudioOnly } = useContext(AppContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const toggleChat = useCallback(() => {
     setIsChatOpen(open => !open);
@@ -65,7 +65,11 @@ const Conference = () => {
       </Box>
       {!isHeadless && (
         <Box css={{ flexShrink: 0, minHeight: "$24" }}>
-          <Footer isChatOpen={isChatOpen} toggleChat={toggleChat} />
+          <Footer
+            isChatOpen={isChatOpen}
+            toggleChat={toggleChat}
+            isAudioOnly={isAudioOnly}
+          />
         </Box>
       )}
       <RoleChangeRequestModal />

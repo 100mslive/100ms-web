@@ -157,7 +157,10 @@ const ScreenShareComponent = ({
           },
         }}
       >
-        <VideoPlayer peerId={peerSharingPlaylist.id} />
+        <VideoPlayer
+          isAudioOnly={isAudioOnly}
+          peerId={peerSharingPlaylist.id}
+        />
       </Box>
     );
   }

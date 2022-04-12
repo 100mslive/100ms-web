@@ -131,7 +131,7 @@ const Chat = ({ isChatOpen, toggleChat }) => {
   );
 };
 
-export const Footer = ({ isChatOpen, toggleChat }) => {
+export const Footer = ({ isChatOpen, toggleChat, isAudioOnly }) => {
   return (
     <Flex
       justify="between"
@@ -178,8 +178,8 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
         </Flex>
       </Flex>
       <Flex align="center" justify="center" css={{ w: "100%" }}>
-        <AudioVideoToggle />
-        <Screenshare css={{ mx: "$4" }} />
+        <AudioVideoToggle isAudioOnly={isAudioOnly} />
+        <Screenshare isAudioOnly={isAudioOnly} css={{ mx: "$4" }} />
         <MoreSettings />
         <VerticalDivider space={4} />
         <LeaveRoom />
