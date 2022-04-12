@@ -56,12 +56,13 @@ export const metadataProps = function (peer) {
 
 export const mobileChatStyle = {
   position: "fixed",
-  bottom: "4.5rem",
+  bottom: "6rem",
   zIndex: 40,
   right: 8,
   width: "100%",
   maxWidth: 300,
-  minHeight: 440,
+  height: "65vh",
+  maxHeight: 440,
 };
 
 export const isScreenshareSupported = () => {
