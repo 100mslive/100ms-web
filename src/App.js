@@ -103,7 +103,9 @@ export function EdtechComponent({
             css={{
               bg: "$mainBg",
               w: "100%",
-              ...(headerPresent === "true" ? { flex: "1 1 0" } : { h: "100%" }),
+              ...(headerPresent === "true"
+                ? { flex: "1 1 0", minHeight: 0 }
+                : { h: "100%" }),
             }}
           >
             <AppRoutes getUserToken={getUserToken} />
