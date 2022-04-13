@@ -16,9 +16,9 @@ import ScreenshareTile from "../components/ScreenshareTile";
 import VideoList from "../components/VideoList";
 import VideoTile from "../components/VideoTile";
 import { VideoPlayer } from "../components/Playlist/VideoPlayer";
-import { chatStyle } from "../common/utils";
+import { mobileChatStyle } from "../common/utils";
 
-export const ScreenShareView = ({
+const ScreenShareView = ({
   showStats,
   isChatOpen,
   toggleChat,
@@ -157,7 +157,10 @@ const ScreenShareComponent = ({
           },
         }}
       >
-        <VideoPlayer peerId={peerSharingPlaylist.id} />
+        <VideoPlayer
+          isAudioOnly={isAudioOnly}
+          peerId={peerSharingPlaylist.id}
+        />
       </Box>
     );
   }
@@ -177,12 +180,7 @@ const ScreenShareComponent = ({
           screenshareTrack?.displaySurface
         ) ? (
           <Box css={{ objectFit: "contain", h: "100%" }}>
-            <ScreenshareDisplay
-              stopScreenShare={async () => {
-                await hmsActions.setScreenShareEnabled(false);
-              }}
-              classes={{ rootBg: "h-full" }}
-            />
+            <ScreenshareDisplay />
           </Box>
         ) : (
           <ScreenshareTile
@@ -202,7 +200,7 @@ const CustomChatView = ({ isChatOpen, toggleChat }) => {
         css={{
           h: "45%",
           flexShrink: 0,
-          "@lg": chatStyle,
+          "@lg": mobileChatStyle,
           "@ls": {
             position: "absolute",
             top: 0,
@@ -278,3 +276,5 @@ const LargeTilePeerView = ({
     </Box>
   ) : null;
 };
+
+export default ScreenShareView;

@@ -4,7 +4,7 @@ import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { FirstPersonDisplay } from "./FirstPersonDisplay";
 import { ChatView } from "./chatView";
 import VideoList from "./VideoList";
-import { chatStyle } from "../common/utils";
+import { mobileChatStyle } from "../common/utils";
 import { Image } from "./Image";
 
 const MAX_TILES_FOR_MOBILE = 4;
@@ -75,7 +75,7 @@ export const GridCenterView = ({
             zIndex: 40,
             mr: "$4",
             alignSelf: "flex-end",
-            "@md": chatStyle,
+            "@md": mobileChatStyle,
             "@ls": {
               minHeight: "100%", // no sidepeer tiles will be present
               bottom: "$7",
@@ -128,9 +128,9 @@ export const GridSidePaneView = ({
             flex: "1 1 0",
             h: "50%",
             p: "$4",
-            "@md": chatStyle,
+            "@md": mobileChatStyle,
             "@ls": {
-              ...chatStyle,
+              ...mobileChatStyle,
               minHeight: "85%",
             },
           }}

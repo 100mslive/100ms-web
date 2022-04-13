@@ -1,6 +1,5 @@
 // @ts-check
 import { useEffect } from "react";
-import Pusher from "pusher-js";
 import { useHMSStore, selectRoomID } from "@100mslive/react-sdk";
 
 const stringifyWithNull = obj =>
@@ -40,22 +39,24 @@ class PusherCommunicationProvider {
     // Pusher.logToConsole = true;
 
     /** @private */
-    this.pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
-      cluster: "ap2",
-      authEndpoint: process.env.REACT_APP_PUSHER_AUTHENDPOINT,
+    import("pusher-js").then(Pusher => {
+      this.pusher = new Pusher.default(process.env.REACT_APP_PUSHER_APP_KEY, {
+        cluster: "ap2",
+        authEndpoint: process.env.REACT_APP_PUSHER_AUTHENDPOINT,
+      });
+
+      /** @private */
+      this.channel = this.pusher.subscribe(`private-${roomId}`);
+
+      /**
+       * When events(peer-join) are sent too early before subscribing to a channel,
+       * resend last event after subscription has succeeded.
+       */
+      this.channel.bind("pusher:subscription_succeeded", this.resendLastEvents);
+
+      console.log("Whiteboard initialized communication through Pusher");
+      this.initialized = true;
     });
-
-    /** @private */
-    this.channel = this.pusher.subscribe(`private-${roomId}`);
-
-    /**
-     * When events(peer-join) are sent too early before subscribing to a channel,
-     * resend last event after subscription has succeeded.
-     */
-    this.channel.bind("pusher:subscription_succeeded", this.resendLastEvents);
-
-    console.log("Whiteboard initialized communication through Pusher");
-    this.initialized = true;
   };
 
   /**

@@ -8,7 +8,7 @@ import {
 import { Flex } from "@100mslive/react-ui";
 import { GridCenterView, GridSidePaneView } from "../components/gridView";
 
-export const ActiveSpeakerView = ({
+const ActiveSpeakerView = ({
   isChatOpen,
   toggleChat,
   isParticipantListOpen,
@@ -16,9 +16,9 @@ export const ActiveSpeakerView = ({
 }) => {
   const peers = useHMSStore(selectPeers);
   const localPeer = useHMSStore(selectLocalPeer);
-  let [activeSpeaker, setActiveSpeaker] = useState(localPeer);
-  let dominantSpeaker = useHMSStore(selectDominantSpeaker);
-  let showSidePane = activeSpeaker && peers.length > 1;
+  const [activeSpeaker, setActiveSpeaker] = useState(localPeer);
+  const dominantSpeaker = useHMSStore(selectDominantSpeaker);
+  const showSidePane = activeSpeaker && peers.length > 1;
 
   /** here we are using peer filter function to change the activeSpeaker and sidebarPeers,
    * on first mount activeSpeaker points to the localPeer and on each update it points
@@ -60,3 +60,5 @@ export const ActiveSpeakerView = ({
     </Flex>
   );
 };
+
+export default ActiveSpeakerView;

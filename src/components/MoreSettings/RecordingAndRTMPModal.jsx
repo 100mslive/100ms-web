@@ -13,11 +13,12 @@ import {
   DialogInput,
   DialogRow,
 } from "../../primitives/DialogContent";
-import { SKIP_PREVIEW } from "../../common/constants";
+import { QUERY_PARAM_SKIP_PREVIEW } from "../../common/constants";
 import { ToastManager } from "../Toast/ToastManager";
 
 const defaultMeetingUrl =
-  window.location.href.replace("meeting", "preview") + `?${SKIP_PREVIEW}=true`;
+  window.location.href.replace("meeting", "preview") +
+  `?${QUERY_PARAM_SKIP_PREVIEW}=true`;
 
 export const RecordingAndRTMPModal = ({ onOpenChange }) => {
   const hmsActions = useHMSActions();
