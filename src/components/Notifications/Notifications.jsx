@@ -19,6 +19,7 @@ import { TextWithIcon } from "./TextWithIcon";
 import { PeerNotifications } from "./PeerNotifications";
 import { ReconnectNotifications } from "./ReconnectNotifications";
 import { getMetadata } from "../../common/utils";
+import { ToastBatcher } from "../Toast/ToastBatcher";
 
 export function Notifications() {
   const notification = useHMSNotifications();
@@ -38,14 +39,7 @@ export function Notifications() {
 
         console.debug("Metadata updated", notification.data);
         if (!subscribedNotifications.METADATA_UPDATED) return;
-        ToastManager.addToast({
-          title: (
-            <TextWithIcon Icon={HandIcon}>
-              {notification.data?.name} raised their hand.
-            </TextWithIcon>
-          ),
-          duration: 2000,
-        });
+        ToastBatcher.showToast({ notification });
         break;
       case HMSNotificationTypes.NAME_UPDATED:
         console.log(
@@ -57,9 +51,7 @@ export function Notifications() {
       case HMSNotificationTypes.NEW_MESSAGE:
         if (!subscribedNotifications.NEW_MESSAGE || notification.data?.ignored)
           return;
-        ToastManager.addToast({
-          title: `New message from ${notification.data?.senderName}`,
-        });
+        ToastBatcher.showToast({ notification });
         break;
       case HMSNotificationTypes.ERROR:
         if (notification.data?.isTerminal) {

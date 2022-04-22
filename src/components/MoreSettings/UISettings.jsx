@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { CheckIcon, GridIcon } from "@100mslive/react-icons";
 import {
   Flex,
@@ -16,6 +16,13 @@ import {
   DialogRow,
 } from "../../primitives/DialogContent";
 import { AppContext } from "../context/AppContext";
+import { UI_MODE_ACTIVE_SPEAKER, UI_MODE_GRID } from "../../common/constants";
+import {
+  selectIsLocalScreenShared,
+  selectIsLocalVideoEnabled,
+  useHMSActions,
+  useHMSStore,
+} from "@100mslive/react-sdk";
 
 const cssStyle = {
   flexDirection: "column",
@@ -60,6 +67,24 @@ export const UISettings = ({ open, onOpenChange }) => {
     isAudioOnly,
     setIsAudioOnly,
   } = useContext(AppContext);
+
+  const hmsActions = useHMSActions();
+  const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoEnabled);
+  const isLocalScreenShared = useHMSStore(selectIsLocalScreenShared);
+  const audioOnlyToggleHandler = useCallback(
+    async isAudioOnlyModeOn => {
+      if (isAudioOnlyModeOn && isLocalVideoEnabled) {
+        await hmsActions.setLocalVideoEnabled(false);
+      }
+
+      if (isAudioOnlyModeOn && isLocalScreenShared) {
+        await hmsActions.setScreenShareEnabled(false);
+      }
+      setIsAudioOnly(isAudioOnlyModeOn);
+    },
+    [isAudioOnly]
+  );
+
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <DialogContent title="UI Settings" Icon={GridIcon}>
@@ -112,9 +137,9 @@ export const UISettings = ({ open, onOpenChange }) => {
           <DialogCheckbox
             title="Active Speaker Mode"
             id="activeSpeakerMode"
-            value={uiViewMode === "activeSpeaker"}
+            value={uiViewMode === UI_MODE_ACTIVE_SPEAKER}
             onChange={value => {
-              setuiViewMode(value ? "activeSpeaker" : "grid");
+              setuiViewMode(value ? UI_MODE_ACTIVE_SPEAKER : UI_MODE_GRID);
             }}
             css={{ margin: "0 0" }}
           />
@@ -122,9 +147,7 @@ export const UISettings = ({ open, onOpenChange }) => {
             title="Audio Only Mode"
             id="audioOnlyMode"
             value={isAudioOnly}
-            onChange={value => {
-              setIsAudioOnly(value);
-            }}
+            onChange={audioOnlyToggleHandler}
             css={{ margin: "$4 0" }}
           />
           <Flex css={{ w: "100%", "@md": { display: "none" } }}>

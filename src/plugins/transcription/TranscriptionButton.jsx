@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
-import RecordRTC, { StereoAudioRecorder } from "recordrtc";
 import {
   useHMSStore,
   selectIsAllowedToPublish,
@@ -8,6 +7,7 @@ import {
   HMSNotificationTypes,
   selectRoomID,
 } from "@100mslive/react-sdk";
+import RecordRTC, { StereoAudioRecorder } from "recordrtc";
 import { Box, Tooltip, Text, IconButton } from "@100mslive/react-ui";
 import { ClosedCaptionIcon } from "@100mslive/react-icons";
 import { FeatureFlags } from "../../services/FeatureFlags";
@@ -28,6 +28,21 @@ export function TranscriptionButton() {
   const roomId = useHMSStore(selectRoomID);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const notification = useHMSNotifications();
+
+  const enableTranscription = useCallback(
+    (enabled = null) => {
+      if (!transcriber.current) {
+        transcriber.current = new Transcriber(setTranscript, setSpeakingPeer);
+        transcriber.current.enabled = false;
+      }
+      if (enabled !== false) {
+        enabled = !isTranscriptionEnabled;
+      }
+      transcriber.current.enableTranscription(enabled);
+      setIsTranscriptionEnabled(enabled);
+    },
+    [isTranscriptionEnabled]
+  );
 
   useEffect(() => {
     channel = pusher.subscribe(`private-${roomId}`);
@@ -61,7 +76,7 @@ export function TranscriptionButton() {
         }
       }
     });
-  }, [roomId]);
+  }, [roomId, isTranscriptionEnabled, enableTranscription]);
 
   useEffect(() => {
     if (!notification) {
@@ -76,19 +91,7 @@ export function TranscriptionButton() {
         JSON.stringify({ transcriptionConfig: { isEnabled: true } })
       );
     }
-  }, [notification]);
-
-  const enableTranscription = (enabled = null) => {
-    if (!transcriber.current) {
-      transcriber.current = new Transcriber(setTranscript, setSpeakingPeer);
-      transcriber.current.enabled = false;
-    }
-    if (enabled !== false) {
-      enabled = !isTranscriptionEnabled;
-    }
-    transcriber.current.enableTranscription(enabled);
-    setIsTranscriptionEnabled(enabled);
-  };
+  }, [notification, isTranscriptionEnabled]);
 
   return (
     <>
@@ -264,7 +267,7 @@ class Transcriber {
     }
   }
 
-  observeStream(stream) {
+  async observeStream(stream) {
     let recorder = new RecordRTC(stream, {
       ...this.sttTuningConfig,
       type: "audio",

@@ -130,7 +130,7 @@ const ParticipantListInARole = ({
   return (
     <>
       <Dropdown.Label css={{ h: "$14" }}>
-        <Text variant="md" css={{ pl: "$8" }}>
+        <Text variant="md" data-testid={`role_${roleName}`} css={{ pl: "$8" }}>
           {roleName}({participants.length})
         </Text>
       </Dropdown.Label>

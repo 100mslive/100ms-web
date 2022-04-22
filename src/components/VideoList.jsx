@@ -47,7 +47,7 @@ const List = ({
                 }}
                 key={pageNo}
               >
-                {tiles.map(tile =>
+                {tiles.map((tile, i) =>
                   tile.track?.source === "screen" ? (
                     <ScreenshareTile
                       showStatsOnTiles={showStatsOnTiles}
@@ -65,6 +65,7 @@ const List = ({
                       height={tile.height}
                       peerId={tile.peer?.id}
                       isAudioOnly={isAudioOnly}
+                      index={i}
                     />
                   )
                 )}

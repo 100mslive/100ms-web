@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useDevices, DeviceType, useHMSActions } from "@100mslive/react-sdk";
+import { useDevices, DeviceType } from "@100mslive/react-sdk";
 import { Dialog, Button, Text } from "@100mslive/react-ui";
 import { AudioLevelIcon, SettingIcon } from "@100mslive/react-icons";
 import {
@@ -7,29 +7,6 @@ import {
   DialogRow,
   DialogSelect,
 } from "../primitives/DialogContent";
-
-const RefreshDevices = () => {
-  const hmsActions = useHMSActions();
-  return (
-    <Button
-      onClick={() => {
-        navigator.mediaDevices
-          .getUserMedia({
-            audio: true,
-            video: true,
-          })
-          .then(stream => {
-            hmsActions.refreshDevices().then(() => {
-              stream.getTracks().forEach(track => track.stop());
-            });
-          })
-          .catch(console.error);
-      }}
-    >
-      Refresh Devices
-    </Button>
-  );
-};
 
 /**
  * wrap the button on click of whom settings should open, this component will take care of the rest,
@@ -85,9 +62,6 @@ const Settings = ({ open, onOpenChange, children }) => {
         <DialogRow>
           <Text>Test Speaker:</Text>
           <TestAudio id={selectedDeviceIDs.audioOutput} />
-        </DialogRow>
-        <DialogRow css={{ justifyContent: "flex-end" }}>
-          <RefreshDevices />
         </DialogRow>
       </DialogContent>
     </Dialog.Root>

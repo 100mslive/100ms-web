@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { ESBuildMinifyPlugin } = require("esbuild-loader");
+const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
@@ -76,29 +76,14 @@ module.exports = {
     ],
   },
   optimization: {
-    splitChunks: {
-      /**
-       * This is used to split code into to two bundles
-       * - vendor - this includes all dependencies
-       * - main(default) - this includes the source code
-       */
-      cacheGroups: {
-        vendor: {
-          name: "vendor",
-          enforce: true,
-          test: /[\\/]node_modules[\\/]/,
-          reuseExistingChunk: true,
-          chunks: "all",
-        },
-        default: {
-          reuseExistingChunk: true,
-          chunks: "all",
-        },
-      },
-    },
+    splitChunks: {},
     runtimeChunk: false,
     minimize: process.env.NODE_ENV === "production",
-    minimizer: [new ESBuildMinifyPlugin()],
+    minimizer: [
+      new TerserPlugin({
+        minify: TerserPlugin.esbuildMinify,
+      }),
+    ],
   },
   plugins: [
     new webpack.ProgressPlugin(),
