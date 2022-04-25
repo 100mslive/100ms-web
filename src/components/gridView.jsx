@@ -26,7 +26,6 @@ export const GridCenterView = ({
   toggleChat,
   hideSidePane,
   showStatsOnTiles,
-  isAudioOnly,
 }) => {
   const mediaQueryLg = cssConfig.media.md;
   const limitMaxTiles = useMedia(mediaQueryLg);
@@ -43,7 +42,6 @@ export const GridCenterView = ({
           <VideoList
             showStatsOnTiles={showStatsOnTiles}
             peers={peers}
-            isAudioOnly={isAudioOnly}
             maxTileCount={limitMaxTiles ? MAX_TILES_FOR_MOBILE : maxTileCount}
           />
         ) : eventRoomIDs.some(id => window.location.href.includes(id)) ? (
@@ -95,7 +93,6 @@ export const GridSidePaneView = ({
   isChatOpen,
   toggleChat,
   showStatsOnTiles,
-  isAudioOnly,
 }) => {
   return (
     <Flex
@@ -115,7 +112,6 @@ export const GridSidePaneView = ({
         {peers && peers.length > 0 && (
           <VideoList
             showStatsOnTiles={showStatsOnTiles}
-            isAudioOnly={isAudioOnly}
             peers={peers}
             maxColCount={2}
           />

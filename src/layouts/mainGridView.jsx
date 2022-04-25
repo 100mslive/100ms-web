@@ -8,7 +8,7 @@ import { Flex } from "@100mslive/react-ui";
 import { GridCenterView, GridSidePaneView } from "../components/gridView";
 import { AppContext } from "../components/context/AppContext";
 
-export const MainGridView = ({ isChatOpen, toggleChat, isAudioOnly }) => {
+export const MainGridView = ({ isChatOpen, toggleChat }) => {
   const {
     maxTileCount,
     appPolicyConfig: { center: centerRoles = [], sidepane: sidepaneRoles = [] },
@@ -60,7 +60,6 @@ export const MainGridView = ({ isChatOpen, toggleChat, isAudioOnly }) => {
         hideSidePane={!showSidePane}
         totalPeers={peers.length}
         showStatsOnTiles={showStatsOnTiles}
-        isAudioOnly={isAudioOnly}
       />
       {showSidePane && (
         <GridSidePaneView
@@ -69,7 +68,6 @@ export const MainGridView = ({ isChatOpen, toggleChat, isAudioOnly }) => {
           toggleChat={toggleChat}
           totalPeers={peers.length}
           showStatsOnTiles={showStatsOnTiles}
-          isAudioOnly={isAudioOnly}
         />
       )}
     </Flex>

@@ -22,7 +22,7 @@ import {
 import { AudioVideoToggle } from "./AudioVideoToggle";
 import { LeaveRoom } from "./LeaveRoom";
 import { MoreSettings } from "./MoreSettings/MoreSettings";
-import { Screenshare } from "./ScreenShare";
+import { ScreenshareToggle } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
 import { NoiseSuppression } from "../plugins/NoiseSuppression";
 import { ToggleWhiteboard } from "../plugins/whiteboard";
@@ -131,7 +131,7 @@ const Chat = ({ isChatOpen, toggleChat }) => {
   );
 };
 
-export const Footer = ({ isChatOpen, toggleChat, isAudioOnly }) => {
+export const Footer = ({ isChatOpen, toggleChat }) => {
   return (
     <Flex
       justify="between"
@@ -178,8 +178,8 @@ export const Footer = ({ isChatOpen, toggleChat, isAudioOnly }) => {
         </Flex>
       </Flex>
       <Flex align="center" justify="center" css={{ w: "100%" }}>
-        <AudioVideoToggle isAudioOnly={isAudioOnly} />
-        <Screenshare isAudioOnly={isAudioOnly} css={{ mx: "$4" }} />
+        <AudioVideoToggle />
+        <ScreenshareToggle css={{ mx: "$4" }} />
         <MoreSettings />
         <VerticalDivider space={4} />
         <LeaveRoom />
