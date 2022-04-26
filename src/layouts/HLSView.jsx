@@ -3,7 +3,7 @@ import { useHMSStore, selectHLSState } from "@100mslive/react-sdk";
 import { Box, Flex, styled, Text } from "@100mslive/react-ui";
 import { ChatView } from "../components/chatView";
 import { FeatureFlags } from "../services/FeatureFlags";
-import { useChatOpen } from "../components/AppData/useChatState";
+import { useIsChatOpen } from "../components/AppData/useChatState";
 
 const HLSVideo = styled("video", {
   h: "100%",
@@ -13,7 +13,7 @@ const HLSVideo = styled("video", {
 const HLSView = () => {
   const videoRef = useRef(null);
   const hlsState = useHMSStore(selectHLSState);
-  const isChatOpen = useChatOpen();
+  const isChatOpen = useIsChatOpen();
   useEffect(() => {
     if (videoRef.current) {
       import("hls.js").then(({ default: Hls }) => {

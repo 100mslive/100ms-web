@@ -4,7 +4,7 @@ import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { FirstPersonDisplay } from "./FirstPersonDisplay";
 import { ChatView } from "./chatView";
 import VideoList from "./VideoList";
-import { useChatOpen } from "./AppData/useChatState";
+import { useIsChatOpen } from "./AppData/useChatState";
 import { mobileChatStyle } from "../common/utils";
 import { Image } from "./Image";
 
@@ -28,7 +28,7 @@ export const GridCenterView = ({
 }) => {
   const mediaQueryLg = cssConfig.media.md;
   const limitMaxTiles = useMedia(mediaQueryLg);
-  const isChatOpen = useChatOpen();
+  const isChatOpen = useIsChatOpen();
   return (
     <Fragment>
       <Box
@@ -89,7 +89,7 @@ export const GridCenterView = ({
 
 // Side pane shows smaller tiles
 export const GridSidePaneView = ({ peers, showStatsOnTiles }) => {
-  const isChatOpen = useChatOpen();
+  const isChatOpen = useIsChatOpen();
   return (
     <Flex
       direction="column"

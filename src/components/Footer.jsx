@@ -31,7 +31,7 @@ import { useMyMetadata } from "./hooks/useMetadata";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { isScreenshareSupported } from "../common/utils";
 import { Playlist } from "../components/Playlist/Playlist";
-import { useChatOpen, useToggleChat } from "./AppData/useChatState";
+import { useIsChatOpen, useToggleChat } from "./AppData/useChatState";
 
 const TranscriptionButton = React.lazy(() =>
   import("../plugins/transcription")
@@ -113,7 +113,7 @@ export const MetaActions = ({ isMobile = false }) => {
 
 const Chat = () => {
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
-  const isChatOpen = useChatOpen();
+  const isChatOpen = useIsChatOpen();
   const toggleChat = useToggleChat();
 
   return (
