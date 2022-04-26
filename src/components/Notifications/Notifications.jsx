@@ -2,7 +2,6 @@
 import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import LogRocket from "logrocket";
-import { HandIcon } from "@100mslive/react-icons";
 import {
   useHMSNotifications,
   HMSNotificationTypes,
@@ -15,7 +14,6 @@ import { TrackBulkUnmuteModal } from "./TrackBulkUnmuteModal";
 import { ToastManager } from "../Toast/ToastManager";
 import { AppContext } from "../context/AppContext";
 import { TrackNotifications } from "./TrackNotifications";
-import { TextWithIcon } from "./TextWithIcon";
 import { PeerNotifications } from "./PeerNotifications";
 import { ReconnectNotifications } from "./ReconnectNotifications";
 import { getMetadata } from "../../common/utils";
@@ -54,7 +52,10 @@ export function Notifications() {
         ToastBatcher.showToast({ notification });
         break;
       case HMSNotificationTypes.ERROR:
-        if (notification.data?.isTerminal) {
+        if (
+          notification.data?.isTerminal &&
+          notification.data?.action !== "INIT"
+        ) {
           if ([500, 6008].includes(notification.data?.code)) {
             ToastManager.addToast({
               title: `Error: ${notification.data?.message}`,

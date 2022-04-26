@@ -13,11 +13,15 @@ export const Toast = ({
     <ToastPrimitive.Root
       open={open}
       onOpenChange={onOpenChange}
-      duration={duration}
+      duration={!close ? 600000 : duration}
     >
-      <ToastPrimitive.Title>{title}</ToastPrimitive.Title>
+      <ToastPrimitive.Title css={{ mr: close ? "$12" : 0 }}>
+        {title}
+      </ToastPrimitive.Title>
       {description && (
-        <ToastPrimitive.Description>{description}</ToastPrimitive.Description>
+        <ToastPrimitive.Description css={{ mr: close ? "$12" : 0 }}>
+          {description}
+        </ToastPrimitive.Description>
       )}
       {close && <ToastPrimitive.Close />}
     </ToastPrimitive.Root>
