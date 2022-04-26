@@ -22,7 +22,7 @@ const WhiteboardView = React.lazy(() => import("./WhiteboardView"));
 const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 
-export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
+export const ConferenceMainView = () => {
   const localPeer = useHMSStore(selectLocalPeer);
   const peerSharing = useHMSStore(selectPeerScreenSharing);
   const peerSharingAudio = useHMSStore(selectPeerSharingAudio);
@@ -78,12 +78,7 @@ export const ConferenceMainView = ({ isChatOpen, toggleChat }) => {
   return (
     ViewComponent && (
       <Suspense fallback={<FullPageProgress />}>
-        <ViewComponent
-          isChatOpen={isChatOpen}
-          toggleChat={toggleChat}
-          role={localPeer.roleName}
-          showStats={showStatsOnTiles}
-        />
+        <ViewComponent role={localPeer.roleName} showStats={showStatsOnTiles} />
       </Suspense>
     )
   );

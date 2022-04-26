@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box, Button, Flex } from "@100mslive/react-ui";
 import { ChatFooter } from "./ChatFooter";
 import { ChatHeader } from "./ChatHeader";
@@ -8,11 +8,12 @@ import {
   selectMessagesUnreadCountByPeerID,
   selectMessagesUnreadCountByRole,
   selectUnreadHMSMessagesCount,
+  useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { ChevronDownIcon } from "@100mslive/react-icons";
 
-export const Chat = ({ onClose }) => {
+export const Chat = () => {
   const [chatOptions, setChatOptions] = useState({
     role: "",
     peerId: "",
@@ -20,6 +21,7 @@ export const Chat = ({ onClose }) => {
   });
   const [isSelectorOpen, setSelectorOpen] = useState(false);
   const bodyRef = useRef(null);
+  const hmsActions = useHMSActions();
   const scrollToBottom = useCallback(() => {
     if (!bodyRef.current) {
       return;
@@ -27,16 +29,21 @@ export const Chat = ({ onClose }) => {
     bodyRef.current.scrollTo({
       top: bodyRef.current.scrollHeight,
     });
-  }, []);
+    hmsActions.setMessageRead(true);
+  }, [hmsActions]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [scrollToBottom]);
+
   return (
     <Flex direction="column" css={{ size: "100%" }}>
       <ChatHeader
-        open={isSelectorOpen}
+        selectorOpen={isSelectorOpen}
         selection={chatOptions.selection}
         onToggle={() => {
           setSelectorOpen(value => !value);
         }}
-        onClose={onClose}
       />
       <Box
         css={{

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
+import React, { useEffect, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import {
   selectRoomState,
@@ -19,10 +19,6 @@ const Conference = () => {
   const history = useHistory();
   const { roomId, role } = useParams();
   const { isHeadless } = useContext(AppContext);
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const toggleChat = useCallback(() => {
-    setIsChatOpen(open => !open);
-  }, []);
   const isConnectingToRoom =
     useHMSStore(selectRoomState) === HMSRoomState.Connecting;
   const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);
@@ -61,11 +57,11 @@ const Conference = () => {
           minHeight: 0,
         }}
       >
-        <ConferenceMainView isChatOpen={isChatOpen} toggleChat={toggleChat} />
+        <ConferenceMainView />
       </Box>
       {!isHeadless && (
         <Box css={{ flexShrink: 0, minHeight: "$24" }}>
-          <Footer isChatOpen={isChatOpen} toggleChat={toggleChat} />
+          <Footer />
         </Box>
       )}
       <RoleChangeRequestModal />

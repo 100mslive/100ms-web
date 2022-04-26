@@ -4,6 +4,7 @@ import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { FirstPersonDisplay } from "./FirstPersonDisplay";
 import { ChatView } from "./chatView";
 import VideoList from "./VideoList";
+import { useChatOpen } from "./AppData/useChatState";
 import { mobileChatStyle } from "../common/utils";
 import { Image } from "./Image";
 
@@ -22,13 +23,12 @@ const webinarInfoLink = webinarProps?.LINK_HREF || "https://100ms.live/";
 export const GridCenterView = ({
   peers,
   maxTileCount,
-  isChatOpen,
-  toggleChat,
   hideSidePane,
   showStatsOnTiles,
 }) => {
   const mediaQueryLg = cssConfig.media.md;
   const limitMaxTiles = useMedia(mediaQueryLg);
+  const isChatOpen = useChatOpen();
   return (
     <Fragment>
       <Box
@@ -80,7 +80,7 @@ export const GridCenterView = ({
             },
           }}
         >
-          <ChatView toggleChat={toggleChat} />
+          <ChatView />
         </Flex>
       )}
     </Fragment>
@@ -88,12 +88,8 @@ export const GridCenterView = ({
 };
 
 // Side pane shows smaller tiles
-export const GridSidePaneView = ({
-  peers,
-  isChatOpen,
-  toggleChat,
-  showStatsOnTiles,
-}) => {
+export const GridSidePaneView = ({ peers, showStatsOnTiles }) => {
+  const isChatOpen = useChatOpen();
   return (
     <Flex
       direction="column"
@@ -131,7 +127,7 @@ export const GridSidePaneView = ({
             },
           }}
         >
-          <ChatView toggleChat={toggleChat} />
+          <ChatView />
         </Flex>
       )}
     </Flex>

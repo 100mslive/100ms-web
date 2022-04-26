@@ -31,6 +31,7 @@ import { useMyMetadata } from "./hooks/useMetadata";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { isScreenshareSupported } from "../common/utils";
 import { Playlist } from "../components/Playlist/Playlist";
+import { useChatOpen, useToggleChat } from "./AppData/useChatState";
 
 const TranscriptionButton = React.lazy(() =>
   import("../plugins/transcription")
@@ -110,8 +111,10 @@ export const MetaActions = ({ isMobile = false }) => {
   );
 };
 
-const Chat = ({ isChatOpen, toggleChat }) => {
+const Chat = () => {
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
+  const isChatOpen = useChatOpen();
+  const toggleChat = useToggleChat();
 
   return (
     <Tooltip key="chat" title={`${isChatOpen ? "Close" : "Open"} chat`}>
@@ -131,7 +134,7 @@ const Chat = ({ isChatOpen, toggleChat }) => {
   );
 };
 
-export const Footer = ({ isChatOpen, toggleChat }) => {
+export const Footer = () => {
   return (
     <Flex
       justify="between"
@@ -187,7 +190,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
           align="center"
           css={{ display: "none", "@md": { display: "flex", ml: "$4" } }}
         >
-          <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
+          <Chat />
         </Flex>
       </Flex>
       <Flex
@@ -202,7 +205,7 @@ export const Footer = ({ isChatOpen, toggleChat }) => {
       >
         <MetaActions />
         <VerticalDivider space={4} />
-        <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
+        <Chat />
       </Flex>
     </Flex>
   );

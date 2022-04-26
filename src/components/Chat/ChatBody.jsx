@@ -135,7 +135,11 @@ export const ChatBody = ({ role, peerId }) => {
 
   if (messages.length === 0) {
     return (
-      <Flex css={{ size: "100%" }} align="center" justify="center">
+      <Flex
+        css={{ size: "100%", textAlign: "center", px: "$4" }}
+        align="center"
+        justify="center"
+      >
         <Text>There are no messages here</Text>
       </Flex>
     );

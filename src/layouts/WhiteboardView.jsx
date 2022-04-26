@@ -36,7 +36,7 @@ const Editor = React.memo(({ roomId }) => {
   );
 });
 
-const WhiteboardView = ({ showStats, isChatOpen, toggleChat }) => {
+const WhiteboardView = ({ showStats }) => {
   // for smaller screen we will show sidebar in bottom
   const mediaQueryLg = cssConfig.media.lg;
   const showSidebarInBottom = useMedia(mediaQueryLg);
@@ -64,8 +64,6 @@ const WhiteboardView = ({ showStats, isChatOpen, toggleChat }) => {
         <SidePane
           showSidebarInBottom={showSidebarInBottom}
           showStats={showStats}
-          isChatOpen={isChatOpen}
-          toggleChat={toggleChat}
           isPresenterInSmallTiles={true}
           smallTilePeers={peers}
           totalPeers={peers.length}
