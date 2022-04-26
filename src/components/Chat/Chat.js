@@ -28,6 +28,7 @@ export const Chat = () => {
     }
     bodyRef.current.scrollTo({
       top: bodyRef.current.scrollHeight,
+      behavior: "smooth",
     });
     hmsActions.setMessageRead(true);
   }, [hmsActions]);
