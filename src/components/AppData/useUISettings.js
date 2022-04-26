@@ -18,7 +18,9 @@ import { useCallback } from "react";
  */
 export const useUISettings = uiSettingKey => {
   let value = useHMSStore(selectAppData(APP_DATA.uiSettings));
-  return uiSettingKey ? value[uiSettingKey] : value;
+  if (value) {
+    return uiSettingKey ? value[uiSettingKey] : value;
+  }
 };
 
 /**
