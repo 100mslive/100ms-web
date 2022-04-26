@@ -45,7 +45,7 @@ const defaultUiSettings = {
   subscribedNotifications: {
     PEER_JOINED: false,
     PEER_LEFT: false,
-    NEW_MESSAGE: false,
+    NEW_MESSAGE: true,
     ERROR: true,
     METADATA_UPDATED: true,
   },
