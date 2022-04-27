@@ -89,7 +89,7 @@ const TestAudio = ({ id }) => {
   useEffect(() => {
     if (audioRef.current && id) {
       try {
-        if (typeof audioRef.current.setSinkId !== undefined) {
+        if (typeof audioRef.current.setSinkId !== "undefined") {
           audioRef.current.setSinkId(id);
         }
       } catch (error) {
