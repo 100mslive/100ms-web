@@ -22,19 +22,22 @@ export const Chat = () => {
   const [isSelectorOpen, setSelectorOpen] = useState(false);
   const bodyRef = useRef(null);
   const hmsActions = useHMSActions();
-  const scrollToBottom = useCallback(() => {
-    if (!bodyRef.current) {
-      return;
-    }
-    bodyRef.current.scrollTo({
-      top: bodyRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-    hmsActions.setMessageRead(true);
-  }, [hmsActions]);
+  const scrollToBottom = useCallback(
+    (instant = false) => {
+      if (!bodyRef.current) {
+        return;
+      }
+      bodyRef.current.scrollTo({
+        top: bodyRef.current.scrollHeight,
+        behavior: instant ? "instant" : "smooth",
+      });
+      hmsActions.setMessageRead(true);
+    },
+    [hmsActions]
+  );
 
   useEffect(() => {
-    scrollToBottom();
+    scrollToBottom(true);
   }, [scrollToBottom]);
 
   return (
@@ -80,7 +83,7 @@ export const Chat = () => {
         <NewMessageIndicator
           role={chatOptions.role}
           peerId={chatOptions.peerId}
-          onClick={scrollToBottom}
+          onClick={() => scrollToBottom()}
         />
       </ChatFooter>
     </Flex>
