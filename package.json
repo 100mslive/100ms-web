@@ -22,6 +22,7 @@
     "pusher-js": "^7.0.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-freeze": "^1.0.0",
     "react-router-dom": "^5.2.0",
     "react-use": "^17.3.2",
     "recordrtc": "^5.6.2",
