@@ -63,9 +63,7 @@ export const Header = ({ isPreview }) => {
       <SpeakerTag />
       <Flex align="center" css={{ position: "absolute", right: "$4" }}>
         {showPip && <PIPComponent />}
-        <Flex align="center" css={{ mx: "$2" }}>
-          <AdditionalRoomState />
-        </Flex>
+        <AdditionalRoomState />
         <Box css={{ mx: "$2" }}>
           <ParticipantList />
         </Box>

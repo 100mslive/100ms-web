@@ -119,6 +119,7 @@ export const AdditionalRoomState = () => {
             borderRadius: "$1",
             border: "1px solid $textDisabled",
             padding: "$2 $4",
+            mx: "$2",
           }}
           data-testid="record_status_dropdown"
         >
