@@ -1,5 +1,5 @@
 // @ts-check
-import React, { useState } from "react";
+import React, { Fragment, useCallback, useState } from "react";
 import {
   Avatar,
   StyledVideoTile,
@@ -26,6 +26,33 @@ import { ConnectionIndicator } from "./Connection/ConnectionIndicator";
 import { UI_SETTINGS } from "../common/constants";
 import { useUISettings } from "./AppData/useUISettings";
 
+const MetaActions = ({ peerId }) => {
+  const metaData = useHMSStore(selectPeerMetadata(peerId));
+  const isHandRaised = metaData?.isHandRaised || false;
+  const isBRB = metaData?.isBRBOn || false;
+
+  return (
+    <Fragment>
+      {isHandRaised ? (
+        <StyledVideoTile.AttributeBox
+          css={metaStyles}
+          data-testid="raiseHand_icon_onTile"
+        >
+          <HandRaiseFilledIcon width={40} height={40} />
+        </StyledVideoTile.AttributeBox>
+      ) : null}
+      {isBRB ? (
+        <StyledVideoTile.AttributeBox
+          css={metaStyles}
+          data-testid="brb_icon_onTile"
+        >
+          <BrbIcon width={40} height={40} />
+        </StyledVideoTile.AttributeBox>
+      ) : null}
+    </Fragment>
+  );
+};
+
 const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
   const track = useHMSStore(selectVideoTrackByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
@@ -33,12 +60,12 @@ const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const [isMouseHovered, setIsMouseHovered] = useState(false);
-  const metaData = useHMSStore(selectPeerMetadata(peerId));
   const borderAudioRef = useBorderAudioLevel(peer?.audioTrack);
   const isVideoDegraded = track?.degraded;
-  const isHandRaised = metaData?.isHandRaised || false;
-  const isBRB = metaData?.isBRBOn || false;
   const label = getVideoTileLabel(peer, track);
+  const onHoverHandler = useCallback(event => {
+    setIsMouseHovered(event.type === "mouseenter");
+  }, []);
   return (
     <StyledVideoTile.Root
       css={{ width, height }}
@@ -46,10 +73,8 @@ const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
     >
       {peer ? (
         <StyledVideoTile.Container
-          onMouseEnter={() => setIsMouseHovered(true)}
-          onMouseLeave={() => {
-            setIsMouseHovered(false);
-          }}
+          onMouseEnter={onHoverHandler}
+          onMouseLeave={onHoverHandler}
           ref={borderAudioRef}
         >
           <ConnectionIndicator isTile peerId={peerId} />
@@ -91,22 +116,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
               videoTrackID={peer?.videoTrack}
             />
           ) : null}
-          {isHandRaised ? (
-            <StyledVideoTile.AttributeBox
-              css={metaStyles}
-              data-testid="raiseHand_icon_onTile"
-            >
-              <HandRaiseFilledIcon width={40} height={40} />
-            </StyledVideoTile.AttributeBox>
-          ) : null}
-          {isBRB ? (
-            <StyledVideoTile.AttributeBox
-              css={metaStyles}
-              data-testid="brb_icon_onTile"
-            >
-              <BrbIcon width={40} height={40} />
-            </StyledVideoTile.AttributeBox>
-          ) : null}
+          <MetaActions peerId={peerId} />
         </StyledVideoTile.Container>
       ) : null}
     </StyledVideoTile.Root>
