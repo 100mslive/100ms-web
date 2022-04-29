@@ -23,7 +23,7 @@ const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 
 export const ConferenceMainView = () => {
-  const localPeerRole = useHMSStore(selectLocalPeerRole);
+  const localPeerRole = useHMSStore(selectLocalPeerRole)?.name;
   const peerSharing = useHMSStore(selectPeerScreenSharing);
   const peerSharingAudio = useHMSStore(selectPeerSharingAudio);
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);

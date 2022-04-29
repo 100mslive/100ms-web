@@ -49,7 +49,7 @@ const Logo = () => {
 };
 
 export const Header = ({ isPreview }) => {
-  const localPeerRole = useHMSStore(selectLocalPeerRole);
+  const localPeerRole = useHMSStore(selectLocalPeerRole)?.name;
   const showPip = localPeerRole !== DEFAULT_HLS_VIEWER_ROLE && !isPreview;
   return (
     <Flex
