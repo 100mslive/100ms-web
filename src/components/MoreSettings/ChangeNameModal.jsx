@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   useHMSActions,
   useHMSStore,
-  selectLocalPeer,
+  selectLocalPeerName,
 } from "@100mslive/react-sdk";
 import { Dialog, Button } from "@100mslive/react-ui";
 import {
@@ -22,12 +22,12 @@ export const ChangeNameModal = ({ onOpenChange }) => {
     UserPreferencesKeys.PREVIEW
   );
   const hmsActions = useHMSActions();
-  const localPeer = useHMSStore(selectLocalPeer);
-  const [currentName, setCurrentName] = useState(localPeer?.name);
+  const localPeerName = useHMSStore(selectLocalPeerName);
+  const [currentName, setCurrentName] = useState(localPeerName);
 
   const changeName = async () => {
     const name = currentName.trim();
-    if (!name || name === localPeer?.name) {
+    if (!name || name === localPeerName) {
       return;
     }
     try {
@@ -65,7 +65,7 @@ export const ChangeNameModal = ({ onOpenChange }) => {
               variant="primary"
               type="submit"
               disabled={
-                !currentName.trim() || currentName.trim() === localPeer?.name
+                !currentName.trim() || currentName.trim() === localPeerName
               }
               onClick={async () => {
                 await changeName();

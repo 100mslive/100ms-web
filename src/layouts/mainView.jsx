@@ -7,7 +7,7 @@ import {
   selectPeerScreenSharing,
   selectPeerSharingVideoPlaylist,
   selectRoomState,
-  selectLocalPeer,
+  selectLocalPeerRole,
 } from "@100mslive/react-sdk";
 import { MainGridView } from "./mainGridView";
 import { AppContext } from "../components/context/AppContext";
@@ -23,7 +23,7 @@ const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 
 export const ConferenceMainView = () => {
-  const localPeer = useHMSStore(selectLocalPeer);
+  const localPeerRole = useHMSStore(selectLocalPeerRole);
   const peerSharing = useHMSStore(selectPeerScreenSharing);
   const peerSharingAudio = useHMSStore(selectPeerSharingAudio);
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
@@ -53,13 +53,13 @@ export const ConferenceMainView = () => {
     }
   }, [roomState, videoPlaylist, audioPlaylist, hmsActions]);
 
-  if (!localPeer) {
+  if (!localPeerRole) {
     // we don't know the role yet to decide how to render UI
     return null;
   }
 
   let ViewComponent;
-  if (localPeer.roleName === HLS_VIEWER_ROLE) {
+  if (localPeerRole === HLS_VIEWER_ROLE) {
     ViewComponent = HLSView;
   } else if (whiteboardShared) {
     ViewComponent = WhiteboardView;
@@ -78,7 +78,7 @@ export const ConferenceMainView = () => {
   return (
     ViewComponent && (
       <Suspense fallback={<FullPageProgress />}>
-        <ViewComponent role={localPeer.roleName} showStats={showStatsOnTiles} />
+        <ViewComponent role={localPeerRole} showStats={showStatsOnTiles} />
       </Suspense>
     )
   );
