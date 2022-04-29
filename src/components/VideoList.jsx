@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Freeze } from "react-freeze";
-import {
-  StyledVideoList,
-  getLeft,
-  Pagination,
-  useTheme,
-} from "@100mslive/react-ui";
+import { StyledVideoList, getLeft, useTheme } from "@100mslive/react-ui";
 import { useVideoList } from "@100mslive/react-sdk";
 import VideoTile from "./VideoTile";
 import ScreenshareTile from "./ScreenshareTile";
 import { FeatureFlags } from "../services/FeatureFlags";
+import { Pagination } from "./Pagination";
 
 const List = ({
   maxTileCount,
