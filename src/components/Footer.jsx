@@ -22,7 +22,7 @@ import {
 import { AudioVideoToggle } from "./AudioVideoToggle";
 import { LeaveRoom } from "./LeaveRoom";
 import { MoreSettings } from "./MoreSettings/MoreSettings";
-import { Screenshare } from "./ScreenShare";
+import { ScreenshareToggle } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
 import { NoiseSuppression } from "../plugins/NoiseSuppression";
 import { ToggleWhiteboard } from "../plugins/whiteboard";
@@ -31,6 +31,7 @@ import { useMyMetadata } from "./hooks/useMetadata";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { isScreenshareSupported } from "../common/utils";
 import { Playlist } from "../components/Playlist/Playlist";
+import { useIsChatOpen, useToggleChat } from "./AppData/useChatState";
 
 const TranscriptionButton = React.lazy(() =>
   import("../plugins/transcription")
@@ -110,8 +111,10 @@ export const MetaActions = ({ isMobile = false }) => {
   );
 };
 
-const Chat = ({ isChatOpen, toggleChat }) => {
+const Chat = () => {
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
+  const isChatOpen = useIsChatOpen();
+  const toggleChat = useToggleChat();
 
   return (
     <Tooltip key="chat" title={`${isChatOpen ? "Close" : "Open"} chat`}>
@@ -131,7 +134,7 @@ const Chat = ({ isChatOpen, toggleChat }) => {
   );
 };
 
-export const Footer = ({ isChatOpen, toggleChat, isAudioOnly }) => {
+export const Footer = () => {
   return (
     <Flex
       justify="between"
@@ -178,8 +181,8 @@ export const Footer = ({ isChatOpen, toggleChat, isAudioOnly }) => {
         </Flex>
       </Flex>
       <Flex align="center" justify="center" css={{ w: "100%" }}>
-        <AudioVideoToggle isAudioOnly={isAudioOnly} />
-        <Screenshare isAudioOnly={isAudioOnly} css={{ mx: "$4" }} />
+        <AudioVideoToggle />
+        <ScreenshareToggle css={{ mx: "$4" }} />
         <MoreSettings />
         <VerticalDivider space={4} />
         <LeaveRoom />
@@ -187,7 +190,7 @@ export const Footer = ({ isChatOpen, toggleChat, isAudioOnly }) => {
           align="center"
           css={{ display: "none", "@md": { display: "flex", ml: "$4" } }}
         >
-          <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
+          <Chat />
         </Flex>
       </Flex>
       <Flex
@@ -202,7 +205,7 @@ export const Footer = ({ isChatOpen, toggleChat, isAudioOnly }) => {
       >
         <MetaActions />
         <VerticalDivider space={4} />
-        <Chat isChatOpen={isChatOpen} toggleChat={toggleChat} />
+        <Chat />
       </Flex>
     </Flex>
   );

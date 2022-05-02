@@ -49,7 +49,6 @@ const Logo = () => {
 };
 
 export const Header = ({ isPreview }) => {
-  const { isAudioOnly } = useContext(AppContext);
   const localPeer = useHMSStore(selectLocalPeer);
   const showPip = localPeer?.roleName !== DEFAULT_HLS_VIEWER_ROLE && !isPreview;
   return (
@@ -65,7 +64,7 @@ export const Header = ({ isPreview }) => {
       <Flex align="center" css={{ position: "absolute", right: "$4" }}>
         {showPip && <PIPComponent />}
         <Flex align="center" css={{ mx: "$2" }}>
-          <AdditionalRoomState isAudioOnly={isAudioOnly} />
+          <AdditionalRoomState />
         </Flex>
         <Box css={{ mx: "$2" }}>
           <ParticipantList />

@@ -6,9 +6,11 @@ import {
   CrossIcon,
   PeopleIcon,
 } from "@100mslive/react-icons";
+import { useToggleChat } from "../AppData/useChatState";
 
 export const ChatHeader = React.memo(
-  ({ selection, open, onToggle, onClose }) => {
+  ({ selection, selectorOpen, onToggle }) => {
+    const toggleChat = useToggleChat();
     return (
       <Flex
         onClick={onToggle}
@@ -26,7 +28,7 @@ export const ChatHeader = React.memo(
         <Flex align="center" css={{ cursor: "pointer" }}>
           <PeopleIcon />
           <Text css={{ mx: "$2" }}>{selection}</Text>
-          {open ? (
+          {selectorOpen ? (
             <ChevronUpIcon width={18} height={18} />
           ) : (
             <ChevronDownIcon width={18} height={18} />
@@ -36,7 +38,7 @@ export const ChatHeader = React.memo(
           css={{ ml: "auto" }}
           onClick={e => {
             e.stopPropagation();
-            open ? onToggle() : onClose();
+            selectorOpen ? onToggle() : toggleChat();
           }}
         >
           <CrossIcon />

@@ -4,7 +4,7 @@ const logRocketKey = process.env.REACT_APP_LOGROCKET_ID;
 let logRocketInitialised;
 export const setUpLogRocket = ({ localPeer, roomId, sessionId }) => {
   let domain;
-  if (typeof window !== undefined) {
+  if (typeof window !== "undefined") {
     domain = window.location.hostname;
   }
   LogRocket.identify(localPeer.id, {

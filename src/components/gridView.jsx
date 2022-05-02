@@ -4,6 +4,7 @@ import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { FirstPersonDisplay } from "./FirstPersonDisplay";
 import { ChatView } from "./chatView";
 import VideoList from "./VideoList";
+import { useIsChatOpen } from "./AppData/useChatState";
 import { mobileChatStyle } from "../common/utils";
 import { Image } from "./Image";
 
@@ -22,14 +23,12 @@ const webinarInfoLink = webinarProps?.LINK_HREF || "https://100ms.live/";
 export const GridCenterView = ({
   peers,
   maxTileCount,
-  isChatOpen,
-  toggleChat,
   hideSidePane,
   showStatsOnTiles,
-  isAudioOnly,
 }) => {
   const mediaQueryLg = cssConfig.media.md;
   const limitMaxTiles = useMedia(mediaQueryLg);
+  const isChatOpen = useIsChatOpen();
   return (
     <Fragment>
       <Box
@@ -43,7 +42,6 @@ export const GridCenterView = ({
           <VideoList
             showStatsOnTiles={showStatsOnTiles}
             peers={peers}
-            isAudioOnly={isAudioOnly}
             maxTileCount={limitMaxTiles ? MAX_TILES_FOR_MOBILE : maxTileCount}
           />
         ) : eventRoomIDs.some(id => window.location.href.includes(id)) ? (
@@ -82,7 +80,7 @@ export const GridCenterView = ({
             },
           }}
         >
-          <ChatView toggleChat={toggleChat} />
+          <ChatView />
         </Flex>
       )}
     </Fragment>
@@ -90,13 +88,8 @@ export const GridCenterView = ({
 };
 
 // Side pane shows smaller tiles
-export const GridSidePaneView = ({
-  peers,
-  isChatOpen,
-  toggleChat,
-  showStatsOnTiles,
-  isAudioOnly,
-}) => {
+export const GridSidePaneView = ({ peers, showStatsOnTiles }) => {
+  const isChatOpen = useIsChatOpen();
   return (
     <Flex
       direction="column"
@@ -115,7 +108,6 @@ export const GridSidePaneView = ({
         {peers && peers.length > 0 && (
           <VideoList
             showStatsOnTiles={showStatsOnTiles}
-            isAudioOnly={isAudioOnly}
             peers={peers}
             maxColCount={2}
           />
@@ -135,7 +127,7 @@ export const GridSidePaneView = ({
             },
           }}
         >
-          <ChatView toggleChat={toggleChat} />
+          <ChatView />
         </Flex>
       )}
     </Flex>

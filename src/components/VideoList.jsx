@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  StyledVideoList,
-  getLeft,
-  Pagination,
-  useTheme,
-} from "@100mslive/react-ui";
+import { Freeze } from "react-freeze";
+import { StyledVideoList, getLeft, useTheme } from "@100mslive/react-ui";
 import { useVideoList } from "@100mslive/react-sdk";
 import VideoTile from "./VideoTile";
 import ScreenshareTile from "./ScreenshareTile";
+import { FeatureFlags } from "../services/FeatureFlags";
+import { Pagination } from "./Pagination";
 
 const List = ({
   maxTileCount,
@@ -15,7 +13,6 @@ const List = ({
   showStatsOnTiles,
   maxColCount,
   maxRowCount,
-  isAudioOnly,
   includeScreenShareForPeer,
 }) => {
   const { aspectRatio } = useTheme();
@@ -35,41 +32,42 @@ const List = ({
       setPage(0);
     }
   }, [pagesWithTiles.length, page]);
+  const useFreeze = FeatureFlags.freezeVideoList();
   return (
     <StyledVideoList.Root ref={ref}>
       <StyledVideoList.Container>
         {pagesWithTiles && pagesWithTiles.length > 0
           ? pagesWithTiles.map((tiles, pageNo) => (
-              <StyledVideoList.View
-                css={{
-                  left: getLeft(pageNo, page),
-                  transition: "left 0.3s ease-in-out",
-                }}
-                key={pageNo}
-              >
-                {tiles.map((tile, i) =>
-                  tile.track?.source === "screen" ? (
-                    <ScreenshareTile
-                      showStatsOnTiles={showStatsOnTiles}
-                      key={tile.track.id}
-                      width={tile.width}
-                      height={tile.height}
-                      peerId={tile.peer.id}
-                      isAudioOnly={isAudioOnly}
-                    />
-                  ) : (
-                    <VideoTile
-                      showStatsOnTiles={showStatsOnTiles}
-                      key={tile.track?.id || tile.peer.id}
-                      width={tile.width}
-                      height={tile.height}
-                      peerId={tile.peer?.id}
-                      isAudioOnly={isAudioOnly}
-                      index={i}
-                    />
-                  )
-                )}
-              </StyledVideoList.View>
+              <Freeze freeze={useFreeze && page !== pageNo}>
+                <StyledVideoList.View
+                  css={{
+                    left: getLeft(pageNo, page),
+                    transition: "left 0.3s ease-in-out",
+                  }}
+                  key={pageNo}
+                >
+                  {tiles.map((tile, i) =>
+                    tile.track?.source === "screen" ? (
+                      <ScreenshareTile
+                        showStatsOnTiles={showStatsOnTiles}
+                        key={tile.track.id}
+                        width={tile.width}
+                        height={tile.height}
+                        peerId={tile.peer.id}
+                      />
+                    ) : (
+                      <VideoTile
+                        showStatsOnTiles={showStatsOnTiles}
+                        key={tile.track?.id || tile.peer.id}
+                        width={tile.width}
+                        height={tile.height}
+                        peerId={tile.peer?.id}
+                        index={i}
+                      />
+                    )
+                  )}
+                </StyledVideoList.View>
+              </Freeze>
             ))
           : null}
       </StyledVideoList.Container>

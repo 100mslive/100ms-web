@@ -21,6 +21,11 @@ export class FeatureFlags {
     // ask permissions in preview even if role doesn't have it
     window.HMS.ALWAYS_REQUEST_PERMISSIONS = false;
     // add support for server degradation
+    window.HMS.FREEZE_VIDEO_LIST = process.env.REACT_APP_ENV === "qa";
+  }
+
+  static freezeVideoList() {
+    return window.HMS.FREEZE_VIDEO_LIST;
   }
 
   static optimiseHLSLatency() {

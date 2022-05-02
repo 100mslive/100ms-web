@@ -1,8 +1,9 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { Flex, IconButton, styled } from "@100mslive/react-ui";
 import { useHMSActions } from "@100mslive/react-sdk";
 import { ToastManager } from "../Toast/ToastManager";
 import { SendIcon } from "@100mslive/react-icons";
+import { useChatDraftMessage } from "../AppData/useChatState";
 
 const TextArea = styled("textarea", {
   width: "100%",
@@ -19,6 +20,7 @@ const TextArea = styled("textarea", {
 export const ChatFooter = ({ role, peerId, onSend, children }) => {
   const hmsActions = useHMSActions();
   const inputRef = useRef(null);
+  const [draftMessage, setDraftMessage] = useChatDraftMessage();
   const sendMessage = useCallback(async () => {
     const message = inputRef.current.value;
     if (!message || !message.trim().length) {
@@ -38,6 +40,21 @@ export const ChatFooter = ({ role, peerId, onSend, children }) => {
       ToastManager.addToast({ title: error.message });
     }
   }, [role, peerId, hmsActions, onSend]);
+
+  useEffect(() => {
+    const messageElement = inputRef.current;
+    if (messageElement) {
+      messageElement.value = draftMessage;
+    }
+  }, [draftMessage]);
+
+  useEffect(() => {
+    const messageElement = inputRef.current;
+    return () => {
+      setDraftMessage(messageElement?.value || "");
+    };
+  }, [setDraftMessage]);
+
   return (
     <Flex
       align="center"
