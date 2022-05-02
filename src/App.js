@@ -23,11 +23,12 @@ import LogoForLight from "./images/logo-dark.svg";
 import LogoForDark from "./images/logo-light.svg";
 import FullPageProgress from "./components/FullPageProgress";
 import { KeyboardHandler } from "./components/Input/KeyboardInputManager";
+import PostLeave from "./components/PostLeave";
+import { AppData } from "./components/AppData/AppData.jsx";
 
 const Conference = React.lazy(() => import("./components/conference"));
 const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
 const ErrorPage = React.lazy(() => import("./components/ErrorPage"));
-const PostLeave = React.lazy(() => import("./components/PostLeave"));
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -122,6 +123,7 @@ function AppRoutes({ getUserToken }) {
       <ToastContainer />
       <Notifications />
       <Confetti />
+      <AppData />
       <KeyboardHandler />
       <Switch>
         <Route

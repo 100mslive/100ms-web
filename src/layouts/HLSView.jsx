@@ -1,36 +1,38 @@
 import React, { useEffect, useRef, Fragment } from "react";
 import { useHMSStore, selectHLSState } from "@100mslive/react-sdk";
 import { Box, Flex, styled, Text } from "@100mslive/react-ui";
+import Hls from "hls.js";
 import { ChatView } from "../components/chatView";
 import { FeatureFlags } from "../services/FeatureFlags";
+import { useIsChatOpen } from "../components/AppData/useChatState";
 
 const HLSVideo = styled("video", {
   h: "100%",
   margin: "0 auto",
 });
 
-const HLSView = ({ isChatOpen, toggleChat }) => {
+const HLSView = () => {
   const videoRef = useRef(null);
   const hlsState = useHMSStore(selectHLSState);
+  const isChatOpen = useIsChatOpen();
+  const hlsUrl = hlsState.variants[0]?.url;
   useEffect(() => {
-    if (videoRef.current) {
-      import("hls.js").then(({ default: Hls }) => {
-        if (Hls.isSupported() && hlsState.variants[0]?.url) {
-          let hls = new Hls(getHLSConfig());
-          hls.loadSource(hlsState.variants[0].url);
-          hls.attachMedia(videoRef.current);
-        } else if (
-          videoRef.current.canPlayType("application/vnd.apple.mpegurl")
-        ) {
-          videoRef.current.src = hlsState.variants[0].url;
-        }
-      });
+    if (videoRef.current && hlsUrl) {
+      if (Hls.isSupported()) {
+        let hls = new Hls(getHLSConfig());
+        hls.loadSource(hlsUrl);
+        hls.attachMedia(videoRef.current);
+      } else if (
+        videoRef.current.canPlayType("application/vnd.apple.mpegurl")
+      ) {
+        videoRef.current.src = hlsUrl;
+      }
     }
-  }, [hlsState]);
+  }, [hlsUrl]);
 
   return (
     <Fragment>
-      {hlsState.variants[0]?.url ? (
+      {hlsUrl ? (
         <HLSVideo ref={videoRef} autoPlay controls />
       ) : (
         <Flex align="center" justify="center" css={{ size: "100%" }}>
@@ -53,7 +55,7 @@ const HLSView = ({ isChatOpen, toggleChat }) => {
             },
           }}
         >
-          <ChatView toggleChat={toggleChat} />
+          <ChatView />
         </Box>
       )}
     </Fragment>

@@ -28,6 +28,8 @@ import {
 import { usePlaylistMusic } from "../hooks/usePlaylistMusic";
 import { useScreenshareAudio } from "../hooks/useScreenshareAudio";
 import { useWhiteboardMetadata } from "../../plugins/whiteboard/useWhiteboardMetadata";
+import { UI_SETTINGS } from "../../common/constants";
+import { useUISettings } from "../AppData/useUISettings";
 
 const getRecordingText = (
   { isBrowserRecordingOn, isServerRecordingOn, isHLSRecordingOn },
@@ -58,7 +60,7 @@ const getStreamingText = ({ isStreamingOn, isHLSRunning }) => {
 /**
  * Display state of recording, streaming, playlist, whiteboard
  */
-export const AdditionalRoomState = ({ isAudioOnly }) => {
+export const AdditionalRoomState = () => {
   const playlist = usePlaylistMusic();
   const {
     isServerRecordingOn,
@@ -68,6 +70,7 @@ export const AdditionalRoomState = ({ isAudioOnly }) => {
     isHLSRunning,
     isRecordingOn,
   } = useRecordingStreaming();
+  const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const screenshareAudio = useScreenshareAudio();
   const [open, setOpen] = useState(false);
   const isPlaylistInactive = [

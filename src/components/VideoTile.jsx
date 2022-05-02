@@ -22,17 +22,13 @@ import {
 import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
 import { ConnectionIndicator } from "./Connection/ConnectionIndicator";
+import { UI_SETTINGS } from "../common/constants";
+import { useUISettings } from "./AppData/useUISettings";
 
-const Tile = ({
-  peerId,
-  showStatsOnTiles,
-  isAudioOnly,
-  width,
-  height,
-  index,
-}) => {
+const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
   const track = useHMSStore(selectVideoTrackByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
+  const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const [isMouseHovered, setIsMouseHovered] = useState(false);

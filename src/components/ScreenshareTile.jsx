@@ -12,16 +12,27 @@ import { useFullscreen } from "react-use";
 import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
 import screenfull from "screenfull";
+import { UI_SETTINGS } from "../common/constants";
+import { useUISettings } from "./AppData/useUISettings";
+
+const labelStyles = {
+  position: "unset",
+  width: "100%",
+  textAlign: "center",
+  transform: "none",
+  mt: "$2",
+  flexShrink: 0,
+};
 
 const Tile = ({
   peerId,
   showStatsOnTiles,
-  isAudioOnly,
   width = "100%",
   height = "100%",
 }) => {
   const track = useHMSStore(selectScreenShareByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
+  const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const label = getVideoTileLabel(peer, track);
   const fullscreenRef = useRef(null);
@@ -42,6 +53,7 @@ const Tile = ({
         <StyledVideoTile.Container
           transparentBg
           ref={fullscreenRef}
+          css={{ flexDirection: "column" }}
           onMouseEnter={() => setIsMouseHovered(true)}
           onMouseLeave={() => {
             setIsMouseHovered(false);
@@ -68,7 +80,7 @@ const Tile = ({
               trackId={track.id}
             />
           ) : null}
-          <StyledVideoTile.Info>{label}</StyledVideoTile.Info>
+          <StyledVideoTile.Info css={labelStyles}>{label}</StyledVideoTile.Info>
           {isMouseHovered && !peer?.isLocal ? (
             <TileMenu
               isScreenshare
