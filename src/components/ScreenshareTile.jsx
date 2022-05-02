@@ -15,6 +15,15 @@ import screenfull from "screenfull";
 import { UI_SETTINGS } from "../common/constants";
 import { useUISettings } from "./AppData/useUISettings";
 
+const labelStyles = {
+  position: "unset",
+  width: "100%",
+  textAlign: "center",
+  transform: "none",
+  mt: "$2",
+  flexShrink: 0,
+};
+
 const Tile = ({
   peerId,
   showStatsOnTiles,
@@ -44,6 +53,7 @@ const Tile = ({
         <StyledVideoTile.Container
           transparentBg
           ref={fullscreenRef}
+          css={{ flexDirection: "column" }}
           onMouseEnter={() => setIsMouseHovered(true)}
           onMouseLeave={() => {
             setIsMouseHovered(false);
@@ -70,7 +80,7 @@ const Tile = ({
               trackId={track.id}
             />
           ) : null}
-          <StyledVideoTile.Info>{label}</StyledVideoTile.Info>
+          <StyledVideoTile.Info css={labelStyles}>{label}</StyledVideoTile.Info>
           {isMouseHovered && !peer?.isLocal ? (
             <TileMenu
               isScreenshare
