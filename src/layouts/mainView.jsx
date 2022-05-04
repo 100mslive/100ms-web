@@ -7,7 +7,7 @@ import {
   selectPeerScreenSharing,
   selectPeerSharingVideoPlaylist,
   selectRoomState,
-  selectLocalPeerRole,
+  selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
 import { MainGridView } from "./mainGridView";
 import { AppContext } from "../components/context/AppContext";
@@ -23,7 +23,7 @@ const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 
 export const ConferenceMainView = () => {
-  const localPeerRole = useHMSStore(selectLocalPeerRole)?.name;
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const peerSharing = useHMSStore(selectPeerScreenSharing);
   const peerSharingAudio = useHMSStore(selectPeerSharingAudio);
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
