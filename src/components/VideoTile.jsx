@@ -11,9 +11,11 @@ import {
   useHMSStore,
   selectIsPeerAudioEnabled,
   selectIsPeerVideoEnabled,
-  selectPeerByID,
   selectPeerMetadata,
   selectVideoTrackByPeerID,
+  selectLocalPeerID,
+  selectPeerNameByID,
+  selectAudioTrackByPeerID,
 } from "@100mslive/react-sdk";
 import {
   MicOffIcon,
@@ -28,14 +30,21 @@ import { useUISettings } from "./AppData/useUISettings";
 
 const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
   const track = useHMSStore(selectVideoTrackByPeerID(peerId));
-  const peer = useHMSStore(selectPeerByID(peerId));
+  const peerName = useHMSStore(selectPeerNameByID(peerId));
+  const audioTrack = useHMSStore(selectAudioTrackByPeerID(peerId));
+  const localPeerID = useHMSStore(selectLocalPeerID);
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
   const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
   const [isMouseHovered, setIsMouseHovered] = useState(false);
-  const borderAudioRef = useBorderAudioLevel(peer?.audioTrack);
+  const borderAudioRef = useBorderAudioLevel(audioTrack?.id);
   const isVideoDegraded = track?.degraded;
-  const label = getVideoTileLabel(peer, track);
+  const isLocal = localPeerID === peerId;
+  const label = getVideoTileLabel({
+    peerName,
+    track,
+    isLocal,
+  });
   const onHoverHandler = useCallback(event => {
     setIsMouseHovered(event.type === "mouseenter");
   }, []);
@@ -44,7 +53,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
       css={{ width, height }}
       data-testid={`participant_tile_${index}`}
     >
-      {peer ? (
+      {peerName ? (
         <StyledVideoTile.Container
           onMouseEnter={onHoverHandler}
           onMouseLeave={onHoverHandler}
@@ -53,9 +62,9 @@ const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
           <ConnectionIndicator isTile peerId={peerId} />
           {showStatsOnTiles ? (
             <VideoTileStats
-              audioTrackID={peer?.audioTrack}
-              videoTrackID={peer?.videoTrack}
-              peerID={peer?.id}
+              audioTrackID={audioTrack?.id}
+              videoTrackID={track?.id}
+              peerID={peerId}
             />
           ) : null}
 
@@ -63,14 +72,14 @@ const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
             <Video
               trackId={track?.id}
               attach={!isAudioOnly}
-              mirror={peer?.isLocal && track?.source === "regular"}
+              mirror={peerId === localPeerID && track?.source === "regular"}
               degraded={isVideoDegraded}
               data-testid="participant_video_tile"
             />
           ) : null}
           {isVideoMuted || isVideoDegraded || isAudioOnly ? (
             <Avatar
-              name={peer?.name || ""}
+              name={peerName || ""}
               data-testid="participant_avatar_icon"
             />
           ) : null}
@@ -82,11 +91,11 @@ const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
               <MicOffIcon />
             </StyledVideoTile.AudioIndicator>
           ) : null}
-          {isMouseHovered && !peer?.isLocal ? (
+          {isMouseHovered && !isLocal ? (
             <TileMenu
-              peerID={peer?.id}
-              audioTrackID={peer?.audioTrack}
-              videoTrackID={peer?.videoTrack}
+              peerID={peerId}
+              audioTrackID={audioTrack?.id}
+              videoTrackID={track?.id}
             />
           ) : null}
           <PeerMetadata peerId={peerId} />
