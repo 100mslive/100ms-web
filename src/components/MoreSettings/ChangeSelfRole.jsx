@@ -68,9 +68,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
             data-testid={"change_to_role_" + i}
           >
             <Text variant="sm">{role}</Text>
-            {localPeerRole.name === role && (
-              <CheckIcon width={16} height={16} />
-            )}
+            {localPeerRole === role && <CheckIcon width={16} height={16} />}
           </Dropdown.Item>
         ))}
       </Dropdown.Content>
