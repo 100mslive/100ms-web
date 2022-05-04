@@ -4,7 +4,7 @@ import { SpeakerIcon } from "@100mslive/react-icons";
 import {
   useHMSStore,
   selectDominantSpeaker,
-  selectLocalPeerRole,
+  selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
 import { ParticipantList } from "./ParticipantList";
 import { AdditionalRoomState } from "./AdditionalRoomState";
@@ -49,7 +49,7 @@ const Logo = () => {
 };
 
 export const Header = ({ isPreview }) => {
-  const localPeerRole = useHMSStore(selectLocalPeerRole)?.name;
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const showPip = localPeerRole !== DEFAULT_HLS_VIEWER_ROLE && !isPreview;
   return (
     <Flex

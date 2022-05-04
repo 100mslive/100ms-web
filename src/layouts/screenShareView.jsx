@@ -7,7 +7,7 @@ import {
   selectPeerSharingVideoPlaylist,
   selectScreenShareByPeerID,
   selectLocalPeerID,
-  selectLocalPeerRole,
+  selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
 import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { ChatView } from "../components/chatView";
@@ -25,7 +25,7 @@ const ScreenShareView = ({ showStats }) => {
   const showSidebarInBottom = useMedia(mediaQueryLg);
   const peers = useHMSStore(selectPeers);
   const localPeerID = useHMSStore(selectLocalPeerID);
-  const localPeerRole = useHMSStore(selectLocalPeerRole)?.name;
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const peerPresenting = useHMSStore(selectPeerScreenSharing);
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const isPresenterFromMyRole =

@@ -5,8 +5,8 @@ import {
   selectRolesMap,
   selectSessionId,
   selectLocalPeerID,
-  selectLocalPeerRole,
   selectLocalPeerName,
+  selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
 import { FeatureFlagsInit } from "../../services/FeatureFlags";
 import { normalizeAppPolicyConfig, setUpLogRocket } from "./appContextUtils";
@@ -66,7 +66,7 @@ const AppContextProvider = ({
   logo,
 }) => {
   const localPeerID = useHMSStore(selectLocalPeerID);
-  const localPeerRole = useHMSStore(selectLocalPeerRole)?.name;
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const localPeerName = useHMSStore(selectLocalPeerName);
   const roleNames = useHMSStore(selectAvailableRoleNames);
   const rolesMap = useHMSStore(selectRolesMap);

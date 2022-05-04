@@ -3,7 +3,7 @@ import { useMedia } from "react-use";
 import {
   selectAvailableRoleNames,
   selectLocalPeerID,
-  selectLocalPeerRole,
+  selectLocalPeerRoleName,
   selectPermissions,
   useHMSActions,
   useHMSStore,
@@ -18,7 +18,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const permissions = useHMSStore(selectPermissions);
   const localPeerId = useHMSStore(selectLocalPeerID);
-  const localPeerRole = useHMSStore(selectLocalPeerRole);
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const hmsActions = useHMSActions();
   const hideTriggerItem = useMedia(config.media.sm);
   const {
