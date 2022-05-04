@@ -26,33 +26,6 @@ import { ConnectionIndicator } from "./Connection/ConnectionIndicator";
 import { UI_SETTINGS } from "../common/constants";
 import { useUISettings } from "./AppData/useUISettings";
 
-const MetaActions = ({ peerId }) => {
-  const metaData = useHMSStore(selectPeerMetadata(peerId));
-  const isHandRaised = metaData?.isHandRaised || false;
-  const isBRB = metaData?.isBRBOn || false;
-
-  return (
-    <Fragment>
-      {isHandRaised ? (
-        <StyledVideoTile.AttributeBox
-          css={metaStyles}
-          data-testid="raiseHand_icon_onTile"
-        >
-          <HandRaiseFilledIcon width={40} height={40} />
-        </StyledVideoTile.AttributeBox>
-      ) : null}
-      {isBRB ? (
-        <StyledVideoTile.AttributeBox
-          css={metaStyles}
-          data-testid="brb_icon_onTile"
-        >
-          <BrbIcon width={40} height={40} />
-        </StyledVideoTile.AttributeBox>
-      ) : null}
-    </Fragment>
-  );
-};
-
 const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
   const track = useHMSStore(selectVideoTrackByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
@@ -116,7 +89,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
               videoTrackID={peer?.videoTrack}
             />
           ) : null}
-          <MetaActions peerId={peerId} />
+          <PeerMetadata peerId={peerId} />
         </StyledVideoTile.Container>
       ) : null}
     </StyledVideoTile.Root>
@@ -124,6 +97,33 @@ const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
 };
 
 const metaStyles = { left: "20px", bottom: "20px" };
+
+const PeerMetadata = ({ peerId }) => {
+  const metaData = useHMSStore(selectPeerMetadata(peerId));
+  const isHandRaised = metaData?.isHandRaised || false;
+  const isBRB = metaData?.isBRBOn || false;
+
+  return (
+    <Fragment>
+      {isHandRaised ? (
+        <StyledVideoTile.AttributeBox
+          css={metaStyles}
+          data-testid="raiseHand_icon_onTile"
+        >
+          <HandRaiseFilledIcon width={40} height={40} />
+        </StyledVideoTile.AttributeBox>
+      ) : null}
+      {isBRB ? (
+        <StyledVideoTile.AttributeBox
+          css={metaStyles}
+          data-testid="brb_icon_onTile"
+        >
+          <BrbIcon width={40} height={40} />
+        </StyledVideoTile.AttributeBox>
+      ) : null}
+    </Fragment>
+  );
+};
 
 const VideoTile = React.memo(Tile);
 

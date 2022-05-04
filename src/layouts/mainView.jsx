@@ -78,7 +78,7 @@ export const ConferenceMainView = () => {
   return (
     ViewComponent && (
       <Suspense fallback={<FullPageProgress />}>
-        <ViewComponent role={localPeerRole} showStats={showStatsOnTiles} />
+        <ViewComponent showStats={showStatsOnTiles} />
       </Suspense>
     )
   );
