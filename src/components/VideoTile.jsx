@@ -1,4 +1,3 @@
-// @ts-check
 import React, { Fragment, useCallback, useState } from "react";
 import {
   Avatar,
