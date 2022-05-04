@@ -21,9 +21,9 @@ import {
 import {
   useRecordingStreaming,
   useScreenShare,
-  selectLocalPeer,
   selectPeerSharingVideoPlaylist,
   useHMSStore,
+  selectLocalPeerID,
 } from "@100mslive/react-sdk";
 import { usePlaylistMusic } from "../hooks/usePlaylistMusic";
 import { useScreenshareAudio } from "../hooks/useScreenshareAudio";
@@ -84,7 +84,7 @@ export const AdditionalRoomState = () => {
   ].some(Boolean);
 
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
-  const localPeer = useHMSStore(selectLocalPeer);
+  const localPeerID = useHMSStore(selectLocalPeerID);
   const isVideoPlayListPlaying = !!peerSharingPlaylist?.id;
   const {
     screenSharingPeerName,
@@ -119,6 +119,7 @@ export const AdditionalRoomState = () => {
             borderRadius: "$1",
             border: "1px solid $textDisabled",
             padding: "$2 $4",
+            mx: "$2",
           }}
           data-testid="record_status_dropdown"
         >
@@ -284,7 +285,7 @@ export const AdditionalRoomState = () => {
             <ShareScreenIcon width={24} height={24} />
             <Text variant="sm" css={{ ml: "$2", flex: "1 1 0" }}>
               {`Shared by: ${
-                screenSharingPeerId === localPeer.id
+                screenSharingPeerId === localPeerID
                   ? "You"
                   : screenSharingPeerName
               }`}
@@ -296,7 +297,7 @@ export const AdditionalRoomState = () => {
             <VideoPlayerIcon width={24} height={24} />
             <Text variant="sm" css={{ ml: "$2", flex: "1 1 0" }}>
               {`Shared by: ${
-                peerSharingPlaylist.id === localPeer.id
+                peerSharingPlaylist.id === localPeerID
                   ? "You"
                   : peerSharingPlaylist.name
               }`}

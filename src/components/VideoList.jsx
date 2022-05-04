@@ -38,13 +38,12 @@ const List = ({
       <StyledVideoList.Container>
         {pagesWithTiles && pagesWithTiles.length > 0
           ? pagesWithTiles.map((tiles, pageNo) => (
-              <Freeze freeze={useFreeze && page !== pageNo}>
+              <Freeze freeze={useFreeze && page !== pageNo} key={pageNo}>
                 <StyledVideoList.View
                   css={{
                     left: getLeft(pageNo, page),
                     transition: "left 0.3s ease-in-out",
                   }}
-                  key={pageNo}
                 >
                   {tiles.map((tile, i) =>
                     tile.track?.source === "screen" ? (

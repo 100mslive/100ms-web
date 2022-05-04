@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { selectLocalPeer, useHMSStore } from "@100mslive/react-sdk";
+import { selectLocalPeerRoleName, useHMSStore } from "@100mslive/react-sdk";
 import { IconButton, Tooltip } from "@100mslive/react-ui";
 import { PipIcon } from "@100mslive/react-icons";
 import ActivatedPIP from "./ActivatedPIP";
@@ -11,12 +11,12 @@ import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
  * again turns it off.
  */
 const PIPComponent = () => {
-  const localPeer = useHMSStore(selectLocalPeer);
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const [isPipOn, setIsPipOn] = useState(PictureInPicture.isOn());
 
   if (
     !PictureInPicture.isSupported() ||
-    localPeer.roleName === DEFAULT_HLS_VIEWER_ROLE
+    localPeerRole === DEFAULT_HLS_VIEWER_ROLE
   ) {
     return null;
   }
