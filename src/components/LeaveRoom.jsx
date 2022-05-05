@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   selectPermissions,
   useHMSActions,
@@ -22,7 +22,7 @@ import {
 } from "../primitives/DialogContent";
 
 export const LeaveRoom = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const params = useParams();
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
@@ -31,9 +31,9 @@ export const LeaveRoom = () => {
 
   const redirectToLeavePage = () => {
     if (params.role) {
-      history.push("/leave/" + params.roomId + "/" + params.role);
+      navigate("/leave/" + params.roomId + "/" + params.role);
     } else {
-      history.push("/leave/" + params.roomId);
+      navigate("/leave/" + params.roomId);
     }
   };
 
