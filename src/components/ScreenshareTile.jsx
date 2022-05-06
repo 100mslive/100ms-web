@@ -34,7 +34,11 @@ const Tile = ({
   const peer = useHMSStore(selectPeerByID(peerId));
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const [isMouseHovered, setIsMouseHovered] = useState(false);
-  const label = getVideoTileLabel(peer, track);
+  const label = getVideoTileLabel({
+    peerName: peer.name,
+    isLocal: false,
+    track,
+  });
   const fullscreenRef = useRef(null);
   // fullscreen is for desired state
   const [fullscreen, setFullscreen] = useState(false);

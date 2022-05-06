@@ -9,12 +9,11 @@ import {
 import {
   useHMSStore,
   selectIsPeerAudioEnabled,
-  selectIsPeerVideoEnabled,
   selectPeerMetadata,
-  selectVideoTrackByPeerID,
   selectLocalPeerID,
   selectPeerNameByID,
   selectAudioTrackByPeerID,
+  selectTrackByID,
 } from "@100mslive/react-sdk";
 import {
   MicOffIcon,
@@ -27,14 +26,14 @@ import { ConnectionIndicator } from "./Connection/ConnectionIndicator";
 import { UI_SETTINGS } from "../common/constants";
 import { useUISettings } from "./AppData/useUISettings";
 
-const Tile = ({ peerId, showStatsOnTiles, width, height, index }) => {
-  const track = useHMSStore(selectVideoTrackByPeerID(peerId));
+const Tile = ({ peerId, trackId, showStatsOnTiles, width, height, index }) => {
+  const track = useHMSStore(selectTrackByID(trackId));
   const peerName = useHMSStore(selectPeerNameByID(peerId));
   const audioTrack = useHMSStore(selectAudioTrackByPeerID(peerId));
   const localPeerID = useHMSStore(selectLocalPeerID);
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
-  const isVideoMuted = !useHMSStore(selectIsPeerVideoEnabled(peerId));
+  const isVideoMuted = !track.enabled;
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const borderAudioRef = useBorderAudioLevel(audioTrack?.id);
   const isVideoDegraded = track?.degraded;
