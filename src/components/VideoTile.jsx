@@ -33,7 +33,7 @@ const Tile = ({ peerId, trackId, showStatsOnTiles, width, height, index }) => {
   const localPeerID = useHMSStore(selectLocalPeerID);
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
-  const isVideoMuted = !track.enabled;
+  const isVideoMuted = !track?.enabled;
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const borderAudioRef = useBorderAudioLevel(audioTrack?.id);
   const isVideoDegraded = track?.degraded;
