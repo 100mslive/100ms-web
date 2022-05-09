@@ -51,7 +51,7 @@ const Tile = ({ peerId, trackId, showStatsOnTiles, width, height, index }) => {
       css={{ width, height }}
       data-testid={`participant_tile_${index}`}
     >
-      {peerName ? (
+      {peerName !== undefined ? (
         <StyledVideoTile.Container
           onMouseEnter={onHoverHandler}
           onMouseLeave={onHoverHandler}
