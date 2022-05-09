@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
   useHMSStore,
-  selectLocalPeer,
   selectAvailableRoleNames,
   selectRolesMap,
   selectSessionId,
+  selectLocalPeerID,
+  selectLocalPeerName,
+  selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
 import { FeatureFlagsInit } from "../../services/FeatureFlags";
 import { normalizeAppPolicyConfig, setUpLogRocket } from "./appContextUtils";
@@ -63,7 +65,9 @@ const AppContextProvider = ({
   appDetails,
   logo,
 }) => {
-  const localPeer = useHMSStore(selectLocalPeer);
+  const localPeerID = useHMSStore(selectLocalPeerID);
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+  const localPeerName = useHMSStore(selectLocalPeerName);
   const roleNames = useHMSStore(selectAvailableRoleNames);
   const rolesMap = useHMSStore(selectRolesMap);
   const sessionId = useHMSStore(selectSessionId);
@@ -123,13 +127,22 @@ const AppContextProvider = ({
   }, []);
 
   useEffect(() => {
-    localPeer && setUpLogRocket({ localPeer, sessionId });
+    if (localPeerID && localPeerRole && localPeerName) {
+      setUpLogRocket({
+        localPeer: {
+          id: localPeerID,
+          name: localPeerName,
+          roleName: localPeerRole,
+        },
+        sessionId,
+      });
+    }
     // eslint-disable-next-line
-  }, [localPeer?.id, localPeer?.name, localPeer?.roleName, sessionId]);
+  }, [localPeerID, localPeerName, localPeerRole, sessionId]);
 
   useEffect(() => {
-    localPeer && deepSetAppPolicyConfig(appPolicyConfig[localPeer.roleName]);
-  }, [localPeer, localPeer?.roleName, appPolicyConfig]);
+    localPeerRole && deepSetAppPolicyConfig(appPolicyConfig[localPeerRole]);
+  }, [localPeerRole, appPolicyConfig]);
 
   const deepSetMaxTiles = maxTiles =>
     setState(prevState => ({ ...prevState, maxTileCount: maxTiles }));

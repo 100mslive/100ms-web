@@ -2,7 +2,7 @@ import React from "react";
 import { Flex, Box, Text } from "@100mslive/react-ui";
 import PlaceholderBg from "../images/first_person.png";
 
-export const FirstPersonDisplay = () => {
+export const FirstPersonDisplay = React.memo(() => {
   return (
     <Box
       css={{
@@ -50,4 +50,4 @@ export const FirstPersonDisplay = () => {
       </Flex>
     </Box>
   );
-};
+});

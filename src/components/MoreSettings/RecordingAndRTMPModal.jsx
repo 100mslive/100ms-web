@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   selectPermissions,
   useHMSActions,
@@ -13,8 +13,12 @@ import {
   DialogInput,
   DialogRow,
 } from "../../primitives/DialogContent";
-import { QUERY_PARAM_SKIP_PREVIEW } from "../../common/constants";
 import { ToastManager } from "../Toast/ToastManager";
+import { ResolutionInput } from "./ResolutionInput";
+import {
+  QUERY_PARAM_SKIP_PREVIEW,
+  RTMP_RECORD_DEFAULT_RESOLUTION,
+} from "../../common/constants";
 
 const defaultMeetingUrl =
   window.location.href.replace("meeting", "preview") +
@@ -33,6 +37,9 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
   const [meetingURL, setMeetingURL] = useState(defaultMeetingUrl);
   const [rtmpURL, setRTMPURL] = useState("");
   const [hlsSelected, setHLS] = useState(false);
+  const [recordingResolution, setRecordingResolution] = useState(
+    RTMP_RECORD_DEFAULT_RESOLUTION
+  );
   const [recordingSelected, setRecording] = useState(false);
   const isRecordingOn = isBrowserRecordingOn || isHLSRecordingOn;
   const isAnythingRunning = isRecordingOn || isStreamingOn;
@@ -50,6 +57,10 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
     return text;
   }, [isStreamingOn, isRecordingOn]);
 
+  const resolutionChangeHandler = useCallback(
+    resolution => setRecordingResolution(resolution),
+    []
+  );
   const startStopRTMPRecordingHLS = async action => {
     try {
       if (action === "start") {
@@ -64,6 +75,7 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
               meetingURL,
               rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
               record: recordingSelected,
+              resolution: recordingResolution,
             });
       } else {
         isHLSRunning
@@ -103,6 +115,9 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
               disabled={isAnythingRunning || hlsSelected}
               data-testid="rtmp_url_field"
             />
+          )}
+          {permissions.streaming && (
+            <ResolutionInput onResolutionChange={resolutionChangeHandler} />
           )}
           {permissions.streaming && (
             <DialogCheckbox

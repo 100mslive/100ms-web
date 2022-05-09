@@ -92,6 +92,12 @@ export const QUERY_PARAM_VIEW_MODE = "ui_mode";
 export const UI_MODE_ACTIVE_SPEAKER = "activespeaker";
 export const UI_MODE_GRID = "grid";
 export const MAX_TOASTS = 5;
+export const RTMP_RECORD_RESOLUTION_MIN = 480;
+export const RTMP_RECORD_RESOLUTION_MAX = 1280;
+export const RTMP_RECORD_DEFAULT_RESOLUTION = {
+  width: 1280,
+  height: 720,
+};
 
 export const APP_DATA = {
   uiSettings: "uiSettings",

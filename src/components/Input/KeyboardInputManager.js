@@ -16,15 +16,15 @@ export class KeyboardInputManager {
     this.#actions = actions;
     this.#store = store;
   }
-  async #toggleAudio() {
+  #toggleAudio = async () => {
     const enabled = this.#store.getState(selectIsLocalAudioEnabled);
     await this.#actions.setLocalAudioEnabled(!enabled);
-  }
+  };
 
-  async #toggleVideo() {
+  #toggleVideo = async () => {
     const enabled = this.#store.getState(selectIsLocalVideoEnabled);
     await this.#actions.setLocalVideoEnabled(!enabled);
-  }
+  };
 
   #keyDownHandler = async e => {
     const CONTROL_KEY = isMacOS ? e.metaKey : e.ctrlKey;
@@ -43,27 +43,27 @@ export class KeyboardInputManager {
     }
   };
 
-  #bind() {
+  #bind = () => {
     document.addEventListener("keydown", this.#keyDownHandler, false);
-  }
+  };
 
-  #unbind() {
+  #unbind = () => {
     document.removeEventListener("keydown", this.#keyDownHandler, false);
-  }
+  };
 
-  bindAllShortcuts() {
+  bindAllShortcuts = () => {
     if (!isEvenListenersAttached) {
       this.#bind();
       isEvenListenersAttached = true;
     }
-  }
+  };
 
-  unbindAllShortcuts() {
+  unbindAllShortcuts = () => {
     if (isEvenListenersAttached) {
       this.#unbind();
       isEvenListenersAttached = false;
     }
-  }
+  };
 }
 
 export const KeyboardHandler = () => {
