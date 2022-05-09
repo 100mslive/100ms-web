@@ -9,9 +9,10 @@ const labelMap = new Map([
 ]);
 
 export const getVideoTileLabel = ({ peerName, isLocal, track }) => {
-  if (!peerName || !track) {
+  const isPeerPresent = peerName !== undefined;
+  if (!isPeerPresent || !track) {
     // for peers with only audio track
-    return peerName
+    return isPeerPresent
       ? labelMap
           .get([isLocal, undefined].toString())
           .replace(PEER_NAME_PLACEHOLDER, peerName)
