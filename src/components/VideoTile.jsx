@@ -69,7 +69,7 @@ const Tile = ({ peerId, trackId, showStatsOnTiles, width, height, index }) => {
           {track ? (
             <Video
               trackId={track?.id}
-              attach={!isAudioOnly}
+              attach={isLocal ? undefined : !isAudioOnly}
               mirror={peerId === localPeerID && track?.source === "regular"}
               degraded={isVideoDegraded}
               data-testid="participant_video_tile"
