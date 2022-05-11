@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { usePrevious } from "react-use";
 import {
   selectRoomState,
   HMSRoomState,
@@ -19,20 +20,24 @@ const Conference = () => {
   const navigate = useNavigate();
   const { roomId, role } = useParams();
   const { isHeadless } = useContext(AppContext);
-  const isConnectingToRoom =
-    useHMSStore(selectRoomState) === HMSRoomState.Connecting;
+  const roomState = useHMSStore(selectRoomState);
+  const prevState = usePrevious(roomState);
   const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);
   const hmsActions = useHMSActions();
 
   useEffect(() => {
     if (!roomId) {
       navigate(`/`);
+      return;
     }
-    if (!(isConnectingToRoom || isConnectedToRoom)) {
+    if (
+      !prevState &&
+      !(roomState === HMSRoomState.Connecting || isConnectedToRoom)
+    ) {
       if (role) navigate(`/preview/${roomId || ""}/${role}`);
       else navigate(`/preview/${roomId || ""}`);
     }
-  }, [isConnectedToRoom, isConnectingToRoom, navigate, role, roomId]);
+  }, [isConnectedToRoom, prevState, roomState, navigate, role, roomId]);
 
   useEffect(() => {
     return () => {

@@ -7,15 +7,12 @@ import {
 } from "@100mslive/react-icons";
 import { Tooltip, IconButton } from "@100mslive/react-ui";
 import { useAVToggle, parsedUserAgent } from "@100mslive/react-sdk";
-import { UI_SETTINGS } from "../common/constants";
-import { useUISettings } from "./AppData/useUISettings";
 
 const isMacOS = parsedUserAgent.getOS().name.toLowerCase() === "mac os";
 
 export const AudioVideoToggle = ({ compact = false }) => {
   const { isLocalVideoEnabled, isLocalAudioEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
-  const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   return (
     <Fragment>
       {toggleAudio ? (
@@ -49,7 +46,6 @@ export const AudioVideoToggle = ({ compact = false }) => {
             css={compact ? { ml: "$2" } : { mx: "$4" }}
             key="toggleVideo"
             active={isLocalVideoEnabled}
-            disabled={isAudioOnly}
             onClick={toggleVideo}
             data-testid="video_btn"
           >
