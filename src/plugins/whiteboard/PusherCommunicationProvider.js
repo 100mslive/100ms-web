@@ -31,11 +31,8 @@ class PusherCommunicationProvider {
 
   init = async (roomId = "") => {
     if (this.initialized) {
-      console.log("Whiteboard Pusher already initialised");
       return;
     }
-
-    // Pusher.logToConsole = true;
 
     /** @private */
     const Pusher = await import("pusher-js");
@@ -44,7 +41,7 @@ class PusherCommunicationProvider {
       authEndpoint: process.env.REACT_APP_PUSHER_AUTHENDPOINT,
     });
 
-    Pusher.default.logToConsole = true;
+    // Pusher.default.logToConsole = true;
 
     /** @private */
     this.channel = this.pusher.subscribe(`private-${roomId}`);
