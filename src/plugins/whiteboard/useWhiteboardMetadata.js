@@ -7,7 +7,6 @@ import { useCallback, useEffect, useMemo } from "react";
 import { getMetadata } from "../../common/utils";
 import { useMyMetadata } from "../../components/hooks/useMetadata";
 import { FeatureFlags } from "../../services/FeatureFlags";
-import { useCommunication } from "./useCommunication";
 
 const isWhiteboardOwner = peer => {
   return !!getMetadata(peer?.metadata).whiteboardOwner;
@@ -21,13 +20,12 @@ export const useWhiteboardMetadata = () => {
     () => localPeerID === whiteboardOwner?.id,
     [localPeerID, whiteboardOwner]
   );
-  const provider = useCommunication(Boolean(whiteboardOwner));
 
   /**
    * @param enabled {boolean}
    */
   const toggleWhiteboard = useCallback(async () => {
-    if (!provider) {
+    if (!process.env.REACT_APP_PUSHER_APP_KEY) {
       console.error("Cannot start whiteboard - Pusher Key unavailable");
     }
     try {
@@ -41,7 +39,7 @@ export const useWhiteboardMetadata = () => {
     } catch (error) {
       console.error("failed to toggle whiteboard to ", !whiteboardOwner, error);
     }
-  }, [provider, whiteboardOwner, updateMetaData, amIWhiteboardOwner]);
+  }, [whiteboardOwner, updateMetaData, amIWhiteboardOwner]);
 
   useEffect(() => {
     window.toggleWhiteboard = toggleWhiteboard;

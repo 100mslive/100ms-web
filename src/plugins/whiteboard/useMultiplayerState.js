@@ -1,13 +1,13 @@
 // @ts-check
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useHMSStore, selectDidIJoinWithin } from "@100mslive/react-sdk";
-import { provider as room } from "./useCommunication";
+import { provider as room } from "./PusherCommunicationProvider";
 import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
 import { WhiteboardEvents as Events } from "./WhiteboardEvents";
 
 const useWhiteboardState = () => {
   const { amIWhiteboardOwner } = useWhiteboardMetadata();
-  const shouldRequestState = useHMSStore(selectDidIJoinWithin(500));
+  const shouldRequestState = useHMSStore(selectDidIJoinWithin(850));
 
   return { shouldRequestState, amIWhiteboardOwner };
 };
@@ -127,13 +127,6 @@ export function useMultiplayerState(roomId) {
     sendCurrentState,
   ]);
 
-  // Store last state on closing whitboard so that when the board is reopened the state could be fetched and reapplied
-  const handleUnmount = useCallback(() => {
-    if (isReady && !shouldRequestState) {
-      room.storeEvent(Events.CURRENT_STATE, getCurrentState());
-    }
-  }, [isReady, shouldRequestState, getCurrentState]);
-
   // Callbacks --------------
   // Put the state into the window, for debugging.
   const onMount = useCallback(
@@ -191,8 +184,11 @@ export function useMultiplayerState(roomId) {
       }
     }
 
-    setupDocument();
-    setupInitialState();
+    (async () => {
+      await room.init();
+      setupDocument();
+      setupInitialState();
+    })();
 
     return () => {
       stillAlive = false;
@@ -201,8 +197,16 @@ export function useMultiplayerState(roomId) {
   }, [app, setupInitialState, sendCurrentState, handleChanges]);
 
   useEffect(() => {
+    // Store last state on closing whitboard so that when the board is reopened the state could be fetched and reapplied
+    const handleUnmount = () => {
+      if (isReady && !shouldRequestState) {
+        console.log("Whiteboard unmount storing", getCurrentState());
+        room.storeEvent(Events.CURRENT_STATE, getCurrentState());
+      }
+    };
+
     return handleUnmount;
-  }, [handleUnmount]);
+  }, [isReady, shouldRequestState, getCurrentState]);
 
   return { onMount, onChangePage };
 }
