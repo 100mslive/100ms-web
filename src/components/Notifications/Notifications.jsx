@@ -152,7 +152,6 @@ export function Notifications() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    navigate,
     notification,
     subscribedNotifications.ERROR,
     subscribedNotifications.NEW_MESSAGE,
