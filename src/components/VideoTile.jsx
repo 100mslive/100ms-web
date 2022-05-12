@@ -14,6 +14,7 @@ import {
   selectPeerNameByID,
   selectAudioTrackByPeerID,
   selectTrackByID,
+  selectVideoTrackByPeerID,
 } from "@100mslive/react-sdk";
 import {
   MicOffIcon,
@@ -27,7 +28,10 @@ import { UI_SETTINGS } from "../common/constants";
 import { useUISettings } from "./AppData/useUISettings";
 
 const Tile = ({ peerId, trackId, showStatsOnTiles, width, height, index }) => {
-  const track = useHMSStore(selectTrackByID(trackId));
+  const trackSelector = trackId
+    ? selectTrackByID(trackId)
+    : selectVideoTrackByPeerID(peerId);
+  const track = useHMSStore(trackSelector);
   const peerName = useHMSStore(selectPeerNameByID(peerId));
   const audioTrack = useHMSStore(selectAudioTrackByPeerID(peerId));
   const localPeerID = useHMSStore(selectLocalPeerID);
