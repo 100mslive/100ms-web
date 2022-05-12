@@ -1,4 +1,5 @@
 // @ts-check
+import Pusher from "pusher-js";
 
 const stringifyWithNull = obj =>
   JSON.stringify(obj, (k, v) => (v === undefined ? null : v));
@@ -29,14 +30,13 @@ class PusherCommunicationProvider {
     this.lastMessage = {};
   }
 
-  init = async (roomId = "") => {
+  init = (roomId = "") => {
     if (this.initialized) {
       return;
     }
 
     /** @private */
-    const Pusher = await import("pusher-js");
-    this.pusher = new Pusher.default(process.env.REACT_APP_PUSHER_APP_KEY, {
+    this.pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
       cluster: "ap2",
       authEndpoint: process.env.REACT_APP_PUSHER_AUTHENDPOINT,
     });
