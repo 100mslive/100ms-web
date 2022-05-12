@@ -60,7 +60,7 @@ const Settings = ({ open, onOpenChange, children }) => {
           />
         ) : null}
         <DialogRow>
-          <Text>Test Speaker:</Text>
+          <Text>Test Speaker</Text>
           <TestAudio id={selectedDeviceIDs.audioOutput} />
         </DialogRow>
       </DialogContent>
