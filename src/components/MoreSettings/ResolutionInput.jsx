@@ -13,9 +13,15 @@ export const ResolutionInput = ({ onResolutionChange }) => {
   const resolutionChangeHandler = useCallback(
     event => {
       const { name, value } = event.target;
-      const width = name === "resWidth" ? Number(value) : resolution.width;
-      const height = name === "resHeight" ? Number(value) : resolution.height;
+      let width = name === "resWidth" ? Number(value) : resolution.width;
+      let height = name === "resHeight" ? Number(value) : resolution.height;
 
+      if (width === 0) {
+        width = null;
+      }
+      if (height === 0) {
+        height = null;
+      }
       const newResolution = {
         width: !isNaN(width) ? width : RTMP_RECORD_DEFAULT_RESOLUTION.width,
         height: !isNaN(height) ? height : RTMP_RECORD_DEFAULT_RESOLUTION.height,
