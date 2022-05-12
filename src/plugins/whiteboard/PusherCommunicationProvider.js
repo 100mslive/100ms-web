@@ -1,6 +1,5 @@
 // @ts-check
-import { useEffect } from "react";
-import { useHMSStore, selectRoomID } from "@100mslive/react-sdk";
+import Pusher from "pusher-js";
 
 const stringifyWithNull = obj =>
   JSON.stringify(obj, (k, v) => (v === undefined ? null : v));
@@ -36,27 +35,25 @@ class PusherCommunicationProvider {
       return;
     }
 
-    // Pusher.logToConsole = true;
+    /** @private */
+    this.pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
+      cluster: "ap2",
+      authEndpoint: process.env.REACT_APP_PUSHER_AUTHENDPOINT,
+    });
+
+    // Pusher.default.logToConsole = true;
 
     /** @private */
-    import("pusher-js").then(Pusher => {
-      this.pusher = new Pusher.default(process.env.REACT_APP_PUSHER_APP_KEY, {
-        cluster: "ap2",
-        authEndpoint: process.env.REACT_APP_PUSHER_AUTHENDPOINT,
-      });
+    this.channel = this.pusher.subscribe(`private-${roomId}`);
 
-      /** @private */
-      this.channel = this.pusher.subscribe(`private-${roomId}`);
+    /**
+     * When events(peer-join) are sent too early before subscribing to a channel,
+     * resend last event after subscription has succeeded.
+     */
+    this.channel.bind("pusher:subscription_succeeded", this.resendLastEvents);
 
-      /**
-       * When events(peer-join) are sent too early before subscribing to a channel,
-       * resend last event after subscription has succeeded.
-       */
-      this.channel.bind("pusher:subscription_succeeded", this.resendLastEvents);
-
-      console.log("Whiteboard initialized communication through Pusher");
-      this.initialized = true;
-    });
+    console.log("Whiteboard initialized communication through Pusher");
+    this.initialized = true;
   };
 
   /**
@@ -119,19 +116,4 @@ class PusherCommunicationProvider {
 /**
  * @type {PusherCommunicationProvider}
  */
-export let provider;
-
-export const useCommunication = (whiteboardActive = false) => {
-  const roomId = useHMSStore(selectRoomID);
-
-  useEffect(() => {
-    if (whiteboardActive && !provider) {
-      provider = new PusherCommunicationProvider();
-      // init could be merged with constructor now
-      provider.init(roomId);
-      console.log("usecomm", provider);
-    }
-  }, [roomId, whiteboardActive]);
-
-  return provider;
-};
+export const provider = new PusherCommunicationProvider();
