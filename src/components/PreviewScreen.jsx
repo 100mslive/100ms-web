@@ -109,7 +109,7 @@ const Link = styled("a", {
   color: "#2f80e1",
 });
 
-const ErrorWithSupportLink = errorMessage => (
+export const ErrorWithSupportLink = errorMessage => (
   <div>
     {errorMessage} If you think this is a mistake on our side, please create{" "}
     <Link
