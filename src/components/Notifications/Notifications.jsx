@@ -95,7 +95,12 @@ export function Notifications() {
           }, 2000);
           return;
         }
-        if (notification.data?.code === 3008) {
+        // Autoplay error or user denied screen share(cancelled browser pop-up)
+        if (
+          notification.data?.code === 3008 ||
+          (notification.data?.code === 3001 &&
+            notification.data?.message.includes("screen"))
+        ) {
           return;
         }
         if (notification.data?.action === "INIT") {
