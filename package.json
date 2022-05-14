@@ -14,8 +14,10 @@
     "@100mslive/react-sdk": "0.0.17",
     "@100mslive/react-ui": "0.0.17",
     "@tldraw/tldraw": "^1.5.0",
+    "@y-presence/client": "^1.1.8",
     "hls.js": "^1.1.1",
     "js-confetti": "^0.10.2",
+    "lodash.throttle": "^4.1.1",
     "logrocket": "^2.2.0",
     "logrocket-react": "^5.0.1",
     "mobx": "^6.3.12",
@@ -29,7 +31,9 @@
     "screenfull": "^5.1.0",
     "uuid": "^8.3.2",
     "web-vitals": "^1.0.1",
-    "worker-timers": "^7.0.40"
+    "worker-timers": "^7.0.40",
+    "y-websocket": "^1.4.3",
+    "yjs": "^13.5.36"
   },
   "scripts": {
     "prebuild": "rm -rf build",
