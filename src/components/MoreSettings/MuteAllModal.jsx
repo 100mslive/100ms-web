@@ -87,7 +87,7 @@ export const MuteAllModal = ({ onOpenChange }) => {
           labelField="label"
         />
         <DialogRow>
-          <Text variant="md">Track status:</Text>
+          <Text variant="md">Track status</Text>
           <RadioGroup.Root value={enabled} onValueChange={setEnabled}>
             <Flex align="center" css={{ mr: "$8" }}>
               <RadioGroup.Item

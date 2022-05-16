@@ -142,7 +142,7 @@ export const DialogSelect = ({
 }) => {
   return (
     <DialogRow breakSm>
-      <Label>{title}:</Label>
+      <Label>{title}</Label>
       <Select.Root
         data-testid={`dialog_select_${title}`}
         css={{ width: "70%", "@sm": { width: "100%" } }}
@@ -179,7 +179,7 @@ export const DialogInput = ({
 }) => {
   return (
     <DialogRow breakSm>
-      <Label>{title}:</Label>
+      <Label>{title}</Label>
       <Input
         css={{ width: "70%", "@sm": { width: "100%" } }}
         value={value}
@@ -196,7 +196,7 @@ export const DialogInput = ({
 export const DialogSwitch = ({ title, value, onChange, disabled }) => {
   return (
     <DialogRow>
-      <Text>{title}:</Text>
+      <Text>{title}</Text>
       <Flex justify="end" css={{ width: "70%" }}>
         <Switch
           checked={value}
@@ -219,7 +219,7 @@ export const DialogCheckbox = ({
   return (
     <DialogRow css={css}>
       <Label htmlFor={id} css={{ cursor: "pointer" }}>
-        {title}:
+        {title}
       </Label>
       <Checkbox.Root
         checked={value}

@@ -26,6 +26,7 @@ import FullPageProgress from "./components/FullPageProgress";
 import { KeyboardHandler } from "./components/Input/KeyboardInputManager";
 import PostLeave from "./components/PostLeave";
 import { AppData } from "./components/AppData/AppData.jsx";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const Conference = React.lazy(() => import("./components/conference"));
 const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
@@ -78,43 +79,45 @@ export function EdtechComponent({
   }, [theme]);
 
   return (
-    <HMSThemeProvider
-      themeType={themeType}
-      aspectRatio={{ width, height }}
-      theme={{
-        colors: {
-          brandDefault: color,
-          brandDark: shadeColor(color, -30),
-          brandLight: shadeColor(color, 30),
-          brandDisabled: shadeColor(color, 10),
-        },
-        fonts: {
-          sans: [font, "Inter", "sans-serif"],
-        },
-      }}
-    >
-      <HMSRoomProvider isHMSStatsOn={FeatureFlags.enableStatsForNerds}>
-        <AppContextProvider
-          roomId={roomId}
-          tokenEndpoint={tokenEndpoint}
-          policyConfig={policyConfig}
-          appDetails={metadata}
-          logo={logo || (theme === "dark" ? LogoForDark : LogoForLight)}
-        >
-          <Box
-            css={{
-              bg: "$mainBg",
-              w: "100%",
-              ...(headerPresent === "true"
-                ? { flex: "1 1 0", minHeight: 0 }
-                : { h: "100%" }),
-            }}
+    <ErrorBoundary>
+      <HMSThemeProvider
+        themeType={themeType}
+        aspectRatio={{ width, height }}
+        theme={{
+          colors: {
+            brandDefault: color,
+            brandDark: shadeColor(color, -30),
+            brandLight: shadeColor(color, 30),
+            brandDisabled: shadeColor(color, 10),
+          },
+          fonts: {
+            sans: [font, "Inter", "sans-serif"],
+          },
+        }}
+      >
+        <HMSRoomProvider isHMSStatsOn={FeatureFlags.enableStatsForNerds}>
+          <AppContextProvider
+            roomId={roomId}
+            tokenEndpoint={tokenEndpoint}
+            policyConfig={policyConfig}
+            appDetails={metadata}
+            logo={logo || (theme === "dark" ? LogoForDark : LogoForLight)}
           >
-            <AppRoutes getUserToken={getUserToken} />
-          </Box>
-        </AppContextProvider>
-      </HMSRoomProvider>
-    </HMSThemeProvider>
+            <Box
+              css={{
+                bg: "$mainBg",
+                w: "100%",
+                ...(headerPresent === "true"
+                  ? { flex: "1 1 0", minHeight: 0 }
+                  : { h: "100%" }),
+              }}
+            >
+              <AppRoutes getUserToken={getUserToken} />
+            </Box>
+          </AppContextProvider>
+        </HMSRoomProvider>
+      </HMSThemeProvider>
+    </ErrorBoundary>
   );
 }
 

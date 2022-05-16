@@ -18,6 +18,7 @@ import { ResolutionInput } from "./ResolutionInput";
 import {
   QUERY_PARAM_SKIP_PREVIEW,
   RTMP_RECORD_DEFAULT_RESOLUTION,
+  RTMP_RESOLUTION_IGNORED_WARNING_TEXT,
 } from "../../common/constants";
 
 const defaultMeetingUrl =
@@ -64,19 +65,26 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
   const startStopRTMPRecordingHLS = async action => {
     try {
       if (action === "start") {
-        hlsSelected
-          ? await hmsActions.startHLSStreaming({
-              variants: [{ meetingURL: meetingURL }],
-              recording: recordingSelected
-                ? { hlsVod: true, singleFilePerLayer: true }
-                : undefined,
-            })
-          : await hmsActions.startRTMPOrRecording({
-              meetingURL,
-              rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
-              record: recordingSelected,
-              resolution: recordingResolution,
-            });
+        if (hlsSelected) {
+          await hmsActions.startHLSStreaming({
+            variants: [{ meetingURL: meetingURL }],
+            recording: recordingSelected
+              ? { hlsVod: true, singleFilePerLayer: true }
+              : undefined,
+          });
+        } else {
+          const rtmpRecordParams = {
+            meetingURL,
+            rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
+            record: recordingSelected,
+          };
+          const resolution = getResolution();
+
+          if (resolution) {
+            rtmpRecordParams.resolution = resolution;
+          }
+          await hmsActions.startRTMPOrRecording(rtmpRecordParams);
+        }
       } else {
         isHLSRunning
           ? await hmsActions.stopHLSStreaming()
@@ -91,6 +99,19 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
         error
       );
       ToastManager.addToast({ title: error.message });
+    }
+
+    function getResolution() {
+      const resolution = {};
+      if (recordingResolution.width) {
+        resolution.width = recordingResolution.width;
+      }
+      if (recordingResolution.height) {
+        resolution.height = recordingResolution.height;
+      }
+      if (Object.keys(resolution).length > 0) {
+        return resolution;
+      }
     }
   };
 
@@ -116,9 +137,13 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
               data-testid="rtmp_url_field"
             />
           )}
-          {permissions.streaming && (
-            <ResolutionInput onResolutionChange={resolutionChangeHandler} />
-          )}
+
+          <ResolutionInput
+            onResolutionChange={resolutionChangeHandler}
+            disabled={hlsSelected || isHLSRunning}
+            tooltipText={RTMP_RESOLUTION_IGNORED_WARNING_TEXT}
+          />
+
           {permissions.streaming && (
             <DialogCheckbox
               title="HLS"
