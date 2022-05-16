@@ -19,9 +19,12 @@ export let room;
 export const setupProviderAndRoom = roomID => {
   if (!(provider && room)) {
     console.log("Whiteboard initialising WS connection and presence room");
-    provider = new WebsocketProvider("ws://localhost:8000", roomID, doc, {
-      connect: true,
-    });
+    provider = new WebsocketProvider(
+      process.env.REACT_APP_WHITEBOARD_WEBSOCKET_ENDPOINT,
+      roomID,
+      doc,
+      { connect: true }
+    );
     room = new Room(provider.awareness);
   }
 };

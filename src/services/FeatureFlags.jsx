@@ -6,9 +6,8 @@ export class FeatureFlags {
   static enableStatsForNerds =
     process.env.REACT_APP_ENABLE_STATS_FOR_NERDS === "true";
   static enableWhiteboard =
-    process.env.REACT_APP_ENABLE_WHITEBOARD &&
-    process.env.REACT_APP_PUSHER_APP_KEY &&
-    process.env.REACT_APP_PUSHER_AUTHENDPOINT;
+    process.env.REACT_APP_ENABLE_WHITEBOARD === "true" &&
+    process.env.REACT_APP_WHITEBOARD_WEBSOCKET_ENDPOINT;
 
   static init() {
     if (!window.HMS) {
