@@ -108,7 +108,7 @@ const ChatMessage = React.memo(({ message }) => {
   return (
     <Flex ref={ref} css={{ flexWrap: "wrap", p: "$4 $8" }} key={message.time}>
       <Text variant="sm" css={{ color: "$textSecondary" }}>
-        {message.senderName}
+        {message.senderName || "Anonymous"}
       </Text>
       <MessageType
         hasCurrentUserSent={message.sender === localPeerId}
