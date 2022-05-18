@@ -63,7 +63,7 @@ export function Notifications() {
           } else {
             LogRocket.track("Disconnected");
             // show button action when the error is terminal
-            ToastManager.addToast({
+            const toastId = ToastManager.addToast({
               title: (
                 <Flex justify="between" css={{ w: "100%" }}>
                   <Text css={{ mr: "$4" }}>
@@ -74,6 +74,7 @@ export function Notifications() {
                     variant="primary"
                     css={{ mr: "$4" }}
                     onClick={() => {
+                      ToastManager.removeToast(toastId);
                       window.location.reload();
                     }}
                   >
@@ -91,6 +92,7 @@ export function Notifications() {
               "meeting",
               "leave"
             );
+            ToastManager.clearAllToast();
             navigate(previewLocation);
           }, 2000);
           return;

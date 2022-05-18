@@ -9,6 +9,7 @@ import {
   Text,
 } from "@100mslive/react-ui";
 import PlaceholderBg from "../images/post_leave.png";
+import { ToastManager } from "./Toast/ToastManager";
 
 const PostLeave = () => {
   const navigate = useNavigate();
@@ -77,6 +78,7 @@ const PostLeave = () => {
                 let previewUrl = "/preview/" + roomId;
                 if (role) previewUrl += "/" + role;
                 navigate(previewUrl);
+                ToastManager.clearAllToast();
               }}
               css={{ mx: "$4" }}
               data-testid="join_again_btn"

@@ -7,6 +7,12 @@ export const ToastManager = {
     this.onChange();
     return id;
   },
+
+  clearAllToast() {
+    this.toasts.clear();
+    this.onChange();
+  },
+
   removeToast(id) {
     this.toasts.delete(id);
     this.onChange();
