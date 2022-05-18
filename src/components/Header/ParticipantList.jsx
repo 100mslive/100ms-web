@@ -139,7 +139,7 @@ const ParticipantListInARole = ({
           <Dropdown.Item
             key={peer.id}
             css={{ w: "100%", h: "$14" }}
-            data-testid={"participant_" + i}
+            data-testid={"participant_" + peer.name}
           >
             <Box css={{ width: "$13" }}>
               <Avatar
