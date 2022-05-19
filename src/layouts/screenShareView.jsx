@@ -147,7 +147,7 @@ const ScreenShareComponent = ({
         flex: "3 1 0",
         mx: "$4",
         ml: "$5",
-        "@lg": { ml: "$4" },
+        "@lg": { ml: "$4", maxHeight: "80%" },
       }}
     >
       {peerPresenting &&
