@@ -26,8 +26,6 @@ import getToken from "../services/tokenService";
  */
 
 const env = process.env.REACT_APP_ENV;
-// use this field to join directly for quick testing while in local
-const directJoinHeadfulFromEnv = process.env.REACT_APP_HEADLESS_JOIN === "true";
 const PreviewScreen = ({ getUserToken }) => {
   const navigate = useNavigate();
   const { tokenEndpoint, setIsHeadless } = useContext(AppContext);
@@ -37,6 +35,9 @@ const PreviewScreen = ({ getUserToken }) => {
   // way to skip preview for automated tests, beam recording and streaming
   const beamInToken = useSearchParam("token") === "beam_recording"; // old format to remove
   let skipPreview = useSearchParam(QUERY_PARAM_SKIP_PREVIEW) === "true";
+  // use this field to join directly for quick testing while in local
+  const directJoinHeadfulFromEnv =
+    process.env.REACT_APP_HEADLESS_JOIN === "true";
   const directJoinHeadful =
     useSearchParam(QUERY_PARAM_SKIP_PREVIEW_HEADFUL) === "true" ||
     directJoinHeadfulFromEnv;
