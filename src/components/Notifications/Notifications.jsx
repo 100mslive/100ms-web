@@ -33,7 +33,8 @@ export function Notifications() {
         // Don't toast message when metadata is updated and raiseHand is false.
         // Don't toast message in case of local peer.
         const metadata = getMetadata(notification.data?.metadata);
-        if (!metadata?.isHandRaised || notification.data.isLocal) return;
+        if (!metadata?.isHandRaised || notification.data.isLocal || isHeadless)
+          return;
 
         console.debug("Metadata updated", notification.data);
         if (!subscribedNotifications.METADATA_UPDATED) return;
@@ -47,7 +48,11 @@ export function Notifications() {
         );
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        if (!subscribedNotifications.NEW_MESSAGE || notification.data?.ignored)
+        if (
+          !subscribedNotifications.NEW_MESSAGE ||
+          notification.data?.ignored ||
+          isHeadless
+        )
           return;
         ToastBatcher.showToast({ notification });
         break;
