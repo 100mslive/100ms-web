@@ -104,6 +104,7 @@ export const NoiseSuppression = () => {
             }
           }}
           css={{ mx: "$4" }}
+          data-testid="noise_suppression_btn"
         >
           <AudioLevelIcon />
         </IconButton>
