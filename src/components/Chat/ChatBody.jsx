@@ -71,6 +71,10 @@ const Link = styled("a", {
 });
 
 const AnnotisedChat = ({ message }) => {
+  if (!message) {
+    return <Fragment />;
+  }
+
   return (
     <Fragment>
       {message
