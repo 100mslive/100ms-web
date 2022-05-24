@@ -55,7 +55,7 @@ const Conference = () => {
   return (
     <Flex css={{ size: "100%" }} direction="column">
       {!isHeadless && (
-        <Box css={{ h: "$18", "@md": { h: "$17" } }}>
+        <Box css={{ h: "$18", "@md": { h: "$17" } }} data-testid="header">
           <Header />
         </Box>
       )}
@@ -65,11 +65,12 @@ const Conference = () => {
           flex: "1 1 0",
           minHeight: 0,
         }}
+        data-testid="conferencing"
       >
         <ConferenceMainView />
       </Box>
       {!isHeadless && (
-        <Box css={{ flexShrink: 0, minHeight: "$24" }}>
+        <Box css={{ flexShrink: 0, minHeight: "$24" }} data-testid="footer">
           <Footer />
         </Box>
       )}
