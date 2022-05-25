@@ -50,6 +50,17 @@ if (window.location.host.includes("localhost")) {
 
 document.title = `${appName}'s ${document.title}`;
 
+const getAspectRatio = ({ width, height }) => {
+  const host = process.env.REACT_APP_HOST_NAME || window.location.hostname;
+  const portraitDomains = (
+    process.env.REACT_APP_PORTRAIT_MODE_DOMAINS || ""
+  ).split(",");
+  if (portraitDomains.includes(host) && width > height) {
+    return { width: height, height: width };
+  }
+  return { width, height };
+};
+
 export function EdtechComponent({
   roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
@@ -82,7 +93,7 @@ export function EdtechComponent({
     <ErrorBoundary>
       <HMSThemeProvider
         themeType={themeType}
-        aspectRatio={{ width, height }}
+        aspectRatio={getAspectRatio({ width, height })}
         theme={{
           colors: {
             brandDefault: color,
