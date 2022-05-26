@@ -4,7 +4,13 @@ import { Tldraw } from "@tldraw/tldraw";
 import { selectPeers, selectRoomID, useHMSStore } from "@100mslive/react-sdk";
 import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
 import { SidePane } from "./screenShareView";
-import { useMultiplayerState } from "../plugins/whiteboard/useMultiplayerState";
+import usePusherEvents from "../plugins/whiteboard/pusher/useMultiplayerState";
+import useYjsEvents from "../plugins/whiteboard/yjs/useMultiplayerState";
+
+const useMultiplayerState =
+  process.env.REACT_APP_WHITEBOARD_PROVIDER === "pusher"
+    ? usePusherEvents
+    : useYjsEvents;
 
 const Editor = React.memo(({ roomId }) => {
   const events = useMultiplayerState(roomId);
