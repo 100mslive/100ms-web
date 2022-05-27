@@ -27,7 +27,7 @@ import { ConnectionIndicator } from "./Connection/ConnectionIndicator";
 import { UI_SETTINGS } from "../common/constants";
 import { useUISettings } from "./AppData/useUISettings";
 
-const Tile = ({ peerId, trackId, showStatsOnTiles, width, height, index }) => {
+const Tile = ({ peerId, trackId, showStatsOnTiles, width, height }) => {
   const trackSelector = trackId
     ? selectTrackByID(trackId)
     : selectVideoTrackByPeerID(peerId);
@@ -53,7 +53,7 @@ const Tile = ({ peerId, trackId, showStatsOnTiles, width, height, index }) => {
   return (
     <StyledVideoTile.Root
       css={{ width, height }}
-      data-testid={`participant_tile_${index}`}
+      data-testid={`participant_tile_${peerName}`}
     >
       {peerName !== undefined ? (
         <StyledVideoTile.Container

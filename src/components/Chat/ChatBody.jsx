@@ -71,6 +71,10 @@ const Link = styled("a", {
 });
 
 const AnnotisedChat = ({ message }) => {
+  if (!message) {
+    return <Fragment />;
+  }
+
   return (
     <Fragment>
       {message
@@ -136,7 +140,12 @@ export const ChatBody = ({ role, peerId }) => {
   if (messages.length === 0) {
     return (
       <Flex
-        css={{ size: "100%", textAlign: "center", px: "$4" }}
+        css={{
+          width: "100%",
+          height: "calc(100% - 1px)",
+          textAlign: "center",
+          px: "$4",
+        }}
         align="center"
         justify="center"
       >

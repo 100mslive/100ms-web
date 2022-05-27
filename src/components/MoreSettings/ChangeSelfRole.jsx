@@ -65,7 +65,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
                 ToastManager.addToast({ title: error.message });
               }
             }}
-            data-testid={"change_to_role_" + i}
+            data-testid={"change_to_role_" + role}
           >
             <Text variant="sm">{role}</Text>
             {localPeerRole === role && <CheckIcon width={16} height={16} />}

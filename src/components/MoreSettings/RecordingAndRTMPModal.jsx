@@ -65,16 +65,21 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
   const startStopRTMPRecordingHLS = async action => {
     try {
       if (action === "start") {
+        // the skip_preview param only works for preview link, replace meeting with preview if needed
+        const urlToStreamRecord = meetingURL.replace(
+          "app.100ms.live/meeting",
+          "app.100ms.live/preview"
+        );
         if (hlsSelected) {
           await hmsActions.startHLSStreaming({
-            variants: [{ meetingURL: meetingURL }],
+            variants: [{ meetingURL: urlToStreamRecord }],
             recording: recordingSelected
               ? { hlsVod: true, singleFilePerLayer: true }
               : undefined,
           });
         } else {
           const rtmpRecordParams = {
-            meetingURL,
+            meetingURL: urlToStreamRecord,
             rtmpURLs: rtmpURL.length > 0 ? [rtmpURL] : undefined,
             record: recordingSelected,
           };
