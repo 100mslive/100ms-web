@@ -1,4 +1,4 @@
-import { APP_DATA } from "../../common/constants";
+import { APP_DATA, UI_SETTINGS } from "../../common/constants";
 import {
   selectAppData,
   useHMSActions,
@@ -46,4 +46,9 @@ export const useSetUiSettings = uiSettingKey => {
     [actions, uiSettingKey]
   );
   return [value, setValue];
+};
+
+export const useIsHeadless = () => {
+  const isHeadless = useUISettings(UI_SETTINGS.isHeadless);
+  return isHeadless;
 };
