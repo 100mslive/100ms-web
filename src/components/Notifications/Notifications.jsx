@@ -18,12 +18,13 @@ import { PeerNotifications } from "./PeerNotifications";
 import { ReconnectNotifications } from "./ReconnectNotifications";
 import { getMetadata } from "../../common/utils";
 import { ToastBatcher } from "../Toast/ToastBatcher";
+import { useIsHeadless } from "../AppData/useUISettings";
 
 export function Notifications() {
   const notification = useHMSNotifications();
   const navigate = useNavigate();
-  const { subscribedNotifications, isHeadless, HLS_VIEWER_ROLE } =
-    useContext(AppContext);
+  const { subscribedNotifications, HLS_VIEWER_ROLE } = useContext(AppContext);
+  const isHeadless = useIsHeadless();
   useEffect(() => {
     if (!notification) {
       return;

@@ -123,7 +123,7 @@ export function EdtechComponent({
                   : { h: "100%" }),
               }}
             >
-              <AppRoutes getUserToken={getUserToken} />
+              <AppRoutes getUserToken={getUserToken} appDetails={metadata} />
             </Box>
           </AppContextProvider>
         </HMSRoomProvider>
@@ -147,13 +147,13 @@ const RedirectToPreview = () => {
   return <Navigate to={`/preview/${roomId}/${role || ""}`} />;
 };
 
-function AppRoutes({ getUserToken }) {
+function AppRoutes({ getUserToken, appDetails }) {
   return (
     <Router>
       <ToastContainer />
       <Notifications />
       <Confetti />
-      <AppData />
+      <AppData appDetails={appDetails} />
       <KeyboardHandler />
       <Routes>
         <Route

@@ -13,7 +13,7 @@ import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
 import screenfull from "screenfull";
 import { UI_SETTINGS } from "../common/constants";
-import { useUISettings } from "./AppData/useUISettings";
+import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 
 const labelStyles = {
   position: "unset",
@@ -33,6 +33,7 @@ const Tile = ({
   const track = useHMSStore(selectScreenShareByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
+  const isHeadless = useIsHeadless();
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const label = getVideoTileLabel({
     peerName: peer.name,
@@ -69,7 +70,7 @@ const Tile = ({
               videoTrackID={track?.id}
             />
           ) : null}
-          {isFullScreenSupported ? (
+          {isFullScreenSupported && !isHeadless ? (
             <StyledVideoTile.FullScreenButton
               onClick={() => setFullscreen(!fullscreen)}
             >
@@ -85,7 +86,7 @@ const Tile = ({
             />
           ) : null}
           <StyledVideoTile.Info css={labelStyles}>{label}</StyledVideoTile.Info>
-          {isMouseHovered && !peer?.isLocal ? (
+          {isMouseHovered && !isHeadless && !peer?.isLocal ? (
             <TileMenu
               isScreenshare
               peerID={peer?.id}

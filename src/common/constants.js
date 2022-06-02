@@ -108,7 +108,9 @@ export const APP_DATA = {
   uiSettings: "uiSettings",
   chatOpen: "chatOpen",
   chatDraft: "chatDraft",
+  appConfig: "appConfig",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",
+  isHeadless: "isHeadless",
 };

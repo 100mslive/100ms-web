@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { usePrevious } from "react-use";
 import {
@@ -14,12 +14,12 @@ import { Footer } from "./Footer";
 import FullPageProgress from "./FullPageProgress";
 import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
 import { ConferenceMainView } from "../layouts/mainView";
-import { AppContext } from "./context/AppContext";
+import { useIsHeadless } from "./AppData/useUISettings";
 
 const Conference = () => {
   const navigate = useNavigate();
   const { roomId, role } = useParams();
-  const { isHeadless } = useContext(AppContext);
+  const isHeadless = useIsHeadless();
   const roomState = useHMSStore(selectRoomState);
   const prevState = usePrevious(roomState);
   const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);
