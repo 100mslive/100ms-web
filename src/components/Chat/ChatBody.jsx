@@ -71,6 +71,10 @@ const Link = styled("a", {
 });
 
 const AnnotisedChat = ({ message }) => {
+  if (!message) {
+    return <Fragment />;
+  }
+
   return (
     <Fragment>
       {message
@@ -108,7 +112,7 @@ const ChatMessage = React.memo(({ message }) => {
   return (
     <Flex ref={ref} css={{ flexWrap: "wrap", p: "$4 $8" }} key={message.time}>
       <Text variant="sm" css={{ color: "$textSecondary" }}>
-        {message.senderName}
+        {message.senderName || "Anonymous"}
       </Text>
       <MessageType
         hasCurrentUserSent={message.sender === localPeerId}
@@ -136,7 +140,12 @@ export const ChatBody = ({ role, peerId }) => {
   if (messages.length === 0) {
     return (
       <Flex
-        css={{ size: "100%", textAlign: "center", px: "$4" }}
+        css={{
+          width: "100%",
+          height: "calc(100% - 1px)",
+          textAlign: "center",
+          px: "$4",
+        }}
         align="center"
         justify="center"
       >

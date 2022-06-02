@@ -50,6 +50,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        enforce: "pre",
+        use: ["source-map-loader"],
+      },
+      {
         test: /\.jsx?$/,
         use: [
           {
@@ -151,6 +156,6 @@ module.exports = {
     open: true,
     compress: true,
     hot: true,
-    port: 3000,
+    port: process.env.PORT || 3000,
   },
 };

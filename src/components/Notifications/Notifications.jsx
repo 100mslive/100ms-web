@@ -18,12 +18,13 @@ import { PeerNotifications } from "./PeerNotifications";
 import { ReconnectNotifications } from "./ReconnectNotifications";
 import { getMetadata } from "../../common/utils";
 import { ToastBatcher } from "../Toast/ToastBatcher";
+import { useIsHeadless } from "../AppData/useUISettings";
 
 export function Notifications() {
   const notification = useHMSNotifications();
   const navigate = useNavigate();
-  const { subscribedNotifications, isHeadless, HLS_VIEWER_ROLE } =
-    useContext(AppContext);
+  const { subscribedNotifications, HLS_VIEWER_ROLE } = useContext(AppContext);
+  const isHeadless = useIsHeadless();
   useEffect(() => {
     if (!notification) {
       return;
@@ -33,7 +34,8 @@ export function Notifications() {
         // Don't toast message when metadata is updated and raiseHand is false.
         // Don't toast message in case of local peer.
         const metadata = getMetadata(notification.data?.metadata);
-        if (!metadata?.isHandRaised || notification.data.isLocal) return;
+        if (!metadata?.isHandRaised || notification.data.isLocal || isHeadless)
+          return;
 
         console.debug("Metadata updated", notification.data);
         if (!subscribedNotifications.METADATA_UPDATED) return;
@@ -47,7 +49,11 @@ export function Notifications() {
         );
         break;
       case HMSNotificationTypes.NEW_MESSAGE:
-        if (!subscribedNotifications.NEW_MESSAGE || notification.data?.ignored)
+        if (
+          !subscribedNotifications.NEW_MESSAGE ||
+          notification.data?.ignored ||
+          isHeadless
+        )
           return;
         ToastBatcher.showToast({ notification });
         break;
@@ -63,7 +69,7 @@ export function Notifications() {
           } else {
             LogRocket.track("Disconnected");
             // show button action when the error is terminal
-            ToastManager.addToast({
+            const toastId = ToastManager.addToast({
               title: (
                 <Flex justify="between" css={{ w: "100%" }}>
                   <Text css={{ mr: "$4" }}>
@@ -74,6 +80,7 @@ export function Notifications() {
                     variant="primary"
                     css={{ mr: "$4" }}
                     onClick={() => {
+                      ToastManager.removeToast(toastId);
                       window.location.reload();
                     }}
                   >
@@ -91,11 +98,17 @@ export function Notifications() {
               "meeting",
               "leave"
             );
+            ToastManager.clearAllToast();
             navigate(previewLocation);
           }, 2000);
           return;
         }
-        if (notification.data?.code === 3008) {
+        // Autoplay error or user denied screen share(cancelled browser pop-up)
+        if (
+          notification.data?.code === 3008 ||
+          (notification.data?.code === 3001 &&
+            notification.data?.message.includes("screen"))
+        ) {
           return;
         }
         if (notification.data?.action === "INIT") {

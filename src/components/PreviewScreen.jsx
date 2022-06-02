@@ -7,23 +7,47 @@ import Preview from "./Preview";
 import { Header } from "./Header";
 import { ErrorDialog } from "../primitives/DialogContent";
 import { AppContext } from "./context/AppContext";
-import { QUERY_PARAM_SKIP_PREVIEW } from "../common/constants";
+import {
+  QUERY_PARAM_SKIP_PREVIEW_HEADFUL,
+  QUERY_PARAM_NAME,
+  QUERY_PARAM_SKIP_PREVIEW,
+  QUERY_PARAM_AUTH_TOKEN,
+  UI_SETTINGS,
+} from "../common/constants";
 import getToken from "../services/tokenService";
+import { useSetUiSettings } from "./AppData/useUISettings";
+
+/**
+ * query params exposed -
+ * skip_preview=true => used by recording and streaming service, skips preview and directly joins
+ *                      header and footer don't show up in this case
+ * skip_preview_headful=true => used by automation testing to skip preview without impacting the UI
+ * name=abc => gives the initial name for the peer joining
+ * auth_token=123 => uses the passed in token to join instead of fetching from token endpoint
+ * ui_mode=activespeaker => lands in active speaker mode after joining the room
+ */
 
 const env = process.env.REACT_APP_ENV;
-// use this field to join directly for quick testing while in local
-const directJoinNoHeadless = process.env.REACT_APP_HEADLESS_JOIN === "true";
 const PreviewScreen = ({ getUserToken }) => {
   const navigate = useNavigate();
-  const { tokenEndpoint, setIsHeadless } = useContext(AppContext);
+  const { tokenEndpoint } = useContext(AppContext);
+  const [, setIsHeadless] = useSetUiSettings(UI_SETTINGS.isHeadless);
   const { roomId: urlRoomId, role: userRole } = useParams(); // from the url
   const [token, setToken] = useState(null);
   const [error, setError] = useState({ title: "", body: "" });
-  // skip preview for beam recording and streaming
+  // way to skip preview for automated tests, beam recording and streaming
   const beamInToken = useSearchParam("token") === "beam_recording"; // old format to remove
   let skipPreview = useSearchParam(QUERY_PARAM_SKIP_PREVIEW) === "true";
-  skipPreview = skipPreview || beamInToken || directJoinNoHeadless;
-  let authToken = useSearchParam("auth_token");
+  // use this field to join directly for quick testing while in local
+  const directJoinHeadfulFromEnv =
+    process.env.REACT_APP_HEADLESS_JOIN === "true";
+  const directJoinHeadful =
+    useSearchParam(QUERY_PARAM_SKIP_PREVIEW_HEADFUL) === "true" ||
+    directJoinHeadfulFromEnv;
+  skipPreview = skipPreview || beamInToken || directJoinHeadful;
+  const initialName =
+    useSearchParam(QUERY_PARAM_NAME) || (skipPreview ? "Beam" : "");
+  let authToken = useSearchParam(QUERY_PARAM_AUTH_TOKEN);
 
   useEffect(() => {
     if (authToken) {
@@ -43,7 +67,7 @@ const PreviewScreen = ({ getUserToken }) => {
   }, [tokenEndpoint, urlRoomId, getUserToken, userRole, authToken]);
 
   const onJoin = () => {
-    !directJoinNoHeadless && setIsHeadless(skipPreview);
+    !directJoinHeadful && setIsHeadless(skipPreview);
     let meetingURL = `/meeting/${urlRoomId}`;
     if (userRole) {
       meetingURL += `/${userRole}`;
@@ -56,14 +80,14 @@ const PreviewScreen = ({ getUserToken }) => {
   }
   return (
     <Flex direction="column" css={{ size: "100%" }}>
-      <Box css={{ h: "$18", "@md": { h: "$17" } }}>
+      <Box css={{ h: "$18", "@md": { h: "$17" } }} data-testid="header">
         <Header isPreview={true} />
       </Box>
       <Flex css={{ flex: "1 1 0" }} justify="center" align="center">
         {token ? (
           <>
             <Preview
-              initialName={skipPreview ? "Beam" : ""}
+              initialName={initialName}
               skipPreview={skipPreview}
               env={env}
               onJoin={onJoin}
@@ -109,7 +133,7 @@ const Link = styled("a", {
   color: "#2f80e1",
 });
 
-const ErrorWithSupportLink = errorMessage => (
+export const ErrorWithSupportLink = errorMessage => (
   <div>
     {errorMessage} If you think this is a mistake on our side, please create{" "}
     <Link
