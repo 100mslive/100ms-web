@@ -32,7 +32,11 @@ const Conference = () => {
     }
     if (
       !prevState &&
-      !(roomState === HMSRoomState.Connecting || isConnectedToRoom)
+      !(
+        roomState === HMSRoomState.Connecting ||
+        roomState === HMSRoomState.Reconnecting ||
+        isConnectedToRoom
+      )
     ) {
       if (role) navigate(`/preview/${roomId || ""}/${role}`);
       else navigate(`/preview/${roomId || ""}`);
