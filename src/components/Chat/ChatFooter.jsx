@@ -87,6 +87,7 @@ export const ChatFooter = ({ role, peerId, onSend, children }) => {
       <IconButton
         onClick={sendMessage}
         css={{ ml: "auto", height: "max-content", mr: "$4" }}
+        data-testid="send_msg_btn"
       >
         <SendIcon />
       </IconButton>

@@ -30,6 +30,7 @@ const SelectorItem = ({ value, active, onClick, unreadCount }) => {
         "&:hover": { bg: "$menuBg" },
       }}
       align="center"
+      data-testid='chat_members'
     >
       <Text variant="sm">{value}</Text>
       <Flex align="center" css={{ ml: "auto", color: "$textPrimary" }}>
