@@ -63,7 +63,7 @@ const Tile = ({ peerId, trackId, showStatsOnTiles, width, height }) => {
           onMouseEnter={onHoverHandler}
           onMouseLeave={onHoverHandler}
           ref={
-            appConfig?.headlessConfig?.hideAudioLevel
+            isHeadless && appConfig?.headlessConfig?.hideAudioLevel
               ? undefined
               : borderAudioRef
           }
