@@ -115,6 +115,7 @@ const HLSView = () => {
                     color: "$textPrimary",
                     borderRadius: "$1",
                     cursor: "pointer",
+                    zIndex: 40,
                     border: "1px solid $textDisabled",
                     padding: "$2 $4",
                   }}
