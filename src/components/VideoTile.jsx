@@ -25,7 +25,7 @@ const Tile = ({ peerId, showStatsOnTiles, width, height }) => {
   const isHandRaised = metaData?.isHandRaised || false;
   const isBRB = metaData?.isBRBOn || false;
   return (
-    <StyledVideoTile.Root css={{ width, height }}>
+    <StyledVideoTile.Root css={{ width, height, padding: 0 }}>
       {peer ? (
         <StyledVideoTile.Container>
           {showStatsOnTiles ? (
