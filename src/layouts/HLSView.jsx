@@ -62,6 +62,14 @@ const HLSView = () => {
     }
   }, [hlsUrl]);
 
+  useEffect(() => {
+    return () => {
+      if (hls && hls.media) {
+        hls.detachMedia();
+      }
+    };
+  }, []);
+
   const qualitySelectorHandler = useCallback(
     qualityLevel => {
       if (hls) {
