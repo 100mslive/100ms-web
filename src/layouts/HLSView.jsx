@@ -5,9 +5,7 @@ import React, {
   useState,
   useCallback,
 } from "react";
-
 import Hls from "hls.js";
-
 import { useHMSStore, selectHLSState } from "@100mslive/react-sdk";
 import {
   ChevronDownIcon,
@@ -22,7 +20,6 @@ import {
   Text,
   Tooltip,
 } from "@100mslive/react-ui";
-
 import { ChatView } from "../components/chatView";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { useIsChatOpen } from "../components/AppData/useChatState";
@@ -66,6 +63,7 @@ const HLSView = () => {
     return () => {
       if (hls && hls.media) {
         hls.detachMedia();
+        hls = null;
       }
     };
   }, []);
@@ -79,7 +77,7 @@ const HLSView = () => {
         setCurrentSelectedQualityText(levelText);
       }
     },
-    [availableLevels]
+    [availableLevels] //eslint-disable-line
   );
 
   /**
