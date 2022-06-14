@@ -9,11 +9,11 @@
     "src"
   ],
   "dependencies": {
-    "@100mslive/hms-noise-suppression": "0.2.1-alpha.4",
-    "@100mslive/hms-virtual-background": "1.4.1-alpha.4",
-    "@100mslive/react-icons": "0.1.1-alpha.4",
-    "@100mslive/react-sdk": "0.1.1-alpha.4",
-    "@100mslive/react-ui": "0.1.1-alpha.4",
+    "@100mslive/hms-noise-suppression": "0.2.1",
+    "@100mslive/hms-virtual-background": "1.4.1",
+    "@100mslive/react-icons": "0.1.1",
+    "@100mslive/react-sdk": "0.1.1",
+    "@100mslive/react-ui": "0.1.1",
     "@tldraw/tldraw": "^1.5.0",
     "hls.js": "^1.1.1",
     "js-confetti": "^0.10.2",
