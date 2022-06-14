@@ -28,7 +28,7 @@ import { useSetUiSettings } from "./AppData/useUISettings";
  */
 
 const env = process.env.REACT_APP_ENV;
-const PreviewScreen = ({ getUserToken }) => {
+const PreviewScreen = React.memo(({ getUserToken }) => {
   const navigate = useNavigate();
   const { tokenEndpoint } = useContext(AppContext);
   const [, setIsHeadless] = useSetUiSettings(UI_SETTINGS.isHeadless);
@@ -100,7 +100,7 @@ const PreviewScreen = ({ getUserToken }) => {
       </Flex>
     </Flex>
   );
-};
+});
 
 const convertPreviewError = error => {
   console.error("[error]", { error });
