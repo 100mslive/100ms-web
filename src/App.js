@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, useCallback } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -89,6 +89,8 @@ export function EdtechComponent({
     setThemeType(theme);
   }, [theme]);
 
+  const getUserTokenCallback = useCallback(getUserToken, []);
+
   return (
     <ErrorBoundary>
       <HMSThemeProvider
@@ -123,7 +125,10 @@ export function EdtechComponent({
                   : { h: "100%" }),
               }}
             >
-              <AppRoutes getUserToken={getUserToken} appDetails={metadata} />
+              <AppRoutes
+                getUserToken={getUserTokenCallback}
+                appDetails={metadata}
+              />
             </Box>
           </AppContextProvider>
         </HMSRoomProvider>

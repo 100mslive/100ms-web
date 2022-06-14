@@ -55,7 +55,7 @@ export const VirtualBackground = () => {
     }
   }
 
-  if (!isAllowedToPublish.video || (pluginRef.current && !isVBSupported)) {
+  if (!isAllowedToPublish.video || !isVBSupported) {
     return null;
   }
 

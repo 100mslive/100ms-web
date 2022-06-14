@@ -1,11 +1,22 @@
 import React, { Component } from "react";
 import LogRocket from "logrocket";
 import { ErrorWithSupportLink } from "./PreviewScreen";
+import errorBgDark from "../images/error-bg-dark.svg";
+import errorBgLight from "../images/error-bg-light.svg";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  ThemeContext,
+  Tooltip,
+} from "@100mslive/react-ui";
+import { CopyIcon } from "@100mslive/react-icons";
 
 export class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { error: null, errorInfo: null };
+    this.state = { error: null, errorInfo: null, isErrorCopied: false };
   }
 
   componentDidCatch(error, errorInfo) {
@@ -30,16 +41,81 @@ export class ErrorBoundary extends Component {
   render() {
     if (this.state.errorInfo) {
       return (
-        <div>
-          {ErrorWithSupportLink(
-            "Something went wrong. Please reload to see if it works."
-          )}
-          <details style={{ whiteSpace: "pre-wrap" }}>
-            {this.state.error && this.state.error.toString()}
-            <br />
-            {JSON.stringify(this.state.errorInfo)}
-          </details>
-        </div>
+        <Flex
+          align="center"
+          justify="center"
+          css={{
+            size: "100%",
+            color: "$textPrimary",
+            backgroundColor: "$bgPrimary",
+          }}
+        >
+          <Box css={{ position: "relative", overflow: "hidden", r: "$3" }}>
+            <ThemeContext.Consumer>
+              {value => {
+                const { themeType } = value;
+                return (
+                  <img
+                    src={themeType === "dark" ? errorBgDark : errorBgLight}
+                    alt="error background"
+                  />
+                );
+              }}
+            </ThemeContext.Consumer>
+            <Flex
+              direction="column"
+              css={{
+                position: "absolute",
+                size: "100%",
+                top: "33.33%",
+                left: 0,
+              }}
+            >
+              <div style={{ margin: "1.5rem" }}>
+                <Text>{`Something went wrong. ERROR: ${this.state.error}`}</Text>
+                {ErrorWithSupportLink(`Please reload to see if it works.`)}
+              </div>
+              <Flex justify="center">
+                <Tooltip title="Reload page">
+                  <Button
+                    onClick={() => {
+                      window.location.reload();
+                    }}
+                    css={{ mx: "$4" }}
+                    data-testid="join_again_btn"
+                  >
+                    Reload
+                  </Button>
+                </Tooltip>
+                <Tooltip title="Copy error details to clipboard">
+                  <Button
+                    onClick={() => {
+                      const { error, errorInfo } = this.state;
+                      navigator.clipboard.writeText(
+                        JSON.stringify({
+                          error,
+                          errorInfo,
+                        })
+                      );
+                      this.setState({ isErrorCopied: true });
+                    }}
+                    css={{ mx: "$4" }}
+                    data-testid="join_again_btn"
+                  >
+                    <CopyIcon />{" "}
+                    {this.state.isErrorCopied ? "Copied" : "Copy Details"}
+                  </Button>
+                </Tooltip>
+              </Flex>
+
+              <details style={{ whiteSpace: "pre-wrap", margin: "1.5rem" }}>
+                <Text>{this.state.error && this.state.error.toString()}</Text>
+                <br />
+                <Text>{JSON.stringify(this.state.errorInfo)}</Text>
+              </details>
+            </Flex>
+          </Box>
+        </Flex>
       );
     }
 

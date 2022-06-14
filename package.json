@@ -9,11 +9,11 @@
     "src"
   ],
   "dependencies": {
-    "@100mslive/hms-noise-suppression": "0.2.1-alpha.0",
-    "@100mslive/hms-virtual-background": "1.4.1-alpha.0",
-    "@100mslive/react-icons": "0.1.1-alpha.0",
-    "@100mslive/react-sdk": "0.1.1-alpha.0",
-    "@100mslive/react-ui": "0.1.1-alpha.0",
+    "@100mslive/hms-noise-suppression": "0.2.2",
+    "@100mslive/hms-virtual-background": "1.4.2",
+    "@100mslive/react-icons": "0.1.2",
+    "@100mslive/react-sdk": "0.1.2",
+    "@100mslive/react-ui": "0.1.2",
     "@tldraw/tldraw": "^1.5.0",
     "hls.js": "^1.1.1",
     "js-confetti": "^0.10.2",
@@ -34,7 +34,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf build",
-    "build": "NODE_ENV=production webpack",
+    "build": "webpack --node-env production",
     "start": "webpack serve",
     "esbuild": "node ../../scripts/build-webapp",
     "dev": "node ../../scripts/dev-webapp",
