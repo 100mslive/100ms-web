@@ -34,7 +34,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf build",
-    "build": "NODE_ENV=production webpack",
+    "build": "webpack --node-env production",
     "start": "webpack serve",
     "esbuild": "node ../../scripts/build-webapp",
     "dev": "node ../../scripts/dev-webapp",
