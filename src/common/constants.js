@@ -109,6 +109,7 @@ export const APP_DATA = {
   chatOpen: "chatOpen",
   chatDraft: "chatDraft",
   appConfig: "appConfig",
+  recordingUrl: "recordingUrl",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",

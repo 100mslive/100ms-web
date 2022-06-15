@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import {
+  selectAppData,
   selectPermissions,
   useHMSActions,
   useHMSStore,
@@ -16,6 +17,7 @@ import {
 import { ToastManager } from "../Toast/ToastManager";
 import { ResolutionInput } from "./ResolutionInput";
 import {
+  APP_DATA,
   QUERY_PARAM_SKIP_PREVIEW,
   RTMP_RECORD_DEFAULT_RESOLUTION,
   RTMP_RESOLUTION_IGNORED_WARNING_TEXT,
@@ -34,8 +36,10 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
     isStreamingOn,
     isBrowserRecordingOn,
   } = useRecordingStreaming();
-
-  const [meetingURL, setMeetingURL] = useState(defaultMeetingUrl);
+  const recordingUrl = useHMSStore(selectAppData(APP_DATA.recordingUrl));
+  const [meetingURL, setMeetingURL] = useState(
+    recordingUrl || defaultMeetingUrl
+  );
   const [rtmpURL, setRTMPURL] = useState("");
   const [hlsSelected, setHLS] = useState(false);
   const [recordingResolution, setRecordingResolution] = useState(

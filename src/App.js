@@ -72,6 +72,7 @@ export function EdtechComponent({
     logo = "",
     headerPresent = "false",
     metadata = "",
+    recordingUrl = "",
   },
   getUserToken = defaultGetUserToken,
   policyConfig = envPolicyConfig,
@@ -89,7 +90,7 @@ export function EdtechComponent({
     setThemeType(theme);
   }, [theme]);
 
-  const getUserTokenCallback = useCallback(getUserToken, []);
+  const getUserTokenCallback = useCallback(getUserToken, []); //eslint-disable-line
 
   return (
     <ErrorBoundary>
@@ -128,6 +129,7 @@ export function EdtechComponent({
               <AppRoutes
                 getUserToken={getUserTokenCallback}
                 appDetails={metadata}
+                recordingUrl={recordingUrl}
               />
             </Box>
           </AppContextProvider>
@@ -152,13 +154,13 @@ const RedirectToPreview = () => {
   return <Navigate to={`/preview/${roomId}/${role || ""}`} />;
 };
 
-function AppRoutes({ getUserToken, appDetails }) {
+function AppRoutes({ getUserToken, appDetails, recordingUrl }) {
   return (
     <Router>
       <ToastContainer />
       <Notifications />
       <Confetti />
-      <AppData appDetails={appDetails} />
+      <AppData appDetails={appDetails} recordingUrl={recordingUrl} />
       <KeyboardHandler />
       <Routes>
         <Route

@@ -10,7 +10,7 @@ export const getAppDetails = appDetails => {
   }
 };
 
-export function AppData({ appDetails }) {
+export function AppData({ appDetails, recordingUrl }) {
   const hmsActions = useHMSActions();
   useEffect(() => {
     const initialAppData = {
@@ -20,10 +20,11 @@ export function AppData({ appDetails }) {
       },
       [APP_DATA.chatOpen]: false,
       [APP_DATA.chatDraft]: "",
+      [APP_DATA.recordingUrl]: recordingUrl,
       [APP_DATA.appConfig]: getAppDetails(appDetails),
     };
     hmsActions.initAppData(initialAppData);
-  }, [hmsActions, appDetails]);
+  }, [hmsActions, appDetails, recordingUrl]);
 
   return null;
 }
