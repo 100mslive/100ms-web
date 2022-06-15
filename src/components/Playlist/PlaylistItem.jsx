@@ -36,7 +36,11 @@ export const PlaylistItem = React.memo(
         }}
         onClick={onClick}
       >
-        <Flex align="center" justify="between" css={{ width: "100%" }}>
+        <Flex
+          align="center"
+          justify="between"
+          css={{ width: "100%", minHeight: 0 }}
+        >
           <Text
             variant="md"
             css={{ color: selected ? "$brandDefault" : "$textPrimary" }}
