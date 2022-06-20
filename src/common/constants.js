@@ -115,3 +115,6 @@ export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",
   isHeadless: "isHeadless",
 };
+
+export const CREATE_ROOM_DOC_URL =
+  "https://github.com/100mslive/100ms-web#create-a-room";
