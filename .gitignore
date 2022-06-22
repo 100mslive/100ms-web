@@ -27,4 +27,3 @@ yarn-error.log*
 .idea/
 hs_*.log
 .env
-package-lock.json
