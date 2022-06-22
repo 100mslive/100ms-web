@@ -22,6 +22,11 @@ export class FeatureFlags {
     window.HMS.ALWAYS_REQUEST_PERMISSIONS = false;
     // add support for server degradation
     window.HMS.FREEZE_VIDEO_LIST = false; // process.env.REACT_APP_ENV === "qa";
+    window.HMS.SHOW_NS = process.env.REACT_APP_ENV !== "prod";
+  }
+
+  static showNS() {
+    return window.HMS.SHOW_NS;
   }
 
   static freezeVideoList() {
