@@ -23,7 +23,7 @@ function ErrorPage({ error }) {
           }
           alt="Error Background"
         />
-        {window.location.hostname === "localhost" && error === "isRoot" ? (
+        {window.location.hostname === "localhost" ? (
           <Flex
             align="center"
             direction="column"
