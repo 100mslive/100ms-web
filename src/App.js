@@ -27,10 +27,10 @@ import { KeyboardHandler } from "./components/Input/KeyboardInputManager";
 import PostLeave from "./components/PostLeave";
 import { AppData } from "./components/AppData/AppData.jsx";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import ErrorPage from "./components/ErrorPage";
 
 const Conference = React.lazy(() => import("./components/conference"));
 const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
-const ErrorPage = React.lazy(() => import("./components/ErrorPage"));
 
 const defaultTokenEndpoint = process.env
   .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
@@ -213,22 +213,8 @@ function AppRoutes({ getUserToken, appDetails, recordingUrl }) {
         />
         <Route path="/:roomId/:role" element={<RedirectToPreview />} />
         <Route path="/:roomId/" element={<RedirectToPreview />} />
-        <Route
-          path="/"
-          element={
-            <Suspense fallback={<FullPageProgress />}>
-              <ErrorPage error="isRoot" />
-            </Suspense>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <Suspense fallback={<FullPageProgress />}>
-              <ErrorPage error="Invalid URL!" />
-            </Suspense>
-          }
-        />
+        <Route path="/" element={<ErrorPage error="isRoot" />} />
+        <Route path="*" element={<ErrorPage error="Invalid URL!" />} />
       </Routes>
     </Router>
   );
