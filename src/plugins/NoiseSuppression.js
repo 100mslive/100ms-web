@@ -9,6 +9,7 @@ import {
 } from "@100mslive/react-sdk";
 import { AudioLevelIcon } from "@100mslive/react-icons";
 import { IconButton, Tooltip } from "@100mslive/react-ui";
+import { FeatureFlags } from "../services/FeatureFlags";
 
 export const NoiseSuppression = () => {
   const pluginRef = useRef(null);
@@ -90,7 +91,7 @@ export const NoiseSuppression = () => {
     })();
   }, [selectedDeviceIDs.audioInput, hmsActions, createPlugin]);
 
-  if (isNSSupported) {
+  if (isNSSupported && FeatureFlags.showNS()) {
     return (
       <Tooltip title={`Turn ${!pluginActive ? "on" : "off"} noise suppression`}>
         <IconButton

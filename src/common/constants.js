@@ -109,8 +109,12 @@ export const APP_DATA = {
   chatOpen: "chatOpen",
   chatDraft: "chatDraft",
   appConfig: "appConfig",
+  recordingUrl: "recordingUrl",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",
   isHeadless: "isHeadless",
 };
+
+export const CREATE_ROOM_DOC_URL =
+  "https://github.com/100mslive/100ms-web#create-a-room";
