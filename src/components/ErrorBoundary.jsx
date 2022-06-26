@@ -20,6 +20,7 @@ export class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
+    console.error(`react error boundary - ${error.message}`, error, errorInfo);
     // Catch errors in any components below and re-render with error message
     this.setState(
       {

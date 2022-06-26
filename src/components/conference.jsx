@@ -44,6 +44,13 @@ const Conference = () => {
   }, [isConnectedToRoom, prevState, roomState, navigate, role, roomId]);
 
   useEffect(() => {
+    // beam doesn't need to store messages, saves on unnecessary store updates in large calls
+    if (isHeadless) {
+      hmsActions.ignoreMessageTypes(["chat"]);
+    }
+  }, [isHeadless, hmsActions]);
+
+  useEffect(() => {
     return () => {
       // This is needed to handle mac touchpad swipe gesture
       if (isConnectedToRoom) {
