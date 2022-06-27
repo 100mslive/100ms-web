@@ -23,11 +23,12 @@ import {
 import { SettingIcon } from "@100mslive/react-icons";
 import { AudioVideoToggle } from "./AudioVideoToggle";
 import Settings from "./Settings";
+import { ConnectionIndicator } from "./Connection/ConnectionIndicator";
+import { VirtualBackground } from "../plugins/VirtualBackground/VirtualBackground";
 import {
   UserPreferencesKeys,
   useUserPreferences,
 } from "./hooks/useUserPreferences";
-import { ConnectionIndicator } from "./Connection/ConnectionIndicator";
 
 const defaultPreviewPreference = {
   name: "",
@@ -155,6 +156,7 @@ const PreviewTile = ({ name }) => {
           ) : null}
           <StyledVideoTile.AttributeBox css={controlStyles}>
             <AudioVideoToggle compact />
+            <VirtualBackground />
           </StyledVideoTile.AttributeBox>
           <Settings>
             <StyledVideoTile.AttributeBox css={settingStyles}>
