@@ -8,6 +8,7 @@ import {
 } from "@100mslive/react-sdk";
 import { RecordIcon } from "@100mslive/react-icons";
 import { Button, Text, Dialog, Box } from "@100mslive/react-ui";
+import LogRocket from "logrocket";
 import {
   DialogCheckbox,
   DialogContent,
@@ -101,6 +102,7 @@ export const RecordingAndRTMPModal = ({ onOpenChange }) => {
       }
       onOpenChange(false);
     } catch (error) {
+      LogRocket.track(`${hlsSelected ? "hls" : "rtmp/recording"}Error`, error);
       console.error(
         `failed to start/stop ${
           hlsSelected ? "hls streaming" : "rtmp/recording"
