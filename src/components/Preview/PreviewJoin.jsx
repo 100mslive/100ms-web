@@ -80,7 +80,10 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
         Let's get your studio setup ready in less than 5 minutes!
       </Text>
       <PreviewTile name={name} />
-      <PreviewControls enableJoin={enableJoin} />
+      <PreviewControls
+        enableJoin={enableJoin}
+        savePreferenceAndJoin={savePreferenceAndJoin}
+      />
     </Container>
   );
 };
@@ -133,7 +136,7 @@ const PreviewTile = ({ name }) => {
   );
 };
 
-const PreviewControls = ({ enableJoin }) => {
+const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
   return (
     <ControlContainer>
       <Flex align="start">
@@ -147,7 +150,12 @@ const PreviewControls = ({ enableJoin }) => {
             <SettingIcon />
           </IconButton>
         </Settings>
-        <Button disabled={!enableJoin} css={{ h: "$13", ml: "$4" }} icon>
+        <Button
+          onClick={savePreferenceAndJoin}
+          disabled={!enableJoin}
+          css={{ h: "$13", ml: "$4" }}
+          icon
+        >
           <Text variant="button">Join</Text> <ArrowRightIcon />
         </Button>
       </Flex>
