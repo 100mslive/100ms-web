@@ -4,14 +4,9 @@ import { ArrowRightIcon } from "@100mslive/react-icons";
 import {
   useUserPreferences,
   UserPreferencesKeys,
+  defaultPreviewPreference,
 } from "../hooks/useUserPreferences";
 import UserMusicIcon from "../../images/UserMusicIcon";
-
-const defaultPreviewPreference = {
-  name: "",
-  isAudioMuted: false,
-  isVideoMuted: false,
-};
 
 const PreJoinScreen = ({ initialName, setIsNameScreen }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
