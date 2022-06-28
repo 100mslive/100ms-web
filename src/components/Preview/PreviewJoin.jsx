@@ -28,6 +28,7 @@ import {
 } from "../hooks/useUserPreferences";
 import { AudioVideoToggle } from "../AudioVideoToggle";
 import Settings from "../Settings";
+import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
 
 const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
@@ -75,7 +76,7 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   return (
     <Container>
       <Text variant="h4">Let's get you started, {name}!</Text>
-      <Text css={{ c: "$textMedEmp" }} variant="body1">
+      <Text css={{ c: "$textMedEmp", my: "$6" }} variant="body1">
         Let's get your studio setup ready in less than 5 minutes!
       </Text>
       <PreviewTile name={name} />
@@ -87,6 +88,7 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
 const Container = styled("div", {
   width: "100%",
   ...flexCenter,
+  textAlign: "center",
   flexDirection: "column",
 });
 
@@ -104,6 +106,7 @@ const PreviewTile = ({ name }) => {
         aspectRatio: width / height,
         width: "unset",
         height: "min(360px, 60vh)",
+        mt: "$12",
         "@sm": {
           height: "unset",
           width: "min(360px, 90%)",
@@ -135,6 +138,8 @@ const PreviewControls = ({ enableJoin }) => {
     <ControlContainer>
       <Flex align="start">
         <AudioVideoToggle compact />
+        {/* TODO: VB not rendering {isVBPresent} is false */}
+        <VirtualBackground />
       </Flex>
       <Flex align="start">
         <Settings>
@@ -142,8 +147,8 @@ const PreviewControls = ({ enableJoin }) => {
             <SettingIcon />
           </IconButton>
         </Settings>
-        <Button disabled={!enableJoin} css={{ h: "32" }} icon>
-          Join <ArrowRightIcon />
+        <Button disabled={!enableJoin} css={{ h: "$13", ml: "$4" }} icon>
+          <Text variant="button">Join</Text> <ArrowRightIcon />
         </Button>
       </Flex>
     </ControlContainer>
