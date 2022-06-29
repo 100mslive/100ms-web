@@ -40,7 +40,7 @@ export const ChatHeader = React.memo(
             e.stopPropagation();
             selectorOpen ? onToggle() : toggleChat();
           }}
-          data-testid='close_chat'
+          data-testid="close_chat"
         >
           <CrossIcon />
         </IconButton>

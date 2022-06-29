@@ -110,7 +110,12 @@ const ChatMessage = React.memo(({ message }) => {
   }, [message.read, hmsActions, inView, message.id]);
 
   return (
-    <Flex ref={ref} css={{ flexWrap: "wrap", p: "$4 $8" }} key={message.time} data-testid='chat_msg'>
+    <Flex
+      ref={ref}
+      css={{ flexWrap: "wrap", p: "$4 $8" }}
+      key={message.time}
+      data-testid="chat_msg"
+    >
       <Text variant="sm" css={{ color: "$textSecondary" }}>
         {message.senderName || "Anonymous"}
       </Text>
