@@ -4,8 +4,7 @@ import PreJoinScreen from "./PreJoinScreen";
 import PreviewJoin from "./PreviewJoin";
 
 const PreviewContainer = ({ token, onJoin, env, skipPreview, initialName }) => {
-  // just for testing revert before pushing
-  const [isNameScreen, setIsNameScreen] = useState(false);
+  const [isNameScreen, setIsNameScreen] = useState(!skipPreview);
   return (
     <Container>
       {isNameScreen ? (

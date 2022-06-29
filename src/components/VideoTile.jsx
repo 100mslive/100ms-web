@@ -68,7 +68,7 @@ const Tile = ({ peerId, trackId, showStatsOnTiles, width, height }) => {
               : borderAudioRef
           }
         >
-          <ConnectionIndicator isTile peerId={peerId} />
+          <ConnectionIndicator name={peerName} isTile peerId={peerId} />
           {showStatsOnTiles ? (
             <VideoTileStats
               audioTrackID={audioTrack?.id}

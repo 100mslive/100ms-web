@@ -29,6 +29,7 @@ import {
 import { AudioVideoToggle } from "../AudioVideoToggle";
 import Settings from "../Settings";
 import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
+import { ConnectionIndicator } from "../Connection/ConnectionIndicator";
 
 const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
@@ -120,6 +121,7 @@ const PreviewTile = ({ name }) => {
     >
       {localPeer ? (
         <>
+          <ConnectionIndicator name={name} isTile peerId={localPeer.id} />
           <Video
             mirror={true}
             trackId={localPeer.videoTrack}
