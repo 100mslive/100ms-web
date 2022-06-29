@@ -17,7 +17,6 @@ import {
   useTheme,
   Avatar,
   Flex,
-  IconButton,
   Button,
   Box,
 } from "@100mslive/react-ui";
@@ -31,6 +30,7 @@ import { AudioVideoToggle } from "../AudioVideoToggle";
 import Settings from "../Settings";
 import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
 import TileConnection from "../Connection/TileConnection";
+import IconButton from "../../IconButton";
 
 const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
