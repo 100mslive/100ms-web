@@ -19,6 +19,7 @@ import {
   Flex,
   IconButton,
   Button,
+  Box,
 } from "@100mslive/react-ui";
 import { SettingIcon, ArrowRightIcon } from "@100mslive/react-icons";
 import {
@@ -80,11 +81,19 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
       <Text css={{ c: "$textMedEmp", my: "$6" }} variant="body1">
         Let's get your studio setup ready in less than 5 minutes!
       </Text>
-      <PreviewTile name={name} />
-      <PreviewControls
-        enableJoin={enableJoin}
-        savePreferenceAndJoin={savePreferenceAndJoin}
-      />
+      <Box
+        css={{
+          "@sm": { width: "100%" },
+          ...flexCenter,
+          flexDirection: "column",
+        }}
+      >
+        <PreviewTile name={name} />
+        <PreviewControls
+          enableJoin={enableJoin}
+          savePreferenceAndJoin={savePreferenceAndJoin}
+        />
+      </Box>
     </Container>
   );
 };
@@ -166,11 +175,14 @@ const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
 };
 
 const ControlContainer = styled("div", {
-  width: "min(360px, 90%)",
-  maxWidth: "90%",
+  width: "100%",
   display: "flex",
   justifyContent: "space-between",
   marginTop: "$8",
+  "@sm": {
+    width: "min(360px, 90%)",
+    maxWidth: "90%",
+  },
 });
 
 export default PreviewJoin;
