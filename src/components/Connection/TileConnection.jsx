@@ -1,11 +1,14 @@
 import React from "react";
-import { flexCenter, styled, Text } from "@100mslive/react-ui";
+import { flexCenter, styled, Text, textEllipsis } from "@100mslive/react-ui";
 import { ConnectionIndicator } from "./ConnectionIndicator";
 
 const TileConnection = ({ name, peerId }) => {
   return (
     <Wrapper>
-      <Text css={{ c: "$textHighEmp", mr: "$2" }} variant="xs">
+      <Text
+        css={{ c: "$textHighEmp", mr: "$2", ...textEllipsis("75px") }}
+        variant="xs"
+      >
         {name}
       </Text>
       <ConnectionIndicator isTile peerId={peerId} />

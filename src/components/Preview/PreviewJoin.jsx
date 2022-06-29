@@ -19,6 +19,7 @@ import {
   Flex,
   Button,
   Box,
+  textEllipsis,
 } from "@100mslive/react-ui";
 import { SettingIcon, ArrowRightIcon } from "@100mslive/react-icons";
 import {
@@ -77,7 +78,9 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   }, [token, skipPreview]);
   return (
     <Container>
-      <Text variant="h4">Let's get you started, {name}!</Text>
+      <Text variant="h4" css={{ wordBreak: "break-all" }}>
+        Let's get you started, {name}!
+      </Text>
       <Text css={{ c: "$textMedEmp", my: "$6" }} variant="body1">
         Let's get your studio setup ready in less than 5 minutes!
       </Text>
@@ -139,7 +142,9 @@ const PreviewTile = ({ name }) => {
           {!isVideoOn ? (
             <StyledVideoTile.AvatarContainer>
               <Avatar name={name} data-testid="preview_avatar_tile" />
-              <Text variant="body2">{name}</Text>
+              <Text css={{ ...textEllipsis("75%") }} variant="body2">
+                {name}
+              </Text>
             </StyledVideoTile.AvatarContainer>
           ) : null}
         </>
@@ -155,7 +160,6 @@ const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
     <ControlContainer>
       <Flex align="start">
         <AudioVideoToggle compact />
-        {/* TODO: VB not rendering {isVBPresent} is false */}
         <VirtualBackground />
       </Flex>
       <Flex align="start">
