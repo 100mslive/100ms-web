@@ -43,8 +43,8 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
     token,
     initEndpoint: env ? `https://${env}-init.100ms.live/init` : undefined,
     initialSettings: {
-      isAudioMuted: skipPreview ? true : previewPreference.isAudioMuted,
-      isVideoMuted: skipPreview ? true : previewPreference.isVideoMuted,
+      isAudioMuted: skipPreview || previewPreference.isAudioMuted,
+      isVideoMuted: skipPreview || previewPreference.isVideoMuted,
     },
     captureNetworkQualityInPreview: true,
   });

@@ -33,7 +33,7 @@ const PreJoinScreen = ({ initialName, setIsNameScreen }) => {
       </Text>
       <Form onSubmit={formSubmit}>
         <InputField>
-          <Label for="name">
+          <Label htmlFor="name">
             <Text css={{ c: "$textHighEmp" }} variant="body2">
               Name
             </Text>
