@@ -137,7 +137,20 @@ const PreviewTile = ({ name }) => {
             data-testid="preview_tile"
           />
           {!isVideoOn ? (
-            <Avatar name={name} data-testid="preview_avatar_tile" />
+            <>
+              <Avatar name={name} data-testid="preview_avatar_tile" />
+              <Text
+                variant="body2"
+                css={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "50%",
+                  transform: "translateX(-50%) translateY(+50px)",
+                }}
+              >
+                {name}
+              </Text>
+            </>
           ) : null}
         </>
       ) : (
