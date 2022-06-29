@@ -164,9 +164,7 @@ const Participant = ({
         >
           {peer.name}
         </Text>
-        <Text variant="sub2" css={{ color: "$textMedEmp" }}>
-          {peer.roleName}
-        </Text>
+        <Text variant="sub2">{peer.roleName}</Text>
       </Flex>
       {showActions && (
         <ParticipantActions
