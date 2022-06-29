@@ -57,7 +57,7 @@ export const ParticipantFilter = ({
           icon={<PeopleIcon />}
         />
         <Item
-          selected={selection === "isHandRaise"}
+          selected={selection?.metadata?.isHandRaised}
           title="Raised Hand"
           onSelection={onItemClick}
           icon={<HandRaiseIcon />}
@@ -80,18 +80,30 @@ export const ParticipantFilter = ({
 
 const Item = ({ selected, title, onSelection, value, icon }) => {
   return (
-    <Flex
-      align="center"
-      css={{ w: "100%", p: "$4 $8", cursor: "pointer" }}
-      onClick={() => onSelection(value)}
+    <Dropdown.Item
+      css={{
+        "&:hover": {
+          cursor: "pointer",
+          bg: "$iconHoverBg",
+        },
+        "&:focus-visible": {
+          bg: "$iconHoverBg",
+        },
+      }}
+      onClick={e => {
+        e.preventDefault();
+        onSelection(value);
+      }}
     >
-      {icon && <Text css={{ mr: "$2" }}>{icon}</Text>}
-      <Text css={{ flex: "1 1 0" }}>{title}</Text>
+      <Flex align="center" css={{ flex: "1 1 0" }}>
+        {icon && <Text>{icon}</Text>}
+        <Text css={{ ml: "$2" }}>{title}</Text>
+      </Flex>
       {selected && (
         <Text>
           <CheckIcon widht={16} height={16} />
         </Text>
       )}
-    </Flex>
+    </Dropdown.Item>
   );
 };
