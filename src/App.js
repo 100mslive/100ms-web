@@ -76,6 +76,7 @@ export function EdtechComponent({
   },
   getUserToken = defaultGetUserToken,
   policyConfig = envPolicyConfig,
+  getDetails = () => {},
 }) {
   const { 0: width, 1: height } = aspectRatio
     .split("-")
@@ -128,6 +129,7 @@ export function EdtechComponent({
             >
               <AppRoutes
                 getUserToken={getUserTokenCallback}
+                getDetails={getDetails}
                 appDetails={metadata}
                 recordingUrl={recordingUrl}
               />
@@ -139,8 +141,11 @@ export function EdtechComponent({
   );
 }
 
-const RedirectToPreview = () => {
+const RedirectToPreview = ({ getDetails }) => {
   const { roomId, role } = useParams();
+  useEffect(() => {
+    getDetails();
+  }, [roomId]); //eslint-disable-line
 
   if (!roomId && !role) {
     return <Navigate to="/" />;
@@ -154,7 +159,7 @@ const RedirectToPreview = () => {
   return <Navigate to={`/preview/${roomId}/${role || ""}`} />;
 };
 
-function AppRoutes({ getUserToken, appDetails, recordingUrl }) {
+function AppRoutes({ getUserToken, appDetails, recordingUrl, getDetails }) {
   return (
     <Router>
       <ToastContainer />
@@ -211,8 +216,14 @@ function AppRoutes({ getUserToken, appDetails, recordingUrl }) {
             </Suspense>
           }
         />
-        <Route path="/:roomId/:role" element={<RedirectToPreview />} />
-        <Route path="/:roomId/" element={<RedirectToPreview />} />
+        <Route
+          path="/:roomId/:role"
+          element={<RedirectToPreview getDetails={getDetails} />}
+        />
+        <Route
+          path="/:roomId/"
+          element={<RedirectToPreview getDetails={getDetails} />}
+        />
         <Route path="*" element={<ErrorPage error="Invalid URL!" />} />
       </Routes>
     </Router>
