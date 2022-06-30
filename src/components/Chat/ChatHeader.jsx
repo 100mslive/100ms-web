@@ -1,16 +1,17 @@
 import React from "react";
-import { Flex, IconButton, Text } from "@100mslive/react-ui";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
   CrossIcon,
   PeopleIcon,
 } from "@100mslive/react-icons";
-import { useToggleChat } from "../AppData/useChatState";
+import { Flex, IconButton, Text } from "@100mslive/react-ui";
+import { useSidepaneToggle } from "../AppData/useSidepane";
+import { SIDE_PANE_OPTIONS } from "../../common/constants";
 
 export const ChatHeader = React.memo(
   ({ selection, selectorOpen, onToggle }) => {
-    const toggleChat = useToggleChat();
+    const toggleChat = useSidepaneToggle(SIDE_PANE_OPTIONS.CHAT);
     return (
       <Flex
         onClick={onToggle}

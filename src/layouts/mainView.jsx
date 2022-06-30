@@ -9,14 +9,16 @@ import {
   selectRoomState,
   selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
+import { Flex } from "@100mslive/react-ui";
 import { MainGridView } from "./mainGridView";
+import SidePane from "./SidePane";
 import { AppContext } from "../components/context/AppContext";
 import FullPageProgress from "../components/FullPageProgress";
 import ScreenShareView from "./screenShareView";
-import { useWhiteboardMetadata } from "../plugins/whiteboard";
-import { useBeamAutoLeave } from "../common/hooks";
-import { UI_MODE_ACTIVE_SPEAKER, UI_SETTINGS } from "../common/constants";
 import { useUISettings } from "../components/AppData/useUISettings";
+import { useBeamAutoLeave } from "../common/hooks";
+import { useWhiteboardMetadata } from "../plugins/whiteboard";
+import { UI_MODE_ACTIVE_SPEAKER, UI_SETTINGS } from "../common/constants";
 
 const WhiteboardView = React.lazy(() => import("./WhiteboardView"));
 const HLSView = React.lazy(() => import("./HLSView"));
@@ -76,10 +78,11 @@ export const ConferenceMainView = () => {
   }
 
   return (
-    ViewComponent && (
-      <Suspense fallback={<FullPageProgress />}>
+    <Suspense fallback={<FullPageProgress />}>
+      <Flex css={{ size: "100%", p: "$10" }}>
         <ViewComponent showStats={showStatsOnTiles} />
-      </Suspense>
-    )
+        <SidePane />
+      </Flex>
+    </Suspense>
   );
 };

@@ -24,14 +24,15 @@ import { LeaveRoom } from "./LeaveRoom";
 import { MoreSettings } from "./MoreSettings/MoreSettings";
 import { ScreenshareToggle } from "./ScreenShare";
 import { ScreenShareHintModal } from "./ScreenshareHintModal";
+import { Playlist } from "../components/Playlist/Playlist";
 import { NoiseSuppression } from "../plugins/NoiseSuppression";
 import { ToggleWhiteboard } from "../plugins/whiteboard";
 import { VirtualBackground } from "../plugins/VirtualBackground/VirtualBackground";
 import { useMyMetadata } from "./hooks/useMetadata";
+import { useSidepaneState, useSidepaneToggle } from "./AppData/useSidepane";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { isScreenshareSupported } from "../common/utils";
-import { Playlist } from "../components/Playlist/Playlist";
-import { useIsChatOpen, useToggleChat } from "./AppData/useChatState";
+import { SIDE_PANE_OPTIONS } from "../common/constants";
 
 const TranscriptionButton = React.lazy(() =>
   import("../plugins/transcription")
@@ -113,8 +114,8 @@ export const MetaActions = ({ isMobile = false }) => {
 
 const Chat = () => {
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
-  const isChatOpen = useIsChatOpen();
-  const toggleChat = useToggleChat();
+  const isChatOpen = useSidepaneState(SIDE_PANE_OPTIONS.CHAT);
+  const toggleChat = useSidepaneToggle(SIDE_PANE_OPTIONS.CHAT);
 
   return (
     <Tooltip key="chat" title={`${isChatOpen ? "Close" : "Open"} chat`}>

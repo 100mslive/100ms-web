@@ -110,10 +110,20 @@ export const APP_DATA = {
   chatDraft: "chatDraft",
   appConfig: "appConfig",
   recordingUrl: "recordingUrl",
+  sidePane: "sidePane",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",
   isHeadless: "isHeadless",
+};
+
+export const SIDE_PANE_OPTIONS = {
+  PARTICIPANTS: "Participants",
+  CHAT: "Chat",
+  HLS: "HLS",
+  RTMP: "RTMP",
+  TILES: "TILES",
+  SCREEN_TILES: "SCREEN_TILES",
 };
 
 export const CREATE_ROOM_DOC_URL =

@@ -20,6 +20,7 @@ export function AppData({ appDetails, recordingUrl }) {
       },
       [APP_DATA.chatOpen]: false,
       [APP_DATA.chatDraft]: "",
+      [APP_DATA.sidePane]: "",
       [APP_DATA.recordingUrl]: recordingUrl,
       [APP_DATA.appConfig]: getAppDetails(appDetails),
     };
