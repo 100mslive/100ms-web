@@ -18,20 +18,19 @@ import {
   Avatar,
   Flex,
   Button,
-  Box,
   textEllipsis,
 } from "@100mslive/react-ui";
 import { SettingIcon, ArrowRightIcon } from "@100mslive/react-icons";
-import {
-  useUserPreferences,
-  UserPreferencesKeys,
-  defaultPreviewPreference,
-} from "../hooks/useUserPreferences";
 import { AudioVideoToggle } from "../AudioVideoToggle";
 import Settings from "../Settings";
 import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
 import TileConnection from "../Connection/TileConnection";
 import IconButton from "../../IconButton";
+import {
+  useUserPreferences,
+  UserPreferencesKeys,
+  defaultPreviewPreference,
+} from "../hooks/useUserPreferences";
 
 const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
@@ -84,10 +83,12 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
       <Text css={{ c: "$textMedEmp", my: "$6" }} variant="body1">
         Let's get your studio setup ready in less than 5 minutes!
       </Text>
-      <Box
+      <Flex
+        align="center"
+        justify="center"
         css={{
           "@sm": { width: "100%" },
-          ...flexCenter,
+
           flexDirection: "column",
         }}
       >
@@ -96,7 +97,7 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
           enableJoin={enableJoin}
           savePreferenceAndJoin={savePreferenceAndJoin}
         />
-      </Box>
+      </Flex>
     </Container>
   );
 };
@@ -157,12 +158,22 @@ const PreviewTile = ({ name }) => {
 
 const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
   return (
-    <ControlContainer>
-      <Flex align="start">
+    <Flex
+      justify="between"
+      css={{
+        width: "100%",
+        marginTop: "$8",
+        "@sm": {
+          width: "min(360px, 90%)",
+          maxWidth: "90%",
+        },
+      }}
+    >
+      <Flex>
         <AudioVideoToggle compact />
         <VirtualBackground />
       </Flex>
-      <Flex align="start">
+      <Flex>
         <Settings>
           <IconButton data-testid="preview_setting_btn">
             <SettingIcon />
@@ -177,19 +188,8 @@ const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
           <Text variant="button">Join</Text> <ArrowRightIcon />
         </Button>
       </Flex>
-    </ControlContainer>
+    </Flex>
   );
 };
-
-const ControlContainer = styled("div", {
-  width: "100%",
-  display: "flex",
-  justifyContent: "space-between",
-  marginTop: "$8",
-  "@sm": {
-    width: "min(360px, 90%)",
-    maxWidth: "90%",
-  },
-});
 
 export default PreviewJoin;
