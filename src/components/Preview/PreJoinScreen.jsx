@@ -4,14 +4,9 @@ import { ArrowRightIcon } from "@100mslive/react-icons";
 import {
   useUserPreferences,
   UserPreferencesKeys,
+  defaultPreviewPreference,
 } from "../hooks/useUserPreferences";
 import UserMusicIcon from "../../images/UserMusicIcon";
-
-const defaultPreviewPreference = {
-  name: "",
-  isAudioMuted: false,
-  isVideoMuted: false,
-};
 
 const PreJoinScreen = ({ initialName, setIsNameScreen }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
@@ -38,12 +33,13 @@ const PreJoinScreen = ({ initialName, setIsNameScreen }) => {
       </Text>
       <Form onSubmit={formSubmit}>
         <InputField>
-          <Label for="name">
+          <Label htmlFor="name">
             <Text css={{ c: "$textHighEmp" }} variant="body2">
               Name
             </Text>
           </Label>
           <Input
+            required
             id="name"
             css={{ w: "100%", "@sm": "400px" }}
             value={name}

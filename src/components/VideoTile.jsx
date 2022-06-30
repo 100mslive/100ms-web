@@ -5,6 +5,7 @@ import {
   Video,
   VideoTileStats,
   useBorderAudioLevel,
+  Text,
 } from "@100mslive/react-ui";
 import {
   useHMSStore,
@@ -23,7 +24,7 @@ import {
 } from "@100mslive/react-icons";
 import TileMenu from "./TileMenu";
 import { getVideoTileLabel } from "./peerTileUtils";
-import { ConnectionIndicator } from "./Connection/ConnectionIndicator";
+import TileConnection from "./Connection/TileConnection";
 import { UI_SETTINGS } from "../common/constants";
 import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 import { useAppConfig } from "./AppData/useAppConfig";
@@ -68,7 +69,7 @@ const Tile = ({ peerId, trackId, showStatsOnTiles, width, height }) => {
               : borderAudioRef
           }
         >
-          <ConnectionIndicator isTile peerId={peerId} />
+          <TileConnection name={peerName} isTile peerId={peerId} />
           {showStatsOnTiles ? (
             <VideoTileStats
               audioTrackID={audioTrack?.id}
@@ -86,18 +87,21 @@ const Tile = ({ peerId, trackId, showStatsOnTiles, width, height }) => {
               data-testid="participant_video_tile"
             />
           ) : null}
-          {isVideoMuted || isVideoDegraded || isAudioOnly ? (
-            <Avatar
-              name={peerName || ""}
-              data-testid="participant_avatar_icon"
-            />
-          ) : null}
-          {(!isHeadless ||
-            (isHeadless && !appConfig?.headlessConfig?.hideTileName)) && (
-            <StyledVideoTile.Info data-testid="participant_name_onTile">
-              {label}
-            </StyledVideoTile.Info>
-          )}
+          <StyledVideoTile.AvatarContainer>
+            {isVideoMuted || isVideoDegraded || isAudioOnly ? (
+              <Avatar
+                name={peerName || ""}
+                data-testid="participant_avatar_icon"
+              />
+            ) : null}
+            {(!isHeadless ||
+              (isHeadless && !appConfig?.headlessConfig?.hideTileName)) && (
+              <Text variant="body2" data-testid="participant_name_onTile">
+                {label}
+              </Text>
+            )}
+          </StyledVideoTile.AvatarContainer>
+
           {showAudioMuted({ appConfig, isHeadless, isAudioMuted }) ? (
             <StyledVideoTile.AudioIndicator data-testid="participant_audio_mute_icon">
               <MicOffIcon />

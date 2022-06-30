@@ -6,6 +6,12 @@ export const UserPreferencesKeys = {
   UI_SETTINGS: "uiSettings",
 };
 
+export const defaultPreviewPreference = {
+  name: "",
+  isAudioMuted: false,
+  isVideoMuted: false,
+};
+
 export const useUserPreferences = (key, defaultValue) => {
   const [value, setValue] = useLocalStorage(key, defaultValue);
   return [value, setValue];

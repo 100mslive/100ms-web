@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { styled, flexCenter } from "@100mslive/react-ui";
 import PreJoinScreen from "./PreJoinScreen";
-import Preview from "../Preview";
+import PreviewJoin from "./PreviewJoin";
 
 const PreviewContainer = ({ token, onJoin, env, skipPreview, initialName }) => {
   const [isNameScreen, setIsNameScreen] = useState(!skipPreview);
@@ -13,7 +13,7 @@ const PreviewContainer = ({ token, onJoin, env, skipPreview, initialName }) => {
           setIsNameScreen={setIsNameScreen}
         />
       ) : (
-        <Preview
+        <PreviewJoin
           initialName={initialName}
           skipPreview={skipPreview}
           env={env}
