@@ -39,6 +39,7 @@ const PreJoinScreen = ({ initialName, setIsNameScreen }) => {
             </Text>
           </Label>
           <Input
+            required
             id="name"
             css={{ w: "100%", "@sm": "400px" }}
             value={name}
