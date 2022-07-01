@@ -6,7 +6,7 @@ import {
   selectDominantSpeaker,
   selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
-import { ParticipantList } from "./ParticipantList";
+import { ParticipantCount } from "./ParticipantList";
 import { AdditionalRoomState } from "./AdditionalRoomState";
 import PIPComponent from "../PIP/PIPComponent";
 import { AppContext } from "../context/AppContext";
@@ -57,15 +57,15 @@ export const Header = ({ isPreview }) => {
       align="center"
       css={{ position: "relative", height: "100%" }}
     >
-      <Flex align="center" css={{ position: "absolute", left: "$4" }}>
+      <Flex align="center" css={{ position: "absolute", left: "$10" }}>
         <Logo />
       </Flex>
       {!isPreview ? <SpeakerTag /> : null}
-      <Flex align="center" css={{ position: "absolute", right: "$4" }}>
+      <Flex align="center" css={{ position: "absolute", right: "$10" }}>
         {showPip && <PIPComponent />}
         <AdditionalRoomState />
         <Box css={{ mx: "$2" }}>
-          <ParticipantList />
+          <ParticipantCount />
         </Box>
       </Flex>
     </Flex>

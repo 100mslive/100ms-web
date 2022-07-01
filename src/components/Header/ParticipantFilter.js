@@ -26,29 +26,38 @@ export const ParticipantFilter = ({
   }
   return (
     <Dropdown.Root open={open} onOpenChange={value => setOpen(value)}>
-      <Dropdown.TriggerItem
+      <Dropdown.Trigger
         asChild
         data-testid="participant_list_filter"
         css={{
-          w: "auto",
-          p: "$2 $4",
           border: "1px solid $textDisabled",
-          borderRadius: "$1",
-          h: "auto",
-          cursor: "pointer",
+          r: "$0",
+          p: "$2 $4",
         }}
+        tabIndex={0}
       >
         <Flex align="center">
           <Text variant="sm" css={{ ...textEllipsis(80) }}>
             {selectionValue || "Everyone"}
           </Text>
           <Box css={{ ml: "$2", color: "$textDisabled" }}>
-            {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+            {open ? (
+              <ChevronUpIcon width={14} height={14} />
+            ) : (
+              <ChevronDownIcon width={14} height={14} />
+            )}
           </Box>
         </Flex>
-      </Dropdown.TriggerItem>
+      </Dropdown.Trigger>
       <Dropdown.Content
-        css={{ height: "auto", maxHeight: "$96", boxShadow: "$md" }}
+        align="start"
+        sideOffset={8}
+        css={{
+          height: "auto",
+          maxHeight: "$96",
+          boxShadow: "$md",
+          w: "$48",
+        }}
       >
         <Item
           selected={!selection}
@@ -81,15 +90,6 @@ export const ParticipantFilter = ({
 const Item = ({ selected, title, onSelection, value, icon }) => {
   return (
     <Dropdown.Item
-      css={{
-        "&:hover": {
-          cursor: "pointer",
-          bg: "$iconHoverBg",
-        },
-        "&:focus-visible": {
-          bg: "$iconHoverBg",
-        },
-      }}
       onClick={e => {
         e.preventDefault();
         onSelection(value);
@@ -97,7 +97,7 @@ const Item = ({ selected, title, onSelection, value, icon }) => {
     >
       <Flex align="center" css={{ flex: "1 1 0" }}>
         {icon && <Text>{icon}</Text>}
-        <Text css={{ ml: "$2" }}>{title}</Text>
+        <Text css={{ ml: "$4" }}>{title}</Text>
       </Flex>
       {selected && (
         <Text>

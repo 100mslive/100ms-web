@@ -32,10 +32,6 @@ module.exports = {
         .replace(/\\/g, "/");
     },
   },
-  cache: {
-    type: "filesystem",
-    cacheDirectory: path.resolve(__dirname, ".cache"),
-  },
   devtool: isProduction ? "source-map" : "cheap-module-source-map",
   performance: false,
   target: "web",

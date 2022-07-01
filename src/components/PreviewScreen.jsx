@@ -16,6 +16,7 @@ import {
 import getToken from "../services/tokenService";
 import { useSetUiSettings } from "./AppData/useUISettings";
 import PreviewContainer from "./Preview/PreviewContainer";
+import SidePane from "../layouts/SidePane";
 
 /**
  * query params exposed -
@@ -83,7 +84,11 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
       <Box css={{ h: "$18", "@md": { h: "$17" } }} data-testid="header">
         <Header isPreview={true} />
       </Box>
-      <Flex css={{ flex: "1 1 0" }} justify="center" align="center">
+      <Flex
+        css={{ flex: "1 1 0", position: "relative" }}
+        justify="center"
+        align="center"
+      >
         {token ? (
           <>
             <PreviewContainer
@@ -97,6 +102,12 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
         ) : (
           <Loading size={100} />
         )}
+        <SidePane
+          css={{
+            position: "unset",
+            "@lg": { position: "absolute" },
+          }}
+        />
       </Flex>
     </Flex>
   );
