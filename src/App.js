@@ -41,7 +41,7 @@ const defaultTokenEndpoint = process.env
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
-let appName = "";
+let appName;
 if (window.location.host.includes("localhost")) {
   appName = "localhost";
 } else {
@@ -50,6 +50,7 @@ if (window.location.host.includes("localhost")) {
 
 document.title = `${appName}'s ${document.title}`;
 
+// TODO: remove now that there are options to change to portrait
 const getAspectRatio = ({ width, height }) => {
   const host = process.env.REACT_APP_HOST_NAME || window.location.hostname;
   const portraitDomains = (
