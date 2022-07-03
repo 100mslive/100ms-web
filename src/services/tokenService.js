@@ -106,7 +106,7 @@ export function getBackendEndpoint() {
       process.env.REACT_APP_PROD_BACKEND_API ||
       "https://prod-in.100ms.live/hmsapi/";
   } else {
-    const apiBasePath = `${process.env.REACT_APP_ENV}-in2.100ms.live/hmsapi/`;
+    const apiBasePath = `https://${process.env.REACT_APP_ENV}-in2.100ms.live/hmsapi/`;
     BASE_BACKEND_URL = apiBasePath || "https://prod-in.100ms.live/hmsapi/";
   }
   return BASE_BACKEND_URL;
