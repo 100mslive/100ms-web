@@ -256,7 +256,6 @@ const ParticipantActions = React.memo(({ onSettings, peerId }) => {
   const audioTrack = useHMSStore(selectAudioTrackByPeerID(peerId));
   const localPeerId = useHMSStore(selectLocalPeerID);
   const canChangeVolume = peerId !== localPeerId && audioTrack;
-
   const shouldShowMoreActions = canChangeRole || canChangeVolume;
 
   return (
