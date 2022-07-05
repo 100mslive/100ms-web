@@ -162,6 +162,7 @@ const VirtualizedParticipants = ({
   const rowVirtualizer = useVirtual({
     size: participants.length,
     parentRef,
+    estimateSize: useCallback(() => 60, []),
   });
 
   return (
