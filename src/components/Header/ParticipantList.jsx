@@ -252,11 +252,20 @@ const Participant = ({
  */
 const ParticipantActions = React.memo(({ onSettings, peerId }) => {
   const isHandRaised = useHMSStore(selectPeerMetadata(peerId))?.isHandRaised;
+  const canChangeRole = useHMSStore(selectPermissions)?.changeRole;
+  const audioTrack = useHMSStore(selectAudioTrackByPeerID(peerId));
+  const localPeerId = useHMSStore(selectLocalPeerID);
+  const canChangeVolume = peerId !== localPeerId && audioTrack;
+
+  const shouldShowMoreActions = canChangeRole || canChangeVolume;
+
   return (
     <Flex align="center" css={{ flexShrink: 0 }}>
       <ConnectionIndicator peerId={peerId} />
       {isHandRaised && <HandRaiseIcon />}
-      <ParticipantMoreActions onRoleChange={onSettings} peerId={peerId} />
+      {shouldShowMoreActions && (
+        <ParticipantMoreActions onRoleChange={onSettings} peerId={peerId} />
+      )}
     </Flex>
   );
 });
