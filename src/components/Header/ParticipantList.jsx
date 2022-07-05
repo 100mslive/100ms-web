@@ -145,8 +145,6 @@ const VirtualizedParticipants = ({
     parentRef,
   });
 
-  console.log(rowVirtualizer);
-
   return (
     <div
       style={{
