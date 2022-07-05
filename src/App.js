@@ -41,7 +41,7 @@ const defaultTokenEndpoint = process.env
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
-let appName = "";
+let appName;
 if (window.location.host.includes("localhost")) {
   appName = "localhost";
 } else {
@@ -50,6 +50,7 @@ if (window.location.host.includes("localhost")) {
 
 document.title = `${appName}'s ${document.title}`;
 
+// TODO: remove now that there are options to change to portrait
 const getAspectRatio = ({ width, height }) => {
   const host = process.env.REACT_APP_HOST_NAME || window.location.hostname;
   const portraitDomains = (
@@ -76,6 +77,7 @@ export function EdtechComponent({
   },
   getUserToken = defaultGetUserToken,
   policyConfig = envPolicyConfig,
+  getDetails = () => {},
 }) {
   const { 0: width, 1: height } = aspectRatio
     .split("-")
@@ -128,6 +130,7 @@ export function EdtechComponent({
             >
               <AppRoutes
                 getUserToken={getUserTokenCallback}
+                getDetails={getDetails}
                 appDetails={metadata}
                 recordingUrl={recordingUrl}
               />
@@ -139,8 +142,11 @@ export function EdtechComponent({
   );
 }
 
-const RedirectToPreview = () => {
+const RedirectToPreview = ({ getDetails }) => {
   const { roomId, role } = useParams();
+  useEffect(() => {
+    getDetails();
+  }, [roomId]); //eslint-disable-line
 
   if (!roomId && !role) {
     return <Navigate to="/" />;
@@ -154,7 +160,7 @@ const RedirectToPreview = () => {
   return <Navigate to={`/preview/${roomId}/${role || ""}`} />;
 };
 
-function AppRoutes({ getUserToken, appDetails, recordingUrl }) {
+function AppRoutes({ getUserToken, appDetails, recordingUrl, getDetails }) {
   return (
     <Router>
       <ToastContainer />
@@ -211,8 +217,14 @@ function AppRoutes({ getUserToken, appDetails, recordingUrl }) {
             </Suspense>
           }
         />
-        <Route path="/:roomId/:role" element={<RedirectToPreview />} />
-        <Route path="/:roomId/" element={<RedirectToPreview />} />
+        <Route
+          path="/:roomId/:role"
+          element={<RedirectToPreview getDetails={getDetails} />}
+        />
+        <Route
+          path="/:roomId/"
+          element={<RedirectToPreview getDetails={getDetails} />}
+        />
         <Route path="*" element={<ErrorPage error="Invalid URL!" />} />
       </Routes>
     </Router>
