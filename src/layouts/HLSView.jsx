@@ -21,8 +21,12 @@ import {
   Tooltip,
 } from "@100mslive/react-ui";
 import { ChatView } from "../components/chatView";
-import { FeatureFlags } from "../services/FeatureFlags";
 import { useIsChatOpen } from "../components/AppData/useChatState";
+import {
+  HLSController,
+  HLS_TIMED_METADATA_LOADED,
+} from "../controllers/hls/HLSController";
+import { ToastManager } from "../components/Toast/ToastManager";
 
 const HLSVideo = styled("video", {
   h: "100%",
@@ -30,6 +34,7 @@ const HLSVideo = styled("video", {
 });
 
 let hls = null;
+let hlsController;
 const HLSView = () => {
   const videoRef = useRef(null);
   const hlsState = useHMSStore(selectHLSState);
@@ -43,11 +48,20 @@ const HLSView = () => {
   useEffect(() => {
     if (videoRef.current && hlsUrl && !hls) {
       if (Hls.isSupported()) {
-        hls = new Hls(getHLSConfig());
-        hls.loadSource(hlsUrl);
-        hls.attachMedia(videoRef.current);
+        hlsController = new HLSController(hlsUrl, videoRef);
+        hls = hlsController.getHlsInstance();
 
-        hls.once(Hls.Events.MANIFEST_LOADED, (event, data) => {
+        hlsController.on(HLS_TIMED_METADATA_LOADED, payload => {
+          console.log(
+            `%c Payload: ${payload}`,
+            "color:#2b2d42; background:#d80032"
+          );
+          ToastManager.addToast({
+            title: `Payload from timed Metadata ${payload}`,
+          });
+        });
+
+        hlsController.on(Hls.Events.MANIFEST_LOADED, (event, data) => {
           setAvailableLevels(data.levels);
           setCurrentSelectedQualityText("Auto");
         });
@@ -60,12 +74,9 @@ const HLSView = () => {
   }, [hlsUrl]);
 
   useEffect(() => {
-    return () => {
-      if (hls && hls.media) {
-        hls.detachMedia();
-        hls = null;
-      }
-    };
+    if (hlsController) {
+      return () => hlsController.reset();
+    }
   }, []);
 
   const qualitySelectorHandler = useCallback(
@@ -218,19 +229,5 @@ const HLSView = () => {
     </Fragment>
   );
 };
-
-function getHLSConfig() {
-  if (FeatureFlags.optimiseHLSLatency()) {
-    // should reduce the latency by around 2-3 more seconds. Won't work well without good internet.
-    return {
-      enableWorker: true,
-      liveSyncDuration: 1,
-      liveMaxLatencyDuration: 5,
-      liveDurationInfinity: true,
-      highBufferWatchdogPeriod: 1,
-    };
-  }
-  return {};
-}
 
 export default HLSView;
