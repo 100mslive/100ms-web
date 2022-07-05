@@ -14,7 +14,7 @@ import { arrayIntersection } from "../../common/utils";
 import { AppContext } from "../context/AppContext";
 import { ToastManager } from "../Toast/ToastManager";
 
-export const ChangeSelfRole = ({ css, onClick }) => {
+export const ChangeSelfRole = ({ onClick }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const permissions = useHMSStore(selectPermissions);
   const localPeerId = useHMSStore(selectLocalPeerID);
@@ -34,7 +34,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
     return null;
   }
   return hideTriggerItem ? (
-    <Dropdown.Item css={css} onClick={onClick}>
+    <Dropdown.Item onClick={onClick}>
       <PersonIcon />
       <Text variant="sm" css={{ mx: "$4" }}>
         Change My Role
@@ -42,7 +42,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
     </Dropdown.Item>
   ) : (
     <Dropdown.Root>
-      <Dropdown.TriggerItem css={css} data-testid="change_my_role_btn">
+      <Dropdown.TriggerItem data-testid="change_my_role_btn">
         <PersonIcon />
         <Text variant="sm" css={{ flex: "1 1 0", mx: "$4" }}>
           Change My Role
@@ -57,7 +57,7 @@ export const ChangeSelfRole = ({ css, onClick }) => {
         {availableSelfChangeRoles.map((role, i) => (
           <Dropdown.Item
             key={role}
-            css={{ ...css, justifyContent: "space-between" }}
+            css={{ justifyContent: "space-between" }}
             onClick={async () => {
               try {
                 await hmsActions.changeRole(localPeerId, role, true);
