@@ -1,5 +1,4 @@
-import React, { Fragment, useState, useRef } from "react";
-import { useVirtual } from "@tanstack/react-virtual";
+import React, { Fragment, useState } from "react";
 import {
   Dropdown,
   Flex,
@@ -28,7 +27,6 @@ import { ConnectionIndicator } from "../Connection/ConnectionIndicator";
 import { ParticipantFilter } from "./ParticipantFilter";
 
 export const ParticipantList = () => {
-  const dropdownContentRef = useRef(null);
   const [filter, setFilter] = useState();
   const { participants, isConnected, peerCount, rolesWithParticipants } =
     useParticipants(filter);
@@ -70,7 +68,6 @@ export const ParticipantList = () => {
           </Flex>
         </Dropdown.Trigger>
         <Dropdown.Content
-          ref={dropdownContentRef}
           sideOffset={5}
           align="end"
           css={{ w: "$72", height: "auto", maxHeight: "$96" }}
@@ -101,13 +98,17 @@ export const ParticipantList = () => {
               </Text>
             </Flex>
           )}
-          <VirtualizedParticipants
-            parentRef={dropdownContentRef}
-            participants={participants}
-            canChangeRole={canChangeRole}
-            isConnected={isConnected}
-            setSelectedPeerId={setSelectedPeerId}
-          />
+          {participants.map(peer => {
+            return (
+              <Participant
+                peer={peer}
+                key={peer.id}
+                canChangeRole={canChangeRole}
+                showActions={isConnected}
+                onParticipantAction={setSelectedPeerId}
+              />
+            );
+          })}
         </Dropdown.Content>
       </Dropdown.Root>
       {selectedPeerId && (
@@ -132,51 +133,6 @@ const ParticipantCount = React.memo(({ peerCount }) => {
     </>
   );
 });
-
-const VirtualizedParticipants = ({
-  parentRef,
-  participants,
-  canChangeRole,
-  isConnected,
-  setSelectedPeerId,
-}) => {
-  const rowVirtualizer = useVirtual({
-    size: participants.length,
-    parentRef,
-  });
-
-  return (
-    <div
-      style={{
-        height: `${rowVirtualizer.totalSize}px`,
-        width: "100%",
-        position: "relative",
-      }}
-    >
-      {rowVirtualizer.virtualItems.map(virtualRow => (
-        <div
-          key={virtualRow.index}
-          ref={virtualRow.measureElement}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            transform: `translateY(${virtualRow.start}px)`,
-          }}
-        >
-          <Participant
-            peer={participants[virtualRow.index]}
-            key={participants[virtualRow.index].id}
-            canChangeRole={canChangeRole}
-            showActions={isConnected}
-            onParticipantAction={setSelectedPeerId}
-          />
-        </div>
-      ))}
-    </div>
-  );
-};
 
 const Participant = ({
   peer,
