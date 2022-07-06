@@ -29,7 +29,10 @@ import { NoiseSuppression } from "../plugins/NoiseSuppression";
 import { ToggleWhiteboard } from "../plugins/whiteboard";
 import { VirtualBackground } from "../plugins/VirtualBackground/VirtualBackground";
 import { useMyMetadata } from "./hooks/useMetadata";
-import { useSidepaneState, useSidepaneToggle } from "./AppData/useSidepane";
+import {
+  useIsSidepaneTypeOpen,
+  useSidepaneToggle,
+} from "./AppData/useSidepane";
 import { FeatureFlags } from "../services/FeatureFlags";
 import { isScreenshareSupported } from "../common/utils";
 import { SIDE_PANE_OPTIONS } from "../common/constants";
@@ -114,7 +117,7 @@ export const MetaActions = ({ isMobile = false }) => {
 
 const Chat = () => {
   const countUnreadMessages = useHMSStore(selectUnreadHMSMessagesCount);
-  const isChatOpen = useSidepaneState(SIDE_PANE_OPTIONS.CHAT);
+  const isChatOpen = useIsSidepaneTypeOpen(SIDE_PANE_OPTIONS.CHAT);
   const toggleChat = useSidepaneToggle(SIDE_PANE_OPTIONS.CHAT);
 
   return (

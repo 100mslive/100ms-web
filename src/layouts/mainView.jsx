@@ -2,12 +2,11 @@ import React, { useEffect, useContext, Suspense } from "react";
 import {
   useHMSStore,
   useHMSActions,
-  HMSRoomState,
   selectPeerSharingAudio,
   selectPeerScreenSharing,
   selectPeerSharingVideoPlaylist,
-  selectRoomState,
   selectLocalPeerRoleName,
+  selectIsConnectedToRoom,
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
 import { MainGridView } from "./mainGridView";
@@ -31,7 +30,7 @@ export const ConferenceMainView = () => {
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const { whiteboardOwner: whiteboardShared } = useWhiteboardMetadata();
-  const roomState = useHMSStore(selectRoomState);
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
   useBeamAutoLeave();
   const hmsActions = useHMSActions();
   const {
@@ -43,8 +42,7 @@ export const ConferenceMainView = () => {
   } = useContext(AppContext);
 
   useEffect(() => {
-    // set list only when room state is connected
-    if (roomState !== HMSRoomState.Connected) {
+    if (!isConnected) {
       return;
     }
     if (videoPlaylist.length > 0) {
@@ -53,7 +51,7 @@ export const ConferenceMainView = () => {
     if (audioPlaylist.length > 0) {
       hmsActions.audioPlaylist.setList(audioPlaylist);
     }
-  }, [roomState, videoPlaylist, audioPlaylist, hmsActions]);
+  }, [isConnected, videoPlaylist, audioPlaylist, hmsActions]);
 
   if (!localPeerRole) {
     // we don't know the role yet to decide how to render UI

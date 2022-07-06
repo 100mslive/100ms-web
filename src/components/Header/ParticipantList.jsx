@@ -40,7 +40,10 @@ import {
 import { RoleChangeModal } from "../RoleChangeModal";
 import { ConnectionIndicator } from "../Connection/ConnectionIndicator";
 import { ParticipantFilter } from "./ParticipantFilter";
-import { useSidepaneState, useSidepaneToggle } from "../AppData/useSidepane";
+import {
+  useIsSidepaneTypeOpen,
+  useSidepaneToggle,
+} from "../AppData/useSidepane";
 import { SIDE_PANE_OPTIONS } from "../../common/constants";
 
 export const ParticipantList = () => {
@@ -111,7 +114,9 @@ export const ParticipantList = () => {
 export const ParticipantCount = () => {
   const peerCount = useHMSStore(selectPeerCount);
   const toggleSidepane = useSidepaneToggle(SIDE_PANE_OPTIONS.PARTICIPANTS);
-  const isParticipantsOpen = useSidepaneState(SIDE_PANE_OPTIONS.PARTICIPANTS);
+  const isParticipantsOpen = useIsSidepaneTypeOpen(
+    SIDE_PANE_OPTIONS.PARTICIPANTS
+  );
   useEffect(() => {
     if (isParticipantsOpen && peerCount === 0) {
       toggleSidepane();

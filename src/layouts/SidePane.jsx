@@ -3,6 +3,7 @@ import { selectAppData, useHMSStore } from "@100mslive/react-sdk";
 import { Box } from "@100mslive/react-ui";
 import { Chat } from "../components/Chat/Chat";
 import { ParticipantList } from "../components/Header/ParticipantList";
+import { StreamingLanding } from "../components/StreamingLanding";
 import { APP_DATA, SIDE_PANE_OPTIONS } from "../common/constants";
 
 const SidePane = ({ css = {} }) => {
@@ -12,6 +13,8 @@ const SidePane = ({ css = {} }) => {
     ViewComponent = ParticipantList;
   } else if (sidepane === SIDE_PANE_OPTIONS.CHAT) {
     ViewComponent = Chat;
+  } else if (sidepane === SIDE_PANE_OPTIONS.STREAMING) {
+    ViewComponent = StreamingLanding;
   }
   if (!ViewComponent) {
     return null;
