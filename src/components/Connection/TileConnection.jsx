@@ -2,15 +2,21 @@ import React from "react";
 import { flexCenter, styled, Text, textEllipsis } from "@100mslive/react-ui";
 import { ConnectionIndicator } from "./ConnectionIndicator";
 
-const TileConnection = ({ name, peerId }) => {
+const TileConnection = ({ name, peerId, hideLabel }) => {
   return (
     <Wrapper>
-      <Text
-        css={{ c: "$textHighEmp", mr: "$2", ...textEllipsis("75px") }}
-        variant="xs"
-      >
-        {name}
-      </Text>
+      {!hideLabel ? (
+        <Text
+          css={{
+            c: "$textHighEmp",
+            mr: "$2",
+            ...textEllipsis("75px"),
+          }}
+          variant="xs"
+        >
+          {name}
+        </Text>
+      ) : null}
       <ConnectionIndicator isTile peerId={peerId} />
     </Wrapper>
   );
@@ -24,7 +30,9 @@ const Wrapper = styled("div", {
   zIndex: 10,
   backgroundColor: "$black",
   borderRadius: "$1",
-  p: "$2 $4",
+  "& p,span": {
+    p: "$2 $3",
+  },
 });
 
 export default TileConnection;
