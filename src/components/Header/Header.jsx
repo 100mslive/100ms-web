@@ -27,7 +27,10 @@ import {
 import { ParticipantCount } from "./ParticipantList";
 import PIPComponent from "../PIP/PIPComponent";
 import { AppContext } from "../context/AppContext";
-import { useSidepaneToggle } from "../AppData/useSidepane";
+import {
+  useIsSidepaneTypeOpen,
+  useSidepaneToggle,
+} from "../AppData/useSidepane";
 import {
   DEFAULT_HLS_VIEWER_ROLE,
   SIDE_PANE_OPTIONS,
@@ -100,19 +103,23 @@ const EndStream = () => {
     return null;
   }
   return (
-    <Flex align="center">
-      <Flex align="center">
-        {isHLSRecordingOn && (
-          <Tooltip title="HLS Recording on">
-            <Text css={{ color: "$error" }}>
-              <RecordIcon width={16} height={16} />
-            </Text>
-          </Tooltip>
-        )}
-        <Text css={{ ml: "$2" }}>Live with HLS</Text>
-      </Flex>
+    <Flex align="center" css={{ ml: "$4" }}>
+      <Box css={{ w: "$4", h: "$4", r: "$round", bg: "$error", mr: "$4" }} />
+      <Text>Live with HLS</Text>
+      {isHLSRecordingOn && (
+        <Tooltip title="HLS Recording on">
+          <Button
+            variant="standard"
+            outlined
+            css={{ color: "$error", ml: "$8", px: "$4" }}
+          >
+            <RecordIcon />
+          </Button>
+        </Tooltip>
+      )}
       <Button
         variant="standard"
+        outlined
         icon
         css={{ mx: "$8" }}
         onClick={async () => {
@@ -127,13 +134,20 @@ const EndStream = () => {
 };
 
 const GoLive = () => {
+  const isStreamingSidepaneOpen = useIsSidepaneTypeOpen(
+    SIDE_PANE_OPTIONS.STREAMING
+  );
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
   const { isHLSRunning } = useRecordingStreaming();
   if (isHLSRunning) {
     return null;
   }
   return (
-    <Button variant="standard" onClick={toggleStreaming} css={{ mx: "$2" }}>
+    <Button
+      variant={isStreamingSidepaneOpen ? "standard" : "primary"}
+      onClick={toggleStreaming}
+      css={{ mx: "$2" }}
+    >
       <GoLiveIcon />
       <Text css={{ mx: "$2" }}>Go Live</Text>
     </Button>
