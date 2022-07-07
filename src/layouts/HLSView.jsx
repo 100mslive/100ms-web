@@ -33,7 +33,6 @@ const HLSVideo = styled("video", {
   margin: "0 auto",
 });
 
-let hls = null;
 let hlsController;
 const HLSView = () => {
   const videoRef = useRef(null);
@@ -46,10 +45,9 @@ const HLSView = () => {
   const [qualityDropDownOpen, setQualityDropDownOpen] = useState(false);
 
   useEffect(() => {
-    if (videoRef.current && hlsUrl && !hls) {
+    if (videoRef.current && hlsUrl) {
       if (Hls.isSupported()) {
         hlsController = new HLSController(hlsUrl, videoRef);
-        hls = hlsController.getHlsInstance();
 
         hlsController.on(HLS_TIMED_METADATA_LOADED, payload => {
           console.log(
@@ -61,8 +59,8 @@ const HLSView = () => {
           });
         });
 
-        hlsController.on(Hls.Events.MANIFEST_LOADED, (event, data) => {
-          setAvailableLevels(data.levels);
+        hlsController.on(Hls.Events.MANIFEST_LOADED, (_, { levels }) => {
+          setAvailableLevels(levels);
           setCurrentSelectedQualityText("Auto");
         });
       } else if (
@@ -81,8 +79,8 @@ const HLSView = () => {
 
   const qualitySelectorHandler = useCallback(
     qualityLevel => {
-      if (hls) {
-        hls.currentLevel = getCurrentLevel(qualityLevel);
+      if (hlsController) {
+        hlsController.setCurrentLevel(getCurrentLevel(qualityLevel));
         const levelText =
           qualityLevel.height === "auto" ? "Auto" : `${qualityLevel.height}p`;
         setCurrentSelectedQualityText(levelText);
