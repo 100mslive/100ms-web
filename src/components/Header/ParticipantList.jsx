@@ -138,7 +138,7 @@ const ParticipantCount = React.memo(({ peerCount }) => {
 const PARTICIPANT_ROW_HEIGHT = 68;
 // $96 => 24rem => 384px
 const PARTICIPANT_LIST_MAX_HEIGHT =
-  24 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+  21 * parseFloat(getComputedStyle(document.documentElement).fontSize);
 
 const VirtualizedParticipants = ({
   participants,
