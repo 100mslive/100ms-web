@@ -6,15 +6,17 @@ import {
   useHMSStatsStore,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { InfoIcon } from "@100mslive/react-icons";
-import { Dialog, Text } from "@100mslive/react-ui";
-import { AppContext } from "./context/AppContext";
 import {
-  DialogContent,
-  DialogRow,
-  DialogSelect,
-  DialogSwitch,
-} from "../primitives/DialogContent";
+  Dialog,
+  Text,
+  Box,
+  Flex,
+  Switch,
+  Select,
+  Label,
+  HorizontalDivider,
+} from "@100mslive/react-ui";
+import { AppContext } from "./context/AppContext";
 
 export const StatsForNerds = ({ onOpenChange }) => {
   const tracksWithLabels = useTracksWithLabel();
@@ -39,26 +41,56 @@ export const StatsForNerds = ({ onOpenChange }) => {
 
   return (
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
-      <DialogContent Icon={InfoIcon} title="Stats For Nerds">
-        <DialogSwitch
-          title="Show Stats on Tiles"
-          onChange={setShowStatsOnTiles}
-          value={showStatsOnTiles}
-        />
-        <DialogSelect
-          title="Stats For"
-          options={statsOptions}
-          keyField="id"
-          labelField="label"
-          selected={selectedStat}
-          onChange={setSelectedStat}
-        />
+      <Dialog.Content
+        css={{ width: "min(500px, 100%)", bg: "$surfaceDefault" }}
+      >
+        {/* Title */}
+        <Dialog.Title>
+          <Flex justify="between">
+            <Flex align="center" css={{ mb: "$1" }}>
+              <Text variant="h6" inline>
+                Stats For Nerds
+              </Text>
+            </Flex>
+            <Dialog.DefaultClose data-testid="stats_dialog_close_icon" />
+          </Flex>
+        </Dialog.Title>
+        <HorizontalDivider css={{ mt: "0.8rem" }} />
+        {/* Switch */}
+        <Flex justify="start" gap={4} css={{ m: "$10 0" }}>
+          <Switch
+            checked={showStatsOnTiles}
+            onCheckedChange={setShowStatsOnTiles}
+          />
+          <Text variant="body2" css={{ fontWeight: "$semiBold" }}>
+            Show Stats on Tiles
+          </Text>
+        </Flex>
+        {/* Select */}
+        <Flex direction="column" css={{ gap: "$4", mb: "$12" }}>
+          <Label variant="body2">Stats For</Label>
+          <Select.Root data-testid="dialog_select_Stats For">
+            <Select.DefaultDownIcon />
+            <Select.Select
+              onChange={e => setSelectedStat(e.target.value)}
+              value={selectedStat}
+              css={{ width: "100%" }}
+            >
+              {statsOptions.map(option => (
+                <option value={option["id"]} key={option["id"]}>
+                  {option["label"]}
+                </option>
+              ))}
+            </Select.Select>
+          </Select.Root>
+        </Flex>
+        {/* Stats */}
         {selectedStat === "local-peer" ? (
           <LocalPeerStats />
         ) : (
           <TrackStats trackID={selectedStat} />
         )}
-      </DialogContent>
+      </Dialog.Content>
     </Dialog.Root>
   );
 };
@@ -88,7 +120,7 @@ const LocalPeerStats = () => {
   }
 
   return (
-    <>
+    <Flex css={{ flexWrap: "wrap", gap: "$10" }}>
       <StatsRow label="Packets Lost" value={stats.subscribe?.packetsLost} />
       <StatsRow label="Jitter" value={stats.subscribe?.jitter} />
       <StatsRow
@@ -107,7 +139,7 @@ const LocalPeerStats = () => {
         label="Total Bytes Received"
         value={formatBytes(stats.subscribe?.bytesReceived)}
       />
-    </>
+    </Flex>
   );
 };
 
@@ -119,7 +151,7 @@ const TrackStats = ({ trackID }) => {
   const inbound = stats.type.includes("inbound");
 
   return (
-    <>
+    <Flex css={{ flexWrap: "wrap", gap: "$10" }}>
       <StatsRow label="Type" value={stats.type + " " + stats.kind} />
       <StatsRow label="Bitrate" value={formatBytes(stats.bitrate, "b/s")} />
       <StatsRow label="Packets Lost" value={stats.packetsLost || "-"} />
@@ -139,15 +171,29 @@ const TrackStats = ({ trackID }) => {
           )}
         </>
       )}
-    </>
+    </Flex>
   );
 };
 
 const StatsRow = ({ label, value }) => (
-  <DialogRow justify="between" css={{ my: "0.5rem" }}>
-    <Text>{label} </Text>
-    <Text>{value}</Text>
-  </DialogRow>
+  <Box css={{ bg: "$surfaceLight", w: "47%", p: "$8", r: "$3" }}>
+    <Text
+      variant="overline"
+      css={{
+        fontWeight: "$semiBold",
+        color: "$textMedEmp",
+        textTransform: "uppercase",
+      }}
+    >
+      {label}{" "}
+    </Text>
+    <Text
+      variant="sub1"
+      css={{ fontWeight: "$semiBold", color: "$textHighEmp" }}
+    >
+      {value}
+    </Text>
+  </Box>
 );
 
 const formatBytes = (bytes, unit = "B", decimals = 2) => {
