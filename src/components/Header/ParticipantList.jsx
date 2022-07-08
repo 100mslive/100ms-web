@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { FixedSizeList } from "react-window";
 import {
   Dropdown,
   Flex,
@@ -70,7 +71,12 @@ export const ParticipantList = () => {
         <Dropdown.Content
           sideOffset={5}
           align="end"
-          css={{ w: "$72", height: "auto", maxHeight: "$96" }}
+          css={{
+            w: "$72",
+            height: "auto",
+            maxHeight: "$96",
+            overflowY: "hidden",
+          }}
         >
           <Flex
             align="center"
@@ -98,17 +104,12 @@ export const ParticipantList = () => {
               </Text>
             </Flex>
           )}
-          {participants.map(peer => {
-            return (
-              <Participant
-                peer={peer}
-                key={peer.id}
-                canChangeRole={canChangeRole}
-                showActions={isConnected}
-                onParticipantAction={setSelectedPeerId}
-              />
-            );
-          })}
+          <VirtualizedParticipants
+            participants={participants}
+            canChangeRole={canChangeRole}
+            isConnected={isConnected}
+            setSelectedPeerId={setSelectedPeerId}
+          />
         </Dropdown.Content>
       </Dropdown.Root>
       {selectedPeerId && (
@@ -133,6 +134,43 @@ const ParticipantCount = React.memo(({ peerCount }) => {
     </>
   );
 });
+
+const PARTICIPANT_ROW_HEIGHT = 68;
+// $96 => 24rem => 384px
+const PARTICIPANT_LIST_MAX_HEIGHT =
+  24 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+const VirtualizedParticipants = ({
+  participants,
+  canChangeRole,
+  isConnected,
+  setSelectedPeerId,
+}) => {
+  return (
+    <FixedSizeList
+      itemSize={68}
+      itemCount={participants.length}
+      width="100%"
+      height={Math.min(
+        PARTICIPANT_LIST_MAX_HEIGHT,
+        participants.length * PARTICIPANT_ROW_HEIGHT
+      )}
+    >
+      {({ index, style }) => {
+        return (
+          <div style={style} key={participants[index].id}>
+            <Participant
+              peer={participants[index]}
+              canChangeRole={canChangeRole}
+              showActions={isConnected}
+              onParticipantAction={setSelectedPeerId}
+            />
+          </div>
+        );
+      }}
+    </FixedSizeList>
+  );
+};
 
 const Participant = ({
   peer,
