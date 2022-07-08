@@ -77,7 +77,7 @@ const AppContextProvider = ({
   const [state, setState] = useState({
     maxTileCount: uiSettings.maxTileCount,
     localAppPolicyConfig: {},
-    subscribedNotifications: uiSettings.subscribedNotifications || {},
+    subscribedNotifications: uiSettings?.subscribedNotifications || {},
     uiViewMode: isDefaultModeActiveSpeaker
       ? UI_MODE_ACTIVE_SPEAKER
       : uiSettings.uiViewMode || UI_MODE_GRID,

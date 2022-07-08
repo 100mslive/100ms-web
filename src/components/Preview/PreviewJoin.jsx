@@ -20,11 +20,11 @@ import {
   Button,
   textEllipsis,
 } from "@100mslive/react-ui";
-import { SettingIcon, ArrowRightIcon } from "@100mslive/react-icons";
+import { SettingsIcon, ArrowRightIcon } from "@100mslive/react-icons";
 import { AudioVideoToggle } from "../AudioVideoToggle";
-import Settings from "../Settings";
-import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
+import SettingsModal from "../Settings/SettingsModal";
 import TileConnection from "../Connection/TileConnection";
+import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
 import IconButton from "../../IconButton";
 import {
   useUserPreferences,
@@ -88,7 +88,6 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
         justify="center"
         css={{
           "@sm": { width: "100%" },
-
           flexDirection: "column",
         }}
       >
@@ -105,7 +104,6 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
 const Container = styled("div", {
   width: "100%",
   ...flexCenter,
-  textAlign: "center",
   flexDirection: "column",
 });
 
@@ -174,11 +172,11 @@ const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
         <VirtualBackground />
       </Flex>
       <Flex>
-        <Settings>
+        <SettingsModal>
           <IconButton data-testid="preview_setting_btn">
-            <SettingIcon />
+            <SettingsIcon />
           </IconButton>
-        </Settings>
+        </SettingsModal>
         <Button
           onClick={savePreferenceAndJoin}
           disabled={!enableJoin}

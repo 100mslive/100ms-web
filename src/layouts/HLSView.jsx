@@ -10,7 +10,7 @@ import { useHMSStore, selectHLSState } from "@100mslive/react-sdk";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
-  SettingIcon,
+  SettingsIcon,
 } from "@100mslive/react-icons";
 import {
   Box,
@@ -139,7 +139,7 @@ const HLSView = () => {
                 >
                   <Tooltip title="Select Quality">
                     <Flex>
-                      <SettingIcon />
+                      <SettingsIcon />
                       <Text variant="md">{currentSelectedQualityText}</Text>
                     </Flex>
                   </Tooltip>

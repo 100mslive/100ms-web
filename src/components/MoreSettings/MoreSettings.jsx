@@ -3,7 +3,7 @@ import {
   VerticalMenuIcon,
   InfoIcon,
   MicOffIcon,
-  SettingIcon,
+  SettingsIcon,
   PencilIcon,
 } from "@100mslive/react-icons";
 import {
@@ -14,8 +14,7 @@ import {
 import { Box, Dropdown, IconButton, Text, Tooltip } from "@100mslive/react-ui";
 import { ChangeSelfRole } from "./ChangeSelfRole";
 import { FullScreenItem } from "./FullScreenItem";
-import { UISettings } from "./UISettings";
-import Settings from "../Settings";
+import SettingsModal from "../Settings/SettingsModal";
 import { RoleChangeModal } from "../RoleChangeModal";
 import { ChangeNameModal } from "./ChangeNameModal";
 import { StatsForNerds } from "../StatsForNerds";
@@ -32,7 +31,6 @@ export const MoreSettings = () => {
   const [showMuteAll, setShowMuteAll] = useState(false);
   const [showDeviceSettings, setShowDeviceSettings] = useState(false);
   const [showStatsForNerds, setShowStatsForNerds] = useState(false);
-  const [showUISettings, setShowUISettings] = useState(false);
   const [showSelfRoleChange, setShowSelfRoleChange] = useState(false);
 
   return (
@@ -83,7 +81,7 @@ export const MoreSettings = () => {
             onClick={() => setShowDeviceSettings(true)}
             data-testid="device_settings_btn"
           >
-            <SettingIcon />
+            <SettingsIcon />
             <Text variant="sm" css={{ ml: "$4" }}>
               Settings
             </Text>
@@ -109,16 +107,13 @@ export const MoreSettings = () => {
         <RecordingAndRTMPModal onOpenChange={setShowRecordingModal} />
       )}
       {showDeviceSettings && (
-        <Settings open onOpenChange={setShowDeviceSettings} />
+        <SettingsModal open onOpenChange={setShowDeviceSettings} />
       )}
       {FeatureFlags.enableStatsForNerds && showStatsForNerds && (
         <StatsForNerds
           open={showStatsForNerds}
           onOpenChange={setShowStatsForNerds}
         />
-      )}
-      {showUISettings && (
-        <UISettings open={showUISettings} onOpenChange={setShowUISettings} />
       )}
       {showSelfRoleChange && (
         <RoleChangeModal

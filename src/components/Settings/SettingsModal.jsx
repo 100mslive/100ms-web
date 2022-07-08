@@ -1,0 +1,158 @@
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useMedia } from "react-use";
+import {
+  SettingsIcon,
+  NotificationsIcon,
+  CrossIcon,
+  ChevronLeftIcon,
+  GridFourIcon,
+} from "@100mslive/react-icons";
+import {
+  Dialog,
+  Flex,
+  IconButton,
+  Tabs,
+  Text,
+  config as cssConfig,
+  Box,
+} from "@100mslive/react-ui";
+import DeviceSettings from "./DeviceSettings";
+import { NotificationSettings } from "./NotificationSettings";
+import { LayoutSettings } from "./LayoutSettings";
+
+const SettingsModal = ({ open, onOpenChange, children }) => {
+  const mediaQueryLg = cssConfig.media.md;
+  const isMobile = useMedia(mediaQueryLg);
+  const [selection, setSelection] = useState(isMobile ? "" : "devices");
+  const resetTriggered = useRef(false);
+  const resetSelection = useCallback(() => {
+    setSelection("");
+  }, []);
+
+  useEffect(() => {
+    if (isMobile && selection && !resetTriggered.current) {
+      resetSelection();
+      resetTriggered.current = true;
+    }
+  }, [isMobile, resetSelection, selection]);
+
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
+      <Dialog.Content
+        css={{
+          w: "min(800px, 90%)",
+          height: "min(656px, 90%)",
+          p: 0,
+        }}
+      >
+        <Tabs.Root
+          defaultValue=""
+          value={selection}
+          onValueChange={setSelection}
+          css={{ size: "100%", position: "relative" }}
+        >
+          <Tabs.List
+            css={{
+              w: isMobile ? "100%" : "18.625rem",
+              flexDirection: "column",
+              bg: "$bgPrimary",
+              p: "$14 $10",
+            }}
+          >
+            <Text variant="h5">Settings </Text>
+            <Flex direction="column" css={{ mx: isMobile ? "-$8" : 0 }}>
+              <Tabs.Trigger
+                value="devices"
+                css={{ gap: "$8", mt: "$10", mb: "$4" }}
+              >
+                <SettingsIcon />
+                Device Settings
+              </Tabs.Trigger>
+              <Tabs.Trigger value="notifications" css={{ gap: "$8" }}>
+                <NotificationsIcon />
+                Notifications
+              </Tabs.Trigger>
+              <Tabs.Trigger value="layout" css={{ gap: "$8" }}>
+                <GridFourIcon />
+                Layout
+              </Tabs.Trigger>
+            </Flex>
+          </Tabs.List>
+          {selection && (
+            <Flex
+              direction="column"
+              css={{
+                flex: "1 1 0",
+                minWidth: 0,
+                mr: "$4",
+                ...(isMobile
+                  ? {
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bg: "$surfaceDefault",
+                      width: "100%",
+                      height: "100%",
+                    }
+                  : {}),
+              }}
+            >
+              <Tabs.Content value="devices">
+                <SettingsContentHeader
+                  onBack={resetSelection}
+                  isMobile={isMobile}
+                >
+                  Device Settings
+                </SettingsContentHeader>
+                <DeviceSettings />
+              </Tabs.Content>
+              <Tabs.Content value="notifications">
+                <SettingsContentHeader
+                  onBack={resetSelection}
+                  isMobile={isMobile}
+                >
+                  Notifications
+                </SettingsContentHeader>
+                <NotificationSettings />
+              </Tabs.Content>
+              <Tabs.Content value="layout">
+                <SettingsContentHeader
+                  onBack={resetSelection}
+                  isMobile={isMobile}
+                >
+                  Layout
+                </SettingsContentHeader>
+                <LayoutSettings />
+              </Tabs.Content>
+            </Flex>
+          )}
+        </Tabs.Root>
+        <Dialog.Close css={{ position: "absolute", right: "$10", top: "$10" }}>
+          <IconButton as="div">
+            <CrossIcon />
+          </IconButton>
+        </Dialog.Close>
+      </Dialog.Content>
+    </Dialog.Root>
+  );
+};
+
+const SettingsContentHeader = ({ children, isMobile, onBack }) => {
+  return (
+    <Text variant="h5" css={{ mb: "$12", display: "flex" }}>
+      {isMobile && (
+        <Box
+          as="span"
+          css={{ bg: "$surfaceLight", mr: "$4", r: "$round", p: "$2" }}
+          onClick={onBack}
+        >
+          <ChevronLeftIcon />
+        </Box>
+      )}
+      {children}
+    </Text>
+  );
+};
+
+export default SettingsModal;

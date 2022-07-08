@@ -6,7 +6,7 @@ import {
   selectAvailableRoleNames,
 } from "@100mslive/react-sdk";
 import { Dialog, Button } from "@100mslive/react-ui";
-import { SettingIcon } from "@100mslive/react-icons";
+import { SettingsIcon } from "@100mslive/react-icons";
 import {
   DialogCheckbox,
   DialogContent,
@@ -26,7 +26,7 @@ export const RoleChangeModal = ({ peerId, onOpenChange }) => {
   return (
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
       <DialogContent
-        Icon={SettingIcon}
+        Icon={SettingsIcon}
         title={`User Settings (${peer?.name || "peer left"})`}
       >
         <DialogSelect
