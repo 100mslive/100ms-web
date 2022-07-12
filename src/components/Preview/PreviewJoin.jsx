@@ -77,7 +77,7 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   }, [token, skipPreview]);
   return (
     <Container>
-      <Text variant="h4" css={{ wordBreak: "break-all", textAlign: "center" }}>
+      <Text variant="h4" css={{ wordBreak: "break-word", textAlign: "center" }}>
         Let's get you started, {name}!
       </Text>
       <Text
