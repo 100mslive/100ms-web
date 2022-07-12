@@ -122,6 +122,10 @@ export const ParticipantCount = () => {
       toggleSidepane();
     }
   }, [isParticipantsOpen, peerCount, toggleSidepane]);
+
+  if (peerCount === 0) {
+    return null;
+  }
   return (
     <IconButton
       onClick={() => {
@@ -133,27 +137,9 @@ export const ParticipantCount = () => {
       data-testid="participant_list"
     >
       <PeopleIcon />
-      {peerCount > 0 && (
-        <Flex
-          align="center"
-          justify="center"
-          css={{
-            position: "absolute",
-            top: 0,
-            right: -8,
-            zIndex: 2,
-            transform: "translateY(-50%)",
-            height: "$10",
-            minWidth: "$10",
-            bg: "$surfaceLight",
-            borderRadius: "$4",
-            color: "$textPrimary",
-            fontSize: "$tiny",
-          }}
-        >
-          {peerCount}
-        </Flex>
-      )}
+      <Text variant="sm" css={{ mx: "$4" }}>
+        {peerCount}
+      </Text>
     </IconButton>
   );
 };

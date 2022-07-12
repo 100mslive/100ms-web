@@ -59,7 +59,7 @@ const ScreenShareView = ({ showStats }) => {
         direction={{ "@initial": "column", "@lg": "row" }}
         css={{
           overflow: "hidden",
-          p: "$4",
+          p: "$4 $8",
           flex: "0 0 20%",
           "@lg": {
             flex: "1 1 0",
@@ -127,7 +127,7 @@ const ScreenShareComponent = ({
     return (
       <Box
         css={{
-          mx: "$4",
+          mx: "$8",
           flex: "3 1 0",
           "@lg": {
             flex: "2 1 0",
@@ -145,8 +145,7 @@ const ScreenShareComponent = ({
     <Box
       css={{
         flex: "3 1 0",
-        mx: "$4",
-        ml: "$5",
+        mx: "$8",
         "@lg": { ml: "$4", maxHeight: "80%" },
       }}
     >

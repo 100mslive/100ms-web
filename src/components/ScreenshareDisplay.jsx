@@ -20,7 +20,7 @@ export const ScreenshareDisplay = () => {
         r: "$3",
         m: "0 auto",
         color: "$textPrimary",
-        bg: "$tileBg",
+        bg: "$surfaceDefault",
         textAlign: "center",
       }}
     >
