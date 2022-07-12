@@ -1,104 +1,71 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { SunWithFace } from "@100mslive/react-icons";
-import {
-  Box,
-  Button,
-  Flex,
-  HorizontalDivider,
-  Text,
-} from "@100mslive/react-ui";
-import PlaceholderBg from "../images/post_leave.png";
+import { Button, Flex, Box, Text } from "@100mslive/react-ui";
+import { ExitIcon } from "@100mslive/react-icons";
 import { ToastManager } from "./Toast/ToastManager";
+import { Header } from "./Header";
 import { useNavigation } from "./hooks/useNavigation";
+import {
+  UserPreferencesKeys,
+  useUserPreferences,
+  defaultPreviewPreference,
+} from "./hooks/useUserPreferences";
 
 const PostLeave = () => {
   const navigate = useNavigation();
   const { roomId, role } = useParams();
+  const [previewPreference] = useUserPreferences(
+    UserPreferencesKeys.PREVIEW,
+    defaultPreviewPreference
+  );
   return (
-    <Flex justify="center" align="center" css={{ size: "100%", bg: "$mainBg" }}>
-      <Box
-        css={{
-          position: "relative",
-          overflow: "hidden",
-          w: "37.5rem",
-          maxWidth: "80%",
-          h: "75%",
-          maxHeight: "42.5rem",
-          r: "$3",
-          m: "0 auto",
-          backgroundImage: `url(${PlaceholderBg})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          "@md": {
-            width: "100%",
-            height: "100%",
-            maxWidth: "unset",
-            maxHeight: "unset",
-          },
-        }}
-      >
-        <Flex
-          align="center"
-          direction="column"
-          css={{
-            position: "absolute",
-            w: "100%",
-            top: 0,
-            left: 0,
-            pt: "20%",
-            textAlign: "center",
-            background:
-              "linear-gradient(rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%)",
-          }}
-        >
-          <SunWithFace width={72} height={72} />
-          <Text
-            color="white"
-            variant="h5"
-            css={{ fontWeight: "$semiBold", mt: "$12" }}
-          >
-            You left the room
-          </Text>
-          <Text
-            color="white"
-            variant="h5"
-            css={{
-              mt: "$8",
-              fontWeight: "$semiBold",
-            }}
-          >
-            Have a nice day!
-          </Text>
-          <HorizontalDivider
-            css={{ bg: "$textPrimary", maxWidth: "50%", m: "$10 0" }}
-          />
-          <Flex justify="center">
-            <Button
-              onClick={() => {
-                let previewUrl = "/preview/" + roomId;
-                if (role) previewUrl += "/" + role;
-                navigate(previewUrl);
-                ToastManager.clearAllToast();
-              }}
-              css={{ mx: "$4" }}
-              data-testid="join_again_btn"
-            >
-              Join Again
-            </Button>
-            <Button
-              variant="standard"
-              onClick={() => {
-                window.open("https://dashboard.100ms.live/", "_blank");
-              }}
-              css={{ mx: "$4" }}
-              data-testid="go_to_dashboard_btn"
-            >
-              Go to dashboard
-            </Button>
-          </Flex>
-        </Flex>
+    <Flex direction="column" css={{ size: "100%" }}>
+      <Box css={{ h: "$18", "@md": { h: "$17" } }} data-testid="header">
+        <Header isPreview />
       </Box>
+      <Flex
+        justify="center"
+        direction="column"
+        align="center"
+        css={{ bg: "$mainBg", flex: "1 1 0", position: "relative" }}
+      >
+        <Text variant="h2" css={{ fontWeight: "$semiBold" }}>
+          👋
+        </Text>
+        <Text
+          variant="h4"
+          css={{ color: "$textHighEmp", fontWeight: "$semiBold", mt: "$12" }}
+        >
+          You left the stream
+        </Text>
+        <Text
+          variant="body1"
+          css={{ color: "$textMedEmp", mt: "$8", fontWeight: "$regular" }}
+        >
+          Have a nice day
+          {previewPreference.name && `, ${previewPreference.name}`}!
+        </Text>
+        <Flex css={{ mt: "$14", gap: "$10", alignItems: "center" }}>
+          <Text
+            variant="body1"
+            css={{ color: "$textMedEmp", fontWeight: "$regular" }}
+          >
+            Left by mistake?
+          </Text>
+          <Button
+            onClick={() => {
+              let previewUrl = "/preview/" + roomId;
+              if (role) previewUrl += "/" + role;
+              navigate(previewUrl);
+              ToastManager.clearAllToast();
+            }}
+            data-testid="join_again_btn"
+          >
+            <ExitIcon />
+            <Text css={{ ml: "$3", fontWeight: "$semiBold" }}>Rejoin</Text>
+          </Button>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };
