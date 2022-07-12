@@ -42,7 +42,11 @@ export const StatsForNerds = ({ onOpenChange }) => {
   return (
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
       <Dialog.Content
-        css={{ width: "min(500px, 100%)", bg: "$surfaceDefault" }}
+        css={{
+          width: "min(500px, 100%)",
+          bg: "$surfaceDefault",
+          border: "solid $space$px $borderDefault",
+        }}
       >
         {/* Title */}
         <Dialog.Title>
