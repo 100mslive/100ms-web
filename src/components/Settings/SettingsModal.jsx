@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useMedia } from "react-use";
 import {
   SettingsIcon,
@@ -23,22 +23,17 @@ import { LayoutSettings } from "./LayoutSettings";
 const SettingsModal = ({ open, onOpenChange, children }) => {
   const mediaQueryLg = cssConfig.media.md;
   const isMobile = useMedia(mediaQueryLg);
-  const [selection, setSelection] = useState(isMobile ? "" : "devices");
-  const resetTriggered = useRef(false);
+  const [selection, setSelection] = useState("");
   const resetSelection = useCallback(() => {
     setSelection("");
   }, []);
 
   useEffect(() => {
-    if (isMobile && selection && !resetTriggered.current) {
-      resetSelection();
-      resetTriggered.current = true;
-    }
-  }, [isMobile, resetSelection, selection]);
+    setSelection(isMobile ? "" : "devices");
+  }, [isMobile]);
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Content
         css={{
           w: "min(800px, 90%)",
@@ -47,8 +42,8 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
         }}
       >
         <Tabs.Root
-          defaultValue=""
           value={selection}
+          activationMode={isMobile ? "manual" : "automatic"}
           onValueChange={setSelection}
           css={{ size: "100%", position: "relative" }}
         >

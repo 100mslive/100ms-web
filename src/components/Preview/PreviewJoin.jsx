@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState, Fragment } from "react";
 import {
   usePreviewJoin,
   selectLocalPeer,
@@ -77,10 +77,13 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   }, [token, skipPreview]);
   return (
     <Container>
-      <Text variant="h4" css={{ wordBreak: "break-all" }}>
+      <Text variant="h4" css={{ wordBreak: "break-all", textAlign: "center" }}>
         Let's get you started, {name}!
       </Text>
-      <Text css={{ c: "$textMedEmp", my: "$6" }} variant="body1">
+      <Text
+        css={{ c: "$textMedEmp", my: "$6", textAlign: "center" }}
+        variant="body1"
+      >
         Let's get your studio setup ready in less than 5 minutes!
       </Text>
       <Flex
@@ -105,6 +108,7 @@ const Container = styled("div", {
   width: "100%",
   ...flexCenter,
   flexDirection: "column",
+  px: "$10",
 });
 
 const PreviewTile = ({ name }) => {
@@ -124,8 +128,7 @@ const PreviewTile = ({ name }) => {
         mt: "$12",
         "@sm": {
           height: "unset",
-          width: "min(360px, 90%)",
-          maxWidth: "90%",
+          width: "min(360px, 100%)",
         },
       }}
       ref={borderAudioRef}
@@ -160,11 +163,7 @@ const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
       justify="between"
       css={{
         width: "100%",
-        marginTop: "$8",
-        "@sm": {
-          width: "min(360px, 90%)",
-          maxWidth: "90%",
-        },
+        mt: "$8",
       }}
     >
       <Flex>
@@ -172,11 +171,7 @@ const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
         <VirtualBackground />
       </Flex>
       <Flex>
-        <SettingsModal>
-          <IconButton data-testid="preview_setting_btn">
-            <SettingsIcon />
-          </IconButton>
-        </SettingsModal>
+        <PreviewSettings />
         <Button
           onClick={savePreferenceAndJoin}
           disabled={!enableJoin}
@@ -189,5 +184,20 @@ const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
     </Flex>
   );
 };
+
+const PreviewSettings = React.memo(() => {
+  const [open, setOpen] = useState(false);
+  return (
+    <Fragment>
+      <IconButton
+        data-testid="preview_setting_btn"
+        onClick={() => setOpen(value => !value)}
+      >
+        <SettingsIcon />
+      </IconButton>
+      {open && <SettingsModal open={open} onOpenChange={setOpen} />}
+    </Fragment>
+  );
+});
 
 export default PreviewJoin;
