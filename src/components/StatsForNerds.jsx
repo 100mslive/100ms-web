@@ -12,11 +12,12 @@ import {
   Box,
   Flex,
   Switch,
-  Select,
+  Dropdown,
   Label,
   HorizontalDivider,
 } from "@100mslive/react-ui";
 import { AppContext } from "./context/AppContext";
+import { DialogDropdownTrigger } from "../primitives/DropdownTrigger";
 
 export const StatsForNerds = ({ onOpenChange }) => {
   const tracksWithLabels = useTracksWithLabel();
@@ -29,6 +30,7 @@ export const StatsForNerds = ({ onOpenChange }) => {
   );
   const [selectedStat, setSelectedStat] = useState("local-peer");
   const { showStatsOnTiles, setShowStatsOnTiles } = useContext(AppContext);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (
@@ -43,13 +45,11 @@ export const StatsForNerds = ({ onOpenChange }) => {
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
       <Dialog.Content
         css={{
-          width: "min(500px, 100%)",
-          bg: "$surfaceDefault",
-          border: "solid $space$px $borderDefault",
+          width: "min(500px, 95%)",
         }}
       >
         {/* Title */}
-        <Dialog.Title>
+        <Dialog.Title css={{ p: "$4 0" }}>
           <Flex justify="between">
             <Flex align="center" css={{ mb: "$1" }}>
               <Text variant="h6" inline>
@@ -71,22 +71,56 @@ export const StatsForNerds = ({ onOpenChange }) => {
           </Text>
         </Flex>
         {/* Select */}
-        <Flex direction="column" css={{ gap: "$4", mb: "$12" }}>
+        <Flex
+          direction="column"
+          css={{
+            gap: "$4",
+            mb: "$12",
+            position: "relative",
+            minWidth: 0,
+            "[data-radix-popper-content-wrapper]": {
+              w: "100%",
+              minWidth: "0 !important",
+              mt: "$4",
+              transform: "translateY($space$20) !important",
+              zIndex: 11,
+            },
+          }}
+        >
           <Label variant="body2">Stats For</Label>
-          <Select.Root data-testid="dialog_select_Stats For">
-            <Select.DefaultDownIcon />
-            <Select.Select
-              onChange={e => setSelectedStat(e.target.value)}
-              value={selectedStat}
-              css={{ width: "100%" }}
+          <Dropdown.Root
+            data-testid="dialog_select_Stats For"
+            open={open}
+            onOpenChange={setOpen}
+          >
+            <DialogDropdownTrigger
+              title={
+                statsOptions.find(({ id }) => id === selectedStat)?.label ||
+                "Select Stats"
+              }
+              open={open}
+            />
+            <Dropdown.Content
+              align="start"
+              sideOffset={8}
+              css={{ w: "100%" }}
+              portalled={false}
             >
               {statsOptions.map(option => (
-                <option value={option["id"]} key={option["id"]}>
-                  {option["label"]}
-                </option>
+                <Dropdown.Item
+                  key={option.id}
+                  onClick={() => {
+                    setSelectedStat(option.id);
+                  }}
+                  css={{
+                    bg: option.id === selectedStat ? "$primaryDark" : undefined,
+                  }}
+                >
+                  {option.label}
+                </Dropdown.Item>
               ))}
-            </Select.Select>
-          </Select.Root>
+            </Dropdown.Content>
+          </Dropdown.Root>
         </Flex>
         {/* Stats */}
         {selectedStat === "local-peer" ? (
@@ -180,7 +214,7 @@ const TrackStats = ({ trackID }) => {
 };
 
 const StatsRow = ({ label, value }) => (
-  <Box css={{ bg: "$surfaceLight", w: "47%", p: "$8", r: "$3" }}>
+  <Box css={{ bg: "$surfaceLight", w: "calc(50% - $6)", p: "$8", r: "$3" }}>
     <Text
       variant="overline"
       css={{

@@ -6,23 +6,17 @@ import {
   selectLocalVideoTrackID,
   selectIsLocalVideoEnabled,
 } from "@100mslive/react-sdk";
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  MicOnIcon,
-  SpeakerIcon,
-  VideoOnIcon,
-} from "@100mslive/react-icons";
+import { MicOnIcon, SpeakerIcon, VideoOnIcon } from "@100mslive/react-icons";
 import {
   Button,
   Text,
   Flex,
   Dropdown,
   Box,
-  textEllipsis,
   StyledVideoTile,
   Video,
 } from "@100mslive/react-ui";
+import { DialogDropdownTrigger } from "../../primitives/DropdownTrigger";
 
 /**
  * wrap the button on click of whom settings should open, this component will take care of the rest,
@@ -132,15 +126,8 @@ const DeviceSelector = ({
           }}
         >
           <Dropdown.Root open={open} onOpenChange={setOpen}>
-            <Dropdown.Trigger
-              asChild
-              data-testid={`${title}_selector`}
+            <DialogDropdownTrigger
               css={{
-                border: "1px solid $borderLight",
-                bg: "$surfaceLight",
-                r: "$1",
-                p: "$6 $9",
-                zIndex: 10,
                 ...(children
                   ? {
                       flex: "1 1 0",
@@ -148,32 +135,12 @@ const DeviceSelector = ({
                     }
                   : {}),
               }}
-            >
-              <Flex
-                css={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  color: "$textHighEmp",
-                  w: "100%",
-                }}
-              >
-                {icon}
-                <Text
-                  css={{
-                    color: "inherit",
-                    ...textEllipsis("90%"),
-                    flex: "1 1 0",
-                    mx: "$6",
-                  }}
-                >
-                  {
-                    devices.find(({ deviceId }) => deviceId === selection)
-                      ?.label
-                  }
-                </Text>
-                {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
-              </Flex>
-            </Dropdown.Trigger>
+              icon={icon}
+              title={
+                devices.find(({ deviceId }) => deviceId === selection)?.label
+              }
+              open={open}
+            />
             <Dropdown.Content
               align="start"
               sideOffset={8}
