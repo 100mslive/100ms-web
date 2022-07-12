@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSearchParam } from "react-use";
 import { v4 } from "uuid";
 import { Box, Flex, Loading, styled } from "@100mslive/react-ui";
@@ -17,6 +17,7 @@ import getToken from "../services/tokenService";
 import { useSetUiSettings } from "./AppData/useUISettings";
 import PreviewContainer from "./Preview/PreviewContainer";
 import SidePane from "../layouts/SidePane";
+import { useNavigation } from "./hooks/useNavigation";
 
 /**
  * query params exposed -
@@ -30,7 +31,7 @@ import SidePane from "../layouts/SidePane";
 
 const env = process.env.REACT_APP_ENV;
 const PreviewScreen = React.memo(({ getUserToken }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigation();
   const { tokenEndpoint } = useContext(AppContext);
   const [, setIsHeadless] = useSetUiSettings(UI_SETTINGS.isHeadless);
   const { roomId: urlRoomId, role: userRole } = useParams(); // from the url

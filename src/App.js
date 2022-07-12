@@ -13,7 +13,7 @@ import { Notifications } from "./components/Notifications";
 import { Confetti } from "./plugins/confetti";
 import { ToastContainer } from "./components/Toast/ToastContainer";
 import { FeatureFlags } from "./services/FeatureFlags";
-import { shadeColor } from "./common/utils";
+import { getRoutePrefix, shadeColor } from "./common/utils";
 import {
   getUserToken as defaultGetUserToken,
   getBackendEndpoint,
@@ -148,16 +148,76 @@ const RedirectToPreview = ({ getDetails }) => {
     getDetails();
   }, [roomId]); //eslint-disable-line
 
+  console.error({ roomId, role });
+
   if (!roomId && !role) {
     return <Navigate to="/" />;
   }
   if (!roomId) {
     return <Navigate to="/" />;
   }
-  if (["preview", "meeting", "leave"].includes(roomId) && !role) {
+  if (["streaming", "preview", "meeting", "leave"].includes(roomId) && !role) {
     return <Navigate to="/" />;
   }
-  return <Navigate to={`/preview/${roomId}/${role || ""}`} />;
+
+  return (
+    <Navigate to={`${getRoutePrefix()}/preview/${roomId}/${role || ""}`} />
+  );
+};
+
+const RouteList = ({ getUserToken, getDetails }) => {
+  return (
+    <Routes>
+      <Route path="preview">
+        <Route
+          path=":roomId/:role"
+          element={
+            <Suspense fallback={<FullPageProgress />}>
+              <PreviewScreen getUserToken={getUserToken} />
+            </Suspense>
+          }
+        />
+        <Route
+          path=":roomId"
+          element={
+            <Suspense fallback={<FullPageProgress />}>
+              <PreviewScreen getUserToken={getUserToken} />
+            </Suspense>
+          }
+        />
+      </Route>
+      <Route path="meeting">
+        <Route
+          path=":roomId/:role"
+          element={
+            <Suspense fallback={<FullPageProgress />}>
+              <Conference />
+            </Suspense>
+          }
+        />
+        <Route
+          path=":roomId"
+          element={
+            <Suspense fallback={<FullPageProgress />}>
+              <Conference />
+            </Suspense>
+          }
+        />
+      </Route>
+      <Route path="leave">
+        <Route path=":roomId/:role" element={<PostLeave />} />
+        <Route path=":roomId" element={<PostLeave />} />
+      </Route>
+      <Route
+        path="/:roomId/:role"
+        element={<RedirectToPreview getDetails={getDetails} />}
+      />
+      <Route
+        path="/:roomId/"
+        element={<RedirectToPreview getDetails={getDetails} />}
+      />
+    </Routes>
+  );
 };
 
 function AppRoutes({ getUserToken, appDetails, recordingUrl, getDetails }) {
@@ -170,60 +230,16 @@ function AppRoutes({ getUserToken, appDetails, recordingUrl, getDetails }) {
       <KeyboardHandler />
       <Routes>
         <Route
-          path="/preview/:roomId/:role"
+          path="/*"
           element={
-            <Suspense fallback={<FullPageProgress />}>
-              <PreviewScreen getUserToken={getUserToken} />
-            </Suspense>
+            <RouteList getUserToken={getUserToken} getDetails={getDetails} />
           }
         />
         <Route
-          path="/preview/:roomId/"
+          path="/streaming/*"
           element={
-            <Suspense fallback={<FullPageProgress />}>
-              <PreviewScreen getUserToken={getUserToken} />
-            </Suspense>
+            <RouteList getUserToken={getUserToken} getDetails={getDetails} />
           }
-        />
-        <Route
-          path="/meeting/:roomId/:role"
-          element={
-            <Suspense fallback={<FullPageProgress />}>
-              <Conference />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/meeting/:roomId/"
-          element={
-            <Suspense fallback={<FullPageProgress />}>
-              <Conference />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/leave/:roomId/:role"
-          element={
-            <Suspense fallback={<FullPageProgress />}>
-              <PostLeave />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/leave/:roomId/"
-          element={
-            <Suspense fallback={<FullPageProgress />}>
-              <PostLeave />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/:roomId/:role"
-          element={<RedirectToPreview getDetails={getDetails} />}
-        />
-        <Route
-          path="/:roomId/"
-          element={<RedirectToPreview getDetails={getDetails} />}
         />
         <Route path="*" element={<ErrorPage error="Invalid URL!" />} />
       </Routes>

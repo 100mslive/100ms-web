@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { SunWithFace } from "@100mslive/react-icons";
 import {
   Box,
@@ -10,9 +10,10 @@ import {
 } from "@100mslive/react-ui";
 import PlaceholderBg from "../images/post_leave.png";
 import { ToastManager } from "./Toast/ToastManager";
+import { useNavigation } from "./hooks/useNavigation";
 
 const PostLeave = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigation();
   const { roomId, role } = useParams();
   return (
     <Flex justify="center" align="center" css={{ size: "100%", bg: "$mainBg" }}>

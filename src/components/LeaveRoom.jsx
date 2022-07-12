@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   selectPermissions,
   useHMSActions,
@@ -20,9 +20,10 @@ import {
   DialogContent,
   DialogRow,
 } from "../primitives/DialogContent";
+import { useNavigation } from "./hooks/useNavigation";
 
 export const LeaveRoom = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigation();
   const params = useParams();
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
