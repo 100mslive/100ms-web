@@ -1,12 +1,7 @@
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
-import { useVirtual } from "@tanstack/react-virtual";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { useDebounce } from "react-use";
+import { FixedSizeList } from "react-window";
+
 import {
   selectAudioTrackByPeerID,
   selectLocalPeerID,
@@ -144,52 +139,40 @@ export const ParticipantCount = () => {
   );
 };
 
+const PARTICIPANT_ROW_HEIGHT = 68;
+// $96 => 24rem => 384px
+const PARTICIPANT_LIST_MAX_HEIGHT =
+  21 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+
 const VirtualizedParticipants = ({
   participants,
+  canChangeRole,
   isConnected,
   setSelectedPeerId,
 }) => {
-  const parentRef = useRef(null);
-  const rowVirtualizer = useVirtual({
-    size: participants.length,
-    parentRef,
-    estimateSize: useCallback(() => 60, []),
-  });
-
   return (
-    <Box
-      ref={parentRef}
-      css={{ flex: "1 1 0", overflowY: "auto", mr: "-$10", pr: "$10" }}
+    <FixedSizeList
+      itemSize={68}
+      itemCount={participants.length}
+      width="100%"
+      height={Math.min(
+        PARTICIPANT_LIST_MAX_HEIGHT,
+        participants.length * PARTICIPANT_ROW_HEIGHT
+      )}
     >
-      <div
-        style={{
-          height: `${rowVirtualizer.totalSize}px`,
-          width: "100%",
-          position: "relative",
-        }}
-      >
-        {rowVirtualizer.virtualItems.map(virtualRow => (
-          <div
-            key={virtualRow.index}
-            ref={virtualRow.measureElement}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              transform: `translateY(${virtualRow.start}px)`,
-            }}
-          >
+      {({ index, style }) => {
+        return (
+          <div style={style} key={participants[index].id}>
             <Participant
-              peer={participants[virtualRow.index]}
-              key={participants[virtualRow.index].id}
+              peer={participants[index]}
+              canChangeRole={canChangeRole}
               showActions={isConnected}
               onParticipantAction={setSelectedPeerId}
             />
           </div>
-        ))}
-      </div>
-    </Box>
+        );
+      }}
+    </FixedSizeList>
   );
 };
 
