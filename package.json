@@ -14,6 +14,7 @@
     "@100mslive/react-icons": "0.2.1-alpha.0",
     "@100mslive/react-sdk": "0.2.1-alpha.0",
     "@100mslive/react-ui": "0.2.1-alpha.0",
+    "@emoji-mart/data": "^1.0.2",
     "@tldraw/tldraw": "^1.5.0",
     "emoji-mart": "^5.1.0",
     "hls.js": "^1.1.1",
