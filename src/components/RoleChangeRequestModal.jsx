@@ -27,7 +27,6 @@ export const RoleChangeRequestModal = () => {
       onAction={() => {
         hmsActions.acceptChangeRole(roleChangeRequest);
       }}
-      Icon={PersonIcon}
       actionText="Accept"
     />
   );
