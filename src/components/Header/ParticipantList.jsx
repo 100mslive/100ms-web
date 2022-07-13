@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useEffect, useState } from "react";
-import { useDebounce } from "react-use";
+import { useDebounce, useMeasure } from "react-use";
 import { FixedSizeList } from "react-window";
 import {
   selectAudioTrackByPeerID,
@@ -138,40 +138,35 @@ export const ParticipantCount = () => {
   );
 };
 
-const PARTICIPANT_ROW_HEIGHT = 68;
-// $96 => 24rem => 384px
-const PARTICIPANT_LIST_MAX_HEIGHT =
-  21 * parseFloat(getComputedStyle(document.documentElement).fontSize);
-
 const VirtualizedParticipants = ({
   participants,
   canChangeRole,
   isConnected,
   setSelectedPeerId,
 }) => {
+  const [ref, { width, height }] = useMeasure();
   return (
-    <FixedSizeList
-      itemSize={68}
-      itemCount={participants.length}
-      width="100%"
-      height={Math.min(
-        PARTICIPANT_LIST_MAX_HEIGHT,
-        participants.length * PARTICIPANT_ROW_HEIGHT
-      )}
-    >
-      {({ index, style }) => {
-        return (
-          <div style={style} key={participants[index].id}>
-            <Participant
-              peer={participants[index]}
-              canChangeRole={canChangeRole}
-              showActions={isConnected}
-              onParticipantAction={setSelectedPeerId}
-            />
-          </div>
-        );
-      }}
-    </FixedSizeList>
+    <Box ref={ref} css={{ flex: "1 1 0" }}>
+      <FixedSizeList
+        itemSize={68}
+        itemCount={participants.length}
+        width={width}
+        height={height}
+      >
+        {({ index, style }) => {
+          return (
+            <div style={style} key={participants[index].id}>
+              <Participant
+                peer={participants[index]}
+                canChangeRole={canChangeRole}
+                showActions={isConnected}
+                onParticipantAction={setSelectedPeerId}
+              />
+            </div>
+          );
+        }}
+      </FixedSizeList>
+    </Box>
   );
 };
 
