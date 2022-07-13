@@ -10,6 +10,7 @@ import {
   useUserPreferences,
   defaultPreviewPreference,
 } from "./hooks/useUserPreferences";
+import { getRoutePrefix } from "../common/utils";
 
 const PostLeave = () => {
   const navigate = useNavigation();
@@ -36,7 +37,7 @@ const PostLeave = () => {
           variant="h4"
           css={{ color: "$textHighEmp", fontWeight: "$semiBold", mt: "$12" }}
         >
-          You left the stream
+          You left the {getRoutePrefix() ? "stream" : "room"}
         </Text>
         <Text
           variant="body1"
