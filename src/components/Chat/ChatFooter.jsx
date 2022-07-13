@@ -30,6 +30,8 @@ function EmojiPicker({ onSelect }) {
         ref,
         onEmojiSelect: onSelect,
         style: { width: "90% !important" },
+        previewPosition: "none",
+        skinPosition: "search",
       });
     }
   }, []); //eslint-disable-line
@@ -113,6 +115,7 @@ export const ChatFooter = ({ role, peerId, onSend, children }) => {
           </IconButton>
         </Popover.Trigger>
         <Popover.Content
+          sideOffset={16}
           css={{
             p: 0,
             "em-emoji-picker": {
