@@ -106,7 +106,8 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
         <SidePane
           css={{
             position: "unset",
-            "@lg": { position: "absolute" },
+            mr: "$10",
+            "@lg": { position: "absolute", mr: "$0" },
           }}
         />
       </Flex>

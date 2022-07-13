@@ -52,7 +52,7 @@ export const Header = ({ isPreview }) => {
       <Flex align="center" css={{ position: "absolute", right: "$10" }}>
         {showPip && <PIPComponent />}
         <StreamActions />
-        <Box css={{ mx: "$2" }}>
+        <Box css={{ ml: "$2" }}>
           <ParticipantCount />
         </Box>
       </Flex>

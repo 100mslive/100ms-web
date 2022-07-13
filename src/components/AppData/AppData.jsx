@@ -5,7 +5,11 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { useSidepaneReset, useSidepaneState } from "./useSidepane";
-import { APP_DATA, UI_SETTINGS } from "../../common/constants";
+import {
+  APP_DATA,
+  SIDE_PANE_OPTIONS,
+  UI_SETTINGS,
+} from "../../common/constants";
 
 export const getAppDetails = appDetails => {
   try {
@@ -22,7 +26,7 @@ export function AppData({ appDetails, recordingUrl }) {
   const resetSidePane = useSidepaneReset();
 
   useEffect(() => {
-    if (!isConnected && sidePane) {
+    if (!isConnected && sidePane !== SIDE_PANE_OPTIONS.PARTICIPANTS) {
       resetSidePane();
     }
   }, [isConnected, sidePane, resetSidePane]);
