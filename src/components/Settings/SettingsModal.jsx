@@ -34,11 +34,14 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
+      <Dialog.Overlay />
       <Dialog.Content
         css={{
           w: "min(800px, 90%)",
           height: "min(656px, 90%)",
           p: 0,
+          r: "$4",
         }}
       >
         <Tabs.Root
@@ -51,8 +54,10 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
             css={{
               w: isMobile ? "100%" : "18.625rem",
               flexDirection: "column",
-              bg: "$bgPrimary",
+              bg: "$backgroundDefault",
               p: "$14 $10",
+              borderTopLeftRadius: "$4",
+              borderBottomLeftRadius: "$4",
             }}
           >
             <Text variant="h5">Settings </Text>

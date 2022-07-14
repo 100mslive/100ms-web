@@ -31,6 +31,7 @@ const SidePane = ({ css = {} }) => {
         top: 0,
         right: "$10",
         zIndex: 10,
+        boxShadow: "$md",
         ...css,
         "@lg": {
           w: "100%",

@@ -131,7 +131,7 @@ export const ParticipantCount = () => {
       data-testid="participant_list"
     >
       <PeopleIcon />
-      <Text variant="sm" css={{ mx: "$4" }}>
+      <Text variant="sm" css={{ mx: "$4", c: "inherit" }}>
         {peerCount}
       </Text>
     </IconButton>

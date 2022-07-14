@@ -28,7 +28,7 @@ const Wrapper = styled("div", {
   bottom: "$2",
   left: "$2",
   zIndex: 10,
-  backgroundColor: "$black",
+  backgroundColor: "$backgroundDark",
   borderRadius: "$1",
   "& p,span": {
     p: "$2 $3",

@@ -194,12 +194,9 @@ const TestAudio = ({ id }) => {
       <Button
         variant="standard"
         css={{
-          backgroundColor: "$secondaryDefault",
-          color: "$textPrimary",
           flexShrink: 0,
           ml: "$4",
           p: "$6 $9",
-          border: "1px solid $secondaryDefault",
         }}
         onClick={() => audioRef.current?.play()}
         disabled={playing}

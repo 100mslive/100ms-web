@@ -149,7 +149,7 @@ const GoLive = () => {
       css={{ mx: "$2" }}
     >
       <GoLiveIcon />
-      <Text css={{ mx: "$2" }}>Go Live</Text>
+      <Text css={{ mx: "$2", c: "$textAccentHigh" }}>Go Live</Text>
     </Button>
   );
 };
