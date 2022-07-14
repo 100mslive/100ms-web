@@ -129,7 +129,7 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
           )}
         </Tabs.Root>
         <Dialog.Close css={{ position: "absolute", right: "$10", top: "$10" }}>
-          <IconButton as="div">
+          <IconButton as="div" data-testid="dialog_cross_icon">
             <CrossIcon />
           </IconButton>
         </Dialog.Close>
