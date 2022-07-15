@@ -1,4 +1,10 @@
-import { HandIcon, PersonIcon, ChatIcon } from "@100mslive/react-icons";
+import {
+  HandIcon,
+  PersonIcon,
+  ChatIcon,
+  ConnectivityIcon,
+  PoorConnectivityIcon,
+} from "@100mslive/react-icons";
 
 export const ToastConfig = {
   PEER_LIST: {
@@ -84,6 +90,28 @@ export const ToastConfig = {
       return {
         title: `${notifications.length} new messages`,
         icon: <ChatIcon />,
+      };
+    },
+  },
+  RECONNECTED: {
+    single: () => {
+      return {
+        title: `You are now connected`,
+        icon: <ConnectivityIcon />,
+        variant: "success",
+        duration: 3000,
+      };
+    },
+  },
+  RECONNECTING: {
+    single: () => {
+      return {
+        title: `You are offline for now. while we try to reconnect, please check
+        your internet connection.
+      `,
+        icon: <PoorConnectivityIcon />,
+        variant: "warning",
+        duration: 10000,
       };
     },
   },
