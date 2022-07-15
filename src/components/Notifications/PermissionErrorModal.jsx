@@ -65,7 +65,7 @@ export function PermissionErrorModal() {
           Access to {deviceType} is required.&nbsp;
           {isSystemError
             ? `Enable permissions for ${deviceType} from sytem settings`
-            : "If you didn't get a permission dialog, please try refreshing or open in incognito window."}
+            : `Enable permissions for ${deviceType} from address bar or browser settings`}
         </Text>
       </Dialog.Content>
     </Dialog.Root>
