@@ -107,7 +107,7 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
           css={{
             position: "unset",
             mr: "$10",
-            "@lg": { position: "absolute", mr: "$0" },
+            "@lg": { position: "fixed", mr: "$0" },
           }}
         />
       </Flex>

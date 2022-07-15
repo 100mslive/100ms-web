@@ -31,6 +31,7 @@ import { ToastManager } from "../components/Toast/ToastManager";
 const HLSVideo = styled("video", {
   h: "100%",
   margin: "0 auto",
+  px: "$10",
 });
 
 let hlsController;
@@ -119,7 +120,7 @@ const HLSView = () => {
     <Fragment>
       {hlsUrl ? (
         <>
-          <Flex align="center" css={{ position: "absolute", right: "$4" }}>
+          <Flex align="center" css={{ position: "absolute", right: "$10" }}>
             <Dropdown.Root
               open={qualityDropDownOpen}
               onOpenChange={value => setQualityDropDownOpen(value)}
@@ -130,7 +131,7 @@ const HLSView = () => {
                     color: "$textPrimary",
                     borderRadius: "$1",
                     cursor: "pointer",
-                    zIndex: 40,
+                    zIndex: 4,
                     border: "1px solid $textDisabled",
                     padding: "$2 $4",
                   }}
@@ -201,7 +202,7 @@ const HLSView = () => {
           <HLSVideo ref={videoRef} autoPlay controls playsInline />
         </>
       ) : (
-        <Flex align="center" justify="center" css={{ size: "100%" }}>
+        <Flex align="center" justify="center" css={{ size: "100%", px: "$10" }}>
           <Text variant="md" css={{ textAlign: "center" }}>
             Waiting for the Streaming to start...
           </Text>

@@ -4,6 +4,7 @@ export const UserPreferencesKeys = {
   PREVIEW: "preview",
   NOTIFICATIONS: "notifications",
   UI_SETTINGS: "uiSettings",
+  RTMP_URLS: "rtmpUrls",
 };
 
 export const defaultPreviewPreference = {
