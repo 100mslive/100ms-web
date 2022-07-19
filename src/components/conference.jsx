@@ -9,13 +9,13 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { Box, Flex } from "@100mslive/react-ui";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
 import FullPageProgress from "./FullPageProgress";
 import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
 import { ConferenceMainView } from "../layouts/mainView";
-import { useIsHeadless } from "./AppData/useUISettings";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
 import { useNavigation } from "./hooks/useNavigation";
+import { useIsHeadless } from "./AppData/useUISettings";
 
 const Conference = () => {
   const navigate = useNavigation();

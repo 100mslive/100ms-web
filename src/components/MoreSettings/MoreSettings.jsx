@@ -11,7 +11,7 @@ import {
   selectPermissions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Box, Dropdown, IconButton, Text, Tooltip } from "@100mslive/react-ui";
+import { Box, Dropdown, Text, Tooltip } from "@100mslive/react-ui";
 import { ChangeSelfRole } from "./ChangeSelfRole";
 import { FullScreenItem } from "./FullScreenItem";
 import SettingsModal from "../Settings/SettingsModal";
@@ -19,15 +19,14 @@ import { RoleChangeModal } from "../RoleChangeModal";
 import { ChangeNameModal } from "./ChangeNameModal";
 import { StatsForNerds } from "../StatsForNerds";
 import { MuteAllModal } from "./MuteAllModal";
-import { RecordingAndRTMPModal } from "./RecordingAndRTMPModal";
 import { FeatureFlags } from "../../services/FeatureFlags";
+import IconButton from "../../IconButton";
 
 export const MoreSettings = () => {
   const permissions = useHMSStore(selectPermissions);
   const localPeerId = useHMSStore(selectLocalPeerID);
   const [open, setOpen] = useState(false);
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
-  const [showRecordingModal, setShowRecordingModal] = useState(false);
   const [showMuteAll, setShowMuteAll] = useState(false);
   const [showDeviceSettings, setShowDeviceSettings] = useState(false);
   const [showStatsForNerds, setShowStatsForNerds] = useState(false);
@@ -102,9 +101,6 @@ export const MoreSettings = () => {
       {showMuteAll && <MuteAllModal onOpenChange={setShowMuteAll} />}
       {showChangeNameModal && (
         <ChangeNameModal onOpenChange={setShowChangeNameModal} />
-      )}
-      {showRecordingModal && (
-        <RecordingAndRTMPModal onOpenChange={setShowRecordingModal} />
       )}
       {showDeviceSettings && (
         <SettingsModal open onOpenChange={setShowDeviceSettings} />

@@ -74,7 +74,6 @@ export const StatsForNerds = ({ onOpenChange }) => {
         <Flex
           direction="column"
           css={{
-            gap: "$4",
             mb: "$12",
             position: "relative",
             minWidth: 0,
@@ -98,6 +97,7 @@ export const StatsForNerds = ({ onOpenChange }) => {
                 statsOptions.find(({ id }) => id === selectedStat)?.label ||
                 "Select Stats"
               }
+              css={{ mt: "$4" }}
               open={open}
             />
             <Dropdown.Content
@@ -114,6 +114,7 @@ export const StatsForNerds = ({ onOpenChange }) => {
                   }}
                   css={{
                     bg: option.id === selectedStat ? "$primaryDark" : undefined,
+                    c: option.id === selectedStat ? "$white" : "$textPrimary",
                   }}
                 >
                   {option.label}

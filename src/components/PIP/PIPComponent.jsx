@@ -7,11 +7,12 @@ import {
   selectRemotePeers,
   selectTracksMap,
 } from "@100mslive/react-sdk";
-import { IconButton, Tooltip } from "@100mslive/react-ui";
+import { Tooltip } from "@100mslive/react-ui";
 import { PipIcon } from "@100mslive/react-icons";
 import { PictureInPicture } from "./PIPManager";
 import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
 import { MediaSession } from "./SetupMediaSession";
+import IconButton from "../../IconButton";
 
 /**
  * shows a button which when clicked shows some videos in PIP, clicking
@@ -51,13 +52,13 @@ const PIPComponent = () => {
   ) {
     return null;
   }
-
   return (
     <>
       <Tooltip
         title={`${isPipOn ? "Deactivate" : "Activate"} Person in Person view`}
       >
         <IconButton
+          css={{ mx: "$4" }}
           active={!isPipOn}
           key="pip"
           onClick={() => onPipToggle()}

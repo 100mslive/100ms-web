@@ -8,7 +8,8 @@ import {
   useDevices,
 } from "@100mslive/react-sdk";
 import { AudioLevelIcon } from "@100mslive/react-icons";
-import { IconButton, Tooltip } from "@100mslive/react-ui";
+import { Tooltip } from "@100mslive/react-ui";
+import IconButton from "../IconButton";
 import { FeatureFlags } from "../services/FeatureFlags";
 
 export const NoiseSuppression = () => {

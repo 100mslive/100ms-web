@@ -63,7 +63,9 @@ const PostLeave = () => {
             data-testid="join_again_btn"
           >
             <ExitIcon />
-            <Text css={{ ml: "$3", fontWeight: "$semiBold" }}>Rejoin</Text>
+            <Text css={{ ml: "$3", fontWeight: "$semiBold", color: "inherit" }}>
+              Rejoin
+            </Text>
           </Button>
         </Flex>
       </Flex>

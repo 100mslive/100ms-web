@@ -1,11 +1,12 @@
 import { Fragment, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
+  selectIsConnectedToRoom,
   selectPermissions,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { HangUpIcon } from "@100mslive/react-icons";
+import { HangUpIcon, ExitIcon } from "@100mslive/react-icons";
 import {
   Button,
   Popover,
@@ -14,6 +15,8 @@ import {
   Box,
   IconButton,
   styled,
+  Text,
+  Flex,
 } from "@100mslive/react-ui";
 import {
   DialogCheckbox,
@@ -22,11 +25,12 @@ import {
 } from "../primitives/DialogContent";
 import { useNavigation } from "./hooks/useNavigation";
 
-export const LeaveRoom = () => {
+export const LeaveRoom = ({ isConference = true }) => {
   const navigate = useNavigation();
   const params = useParams();
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
   const permissions = useHMSStore(selectPermissions);
   const hmsActions = useHMSActions();
 
@@ -48,6 +52,10 @@ export const LeaveRoom = () => {
     redirectToLeavePage();
   };
 
+  if (!permissions || !isConnected) {
+    return null;
+  }
+
   return (
     <Fragment>
       {permissions.endRoom ? (
@@ -59,9 +67,18 @@ export const LeaveRoom = () => {
               data-testid="leave_room_btn"
             >
               <Tooltip title="Leave Room">
-                <Box>
-                  <HangUpIcon key="hangUp" />
-                </Box>
+                {isConference ? (
+                  <Box>
+                    <HangUpIcon key="hangUp" />
+                  </Box>
+                ) : (
+                  <Flex gap={2}>
+                    <ExitIcon key="hangUp" />
+                    <Text css={{ "@md": { display: "none" } }} variant="button">
+                      Leave Studio
+                    </Text>
+                  </Flex>
+                )}
               </Tooltip>
             </LeaveIconButton>
           </Popover.Trigger>
@@ -129,7 +146,9 @@ export const LeaveRoom = () => {
 
 const LeaveIconButton = styled(IconButton, {
   color: "$white",
-  width: "$15",
+  height: "$13",
+  px: "$4",
+  r: "$1",
   mx: "$4",
   bg: "$error",
   "&:not([disabled]):hover": {

@@ -9,16 +9,10 @@ import {
   CrossIcon,
   VideoPlayerIcon,
 } from "@100mslive/react-icons";
-import {
-  Dropdown,
-  IconButton,
-  Text,
-  Flex,
-  Tooltip,
-  Box,
-} from "@100mslive/react-ui";
+import { Dropdown, Text, Flex, Tooltip, Box } from "@100mslive/react-ui";
 import { PlaylistItem } from "./PlaylistItem";
 import { AudioPlaylistControls } from "./PlaylistControls";
+import IconButton from "../../IconButton";
 import { usePlaylist } from "../hooks/usePlaylist";
 
 const BrowseAndPlayFromLocal = ({ type, actions }) => {

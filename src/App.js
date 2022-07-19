@@ -123,6 +123,7 @@ export function EdtechComponent({
               css={{
                 bg: "$mainBg",
                 w: "100%",
+                overflow: "hidden",
                 ...(headerPresent === "true"
                   ? { flex: "1 1 0", minHeight: 0 }
                   : { h: "100%" }),

@@ -179,7 +179,7 @@ const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
           css={{ h: "$13", ml: "$4" }}
           icon
         >
-          <Text variant="button">Join</Text> <ArrowRightIcon />
+          Join <ArrowRightIcon />
         </Button>
       </Flex>
     </Flex>

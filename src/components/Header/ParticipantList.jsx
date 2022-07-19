@@ -26,7 +26,6 @@ import {
   Text,
   Avatar,
   textEllipsis,
-  IconButton,
   Input,
   Dropdown,
   Slider,
@@ -34,6 +33,7 @@ import {
 import { RoleChangeModal } from "../RoleChangeModal";
 import { ConnectionIndicator } from "../Connection/ConnectionIndicator";
 import { ParticipantFilter } from "./ParticipantFilter";
+import IconButton from "../../IconButton";
 import {
   useIsSidepaneTypeOpen,
   useSidepaneToggle,
@@ -122,6 +122,7 @@ export const ParticipantCount = () => {
   }
   return (
     <IconButton
+      css={{ w: "auto", p: "$4", h: "auto" }}
       onClick={() => {
         if (peerCount > 0) {
           toggleSidepane();

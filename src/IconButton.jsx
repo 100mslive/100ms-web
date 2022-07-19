@@ -8,7 +8,8 @@ const IconButton = styled(BaseIconButton, {
   variants: {
     active: {
       false: {
-        border: "none",
+        border: "1px solid transparent",
+        color: "$white",
       },
     },
   },

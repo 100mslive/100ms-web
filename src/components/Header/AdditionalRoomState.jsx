@@ -31,7 +31,7 @@ import { useWhiteboardMetadata } from "../../plugins/whiteboard/useWhiteboardMet
 import { UI_SETTINGS } from "../../common/constants";
 import { useUISettings } from "../AppData/useUISettings";
 
-const getRecordingText = (
+export const getRecordingText = (
   { isBrowserRecordingOn, isServerRecordingOn, isHLSRecordingOn },
   delimiter = ", "
 ) => {
@@ -118,7 +118,7 @@ export const AdditionalRoomState = () => {
             color: "$textPrimary",
             borderRadius: "$1",
             border: "1px solid $textDisabled",
-            padding: "$2 $4",
+            padding: "$4",
             mx: "$2",
           }}
           data-testid="record_status_dropdown"

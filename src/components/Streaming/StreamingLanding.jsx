@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import { useRecordingStreaming } from "@100mslive/react-sdk";
 import { CrossIcon, ColoredHandIcon, GoLiveIcon } from "@100mslive/react-icons";
 import { Flex, Box, Text, IconButton } from "@100mslive/react-ui";
 import { RTMPIcon } from "./RTMPIcon";
@@ -10,8 +11,9 @@ import { SIDE_PANE_OPTIONS } from "../../common/constants";
 
 export const StreamingLanding = () => {
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
-  const [showHLS, setShowHLS] = useState(false);
-  const [showRTMP, setShowRTMP] = useState(false);
+  const { isHLSRunning, isRTMPRunning } = useRecordingStreaming();
+  const [showHLS, setShowHLS] = useState(isHLSRunning);
+  const [showRTMP, setShowRTMP] = useState(isRTMPRunning);
 
   return (
     <Fragment>

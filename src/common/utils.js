@@ -81,3 +81,7 @@ export const getDefaultMeetingUrl = () => {
 export const getRoutePrefix = () => {
   return window.location.pathname.startsWith("/streaming") ? "/streaming" : "";
 };
+
+export const isStreamingKit = () => {
+  return window.location.pathname.startsWith("/streaming");
+};
