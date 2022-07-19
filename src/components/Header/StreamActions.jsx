@@ -96,7 +96,11 @@ export const StreamActions = () => {
   const isPublishingAnything = Object.values(isAllowedToPublish).some(
     value => !!value
   );
-  if (!isConnected || !isPublishingAnything || !permissions.streaming) {
+  if (
+    !isConnected ||
+    !isPublishingAnything ||
+    (!permissions.hlsStreaming && !permissions.rtmpStreaming)
+  ) {
     return null;
   }
   return (

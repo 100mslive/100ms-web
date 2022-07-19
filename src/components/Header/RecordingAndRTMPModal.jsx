@@ -139,7 +139,7 @@ const RecordingAndRTMPModal = ({ onOpenChange }) => {
             disabled={isAnythingRunning}
             data-testid="metting_url_field"
           />
-          {permissions.streaming && (
+          {permissions.rtmpStreaming && (
             <DialogInput
               title="RTMP Out"
               value={rtmpURL}
@@ -149,14 +149,12 @@ const RecordingAndRTMPModal = ({ onOpenChange }) => {
               data-testid="rtmp_url_field"
             />
           )}
-
           <ResolutionInput
             onResolutionChange={resolutionChangeHandler}
             disabled={hlsSelected || isHLSRunning}
             tooltipText={RTMP_RESOLUTION_IGNORED_WARNING_TEXT}
           />
-
-          {permissions.streaming && (
+          {permissions.hlsStreaming && (
             <DialogCheckbox
               title="HLS"
               id="hlsCheckbox"
@@ -165,7 +163,7 @@ const RecordingAndRTMPModal = ({ onOpenChange }) => {
               disabled={isAnythingRunning || rtmpURL[0]}
             />
           )}
-          {permissions.recording && (
+          {permissions.browserRecording && (
             <DialogCheckbox
               title="Recording"
               value={recordingSelected || isRecordingOn}

@@ -106,7 +106,7 @@ export const ContentBody = ({ Icon, title, children }) => {
 
 export const RecordStream = ({ record, setRecord }) => {
   const permissions = useHMSStore(selectPermissions);
-  return permissions.recording ? (
+  return permissions?.browserRecording ? (
     <Flex
       align="center"
       css={{ bg: "$surfaceLight", m: "$8 $10", p: "$8", r: "$0" }}
