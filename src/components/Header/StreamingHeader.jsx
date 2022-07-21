@@ -28,13 +28,21 @@ export const StreamingHeader = ({ isPreview }) => {
         {!isPreview ? <SpeakerTag /> : null}
       </Flex>
 
-      <Flex align="center" css={{ position: "absolute", right: "$10" }}>
+      <Flex
+        align="center"
+        css={{
+          position: "absolute",
+          right: "$10",
+          gap: "$4",
+          "@md": { gap: "$2" },
+        }}
+      >
         <Box css={{ display: "none", "@md": { display: "block" } }}>
           <MetaActions compact />
         </Box>
-        <Box css={{ display: "block", "@md": { display: "none" } }}>
+        <Flex css={{ gap: "$4", "@md": { display: "none" } }}>
           <StreamActions />
-        </Box>
+        </Flex>
         <ParticipantCount />
       </Flex>
     </Flex>

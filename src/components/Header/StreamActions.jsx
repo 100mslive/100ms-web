@@ -19,8 +19,8 @@ export const LiveStatus = () => {
     return null;
   }
   return (
-    <Flex align="center" css={{ ml: "$4" }}>
-      <Box css={{ w: "$4", h: "$4", r: "$round", bg: "$error", mr: "$4" }} />
+    <Flex align="center">
+      <Box css={{ w: "$4", h: "$4", r: "$round", bg: "$error", mr: "$2" }} />
       <Text>
         Live
         <Text as="span" css={{ "@md": { display: "none" } }}>
@@ -50,13 +50,27 @@ export const RecordingStatus = () => {
         isHLSRecordingOn,
       })}
     >
-      <Button
-        variant="standard"
-        outlined
-        css={{ color: "$error", ml: "$8", px: "$4" }}
-      >
-        <RecordIcon width={24} height={24} style={{ marginRight: "0.25rem" }} />
-      </Button>
+      <Fragment>
+        <Button
+          variant="standard"
+          outlined
+          css={{
+            color: "$error",
+            px: "$4",
+            "@md": { display: "none" },
+          }}
+        >
+          <RecordIcon width={24} height={24} />
+        </Button>
+        <Box
+          css={{
+            display: "none",
+            "@md": { display: "block", color: "$error" },
+          }}
+        >
+          <RecordIcon width={24} height={24} />
+        </Box>
+      </Fragment>
     </Tooltip>
   );
 };
@@ -68,8 +82,8 @@ const EndStream = () => {
     return null;
   }
   return (
-    <Flex align="center">
-      <Flex align="center" css={{ "@md": { display: "none" } }}>
+    <Flex align="center" css={{ gap: "$4" }}>
+      <Flex align="center" css={{ gap: "$4", "@md": { display: "none" } }}>
         <LiveStatus />
         <RecordingStatus />
       </Flex>
@@ -77,7 +91,6 @@ const EndStream = () => {
         variant="standard"
         outlined
         icon
-        css={{ mx: "$8" }}
         onClick={() => {
           toggleStreaming();
         }}

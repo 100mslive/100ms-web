@@ -122,7 +122,10 @@ export const ParticipantCount = () => {
   }
   return (
     <IconButton
-      css={{ w: "auto", p: "$4", h: "auto" }}
+      css={{
+        w: "auto",
+        p: "$4",
+      }}
       onClick={() => {
         if (peerCount > 0) {
           toggleSidepane();

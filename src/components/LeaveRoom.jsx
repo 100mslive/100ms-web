@@ -24,8 +24,9 @@ import {
   DialogRow,
 } from "../primitives/DialogContent";
 import { useNavigation } from "./hooks/useNavigation";
+import { isStreamingKit } from "../common/utils";
 
-export const LeaveRoom = ({ isConference = true }) => {
+export const LeaveRoom = () => {
   const navigate = useNavigation();
   const params = useParams();
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
@@ -67,14 +68,19 @@ export const LeaveRoom = ({ isConference = true }) => {
               data-testid="leave_room_btn"
             >
               <Tooltip title="Leave Room">
-                {isConference ? (
+                {!isStreamingKit() ? (
                   <Box>
                     <HangUpIcon key="hangUp" />
                   </Box>
                 ) : (
                   <Flex gap={2}>
-                    <ExitIcon key="hangUp" />
-                    <Text css={{ "@md": { display: "none" } }} variant="button">
+                    <Box css={{ "@md": { transform: "rotate(180deg)" } }}>
+                      <ExitIcon key="hangUp" />
+                    </Box>
+                    <Text
+                      css={{ "@md": { display: "none" }, color: "inherit" }}
+                      variant="button"
+                    >
                       Leave Studio
                     </Text>
                   </Flex>
@@ -107,7 +113,13 @@ export const LeaveRoom = ({ isConference = true }) => {
         <LeaveIconButton onClick={leaveRoom} variant="danger" key="LeaveRoom">
           <Tooltip title="Leave Room">
             <Box>
-              <HangUpIcon key="hangUp" />
+              {isStreamingKit() ? (
+                <Box css={{ "@md": { transform: "rotate(180deg)" } }}>
+                  <ExitIcon />
+                </Box>
+              ) : (
+                <HangUpIcon key="hangUp" />
+              )}
             </Box>
           </Tooltip>
         </LeaveIconButton>
@@ -146,8 +158,8 @@ export const LeaveRoom = ({ isConference = true }) => {
 
 const LeaveIconButton = styled(IconButton, {
   color: "$white",
-  height: "$13",
-  px: "$4",
+  h: "$14",
+  px: "$8",
   r: "$1",
   mx: "$4",
   bg: "$error",

@@ -43,14 +43,14 @@ export const StreamingFooter = () => {
         <Box
           css={{
             display: "none",
-            "@md": { display: "flex", alignItems: "center" },
+            "@md": { display: "flex", alignItems: "center", mx: "$8" },
           }}
         >
           <StreamActions />
         </Box>
         <MoreSettings />
         <Box css={{ "@md": { display: "none" } }}>
-          <LeaveRoom isConference={false} />
+          <LeaveRoom />
         </Box>
         <Flex
           align="center"

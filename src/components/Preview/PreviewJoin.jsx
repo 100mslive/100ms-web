@@ -176,7 +176,7 @@ const PreviewControls = ({ enableJoin, savePreferenceAndJoin }) => {
         <Button
           onClick={savePreferenceAndJoin}
           disabled={!enableJoin}
-          css={{ h: "$13", ml: "$4" }}
+          css={{ ml: "$4" }}
           icon
         >
           Join <ArrowRightIcon />
