@@ -1,3 +1,4 @@
+import { selectAppData } from "@100mslive/react-sdk";
 import {
   HandIcon,
   PersonIcon,
@@ -5,6 +6,31 @@ import {
   ConnectivityIcon,
   PoorConnectivityIcon,
 } from "@100mslive/react-icons";
+import { Button } from "@100mslive/react-ui";
+import { hmsActions, hmsStore } from "../../hms";
+import { APP_DATA, SIDE_PANE_OPTIONS } from "../../common/constants";
+
+const isChatOpen = () => {
+  return (
+    hmsStore.getState(selectAppData(APP_DATA.sidePane)) ===
+    SIDE_PANE_OPTIONS.CHAT
+  );
+};
+
+const ChatAction = () => {
+  return (
+    <Button
+      outlined
+      variant="standard"
+      css={{ w: "max-content" }}
+      onClick={() => {
+        hmsActions.setAppData(APP_DATA.sidePane, SIDE_PANE_OPTIONS.CHAT);
+      }}
+    >
+      Open Chat
+    </Button>
+  );
+};
 
 export const ToastConfig = {
   PEER_LIST: {
@@ -84,12 +110,14 @@ export const ToastConfig = {
       return {
         title: `New message from ${notification.data?.senderName}`,
         icon: <ChatIcon />,
+        action: isChatOpen() ? null : <ChatAction />,
       };
     },
     multiple: notifications => {
       return {
         title: `${notifications.length} new messages`,
         icon: <ChatIcon />,
+        action: isChatOpen() ? null : <ChatAction />,
       };
     },
   },

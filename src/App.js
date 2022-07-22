@@ -28,6 +28,7 @@ import PostLeave from "./components/PostLeave";
 import { AppData } from "./components/AppData/AppData.jsx";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import ErrorPage from "./components/ErrorPage";
+import { hmsActions, hmsNotifications, hmsStore } from "./hms.js";
 
 const Conference = React.lazy(() => import("./components/conference"));
 const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
@@ -111,7 +112,12 @@ export function EdtechComponent({
           },
         }}
       >
-        <HMSRoomProvider isHMSStatsOn={FeatureFlags.enableStatsForNerds}>
+        <HMSRoomProvider
+          isHMSStatsOn={FeatureFlags.enableStatsForNerds}
+          actions={hmsActions}
+          store={hmsStore}
+          notifications={hmsNotifications}
+        >
           <AppContextProvider
             roomId={roomId}
             tokenEndpoint={tokenEndpoint}

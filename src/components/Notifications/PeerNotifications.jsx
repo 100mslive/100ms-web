@@ -1,14 +1,10 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import {
   HMSNotificationTypes,
   useHMSNotifications,
 } from "@100mslive/react-sdk";
 import { ToastBatcher } from "../Toast/ToastBatcher";
-
-import {
-  UserPreferencesKeys,
-  useUserPreferences,
-} from "../hooks/useUserPreferences";
+import { AppContext } from "../context/AppContext";
 
 const notificationTypes = [
   HMSNotificationTypes.PEER_LIST,
@@ -18,9 +14,7 @@ const notificationTypes = [
 
 export const PeerNotifications = () => {
   const notification = useHMSNotifications(notificationTypes);
-  const [{ subscribedNotifications }] = useUserPreferences(
-    UserPreferencesKeys.UI_SETTINGS
-  );
+  const { subscribedNotifications } = useContext(AppContext);
   useEffect(() => {
     if (!notification) {
       return;

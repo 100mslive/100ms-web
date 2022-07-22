@@ -6,7 +6,11 @@ export const useNavigation = () => {
   const navigate = useNavigate();
   const navigation = useCallback(
     path => {
-      const route = `${getRoutePrefix()}${path}`;
+      const prefix = getRoutePrefix();
+      let route = path;
+      if (prefix && !path.startsWith(prefix)) {
+        route = `${prefix}${path}`;
+      }
       navigate(route);
     },
     [navigate]
