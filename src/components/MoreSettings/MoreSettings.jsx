@@ -51,7 +51,7 @@ export const MoreSettings = () => {
         <Dropdown.Content
           sideOffset={5}
           align="center"
-          css={{ maxHeight: "$96" }}
+          css={{ maxHeight: "$96", "@md": { w: "$64" } }}
         >
           <Dropdown.Item
             onClick={() => setShowChangeNameModal(value => !value)}
