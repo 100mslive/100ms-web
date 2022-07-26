@@ -4,7 +4,6 @@ import {
   selectRoleChangeRequest,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { PersonIcon } from "@100mslive/react-icons";
 import { RequestDialog } from "../primitives/DialogContent";
 import { useIsHeadless } from "./AppData/useUISettings";
 

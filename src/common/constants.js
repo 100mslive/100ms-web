@@ -116,6 +116,8 @@ export const APP_DATA = {
   logo: "logo",
   tokenEndpoint: "tokenEndpoint",
   appPolicyConfig: "appPolicyConfig",
+  hlsStarted: "hlsStarted",
+  rtmpStarted: "rtmpStarted",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",

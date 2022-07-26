@@ -43,7 +43,11 @@ export const StreamingFooter = () => {
         <Box
           css={{
             display: "none",
-            "@md": { display: "flex", alignItems: "center", mx: "$8" },
+            "@md": {
+              display: "flex",
+              alignItems: "center",
+              mx: "$8",
+            },
           }}
         >
           <StreamActions />

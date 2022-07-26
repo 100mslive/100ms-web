@@ -7,12 +7,14 @@ import {
   selectRolesMap,
   useHMSActions,
   useHMSStore,
+  useRecordingStreaming,
 } from "@100mslive/react-sdk";
 import { useSidepaneReset, useSidepaneState } from "./useSidepane";
 import {
   UserPreferencesKeys,
   useUserPreferences,
 } from "../hooks/useUserPreferences";
+import { useSetAppDataByKey } from "./useUISettings";
 import { getMetadata } from "../../common/utils";
 import { normalizeAppPolicyConfig } from "../init/initUtils";
 import {
@@ -104,6 +106,8 @@ export function AppData({
       [APP_DATA.chatOpen]: false,
       [APP_DATA.chatDraft]: "",
       [APP_DATA.sidePane]: "",
+      [APP_DATA.hlsStarted]: false,
+      [APP_DATA.rtmpStarted]: false,
       [APP_DATA.recordingUrl]: recordingUrl,
       [APP_DATA.tokenEndpoint]: tokenEndpoint,
       [APP_DATA.logo]: logo,
@@ -126,5 +130,28 @@ export function AppData({
     isDefaultModeActiveSpeaker,
   ]);
 
-  return null;
+  return <ResetStreamingStart />;
 }
+
+/**
+ * reset hlsStarted, rtmpStarted values when streaming starts
+ */
+const ResetStreamingStart = () => {
+  const { isHLSRunning, isRTMPRunning } = useRecordingStreaming();
+  const [hlsStarted, setHLSStarted] = useSetAppDataByKey(APP_DATA.hlsStarted);
+  const [rtmpStarted, setRTMPStarted] = useSetAppDataByKey(
+    APP_DATA.rtmpStarted
+  );
+
+  useEffect(() => {
+    if (isHLSRunning && hlsStarted) {
+      setHLSStarted(false);
+    }
+  }, [isHLSRunning, hlsStarted, setHLSStarted]);
+  useEffect(() => {
+    if (isRTMPRunning && rtmpStarted) {
+      setRTMPStarted(false);
+    }
+  }, [isRTMPRunning, setRTMPStarted, rtmpStarted]);
+  return null;
+};

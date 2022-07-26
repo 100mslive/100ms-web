@@ -22,10 +22,10 @@ import {
   BrbIcon,
 } from "@100mslive/react-icons";
 import TileMenu from "./TileMenu";
-import { getVideoTileLabel } from "./peerTileUtils";
 import TileConnection from "./Connection/TileConnection";
 import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 import { useAppConfig } from "./AppData/useAppConfig";
+import { getVideoTileLabel } from "./peerTileUtils";
 import { UI_SETTINGS } from "../common/constants";
 
 const Tile = ({ peerId, trackId, width, height }) => {

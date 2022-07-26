@@ -56,17 +56,6 @@ export const metadataProps = function (peer) {
   };
 };
 
-export const mobileChatStyle = {
-  position: "fixed",
-  bottom: "6rem",
-  zIndex: 40,
-  right: 8,
-  width: "100%",
-  maxWidth: 300,
-  height: "65vh",
-  maxHeight: 440,
-};
-
 export const isScreenshareSupported = () => {
   return typeof navigator.mediaDevices.getDisplayMedia !== "undefined";
 };

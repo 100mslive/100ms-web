@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import LogRocket from "logrocket";
-import { ErrorWithSupportLink } from "./PreviewScreen";
-import errorBgDark from "../images/error-bg-dark.svg";
-import errorBgLight from "../images/error-bg-light.svg";
+import { CopyIcon } from "@100mslive/react-icons";
 import {
   Box,
   Button,
@@ -11,7 +9,7 @@ import {
   ThemeContext,
   Tooltip,
 } from "@100mslive/react-ui";
-import { CopyIcon } from "@100mslive/react-icons";
+import { ErrorWithSupportLink } from "./PreviewScreen";
 
 export class ErrorBoundary extends Component {
   constructor(props) {
@@ -57,7 +55,11 @@ export class ErrorBoundary extends Component {
                 const { themeType } = value;
                 return (
                   <img
-                    src={themeType === "dark" ? errorBgDark : errorBgLight}
+                    src={
+                      themeType === "dark"
+                        ? require("../images/error-bg-dark.svg")
+                        : require("../images/error-bg-light.svg")
+                    }
                     alt="error background"
                   />
                 );

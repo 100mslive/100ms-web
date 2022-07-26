@@ -1,10 +1,14 @@
 import { useRecordingStreaming } from "@100mslive/react-sdk";
-import { Button } from "@100mslive/react-ui";
+import { Button, Tooltip } from "@100mslive/react-ui";
 import { GoLiveIcon } from "@100mslive/react-icons";
 import {
   useSidepaneToggle,
   useIsSidepaneTypeOpen,
 } from "./AppData/useSidepane";
+import {
+  useIsHLSStartedFromUI,
+  useIsRTMPStartedFromUI,
+} from "./AppData/useUISettings";
 import { SIDE_PANE_OPTIONS } from "./../common/constants";
 
 const GoLiveButton = () => {
@@ -12,19 +16,33 @@ const GoLiveButton = () => {
     SIDE_PANE_OPTIONS.STREAMING
   );
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
-  const { isHLSRunning, isRTMPRunning } = useRecordingStreaming();
-  if (isHLSRunning && !isRTMPRunning) {
+  const { isStreamingOn } = useRecordingStreaming();
+  const isHLSStartedFromUI = useIsHLSStartedFromUI();
+  const isRTMPStartedFromUI = useIsRTMPStartedFromUI();
+  let tooltipText = "Start Streaming";
+  if (isHLSStartedFromUI || isRTMPStartedFromUI) {
+    if (isHLSStartedFromUI) {
+      tooltipText = "HLS start in progress";
+    }
+    if (isRTMPStartedFromUI) {
+      tooltipText = "RTMP start in progress";
+    }
+  }
+  if (isStreamingOn) {
     return null;
   }
   return (
-    <Button
-      variant={isStreamingSidepaneOpen ? "standard" : "primary"}
-      onClick={toggleStreaming}
-      icon
-    >
-      <GoLiveIcon />
-      Go Live
-    </Button>
+    <Tooltip title={tooltipText}>
+      <Button
+        variant={isStreamingSidepaneOpen ? "standard" : "primary"}
+        onClick={toggleStreaming}
+        icon
+        loading={isRTMPStartedFromUI || isHLSStartedFromUI}
+      >
+        <GoLiveIcon />
+        Go Live
+      </Button>
+    </Tooltip>
   );
 };
 

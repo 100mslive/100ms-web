@@ -57,6 +57,7 @@ export const LeaveRoom = () => {
     redirectToLeavePage();
   };
 
+  const isStreamKit = isStreamingKit();
   if (!permissions || !isConnected) {
     return null;
   }
@@ -72,7 +73,7 @@ export const LeaveRoom = () => {
               data-testid="leave_room_btn"
             >
               <Tooltip title="Leave Room">
-                {!isStreamingKit() ? (
+                {!isStreamKit ? (
                   <Box>
                     <HangUpIcon key="hangUp" />
                   </Box>
@@ -125,10 +126,12 @@ export const LeaveRoom = () => {
                   <ExitIcon />
                 </Box>
                 <Flex direction="column" align="start">
-                  <Text variant="h6">Leave Studio</Text>
+                  <Text variant="h6">
+                    Leave {isStreamKit ? "Studio" : "Room"}
+                  </Text>
                   <Text variant="sm" css={{ c: "$textMedEmp" }}>
                     Others will continue after you leave. You can join the
-                    studio again.
+                    {isStreamKit ? "studio" : "room"} again.
                   </Text>
                 </Flex>
               </Flex>
@@ -139,7 +142,7 @@ export const LeaveRoom = () => {
         <LeaveIconButton onClick={leaveRoom} variant="danger" key="LeaveRoom">
           <Tooltip title="Leave Room">
             <Box>
-              {isStreamingKit() ? (
+              {isStreamKit ? (
                 <Box css={{ "@md": { transform: "rotate(180deg)" } }}>
                   <ExitIcon />
                 </Box>
@@ -194,5 +197,9 @@ const LeaveIconButton = styled(IconButton, {
   },
   "&:not([disabled]):active": {
     bg: "$errorTint",
+  },
+  "@md": {
+    px: "$4",
+    mx: 0,
   },
 });

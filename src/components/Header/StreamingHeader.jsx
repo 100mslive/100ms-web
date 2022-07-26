@@ -1,5 +1,6 @@
 import React from "react";
-import { Flex, Box } from "@100mslive/react-ui";
+import { useMedia } from "react-use";
+import { Flex, config as cssConfig } from "@100mslive/react-ui";
 import { ParticipantCount } from "./ParticipantList";
 import { LeaveRoom } from "../LeaveRoom";
 import MetaActions from "../MetaActions";
@@ -7,24 +8,28 @@ import { Logo, SpeakerTag } from "./HeaderComponents";
 import { LiveStatus, RecordingStatus, StreamActions } from "./StreamActions";
 
 export const StreamingHeader = ({ isPreview }) => {
+  const isMobile = useMedia(cssConfig.media.md);
   return (
     <Flex
       justify="between"
       align="center"
       css={{ position: "relative", height: "100%" }}
     >
-      <Flex align="center" css={{ position: "absolute", left: "$10" }}>
+      <Flex
+        align="center"
+        css={{
+          position: "absolute",
+          left: "$10",
+        }}
+      >
         <Logo />
-        <Box
-          css={{
-            display: "none",
-            "@md": { display: "flex", alignItems: "center" },
-          }}
-        >
-          <LeaveRoom />
-          <LiveStatus />
-          <RecordingStatus />
-        </Box>
+        {isMobile && (
+          <Flex align="center" gap={2}>
+            <LeaveRoom />
+            <LiveStatus />
+            <RecordingStatus />
+          </Flex>
+        )}
         {!isPreview ? <SpeakerTag /> : null}
       </Flex>
 
@@ -37,12 +42,13 @@ export const StreamingHeader = ({ isPreview }) => {
           "@md": { gap: "$2" },
         }}
       >
-        <Box css={{ display: "none", "@md": { display: "block" } }}>
+        {isMobile ? (
           <MetaActions compact />
-        </Box>
-        <Flex css={{ gap: "$4", "@md": { display: "none" } }}>
-          <StreamActions />
-        </Flex>
+        ) : (
+          <Flex css={{ gap: "$4" }}>
+            <StreamActions />
+          </Flex>
+        )}
         <ParticipantCount />
       </Flex>
     </Flex>

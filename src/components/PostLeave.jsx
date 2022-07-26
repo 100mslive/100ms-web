@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Button, Flex, Box, Text } from "@100mslive/react-ui";
 import { ExitIcon } from "@100mslive/react-icons";
+import { Button, Flex, Box, Text } from "@100mslive/react-ui";
 import { ToastManager } from "./Toast/ToastManager";
 import { Header } from "./Header";
 import { useNavigation } from "./hooks/useNavigation";

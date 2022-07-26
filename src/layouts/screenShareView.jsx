@@ -10,14 +10,11 @@ import {
   selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
 import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
-import { ChatView } from "../components/chatView";
 import { ScreenshareDisplay } from "../components/ScreenshareDisplay";
 import ScreenshareTile from "../components/ScreenshareTile";
 import VideoList from "../components/VideoList";
 import VideoTile from "../components/VideoTile";
 import { VideoPlayer } from "../components/Playlist/VideoPlayer";
-import { mobileChatStyle } from "../common/utils";
-import { useIsChatOpen } from "../components/AppData/useChatState";
 
 const ScreenShareView = () => {
   // for smaller screen we will show sidebar in bottom
@@ -101,7 +98,6 @@ export const SidePane = ({
         smallTilePeers={smallTilePeers}
         shouldShowScreenFn={shouldShowScreenFn}
       />
-      <CustomChatView totalPeers={totalPeers} />
     </Fragment>
   );
 };
@@ -155,28 +151,6 @@ const ScreenShareComponent = ({
         ))}
     </Box>
   );
-};
-
-const CustomChatView = () => {
-  const isChatOpen = useIsChatOpen();
-  return isChatOpen ? (
-    <Box
-      css={{
-        h: "45%",
-        flexShrink: 0,
-        "@lg": mobileChatStyle,
-        "@ls": {
-          position: "absolute",
-          top: 0,
-          h: "100%",
-          minHeight: 300,
-          zIndex: 40,
-        },
-      }}
-    >
-      <ChatView />
-    </Box>
-  ) : null;
 };
 
 const SmallTilePeersView = ({

@@ -5,6 +5,11 @@ import { v4 } from "uuid";
 import { Box, Flex, Loading, styled } from "@100mslive/react-ui";
 import { Header } from "./Header";
 import { ErrorDialog } from "../primitives/DialogContent";
+import { useSetUiSettings, useTokenEndpoint } from "./AppData/useUISettings";
+import PreviewContainer from "./Preview/PreviewContainer";
+import SidePane from "../layouts/SidePane";
+import { useNavigation } from "./hooks/useNavigation";
+import getToken from "../services/tokenService";
 import {
   QUERY_PARAM_SKIP_PREVIEW_HEADFUL,
   QUERY_PARAM_NAME,
@@ -12,11 +17,6 @@ import {
   QUERY_PARAM_AUTH_TOKEN,
   UI_SETTINGS,
 } from "../common/constants";
-import getToken from "../services/tokenService";
-import { useSetUiSettings, useTokenEndpoint } from "./AppData/useUISettings";
-import PreviewContainer from "./Preview/PreviewContainer";
-import SidePane from "../layouts/SidePane";
-import { useNavigation } from "./hooks/useNavigation";
 
 /**
  * query params exposed -
@@ -53,6 +53,9 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
   useEffect(() => {
     if (authToken) {
       setToken(authToken);
+      return;
+    }
+    if (!tokenEndpoint || !urlRoomId) {
       return;
     }
     const getTokenFn = !userRole

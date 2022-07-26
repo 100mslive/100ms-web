@@ -1,10 +1,10 @@
+import { selectPermissions, useHMSStore } from "@100mslive/react-sdk";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CrossIcon,
   RecordIcon,
 } from "@100mslive/react-icons";
-import { selectPermissions, useHMSStore } from "@100mslive/react-sdk";
 import {
   Box,
   Flex,
@@ -120,4 +120,15 @@ export const RecordStream = ({ record, setRecord }) => {
       <Switch checked={record} onCheckedChange={setRecord} />
     </Flex>
   ) : null;
+};
+
+export const ErrorText = ({ error }) => {
+  if (!error) {
+    return null;
+  }
+  return (
+    <Text variant="sm" css={{ mb: "$8", color: "$error" }}>
+      {error}
+    </Text>
+  );
 };

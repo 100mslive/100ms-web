@@ -1,4 +1,4 @@
-import { APP_DATA, UI_SETTINGS } from "../../common/constants";
+import { useCallback } from "react";
 import {
   selectAppData,
   selectAppDataByPath,
@@ -6,11 +6,11 @@ import {
   useHMSStore,
   useHMSVanillaStore,
 } from "@100mslive/react-sdk";
-import { useCallback } from "react";
 import {
   UserPreferencesKeys,
   useUserPreferences,
 } from "../hooks/useUserPreferences";
+import { APP_DATA, UI_SETTINGS } from "../../common/constants";
 
 /**
  * fields saved related to UI settings in store's app data can be
@@ -56,6 +56,14 @@ export const useHLSViewerRole = () => {
   return useHMSStore(selectAppData(APP_DATA.hlsViewerRole));
 };
 
+export const useIsHLSStartedFromUI = () => {
+  return useHMSStore(selectAppData(APP_DATA.hlsStarted));
+};
+
+export const useIsRTMPStartedFromUI = () => {
+  return useHMSStore(selectAppData(APP_DATA.rtmpStarted));
+};
+
 export const useTokenEndpoint = () => {
   return useHMSStore(selectAppData(APP_DATA.tokenEndpoint));
 };
@@ -77,6 +85,18 @@ export const useSetSubscribedNotifications = notificationKey => {
     key1: APP_DATA.subscribedNotifications,
     key2: notificationKey,
   });
+  return [value, setValue];
+};
+
+export const useSetAppDataByKey = appDataKey => {
+  const value = useHMSStore(selectAppData(appDataKey));
+  const actions = useHMSActions();
+  const setValue = useCallback(
+    value => {
+      actions.setAppData(appDataKey, value);
+    },
+    [actions, appDataKey]
+  );
   return [value, setValue];
 };
 
