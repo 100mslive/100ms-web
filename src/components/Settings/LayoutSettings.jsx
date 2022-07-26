@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useContext } from "react";
+import React, { Fragment, useCallback } from "react";
 import { Flex, Slider, Text } from "@100mslive/react-ui";
 import {
   selectIsLocalScreenShared,
@@ -7,7 +7,6 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import SwitchWithLabel from "./SwitchWithLabel";
-import { AppContext } from "../context/AppContext";
 import { useSetUiSettings } from "../AppData/useUISettings";
 import {
   UI_MODE_ACTIVE_SPEAKER,
@@ -16,15 +15,11 @@ import {
 } from "../../common/constants";
 
 export const LayoutSettings = () => {
-  const { setMaxTileCount, maxTileCount, uiViewMode, setuiViewMode } =
-    useContext(AppContext);
-
   const hmsActions = useHMSActions();
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoEnabled);
   const isLocalScreenShared = useHMSStore(selectIsLocalScreenShared);
-  const [isAudioOnly, setIsAudioOnly] = useSetUiSettings(
-    UI_SETTINGS.isAudioOnly
-  );
+  const [{ isAudioOnly, uiViewMode, maxTileCount }, setUISettings] =
+    useSetUiSettings();
   const toggleIsAudioOnly = useCallback(
     async isAudioOnlyModeOn => {
       if (isAudioOnlyModeOn) {
@@ -32,9 +27,9 @@ export const LayoutSettings = () => {
         isLocalVideoEnabled && (await hmsActions.setLocalVideoEnabled(false));
         isLocalScreenShared && (await hmsActions.setScreenShareEnabled(false));
       }
-      setIsAudioOnly(isAudioOnlyModeOn);
+      setUISettings(isAudioOnlyModeOn, UI_SETTINGS.isAudioOnly);
     },
-    [hmsActions, isLocalVideoEnabled, isLocalScreenShared, setIsAudioOnly]
+    [hmsActions, isLocalVideoEnabled, isLocalScreenShared, setUISettings]
   );
 
   return (
@@ -42,7 +37,10 @@ export const LayoutSettings = () => {
       <SwitchWithLabel
         checked={uiViewMode === UI_MODE_ACTIVE_SPEAKER}
         onChange={value => {
-          setuiViewMode(value ? UI_MODE_ACTIVE_SPEAKER : UI_MODE_GRID);
+          setUISettings(
+            value ? UI_MODE_ACTIVE_SPEAKER : UI_MODE_GRID,
+            UI_SETTINGS.uiViewMode
+          );
         }}
         id="activeSpeakerMode"
         label="Active Speaker Mode"
@@ -67,7 +65,7 @@ export const LayoutSettings = () => {
             min={1}
             max={49}
             onValueChange={e => {
-              setMaxTileCount(e[0]);
+              setUISettings(e[0], UI_SETTINGS.maxTileCount);
             }}
             css={{ w: "70%" }}
           />

@@ -12,13 +12,12 @@ import { useIsHeadless } from "./AppData/useUISettings";
 const List = ({
   maxTileCount,
   peers,
-  showStatsOnTiles,
   maxColCount,
   maxRowCount,
   includeScreenShareForPeer,
 }) => {
   const { aspectRatio } = useTheme();
-  const appConfig = useAppConfig();
+  const tileOffset = useAppConfig("headlessConfig", "tileOffset");
   const isHeadless = useIsHeadless();
   const { ref, pagesWithTiles } = useVideoList({
     peers,
@@ -27,7 +26,7 @@ const List = ({
     maxRowCount,
     includeScreenShareForPeer,
     aspectRatio,
-    offsetY: getOffset({ isHeadless, appConfig }),
+    offsetY: getOffset({ isHeadless, tileOffset }),
   });
   const [page, setPage] = useState(0);
   useEffect(() => {
@@ -52,7 +51,6 @@ const List = ({
                   {tiles.map((tile, i) =>
                     tile.track?.source === "screen" ? (
                       <ScreenshareTile
-                        showStatsOnTiles={showStatsOnTiles}
                         key={tile.track.id}
                         width={tile.width}
                         height={tile.height}
@@ -60,7 +58,6 @@ const List = ({
                       />
                     ) : (
                       <VideoTile
-                        showStatsOnTiles={showStatsOnTiles}
                         key={tile.track?.id || tile.peer.id}
                         width={tile.width}
                         height={tile.height}
@@ -87,8 +84,7 @@ const List = ({
 
 const VideoList = React.memo(List);
 
-const getOffset = ({ appConfig, isHeadless }) => {
-  const offset = appConfig?.headlessConfig?.tileOffset;
+const getOffset = ({ offset, isHeadless }) => {
   if (!isHeadless || typeof offset !== "number") {
     return 32;
   }

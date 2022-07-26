@@ -19,7 +19,7 @@ import { VideoPlayer } from "../components/Playlist/VideoPlayer";
 import { mobileChatStyle } from "../common/utils";
 import { useIsChatOpen } from "../components/AppData/useChatState";
 
-const ScreenShareView = ({ showStats }) => {
+const ScreenShareView = () => {
   // for smaller screen we will show sidebar in bottom
   const mediaQueryLg = cssConfig.media.lg;
   const showSidebarInBottom = useMedia(mediaQueryLg);
@@ -50,7 +50,6 @@ const ScreenShareView = ({ showStats }) => {
       direction={showSidebarInBottom ? "column" : "row"}
     >
       <ScreenShareComponent
-        showStats={showStats}
         amIPresenting={amIPresenting}
         peerPresenting={peerPresenting}
         peerSharingPlaylist={peerSharingPlaylist}
@@ -68,7 +67,6 @@ const ScreenShareView = ({ showStats }) => {
       >
         <SidePane
           showSidebarInBottom={showSidebarInBottom}
-          showStats={showStats}
           peerScreenSharing={peerPresenting}
           isPresenterInSmallTiles={showPresenterInSmallTile}
           smallTilePeers={smallTilePeers}
@@ -82,7 +80,6 @@ const ScreenShareView = ({ showStats }) => {
 // Sidepane will show the camera stream of the main peer who is screensharing
 // and both camera + screen(if applicable) of others
 export const SidePane = ({
-  showStats,
   isPresenterInSmallTiles,
   peerScreenSharing, // the peer who is screensharing
   smallTilePeers,
@@ -97,16 +94,12 @@ export const SidePane = ({
   return (
     <Fragment>
       {!isPresenterInSmallTiles && (
-        <LargeTilePeerView
-          peerScreenSharing={peerScreenSharing}
-          showStatsOnTiles={showStats}
-        />
+        <LargeTilePeerView peerScreenSharing={peerScreenSharing} />
       )}
       <SmallTilePeersView
         showSidebarInBottom={showSidebarInBottom}
         smallTilePeers={smallTilePeers}
         shouldShowScreenFn={shouldShowScreenFn}
-        showStatsOnTiles={showStats}
       />
       <CustomChatView totalPeers={totalPeers} />
     </Fragment>
@@ -158,10 +151,7 @@ const ScreenShareComponent = ({
             <ScreenshareDisplay />
           </Box>
         ) : (
-          <ScreenshareTile
-            showStatsOnTiles={showStats}
-            peerId={peerPresenting?.id}
-          />
+          <ScreenshareTile peerId={peerPresenting?.id} />
         ))}
     </Box>
   );

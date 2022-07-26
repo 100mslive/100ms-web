@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useMedia } from "react-use";
 import {
   selectAvailableRoleNames,
@@ -10,9 +10,9 @@ import {
 } from "@100mslive/react-sdk";
 import { ArrowRightIcon, CheckIcon, PersonIcon } from "@100mslive/react-icons";
 import { Dropdown, Text, config } from "@100mslive/react-ui";
-import { arrayIntersection } from "../../common/utils";
-import { AppContext } from "../context/AppContext";
 import { ToastManager } from "../Toast/ToastManager";
+import { useAppPolicyConfig } from "../AppData/useAppPolicyConfig";
+import { arrayIntersection } from "../../common/utils";
 
 export const ChangeSelfRole = ({ onClick }) => {
   const roles = useHMSStore(selectAvailableRoleNames);
@@ -21,10 +21,7 @@ export const ChangeSelfRole = ({ onClick }) => {
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const hmsActions = useHMSActions();
   const hideTriggerItem = useMedia(config.media.sm);
-  const {
-    appPolicyConfig: { selfRoleChangeTo },
-  } = useContext(AppContext);
-
+  const selfRoleChangeTo = useAppPolicyConfig("selfRoleChangeTo");
   const availableSelfChangeRoles = useMemo(
     () => arrayIntersection(selfRoleChangeTo, roles),
     [roles, selfRoleChangeTo]

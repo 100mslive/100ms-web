@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   selectHMSStats,
   selectPeersMap,
@@ -16,8 +16,9 @@ import {
   Label,
   HorizontalDivider,
 } from "@100mslive/react-ui";
-import { AppContext } from "./context/AppContext";
 import { DialogDropdownTrigger } from "../primitives/DropdownTrigger";
+import { useSetUiSettings } from "./AppData/useUISettings";
+import { UI_SETTINGS } from "../common/constants";
 
 export const StatsForNerds = ({ onOpenChange }) => {
   const tracksWithLabels = useTracksWithLabel();
@@ -29,7 +30,9 @@ export const StatsForNerds = ({ onOpenChange }) => {
     [tracksWithLabels]
   );
   const [selectedStat, setSelectedStat] = useState("local-peer");
-  const { showStatsOnTiles, setShowStatsOnTiles } = useContext(AppContext);
+  const [showStatsOnTiles, setShowStatsOnTiles] = useSetUiSettings(
+    UI_SETTINGS.showStatsOnTiles
+  );
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

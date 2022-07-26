@@ -1,8 +1,13 @@
-import { useContext } from "react";
 import { selectDominantSpeaker, useHMSStore } from "@100mslive/react-sdk";
 import { VolumeOneIcon } from "@100mslive/react-icons";
-import { Flex, styled, Text, textEllipsis } from "@100mslive/react-ui";
-import { AppContext } from "../context/AppContext";
+import {
+  Flex,
+  styled,
+  Text,
+  textEllipsis,
+  useTheme,
+} from "@100mslive/react-ui";
+import { useLogo } from "../AppData/useUISettings";
 
 export const SpeakerTag = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -36,6 +41,19 @@ const LogoImg = styled("img", {
 });
 
 export const Logo = () => {
-  const { logo } = useContext(AppContext);
-  return <LogoImg src={logo} alt="Brand Logo" width={132} height={40} />;
+  const { themeType } = useTheme();
+  const logo = useLogo();
+  return (
+    <LogoImg
+      src={
+        logo ||
+        (themeType === "dark"
+          ? require("../../images/logo-light.svg")
+          : require("../../images/logo-dark.svg"))
+      }
+      alt="Brand Logo"
+      width={132}
+      height={40}
+    />
+  );
 };

@@ -24,7 +24,8 @@ export const useIsSidepaneTypeOpen = sidepaneType => {
  * @returns {string} - if the sidepaneType is passed returns boolean else the current value
  */
 export const useSidepaneState = () => {
-  return useHMSStore(selectAppData(APP_DATA.sidePane));
+  const sidePane = useHMSStore(selectAppData(APP_DATA.sidePane));
+  return sidePane;
 };
 
 /**

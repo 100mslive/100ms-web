@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   AlertOctagonIcon,
   ChatIcon,
@@ -8,9 +8,14 @@ import {
 } from "@100mslive/react-icons";
 import { Box } from "@100mslive/react-ui";
 import SwitchWithLabel from "./SwitchWithLabel";
-import { AppContext } from "../context/AppContext";
+import {
+  useSetSubscribedNotifications,
+  useSubscribedNotifications,
+} from "../AppData/useUISettings";
+import { SUBSCRIBED_NOTIFICATIONS } from "../../common/constants";
 
-const NotificationItem = ({ onClick, type, label, icon, checked }) => {
+const NotificationItem = ({ type, label, icon, checked }) => {
+  const [, setSubscribedNotifications] = useSetSubscribedNotifications(type);
   return (
     <SwitchWithLabel
       label={label}
@@ -18,54 +23,45 @@ const NotificationItem = ({ onClick, type, label, icon, checked }) => {
       icon={icon}
       checked={checked}
       onChange={value => {
-        onClick({
-          type,
-          isSubscribed: value,
-        });
+        setSubscribedNotifications(value);
       }}
     />
   );
 };
 
 export const NotificationSettings = () => {
-  const { subscribedNotifications, setSubscribedNotifications } =
-    useContext(AppContext);
+  const subscribedNotifications = useSubscribedNotifications();
 
   return (
     <Box>
       <NotificationItem
         label="Peer Joined"
-        type="PEER_JOINED"
+        type={SUBSCRIBED_NOTIFICATIONS.PEER_JOINED}
         icon={<PersonIcon />}
-        onClick={setSubscribedNotifications}
         checked={subscribedNotifications.PEER_JOINED}
       />
       <NotificationItem
         label="Peer Leave"
-        type="PEER_LEFT"
+        type={SUBSCRIBED_NOTIFICATIONS.PEER_LEFT}
         icon={<ExitIcon />}
-        onClick={setSubscribedNotifications}
         checked={subscribedNotifications.PEER_LEFT}
       />
       <NotificationItem
         label="New Message"
-        type="NEW_MESSAGE"
+        type={SUBSCRIBED_NOTIFICATIONS.NEW_MESSAGE}
         icon={<ChatIcon />}
-        onClick={setSubscribedNotifications}
         checked={subscribedNotifications.NEW_MESSAGE}
       />
       <NotificationItem
         label="Hand Raised"
-        type="METADATA_UPDATED"
+        type={SUBSCRIBED_NOTIFICATIONS.METADATA_UPDATED}
         icon={<HandIcon />}
-        onClick={setSubscribedNotifications}
         checked={subscribedNotifications.METADATA_UPDATED}
       />
       <NotificationItem
         label="Error"
-        type="ERROR"
+        type={SUBSCRIBED_NOTIFICATIONS.ERROR}
         icon={<AlertOctagonIcon />}
-        onClick={setSubscribedNotifications}
         checked={subscribedNotifications.ERROR}
       />
     </Box>

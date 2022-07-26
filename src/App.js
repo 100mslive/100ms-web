@@ -8,27 +8,25 @@ import {
 } from "react-router-dom";
 import { HMSRoomProvider } from "@100mslive/react-sdk";
 import { HMSThemeProvider, Box } from "@100mslive/react-ui";
-import { AppContextProvider } from "./components/context/AppContext.js";
 import { Notifications } from "./components/Notifications";
 import { Confetti } from "./plugins/confetti";
 import { ToastContainer } from "./components/Toast/ToastContainer";
-import { FeatureFlags } from "./services/FeatureFlags";
-import { getRoutePrefix, shadeColor } from "./common/utils";
-import {
-  getUserToken as defaultGetUserToken,
-  getBackendEndpoint,
-} from "./services/tokenService";
-import "./base.css";
-import "./index.css";
-import LogoForLight from "./images/logo-dark.svg";
-import LogoForDark from "./images/logo-light.svg";
 import FullPageProgress from "./components/FullPageProgress";
 import { KeyboardHandler } from "./components/Input/KeyboardInputManager";
 import PostLeave from "./components/PostLeave";
 import { AppData } from "./components/AppData/AppData.jsx";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import ErrorPage from "./components/ErrorPage";
+import { Init } from "./components/init/Init";
 import { hmsActions, hmsNotifications, hmsStore } from "./hms.js";
+import { FeatureFlags } from "./services/FeatureFlags";
+import {
+  getUserToken as defaultGetUserToken,
+  getBackendEndpoint,
+} from "./services/tokenService";
+import { getRoutePrefix, shadeColor } from "./common/utils";
+import "./base.css";
+import "./index.css";
 
 const Conference = React.lazy(() => import("./components/conference"));
 const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
@@ -118,31 +116,29 @@ export function EdtechComponent({
           store={hmsStore}
           notifications={hmsNotifications}
         >
-          <AppContextProvider
-            roomId={roomId}
+          <AppData
+            appDetails={metadata}
+            recordingUrl={recordingUrl}
+            logo={logo}
             tokenEndpoint={tokenEndpoint}
             policyConfig={policyConfig}
-            appDetails={metadata}
-            logo={logo || (theme === "dark" ? LogoForDark : LogoForLight)}
+          />
+
+          <Init />
+          <Box
+            css={{
+              bg: "$mainBg",
+              w: "100%",
+              ...(headerPresent === "true"
+                ? { flex: "1 1 0", minHeight: 0 }
+                : { h: "100%" }),
+            }}
           >
-            <Box
-              css={{
-                bg: "$mainBg",
-                w: "100%",
-                overflow: "hidden",
-                ...(headerPresent === "true"
-                  ? { flex: "1 1 0", minHeight: 0 }
-                  : { h: "100%" }),
-              }}
-            >
-              <AppRoutes
-                getUserToken={getUserTokenCallback}
-                getDetails={getDetails}
-                appDetails={metadata}
-                recordingUrl={recordingUrl}
-              />
-            </Box>
-          </AppContextProvider>
+            <AppRoutes
+              getUserToken={getUserTokenCallback}
+              getDetails={getDetails}
+            />
+          </Box>
         </HMSRoomProvider>
       </HMSThemeProvider>
     </ErrorBoundary>
@@ -228,13 +224,12 @@ const RouteList = ({ getUserToken, getDetails }) => {
   );
 };
 
-function AppRoutes({ getUserToken, appDetails, recordingUrl, getDetails }) {
+function AppRoutes({ getUserToken, getDetails }) {
   return (
     <Router>
       <ToastContainer />
       <Notifications />
       <Confetti />
-      <AppData appDetails={appDetails} recordingUrl={recordingUrl} />
       <KeyboardHandler />
       <Routes>
         <Route

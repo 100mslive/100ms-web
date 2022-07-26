@@ -20,12 +20,7 @@ const eventsImg = webinarProps?.IMAGE_FILE || ""; // the image to show in center
 const webinarInfoLink = webinarProps?.LINK_HREF || "https://100ms.live/";
 
 // The center of the screen shows bigger tiles
-export const GridCenterView = ({
-  peers,
-  maxTileCount,
-  hideSidePane,
-  showStatsOnTiles,
-}) => {
+export const GridCenterView = ({ peers, maxTileCount, hideSidePane }) => {
   const mediaQueryLg = cssConfig.media.md;
   const limitMaxTiles = useMedia(mediaQueryLg);
   const isChatOpen = useIsChatOpen();
@@ -41,7 +36,6 @@ export const GridCenterView = ({
       >
         {peers && peers.length > 0 ? (
           <VideoList
-            showStatsOnTiles={showStatsOnTiles}
             peers={peers}
             maxTileCount={limitMaxTiles ? MAX_TILES_FOR_MOBILE : maxTileCount}
           />
@@ -89,7 +83,7 @@ export const GridCenterView = ({
 };
 
 // Side pane shows smaller tiles
-export const GridSidePaneView = ({ peers, showStatsOnTiles }) => {
+export const GridSidePaneView = ({ peers }) => {
   const isChatOpen = useIsChatOpen();
   return (
     <Flex
@@ -107,11 +101,7 @@ export const GridSidePaneView = ({ peers, showStatsOnTiles }) => {
     >
       <Flex css={{ flex: "1 1 0" }} align="end">
         {peers && peers.length > 0 && (
-          <VideoList
-            showStatsOnTiles={showStatsOnTiles}
-            peers={peers}
-            maxColCount={2}
-          />
+          <VideoList peers={peers} maxColCount={2} />
         )}
       </Flex>
       {isChatOpen && (

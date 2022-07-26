@@ -1,10 +1,16 @@
 import { APP_DATA, UI_SETTINGS } from "../../common/constants";
 import {
   selectAppData,
+  selectAppDataByPath,
   useHMSActions,
   useHMSStore,
+  useHMSVanillaStore,
 } from "@100mslive/react-sdk";
 import { useCallback } from "react";
+import {
+  UserPreferencesKeys,
+  useUserPreferences,
+} from "../hooks/useUserPreferences";
 
 /**
  * fields saved related to UI settings in store's app data can be
@@ -17,10 +23,10 @@ import { useCallback } from "react";
  * @param {string | undefined} uiSettingKey
  */
 export const useUISettings = uiSettingKey => {
-  let value = useHMSStore(selectAppData(APP_DATA.uiSettings));
-  if (value) {
-    return uiSettingKey ? value[uiSettingKey] : value;
-  }
+  const uiSettings = useHMSStore(
+    selectAppDataByPath(APP_DATA.uiSettings, uiSettingKey)
+  );
+  return uiSettings;
 };
 
 /**
@@ -33,22 +39,72 @@ export const useUISettings = uiSettingKey => {
  * @param {string} uiSettingKey
  */
 export const useSetUiSettings = uiSettingKey => {
-  const actions = useHMSActions();
-  let value = useUISettings(uiSettingKey);
-  const setValue = useCallback(
-    newValue => {
-      actions.setAppData(
-        APP_DATA.uiSettings,
-        { [uiSettingKey]: newValue },
-        true
-      );
-    },
-    [actions, uiSettingKey]
-  );
+  const value = useUISettings(uiSettingKey);
+  const setValue = useSetAppData({
+    key1: APP_DATA.uiSettings,
+    key2: uiSettingKey,
+  });
   return [value, setValue];
 };
 
 export const useIsHeadless = () => {
   const isHeadless = useUISettings(UI_SETTINGS.isHeadless);
   return isHeadless;
+};
+
+export const useHLSViewerRole = () => {
+  return useHMSStore(selectAppData(APP_DATA.hlsViewerRole));
+};
+
+export const useTokenEndpoint = () => {
+  return useHMSStore(selectAppData(APP_DATA.tokenEndpoint));
+};
+
+export const useLogo = () => {
+  return useHMSStore(selectAppData(APP_DATA.logo));
+};
+
+export const useSubscribedNotifications = notificationKey => {
+  const notificationPreference = useHMSStore(
+    selectAppDataByPath(APP_DATA.subscribedNotifications, notificationKey)
+  );
+  return notificationPreference;
+};
+
+export const useSetSubscribedNotifications = notificationKey => {
+  const value = useSubscribedNotifications(notificationKey);
+  const setValue = useSetAppData({
+    key1: APP_DATA.subscribedNotifications,
+    key2: notificationKey,
+  });
+  return [value, setValue];
+};
+
+const useSetAppData = ({ key1, key2 }) => {
+  const actions = useHMSActions();
+  const store = useHMSVanillaStore();
+  const [, setPreferences] = useUserPreferences(
+    UserPreferencesKeys.UI_SETTINGS
+  );
+  const setValue = useCallback(
+    value => {
+      if (!key1 || !key2) {
+        return;
+      }
+      actions.setAppData(
+        key1,
+        {
+          [key2]: value,
+        },
+        true
+      );
+      const appData = store.getState(selectAppData());
+      setPreferences({
+        ...appData.uiSettings,
+        subscribedNotifications: appData.subscribedNotifications,
+      });
+    },
+    [actions, key1, key2, store, setPreferences]
+  );
+  return setValue;
 };

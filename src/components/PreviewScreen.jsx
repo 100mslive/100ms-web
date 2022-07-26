@@ -1,11 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSearchParam } from "react-use";
 import { v4 } from "uuid";
 import { Box, Flex, Loading, styled } from "@100mslive/react-ui";
 import { Header } from "./Header";
 import { ErrorDialog } from "../primitives/DialogContent";
-import { AppContext } from "./context/AppContext";
 import {
   QUERY_PARAM_SKIP_PREVIEW_HEADFUL,
   QUERY_PARAM_NAME,
@@ -14,7 +13,7 @@ import {
   UI_SETTINGS,
 } from "../common/constants";
 import getToken from "../services/tokenService";
-import { useSetUiSettings } from "./AppData/useUISettings";
+import { useSetUiSettings, useTokenEndpoint } from "./AppData/useUISettings";
 import PreviewContainer from "./Preview/PreviewContainer";
 import SidePane from "../layouts/SidePane";
 import { useNavigation } from "./hooks/useNavigation";
@@ -32,7 +31,7 @@ import { useNavigation } from "./hooks/useNavigation";
 const env = process.env.REACT_APP_ENV;
 const PreviewScreen = React.memo(({ getUserToken }) => {
   const navigate = useNavigation();
-  const { tokenEndpoint } = useContext(AppContext);
+  const tokenEndpoint = useTokenEndpoint();
   const [, setIsHeadless] = useSetUiSettings(UI_SETTINGS.isHeadless);
   const { roomId: urlRoomId, role: userRole } = useParams(); // from the url
   const [token, setToken] = useState(null);
