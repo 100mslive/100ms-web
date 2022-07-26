@@ -11,7 +11,7 @@ import {
 import { ArrowRightIcon, CheckIcon, PersonIcon } from "@100mslive/react-icons";
 import { Dropdown, Text, config } from "@100mslive/react-ui";
 import { ToastManager } from "../Toast/ToastManager";
-import { useAppPolicyConfig } from "../AppData/useAppPolicyConfig";
+import { useAppLayout } from "../AppData/useAppLayout";
 import { arrayIntersection } from "../../common/utils";
 
 export const ChangeSelfRole = ({ onClick }) => {
@@ -21,7 +21,7 @@ export const ChangeSelfRole = ({ onClick }) => {
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const hmsActions = useHMSActions();
   const hideTriggerItem = useMedia(config.media.sm);
-  const selfRoleChangeTo = useAppPolicyConfig("selfRoleChangeTo");
+  const selfRoleChangeTo = useAppLayout("selfRoleChangeTo");
   const availableSelfChangeRoles = useMemo(
     () => arrayIntersection(selfRoleChangeTo, roles),
     [roles, selfRoleChangeTo]

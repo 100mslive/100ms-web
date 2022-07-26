@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import {
-  selectIsAllowedToPublish,
   selectIsConnectedToRoom,
   selectPermissions,
   useHMSStore,
@@ -104,14 +103,9 @@ const EndStream = () => {
 
 export const StreamActions = () => {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
-  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const permissions = useHMSStore(selectPermissions);
-  const isPublishingAnything = Object.values(isAllowedToPublish).some(
-    value => !!value
-  );
   if (
     !isConnected ||
-    !isPublishingAnything ||
     (!permissions.hlsStreaming && !permissions.rtmpStreaming)
   ) {
     return null;

@@ -62,10 +62,7 @@ export function AppData({
 
   useEffect(() => {
     if (localPeerRole) {
-      hmsActions.setAppData(
-        APP_DATA.appPolicyConfig,
-        appPolicyConfig[localPeerRole]
-      );
+      hmsActions.setAppData(APP_DATA.appLayout, appPolicyConfig[localPeerRole]);
     }
   }, [localPeerRole, appPolicyConfig, hmsActions]);
 

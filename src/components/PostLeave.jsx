@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { ExitIcon } from "@100mslive/react-icons";
-import { Button, Flex, Box, Text } from "@100mslive/react-ui";
+import { Button, Flex, Box, Text, textEllipsis } from "@100mslive/react-ui";
 import { ToastManager } from "./Toast/ToastManager";
 import { Header } from "./Header";
 import { useNavigation } from "./hooks/useNavigation";
@@ -41,10 +41,20 @@ const PostLeave = () => {
         </Text>
         <Text
           variant="body1"
-          css={{ color: "$textMedEmp", mt: "$8", fontWeight: "$regular" }}
+          css={{
+            color: "$textMedEmp",
+            mt: "$8",
+            fontWeight: "$regular",
+            textAlign: "center",
+          }}
         >
           Have a nice day
-          {previewPreference.name && `, ${previewPreference.name}`}!
+          {previewPreference.name && (
+            <Box as="span" css={{ ...textEllipsis(100) }}>
+              , {previewPreference.name}
+            </Box>
+          )}
+          !
         </Text>
         <Flex css={{ mt: "$14", gap: "$10", alignItems: "center" }}>
           <Text

@@ -15,10 +15,10 @@ const notificationTypes = [
 
 export const PeerNotifications = () => {
   const notification = useHMSNotifications(notificationTypes);
-  const PEER_JOINED = useSubscribedNotifications(
+  const isPeerJoinSubscribed = useSubscribedNotifications(
     SUBSCRIBED_NOTIFICATIONS.PEER_JOINED
   );
-  const PEER_LEFT = useSubscribedNotifications(
+  const isPeerLeftSubscribed = useSubscribedNotifications(
     SUBSCRIBED_NOTIFICATIONS.PEER_LEFT
   );
   useEffect(() => {
@@ -29,12 +29,12 @@ export const PeerNotifications = () => {
     switch (notification.type) {
       case HMSNotificationTypes.PEER_LIST:
       case HMSNotificationTypes.PEER_JOINED:
-        if (!PEER_JOINED) {
+        if (!isPeerJoinSubscribed) {
           return;
         }
         break;
       case HMSNotificationTypes.PEER_LEFT:
-        if (!PEER_LEFT) {
+        if (!isPeerLeftSubscribed) {
           return;
         }
         break;
@@ -42,7 +42,7 @@ export const PeerNotifications = () => {
         return;
     }
     ToastBatcher.showToast({ notification });
-  }, [notification, PEER_JOINED, PEER_LEFT]);
+  }, [notification, isPeerJoinSubscribed, isPeerLeftSubscribed]);
 
   return null;
 };

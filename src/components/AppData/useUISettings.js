@@ -108,14 +108,16 @@ const useSetAppData = ({ key1, key2 }) => {
   );
   const setValue = useCallback(
     value => {
-      if (!key1 || !key2) {
+      if (!key1) {
         return;
       }
       actions.setAppData(
         key1,
-        {
-          [key2]: value,
-        },
+        key2
+          ? {
+              [key2]: value,
+            }
+          : value,
         true
       );
       const appData = store.getState(selectAppData());

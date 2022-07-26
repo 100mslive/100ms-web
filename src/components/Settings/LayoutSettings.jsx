@@ -27,7 +27,7 @@ export const LayoutSettings = () => {
         isLocalVideoEnabled && (await hmsActions.setLocalVideoEnabled(false));
         isLocalScreenShared && (await hmsActions.setScreenShareEnabled(false));
       }
-      setUISettings(isAudioOnlyModeOn, UI_SETTINGS.isAudioOnly);
+      setUISettings({ [UI_SETTINGS.isAudioOnly]: isAudioOnlyModeOn });
     },
     [hmsActions, isLocalVideoEnabled, isLocalScreenShared, setUISettings]
   );
@@ -37,10 +37,11 @@ export const LayoutSettings = () => {
       <SwitchWithLabel
         checked={uiViewMode === UI_MODE_ACTIVE_SPEAKER}
         onChange={value => {
-          setUISettings(
-            value ? UI_MODE_ACTIVE_SPEAKER : UI_MODE_GRID,
-            UI_SETTINGS.uiViewMode
-          );
+          setUISettings({
+            [UI_SETTINGS.uiViewMode]: value
+              ? UI_MODE_ACTIVE_SPEAKER
+              : UI_MODE_GRID,
+          });
         }}
         id="activeSpeakerMode"
         label="Active Speaker Mode"
@@ -65,7 +66,7 @@ export const LayoutSettings = () => {
             min={1}
             max={49}
             onValueChange={e => {
-              setUISettings(e[0], UI_SETTINGS.maxTileCount);
+              setUISettings({ [UI_SETTINGS.maxTileCount]: e[0] });
             }}
             css={{ w: "70%" }}
           />

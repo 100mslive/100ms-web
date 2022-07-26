@@ -13,7 +13,10 @@ import { MainGridView } from "./mainGridView";
 import SidePane from "./SidePane";
 import FullPageProgress from "../components/FullPageProgress";
 import ScreenShareView from "./screenShareView";
-import { useUISettings } from "../components/AppData/useUISettings";
+import {
+  useHLSViewerRole,
+  useUISettings,
+} from "../components/AppData/useUISettings";
 import { useBeamAutoLeave } from "../common/hooks";
 import { useWhiteboardMetadata } from "../plugins/whiteboard";
 import { UI_MODE_ACTIVE_SPEAKER } from "../common/constants";
@@ -31,8 +34,8 @@ export const ConferenceMainView = () => {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   useBeamAutoLeave();
   const hmsActions = useHMSActions();
-  const { uiViewMode, HLS_VIEWER_ROLE, isAudioOnly } = useUISettings();
-
+  const { uiViewMode, isAudioOnly } = useUISettings();
+  const hlsViewerRole = useHLSViewerRole();
   useEffect(() => {
     if (!isConnected) {
       return;
@@ -57,7 +60,7 @@ export const ConferenceMainView = () => {
   }
 
   let ViewComponent;
-  if (localPeerRole === HLS_VIEWER_ROLE) {
+  if (localPeerRole === hlsViewerRole) {
     ViewComponent = HLSView;
   } else if (whiteboardShared) {
     ViewComponent = WhiteboardView;

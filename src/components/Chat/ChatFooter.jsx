@@ -109,7 +109,7 @@ export const ChatFooter = ({ role, peerId, onSend, children }) => {
         }}
       />
       <Popover.Root open={showEmoji} onOpenChange={setShowEmoji}>
-        <Popover.Trigger asChild>
+        <Popover.Trigger asChild css={{ appearance: "none" }}>
           <IconButton as="div">
             <EmojiIcon />
           </IconButton>

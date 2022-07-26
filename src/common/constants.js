@@ -115,7 +115,7 @@ export const APP_DATA = {
   subscribedNotifications: "subscribedNotifications",
   logo: "logo",
   tokenEndpoint: "tokenEndpoint",
-  appPolicyConfig: "appPolicyConfig",
+  appLayout: "appLayout",
   hlsStarted: "hlsStarted",
   rtmpStarted: "rtmpStarted",
 };

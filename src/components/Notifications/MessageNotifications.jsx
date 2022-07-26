@@ -12,7 +12,7 @@ import { SUBSCRIBED_NOTIFICATIONS } from "../../common/constants";
 
 export const MessageNotifications = () => {
   const notification = useHMSNotifications(HMSNotificationTypes.NEW_MESSAGE);
-  const NEW_MESSAGE = useSubscribedNotifications(
+  const isNewMessageSubscribed = useSubscribedNotifications(
     SUBSCRIBED_NOTIFICATIONS.NEW_MESSAGE
   );
   const isHeadless = useIsHeadless();
@@ -21,11 +21,11 @@ export const MessageNotifications = () => {
       return;
     }
     console.debug(`[${notification.type}]`, notification);
-    if (!NEW_MESSAGE || notification.data?.ignored || isHeadless) {
+    if (!isNewMessageSubscribed || notification.data?.ignored || isHeadless) {
       return;
     }
     ToastBatcher.showToast({ notification });
-  }, [notification, NEW_MESSAGE, isHeadless]);
+  }, [notification, isNewMessageSubscribed, isHeadless]);
 
   return null;
 };
