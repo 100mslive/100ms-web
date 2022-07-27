@@ -36,7 +36,6 @@ export const getAppDetails = appDetails => {
   }
 };
 
-let initCalled = false;
 export function AppData({
   appDetails,
   recordingUrl,
@@ -77,9 +76,6 @@ export function AppData({
   }, [isConnected, sidePane, resetSidePane]);
 
   useEffect(() => {
-    if (initCalled) {
-      return;
-    }
     const initialAppData = {
       [APP_DATA.uiSettings]: {
         [UI_SETTINGS.isAudioOnly]: false,
@@ -114,7 +110,6 @@ export function AppData({
       [APP_DATA.appConfig]: getAppDetails(appDetails),
     };
     hmsActions.initAppData(initialAppData);
-    initCalled = true;
   }, [
     appDetails,
     hmsActions,

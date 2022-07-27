@@ -43,7 +43,7 @@ module.exports = {
       events: false,
     },
   },
-  ignoreWarnings: [/Failed to parse source map/], // some libraries do not provide prooer source maps which throws this warning
+  ignoreWarnings: [/Failed to parse source map/], // some libraries do not provide proper source maps which throws this warning
   module: {
     rules: [
       {
