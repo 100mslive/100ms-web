@@ -2,14 +2,14 @@ import React from "react";
 import { styled, Text, textEllipsis } from "@100mslive/react-ui";
 import { ConnectionIndicator } from "./ConnectionIndicator";
 
-const TileConnection = ({ name, peerId, hideLabel }) => {
+const TileConnection = ({ name, peerId, hideLabel, width }) => {
   return (
     <Wrapper>
       {!hideLabel ? (
         <Text
           css={{
             c: "$textHighEmp",
-            ...textEllipsis("100%"),
+            ...textEllipsis(width - 60),
           }}
           variant="xs"
         >
@@ -31,7 +31,6 @@ const Wrapper = styled("div", {
   zIndex: 10,
   backgroundColor: "$backgroundDark",
   borderRadius: "$1",
-  maxWidth: "calc(100% - $20)",
   "& p,span": {
     p: "$2 $3",
   },

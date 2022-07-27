@@ -79,6 +79,7 @@ const Tile = ({ peerId, trackId, width, height }) => {
             name={label}
             isTile
             peerId={peerId}
+            width={width}
           />
           {showStatsOnTiles ? (
             <VideoTileStats
