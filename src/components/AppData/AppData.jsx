@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from "react";
-import { useSearchParam } from "react-use";
+import React, { useEffect } from "react";
+import { useSearchParam, useDeepCompareEffect } from "react-use";
 import {
   selectAvailableRoleNames,
   selectIsConnectedToRoom,
@@ -36,92 +36,110 @@ export const getAppDetails = appDetails => {
   }
 };
 
-export function AppData({
-  appDetails,
-  recordingUrl,
-  logo,
-  tokenEndpoint,
-  policyConfig,
-}) {
-  const hmsActions = useHMSActions();
-  const isConnected = useHMSStore(selectIsConnectedToRoom);
-  const sidePane = useSidepaneState();
-  const resetSidePane = useSidepaneReset();
-  const [preferences] = useUserPreferences(UserPreferencesKeys.UI_SETTINGS);
-  const { subscribedNotifications = {}, ...uiSettings } = preferences || {};
-  const roleNames = useHMSStore(selectAvailableRoleNames);
-  const rolesMap = useHMSStore(selectRolesMap);
-  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
-  const isDefaultModeActiveSpeaker =
-    useSearchParam(QUERY_PARAM_VIEW_MODE) === UI_MODE_ACTIVE_SPEAKER;
-  const appPolicyConfig = useMemo(
-    () => normalizeAppPolicyConfig(roleNames, rolesMap, policyConfig),
-    [roleNames, policyConfig, rolesMap]
-  );
+const initialAppData = {
+  [APP_DATA.uiSettings]: {
+    [UI_SETTINGS.isAudioOnly]: false,
+    [UI_SETTINGS.isHeadless]: false,
+    [UI_SETTINGS.maxTileCount]: 9,
+    [UI_SETTINGS.showStatsOnTiles]: false,
+    [UI_SETTINGS.enableAmbientMusic]: false,
+    [UI_SETTINGS.uiViewMode]: UI_MODE_GRID,
+  },
+  [APP_DATA.subscribedNotifications]: {
+    PEER_JOINED: false,
+    PEER_LEFT: false,
+    NEW_MESSAGE: true,
+    ERROR: true,
+    METADATA_UPDATED: true,
+  },
+  [APP_DATA.chatOpen]: false,
+  [APP_DATA.chatDraft]: "",
+  [APP_DATA.sidePane]: "",
+  [APP_DATA.hlsStarted]: false,
+  [APP_DATA.rtmpStarted]: false,
+  [APP_DATA.hlsViewerRole]: DEFAULT_HLS_VIEWER_ROLE,
+};
 
-  useEffect(() => {
-    if (
-      !isConnected &&
-      sidePane &&
-      sidePane !== SIDE_PANE_OPTIONS.PARTICIPANTS
-    ) {
-      resetSidePane();
-    }
-  }, [isConnected, sidePane, resetSidePane]);
+export const AppData = React.memo(
+  ({ appDetails, logo, recordingUrl, tokenEndpoint, policyConfig }) => {
+    const hmsActions = useHMSActions();
+    const isConnected = useHMSStore(selectIsConnectedToRoom);
+    const sidePane = useSidepaneState();
+    const resetSidePane = useSidepaneReset();
+    const [preferences = {}] = useUserPreferences(
+      UserPreferencesKeys.UI_SETTINGS
+    );
+    const roleNames = useHMSStore(selectAvailableRoleNames);
+    const rolesMap = useHMSStore(selectRolesMap);
+    const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+    const isDefaultModeActiveSpeaker =
+      useSearchParam(QUERY_PARAM_VIEW_MODE) === UI_MODE_ACTIVE_SPEAKER;
 
-  useEffect(() => {
-    const initialAppData = {
-      [APP_DATA.uiSettings]: {
-        [UI_SETTINGS.isAudioOnly]: false,
-        [UI_SETTINGS.isHeadless]: false,
-        [UI_SETTINGS.maxTileCount]: 9,
-        [UI_SETTINGS.showStatsOnTiles]: false,
-        [UI_SETTINGS.enableAmbientMusic]: false,
+    useEffect(() => {
+      if (
+        !isConnected &&
+        sidePane &&
+        sidePane !== SIDE_PANE_OPTIONS.PARTICIPANTS
+      ) {
+        resetSidePane();
+      }
+    }, [isConnected, sidePane, resetSidePane]);
+
+    useEffect(() => {
+      hmsActions.initAppData(initialAppData);
+    }, [hmsActions]);
+
+    useEffect(() => {
+      const uiSettings = preferences.uiSettings || {};
+      const updatedSettings = {
         ...uiSettings,
         [UI_SETTINGS.uiViewMode]: isDefaultModeActiveSpeaker
           ? UI_MODE_ACTIVE_SPEAKER
           : uiSettings.uiViewMode || UI_MODE_GRID,
-      },
-      [APP_DATA.subscribedNotifications]: {
-        PEER_JOINED: false,
-        PEER_LEFT: false,
-        NEW_MESSAGE: true,
-        ERROR: true,
-        METADATA_UPDATED: true,
-        ...subscribedNotifications,
-      },
-      [APP_DATA.chatOpen]: false,
-      [APP_DATA.chatDraft]: "",
-      [APP_DATA.sidePane]: "",
-      [APP_DATA.hlsStarted]: false,
-      [APP_DATA.rtmpStarted]: false,
-      [APP_DATA.recordingUrl]: recordingUrl,
-      [APP_DATA.tokenEndpoint]: tokenEndpoint,
-      [APP_DATA.logo]: logo,
-      [APP_DATA.hlsViewerRole]:
-        getMetadata(appDetails)[DEFAULT_HLS_ROLE_KEY] ||
-        DEFAULT_HLS_VIEWER_ROLE,
-      [APP_DATA.appConfig]: getAppDetails(appDetails),
-    };
-    if (localPeerRole) {
-      initialAppData[APP_DATA.appLayout] = appPolicyConfig[localPeerRole];
-    }
-    hmsActions.initAppData(initialAppData);
-  }, [
-    appDetails,
-    appPolicyConfig,
-    hmsActions,
-    isDefaultModeActiveSpeaker,
-    localPeerRole,
-    logo,
-    recordingUrl,
-    subscribedNotifications,
-    tokenEndpoint,
-    uiSettings,
-  ]);
+      };
+      hmsActions.setAppData(APP_DATA.uiSettings, updatedSettings, true);
+    }, [preferences.uiSettings, isDefaultModeActiveSpeaker, hmsActions]);
 
-  return <ResetStreamingStart />;
-}
+    useEffect(() => {
+      const appData = {
+        [APP_DATA.recordingUrl]: recordingUrl,
+        [APP_DATA.tokenEndpoint]: tokenEndpoint,
+        [APP_DATA.logo]: logo,
+        [APP_DATA.hlsViewerRole]:
+          getMetadata(appDetails)[DEFAULT_HLS_ROLE_KEY] ||
+          DEFAULT_HLS_VIEWER_ROLE,
+        [APP_DATA.appConfig]: getAppDetails(appDetails),
+      };
+      for (const key in appData) {
+        hmsActions.setAppData([key], appData[key]);
+      }
+    }, [appDetails, logo, recordingUrl, tokenEndpoint, hmsActions]);
+
+    useDeepCompareEffect(() => {
+      if (!preferences.subscribedNotifications) {
+        return;
+      }
+      hmsActions.setAppData(
+        APP_DATA.subscribedNotifications,
+        preferences.subscribedNotifications,
+        true
+      );
+    }, [preferences.subscribedNotifications, hmsActions]);
+
+    useDeepCompareEffect(() => {
+      if (localPeerRole) {
+        const config = normalizeAppPolicyConfig(
+          roleNames,
+          rolesMap,
+          policyConfig
+        );
+        hmsActions.setAppData(APP_DATA.appLayout, config[localPeerRole]);
+      }
+    }, [roleNames, policyConfig, rolesMap, localPeerRole]);
+
+    return <ResetStreamingStart />;
+  }
+);
 
 /**
  * reset hlsStarted, rtmpStarted values when streaming starts
