@@ -110,17 +110,7 @@ export function AppData({
       [APP_DATA.appConfig]: getAppDetails(appDetails),
     };
     hmsActions.initAppData(initialAppData);
-  }, [
-    appDetails,
-    hmsActions,
-    recordingUrl,
-    subscribedNotifications,
-    uiSettings,
-    tokenEndpoint,
-    logo,
-    policyConfig,
-    isDefaultModeActiveSpeaker,
-  ]);
+  }, []); //eslint-disable-line
 
   return <ResetStreamingStart />;
 }
