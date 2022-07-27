@@ -60,12 +60,6 @@ export function AppData({
   );
 
   useEffect(() => {
-    if (localPeerRole) {
-      hmsActions.setAppData(APP_DATA.appLayout, appPolicyConfig[localPeerRole]);
-    }
-  }, [localPeerRole, appPolicyConfig, hmsActions]);
-
-  useEffect(() => {
     if (
       !isConnected &&
       sidePane &&
@@ -109,8 +103,22 @@ export function AppData({
         DEFAULT_HLS_VIEWER_ROLE,
       [APP_DATA.appConfig]: getAppDetails(appDetails),
     };
+    if (localPeerRole) {
+      initialAppData[APP_DATA.appLayout] = appPolicyConfig[localPeerRole];
+    }
     hmsActions.initAppData(initialAppData);
-  }, []); //eslint-disable-line
+  }, [
+    appDetails,
+    appPolicyConfig,
+    hmsActions,
+    isDefaultModeActiveSpeaker,
+    localPeerRole,
+    logo,
+    recordingUrl,
+    subscribedNotifications,
+    tokenEndpoint,
+    uiSettings,
+  ]);
 
   return <ResetStreamingStart />;
 }
