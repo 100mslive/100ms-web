@@ -10,7 +10,6 @@ import {
   VideoPlayerIcon,
 } from "@100mslive/react-icons";
 import {
-  useRecordingStreaming,
   useScreenShare,
   selectPeerSharingVideoPlaylist,
   useHMSStore,
@@ -47,7 +46,6 @@ export const getRecordingText = (
  */
 export const AdditionalRoomState = () => {
   const playlist = usePlaylistMusic();
-  const { isStreamingOn, isRecordingOn } = useRecordingStreaming();
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const screenshareAudio = useScreenshareAudio();
   const [open, setOpen] = useState(false);
@@ -80,8 +78,6 @@ export const AdditionalRoomState = () => {
     isAudioshareInactive &&
     !shouldShowScreenShareState &&
     !shouldShowVideoState &&
-    !isRecordingOn &&
-    !isStreamingOn &&
     !whiteboardOwner
   ) {
     return null;
