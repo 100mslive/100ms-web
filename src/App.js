@@ -18,7 +18,7 @@ import { AppData } from "./components/AppData/AppData.jsx";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import ErrorPage from "./components/ErrorPage";
 import { Init } from "./components/init/Init";
-import { hmsActions, hmsNotifications, hmsStore } from "./hms.js";
+import { hmsActions, hmsNotifications, hmsStats, hmsStore } from "./hms.js";
 import { FeatureFlags } from "./services/FeatureFlags";
 import {
   getUserToken as defaultGetUserToken,
@@ -115,6 +115,7 @@ export function EdtechComponent({
           actions={hmsActions}
           store={hmsStore}
           notifications={hmsNotifications}
+          stats={hmsStats}
         >
           <AppData
             appDetails={metadata}
