@@ -27,9 +27,6 @@ export const ToggleWhiteboard = () => {
       key="whiteboard"
     >
       <IconButton
-        css={{
-          mx: "$4",
-        }}
         onClick={toggleWhiteboard}
         active={!whiteboardActive}
         disabled={whiteboardActive && !amIWhiteboardOwner}

@@ -48,7 +48,6 @@ const ScreenshareAudio = () => {
       >
         <IconButton
           active={!isAudioScreenshare}
-          css={{ mr: "$4" }}
           onClick={() => {
             if (amIScreenSharing) {
               toggleScreenShare(true);
@@ -93,7 +92,7 @@ export const ConferencingFooter = () => {
       </AppFooter.Left>
       <AppFooter.Center>
         <AudioVideoToggle />
-        <ScreenshareToggle css={{ mx: "$4" }} />
+        <ScreenshareToggle />
         <PIPComponent />
         <MoreSettings />
         <LeaveRoom />

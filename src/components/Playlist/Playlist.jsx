@@ -68,7 +68,7 @@ export const Playlist = ({ type }) => {
             type === HMSPlaylistType.audio ? "audio_playlist" : "video_playlist"
           }
         >
-          <IconButton css={{ mx: "$4" }} active={!active}>
+          <IconButton active={!active}>
             <Tooltip
               title={isAudioPlaylist ? "Audio Playlist" : "Video Playlist"}
             >

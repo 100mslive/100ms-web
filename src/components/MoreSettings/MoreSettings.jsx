@@ -36,11 +36,7 @@ export const MoreSettings = () => {
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={setOpen}>
         <Dropdown.Trigger asChild data-testid="more_settings_btn">
-          <IconButton
-            css={{
-              mx: "$4",
-            }}
-          >
+          <IconButton>
             <Tooltip title="More Options">
               <Box>
                 <VerticalMenuIcon />

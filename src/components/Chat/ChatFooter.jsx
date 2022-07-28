@@ -115,6 +115,7 @@ export const ChatFooter = ({ role, peerId, onSend, children }) => {
           </IconButton>
         </Popover.Trigger>
         <Popover.Content
+          alignOffset={-40}
           sideOffset={16}
           css={{
             p: 0,

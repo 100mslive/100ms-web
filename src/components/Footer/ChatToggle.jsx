@@ -19,7 +19,6 @@ export const ChatToggle = () => {
   return (
     <Tooltip key="chat" title={`${isChatOpen ? "Close" : "Open"} chat`}>
       <IconButton
-        css={{ mx: "$4" }}
         onClick={toggleChat}
         active={!isChatOpen}
         data-testid="chat_btn"

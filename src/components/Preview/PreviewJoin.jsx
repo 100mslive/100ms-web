@@ -173,7 +173,7 @@ const PreviewControls = () => {
         mt: "$8",
       }}
     >
-      <Flex>
+      <Flex css={{ gap: "$4" }}>
         <AudioVideoToggle compact />
         <VirtualBackground />
       </Flex>

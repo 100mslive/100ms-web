@@ -93,7 +93,7 @@ export const LeaveRoom = () => {
               </Tooltip>
             </LeaveIconButton>
           </Dropdown.Trigger>
-          <Dropdown.Content css={{ p: 0 }} sideOffset={10}>
+          <Dropdown.Content css={{ p: 0 }} alignOffset={-50} sideOffset={10}>
             <Dropdown.Item
               css={{ w: "100%", bg: "#34191C" }}
               onClick={() => {
@@ -190,7 +190,6 @@ const LeaveIconButton = styled(IconButton, {
   h: "$14",
   px: "$8",
   r: "$1",
-  mx: "$4",
   bg: "$error",
   "&:not([disabled]):hover": {
     bg: "$errorTint",

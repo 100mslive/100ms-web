@@ -105,7 +105,6 @@ export const NoiseSuppression = () => {
               await removePlugin();
             }
           }}
-          css={{ mx: "$4" }}
           data-testid="noise_suppression_btn"
         >
           <AudioLevelIcon />

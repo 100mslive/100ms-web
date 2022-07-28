@@ -1,3 +1,4 @@
+import React from "react";
 import { selectAppData } from "@100mslive/react-sdk";
 import {
   HandIcon,
@@ -17,20 +18,22 @@ const isChatOpen = () => {
   );
 };
 
-const ChatAction = () => {
+const ChatAction = React.forwardRef((_, ref) => {
   return (
     <Button
       outlined
+      as="div"
       variant="standard"
       css={{ w: "max-content" }}
       onClick={() => {
         hmsActions.setAppData(APP_DATA.sidePane, SIDE_PANE_OPTIONS.CHAT);
       }}
+      ref={ref}
     >
       Open Chat
     </Button>
   );
-};
+});
 
 export const ToastConfig = {
   PEER_LIST: {

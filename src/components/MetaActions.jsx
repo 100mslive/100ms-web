@@ -13,10 +13,9 @@ const MetaActions = ({ isMobile = false, compact = false }) => {
   }
 
   return (
-    <Flex align="center">
+    <Flex align="center" css={{ gap: compact ? "$4" : "$8" }}>
       <Tooltip title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}>
         <IconButton
-          css={{ mx: compact ? "$2" : "$4" }}
           onClick={toggleHandRaise}
           active={!isHandRaised}
           data-testid={`${
@@ -27,12 +26,7 @@ const MetaActions = ({ isMobile = false, compact = false }) => {
         </IconButton>
       </Tooltip>
       <Tooltip title={`${isBRBOn ? `I'm back` : `I'll be right back`}`}>
-        <IconButton
-          css={{ mx: compact ? "$2" : "$4" }}
-          onClick={toggleBRB}
-          active={!isBRBOn}
-          data-testid="brb_btn"
-        >
+        <IconButton onClick={toggleBRB} active={!isBRBOn} data-testid="brb_btn">
           <BrbIcon />
         </IconButton>
       </Tooltip>
