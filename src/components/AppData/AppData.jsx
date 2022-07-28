@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { useSearchParam } from "react-use";
 import {
   selectAvailableRoleNames,
+  selectHLSState,
   selectIsConnectedToRoom,
   selectLocalPeerRoleName,
   selectRolesMap,
+  selectRTMPState,
   useHMSActions,
   useHMSStore,
   useRecordingStreaming,
@@ -146,20 +148,22 @@ export const AppData = React.memo(
  */
 const ResetStreamingStart = () => {
   const { isHLSRunning, isRTMPRunning } = useRecordingStreaming();
+  const hlsError = useHMSStore(selectHLSState).error;
+  const rtmpError = useHMSStore(selectRTMPState).error;
   const [hlsStarted, setHLSStarted] = useSetAppDataByKey(APP_DATA.hlsStarted);
   const [rtmpStarted, setRTMPStarted] = useSetAppDataByKey(
     APP_DATA.rtmpStarted
   );
 
   useEffect(() => {
-    if (isHLSRunning && hlsStarted) {
+    if ((isHLSRunning || hlsError) && hlsStarted) {
       setHLSStarted(false);
     }
-  }, [isHLSRunning, hlsStarted, setHLSStarted]);
+  }, [isHLSRunning, hlsStarted, setHLSStarted, hlsError]);
   useEffect(() => {
-    if (isRTMPRunning && rtmpStarted) {
+    if ((isRTMPRunning || rtmpError) && rtmpStarted) {
       setRTMPStarted(false);
     }
-  }, [isRTMPRunning, setRTMPStarted, rtmpStarted]);
+  }, [isRTMPRunning, setRTMPStarted, rtmpStarted, rtmpError]);
   return null;
 };
