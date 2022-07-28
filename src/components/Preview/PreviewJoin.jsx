@@ -39,6 +39,7 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   );
   const [name, setName] = useState(initialName || previewPreference.name);
   const { isLocalAudioEnabled, isLocalVideoEnabled } = useAVToggle();
+  const [previewError, setPreviewError] = useState(false);
   const { enableJoin, preview, join } = usePreviewJoin({
     name,
     token,
@@ -48,6 +49,11 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
       isVideoMuted: skipPreview || previewPreference.isVideoMuted,
     },
     captureNetworkQualityInPreview: true,
+    handleError: (_, method) => {
+      if (method === "preview") {
+        setPreviewError(true);
+      }
+    },
   });
   const savePreferenceAndJoin = useCallback(() => {
     setPreviewPreference({
@@ -94,7 +100,7 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
           flexDirection: "column",
         }}
       >
-        <PreviewTile name={name} />
+        <PreviewTile name={name} error={previewError} />
         <PreviewControls
           enableJoin={enableJoin}
           savePreferenceAndJoin={savePreferenceAndJoin}
@@ -117,7 +123,7 @@ const Container = styled("div", {
   px: "$10",
 });
 
-const PreviewTile = ({ name }) => {
+const PreviewTile = ({ name, error }) => {
   const localPeer = useHMSStore(selectLocalPeer);
   const borderAudioRef = useBorderAudioLevel(localPeer?.audioTrack);
   const isVideoOn = useHMSStore(selectIsLocalVideoEnabled);
@@ -157,9 +163,9 @@ const PreviewTile = ({ name }) => {
             </StyledVideoTile.AvatarContainer>
           ) : null}
         </>
-      ) : (
+      ) : !error ? (
         <Loading size={100} />
-      )}
+      ) : null}
     </StyledVideoTile.Container>
   );
 };

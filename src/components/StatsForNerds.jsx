@@ -46,93 +46,97 @@ export const StatsForNerds = ({ onOpenChange }) => {
 
   return (
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
-      <Dialog.Content
-        css={{
-          width: "min(500px, 95%)",
-        }}
-      >
-        {/* Title */}
-        <Dialog.Title css={{ p: "$4 0" }}>
-          <Flex justify="between">
-            <Flex align="center" css={{ mb: "$1" }}>
-              <Text variant="h6" inline>
-                Stats For Nerds
-              </Text>
-            </Flex>
-            <Dialog.DefaultClose data-testid="stats_dialog_close_icon" />
-          </Flex>
-        </Dialog.Title>
-        <HorizontalDivider css={{ mt: "0.8rem" }} />
-        {/* Switch */}
-        <Flex justify="start" gap={4} css={{ m: "$10 0" }}>
-          <Switch
-            checked={showStatsOnTiles}
-            onCheckedChange={setShowStatsOnTiles}
-          />
-          <Text variant="body2" css={{ fontWeight: "$semiBold" }}>
-            Show Stats on Tiles
-          </Text>
-        </Flex>
-        {/* Select */}
-        <Flex
-          direction="column"
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content
           css={{
-            mb: "$12",
-            position: "relative",
-            minWidth: 0,
-            "[data-radix-popper-content-wrapper]": {
-              w: "100%",
-              minWidth: "0 !important",
-              mt: "$4",
-              transform: "translateY($space$20) !important",
-              zIndex: 11,
-            },
+            width: "min(500px, 95%)",
           }}
         >
-          <Label variant="body2">Stats For</Label>
-          <Dropdown.Root
-            data-testid="dialog_select_Stats For"
-            open={open}
-            onOpenChange={setOpen}
-          >
-            <DialogDropdownTrigger
-              title={
-                statsOptions.find(({ id }) => id === selectedStat)?.label ||
-                "Select Stats"
-              }
-              css={{ mt: "$4" }}
-              open={open}
+          {/* Title */}
+          <Dialog.Title css={{ p: "$4 0" }}>
+            <Flex justify="between">
+              <Flex align="center" css={{ mb: "$1" }}>
+                <Text variant="h6" inline>
+                  Stats For Nerds
+                </Text>
+              </Flex>
+              <Dialog.DefaultClose data-testid="stats_dialog_close_icon" />
+            </Flex>
+          </Dialog.Title>
+          <HorizontalDivider css={{ mt: "0.8rem" }} />
+          {/* Switch */}
+          <Flex justify="start" gap={4} css={{ m: "$10 0" }}>
+            <Switch
+              checked={showStatsOnTiles}
+              onCheckedChange={setShowStatsOnTiles}
             />
-            <Dropdown.Content
-              align="start"
-              sideOffset={8}
-              css={{ w: "100%" }}
-              portalled={false}
+            <Text variant="body2" css={{ fontWeight: "$semiBold" }}>
+              Show Stats on Tiles
+            </Text>
+          </Flex>
+          {/* Select */}
+          <Flex
+            direction="column"
+            css={{
+              mb: "$12",
+              position: "relative",
+              minWidth: 0,
+              "[data-radix-popper-content-wrapper]": {
+                w: "100%",
+                minWidth: "0 !important",
+                mt: "$4",
+                transform: "translateY($space$20) !important",
+                zIndex: 11,
+              },
+            }}
+          >
+            <Label variant="body2">Stats For</Label>
+            <Dropdown.Root
+              data-testid="dialog_select_Stats For"
+              open={open}
+              onOpenChange={setOpen}
             >
-              {statsOptions.map(option => (
-                <Dropdown.Item
-                  key={option.id}
-                  onClick={() => {
-                    setSelectedStat(option.id);
-                  }}
-                  css={{
-                    bg: option.id === selectedStat ? "$primaryDark" : undefined,
-                    c: option.id === selectedStat ? "$white" : "$textPrimary",
-                  }}
-                >
-                  {option.label}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Content>
-          </Dropdown.Root>
-        </Flex>
-        {/* Stats */}
-        {selectedStat === "local-peer" ? (
-          <LocalPeerStats />
-        ) : (
-          <TrackStats trackID={selectedStat} />
-        )}
-      </Dialog.Content>
+              <DialogDropdownTrigger
+                title={
+                  statsOptions.find(({ id }) => id === selectedStat)?.label ||
+                  "Select Stats"
+                }
+                css={{ mt: "$4" }}
+                open={open}
+              />
+              <Dropdown.Content
+                align="start"
+                sideOffset={8}
+                css={{ w: "100%" }}
+                portalled={false}
+              >
+                {statsOptions.map(option => (
+                  <Dropdown.Item
+                    key={option.id}
+                    onClick={() => {
+                      setSelectedStat(option.id);
+                    }}
+                    css={{
+                      bg:
+                        option.id === selectedStat ? "$primaryDark" : undefined,
+                      c: option.id === selectedStat ? "$white" : "$textPrimary",
+                    }}
+                  >
+                    {option.label}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Content>
+            </Dropdown.Root>
+          </Flex>
+          {/* Stats */}
+          {selectedStat === "local-peer" ? (
+            <LocalPeerStats />
+          ) : (
+            <TrackStats trackID={selectedStat} />
+          )}
+        </Dialog.Content>
+      </Dialog.Portal>
     </Dialog.Root>
   );
 };

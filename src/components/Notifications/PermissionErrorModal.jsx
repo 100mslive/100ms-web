@@ -43,31 +43,34 @@ export function PermissionErrorModal() {
         }
       }}
     >
-      <Dialog.Content css={{ w: "min(480px, 90%)" }}>
-        <Dialog.Title
-          css={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderBottom: "1px solid $borderDefault",
-            pb: "$8",
-          }}
-        >
-          <Text css={{ fontWeight: "$semiBold" }}>
-            {deviceType} permissions are blocked
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content css={{ w: "min(480px, 90%)" }}>
+          <Dialog.Title
+            css={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderBottom: "1px solid $borderDefault",
+              pb: "$8",
+            }}
+          >
+            <Text css={{ fontWeight: "$semiBold" }}>
+              {deviceType} permissions are blocked
+            </Text>
+            <Dialog.DefaultClose
+              data-testid="dialoge_cross_icon"
+              css={{ alignSelf: "start" }}
+            />
+          </Dialog.Title>
+          <Text variant="md" css={{ py: "$10" }}>
+            Access to {deviceType} is required.&nbsp;
+            {isSystemError
+              ? `Enable permissions for ${deviceType} from sytem settings`
+              : `Enable permissions for ${deviceType} from address bar or browser settings`}
           </Text>
-          <Dialog.DefaultClose
-            data-testid="dialoge_cross_icon"
-            css={{ alignSelf: "start" }}
-          />
-        </Dialog.Title>
-        <Text variant="md" css={{ py: "$10" }}>
-          Access to {deviceType} is required.&nbsp;
-          {isSystemError
-            ? `Enable permissions for ${deviceType} from sytem settings`
-            : `Enable permissions for ${deviceType} from address bar or browser settings`}
-        </Text>
-      </Dialog.Content>
+        </Dialog.Content>
+      </Dialog.Portal>
     </Dialog.Root>
   ) : null;
 }
