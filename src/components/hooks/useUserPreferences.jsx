@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useLocalStorage } from "react-use";
 
 export const UserPreferencesKeys = {
@@ -13,7 +14,17 @@ export const defaultPreviewPreference = {
   isVideoMuted: false,
 };
 
-export const useUserPreferences = (key, defaultValue) => {
-  const [value, setValue] = useLocalStorage(key, defaultValue);
-  return [value, setValue];
+export const useUserPreferences = (key, defaultPreference) => {
+  const [localStorageValue, setStorageValue] = useLocalStorage(
+    key,
+    defaultPreference
+  );
+  const [preference, setPreference] = useState(
+    localStorageValue || defaultPreference
+  );
+  const changePreference = value => {
+    setPreference(value);
+    setStorageValue(value);
+  };
+  return [preference, changePreference];
 };

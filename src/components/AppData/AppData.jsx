@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSearchParam, useDeepCompareEffect } from "react-use";
+import { useSearchParam } from "react-use";
 import {
   selectAvailableRoleNames,
   selectIsConnectedToRoom,
@@ -115,7 +115,7 @@ export const AppData = React.memo(
       }
     }, [appDetails, logo, recordingUrl, tokenEndpoint, hmsActions]);
 
-    useDeepCompareEffect(() => {
+    useEffect(() => {
       if (!preferences.subscribedNotifications) {
         return;
       }
@@ -126,7 +126,7 @@ export const AppData = React.memo(
       );
     }, [preferences.subscribedNotifications, hmsActions]);
 
-    useDeepCompareEffect(() => {
+    useEffect(() => {
       if (localPeerRole) {
         const config = normalizeAppPolicyConfig(
           roleNames,
@@ -135,7 +135,7 @@ export const AppData = React.memo(
         );
         hmsActions.setAppData(APP_DATA.appLayout, config[localPeerRole]);
       }
-    }, [roleNames, policyConfig, rolesMap, localPeerRole]);
+    }, [roleNames, policyConfig, rolesMap, localPeerRole, hmsActions]);
 
     return <ResetStreamingStart />;
   }
