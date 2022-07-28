@@ -1,15 +1,6 @@
 import React, { useState } from "react";
+import { Flex, Dropdown, Text, Box, Tooltip } from "@100mslive/react-ui";
 import {
-  Flex,
-  Dropdown,
-  Text,
-  textEllipsis,
-  Box,
-  Tooltip,
-} from "@100mslive/react-ui";
-import {
-  RecordIcon,
-  GlobeIcon,
   MusicIcon,
   ChevronUpIcon,
   ChevronDownIcon,
@@ -51,25 +42,12 @@ export const getRecordingText = (
   return title.join(delimiter);
 };
 
-const getStreamingText = ({ isStreamingOn, isHLSRunning }) => {
-  if (isStreamingOn) {
-    return isHLSRunning ? "HLS" : "RTMP";
-  }
-};
-
 /**
  * Display state of recording, streaming, playlist, whiteboard
  */
 export const AdditionalRoomState = () => {
   const playlist = usePlaylistMusic();
-  const {
-    isServerRecordingOn,
-    isBrowserRecordingOn,
-    isHLSRecordingOn,
-    isStreamingOn,
-    isHLSRunning,
-    isRecordingOn,
-  } = useRecordingStreaming();
+  const { isStreamingOn, isRecordingOn } = useRecordingStreaming();
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const screenshareAudio = useScreenshareAudio();
   const [open, setOpen] = useState(false);
@@ -119,6 +97,7 @@ export const AdditionalRoomState = () => {
             borderRadius: "$1",
             border: "1px solid $textDisabled",
             padding: "$4",
+            "@sm": { display: "none" },
           }}
           data-testid="record_status_dropdown"
         >
@@ -157,77 +136,12 @@ export const AdditionalRoomState = () => {
               </Flex>
             </Tooltip>
           )}
-          <Flex
-            align="center"
-            css={{
-              color: "$error",
-            }}
-          >
-            {isRecordingOn && (
-              <Tooltip
-                title={getRecordingText({
-                  isBrowserRecordingOn,
-                  isServerRecordingOn,
-                  isHLSRecordingOn,
-                })}
-              >
-                <Box>
-                  <RecordIcon
-                    width={24}
-                    height={24}
-                    style={{ marginRight: "0.25rem" }}
-                  />
-                </Box>
-              </Tooltip>
-            )}
-            {isStreamingOn && (
-              <Tooltip
-                title={getStreamingText({ isStreamingOn, isHLSRunning })}
-              >
-                <Box>
-                  <GlobeIcon width={24} height={24} />
-                </Box>
-              </Tooltip>
-            )}
-          </Flex>
           <Box css={{ "@lg": { display: "none" }, color: "$textDisabled" }}>
             {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
           </Box>
         </Flex>
       </Dropdown.Trigger>
       <Dropdown.Content sideOffset={5} align="end" css={{ w: "$60" }}>
-        {isRecordingOn && (
-          <Dropdown.Item css={{ color: "$error" }}>
-            <RecordIcon width={24} height={24} />
-            <Text
-              variant="sm"
-              css={{ ml: "$2", flex: "1 1 0", ...textEllipsis("80%") }}
-            >
-              Recording (
-              {getRecordingText(
-                {
-                  isBrowserRecordingOn,
-                  isServerRecordingOn,
-                  isHLSRecordingOn,
-                },
-                "|"
-              )}
-              )
-            </Text>
-          </Dropdown.Item>
-        )}
-        {isStreamingOn && (
-          <Dropdown.Item css={{ color: "$error" }}>
-            <GlobeIcon width={24} height={24} />
-            <Text variant="sm" css={{ ml: "$2" }}>
-              Streaming ({isHLSRunning ? "HLS" : "RTMP"})
-            </Text>
-          </Dropdown.Item>
-        )}
-        {(isRecordingOn || isStreamingOn) &&
-          (!isPlaylistInactive || !isAudioshareInactive || whiteboardOwner) && (
-            <Dropdown.ItemSeparator />
-          )}
         {!isPlaylistInactive && (
           <Dropdown.Item css={{ color: "$textPrimary" }}>
             <AudioPlayerIcon width={24} height={24} />
