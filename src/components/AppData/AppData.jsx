@@ -154,7 +154,7 @@ const ResetStreamingStart = () => {
   const rtmpError = useHMSStore(selectRTMPState).error;
   const [hlsStarted, setHLSStarted] = useSetAppDataByKey(APP_DATA.hlsStarted);
   const [recordingStarted, setRecordingStarted] = useSetAppDataByKey(
-    APP_DATA.hlsStarted
+    APP_DATA.recordingStarted
   );
   const [rtmpStarted, setRTMPStarted] = useSetAppDataByKey(
     APP_DATA.rtmpStarted
