@@ -18,7 +18,7 @@ const PreviewName = ({ name, onChange, onJoin, enableJoin }) => {
         autoFocus
       />
       <Button type="submit" disabled={!name || !enableJoin} onClick={onJoin}>
-        {isStreamingKit() ? "Join Stream" : "Join Room"}
+        {isStreamingKit() ? "Join Studio" : "Join Room"}
       </Button>
     </Form>
   );

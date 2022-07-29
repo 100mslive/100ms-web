@@ -40,7 +40,7 @@ export const ResolutionInput = ({
   return (
     <DialogRow breakSm css={css}>
       <Flex gap={1}>
-        <Label css={{ "@sm": { mb: "$8" } }}>Resolution</Label>
+        <Label css={{ mb: "$8" }}>Resolution</Label>
         {tooltipText && (
           <Tooltip title={tooltipText}>
             <div>

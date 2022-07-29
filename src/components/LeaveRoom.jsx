@@ -131,7 +131,7 @@ export const LeaveRoom = () => {
                   </Text>
                   <Text variant="sm" css={{ c: "$textMedEmp" }}>
                     Others will continue after you leave. You can join the
-                    {isStreamKit ? "studio" : "room"} again.
+                    {isStreamKit ? " studio" : " room"} again.
                   </Text>
                 </Flex>
               </Flex>

@@ -22,7 +22,7 @@ export const ConferencingHeader = ({ isPreview }) => {
         css={{
           position: "absolute",
           right: "$10",
-          gap: "$6",
+          gap: "$4",
         }}
       >
         <StreamActions />

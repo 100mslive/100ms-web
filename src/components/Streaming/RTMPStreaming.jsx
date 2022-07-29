@@ -30,7 +30,7 @@ import {
   ErrorText,
   RecordStream,
 } from "./Common";
-import { ResolutionInput } from "../MoreSettings/ResolutionInput";
+import { ResolutionInput } from "./ResolutionInput";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import {
   UserPreferencesKeys,
@@ -363,7 +363,7 @@ const updateStream = ({ streams, id, key, value }) =>
     return stream;
   });
 
-function getResolution(recordingResolution) {
+export function getResolution(recordingResolution) {
   const resolution = {};
   if (recordingResolution.width) {
     resolution.width = recordingResolution.width;

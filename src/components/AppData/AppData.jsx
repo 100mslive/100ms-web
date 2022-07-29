@@ -59,6 +59,7 @@ const initialAppData = {
   [APP_DATA.sidePane]: "",
   [APP_DATA.hlsStarted]: false,
   [APP_DATA.rtmpStarted]: false,
+  [APP_DATA.recordingStarted]: false,
   [APP_DATA.hlsViewerRole]: DEFAULT_HLS_VIEWER_ROLE,
 };
 

@@ -12,8 +12,7 @@
       {
         "vars": "all",
         "args": "none",
-        "ignoreRestSiblings": false,
-        "destructuredArrayIgnorePattern": "^_"
+        "ignoreRestSiblings": false
       }
     ],
     "react/jsx-curly-brace-presence": [

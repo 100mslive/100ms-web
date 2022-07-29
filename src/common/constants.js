@@ -118,6 +118,7 @@ export const APP_DATA = {
   appLayout: "appLayout",
   hlsStarted: "hlsStarted",
   rtmpStarted: "rtmpStarted",
+  recordingStarted: "recordingStarted",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",

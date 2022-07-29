@@ -1,16 +1,35 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import {
+  selectAppData,
   selectIsConnectedToRoom,
   selectPermissions,
+  useHMSActions,
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
 import { EndStreamIcon, RecordIcon } from "@100mslive/react-icons";
-import { Box, Button, Flex, Text, Tooltip } from "@100mslive/react-ui";
+import {
+  Box,
+  Button,
+  Flex,
+  Loading,
+  Popover,
+  Text,
+  Tooltip,
+} from "@100mslive/react-ui";
 import GoLiveButton from "../GoLiveButton";
 import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
+import { getResolution } from "../Streaming/RTMPStreaming";
+import { ToastManager } from "../Toast/ToastManager";
+import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { useSidepaneToggle } from "../AppData/useSidepane";
-import { SIDE_PANE_OPTIONS } from "../../common/constants";
+import { useSetAppDataByKey } from "../AppData/useUISettings";
+import { getDefaultMeetingUrl } from "../../common/utils";
+import {
+  APP_DATA,
+  RTMP_RECORD_DEFAULT_RESOLUTION,
+  SIDE_PANE_OPTIONS,
+} from "../../common/constants";
 
 export const LiveStatus = () => {
   const { isHLSRunning, isRTMPRunning } = useRecordingStreaming();
@@ -49,27 +68,13 @@ export const RecordingStatus = () => {
         isHLSRecordingOn,
       })}
     >
-      <Fragment>
-        <Button
-          variant="standard"
-          outlined
-          css={{
-            color: "$error",
-            px: "$4",
-            "@md": { display: "none" },
-          }}
-        >
-          <RecordIcon width={24} height={24} />
-        </Button>
-        <Box
-          css={{
-            display: "none",
-            "@md": { display: "block", color: "$error" },
-          }}
-        >
-          <RecordIcon width={24} height={24} />
-        </Box>
-      </Fragment>
+      <Box
+        css={{
+          color: "$error",
+        }}
+      >
+        <RecordIcon width={24} height={24} />
+      </Box>
     </Tooltip>
   );
 };
@@ -95,6 +100,128 @@ const EndStream = () => {
   );
 };
 
+const StartRecording = () => {
+  const permissions = useHMSStore(selectPermissions);
+  const recordingUrl = useHMSStore(selectAppData(APP_DATA.recordingUrl));
+  const [resolution, setResolution] = useState(RTMP_RECORD_DEFAULT_RESOLUTION);
+  const [open, setOpen] = useState(false);
+  const [recordingStarted, setRecordingState] = useSetAppDataByKey(
+    APP_DATA.recordingStarted
+  );
+  const { isBrowserRecordingOn } = useRecordingStreaming();
+  const hmsActions = useHMSActions();
+  if (!permissions?.browserRecording) {
+    return null;
+  }
+  if (isBrowserRecordingOn) {
+    return (
+      <Popover.Root open={open} onOpenChange={setOpen}>
+        <Popover.Trigger asChild>
+          <Button
+            variant="danger"
+            icon
+            outlined
+            disabled={recordingStarted}
+            onClick={() => setOpen(true)}
+          >
+            <RecordIcon />
+            <Text
+              as="span"
+              css={{ "@md": { display: "none" }, color: "currentColor" }}
+            >
+              Stop Recording
+            </Text>
+          </Button>
+        </Popover.Trigger>
+        <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
+          <Text variant="body" css={{ color: "$textMedEmp" }}>
+            Are you sure you want to end the recording?
+          </Text>
+          <Button
+            variant="danger"
+            icon
+            css={{ ml: "auto" }}
+            onClick={async () => {
+              try {
+                await hmsActions.stopRTMPAndRecording();
+              } catch (error) {
+                ToastManager.addToast({
+                  title: error.message,
+                  variant: "error",
+                });
+              }
+              setOpen(false);
+            }}
+          >
+            Stop
+          </Button>
+        </Popover.Content>
+      </Popover.Root>
+    );
+  }
+  return (
+    <Popover.Root open={open} onOpenChange={setOpen}>
+      <Popover.Trigger asChild>
+        <Button
+          variant="standard"
+          icon
+          disabled={recordingStarted}
+          onClick={() => setOpen(true)}
+        >
+          {recordingStarted ? (
+            <Loading size={24} color="currentColor" />
+          ) : (
+            <RecordIcon />
+          )}
+          <Text
+            as="span"
+            css={{ "@md": { display: "none" }, color: "currentColor" }}
+          >
+            {recordingStarted ? "Starting" : "Start"} Recording
+          </Text>
+        </Button>
+      </Popover.Trigger>
+      <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
+        <ResolutionInput
+          css={{ flexDirection: "column", alignItems: "start" }}
+          onResolutionChange={setResolution}
+        />
+        <Button
+          variant="primary"
+          icon
+          css={{ ml: "auto" }}
+          onClick={async () => {
+            try {
+              setRecordingState(true);
+              await hmsActions.startRTMPOrRecording({
+                meetingURL: recordingUrl || getDefaultMeetingUrl(),
+                resolution: getResolution(resolution),
+                record: true,
+              });
+            } catch (error) {
+              if (error.message.includes("stream alredy running")) {
+                ToastManager.addToast({
+                  title: "Recording already running",
+                  variant: "error",
+                });
+              } else {
+                ToastManager.addToast({
+                  title: error.message,
+                  variant: "error",
+                });
+              }
+              setRecordingState(false);
+            }
+            setOpen(false);
+          }}
+        >
+          Start
+        </Button>
+      </Popover.Content>
+    </Popover.Root>
+  );
+};
+
 export const StreamActions = () => {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const permissions = useHMSStore(selectPermissions);
@@ -105,6 +232,7 @@ export const StreamActions = () => {
         <LiveStatus />
         <RecordingStatus />
       </Flex>
+      {isConnected && <StartRecording />}
       {isConnected && (permissions.hlsStreaming || permissions.rtmpStreaming) && (
         <Fragment>
           <GoLiveButton />
