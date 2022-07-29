@@ -148,14 +148,23 @@ export const AppData = React.memo(
  * reset hlsStarted, rtmpStarted values when streaming starts
  */
 const ResetStreamingStart = () => {
-  const { isHLSRunning, isRTMPRunning } = useRecordingStreaming();
+  const { isHLSRunning, isRTMPRunning, isBrowserRecordingOn } =
+    useRecordingStreaming();
   const hlsError = useHMSStore(selectHLSState).error;
   const rtmpError = useHMSStore(selectRTMPState).error;
   const [hlsStarted, setHLSStarted] = useSetAppDataByKey(APP_DATA.hlsStarted);
+  const [recordingStarted, setRecordingStarted] = useSetAppDataByKey(
+    APP_DATA.hlsStarted
+  );
   const [rtmpStarted, setRTMPStarted] = useSetAppDataByKey(
     APP_DATA.rtmpStarted
   );
 
+  useEffect(() => {
+    if (isBrowserRecordingOn && recordingStarted) {
+      setRecordingStarted(false);
+    }
+  }, [isBrowserRecordingOn, recordingStarted, setRecordingStarted]);
   useEffect(() => {
     if ((isHLSRunning || hlsError) && hlsStarted) {
       setHLSStarted(false);
