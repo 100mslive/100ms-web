@@ -117,13 +117,7 @@ const StartRecording = () => {
     return (
       <Popover.Root open={open} onOpenChange={setOpen}>
         <Popover.Trigger asChild>
-          <Button
-            variant="danger"
-            icon
-            outlined
-            disabled={recordingStarted}
-            onClick={() => setOpen(true)}
-          >
+          <Button variant="danger" icon outlined onClick={() => setOpen(true)}>
             <RecordIcon />
             <Text
               as="span"
