@@ -16,7 +16,7 @@ const GoLiveButton = () => {
     SIDE_PANE_OPTIONS.STREAMING
   );
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
-  const { isStreamingOn } = useRecordingStreaming();
+  const { isStreamingOn, isBrowserRecordingOn } = useRecordingStreaming();
   const isHLSStartedFromUI = useIsHLSStartedFromUI();
   const isRTMPStartedFromUI = useIsRTMPStartedFromUI();
   let tooltipText = "Start Streaming";
@@ -38,6 +38,7 @@ const GoLiveButton = () => {
         onClick={toggleStreaming}
         icon
         loading={isRTMPStartedFromUI || isHLSStartedFromUI}
+        disabled={isBrowserRecordingOn && !isStreamingOn}
       >
         <GoLiveIcon />
         Go Live

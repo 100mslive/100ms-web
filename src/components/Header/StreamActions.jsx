@@ -56,8 +56,19 @@ export const RecordingStatus = () => {
     isHLSRecordingOn,
     isRecordingOn,
   } = useRecordingStreaming();
+  const permissions = useHMSStore(selectPermissions);
 
-  if (!isRecordingOn) {
+  if (
+    !isRecordingOn ||
+    // if only browser recording is enabled, stop recording is shown
+    // so no need to show this as it duplicates
+    [
+      permissions?.browserRecording,
+      !isServerRecordingOn,
+      !isHLSRecordingOn,
+      isBrowserRecordingOn,
+    ].every(value => !!value)
+  ) {
     return null;
   }
   return (
@@ -108,9 +119,10 @@ const StartRecording = () => {
   const [recordingStarted, setRecordingState] = useSetAppDataByKey(
     APP_DATA.recordingStarted
   );
-  const { isBrowserRecordingOn } = useRecordingStreaming();
+  const { isBrowserRecordingOn, isStreamingOn, isHLSRunning } =
+    useRecordingStreaming();
   const hmsActions = useHMSActions();
-  if (!permissions?.browserRecording) {
+  if (!permissions?.browserRecording || isHLSRunning) {
     return null;
   }
   if (isBrowserRecordingOn) {
@@ -159,7 +171,7 @@ const StartRecording = () => {
         <Button
           variant="standard"
           icon
-          disabled={recordingStarted}
+          disabled={recordingStarted || isStreamingOn}
           onClick={() => setOpen(true)}
         >
           {recordingStarted ? (
@@ -184,6 +196,8 @@ const StartRecording = () => {
           variant="primary"
           icon
           css={{ ml: "auto" }}
+          type="submit"
+          disabled={recordingStarted || isStreamingOn}
           onClick={async () => {
             try {
               setRecordingState(true);
