@@ -28,12 +28,15 @@ export function parseTagsList(tagList) {
       tagMap[tags[0]] = [removeQuotes(tags[1])];
     }
   }
+
   const result = {
     rawTags: {
       ...tagMap,
     },
     duration: Number(tagMap["INF"][0]),
-    fragmentStartAt: new Date(tagMap["PROGRAM-DATE-TIME"][0]),
+    fragmentStartAt: tagMap["PROGRAM-DATE-TIME"]
+      ? new Date(tagMap["PROGRAM-DATE-TIME"][0])
+      : undefined,
   };
   return result;
 }
@@ -66,7 +69,11 @@ export function parseAttributesFromMetadata(metadatastring) {
  * @returns total seconds from 00:00:00 to 'time'
  */
 export function getSecondsFromTime(time) {
-  return time.getHours() * 60 * 60 + time.getMinutes() * 60 + time.getSeconds();
+  if (time) {
+    return (
+      time.getHours() * 60 * 60 + time.getMinutes() * 60 + time.getSeconds()
+    );
+  }
 }
 
 export function isAlreadyInMetadataMap(fragsTimeStamps, tagMetadata) {

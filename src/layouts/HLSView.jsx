@@ -10,10 +10,13 @@ import { useHMSStore, selectHLSState } from "@100mslive/react-sdk";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
+  HangUpIcon,
+  RecordIcon,
   SettingIcon,
 } from "@100mslive/react-icons";
 import {
   Box,
+  Button,
   Dropdown,
   Flex,
   styled,
@@ -24,6 +27,7 @@ import { ChatView } from "../components/chatView";
 import { useIsChatOpen } from "../components/AppData/useChatState";
 import {
   HLSController,
+  HLS_STREAM_NO_LONGER_LIVE,
   HLS_TIMED_METADATA_LOADED,
 } from "../controllers/hls/HLSController";
 import { ToastManager } from "../components/Toast/ToastManager";
@@ -39,7 +43,9 @@ const HLSView = () => {
   const hlsState = useHMSStore(selectHLSState);
   const isChatOpen = useIsChatOpen();
   const hlsUrl = hlsState.variants[0]?.url;
+  // console.log("HLS URL", hlsUrl);
   const [availableLevels, setAvailableLevels] = useState([]);
+  const [isVideoLive, setIsVideoLive] = useState(true);
   const [currentSelectedQualityText, setCurrentSelectedQualityText] =
     useState("");
   const [qualityDropDownOpen, setQualityDropDownOpen] = useState(false);
@@ -49,6 +55,9 @@ const HLSView = () => {
       if (Hls.isSupported()) {
         hlsController = new HLSController(hlsUrl, videoRef);
 
+        hlsController.on(HLS_STREAM_NO_LONGER_LIVE, () => {
+          setIsVideoLive(false);
+        });
         hlsController.on(HLS_TIMED_METADATA_LOADED, payload => {
           console.log(
             `%c Payload: ${payload}`,
@@ -119,7 +128,33 @@ const HLSView = () => {
     <Fragment>
       {hlsUrl ? (
         <>
-          <Flex align="center" css={{ position: "absolute", right: "$4" }}>
+          <Flex
+            align="center"
+            justify={"center"}
+            css={{ position: "absolute", right: "$4", zIndex: "10" }}
+          >
+            {hlsController ? (
+              <Button
+                variant="standard"
+                css={{ marginRight: "0.3rem" }}
+                onClick={() => {
+                  hlsController.jumpToLive();
+                  setIsVideoLive(true);
+                }}
+                key="LeaveRoom"
+                data-testid="leave_room_btn"
+              >
+                <Tooltip title="Jump to Live">
+                  <Flex>
+                    <RecordIcon
+                      color={isVideoLive ? "#CC525F" : "FAFAFA"}
+                      key="jumpToLive"
+                    />
+                    Live
+                  </Flex>
+                </Tooltip>
+              </Button>
+            ) : null}
             <Dropdown.Root
               open={qualityDropDownOpen}
               onOpenChange={value => setQualityDropDownOpen(value)}
