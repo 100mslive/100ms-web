@@ -47,19 +47,14 @@ const StartHLS = () => {
         setHLSStarted(true);
         setError("");
         await hmsActions.startHLSStreaming({
-          variants,
+          variants: [{ meetingURL: recordingUrl || getDefaultMeetingUrl() }],
           recording: record
             ? { hlsVod: true, singleFilePerLayer: true }
             : undefined,
         });
       } catch (error) {
-        // retry once if urls are missing
-        if (error.message.includes("urls missing")) {
-          startHLS([{ meetingURL: recordingUrl || getDefaultMeetingUrl() }]);
-        } else {
-          setHLSStarted(false);
-          setError(error.message);
-        }
+        setHLSStarted(false);
+        setError(error.message);
       }
     },
     [hmsActions, record, isHLSStarted, setHLSStarted, recordingUrl]
