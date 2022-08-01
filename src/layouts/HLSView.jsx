@@ -11,9 +11,11 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   SettingsIcon,
+  RecordIcon,
 } from "@100mslive/react-icons";
 import {
   Box,
+  Button,
   Dropdown,
   Flex,
   styled,
@@ -23,6 +25,7 @@ import {
 import { ToastManager } from "../components/Toast/ToastManager";
 import {
   HLSController,
+  HLS_STREAM_NO_LONGER_LIVE,
   HLS_TIMED_METADATA_LOADED,
 } from "../controllers/hls/HLSController";
 
@@ -37,7 +40,9 @@ const HLSView = () => {
   const videoRef = useRef(null);
   const hlsState = useHMSStore(selectHLSState);
   const hlsUrl = hlsState.variants[0]?.url;
+  // console.log("HLS URL", hlsUrl);
   const [availableLevels, setAvailableLevels] = useState([]);
+  const [isVideoLive, setIsVideoLive] = useState(true);
   const [currentSelectedQualityText, setCurrentSelectedQualityText] =
     useState("");
   const [qualityDropDownOpen, setQualityDropDownOpen] = useState(false);
@@ -47,6 +52,9 @@ const HLSView = () => {
       if (Hls.isSupported()) {
         hlsController = new HLSController(hlsUrl, videoRef);
 
+        hlsController.on(HLS_STREAM_NO_LONGER_LIVE, () => {
+          setIsVideoLive(false);
+        });
         hlsController.on(HLS_TIMED_METADATA_LOADED, payload => {
           console.log(
             `%c Payload: ${payload}`,
@@ -117,7 +125,33 @@ const HLSView = () => {
     <Fragment>
       {hlsUrl ? (
         <>
-          <Flex align="center" css={{ position: "absolute", right: "$10" }}>
+          <Flex
+            align="center"
+            justify="center"
+            css={{ position: "absolute", right: "$10", zIndex: "10" }}
+          >
+            {hlsController ? (
+              <Button
+                variant="standard"
+                css={{ marginRight: "0.3rem" }}
+                onClick={() => {
+                  hlsController.jumpToLive();
+                  setIsVideoLive(true);
+                }}
+                key="LeaveRoom"
+                data-testid="leave_room_btn"
+              >
+                <Tooltip title="Jump to Live">
+                  <Flex>
+                    <RecordIcon
+                      color={isVideoLive ? "#CC525F" : "FAFAFA"}
+                      key="jumpToLive"
+                    />
+                    Live
+                  </Flex>
+                </Tooltip>
+              </Button>
+            ) : null}
             <Dropdown.Root
               open={qualityDropDownOpen}
               onOpenChange={value => setQualityDropDownOpen(value)}
@@ -129,8 +163,8 @@ const HLSView = () => {
                     borderRadius: "$1",
                     cursor: "pointer",
                     zIndex: 4,
-                    border: "1px solid $textDisabled",
-                    padding: "$2 $4",
+                    border: "$space$px solid $textDisabled",
+                    padding: "$4",
                   }}
                 >
                   <Tooltip title="Select Quality">
