@@ -11,11 +11,12 @@ const PreviewName = ({ name, onChange, onJoin, enableJoin }) => {
       <Input
         required
         id="name"
-        css={{ w: "100%", "@sm": "400px" }}
+        css={{ w: "100%" }}
         value={name}
         onChange={e => onChange(e.target.value)}
         placeholder="Enter your name"
         autoFocus
+        autoComplete="name"
       />
       <Button type="submit" disabled={!name || !enableJoin} onClick={onJoin}>
         {isStreamingKit() ? "Join Studio" : "Join Room"}
@@ -30,6 +31,7 @@ const Form = styled("form", {
   alignItems: "center",
   gap: "$4",
   mt: "$10",
+  mb: "$10",
 });
 
 export default PreviewName;

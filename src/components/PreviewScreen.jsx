@@ -84,11 +84,14 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
   }
   return (
     <Flex direction="column" css={{ size: "100%" }}>
-      <Box css={{ h: "$18", "@md": { h: "$17" } }} data-testid="header">
+      <Box
+        css={{ h: "$18", "@md": { h: "$17", flexShrink: 0 } }}
+        data-testid="header"
+      >
         <Header isPreview={true} />
       </Box>
       <Flex
-        css={{ flex: "1 1 0", position: "relative" }}
+        css={{ flex: "1 1 0", position: "relative", overflowY: "auto" }}
         justify="center"
         align="center"
       >
