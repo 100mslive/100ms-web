@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   selectLocalPeerID,
   selectPeers,
@@ -6,14 +6,14 @@ import {
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
 import { GridCenterView, GridSidePaneView } from "../components/gridView";
-import { AppContext } from "../components/context/AppContext";
+import { useUISettings } from "../components/AppData/useUISettings";
+import { useAppLayout } from "../components/AppData/useAppLayout";
+import { UI_SETTINGS } from "../common/constants";
 
 export const MainGridView = () => {
-  const {
-    maxTileCount,
-    appPolicyConfig: { center: centerRoles = [], sidepane: sidepaneRoles = [] },
-    showStatsOnTiles,
-  } = useContext(AppContext);
+  const centerRoles = useAppLayout("center") || [];
+  const sidepaneRoles = useAppLayout("sidepane") || [];
+  const maxTileCount = useUISettings(UI_SETTINGS.maxTileCount);
   const peers = useHMSStore(selectPeers);
   const localPeerId = useHMSStore(selectLocalPeerID);
   const centerPeers = peers.filter(peer => centerRoles.includes(peer.roleName));
@@ -57,14 +57,9 @@ export const MainGridView = () => {
         allowRemoteMute={false}
         hideSidePane={!showSidePane}
         totalPeers={peers.length}
-        showStatsOnTiles={showStatsOnTiles}
       />
       {showSidePane && (
-        <GridSidePaneView
-          peers={sidebarPeers}
-          totalPeers={peers.length}
-          showStatsOnTiles={showStatsOnTiles}
-        />
+        <GridSidePaneView peers={sidebarPeers} totalPeers={peers.length} />
       )}
     </Flex>
   );

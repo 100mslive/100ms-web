@@ -4,8 +4,10 @@ import {
   parsedUserAgent,
   useHMSVanillaStore,
   useHMSActions,
+  selectAppData,
 } from "@100mslive/react-sdk";
 import { useEffect } from "react";
+import { APP_DATA } from "../../common/constants";
 
 let isEvenListenersAttached = false;
 let isMacOS = parsedUserAgent.getOS().name.toLowerCase() === "mac os";
@@ -26,6 +28,12 @@ export class KeyboardInputManager {
     await this.#actions.setLocalVideoEnabled(!enabled);
   };
 
+  #hideSidepane = () => {
+    if (this.#store.getState(selectAppData(APP_DATA.sidePane))) {
+      this.#actions.setAppData(APP_DATA.sidePane, "");
+    }
+  };
+
   #keyDownHandler = async e => {
     const CONTROL_KEY = isMacOS ? e.metaKey : e.ctrlKey;
     const D_KEY = e.key === "d" || e.key === "D";
@@ -33,6 +41,7 @@ export class KeyboardInputManager {
 
     const SHORTCUT_TOGGLE_AUDIO = CONTROL_KEY && D_KEY;
     const SHORTCUT_TOGGLE_VIDEO = CONTROL_KEY && E_KEY;
+    const SHORTCUT_SIDEPANE_CLOSE = e.key === "Escape";
 
     if (SHORTCUT_TOGGLE_AUDIO) {
       e.preventDefault();
@@ -40,6 +49,8 @@ export class KeyboardInputManager {
     } else if (SHORTCUT_TOGGLE_VIDEO) {
       e.preventDefault();
       await this.#toggleVideo();
+    } else if (SHORTCUT_SIDEPANE_CLOSE) {
+      this.#hideSidepane();
     }
   };
 

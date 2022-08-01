@@ -1,5 +1,6 @@
-import { IconButton, Tooltip } from "@100mslive/react-ui";
+import { Tooltip } from "@100mslive/react-ui";
 import { PencilDrawIcon } from "@100mslive/react-icons";
+import IconButton from "../../IconButton";
 import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
 
 export const ToggleWhiteboard = () => {
@@ -26,9 +27,6 @@ export const ToggleWhiteboard = () => {
       key="whiteboard"
     >
       <IconButton
-        css={{
-          mx: "$4",
-        }}
         onClick={toggleWhiteboard}
         active={!whiteboardActive}
         disabled={whiteboardActive && !amIWhiteboardOwner}

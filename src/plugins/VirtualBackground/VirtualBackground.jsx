@@ -6,7 +6,8 @@ import {
   selectIsAllowedToPublish,
 } from "@100mslive/react-sdk";
 import { VirtualBackgroundIcon } from "@100mslive/react-icons";
-import { IconButton, Tooltip } from "@100mslive/react-ui";
+import { Tooltip } from "@100mslive/react-ui";
+import IconButton from "../../IconButton";
 import { getRandomVirtualBackground } from "./vbutils";
 
 export const VirtualBackground = () => {
@@ -66,7 +67,6 @@ export const VirtualBackground = () => {
         onClick={() => {
           !isVBPresent ? addPlugin() : removePlugin();
         }}
-        css={{ mx: "$4" }}
         data-testid="virtual_bg_btn"
       >
         <VirtualBackgroundIcon />

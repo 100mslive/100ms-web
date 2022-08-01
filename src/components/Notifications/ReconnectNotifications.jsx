@@ -4,9 +4,8 @@ import {
   HMSNotificationTypes,
   useHMSNotifications,
 } from "@100mslive/react-sdk";
-import { ConnectivityIcon, PoorConnectivityIcon } from "@100mslive/react-icons";
 import { ToastManager } from "../Toast/ToastManager";
-import { TextWithIcon } from "./TextWithIcon";
+import { ToastConfig } from "../Toast/ToastConfig";
 
 const notificationTypes = [
   HMSNotificationTypes.RECONNECTED,
@@ -18,25 +17,16 @@ export const ReconnectNotifications = () => {
   useEffect(() => {
     if (notification?.type === HMSNotificationTypes.RECONNECTED) {
       LogRocket.track("Reconnected");
-      notificationId = ToastManager.replaceToast(notificationId, {
-        title: (
-          <TextWithIcon Icon={ConnectivityIcon}>
-            You are now connected
-          </TextWithIcon>
-        ),
-        duration: 3000,
-      });
+      notificationId = ToastManager.replaceToast(
+        notificationId,
+        ToastConfig.RECONNECTED.single()
+      );
     } else if (notification?.type === HMSNotificationTypes.RECONNECTING) {
       LogRocket.track("Reconnecting");
-      notificationId = ToastManager.replaceToast(notificationId, {
-        title: (
-          <TextWithIcon Icon={PoorConnectivityIcon}>
-            You are offline for now. while we try to reconnect, please check
-            your internet connection.
-          </TextWithIcon>
-        ),
-        duration: 10000,
-      });
+      notificationId = ToastManager.replaceToast(
+        notificationId,
+        ToastConfig.RECONNECTING.single()
+      );
     }
   }, [notification]);
   return null;

@@ -10,16 +10,13 @@ import {
   selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
 import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
-import { ChatView } from "../components/chatView";
 import { ScreenshareDisplay } from "../components/ScreenshareDisplay";
 import ScreenshareTile from "../components/ScreenshareTile";
 import VideoList from "../components/VideoList";
 import VideoTile from "../components/VideoTile";
 import { VideoPlayer } from "../components/Playlist/VideoPlayer";
-import { mobileChatStyle } from "../common/utils";
-import { useIsChatOpen } from "../components/AppData/useChatState";
 
-const ScreenShareView = ({ showStats }) => {
+const ScreenShareView = () => {
   // for smaller screen we will show sidebar in bottom
   const mediaQueryLg = cssConfig.media.lg;
   const showSidebarInBottom = useMedia(mediaQueryLg);
@@ -50,7 +47,6 @@ const ScreenShareView = ({ showStats }) => {
       direction={showSidebarInBottom ? "column" : "row"}
     >
       <ScreenShareComponent
-        showStats={showStats}
         amIPresenting={amIPresenting}
         peerPresenting={peerPresenting}
         peerSharingPlaylist={peerSharingPlaylist}
@@ -59,7 +55,7 @@ const ScreenShareView = ({ showStats }) => {
         direction={{ "@initial": "column", "@lg": "row" }}
         css={{
           overflow: "hidden",
-          p: "$4",
+          p: "$4 $8",
           flex: "0 0 20%",
           "@lg": {
             flex: "1 1 0",
@@ -68,7 +64,6 @@ const ScreenShareView = ({ showStats }) => {
       >
         <SidePane
           showSidebarInBottom={showSidebarInBottom}
-          showStats={showStats}
           peerScreenSharing={peerPresenting}
           isPresenterInSmallTiles={showPresenterInSmallTile}
           smallTilePeers={smallTilePeers}
@@ -82,7 +77,6 @@ const ScreenShareView = ({ showStats }) => {
 // Sidepane will show the camera stream of the main peer who is screensharing
 // and both camera + screen(if applicable) of others
 export const SidePane = ({
-  showStats,
   isPresenterInSmallTiles,
   peerScreenSharing, // the peer who is screensharing
   smallTilePeers,
@@ -97,18 +91,13 @@ export const SidePane = ({
   return (
     <Fragment>
       {!isPresenterInSmallTiles && (
-        <LargeTilePeerView
-          peerScreenSharing={peerScreenSharing}
-          showStatsOnTiles={showStats}
-        />
+        <LargeTilePeerView peerScreenSharing={peerScreenSharing} />
       )}
       <SmallTilePeersView
         showSidebarInBottom={showSidebarInBottom}
         smallTilePeers={smallTilePeers}
         shouldShowScreenFn={shouldShowScreenFn}
-        showStatsOnTiles={showStats}
       />
-      <CustomChatView totalPeers={totalPeers} />
     </Fragment>
   );
 };
@@ -127,7 +116,7 @@ const ScreenShareComponent = ({
     return (
       <Box
         css={{
-          mx: "$4",
+          mx: "$8",
           flex: "3 1 0",
           "@lg": {
             flex: "2 1 0",
@@ -145,8 +134,7 @@ const ScreenShareComponent = ({
     <Box
       css={{
         flex: "3 1 0",
-        mx: "$4",
-        ml: "$5",
+        mx: "$8",
         "@lg": { ml: "$4", maxHeight: "80%" },
       }}
     >
@@ -159,35 +147,10 @@ const ScreenShareComponent = ({
             <ScreenshareDisplay />
           </Box>
         ) : (
-          <ScreenshareTile
-            showStatsOnTiles={showStats}
-            peerId={peerPresenting?.id}
-          />
+          <ScreenshareTile peerId={peerPresenting?.id} />
         ))}
     </Box>
   );
-};
-
-const CustomChatView = () => {
-  const isChatOpen = useIsChatOpen();
-  return isChatOpen ? (
-    <Box
-      css={{
-        h: "45%",
-        flexShrink: 0,
-        "@lg": mobileChatStyle,
-        "@ls": {
-          position: "absolute",
-          top: 0,
-          h: "100%",
-          minHeight: 300,
-          zIndex: 40,
-        },
-      }}
-    >
-      <ChatView />
-    </Box>
-  ) : null;
 };
 
 const SmallTilePeersView = ({

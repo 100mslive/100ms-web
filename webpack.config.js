@@ -32,10 +32,6 @@ module.exports = {
         .replace(/\\/g, "/");
     },
   },
-  cache: {
-    type: "filesystem",
-    cacheDirectory: path.resolve(__dirname, ".cache"),
-  },
   devtool: isProduction ? "source-map" : "cheap-module-source-map",
   performance: false,
   target: "web",
@@ -47,6 +43,7 @@ module.exports = {
       events: false,
     },
   },
+  ignoreWarnings: [/Failed to parse source map/], // some libraries do not provide proper source maps which throws this warning
   module: {
     rules: [
       {

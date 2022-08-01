@@ -1,16 +1,17 @@
 import React, { Fragment } from "react";
+import { useAVToggle, parsedUserAgent } from "@100mslive/react-sdk";
 import {
   VideoOffIcon,
   VideoOnIcon,
   MicOffIcon,
   MicOnIcon,
 } from "@100mslive/react-icons";
-import { Tooltip, IconButton } from "@100mslive/react-ui";
-import { useAVToggle, parsedUserAgent } from "@100mslive/react-sdk";
+import { Tooltip } from "@100mslive/react-ui";
+import IconButton from "../IconButton";
 
 const isMacOS = parsedUserAgent.getOS().name.toLowerCase() === "mac os";
 
-export const AudioVideoToggle = ({ compact = false }) => {
+export const AudioVideoToggle = () => {
   const { isLocalVideoEnabled, isLocalAudioEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
   return (
@@ -22,7 +23,6 @@ export const AudioVideoToggle = ({ compact = false }) => {
           } + d)`}
         >
           <IconButton
-            css={{ mr: compact ? "$2" : "$4" }}
             active={isLocalAudioEnabled}
             onClick={toggleAudio}
             key="toggleAudio"
@@ -43,7 +43,6 @@ export const AudioVideoToggle = ({ compact = false }) => {
           } + e)`}
         >
           <IconButton
-            css={compact ? { ml: "$2" } : { mx: "$4" }}
             key="toggleVideo"
             active={isLocalVideoEnabled}
             onClick={toggleVideo}

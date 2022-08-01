@@ -1,4 +1,4 @@
-import { HangUpIcon, InfoIcon } from "@100mslive/react-icons";
+import { InfoIcon } from "@100mslive/react-icons";
 import { Flex, Input, Label, Text, Tooltip } from "@100mslive/react-ui";
 import React, { useCallback, useState } from "react";
 import {
@@ -12,6 +12,7 @@ export const ResolutionInput = ({
   onResolutionChange,
   disabled,
   tooltipText,
+  css,
 }) => {
   const [resolution, setResolution] = useState(RTMP_RECORD_DEFAULT_RESOLUTION);
 
@@ -37,18 +38,20 @@ export const ResolutionInput = ({
   );
 
   return (
-    <DialogRow breakSm>
+    <DialogRow breakSm css={css}>
       <Flex gap={1}>
-        <Label css={{ "@sm": { mb: "$8" } }}>Resolution</Label>
-        <Tooltip title={tooltipText}>
-          <div>
-            <InfoIcon color="#B0C3DB" />
-          </div>
-        </Tooltip>
+        <Label css={{ mb: "$8" }}>Resolution</Label>
+        {tooltipText && (
+          <Tooltip title={tooltipText}>
+            <div>
+              <InfoIcon color="#B0C3DB" />
+            </div>
+          </Tooltip>
+        )}
       </Flex>
       <Flex
         justify="between"
-        css={{ width: "70%", "@sm": { width: "100%" } }}
+        css={{ width: !tooltipText ? "100%" : "70%", "@sm": { width: "100%" } }}
         gap={2}
         direction="column"
       >
@@ -56,7 +59,7 @@ export const ResolutionInput = ({
           <Flex direction="column" css={{ width: "50%" }}>
             <Text variant="xs">Width</Text>
             <Input
-              css={{ width: "100%" }}
+              css={{ width: "100%", mt: "$4" }}
               name="resWidth"
               value={resolution.width}
               onChange={resolutionChangeHandler}
@@ -70,7 +73,7 @@ export const ResolutionInput = ({
           <Flex direction="column" css={{ width: "50%" }}>
             <Text variant="xs">Height</Text>
             <Input
-              css={{ width: "100%" }}
+              css={{ width: "100%", mt: "$4" }}
               name="resHeight"
               value={resolution.height}
               onChange={resolutionChangeHandler}

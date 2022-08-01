@@ -1,9 +1,9 @@
-// @ts-check
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IconButton, Tooltip } from "@100mslive/react-ui";
 import { MusicIcon } from "@100mslive/react-icons";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { AppContext } from "../context/AppContext";
 import { useWhenAloneInRoom } from "../../common/hooks";
+import { useSetUiSettings } from "../AppData/useUISettings";
+import { UI_SETTINGS } from "../../common/constants";
 
 const ambientMusicURL = process.env.REACT_APP_AMBIENT_MUSIC;
 /**
@@ -30,12 +30,11 @@ if (ambientMusicURL) {
  */
 const useAmbientMusic = (threshold = 5 * 1000) => {
   const audioRef = useRef(ambientAudio);
-  const { enableAmbientMusic: userHasEnabled, setEnableAmbientMusic } =
-    useContext(AppContext); // user settings
+  const [userHasEnabled, setEnableAmbientMusic] = useSetUiSettings(
+    UI_SETTINGS.enableAmbientMusic
+  ); // user settings
   const [playing, setPlaying] = useState(false);
-
   const { alone: aloneRightNow, aloneForLong } = useWhenAloneInRoom(threshold);
-
   // play if user has enabled the setting and been alone for some time
   const shouldMusicBePlayed = !playing && userHasEnabled && aloneForLong;
   // pause immediately if user has disabled the setting or not alone anymore

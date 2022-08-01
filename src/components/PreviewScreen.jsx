@@ -1,12 +1,15 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useSearchParam } from "react-use";
 import { v4 } from "uuid";
 import { Box, Flex, Loading, styled } from "@100mslive/react-ui";
-import Preview from "./Preview";
 import { Header } from "./Header";
 import { ErrorDialog } from "../primitives/DialogContent";
-import { AppContext } from "./context/AppContext";
+import { useSetUiSettings, useTokenEndpoint } from "./AppData/useUISettings";
+import PreviewContainer from "./Preview/PreviewContainer";
+import SidePane from "../layouts/SidePane";
+import { useNavigation } from "./hooks/useNavigation";
+import getToken from "../services/tokenService";
 import {
   QUERY_PARAM_SKIP_PREVIEW_HEADFUL,
   QUERY_PARAM_NAME,
@@ -14,8 +17,6 @@ import {
   QUERY_PARAM_AUTH_TOKEN,
   UI_SETTINGS,
 } from "../common/constants";
-import getToken from "../services/tokenService";
-import { useSetUiSettings } from "./AppData/useUISettings";
 
 /**
  * query params exposed -
@@ -29,8 +30,8 @@ import { useSetUiSettings } from "./AppData/useUISettings";
 
 const env = process.env.REACT_APP_ENV;
 const PreviewScreen = React.memo(({ getUserToken }) => {
-  const navigate = useNavigate();
-  const { tokenEndpoint } = useContext(AppContext);
+  const navigate = useNavigation();
+  const tokenEndpoint = useTokenEndpoint();
   const [, setIsHeadless] = useSetUiSettings(UI_SETTINGS.isHeadless);
   const { roomId: urlRoomId, role: userRole } = useParams(); // from the url
   const [token, setToken] = useState(null);
@@ -52,6 +53,9 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
   useEffect(() => {
     if (authToken) {
       setToken(authToken);
+      return;
+    }
+    if (!tokenEndpoint || !urlRoomId) {
       return;
     }
     const getTokenFn = !userRole
@@ -80,13 +84,20 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
   }
   return (
     <Flex direction="column" css={{ size: "100%" }}>
-      <Box css={{ h: "$18", "@md": { h: "$17" } }} data-testid="header">
+      <Box
+        css={{ h: "$18", "@md": { h: "$17", flexShrink: 0 } }}
+        data-testid="header"
+      >
         <Header isPreview={true} />
       </Box>
-      <Flex css={{ flex: "1 1 0" }} justify="center" align="center">
+      <Flex
+        css={{ flex: "1 1 0", position: "relative", overflowY: "auto" }}
+        justify="center"
+        align="center"
+      >
         {token ? (
           <>
-            <Preview
+            <PreviewContainer
               initialName={initialName}
               skipPreview={skipPreview}
               env={env}
@@ -97,6 +108,13 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
         ) : (
           <Loading size={100} />
         )}
+        <SidePane
+          css={{
+            position: "unset",
+            mr: "$10",
+            "@lg": { position: "fixed", mr: "$0" },
+          }}
+        />
       </Flex>
     </Flex>
   );
