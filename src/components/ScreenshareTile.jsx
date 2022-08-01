@@ -23,17 +23,13 @@ const labelStyles = {
   flexShrink: 0,
 };
 
-const Tile = ({
-  peerId,
-  showStatsOnTiles,
-  width = "100%",
-  height = "100%",
-}) => {
+const Tile = ({ peerId, width = "100%", height = "100%" }) => {
   const track = useHMSStore(selectScreenShareByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const isHeadless = useIsHeadless();
   const [isMouseHovered, setIsMouseHovered] = useState(false);
+  const showStatsOnTiles = useUISettings(UI_SETTINGS.showStatsOnTiles);
   const label = getVideoTileLabel({
     peerName: peer.name,
     isLocal: false,
