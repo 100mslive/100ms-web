@@ -10,37 +10,24 @@ import { useHMSStore, selectHLSState } from "@100mslive/react-sdk";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
-<<<<<<< HEAD
   SettingsIcon,
   RecordIcon,
 } from "@100mslive/react-icons";
 import {
   Box,
   Button,
-=======
-  SettingIcon,
-} from "@100mslive/react-icons";
-import {
-  Box,
->>>>>>> main
   Dropdown,
   Flex,
   styled,
   Text,
   Tooltip,
 } from "@100mslive/react-ui";
-<<<<<<< HEAD
 import { ToastManager } from "../components/Toast/ToastManager";
 import {
   HLSController,
   HLS_STREAM_NO_LONGER_LIVE,
   HLS_TIMED_METADATA_LOADED,
 } from "../controllers/hls/HLSController";
-=======
-import { ChatView } from "../components/chatView";
-import { FeatureFlags } from "../services/FeatureFlags";
-import { useIsChatOpen } from "../components/AppData/useChatState";
->>>>>>> main
 
 const HLSVideo = styled("video", {
   h: "100%",
@@ -48,22 +35,14 @@ const HLSVideo = styled("video", {
   px: "$10",
 });
 
-<<<<<<< HEAD
 let hlsController;
-=======
-let hls = null;
->>>>>>> main
 const HLSView = () => {
   const videoRef = useRef(null);
   const hlsState = useHMSStore(selectHLSState);
   const hlsUrl = hlsState.variants[0]?.url;
-<<<<<<< HEAD
   // console.log("HLS URL", hlsUrl);
   const [availableLevels, setAvailableLevels] = useState([]);
   const [isVideoLive, setIsVideoLive] = useState(true);
-=======
-  const [availableLevels, setAvailableLevels] = useState([]);
->>>>>>> main
   const [currentSelectedQualityText, setCurrentSelectedQualityText] =
     useState("");
   const [qualityDropDownOpen, setQualityDropDownOpen] = useState(false);
@@ -71,7 +50,6 @@ const HLSView = () => {
   useEffect(() => {
     if (videoRef.current && hlsUrl && !hls) {
       if (Hls.isSupported()) {
-<<<<<<< HEAD
         hlsController = new HLSController(hlsUrl, videoRef);
 
         hlsController.on(HLS_STREAM_NO_LONGER_LIVE, () => {
@@ -89,14 +67,6 @@ const HLSView = () => {
 
         hlsController.on(Hls.Events.MANIFEST_LOADED, (_, { levels }) => {
           setAvailableLevels(levels);
-=======
-        hls = new Hls(getHLSConfig());
-        hls.loadSource(hlsUrl);
-        hls.attachMedia(videoRef.current);
-
-        hls.once(Hls.Events.MANIFEST_LOADED, (event, data) => {
-          setAvailableLevels(data.levels);
->>>>>>> main
           setCurrentSelectedQualityText("Auto");
         });
       } else if (
@@ -108,29 +78,15 @@ const HLSView = () => {
   }, [hlsUrl]);
 
   useEffect(() => {
-<<<<<<< HEAD
     if (hlsController) {
       return () => hlsController.reset();
     }
-=======
-    return () => {
-      if (hls && hls.media) {
-        hls.detachMedia();
-        hls = null;
-      }
-    };
->>>>>>> main
   }, []);
 
   const qualitySelectorHandler = useCallback(
     qualityLevel => {
-<<<<<<< HEAD
       if (hlsController) {
         hlsController.setCurrentLevel(getCurrentLevel(qualityLevel));
-=======
-      if (hls) {
-        hls.currentLevel = getCurrentLevel(qualityLevel);
->>>>>>> main
         const levelText =
           qualityLevel.height === "auto" ? "Auto" : `${qualityLevel.height}p`;
         setCurrentSelectedQualityText(levelText);
@@ -169,7 +125,6 @@ const HLSView = () => {
     <Fragment>
       {hlsUrl ? (
         <>
-<<<<<<< HEAD
           <Flex
             align="center"
             justify="center"
@@ -197,9 +152,6 @@ const HLSView = () => {
                 </Tooltip>
               </Button>
             ) : null}
-=======
-          <Flex align="center" css={{ position: "absolute", right: "$4" }}>
->>>>>>> main
             <Dropdown.Root
               open={qualityDropDownOpen}
               onOpenChange={value => setQualityDropDownOpen(value)}
@@ -210,24 +162,14 @@ const HLSView = () => {
                     color: "$textPrimary",
                     borderRadius: "$1",
                     cursor: "pointer",
-<<<<<<< HEAD
                     zIndex: 4,
                     border: "$space$px solid $textDisabled",
                     padding: "$4",
-=======
-                    zIndex: 40,
-                    border: "1px solid $textDisabled",
-                    padding: "$2 $4",
->>>>>>> main
                   }}
                 >
                   <Tooltip title="Select Quality">
                     <Flex>
-<<<<<<< HEAD
                       <SettingsIcon />
-=======
-                      <SettingIcon />
->>>>>>> main
                       <Text variant="md">{currentSelectedQualityText}</Text>
                     </Flex>
                   </Tooltip>
