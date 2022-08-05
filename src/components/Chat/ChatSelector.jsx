@@ -1,4 +1,6 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useMemo } from "react";
+import { useMeasure } from "react-use";
+import { FixedSizeList } from "react-window";
 import {
   selectAvailableRoleNames,
   selectRemotePeers,
@@ -94,10 +96,83 @@ const PeerItem = ({ onSelect, peerId, name, active }) => {
   );
 };
 
-export const ChatSelector = ({ role, peerId, onSelect }) => {
+const VirtualizedSelectItemList = ({
+  peers,
+  selectedRole,
+  selectedPeerId,
+  searchValue,
+  onSelect,
+}) => {
+  const [ref, { width, height }] = useMeasure();
   const roles = useHMSStore(selectAvailableRoleNames);
+  const filteredPeers = useMemo(
+    () =>
+      peers.filter(
+        // search should be empty or search phrase should be included in name
+        peer =>
+          !searchValue ||
+          peer.name.toLowerCase().includes(searchValue.toLowerCase())
+      ),
+    [peers, searchValue]
+  );
+
+  const listItems = useMemo(() => {
+    const selectItems = [
+      <Everyone onSelect={onSelect} active={!selectedRole && !selectedRole} />,
+    ];
+
+    roles.length > 0 &&
+      selectItems.push(<SelectorHeader>Roles</SelectorHeader>);
+    roles.forEach(userRole =>
+      selectItems.push(
+        <RoleItem
+          key={userRole}
+          active={selectedRole === userRole}
+          role={userRole}
+          onSelect={onSelect}
+        />
+      )
+    );
+
+    filteredPeers.length > 0 &&
+      selectItems.push(<SelectorHeader>Participants</SelectorHeader>);
+    filteredPeers.forEach(peer =>
+      selectItems.push(
+        <PeerItem
+          key={peer.id}
+          name={peer.name}
+          peerId={peer.id}
+          active={peer.id === selectedPeerId}
+          onSelect={onSelect}
+        />
+      )
+    );
+
+    return selectItems;
+  }, [onSelect, selectedRole, selectedPeerId, roles, filteredPeers]);
+
+  return (
+    <Dropdown.Group ref={ref} css={{ height: "$64", overflowY: "auto" }}>
+      <FixedSizeList
+        itemSize={52}
+        itemCount={listItems.length}
+        width={width}
+        height={height}
+      >
+        {({ index, style }) => (
+          <div style={style} key={index}>
+            {listItems[index]}
+          </div>
+        )}
+      </FixedSizeList>
+    </Dropdown.Group>
+  );
+};
+
+export const ChatSelector = ({ role, peerId, onSelect }) => {
   const peers = useHMSStore(selectRemotePeers);
   const [search, setSearch] = useState("");
+
   return (
     <Fragment>
       {peers.length > 0 && (
@@ -108,38 +183,13 @@ export const ChatSelector = ({ role, peerId, onSelect }) => {
           />
         </Box>
       )}
-      <Dropdown.Group css={{ maxHeight: "$64", overflowY: "auto" }}>
-        <Everyone onSelect={onSelect} active={!role && !peerId} />
-        {roles.length > 0 && <SelectorHeader>Roles</SelectorHeader>}
-        {roles.map(userRole => {
-          return (
-            <RoleItem
-              key={userRole}
-              active={role === userRole}
-              role={userRole}
-              onSelect={onSelect}
-            />
-          );
-        })}
-        {peers.length > 0 && <SelectorHeader>Participants</SelectorHeader>}
-        {peers.map(peer => {
-          if (
-            search &&
-            !peer.name.toLowerCase().includes(search.toLowerCase())
-          ) {
-            return null;
-          }
-          return (
-            <PeerItem
-              key={peer.id}
-              name={peer.name}
-              peerId={peer.id}
-              active={peer.id === peerId}
-              onSelect={onSelect}
-            />
-          );
-        })}
-      </Dropdown.Group>
+      <VirtualizedSelectItemList
+        selectedRole={role}
+        selectedPeerId={peerId}
+        onSelect={onSelect}
+        peers={peers}
+        searchValue={search}
+      />
     </Fragment>
   );
 };
