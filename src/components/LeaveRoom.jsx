@@ -124,7 +124,7 @@ export const LeaveRoom = () => {
                   </Box>
                   <Flex direction="column" align="start">
                     <Text variant="h6" css={{ c: "$error" }}>
-                      End Session for all
+                      End Room for All
                     </Text>
                     <Text variant="sm" css={{ c: "$textMedEmp" }}>
                       The session will end for everyone. You can’t undo this
