@@ -10,6 +10,17 @@ import {
   Tooltip,
 } from "@100mslive/react-ui";
 import { ErrorWithSupportLink } from "./PreviewScreen";
+import errorBgDark from "../images/error-bg-dark.svg";
+import errorBgLight from "../images/error-bg-light.svg";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  ThemeContext,
+  Tooltip,
+} from "@100mslive/react-ui";
+import { CopyIcon } from "@100mslive/react-icons";
 
 export class ErrorBoundary extends Component {
   constructor(props) {
