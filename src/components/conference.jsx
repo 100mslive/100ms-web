@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { usePrevious } from "react-use";
 import {
   selectRoomState,
@@ -9,15 +9,16 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { Box, Flex } from "@100mslive/react-ui";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
 import FullPageProgress from "./FullPageProgress";
 import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
 import { ConferenceMainView } from "../layouts/mainView";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
+import { useNavigation } from "./hooks/useNavigation";
 import { useIsHeadless } from "./AppData/useUISettings";
 
 const Conference = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigation();
   const { roomId, role } = useParams();
   const isHeadless = useIsHeadless();
   const roomState = useHMSStore(selectRoomState);
@@ -42,6 +43,13 @@ const Conference = () => {
       else navigate(`/preview/${roomId || ""}`);
     }
   }, [isConnectedToRoom, prevState, roomState, navigate, role, roomId]);
+
+  useEffect(() => {
+    // beam doesn't need to store messages, saves on unnecessary store updates in large calls
+    if (isHeadless) {
+      hmsActions.ignoreMessageTypes(["chat"]);
+    }
+  }, [isHeadless, hmsActions]);
 
   useEffect(() => {
     return () => {

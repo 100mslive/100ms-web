@@ -51,16 +51,8 @@ export default async function getToken(tokenEndpoint, userId, role, roomId) {
 export async function getUserToken(name) {
   const extractUrlCode = () => {
     const path = window.location.pathname;
-    let roomCode = null;
-    if (path.startsWith("/preview/") || path.startsWith("/meeting/")) {
-      roomCode = "";
-      for (let i = 9; i < path.length; i++) {
-        if (path[i] === "/") break;
-        roomCode += path[i];
-      }
-      if (roomCode.trim() === "") roomCode = null;
-    }
-    return roomCode;
+    const regex = /(\/streaming)?\/(preview|meeting)\/(?<code>[^/]+)/;
+    return path.match(regex)?.groups?.code || null;
   };
 
   const code = extractUrlCode();
@@ -106,8 +98,9 @@ export function getBackendEndpoint() {
       process.env.REACT_APP_PROD_BACKEND_API ||
       "https://prod-in.100ms.live/hmsapi/";
   } else {
-    BASE_BACKEND_URL =
-      process.env.REACT_APP_BACKEND_API || "https://prod-in.100ms.live/hmsapi/";
+    const env = process.env.REACT_APP_ENV || "prod";
+    const apiBasePath = `https://${env}-in2.100ms.live/hmsapi/`;
+    BASE_BACKEND_URL = apiBasePath || "https://prod-in.100ms.live/hmsapi/";
   }
   return BASE_BACKEND_URL;
 }

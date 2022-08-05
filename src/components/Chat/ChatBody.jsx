@@ -3,13 +3,14 @@ import { useInView } from "react-intersection-observer";
 import {
   selectHMSMessages,
   selectLocalPeerID,
+  selectLocalPeerRoleName,
   selectMessagesByPeerID,
   selectMessagesByRole,
   selectPeerNameByID,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Flex, styled, Text } from "@100mslive/react-ui";
+import { Box, Flex, styled, Text } from "@100mslive/react-ui";
 
 const formatTime = date => {
   if (!(date instanceof Date)) {
@@ -17,46 +18,70 @@ const formatTime = date => {
   }
   let hours = date.getHours();
   let mins = date.getMinutes();
+  const suffix = hours > 11 ? "PM" : "AM";
   if (hours < 10) {
     hours = "0" + hours;
   }
   if (mins < 10) {
     mins = "0" + mins;
   }
-  return `${hours}:${mins}`;
+  return `${hours}:${mins} ${suffix}`;
+};
+
+const MessageTypeContainer = ({ left, right }) => {
+  return (
+    <Flex
+      align="center"
+      css={{
+        ml: "auto",
+        mr: "$4",
+        p: "$2 $4",
+        border: "1px solid $textDisabled",
+        r: "$0",
+      }}
+    >
+      {left && (
+        <Text variant="tiny" as="span" css={{ color: "$textMedEmp" }}>
+          {left}
+        </Text>
+      )}
+      {left && right && (
+        <Box
+          css={{ borderLeft: "1px solid $textDisabled", mx: "$4", h: "$8" }}
+        />
+      )}
+      {right && (
+        <Text as="span" variant="tiny">
+          {right}
+        </Text>
+      )}
+    </Flex>
+  );
 };
 
 const MessageType = ({ roles, hasCurrentUserSent, receiver }) => {
   const peerName = useHMSStore(selectPeerNameByID(receiver));
+  const localPeerRoleName = useHMSStore(selectLocalPeerRoleName);
   if (receiver) {
     return (
-      <Text variant="sm" css={{ mx: "$4" }}>
-        {hasCurrentUserSent ? `to ${peerName}` : "to me"}
-        <Text as="span" variant="sm" css={{ color: "$error", mx: "$4" }}>
-          (Privately)
-        </Text>
-      </Text>
+      <MessageTypeContainer
+        left={
+          hasCurrentUserSent ? `${peerName ? `TO ${peerName}` : ""}` : "TO YOU"
+        }
+        right="PRIVATE"
+      />
     );
   }
 
   if (roles && roles.length) {
     return (
-      <Text variant="sm" css={{ mx: "$4" }}>
-        to
-        <Text as="span" variant="sm" css={{ color: "$error", mx: "$4" }}>
-          ({roles.join(",")})
-        </Text>
-      </Text>
+      <MessageTypeContainer
+        left="TO"
+        right={hasCurrentUserSent ? roles.join(",") : localPeerRoleName}
+      />
     );
   }
-  return (
-    <Text variant="sm" css={{ mx: "$4" }}>
-      to
-      <Text as="span" variant="sm" css={{ color: "$brandDefault", mx: "$4" }}>
-        Everyone
-      </Text>
-    </Text>
-  );
+  return null;
 };
 
 const URL_REGEX =
@@ -98,10 +123,21 @@ const AnnotisedChat = ({ message }) => {
   );
 };
 
-const ChatMessage = React.memo(({ message }) => {
+const getMessageType = ({ roles, receiver }) => {
+  if (roles && roles.length > 0) {
+    return "role";
+  }
+  return receiver ? "private" : "";
+};
+
+const ChatMessage = React.memo(({ message, autoMarginTop = false }) => {
   const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true });
   const hmsActions = useHMSActions();
   const localPeerId = useHMSStore(selectLocalPeerID);
+  const messageType = getMessageType({
+    roles: message.recipientRoles,
+    receiver: message.recipientPeer,
+  });
 
   useEffect(() => {
     if (message.id && !message.read && inView) {
@@ -110,19 +146,40 @@ const ChatMessage = React.memo(({ message }) => {
   }, [message.read, hmsActions, inView, message.id]);
 
   return (
-    <Flex ref={ref} css={{ flexWrap: "wrap", p: "$4 $8" }} key={message.time} data-testid='chat_msg'>
-      <Text variant="sm" css={{ color: "$textSecondary" }}>
+    <Flex
+      ref={ref}
+      align="center"
+      css={{
+        flexWrap: "wrap",
+        bg: messageType ? "$surfaceLight" : undefined,
+        px: messageType ? "$4" : "$2",
+        py: messageType ? "$4" : 0,
+        r: "$1",
+        mb: "$10",
+        mt: autoMarginTop ? "auto" : undefined,
+      }}
+      key={message.time}
+      data-testid="chat_msg"
+    >
+      <Text css={{ color: "$textHighEmp", fontWeight: "$semiBold" }}>
         {message.senderName || "Anonymous"}
+      </Text>
+      <Text variant="sm" css={{ ml: "$4", color: "$textSecondary" }}>
+        {formatTime(message.time)}
       </Text>
       <MessageType
         hasCurrentUserSent={message.sender === localPeerId}
         receiver={message.recipientPeer}
         roles={message.recipientRoles}
       />
-      <Text variant="sm" css={{ ml: "auto", color: "$textSecondary" }}>
-        {formatTime(message.time)}
-      </Text>
-      <Text css={{ w: "100%", my: "$2", wordBreak: "break-word" }}>
+      <Text
+        variant="body2"
+        css={{
+          w: "100%",
+          mt: "$2",
+          wordBreak: "break-word",
+        }}
+      >
         <AnnotisedChat message={message.message} />
       </Text>
     </Flex>
@@ -156,8 +213,14 @@ export const ChatBody = ({ role, peerId }) => {
 
   return (
     <Fragment>
-      {messages.map(message => {
-        return <ChatMessage key={message.id} message={message} />;
+      {messages.map((message, index) => {
+        return (
+          <ChatMessage
+            key={message.id}
+            message={message}
+            autoMarginTop={index === 0}
+          />
+        );
       })}
     </Fragment>
   );

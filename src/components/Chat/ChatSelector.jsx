@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import {
   selectAvailableRoleNames,
   selectRemotePeers,
@@ -7,30 +7,24 @@ import {
   selectMessagesUnreadCountByRole,
   selectMessagesUnreadCountByPeerID,
 } from "@100mslive/react-sdk";
+import { CheckIcon } from "@100mslive/react-icons";
 import {
   Box,
+  Dropdown,
   Flex,
   HorizontalDivider,
-  IconButton,
-  Input,
   Text,
   Tooltip,
 } from "@100mslive/react-ui";
-import { CheckIcon, CrossIcon } from "@100mslive/react-icons";
 import { ChatDotIcon } from "./ChatDotIcon";
+import { ParticipantSearch } from "../Header/ParticipantList";
 
 const SelectorItem = ({ value, active, onClick, unreadCount }) => {
   return (
-    <Flex
+    <Dropdown.Item
+      data-testid="chat_members"
+      css={{ align: "center", px: "$10" }}
       onClick={onClick}
-      css={{
-        cursor: "pointer",
-        p: "$4 $8",
-        flexShrink: 0,
-        "&:hover": { bg: "$menuBg" },
-      }}
-      align="center"
-      data-testid='chat_members'
     >
       <Text variant="sm">{value}</Text>
       <Flex align="center" css={{ ml: "auto", color: "$textPrimary" }}>
@@ -43,7 +37,7 @@ const SelectorItem = ({ value, active, onClick, unreadCount }) => {
         )}
         {active && <CheckIcon width={16} height={16} />}
       </Flex>
-    </Flex>
+    </Dropdown.Item>
   );
 };
 
@@ -51,7 +45,7 @@ const SelectorHeader = React.memo(({ children }) => {
   return (
     <Box css={{ flexShrink: 0 }}>
       <HorizontalDivider space={4} />
-      <Text variant="md" css={{ p: "$4 $8", fontWeight: "$semiBold" }}>
+      <Text variant="md" css={{ p: "$4 $10", fontWeight: "$semiBold" }}>
         {children}
       </Text>
     </Box>
@@ -105,66 +99,36 @@ export const ChatSelector = ({ role, peerId, onSelect }) => {
   const peers = useHMSStore(selectRemotePeers);
   const [search, setSearch] = useState("");
   return (
-    <Flex
-      direction="column"
-      css={{
-        size: "100%",
-        position: "absolute",
-        top: 0,
-        left: 0,
-        bg: "$bgSecondary",
-        py: "$4",
-        overflowY: "auto",
-      }}
-    >
-      <Box css={{ p: "$4", flexShrink: 0, position: "relative" }}>
-        <Input
-          type="text"
-          autoCorrect="off"
-          autoComplete="name"
-          value={search}
-          placeholder="Search Participants"
-          css={{
-            bg: "$menuBg",
-            w: "100%",
-            pr: "$12",
-            "$:focus": { boxShadow: "none", outline: "none" },
-          }}
-          onChange={e => {
-            setSearch(e.target.value);
-          }}
-        />
-        <Flex
-          align="center"
-          css={{
-            position: "absolute",
-            right: 0,
-            top: 0,
-            mr: "$6",
-            height: "100%",
-          }}
-        >
-          <IconButton onClick={() => setSearch("")}>
-            <CrossIcon width={18} height={18} />
-          </IconButton>
-        </Flex>
-      </Box>
-      <Everyone onSelect={onSelect} active={!role && !peerId} />
-      {roles.length > 0 && <SelectorHeader>Roles</SelectorHeader>}
-      {roles.map(userRole => {
-        return (
-          <RoleItem
-            key={userRole}
-            active={role === userRole}
-            role={userRole}
-            onSelect={onSelect}
+    <Fragment>
+      {peers.length > 0 && (
+        <Box css={{ px: "$8" }}>
+          <ParticipantSearch
+            onSearch={setSearch}
+            placeholder="Search participants"
           />
-        );
-      })}
-      {peers.length > 0 && <SelectorHeader>Participants</SelectorHeader>}
-      {peers
-        .filter(peer => !search || peer.name.toLowerCase().includes(search))
-        .map(peer => {
+        </Box>
+      )}
+      <Dropdown.Group css={{ maxHeight: "$64", overflowY: "auto" }}>
+        <Everyone onSelect={onSelect} active={!role && !peerId} />
+        {roles.length > 0 && <SelectorHeader>Roles</SelectorHeader>}
+        {roles.map(userRole => {
+          return (
+            <RoleItem
+              key={userRole}
+              active={role === userRole}
+              role={userRole}
+              onSelect={onSelect}
+            />
+          );
+        })}
+        {peers.length > 0 && <SelectorHeader>Participants</SelectorHeader>}
+        {peers.map(peer => {
+          if (
+            search &&
+            !peer.name.toLowerCase().includes(search.toLowerCase())
+          ) {
+            return null;
+          }
           return (
             <PeerItem
               key={peer.id}
@@ -175,6 +139,7 @@ export const ChatSelector = ({ role, peerId, onSelect }) => {
             />
           );
         })}
-    </Flex>
+      </Dropdown.Group>
+    </Fragment>
   );
 };

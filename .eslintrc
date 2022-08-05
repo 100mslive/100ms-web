@@ -9,7 +9,11 @@
   "rules": {
     "no-unused-vars": [
       "error",
-      { "vars": "all", "args": "none", "ignoreRestSiblings": false }
+      {
+        "vars": "all",
+        "args": "none",
+        "ignoreRestSiblings": false
+      }
     ],
     "react/jsx-curly-brace-presence": [
       2,

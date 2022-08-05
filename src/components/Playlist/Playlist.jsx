@@ -9,16 +9,10 @@ import {
   CrossIcon,
   VideoPlayerIcon,
 } from "@100mslive/react-icons";
-import {
-  Dropdown,
-  IconButton,
-  Text,
-  Flex,
-  Tooltip,
-  Box,
-} from "@100mslive/react-ui";
+import { Dropdown, Text, Flex, Tooltip, Box } from "@100mslive/react-ui";
 import { PlaylistItem } from "./PlaylistItem";
 import { AudioPlaylistControls } from "./PlaylistControls";
+import IconButton from "../../IconButton";
 import { usePlaylist } from "../hooks/usePlaylist";
 
 const BrowseAndPlayFromLocal = ({ type, actions }) => {
@@ -74,7 +68,7 @@ export const Playlist = ({ type }) => {
             type === HMSPlaylistType.audio ? "audio_playlist" : "video_playlist"
           }
         >
-          <IconButton css={{ mx: "$4" }} active={!active}>
+          <IconButton active={!active}>
             <Tooltip
               title={isAudioPlaylist ? "Audio Playlist" : "Video Playlist"}
             >

@@ -26,7 +26,7 @@ const Editor = React.memo(({ roomId }) => {
   );
 });
 
-const WhiteboardView = ({ showStats }) => {
+const WhiteboardView = () => {
   // for smaller screen we will show sidebar in bottom
   const mediaQueryLg = cssConfig.media.lg;
   const showSidebarInBottom = useMedia(mediaQueryLg);
@@ -53,7 +53,6 @@ const WhiteboardView = ({ showStats }) => {
       >
         <SidePane
           showSidebarInBottom={showSidebarInBottom}
-          showStats={showStats}
           isPresenterInSmallTiles={true}
           smallTilePeers={peers}
           totalPeers={peers.length}

@@ -1,6 +1,6 @@
-// @ts-check
 import React, { useRef, useState } from "react";
-import { StyledVideoTile, Video, VideoTileStats } from "@100mslive/react-ui";
+import screenfull from "screenfull";
+import { useFullscreen } from "react-use";
 import {
   useHMSStore,
   selectPeerByID,
@@ -8,12 +8,11 @@ import {
   selectScreenShareByPeerID,
 } from "@100mslive/react-sdk";
 import { ExpandIcon, ShrinkIcon } from "@100mslive/react-icons";
-import { useFullscreen } from "react-use";
+import { StyledVideoTile, Video, VideoTileStats } from "@100mslive/react-ui";
 import TileMenu from "./TileMenu";
-import { getVideoTileLabel } from "./peerTileUtils";
-import screenfull from "screenfull";
-import { UI_SETTINGS } from "../common/constants";
 import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
+import { getVideoTileLabel } from "./peerTileUtils";
+import { UI_SETTINGS } from "../common/constants";
 
 const labelStyles = {
   position: "unset",
@@ -24,17 +23,13 @@ const labelStyles = {
   flexShrink: 0,
 };
 
-const Tile = ({
-  peerId,
-  showStatsOnTiles,
-  width = "100%",
-  height = "100%",
-}) => {
+const Tile = ({ peerId, width = "100%", height = "100%" }) => {
   const track = useHMSStore(selectScreenShareByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const isHeadless = useIsHeadless();
   const [isMouseHovered, setIsMouseHovered] = useState(false);
+  const showStatsOnTiles = useUISettings(UI_SETTINGS.showStatsOnTiles);
   const label = getVideoTileLabel({
     peerName: peer.name,
     isLocal: false,

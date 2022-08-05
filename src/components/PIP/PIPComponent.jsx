@@ -7,9 +7,10 @@ import {
   selectRemotePeers,
   selectTracksMap,
 } from "@100mslive/react-sdk";
-import { IconButton, Tooltip } from "@100mslive/react-ui";
+import { Tooltip } from "@100mslive/react-ui";
 import { PipIcon } from "@100mslive/react-icons";
 import { PictureInPicture } from "./PIPManager";
+import IconButton from "../../IconButton";
 import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
 import { MediaSession } from "./SetupMediaSession";
 
@@ -51,7 +52,6 @@ const PIPComponent = () => {
   ) {
     return null;
   }
-
   return (
     <>
       <Tooltip

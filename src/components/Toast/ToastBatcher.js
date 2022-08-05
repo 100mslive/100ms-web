@@ -13,9 +13,9 @@ export const ToastBatcher = {
       let { notifications } = this.toastsType.get(notificationType);
       const { id } = this.toastsType.get(notificationType);
       notifications.push(notification);
-      const toastText = ToastConfig[notificationType].multiple(notifications);
+      const toastObject = ToastConfig[notificationType].multiple(notifications);
       const toastId = ToastManager.replaceToast(id, {
-        title: toastText,
+        ...toastObject,
         duration: duration,
       });
       this.toastsType.set(notificationType, {
@@ -24,9 +24,9 @@ export const ToastBatcher = {
         duration: duration,
       });
     } else {
-      const toastText = ToastConfig[notificationType].single(notification);
+      const toastObject = ToastConfig[notificationType].single(notification);
       const toastId = ToastManager.addToast({
-        title: toastText,
+        ...toastObject,
         duration: duration,
       });
       let notifications = [];

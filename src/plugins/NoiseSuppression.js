@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 import { ToastManager } from "../components/Toast/ToastManager";
-
 import {
   useHMSActions,
   useHMSStore,
@@ -8,7 +7,8 @@ import {
   useDevices,
 } from "@100mslive/react-sdk";
 import { AudioLevelIcon } from "@100mslive/react-icons";
-import { IconButton, Tooltip } from "@100mslive/react-ui";
+import { Tooltip } from "@100mslive/react-ui";
+import IconButton from "../IconButton";
 import { FeatureFlags } from "../services/FeatureFlags";
 
 export const NoiseSuppression = () => {
@@ -104,7 +104,6 @@ export const NoiseSuppression = () => {
               await removePlugin();
             }
           }}
-          css={{ mx: "$4" }}
           data-testid="noise_suppression_btn"
         >
           <AudioLevelIcon />

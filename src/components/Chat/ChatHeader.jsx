@@ -1,46 +1,80 @@
-import React from "react";
-import { Flex, IconButton, Text } from "@100mslive/react-ui";
+import React, { useState } from "react";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
   CrossIcon,
-  PeopleIcon,
 } from "@100mslive/react-icons";
-import { useToggleChat } from "../AppData/useChatState";
+import {
+  Box,
+  Dropdown,
+  Flex,
+  IconButton,
+  Text,
+  textEllipsis,
+} from "@100mslive/react-ui";
+import { useSidepaneToggle } from "../AppData/useSidepane";
+import { SIDE_PANE_OPTIONS } from "../../common/constants";
+import { ChatSelector } from "./ChatSelector";
 
 export const ChatHeader = React.memo(
-  ({ selection, selectorOpen, onToggle }) => {
-    const toggleChat = useToggleChat();
+  ({ selection, selectorOpen, onToggle, onSelect, role, peerId }) => {
+    const [open, setOpen] = useState(false);
+    const toggleChat = useSidepaneToggle(SIDE_PANE_OPTIONS.CHAT);
     return (
       <Flex
         onClick={onToggle}
         align="center"
         css={{
-          bg: "$menuBg",
           color: "$textPrimary",
           h: "$16",
-          borderTopLeftRadius: "$2",
-          borderTopRightRadius: "$2",
-          pl: "$8",
-          pr: "$4",
+          mb: "$2",
         }}
       >
-        <Flex align="center" css={{ cursor: "pointer" }}>
-          <PeopleIcon />
-          <Text css={{ mx: "$2" }}>{selection}</Text>
-          {selectorOpen ? (
-            <ChevronUpIcon width={18} height={18} />
-          ) : (
-            <ChevronDownIcon width={18} height={18} />
-          )}
-        </Flex>
+        <Text variant="h6">Chat </Text>
+        <Dropdown.Root open={open} onOpenChange={value => setOpen(value)}>
+          <Dropdown.Trigger
+            asChild
+            data-testid="participant_list_filter"
+            css={{
+              border: "1px solid $textDisabled",
+              r: "$0",
+              p: "$2 $4",
+              ml: "$8",
+            }}
+            tabIndex={0}
+          >
+            <Flex align="center">
+              <Text variant="sm" css={{ ...textEllipsis(80) }}>
+                {selection}
+              </Text>
+              <Box css={{ ml: "$2", color: "$textDisabled" }}>
+                {open ? (
+                  <ChevronUpIcon width={14} height={14} />
+                ) : (
+                  <ChevronDownIcon width={14} height={14} />
+                )}
+              </Box>
+            </Flex>
+          </Dropdown.Trigger>
+          <Dropdown.Content
+            css={{
+              w: "$64",
+              overflow: "hidden",
+              maxHeight: "unset",
+            }}
+            align="start"
+            sideOffset={8}
+          >
+            <ChatSelector onSelect={onSelect} role={role} peerId={peerId} />
+          </Dropdown.Content>
+        </Dropdown.Root>
         <IconButton
           css={{ ml: "auto" }}
           onClick={e => {
             e.stopPropagation();
             selectorOpen ? onToggle() : toggleChat();
           }}
-          data-testid='close_chat'
+          data-testid="close_chat"
         >
           <CrossIcon />
         </IconButton>
