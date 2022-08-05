@@ -48,7 +48,7 @@ const HLSView = () => {
   const [qualityDropDownOpen, setQualityDropDownOpen] = useState(false);
 
   useEffect(() => {
-    if (videoRef.current && hlsUrl && !hls) {
+    if (videoRef.current && hlsUrl) {
       if (Hls.isSupported()) {
         hlsController = new HLSController(hlsUrl, videoRef);
 
