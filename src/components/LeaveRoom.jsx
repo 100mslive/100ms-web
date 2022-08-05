@@ -10,6 +10,7 @@ import {
   HangUpIcon,
   ExitIcon,
   AlertTriangleIcon,
+  VerticalMenuIcon,
 } from "@100mslive/react-icons";
 import {
   Button,
@@ -65,79 +66,93 @@ export const LeaveRoom = () => {
   return (
     <Fragment>
       {permissions.endRoom ? (
-        <Dropdown.Root>
-          <Dropdown.Trigger asChild>
-            <LeaveIconButton
-              variant="danger"
-              key="LeaveRoom"
-              data-testid="leave_room_btn"
-            >
-              <Tooltip title="Leave Room">
-                {!isStreamKit ? (
-                  <Box>
-                    <HangUpIcon key="hangUp" />
+        <Flex>
+          <LeaveIconButton
+            variant="danger"
+            key="LeaveRoom"
+            data-testid="leave_room_btn"
+            css={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+            onClick={leaveRoom}
+          >
+            <Tooltip title="Leave Room">
+              {!isStreamKit ? (
+                <Box>
+                  <HangUpIcon key="hangUp" />
+                </Box>
+              ) : (
+                <Flex gap={2}>
+                  <Box css={{ "@md": { transform: "rotate(180deg)" } }}>
+                    <ExitIcon key="hangUp" />
                   </Box>
-                ) : (
-                  <Flex gap={2}>
-                    <Box css={{ "@md": { transform: "rotate(180deg)" } }}>
-                      <ExitIcon key="hangUp" />
-                    </Box>
-                    <Text
-                      css={{ "@md": { display: "none" }, color: "inherit" }}
-                      variant="button"
-                    >
-                      Leave Studio
+                  <Text
+                    css={{ "@md": { display: "none" }, color: "inherit" }}
+                    variant="button"
+                  >
+                    Leave Studio
+                  </Text>
+                </Flex>
+              )}
+            </Tooltip>
+          </LeaveIconButton>
+          <Dropdown.Root>
+            <Dropdown.Trigger
+              asChild
+              css={{
+                '&[data-state="open"]': {
+                  bg: "$errorDark",
+                },
+              }}
+            >
+              <MenuTriggerButton variant="danger">
+                <VerticalMenuIcon />
+              </MenuTriggerButton>
+            </Dropdown.Trigger>
+            <Dropdown.Content css={{ p: 0 }} alignOffset={-50} sideOffset={10}>
+              <Dropdown.Item
+                css={{ w: "100%", bg: "#34191C" }}
+                onClick={() => {
+                  setShowEndRoomModal(true);
+                }}
+                data-testid="end_room_btn"
+              >
+                <Flex gap={4}>
+                  <Box>
+                    <AlertTriangleIcon />
+                  </Box>
+                  <Flex direction="column" align="start">
+                    <Text variant="h6" css={{ c: "$error" }}>
+                      End Session for all
+                    </Text>
+                    <Text variant="sm" css={{ c: "$textMedEmp" }}>
+                      The session will end for everyone. You can’t undo this
+                      action.
                     </Text>
                   </Flex>
-                )}
-              </Tooltip>
-            </LeaveIconButton>
-          </Dropdown.Trigger>
-          <Dropdown.Content css={{ p: 0 }} alignOffset={-50} sideOffset={10}>
-            <Dropdown.Item
-              css={{ w: "100%", bg: "#34191C" }}
-              onClick={() => {
-                setShowEndRoomModal(true);
-              }}
-              data-testid="end_room_btn"
-            >
-              <Flex gap={4}>
-                <Box>
-                  <AlertTriangleIcon />
-                </Box>
-                <Flex direction="column" align="start">
-                  <Text variant="h6" css={{ c: "$error" }}>
-                    End Session
-                  </Text>
-                  <Text variant="sm" css={{ c: "$textMedEmp" }}>
-                    The session will end for everyone. You can’t undo this
-                    action.
-                  </Text>
                 </Flex>
-              </Flex>
-            </Dropdown.Item>
-            <Dropdown.Item
-              css={{ bg: "$surfaceDefault" }}
-              onClick={leaveRoom}
-              data-testid="just_leave_btn"
-            >
-              <Flex gap={4}>
-                <Box>
-                  <ExitIcon />
-                </Box>
-                <Flex direction="column" align="start">
-                  <Text variant="h6">
-                    Leave {isStreamKit ? "Studio" : "Room"}
-                  </Text>
-                  <Text variant="sm" css={{ c: "$textMedEmp" }}>
-                    Others will continue after you leave. You can join the
-                    {isStreamKit ? " studio" : " room"} again.
-                  </Text>
+              </Dropdown.Item>
+              <Dropdown.Item
+                css={{ bg: "$surfaceDefault" }}
+                onClick={leaveRoom}
+                data-testid="just_leave_btn"
+              >
+                <Flex gap={4}>
+                  <Box>
+                    <ExitIcon />
+                  </Box>
+                  <Flex direction="column" align="start">
+                    <Text variant="h6">
+                      Leave {isStreamKit ? "Studio" : "Room"}
+                    </Text>
+                    <Text variant="sm" css={{ c: "$textMedEmp" }}>
+                      Others will continue after you leave. You can join the
+                      {isStreamKit ? " studio" : " room"} again.
+                    </Text>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </Dropdown.Item>
-          </Dropdown.Content>
-        </Dropdown.Root>
+              </Dropdown.Item>
+            </Dropdown.Content>
+          </Dropdown.Root>
+        </Flex>
       ) : (
         <LeaveIconButton onClick={leaveRoom} variant="danger" key="LeaveRoom">
           <Tooltip title="Leave Room">
@@ -200,5 +215,15 @@ const LeaveIconButton = styled(IconButton, {
   "@md": {
     px: "$4",
     mx: 0,
+  },
+});
+
+const MenuTriggerButton = styled(LeaveIconButton, {
+  borderLeft: "1px solid $errorDark",
+  borderTopLeftRadius: 0,
+  borderBottomLeftRadius: 0,
+  px: "$3",
+  "@md": {
+    px: "$2",
   },
 });
