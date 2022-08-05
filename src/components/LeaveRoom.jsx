@@ -103,7 +103,10 @@ export const LeaveRoom = () => {
                 },
               }}
             >
-              <MenuTriggerButton variant="danger">
+              <MenuTriggerButton
+                variant="danger"
+                data-testid="leave_end_dropdown_trigger"
+              >
                 <VerticalMenuIcon />
               </MenuTriggerButton>
             </Dropdown.Trigger>
