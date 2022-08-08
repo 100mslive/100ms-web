@@ -113,7 +113,7 @@ const Tile = ({ peerId, trackId, width, height }) => {
             isAudioMuted,
           }) ? (
             <StyledVideoTile.AudioIndicator data-testid="participant_audio_mute_icon">
-              <MicOffIcon height={20} />
+              <MicOffIcon />
             </StyledVideoTile.AudioIndicator>
           ) : null}
           {isMouseHovered && !isHeadless && !isLocal ? (
