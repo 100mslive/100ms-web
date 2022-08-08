@@ -15,10 +15,12 @@ import FullPageProgress from "../components/FullPageProgress";
 import ScreenShareView from "./screenShareView";
 import {
   useHLSViewerRole,
+  useIsHeadless,
   useUISettings,
 } from "../components/AppData/useUISettings";
 import { useBeamAutoLeave } from "../common/hooks";
 import { useWhiteboardMetadata } from "../plugins/whiteboard";
+import { useAppConfig } from "../components/AppData/useAppConfig";
 import { UI_MODE_ACTIVE_SPEAKER } from "../common/constants";
 
 const WhiteboardView = React.lazy(() => import("./WhiteboardView"));
@@ -34,6 +36,8 @@ export const ConferenceMainView = () => {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   useBeamAutoLeave();
   const hmsActions = useHMSActions();
+  const isHeadless = useIsHeadless();
+  const headlessUIMode = useAppConfig("headlessConfig", "uiMode");
   const { uiViewMode, isAudioOnly } = useUISettings();
   const hlsViewerRole = useHLSViewerRole();
   useEffect(() => {
@@ -70,7 +74,10 @@ export const ConferenceMainView = () => {
     !isAudioOnly
   ) {
     ViewComponent = ScreenShareView;
-  } else if (uiViewMode === UI_MODE_ACTIVE_SPEAKER) {
+  } else if (
+    uiViewMode === UI_MODE_ACTIVE_SPEAKER ||
+    (isHeadless && headlessUIMode === UI_MODE_ACTIVE_SPEAKER)
+  ) {
     ViewComponent = ActiveSpeakerView;
   } else {
     ViewComponent = MainGridView;
