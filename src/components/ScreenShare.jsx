@@ -23,7 +23,7 @@ export const ScreenshareToggle = ({ css }) => {
     return null;
   }
   return (
-    <Tooltip title={`${!isVideoScreenshare ? "Start" : "Stop"} Screen sharing`}>
+    <Tooltip title={`${!isVideoScreenshare ? "Start" : "Stop"} screen sharing`}>
       <IconButton
         active={!isVideoScreenshare}
         css={css}
