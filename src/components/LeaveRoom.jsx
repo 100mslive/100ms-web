@@ -112,7 +112,7 @@ export const LeaveRoom = () => {
             </Dropdown.Trigger>
             <Dropdown.Content css={{ p: 0 }} alignOffset={-50} sideOffset={10}>
               <Dropdown.Item
-                css={{ w: "100%", bg: "#34191C" }}
+                css={{ w: "100%", bg: "rgba(178, 71, 81, 0.1)" }}
                 onClick={() => {
                   setShowEndRoomModal(true);
                 }}
