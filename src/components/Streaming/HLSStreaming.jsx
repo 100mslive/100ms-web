@@ -76,7 +76,7 @@ const StartHLS = () => {
           ) : (
             <GoLiveIcon />
           )}
-          {isHLSStarted ? "Starting Stream..." : "Go Live"}
+          {isHLSStarted ? "Starting stream..." : "Go Live"}
         </Button>
       </Box>
       <Flex align="center" css={{ p: "$4 $10" }}>

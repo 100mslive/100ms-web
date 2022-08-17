@@ -17,6 +17,7 @@ import {
   Video,
 } from "@100mslive/react-ui";
 import { DialogDropdownTrigger } from "../../primitives/DropdownTrigger";
+import { useDropdownSelection } from "../hooks/useDropdownSelection";
 
 /**
  * wrap the button on click of whom settings should open, this component will take care of the rest,
@@ -41,6 +42,9 @@ const Settings = () => {
                 height: "$48",
                 bg: "transparent",
                 m: "$10 auto",
+                "@md": {
+                  display: "none",
+                },
               }}
             >
               <Video trackId={videoTrackId} />
@@ -103,25 +107,34 @@ const DeviceSelector = ({
   children = null,
 }) => {
   const [open, setOpen] = useState(false);
+  const selectionBg = useDropdownSelection();
   return (
     <Box css={{ mb: "$10" }}>
       <Text css={{ mb: "$4" }}>{title}</Text>
       <Flex
         align="center"
         css={{
-          w: "100%",
+          gap: "$4",
+          "@md": {
+            flexDirection: children ? "column" : "row",
+            alignItems: children ? "start" : "center",
+          },
         }}
       >
         <Box
           css={{
             position: "relative",
             flex: "1 1 0",
+            w: "100%",
             minWidth: 0,
             "[data-radix-popper-content-wrapper]": {
               w: "100%",
               minWidth: "0 !important",
               transform: "translateY($space$17) !important",
               zIndex: 11,
+            },
+            "@md": {
+              mb: children ? "$8" : 0,
             },
           }}
         >
@@ -155,9 +168,7 @@ const DeviceSelector = ({
                     css={{
                       px: "$9",
                       bg:
-                        device.deviceId === selection
-                          ? "$primaryDark"
-                          : undefined,
+                        device.deviceId === selection ? selectionBg : undefined,
                     }}
                   >
                     {device.label}
@@ -195,14 +206,19 @@ const TestAudio = ({ id }) => {
         variant="standard"
         css={{
           flexShrink: 0,
-          ml: "$4",
           p: "$6 $9",
+          "@md": {
+            w: "100%",
+          },
         }}
         onClick={() => audioRef.current?.play()}
         disabled={playing}
       >
         <SpeakerIcon />
-        &nbsp;Test
+        &nbsp;Test{" "}
+        <Text as="span" css={{ display: "none", "@md": { display: "inline" } }}>
+          &nbsp; speaker
+        </Text>
       </Button>
       <audio
         ref={audioRef}

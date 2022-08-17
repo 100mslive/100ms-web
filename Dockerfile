@@ -1,4 +1,4 @@
-FROM node:17
+FROM node:18
 
 WORKDIR /app
 
@@ -14,4 +14,4 @@ ENV PORT=8080
 
 EXPOSE 8080
 
-CMD ["yarn", "start"]
+CMD ["npx", "http-server", "build"]
