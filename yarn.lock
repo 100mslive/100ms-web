@@ -2,26 +2,26 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-noise-suppression@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.4.0.tgz#1b94a7b3b01ef0bb8a9ea7ffb81d523c916088e1"
-  integrity sha512-8mNoy+uPCm3VB1kURYbFVNlEvAaoochEGlgIp5Qq4m1mOUjYwM+qk4Bcif7Hqxy12TIgs2XX+Vpk/QnvaMWFSA==
+"@100mslive/hms-noise-suppression@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.4.1.tgz#967db6c35b7e5af6d50de93a5f332401f7a2177c"
+  integrity sha512-uUK0W4W9h+mkHN/zwqqTOENj2IgUAb3RX120Tyj5npZsHxdhahy9EHGmqc0JOrYyvfxMYZumW7r3NjKVf60tRg==
 
-"@100mslive/hms-video-store@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.5.0.tgz#5fb3c8bc328c6e77d4ef5ee9fda4e37e75c0f1f1"
-  integrity sha512-oF1GaEkTiJbHHgm+9oLe0CmqZxKf/wJAKCzf0NRO/TlfNACTUmv7b5/nnBC21exwYOw0gpnWL+P+eY5WtSFRMQ==
+"@100mslive/hms-video-store@0.5.1-alpha.0":
+  version "0.5.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.5.1-alpha.0.tgz#bfc1619e7894735b8697be60f5d9775c8c729ae9"
+  integrity sha512-UxEXP6Aq5bG0x/mVBIRFoz3DZqBJDojDObCw83Szvu6mu2Jck/U+6vMP6tKteWkzf2rPSUc248KPUwec2gR5UA==
   dependencies:
-    "@100mslive/hms-video" "0.4.0"
+    "@100mslive/hms-video" "0.4.1-alpha.0"
     eventemitter2 "^6.4.5"
     immer "^9.0.6"
     reselect "4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.4.0.tgz#a644f74b3e71a1d3f61542d818976263def38b0a"
-  integrity sha512-V/x8uBVCpBCcy3PbYARCgAn8dwSSjNBvk77/brs4gBKz0mkvJcRBI/nCBJiDVrCZ+XD+cxrBfhyfrIvvEisP/A==
+"@100mslive/hms-video@0.4.1-alpha.0":
+  version "0.4.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.4.1-alpha.0.tgz#b1607a06be5da4d2b92aaff9005870b9333e84be"
+  integrity sha512-c5yFjC8B6u6bm3MiV/1GJpdecx4gmNGga1e0OG7/ZhZyuLsB7m7NNYizKNckULo+5PbRDclAdGCR5HQ6Nyp1UQ==
   dependencies:
     eventemitter2 "^6.4.5"
     sdp-transform "^2.14.1"
@@ -29,10 +29,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.6.0.tgz#8dcfe3b4f292c231ba0c6c3a0c5f3fc124d1d06c"
-  integrity sha512-YrTtftmzjWzKNNcz4e7YskzLS2Qu2zPUMF20sCQ1NmIvoaer6xh3CRdWwBMHcr955xet9U5ofBSCl0YrrMP+8A==
+"@100mslive/hms-virtual-background@1.6.1-alpha.0":
+  version "1.6.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.6.1-alpha.0.tgz#6635bd23579205ebd40b9325a21b6ef4669fc0bd"
+  integrity sha512-TdiEmyfeC7g5HLN7EFjlhqG77PisW/xqPhhNUF0lTiR8g1vfDlUTt/PREcaesMWySBoLiMY1NgDO8v4/YbCWuw==
   dependencies:
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
     "@tensorflow/tfjs-core" "^3.3.0"
@@ -41,28 +41,28 @@
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.3.0.tgz#48506d1861f3741a35cf15108b186eaf75c06d54"
-  integrity sha512-0/TMn7VoV6RVq/vSO5LV5koIrF9PFk+71ecgHMXgS5kv4viBNSU4e6bY7vsClP3N0t77jzIWQtNByjc961luqA==
+"@100mslive/react-icons@0.3.1-alpha.0":
+  version "0.3.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.3.1-alpha.0.tgz#5ab02cefa384521f28e2c2a8f298c01ea830a1fc"
+  integrity sha512-E8QH7vsCEd2b1cHcrnBa6RiHT7QdraoEC1xLf27yyDsQj8D8kjqbqWbwCv4eVImFNh7gKsk/K2WIp2l2z23alw==
 
-"@100mslive/react-sdk@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.3.0.tgz#0a71a054bca069aaedfcf897e8883d3ffd1ab759"
-  integrity sha512-tMBNt+jwlQfXeuTUqia2pFQlZxjFAUZIgHoQB1mO7EcO9Q7bZWuukFGrZ06ORF4pqobHiWPSB+7jTYJbJTzgBw==
+"@100mslive/react-sdk@0.3.1-alpha.0":
+  version "0.3.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.3.1-alpha.0.tgz#1ea22d78dd90d39003b085f27f66cfba2fbd2ad6"
+  integrity sha512-kx9aX+EztnDA5BJjMPeh5/rzd4vgwbT2H9U3egZu8rG523uRY3nct5xMqcnZDf0q0BPAWa1GBa9JSrhANPd5ww==
   dependencies:
-    "@100mslive/hms-video-store" "0.5.0"
+    "@100mslive/hms-video-store" "0.5.1-alpha.0"
     react-intersection-observer "^8.33.1"
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.3.0.tgz#38617174ba8bca96572e8a243675ba89e61fff8c"
-  integrity sha512-DyR2uT23YY3e5Vdl/bi2EwzzB2m4M/Mjoy+1/hKmzHieNnuqC09ZFt1qNfPtIB1yEaJEG/GFI26hnc1K0TjiIg==
+"@100mslive/react-ui@0.3.1-alpha.0":
+  version "0.3.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.3.1-alpha.0.tgz#9c543747791a1189a814080948e7e954455c917d"
+  integrity sha512-CiOV5iaufgYoPNlF0mo7gR26r467bg5iJp2nKxBPNAEdnMg4/ZkIJGFFjHmooCd7vnB7XeihFYXkgXmQcjxPhg==
   dependencies:
-    "@100mslive/react-icons" "0.3.0"
-    "@100mslive/react-sdk" "0.3.0"
+    "@100mslive/react-icons" "0.3.1-alpha.0"
+    "@100mslive/react-sdk" "0.3.1-alpha.0"
     "@radix-ui/react-accordion" "^0.1.6"
     "@radix-ui/react-checkbox" "^0.1.4"
     "@radix-ui/react-dialog" "^0.1.1"
@@ -3814,7 +3814,7 @@ eventemitter2@^6.4.5:
   resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-6.4.5.tgz#97380f758ae24ac15df8353e0cc27f8b95644655"
   integrity sha512-bXE7Dyc1i6oQElDG0jMRZJrRAn9QR2xyyFGmBdZleNmyQX0FqGYmhZIrIrpPfm/w//LTo4tVQGOGQcGCb5q9uw==
 
-eventemitter2@^6.4.6:
+eventemitter2@^6.4.7:
   version "6.4.7"
   resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-6.4.7.tgz#a7f6c4d7abf28a14c1ef3442f21cb306a054271d"
   integrity sha512-tYUSVOGeQPKt/eC1ABfhHy5Xd96N3oIijJvN3O9+TsC28T5V9yX9oEfEK5faP0EFSNVOG97qtAS68GBrQB2hDg==
@@ -5134,7 +5134,7 @@ minimatch@^3.0.4, minimatch@^3.1.2:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@1.2.6, minimist@^1.2.0, minimist@^1.2.5:
+minimist@^1.2.0, minimist@^1.2.5:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
