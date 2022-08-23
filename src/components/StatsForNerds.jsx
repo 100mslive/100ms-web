@@ -18,6 +18,7 @@ import {
 } from "@100mslive/react-ui";
 import { DialogDropdownTrigger } from "../primitives/DropdownTrigger";
 import { useSetUiSettings } from "./AppData/useUISettings";
+import { useDropdownSelection } from "./hooks/useDropdownSelection";
 import { UI_SETTINGS } from "../common/constants";
 
 export const StatsForNerds = ({ onOpenChange }) => {
@@ -34,6 +35,7 @@ export const StatsForNerds = ({ onOpenChange }) => {
     UI_SETTINGS.showStatsOnTiles
   );
   const [open, setOpen] = useState(false);
+  const selectionBg = useDropdownSelection();
 
   useEffect(() => {
     if (
@@ -118,8 +120,7 @@ export const StatsForNerds = ({ onOpenChange }) => {
                       setSelectedStat(option.id);
                     }}
                     css={{
-                      bg:
-                        option.id === selectedStat ? "$primaryDark" : undefined,
+                      bg: option.id === selectedStat ? selectionBg : undefined,
                       c: option.id === selectedStat ? "$white" : "$textPrimary",
                     }}
                   >

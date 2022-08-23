@@ -4,6 +4,7 @@ import {
   useHMSStore,
   selectIsLocalVideoPluginPresent,
   selectIsAllowedToPublish,
+  selectLocalVideoTrackID,
 } from "@100mslive/react-sdk";
 import { VirtualBackgroundIcon } from "@100mslive/react-icons";
 import { Tooltip } from "@100mslive/react-ui";
@@ -15,6 +16,7 @@ export const VirtualBackground = () => {
   const hmsActions = useHMSActions();
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const [isVBSupported, setIsVBSupported] = useState(false);
+  const localPeerVideoTrackID = useHMSStore(selectLocalVideoTrackID);
   const isVBPresent = useHMSStore(
     selectIsLocalVideoPluginPresent("@100mslive/hms-virtual-background")
   );
@@ -28,6 +30,9 @@ export const VirtualBackground = () => {
     }
   }
   useEffect(() => {
+    if (!localPeerVideoTrackID) {
+      return;
+    }
     createPlugin().then(() => {
       //check support of plugin
       const pluginSupport = hmsActions.validateVideoPluginSupport(
@@ -35,7 +40,7 @@ export const VirtualBackground = () => {
       );
       setIsVBSupported(pluginSupport.isSupported);
     });
-  }, [hmsActions]);
+  }, [hmsActions, localPeerVideoTrackID]);
 
   async function addPlugin() {
     try {
