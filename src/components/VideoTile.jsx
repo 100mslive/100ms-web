@@ -99,7 +99,7 @@ const Tile = ({ peerId, trackId, width, height }) => {
             />
           ) : null}
           <StyledVideoTile.AvatarContainer>
-            {isVideoMuted || isVideoDegraded || isAudioOnly ? (
+            {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (
               <Avatar
                 name={peerName || ""}
                 data-testid="participant_avatar_icon"
