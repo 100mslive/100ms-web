@@ -258,7 +258,8 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
           <VerticalMenuIcon />
         </Text>
       </Dropdown.Trigger>
-      <Dropdown.Content align="start" sideOffset={8} css={{ w: "$64" }}>
+
+      <Dropdown.Content align="end" sideOffset={8} css={{ w: "$64" }}>
         {canChangeRole && (
           <Dropdown.Item onClick={() => onRoleChange(peerId)}>
             <ChangeRoleIcon />

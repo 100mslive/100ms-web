@@ -44,6 +44,7 @@ export const MoreSettings = () => {
             </Tooltip>
           </IconButton>
         </Dropdown.Trigger>
+
         <Dropdown.Content
           sideOffset={5}
           align="center"
