@@ -71,6 +71,7 @@ export const RoleChangeModal = ({ peerId, onOpenChange }) => {
                 css={{ width: "100%" }}
               >
                 <Dropdown.Trigger
+                  data-testid="open_role_selection_dropdown"
                   asChild
                   css={{
                     border: "1px solid $borderLight",
@@ -98,6 +99,7 @@ export const RoleChangeModal = ({ peerId, onOpenChange }) => {
                   {roles.map(role => {
                     return (
                       <Dropdown.Item
+                        data-testid={role}
                         key={role}
                         onSelect={() => setRole(role)}
                         css={{
@@ -125,6 +127,7 @@ export const RoleChangeModal = ({ peerId, onOpenChange }) => {
                 checked={requestPermission}
                 onCheckedChange={value => setRequestPermission(value)}
                 id="requestRoleChangePermission"
+                data-testid="force_role_change_checkbox"
               >
                 <Checkbox.Indicator>
                   <CheckIcon width={16} height={16} />
@@ -139,13 +142,19 @@ export const RoleChangeModal = ({ peerId, onOpenChange }) => {
           >
             <Box css={{ width: "50%" }}>
               <Dialog.Close css={{ width: "100%" }}>
-                <Button variant="standard" outlined css={{ width: "100%" }}>
+                <Button
+                  variant="standard"
+                  outlined
+                  css={{ width: "100%" }}
+                  data-testid="cancel_button"
+                >
                   Cancel
                 </Button>
               </Dialog.Close>
             </Box>
             <Box css={{ width: "50%" }}>
               <Button
+                data-testid="change_button"
                 variant="primary"
                 css={{ width: "100%" }}
                 onClick={async () => {
