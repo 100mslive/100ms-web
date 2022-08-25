@@ -18,6 +18,7 @@ import {
 } from "@100mslive/react-ui";
 import { DialogDropdownTrigger } from "../../primitives/DropdownTrigger";
 import { useDropdownSelection } from "../hooks/useDropdownSelection";
+import { settingOverflow } from './common.js';
 
 /**
  * wrap the button on click of whom settings should open, this component will take care of the rest,
@@ -31,7 +32,7 @@ const Settings = () => {
   const isVideoOn = useHMSStore(selectIsLocalVideoEnabled);
 
   return (
-    <Fragment>
+    <Box className={settingOverflow()}>
       {videoInput?.length ? (
         <Fragment>
           {isVideoOn && (
@@ -94,7 +95,7 @@ const Settings = () => {
           <TestAudio id={selectedDeviceIDs.audioOutput} />
         </DeviceSelector>
       ) : null}
-    </Fragment>
+    </Box>
   );
 };
 
