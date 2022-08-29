@@ -9,11 +9,11 @@
     "src"
   ],
   "dependencies": {
-    "@100mslive/hms-noise-suppression": "0.4.2-alpha.2",
-    "@100mslive/hms-virtual-background": "1.6.1-alpha.3",
-    "@100mslive/react-icons": "0.3.1-alpha.3",
-    "@100mslive/react-sdk": "0.3.1-alpha.3",
-    "@100mslive/react-ui": "0.3.1-alpha.3",
+    "@100mslive/hms-noise-suppression": "0.4.2-alpha.3",
+    "@100mslive/hms-virtual-background": "1.6.1-alpha.4",
+    "@100mslive/react-icons": "0.3.1-alpha.4",
+    "@100mslive/react-sdk": "0.3.1-alpha.4",
+    "@100mslive/react-ui": "0.3.1-alpha.4",
     "@emoji-mart/data": "^1.0.3",
     "@tldraw/tldraw": "^1.5.0",
     "emoji-mart": "^5.1.0",
