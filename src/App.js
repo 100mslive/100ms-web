@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState, useCallback } from "react";
+import React, { Suspense, useEffect, useCallback } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -81,22 +81,13 @@ export function EdtechComponent({
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
-  const [themeType, setThemeType] = useState(theme);
-  useEffect(() => {
-    window.toggleUiTheme = () => {
-      setThemeType(themeType === "dark" ? "light" : "dark");
-    };
-  }, [themeType]);
-  useEffect(() => {
-    setThemeType(theme);
-  }, [theme]);
 
   const getUserTokenCallback = useCallback(getUserToken, []); //eslint-disable-line
 
   return (
     <ErrorBoundary>
       <HMSThemeProvider
-        themeType={themeType}
+        themeType={theme}
         aspectRatio={getAspectRatio({ width, height })}
         theme={{
           colors: {
