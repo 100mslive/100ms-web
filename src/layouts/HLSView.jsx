@@ -124,12 +124,9 @@ const HLSView = () => {
   return (
     <Fragment>
       {hlsUrl ? (
-        <>
-          <Flex
-            align="center"
-            justify="center"
-            css={{ position: "absolute", right: "$10", zIndex: "10" }}
-          >
+        <Flex css={{ flexDirection: "column" }}>
+          <HLSVideo ref={videoRef} autoPlay controls playsInline />
+          <Flex align="center" justify="end" css={{ marginRight: "$10" }}>
             {hlsController ? (
               <Button
                 variant="standard"
@@ -229,9 +226,7 @@ const HLSView = () => {
               )}
             </Dropdown.Root>
           </Flex>
-
-          <HLSVideo ref={videoRef} autoPlay controls playsInline />
-        </>
+        </Flex>
       ) : (
         <Flex align="center" justify="center" css={{ size: "100%", px: "$10" }}>
           <Text variant="md" css={{ textAlign: "center" }}>
