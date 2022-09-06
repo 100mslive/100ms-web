@@ -28,6 +28,10 @@ export const PeerNotifications = () => {
     console.debug(`[${notification.type}]`, notification);
     switch (notification.type) {
       case HMSNotificationTypes.PEER_LIST:
+        if (!isPeerJoinSubscribed || notification.data?.length === 0) {
+          return;
+        }
+        break;
       case HMSNotificationTypes.PEER_JOINED:
         if (!isPeerJoinSubscribed) {
           return;
