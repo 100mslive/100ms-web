@@ -71,7 +71,7 @@ const List = ({
             ))
           : null}
       </StyledVideoList.Container>
-      {pagesWithTiles.length > 1 ? (
+      {!isHeadless && pagesWithTiles.length > 1 ? (
         <Pagination
           page={page}
           setPage={setPage}
