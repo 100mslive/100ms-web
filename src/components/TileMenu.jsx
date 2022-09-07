@@ -15,7 +15,7 @@ import {
   useRemoteAVToggle,
   selectTrackByID,
 } from "@100mslive/react-sdk";
-import { Flex, StyledMenuTile, Slider, Text } from "@100mslive/react-ui";
+import { Flex, StyledMenuTile, Slider, Text, Box } from "@100mslive/react-ui";
 import { ChatDotIcon } from "./Chat/ChatDotIcon";
 
 /**
@@ -76,7 +76,10 @@ const TileMenu = ({
         {audioTrackID ? (
           <StyledMenuTile.VolumeItem data-testid="participant_volume_slider">
             <Flex align="center" gap={1}>
-              <SpeakerIcon /> <span>Volume ({volume})</span>
+              <SpeakerIcon />{" "}
+              <Box as="span" css={{ ml: "$4" }}>
+                Volume ({volume})
+              </Box>
             </Flex>
             <Slider
               css={{ my: "0.5rem" }}
@@ -86,7 +89,7 @@ const TileMenu = ({
             />
           </StyledMenuTile.VolumeItem>
         ) : null}
-        <SimulcastLayer trackId={videoTrackID} />
+        <SimulcastLayers trackId={videoTrackID} />
         {removeOthers ? (
           <StyledMenuTile.RemoveItem
             onClick={async () => {
@@ -107,7 +110,7 @@ const TileMenu = ({
   );
 };
 
-const SimulcastLayer = ({ trackId }) => {
+const SimulcastLayers = ({ trackId }) => {
   const track = useHMSStore(selectTrackByID(trackId));
   const actions = useHMSActions();
   if (!track?.layerDefinitions) {
@@ -118,16 +121,21 @@ const SimulcastLayer = ({ trackId }) => {
       {track.layerDefinitions.map(layer => {
         return (
           <StyledMenuTile.ItemButton
-            key={layer.id}
-            onClick={() => {
-              actions.setPreferredLayer(layer.layer);
+            key={layer.layer}
+            onClick={async () => {
+              await actions.setPreferredLayer(trackId, layer.layer);
             }}
           >
+            <ChatDotIcon
+              css={{
+                visibility: layer.layer === track.layer ? "visible" : "hidden",
+                mr: "$2",
+              }}
+            />
             <Text as="span" css={{ textTransform: "capitalize", mr: "$2" }}>
               {layer.layer}
             </Text>
             ({layer.resolution.width}x{layer.resolution.height})
-            {layer.layer === track.layer && <ChatDotIcon />}
           </StyledMenuTile.ItemButton>
         );
       })}
