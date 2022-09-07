@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   HorizontalMenuIcon,
   MicOffIcon,
@@ -13,8 +13,10 @@ import {
   selectPermissions,
   useHMSActions,
   useRemoteAVToggle,
+  selectTrackByID,
 } from "@100mslive/react-sdk";
-import { Flex, StyledMenuTile, Slider } from "@100mslive/react-ui";
+import { Flex, StyledMenuTile, Slider, Text } from "@100mslive/react-ui";
+import { ChatDotIcon } from "./Chat/ChatDotIcon";
 
 /**
  * Taking peerID as peer won't necesarilly have tracks
@@ -84,7 +86,7 @@ const TileMenu = ({
             />
           </StyledMenuTile.VolumeItem>
         ) : null}
-
+        <SimulcastLayer trackId={videoTrackID} />
         {removeOthers ? (
           <StyledMenuTile.RemoveItem
             onClick={async () => {
@@ -102,6 +104,34 @@ const TileMenu = ({
         ) : null}
       </StyledMenuTile.Content>
     </StyledMenuTile.Root>
+  );
+};
+
+const SimulcastLayer = ({ trackId }) => {
+  const track = useHMSStore(selectTrackByID(trackId));
+  const actions = useHMSActions();
+  if (!track?.layerDefinitions) {
+    return null;
+  }
+  return (
+    <Fragment>
+      {track.layerDefinitions.map(layer => {
+        return (
+          <StyledMenuTile.ItemButton
+            key={layer.id}
+            onClick={() => {
+              actions.setPreferredLayer(layer.layer);
+            }}
+          >
+            <Text as="span" css={{ textTransform: "capitalize", mr: "$2" }}>
+              {layer.layer}
+            </Text>
+            ({layer.resolution.width}x{layer.resolution.height})
+            {layer.layer === track.layer && <ChatDotIcon />}
+          </StyledMenuTile.ItemButton>
+        );
+      })}
+    </Fragment>
   );
 };
 
