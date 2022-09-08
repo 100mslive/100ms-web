@@ -127,6 +127,7 @@ export const UI_SETTINGS = {
   uiViewMode: "uiViewMode",
   showStatsOnTiles: "showStatsOnTiles",
   enableAmbientMusic: "enableAmbientMusic",
+  mirrorLocalVideo: "mirrorLocalVideo",
 };
 
 export const SIDE_PANE_OPTIONS = {
