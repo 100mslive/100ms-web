@@ -76,7 +76,7 @@ const TileMenu = ({
         {audioTrackID ? (
           <StyledMenuTile.VolumeItem data-testid="participant_volume_slider">
             <Flex align="center" gap={1}>
-              <SpeakerIcon />{" "}
+              <SpeakerIcon />
               <Box as="span" css={{ ml: "$4" }}>
                 Volume ({volume})
               </Box>
