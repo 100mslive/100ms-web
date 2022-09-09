@@ -54,7 +54,10 @@ export class HLSController {
    * set the stream to. -1 for Auto
    */
   setCurrentLevel(currentLevel) {
-    this.hls.currentLevel = currentLevel;
+    const newLevel = this.hls.levels.findIndex(
+      level => level.height === currentLevel.height
+    );
+    this.hls.currentLevel = newLevel;
   }
 
   jumpToLive() {
