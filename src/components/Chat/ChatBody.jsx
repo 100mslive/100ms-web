@@ -104,7 +104,7 @@ const AnnotisedChat = ({ message }) => {
     <Fragment>
       {message
         .trim()
-        .split(" ")
+        .split(/(\s)/)
         .map(part =>
           URL_REGEX.test(part) ? (
             <Link
@@ -113,10 +113,10 @@ const AnnotisedChat = ({ message }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {part}{" "}
+              {part}
             </Link>
           ) : (
-            `${part} `
+            part
           )
         )}
     </Fragment>
@@ -206,6 +206,7 @@ const ChatMessage = React.memo(({ message, autoMarginTop = false }) => {
           w: "100%",
           mt: "$2",
           wordBreak: "break-word",
+          whiteSpace: "pre-wrap"
         }}
       >
         <AnnotisedChat message={message.message} />
