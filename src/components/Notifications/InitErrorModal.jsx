@@ -34,7 +34,7 @@ export const InitErrorModal = ({ notification }) => {
       onOpenChange={setShowModal}
       title={info.title}
     >
-      <Text variant="sm" css={{ wordBreak: "break-all" }}>
+      <Text variant="sm" css={{ wordBreak: "break-word" }}>
         {info.description} Current URL - {window.location.href}
       </Text>
     </ErrorDialog>

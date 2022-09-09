@@ -89,7 +89,7 @@ const URL_REGEX =
 
 const Link = styled("a", {
   color: "$brandDefault",
-  wordBreak: "break-all",
+  wordBreak: "break-word",
   "&:hover": {
     textDecoration: "underline",
   },
