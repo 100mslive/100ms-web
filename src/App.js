@@ -10,6 +10,7 @@ import { HMSRoomProvider } from "@100mslive/react-sdk";
 import { HMSThemeProvider, Box } from "@100mslive/react-ui";
 import { Notifications } from "./components/Notifications";
 import { Confetti } from "./plugins/confetti";
+import { RemoteStopScreenshare } from "./plugins/RemoteStopScreenshare";
 import { ToastContainer } from "./components/Toast/ToastContainer";
 import FullPageProgress from "./components/FullPageProgress";
 import { KeyboardHandler } from "./components/Input/KeyboardInputManager";
@@ -222,6 +223,7 @@ function AppRoutes({ getUserToken, getDetails }) {
       <ToastContainer />
       <Notifications />
       <Confetti />
+      <RemoteStopScreenshare />
       <KeyboardHandler />
       <Routes>
         <Route
