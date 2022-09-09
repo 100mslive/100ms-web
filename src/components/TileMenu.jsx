@@ -18,8 +18,8 @@ import {
   selectTrackByID,
 } from "@100mslive/react-sdk";
 import { Flex, StyledMenuTile, Slider, Text, Box } from "@100mslive/react-ui";
-import { REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";
 import { ChatDotIcon } from "./Chat/ChatDotIcon";
+import { REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";
 
 /**
  * Taking peerID as peer won't necesarilly have tracks
