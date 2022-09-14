@@ -55,11 +55,12 @@ const HLSView = () => {
         hlsController.on(HLS_STREAM_NO_LONGER_LIVE, () => {
           setIsVideoLive(false);
         });
-        hlsController.on(HLS_TIMED_METADATA_LOADED, payload => {
+        hlsController.on(HLS_TIMED_METADATA_LOADED, ({ payload, ...rest }) => {
           console.log(
             `%c Payload: ${payload}`,
             "color:#2b2d42; background:#d80032"
           );
+          console.log(rest);
           ToastManager.addToast({
             title: `Payload from timed Metadata ${payload}`,
           });
