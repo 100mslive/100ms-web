@@ -15,6 +15,7 @@ import {
   selectAudioTrackByPeerID,
   selectTrackByID,
   selectVideoTrackByPeerID,
+  HMSSimulcastLayer,
 } from "@100mslive/react-sdk";
 import {
   MicOffIcon,
@@ -44,7 +45,8 @@ const Tile = ({ peerId, trackId, width, height }) => {
   const isVideoMuted = !track?.enabled;
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const borderAudioRef = useBorderAudioLevel(audioTrack?.id);
-  const isVideoDegraded = track?.degraded;
+  const isVideoDegraded =
+    track?.degraded && track.layer === HMSSimulcastLayer.NONE;
   const isLocal = localPeerID === peerId;
   const label = getVideoTileLabel({
     peerName,
@@ -94,7 +96,11 @@ const Tile = ({ peerId, trackId, width, height }) => {
             <Video
               trackId={track?.id}
               attach={isLocal ? undefined : !isAudioOnly}
-              mirror={mirrorLocalVideo && peerId === localPeerID && track?.source === "regular"}
+              mirror={
+                mirrorLocalVideo &&
+                peerId === localPeerID &&
+                track?.source === "regular"
+              }
               degraded={isVideoDegraded}
               data-testid="participant_video_tile"
             />
