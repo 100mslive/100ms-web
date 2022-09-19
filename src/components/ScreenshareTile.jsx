@@ -18,7 +18,7 @@ const Tile = ({
   const peer = useHMSStore(selectPeerByID(peerId));
   const audioTrack = useHMSStore(selectScreenShareAudioByPeerID(peer?.id));
   return (
-    <StyledVideoTile.Root css={{ width, height }}>
+    <StyledVideoTile.Root css={{ width, height, p: 0 }}>
       {peer ? (
         <StyledVideoTile.Container transparentBg>
           {showStatsOnTiles ? (
