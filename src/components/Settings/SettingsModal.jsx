@@ -19,7 +19,7 @@ import {
 import DeviceSettings from "./DeviceSettings";
 import { NotificationSettings } from "./NotificationSettings";
 import { LayoutSettings } from "./LayoutSettings";
-import { settingContent } from './common.js';
+import { settingContent } from "./common.js";
 
 const SettingsModal = ({ open, onOpenChange, children }) => {
   const mediaQueryLg = cssConfig.media.md;
@@ -63,7 +63,10 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
               }}
             >
               <Text variant="h5">Settings </Text>
-              <Flex direction="column" css={{ mx: isMobile ? "-$8" : 0, overflowY: "auto" }}>
+              <Flex
+                direction="column"
+                css={{ mx: isMobile ? "-$8" : 0, overflowY: "auto" }}
+              >
                 <Tabs.Trigger
                   value="devices"
                   css={{ gap: "$8", mt: "$10", mb: "$4" }}
@@ -109,7 +112,10 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
                   </SettingsContentHeader>
                   <DeviceSettings />
                 </Tabs.Content>
-                <Tabs.Content value="notifications" className={settingContent()} >
+                <Tabs.Content
+                  value="notifications"
+                  className={settingContent()}
+                >
                   <SettingsContentHeader
                     onBack={resetSelection}
                     isMobile={isMobile}

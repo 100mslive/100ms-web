@@ -32,8 +32,8 @@ import {
   UserPreferencesKeys,
   defaultPreviewPreference,
 } from "../hooks/useUserPreferences";
-import { useUISettings } from '../AppData/useUISettings' ;
-import { UI_SETTINGS } from '../../common/constants';
+import { useUISettings } from "../AppData/useUISettings";
+import { UI_SETTINGS } from "../../common/constants";
 
 const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(

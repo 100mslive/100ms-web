@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import data from "@emoji-mart/data";
-import { Picker } from "emoji-mart";
-import { Box, Popover, Flex, IconButton, styled } from "@100mslive/react-ui";
+import React, { useCallback, useEffect, useRef } from "react";
+// import data from "@emoji-mart/data";
+// import { Picker } from "emoji-mart";
 import { useHMSActions } from "@100mslive/react-sdk";
+import { SendIcon } from "@100mslive/react-icons";
+import { Flex, styled, IconButton } from "@100mslive/react-ui";
 import { ToastManager } from "../Toast/ToastManager";
-import { EmojiIcon, SendIcon } from "@100mslive/react-icons";
 import { useChatDraftMessage } from "../AppData/useChatState";
 
 const TextArea = styled("textarea", {
@@ -19,31 +19,55 @@ const TextArea = styled("textarea", {
   },
 });
 
-function EmojiPicker({ onSelect }) {
-  const ref = useRef();
-  const pickerRef = useRef(null);
+// function EmojiPicker({ onSelect }) {
+//   const ref = useRef();
+//   const pickerRef = useRef(null);
+//   const [showEmoji, setShowEmoji] = useState(false);
 
-  useEffect(() => {
-    if (!pickerRef.current) {
-      pickerRef.current = new Picker({
-        data,
-        ref,
-        onEmojiSelect: onSelect,
-        style: { width: "90% !important" },
-        previewPosition: "none",
-        skinPosition: "search",
-      });
-    }
-  }, []); //eslint-disable-line
+//   useEffect(() => {
+//     if (!pickerRef.current) {
+//       pickerRef.current = new Picker({
+//         data,
+//         ref,
+//         onEmojiSelect: onSelect,
+//         style: { width: "90% !important" },
+//         previewPosition: "none",
+//         skinPosition: "search",
+//       });
+//     }
+//   }, []); //eslint-disable-line
 
-  return <Box ref={ref} />;
-}
+//   return (
+//     <Popover.Root open={showEmoji} onOpenChange={setShowEmoji}>
+//       <Popover.Trigger asChild css={{ appearance: "none" }}>
+//         <IconButton as="div">
+//           <EmojiIcon />
+//         </IconButton>
+//       </Popover.Trigger>
+//       <Popover.Portal forceMount={showEmoji}>
+//         <Popover.Content
+//           alignOffset={-40}
+//           sideOffset={16}
+//           align="end"
+//           css={{
+//             p: 0,
+//             "em-emoji-picker": {
+//               width: "100%",
+//               "--rgb-background": "transparent",
+//             },
+//           }}
+//         >
+//           <Box ref={ref} />
+//         </Popover.Content>
+//       </Popover.Portal>
+//     </Popover.Root>
+//   );
+// }
 
 export const ChatFooter = ({ role, peerId, onSend, children }) => {
   const hmsActions = useHMSActions();
   const inputRef = useRef(null);
   const [draftMessage, setDraftMessage] = useChatDraftMessage();
-  const [showEmoji, setShowEmoji] = useState(false);
 
   const sendMessage = useCallback(async () => {
     const message = inputRef.current.value;
@@ -110,31 +134,11 @@ export const ChatFooter = ({ role, peerId, onSend, children }) => {
         autocomplete="off"
         aria-autocomplete="none"
       />
-      <Popover.Root open={showEmoji} onOpenChange={setShowEmoji}>
-        <Popover.Trigger asChild css={{ appearance: "none" }}>
-          <IconButton as="div">
-            <EmojiIcon />
-          </IconButton>
-        </Popover.Trigger>
-        <Popover.Content
-          alignOffset={-40}
-          sideOffset={16}
-          align="end"
-          css={{
-            p: 0,
-            "em-emoji-picker": {
-              width: "100%",
-              "--rgb-background": "transparent",
-            },
-          }}
-        >
-          <EmojiPicker
-            onSelect={emoji => {
-              inputRef.current.value += ` ${emoji.native} `;
-            }}
-          />
-        </Popover.Content>
-      </Popover.Root>
+      {/* <EmojiPicker
+        onSelect={emoji => {
+          inputRef.current.value += ` ${emoji.native} `;
+        }}
+      /> */}
       <IconButton
         onClick={sendMessage}
         css={{ ml: "auto", height: "max-content", mr: "$4" }}
