@@ -6,6 +6,7 @@ import { SendIcon, EmojiIcon } from "@100mslive/react-icons";
 import { Flex, styled, IconButton, Box, Popover } from "@100mslive/react-ui";
 import { ToastManager } from "../Toast/ToastManager";
 import { useChatDraftMessage } from "../AppData/useChatState";
+import { useEmojiPickerStyles } from "./useEmojiPickerStyles";
 
 const TextArea = styled("textarea", {
   width: "100%",
@@ -21,6 +22,7 @@ const TextArea = styled("textarea", {
 
 function EmojiPicker({ onSelect }) {
   const [showEmoji, setShowEmoji] = useState(false);
+  const ref = useEmojiPickerStyles(showEmoji);
   return (
     <Popover.Root open={showEmoji} onOpenChange={setShowEmoji}>
       <Popover.Trigger asChild css={{ appearance: "none" }}>
@@ -35,13 +37,15 @@ function EmojiPicker({ onSelect }) {
           align="end"
           css={{
             p: 0,
-            "em-emoji-picker": {
-              width: "100%",
-              "--rgb-background": "transparent",
-            },
           }}
         >
-          <Box css={{ minWidth: 352, minHeight: 435 }}>
+          <Box
+            css={{
+              minWidth: 352,
+              minHeight: 435,
+            }}
+            ref={ref}
+          >
             <Picker
               onEmojiSelect={onSelect}
               data={data}
