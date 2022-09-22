@@ -336,7 +336,7 @@ export const ParticipantSearch = ({ onSearch, placeholder }) => {
         onChange={event => {
           setValue(event.currentTarget.value);
         }}
-        autocomplete="off"
+        autoComplete="off"
         aria-autocomplete="none"
       />
     </Box>
