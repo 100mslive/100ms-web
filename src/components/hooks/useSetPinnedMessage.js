@@ -1,3 +1,4 @@
+// @ts-check
 import { useCallback } from "react";
 import {
   selectPeerNameByID,
@@ -17,6 +18,7 @@ export const useSetPinnedMessage = () => {
 
   const { sendEvent } = useCustomEvent({
     type: "metadata",
+    json: false,
     onEvent: message => {
       if (message === REFRESH_MESSAGE) {
         hmsActions.populateSessionMetadata();
@@ -26,13 +28,15 @@ export const useSetPinnedMessage = () => {
 
   const setPinnedMessage = useCallback(
     /**
-     * @param {import("@100mslive/react-sdk").HMSMessage} message
+     * @param {import("@100mslive/react-sdk").HMSMessage | undefined} message
      */
     async message => {
       const peerName = vanillaStore.getState(
-        selectPeerNameByID(message.sender)
+        selectPeerNameByID(message?.sender)
       );
-      const newPinnedMessage = `${peerName}: ${message.message}`;
+      const newPinnedMessage = message
+        ? `${peerName}: ${message.message}`
+        : null;
       if (newPinnedMessage !== pinnedMessage) {
         await hmsActions.setSessionMetadata(newPinnedMessage);
         sendEvent(REFRESH_MESSAGE);
