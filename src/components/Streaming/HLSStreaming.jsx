@@ -1,5 +1,10 @@
 import { Fragment, useCallback, useState, useEffect } from "react";
-import { useHMSActions, useRecordingStreaming } from "@100mslive/react-sdk";
+import {
+  selectAppData,
+  useHMSActions,
+  useHMSStore,
+  useRecordingStreaming,
+} from "@100mslive/react-sdk";
 import { EndStreamIcon, GoLiveIcon, InfoIcon } from "@100mslive/react-icons";
 import { Box, Button, Flex, Text, Loading } from "@100mslive/react-ui";
 import {
@@ -10,6 +15,7 @@ import {
   RecordStream,
 } from "./Common";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
+import { getDefaultMeetingUrl } from "../../common/utils";
 import { APP_DATA } from "../../common/constants";
 
 export const HLSStreaming = ({ onBack }) => {
@@ -30,24 +36,35 @@ const StartHLS = () => {
   const [record, setRecord] = useState(false);
   const [error, setError] = useState(false);
   const hmsActions = useHMSActions();
+  const recordingUrl = useHMSStore(selectAppData(APP_DATA.recordingUrl));
   const [isHLSStarted, setHLSStarted] = useSetAppDataByKey(APP_DATA.hlsStarted);
-  const startHLS = useCallback(async () => {
-    try {
-      if (isHLSStarted) {
-        return;
+  const startHLS = useCallback(
+    async variants => {
+      try {
+        if (isHLSStarted) {
+          return;
+        }
+        setHLSStarted(true);
+        setError("");
+        await hmsActions.startHLSStreaming({
+          variants,
+          recording: record
+            ? { hlsVod: true, singleFilePerLayer: true }
+            : undefined,
+        });
+      } catch (error) {
+        if (error.message.includes("invalid input")) {
+          await startHLS([
+            { meetingURL: recordingUrl || getDefaultMeetingUrl() },
+          ]);
+          return;
+        }
+        setHLSStarted(false);
+        setError(error.message);
       }
-      setHLSStarted(true);
-      setError("");
-      await hmsActions.startHLSStreaming({
-        recording: record
-          ? { hlsVod: true, singleFilePerLayer: true }
-          : undefined,
-      });
-    } catch (error) {
-      setHLSStarted(false);
-      setError(error.message);
-    }
-  }, [hmsActions, record, isHLSStarted, setHLSStarted]);
+    },
+    [hmsActions, record, isHLSStarted, setHLSStarted, recordingUrl]
+  );
 
   return (
     <Fragment>
