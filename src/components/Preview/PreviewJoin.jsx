@@ -5,6 +5,7 @@ import {
   useHMSStore,
   selectIsLocalVideoEnabled,
   useAVToggle,
+  useHMSActions,
 } from "@100mslive/react-sdk";
 import {
   styled,
@@ -31,8 +32,8 @@ import {
   UserPreferencesKeys,
   defaultPreviewPreference,
 } from "../hooks/useUserPreferences";
-import { useUISettings } from '../AppData/useUISettings' ;
-import { UI_SETTINGS } from '../../common/constants';
+import { useUISettings } from "../AppData/useUISettings";
+import { UI_SETTINGS } from "../../common/constants";
 
 const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
@@ -57,15 +58,19 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
       }
     },
   });
+  const hmsActions = useHMSActions();
   const savePreferenceAndJoin = useCallback(() => {
     setPreviewPreference({
       name,
       isAudioMuted: !isLocalAudioEnabled,
       isVideoMuted: !isLocalVideoEnabled,
     });
-    join();
+    join().then(() => {
+      hmsActions.populateSessionMetadata();
+    });
     onJoin && onJoin();
   }, [
+    hmsActions,
     join,
     isLocalAudioEnabled,
     isLocalVideoEnabled,

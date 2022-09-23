@@ -1,5 +1,5 @@
-import React, { Fragment, useCallback } from "react";
-import { Flex, Slider, Text, Box  } from "@100mslive/react-ui";
+import React, { useCallback } from "react";
+import { Flex, Slider, Text, Box } from "@100mslive/react-ui";
 import {
   selectIsLocalScreenShared,
   selectIsLocalVideoEnabled,
@@ -13,14 +13,16 @@ import {
   UI_MODE_GRID,
   UI_SETTINGS,
 } from "../../common/constants";
-import { settingOverflow } from './common.js';
+import { settingOverflow } from "./common.js";
 
 export const LayoutSettings = () => {
   const hmsActions = useHMSActions();
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoEnabled);
   const isLocalScreenShared = useHMSStore(selectIsLocalScreenShared);
-  const [{ isAudioOnly, uiViewMode, maxTileCount, mirrorLocalVideo }, setUISettings] =
-    useSetUiSettings();
+  const [
+    { isAudioOnly, uiViewMode, maxTileCount, mirrorLocalVideo },
+    setUISettings,
+  ] = useSetUiSettings();
   const toggleIsAudioOnly = useCallback(
     async isAudioOnlyModeOn => {
       if (isAudioOnlyModeOn) {

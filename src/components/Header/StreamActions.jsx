@@ -146,30 +146,32 @@ const StartRecording = () => {
             </Text>
           </Button>
         </Popover.Trigger>
-        <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
-          <Text variant="body" css={{ color: "$textMedEmp" }}>
-            Are you sure you want to end the recording?
-          </Text>
-          <Button
-            data-testid="stop_recording_confirm"
-            variant="danger"
-            icon
-            css={{ ml: "auto" }}
-            onClick={async () => {
-              try {
-                await hmsActions.stopRTMPAndRecording();
-              } catch (error) {
-                ToastManager.addToast({
-                  title: error.message,
-                  variant: "error",
-                });
-              }
-              setOpen(false);
-            }}
-          >
-            Stop
-          </Button>
-        </Popover.Content>
+        <Popover.Portal>
+          <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
+            <Text variant="body" css={{ color: "$textMedEmp" }}>
+              Are you sure you want to end the recording?
+            </Text>
+            <Button
+              data-testid="stop_recording_confirm"
+              variant="danger"
+              icon
+              css={{ ml: "auto" }}
+              onClick={async () => {
+                try {
+                  await hmsActions.stopRTMPAndRecording();
+                } catch (error) {
+                  ToastManager.addToast({
+                    title: error.message,
+                    variant: "error",
+                  });
+                }
+                setOpen(false);
+              }}
+            >
+              Stop
+            </Button>
+          </Popover.Content>
+        </Popover.Portal>
       </Popover.Root>
     );
   }

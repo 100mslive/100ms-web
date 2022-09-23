@@ -238,6 +238,7 @@ const EndRTMP = () => {
     <Box css={{ p: "$4 $10" }}>
       <ErrorText error={error} />
       <Button
+        data-testid="stop_rtmp"
         variant="danger"
         css={{ w: "100%", r: "$0", my: "$8" }}
         icon

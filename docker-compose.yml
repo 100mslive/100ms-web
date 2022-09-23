@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: 100ms-web-prod
+    image: 100ms-web-prod
+    build:
+      context: .
+      target: production
