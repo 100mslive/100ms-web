@@ -184,7 +184,7 @@ export function useMultiplayerState(roomId) {
       }
     }
 
-    room.init();
+    room.init(roomId);
     setupDocument();
     setupInitialState();
 
@@ -192,7 +192,7 @@ export function useMultiplayerState(roomId) {
       stillAlive = false;
       unsubs.forEach(unsub => unsub());
     };
-  }, [app, setupInitialState, sendCurrentState, handleChanges]);
+  }, [app, roomId, setupInitialState, sendCurrentState, handleChanges]);
 
   useEffect(() => {
     // Store last state on closing whitboard so that when the board is reopened the state could be fetched and reapplied
