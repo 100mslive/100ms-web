@@ -113,6 +113,10 @@ export class HLSController {
      */
     this.hls.on(Hls.Events.FRAG_CHANGED, (_, { frag }) => {
       try {
+        if (this.videoRef.current.textTracks.length === 0) {
+          return;
+        }
+
         const fragStartTime = frag.start;
         /**
          * this destructuring is needed because the cues array not a pure
