@@ -15,7 +15,6 @@ import {
   selectAudioTrackByPeerID,
   selectVideoTrackByID,
   selectVideoTrackByPeerID,
-  HMSVideoTrack,
 } from "@100mslive/react-sdk";
 import {
   MicOffIcon,
@@ -98,7 +97,8 @@ const Tile = ({ peerId, trackId, width, height }) => {
               mirror={
                 mirrorLocalVideo &&
                 peerId === localPeerID &&
-                track?.source === "regular"
+                track?.source === "regular" &&
+                track?.facingMode !== "environment"
               }
               degraded={isVideoDegraded}
               data-testid="participant_video_tile"
