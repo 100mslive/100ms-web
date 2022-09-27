@@ -99,7 +99,8 @@ const Tile = ({ peerId, trackId, width, height }) => {
               mirror={
                 mirrorLocalVideo &&
                 peerId === localPeerID &&
-                track?.source === "regular"
+                track?.source === "regular" &&
+                track?.facingMode !== "environment"
               }
               degraded={isVideoDegraded}
               data-testid="participant_video_tile"

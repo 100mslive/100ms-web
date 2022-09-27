@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import { useMedia } from "react-use";
 import {
   selectAppData,
   selectIsConnectedToRoom,
@@ -16,6 +17,7 @@ import {
   Popover,
   Text,
   Tooltip,
+  config as cssConfig,
 } from "@100mslive/react-ui";
 import GoLiveButton from "../GoLiveButton";
 import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
@@ -220,7 +222,7 @@ const StartRecording = () => {
                 record: true,
               });
             } catch (error) {
-              if (error.message.includes("stream alredy running")) {
+              if (error.message.includes("stream already running")) {
                 ToastManager.addToast({
                   title: "Recording already running",
                   variant: "error",
@@ -246,6 +248,7 @@ const StartRecording = () => {
 export const StreamActions = () => {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const permissions = useHMSStore(selectPermissions);
+  const isMobile = useMedia(cssConfig.media.md);
   return (
     <Flex align="center" css={{ gap: "$4" }}>
       <AdditionalRoomState />
@@ -253,7 +256,7 @@ export const StreamActions = () => {
         <LiveStatus />
         <RecordingStatus />
       </Flex>
-      {isConnected && <StartRecording />}
+      {isConnected && !isMobile ? <StartRecording /> : null}
       {isConnected && (permissions.hlsStreaming || permissions.rtmpStreaming) && (
         <Fragment>
           <GoLiveButton />
