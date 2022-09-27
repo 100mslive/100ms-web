@@ -51,6 +51,7 @@ const initialAppData = {
     [UI_SETTINGS.showStatsOnTiles]: false,
     [UI_SETTINGS.enableAmbientMusic]: false,
     [UI_SETTINGS.uiViewMode]: UI_MODE_GRID,
+    [UI_SETTINGS.mirrorLocalVideo]: true,
   },
   [APP_DATA.subscribedNotifications]: {
     PEER_JOINED: false,

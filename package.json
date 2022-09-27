@@ -9,16 +9,17 @@
     "src"
   ],
   "dependencies": {
-    "@100mslive/hms-noise-suppression": "0.4.1",
-    "@100mslive/hms-virtual-background": "1.6.1-alpha.0",
-    "@100mslive/react-icons": "0.3.1-alpha.0",
-    "@100mslive/react-sdk": "0.3.1-alpha.0",
-    "@100mslive/react-ui": "0.3.1-alpha.0",
-    "@emoji-mart/data": "^1.0.3",
+    "@100mslive/hms-noise-suppression": "0.5.1-alpha.1",
+    "@100mslive/hms-virtual-background": "1.7.1-alpha.1",
+    "@100mslive/react-icons": "0.4.1-alpha.1",
+    "@100mslive/react-sdk": "0.4.1-alpha.1",
+    "@100mslive/react-ui": "0.4.1-alpha.1",
+    "@emoji-mart/data": "^1.0.6",
+    "@emoji-mart/react": "^1.0.1",
     "@tldraw/tldraw": "^1.5.0",
-    "emoji-mart": "^5.1.0",
+    "emoji-mart": "^5.2.2",
     "eventemitter2": "^6.4.7",
-    "hls.js": "^1.1.1",
+    "hls.js": "^1.2.3",
     "js-confetti": "^0.10.2",
     "logrocket": "^2.2.0",
     "logrocket-react": "^5.0.1",
@@ -42,7 +43,9 @@
     "start": "webpack serve",
     "esbuild": "node ../../scripts/build-webapp",
     "dev": "node ../../scripts/dev-webapp",
-    "format": "prettier -w src"
+    "format": "prettier -w src",
+    "lint": "eslint -c .eslintrc",
+    "lint:fix": "yarn lint --fix"
   },
   "browserslist": {
     "production": [

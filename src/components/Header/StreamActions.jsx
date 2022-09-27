@@ -98,6 +98,7 @@ const EndStream = () => {
   }
   return (
     <Button
+      data-testid="end_stream"
       variant="standard"
       outlined
       icon
@@ -129,7 +130,13 @@ const StartRecording = () => {
     return (
       <Popover.Root open={open} onOpenChange={setOpen}>
         <Popover.Trigger asChild>
-          <Button variant="danger" icon outlined onClick={() => setOpen(true)}>
+          <Button
+            variant="danger"
+            data-testid="stop_recording"
+            icon
+            outlined
+            onClick={() => setOpen(true)}
+          >
             <RecordIcon />
             <Text
               as="span"
@@ -139,29 +146,32 @@ const StartRecording = () => {
             </Text>
           </Button>
         </Popover.Trigger>
-        <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
-          <Text variant="body" css={{ color: "$textMedEmp" }}>
-            Are you sure you want to end the recording?
-          </Text>
-          <Button
-            variant="danger"
-            icon
-            css={{ ml: "auto" }}
-            onClick={async () => {
-              try {
-                await hmsActions.stopRTMPAndRecording();
-              } catch (error) {
-                ToastManager.addToast({
-                  title: error.message,
-                  variant: "error",
-                });
-              }
-              setOpen(false);
-            }}
-          >
-            Stop
-          </Button>
-        </Popover.Content>
+        <Popover.Portal>
+          <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
+            <Text variant="body" css={{ color: "$textMedEmp" }}>
+              Are you sure you want to end the recording?
+            </Text>
+            <Button
+              data-testid="stop_recording_confirm"
+              variant="danger"
+              icon
+              css={{ ml: "auto" }}
+              onClick={async () => {
+                try {
+                  await hmsActions.stopRTMPAndRecording();
+                } catch (error) {
+                  ToastManager.addToast({
+                    title: error.message,
+                    variant: "error",
+                  });
+                }
+                setOpen(false);
+              }}
+            >
+              Stop
+            </Button>
+          </Popover.Content>
+        </Popover.Portal>
       </Popover.Root>
     );
   }
@@ -169,6 +179,7 @@ const StartRecording = () => {
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
         <Button
+          data-testid="start_recording"
           variant="standard"
           icon
           disabled={recordingStarted || isStreamingOn}
@@ -189,10 +200,12 @@ const StartRecording = () => {
       </Popover.Trigger>
       <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
         <ResolutionInput
+          testId="recording_resolution"
           css={{ flexDirection: "column", alignItems: "start" }}
           onResolutionChange={setResolution}
         />
         <Button
+          data-testid="start_recording_confirm"
           variant="primary"
           icon
           css={{ ml: "auto" }}

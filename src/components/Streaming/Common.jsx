@@ -14,7 +14,14 @@ import {
   Text,
 } from "@100mslive/react-ui";
 
-export const StreamCard = ({ title, subtitle, Icon, css = {}, onClick }) => {
+export const StreamCard = ({
+  title,
+  subtitle,
+  Icon,
+  css = {},
+  onClick,
+  testId,
+}) => {
   return (
     <Flex
       css={{
@@ -27,6 +34,7 @@ export const StreamCard = ({ title, subtitle, Icon, css = {}, onClick }) => {
         mt: "$8",
         ...css,
       }}
+      data-testid={testId}
       onClick={onClick}
     >
       <Text css={{ alignSelf: "center", p: "$4" }}>
@@ -53,6 +61,7 @@ export const ContentHeader = ({ onBack, title, content }) => {
       <Text
         css={{ p: "$2", bg: "$surfaceLight", r: "$round", alignSelf: "center" }}
         onClick={onBack}
+        data-testid="go_back"
       >
         <ChevronLeftIcon width={16} height={16} />
       </Text>
@@ -60,7 +69,11 @@ export const ContentHeader = ({ onBack, title, content }) => {
         <Text variant="sm">{title}</Text>
         <Text variant="h6">{content}</Text>
       </Box>
-      <IconButton onClick={onBack} css={{ alignSelf: "flex-start" }}>
+      <IconButton
+        onClick={onBack}
+        css={{ alignSelf: "flex-start" }}
+        data-testid="close_stream_section"
+      >
         <CrossIcon width={16} height={16} />
       </IconButton>
     </Flex>
@@ -104,7 +117,7 @@ export const ContentBody = ({ Icon, title, children }) => {
   );
 };
 
-export const RecordStream = ({ record, setRecord }) => {
+export const RecordStream = ({ record, setRecord, testId }) => {
   const permissions = useHMSStore(selectPermissions);
   return permissions?.browserRecording ? (
     <Flex
@@ -117,7 +130,11 @@ export const RecordStream = ({ record, setRecord }) => {
       <Text variant="sm" css={{ flex: "1 1 0", mx: "$8" }}>
         Record the stream
       </Text>
-      <Switch checked={record} onCheckedChange={setRecord} />
+      <Switch
+        checked={record}
+        onCheckedChange={setRecord}
+        data-testid={testId}
+      />
     </Flex>
   ) : null;
 };

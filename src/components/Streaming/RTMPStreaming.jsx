@@ -104,7 +104,7 @@ const StartRTMP = () => {
             collapsible
             defaultValue={rtmpStreams[0].id}
           >
-            {rtmpStreams.map(rtmp => {
+            {rtmpStreams.map((rtmp, index) => {
               return (
                 <Accordion.Item
                   value={rtmp.id}
@@ -120,7 +120,11 @@ const StartRTMP = () => {
                     setRTMPStreams={setRTMPStreams}
                   />
                   <Accordion.Content css={{ px: "$8", py: 0 }}>
-                    <RTMPForm {...rtmp} setRTMPStreams={setRTMPStreams} />
+                    <RTMPForm
+                      {...rtmp}
+                      setRTMPStreams={setRTMPStreams}
+                      testId={`${index}_rtmp`}
+                    />
                   </Accordion.Content>
                 </Accordion.Item>
               );
@@ -129,6 +133,7 @@ const StartRTMP = () => {
         </Box>
       )}
       <ResolutionInput
+        testId="rtmp_resolution"
         onResolutionChange={setResolution}
         css={{
           flexDirection: "column",
@@ -137,10 +142,15 @@ const StartRTMP = () => {
           my: "$8",
         }}
       />
-      <RecordStream record={record} setRecord={setRecord} />
+      <RecordStream
+        record={record}
+        setRecord={setRecord}
+        testId="rtmp_recording"
+      />
       <Box css={{ p: "$8 $10", "@lg": { display: "flex", gap: "$4" } }}>
         {rtmpStreams.length < 3 && (
           <Button
+            data-testid="add_stream"
             variant="standard"
             outlined
             icon
@@ -162,6 +172,7 @@ const StartRTMP = () => {
         )}
 
         <Button
+          data-testid="start_rtmp"
           variant="primary"
           icon
           type="submit"
@@ -227,6 +238,7 @@ const EndRTMP = () => {
     <Box css={{ p: "$4 $10" }}>
       <ErrorText error={error} />
       <Button
+        data-testid="stop_rtmp"
         variant="danger"
         css={{ w: "100%", r: "$0", my: "$8" }}
         icon
@@ -268,7 +280,7 @@ const FormLabel = ({ id, children }) => {
   );
 };
 
-const RTMPForm = ({ rtmpURL, id, streamKey, setRTMPStreams }) => {
+const RTMPForm = ({ rtmpURL, id, streamKey, setRTMPStreams, testId }) => {
   const formRef = useRef(null);
   return (
     <Flex id={id} direction="column" css={{ mb: "$8" }} ref={formRef}>
@@ -277,6 +289,7 @@ const RTMPForm = ({ rtmpURL, id, streamKey, setRTMPStreams }) => {
         <Asterik />
       </FormLabel>
       <Input
+        data-testid={`${testId}_url`}
         placeholder="Enter RTMP URL"
         id="rtmpURL"
         name="rtmpURL"
@@ -302,6 +315,7 @@ const RTMPForm = ({ rtmpURL, id, streamKey, setRTMPStreams }) => {
         id="streamKey"
         name="streamKey"
         value={streamKey}
+        data-testid={`${testId}_key`}
         onChange={e => {
           setRTMPStreams(streams =>
             updateStream({

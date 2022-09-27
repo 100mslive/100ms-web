@@ -34,6 +34,7 @@ const GoLiveButton = () => {
   return (
     <Tooltip title={tooltipText}>
       <Button
+        data-testid="go_live"
         variant={isStreamingSidepaneOpen ? "standard" : "primary"}
         onClick={toggleStreaming}
         icon

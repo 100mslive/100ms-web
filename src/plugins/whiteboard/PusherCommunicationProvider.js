@@ -79,7 +79,7 @@ class PusherCommunicationProvider {
   broadcastEvent = (eventName, arg = {}) => {
     this.storeEvent(eventName, arg);
 
-    this.channel.trigger(
+    this.channel?.trigger(
       `client-${eventName}`,
       stringifyWithNull({ eventName, ...arg })
     );
@@ -91,12 +91,12 @@ class PusherCommunicationProvider {
    * @param {Function} cb
    */
   subscribe = (eventName, cb) => {
-    this.channel.bind(`client-${eventName}`, message =>
+    this.channel?.bind(`client-${eventName}`, message =>
       this.storeEvent(eventName, message)
     );
-    this.channel.bind(`client-${eventName}`, cb);
+    this.channel?.bind(`client-${eventName}`, cb);
     return () => {
-      this.channel.unbind(`client-${eventName}`, cb);
+      this.channel?.unbind(`client-${eventName}`, cb);
     };
   };
 
@@ -104,7 +104,7 @@ class PusherCommunicationProvider {
   resendLastEvents = () => {
     for (const eventName in this.lastMessage) {
       if (this.lastMessage[eventName]) {
-        this.channel.trigger(
+        this.channel?.trigger(
           `client-${eventName}`,
           this.lastMessage[eventName]
         );

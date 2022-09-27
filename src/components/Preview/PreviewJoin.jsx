@@ -5,6 +5,7 @@ import {
   useHMSStore,
   selectIsLocalVideoEnabled,
   useAVToggle,
+  useHMSActions,
 } from "@100mslive/react-sdk";
 import {
   styled,
@@ -31,6 +32,8 @@ import {
   UserPreferencesKeys,
   defaultPreviewPreference,
 } from "../hooks/useUserPreferences";
+import { useUISettings } from "../AppData/useUISettings";
+import { UI_SETTINGS } from "../../common/constants";
 
 const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
@@ -55,15 +58,19 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
       }
     },
   });
+  const hmsActions = useHMSActions();
   const savePreferenceAndJoin = useCallback(() => {
     setPreviewPreference({
       name,
       isAudioMuted: !isLocalAudioEnabled,
       isVideoMuted: !isLocalVideoEnabled,
     });
-    join();
+    join().then(() => {
+      hmsActions.populateSessionMetadata();
+    });
     onJoin && onJoin();
   }, [
+    hmsActions,
     join,
     isLocalAudioEnabled,
     isLocalVideoEnabled,
@@ -127,6 +134,8 @@ const PreviewTile = ({ name, error }) => {
   const localPeer = useHMSStore(selectLocalPeer);
   const borderAudioRef = useBorderAudioLevel(localPeer?.audioTrack);
   const isVideoOn = useHMSStore(selectIsLocalVideoEnabled);
+  const mirrorLocalVideo = useUISettings(UI_SETTINGS.mirrorLocalVideo);
+
   const {
     aspectRatio: { width, height },
   } = useTheme();
@@ -150,7 +159,7 @@ const PreviewTile = ({ name, error }) => {
         <>
           <TileConnection name={name} peerId={localPeer.id} hideLabel={true} />
           <Video
-            mirror={true}
+            mirror={mirrorLocalVideo}
             trackId={localPeer.videoTrack}
             data-testid="preview_tile"
           />
