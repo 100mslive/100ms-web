@@ -6,6 +6,7 @@ import {
   selectIsLocalVideoEnabled,
   useAVToggle,
   useHMSActions,
+  selectVideoTrackByID,
 } from "@100mslive/react-sdk";
 import {
   styled,
@@ -135,6 +136,8 @@ const PreviewTile = ({ name, error }) => {
   const borderAudioRef = useBorderAudioLevel(localPeer?.audioTrack);
   const isVideoOn = useHMSStore(selectIsLocalVideoEnabled);
   const mirrorLocalVideo = useUISettings(UI_SETTINGS.mirrorLocalVideo);
+  const trackSelector = selectVideoTrackByID(localPeer?.videoTrack);
+  const track = useHMSStore(trackSelector);
 
   const {
     aspectRatio: { width, height },
@@ -159,7 +162,7 @@ const PreviewTile = ({ name, error }) => {
         <>
           <TileConnection name={name} peerId={localPeer.id} hideLabel={true} />
           <Video
-            mirror={mirrorLocalVideo}
+            mirror={track?.facingMode !== "environment" && mirrorLocalVideo}
             trackId={localPeer.videoTrack}
             data-testid="preview_tile"
           />
