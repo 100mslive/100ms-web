@@ -2,26 +2,26 @@
 # yarn lockfile v1
 
 
-"@100mslive/hms-noise-suppression@0.4.2-alpha.3":
-  version "0.4.2-alpha.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.4.2-alpha.3.tgz#312d74f90698daae7b4bba2236d4cd8a1ad19587"
-  integrity sha512-cQNl9t1Lo++zVtG2MGL7j89ZP3j+FQrU2UkMb2QePmhM3bRYthZmSpC8XMdcF2LqvzjwRtvSfgsSTCdWvw2AwA==
+"@100mslive/hms-noise-suppression@0.5.1-alpha.1":
+  version "0.5.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.5.1-alpha.1.tgz#0e8db20ae386cbe1efc4ac7d3707af3f3ef3ac54"
+  integrity sha512-J4l6NCdqKvARmySd/rRk7xSAT1poCCvkSInAdR26zikYK1qmmz2L1cLzjT8pe6VRWWg5NiIKMNSyI0BYvQkKaw==
 
-"@100mslive/hms-video-store@0.5.1-alpha.4":
-  version "0.5.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.5.1-alpha.4.tgz#962c5f1fd93cfc4ac2d52d85ee3c1d6e5c070e48"
-  integrity sha512-93dpeM6gIkCkqXCichSEk7KLvK3tkRe/SdwnSMX4d+7RmbWs8Ecvdq6sbZtFJM16ER1uh7wVsD8ctxFuOiwMWw==
+"@100mslive/hms-video-store@0.6.1-alpha.1":
+  version "0.6.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.6.1-alpha.1.tgz#faf3b9e3c5d6af59cfb1ea74a5f77388a00696a4"
+  integrity sha512-b0Lkeeb3p8yPzdZpm3LB3i6FVCROemUVtdzMSgDqh+RXtl0V2N+86QZKn2JBGaa0O1mBgBBDHPjLleBa4fqV9Q==
   dependencies:
-    "@100mslive/hms-video" "0.4.1-alpha.4"
+    "@100mslive/hms-video" "0.5.1-alpha.1"
     eventemitter2 "^6.4.7"
     immer "^9.0.6"
     reselect "4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.4.1-alpha.4":
-  version "0.4.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.4.1-alpha.4.tgz#5ff2329f1df633ffb9816372b3c2236f0243e469"
-  integrity sha512-n4N1lOn0nMi24gDsZAdsGeB92DV89NA+jzPkJQk684Zs5KGyLF/u4lWvlQIXHAfimFANZxWmLWDfTcyjBGd6SA==
+"@100mslive/hms-video@0.5.1-alpha.1":
+  version "0.5.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.5.1-alpha.1.tgz#e459ec9e738e9715b2d7931a232f74f28f139f4f"
+  integrity sha512-Es34ndCnEDhOLHoULalR2gIQr4ZF35TO2rXhbsOjanItr1aqIb2c0Xyn8hkpOHS69IdAwEjWQ5uzCPdVaavnpw==
   dependencies:
     eventemitter2 "^6.4.7"
     sdp-transform "^2.14.1"
@@ -29,10 +29,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@1.6.1-alpha.4":
-  version "1.6.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.6.1-alpha.4.tgz#dbd01be40dd92ecca87d5c25c787f8ef30bc250c"
-  integrity sha512-/7NFRTzb9qynGciFtEIUi/JZwy3RukPbT3fy0tSlxwKK0VFficqjGTLIYQSa4Xnq8gAq51kMPjRb6jqRRh8L3w==
+"@100mslive/hms-virtual-background@1.7.1-alpha.1":
+  version "1.7.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.7.1-alpha.1.tgz#b9bf9562c61ea3b6ec78e7faa74803bf15e796f5"
+  integrity sha512-N8pD4NpqUux2Wy/btN4XDjHDamT2kZefjpblN6eOSWbpPaE7mkkE1915s1WAujMLtZEPmpmkwkodbhzqbpbpeg==
   dependencies:
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
     "@tensorflow/tfjs-core" "^3.3.0"
@@ -41,28 +41,28 @@
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@0.3.1-alpha.4":
-  version "0.3.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.3.1-alpha.4.tgz#4c116edd842322eb099f18da2a70e55e7b41a03f"
-  integrity sha512-qV/UPs5b0FZmI/k5yBpvhdlRej7pUTTivzBFYmQU48QspdL+WcAwN/hECQLPCeQ6nZy3RGayZFhO7Yz5u+OObw==
+"@100mslive/react-icons@0.4.1-alpha.1":
+  version "0.4.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.4.1-alpha.1.tgz#5fea2539caf1090d9af869ccbaf2f9766847fb68"
+  integrity sha512-Qjl6p/2aAvjwkqHM9kksbT0yDfDhLPd2DGmpRiN1AwGm74CHForJiCitIhJpUInzlk3P91xQQpXwXscr7JMLTQ==
 
-"@100mslive/react-sdk@0.3.1-alpha.4":
-  version "0.3.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.3.1-alpha.4.tgz#4af12ea0e4fae98c6bda1cac2734705c19fe33e6"
-  integrity sha512-SBOAjYWQ2chbO9IyxgSq5lGEiNRBhlbXg9IB0e/d9swIfNcKAqLtk+7EcoGwGBI9cKvPW8uOP7Ft2yehO+x3WA==
+"@100mslive/react-sdk@0.4.1-alpha.1":
+  version "0.4.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.4.1-alpha.1.tgz#302bce3c7842a313ccc10456f9ffd1cb306a91c0"
+  integrity sha512-9vVjJqxl9afv9TA/NI7lTg3stBjVIrpfsRgDivx+zwDKUH15Dd5wowh5RwyIu5WVb7m4VdxTJ5LCJZgzTE7Pvg==
   dependencies:
-    "@100mslive/hms-video-store" "0.5.1-alpha.4"
+    "@100mslive/hms-video-store" "0.6.1-alpha.1"
     react-intersection-observer "^8.33.1"
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.3.1-alpha.4":
-  version "0.3.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.3.1-alpha.4.tgz#4a8c334641170fb0014fc112b375a4cd2ec8dd55"
-  integrity sha512-qfqGkBep8RB0vKlCoIWz7bn+1bCirppi0/jE6WBDg0LEW0ckkh2/5fwk29vCu088+6Xfq8wPr0nBilo8J1Nd1A==
+"@100mslive/react-ui@0.4.1-alpha.1":
+  version "0.4.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.4.1-alpha.1.tgz#ae49ebfe442d928bcf2f3c74584afc1276762330"
+  integrity sha512-HodCJNUl4xiCOTYSu9BMGLmDPEOQ2LoLTPD/DLNTRQOFgUf/g6Fj3Nsw0CydrlXcSNDd1oKEoeTJk3h80EPOOQ==
   dependencies:
-    "@100mslive/react-icons" "0.3.1-alpha.4"
-    "@100mslive/react-sdk" "0.3.1-alpha.4"
+    "@100mslive/react-icons" "0.4.1-alpha.1"
+    "@100mslive/react-sdk" "0.4.1-alpha.1"
     "@radix-ui/react-accordion" "^0.1.6"
     "@radix-ui/react-checkbox" "^0.1.4"
     "@radix-ui/react-dialog" "^0.1.1"
@@ -1125,10 +1125,15 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.6.tgz#d5e0706cf8c6acd8c6032f8d54070af261bbbb2f"
   integrity sha512-ws57AidsDvREKrZKYffXddNkyaF14iHNHm8VQnZH6t99E8gczjNN0GpvcGny0imC80yQ0tHz1xVUKk/KFQSUyA==
 
-"@emoji-mart/data@^1.0.3":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@emoji-mart/data/-/data-1.0.5.tgz#62c837f1384eb2f94bec4c0dcfe8d230cc67e81d"
-  integrity sha512-HulW+jI7w3ghqRN4+i1LZYJ04bdsMJg5fJ7dr6rlVpsIYKmhpVA7/ACl9R3OB5aoMf8dqNdXftVss8qHCoOi+g==
+"@emoji-mart/data@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@emoji-mart/data/-/data-1.0.6.tgz#68f71be5e023653a3f9f73f4beadfd50848e2131"
+  integrity sha512-8wu3ec/kLCB0Y3K+pOKyY6Ob+xtQu3XhZvntdrpOTUQZ/PO6FW5PpFw7RE1kQ/up1fsVSJBl5mZ8Gs4SPwTYeg==
+
+"@emoji-mart/react@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@emoji-mart/react/-/react-1.0.1.tgz#46b6a2e92faf16fa9b7f9471f137fa2e3d1e8ac3"
+  integrity sha512-ALhLD96BOL5w+a4NI5NpmfqfF1aVjjj2qJE0dLst/OhjBfVmpteWNgn/h8LZy9ulU6AnbeS+13KnPFzDjCvRRw==
 
 "@eslint/eslintrc@^1.2.0":
   version "1.2.0"
@@ -3573,10 +3578,10 @@ electron-to-chromium@^1.4.71:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.75.tgz#d1ad9bb46f2f1bf432118c2be21d27ffeae82fdd"
   integrity sha512-LxgUNeu3BVU7sXaKjUDD9xivocQLxFtq6wgERrutdY/yIOps3ODOZExK1jg8DTEg4U8TUCb5MLGeWFOYuxjF3Q==
 
-emoji-mart@^5.1.0:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/emoji-mart/-/emoji-mart-5.2.1.tgz#eccd7d650e7bc042a07834a263b87c8153f214e5"
-  integrity sha512-q6lz1u8TrGrO5Bv8dL2Z5atTRQaci3YzUfbYN0MzlLmIKdRt3N6vNT7uvCWRKc1tERrI45sn0nQYk3g99cBr/w==
+emoji-mart@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/emoji-mart/-/emoji-mart-5.2.2.tgz#1c093ffc19554dd6edfcfeec9aca43ff38bcc16e"
+  integrity sha512-BvcrX+Ps9MxSVEjnvxupclU3MBD6WVC4WZOY26csfC6oFdaWpFhdrzeVNVBmCLPOmzY1SE0aAsqZJRNVbZ1yhQ==
 
 emoji-regex@^9.2.2:
   version "9.2.2"
@@ -4566,10 +4571,10 @@ history@^5.2.0:
   dependencies:
     "@babel/runtime" "^7.7.6"
 
-hls.js@^1.1.1:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.1.5.tgz#923a8a8cfdf09542578696d47c8ae435da981ffd"
-  integrity sha512-mQX5TSNtJEzGo5HPpvcQgCu+BWoKDQM6YYtg/KbgWkmVAcqOCvSTi0SuqG2ZJLXxIzdnFcKU2z7Mrw/YQWhPOA==
+hls.js@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.2.3.tgz#9b9e5d5b05c4912dacec173962694b710eea33ac"
+  integrity sha512-CC/vHi82ldiiydIhliNI3whlcepRXxI2jdpd/KKb6lyEv+74e7lXs4cGk5PHfTLxZMKOj6+m5LX9VAbvV/r7AQ==
 
 homedir-polyfill@^1.0.0, homedir-polyfill@^1.0.1:
   version "1.0.3"
