@@ -47,8 +47,9 @@ export const ChangeNameModal = ({ onOpenChange }) => {
             <Text variant="h6"> Change Name</Text>
           </Dialog.Title>
           <form
-            onSubmit={e => {
+            onSubmit={async e => {
               e.preventDefault();
+              await changeName();
             }}
           >
             <Flex justify="center" align="center" css={{ my: "$8", w: "100%" }}>
@@ -94,9 +95,6 @@ export const ChangeNameModal = ({ onOpenChange }) => {
                   disabled={
                     !currentName.trim() || currentName.trim() === localPeerName
                   }
-                  onClick={async () => {
-                    await changeName();
-                  }}
                   data-testid="popup_change_btn"
                 >
                   Change
