@@ -13,7 +13,7 @@ import {
   selectLocalPeerID,
   selectPeerNameByID,
   selectAudioTrackByPeerID,
-  selectTrackByID,
+  selectVideoTrackByID,
   selectVideoTrackByPeerID,
 } from "@100mslive/react-sdk";
 import {
@@ -30,13 +30,14 @@ import { UI_SETTINGS } from "../common/constants";
 
 const Tile = ({ peerId, trackId, width, height }) => {
   const trackSelector = trackId
-    ? selectTrackByID(trackId)
+    ? selectVideoTrackByID(trackId)
     : selectVideoTrackByPeerID(peerId);
   const track = useHMSStore(trackSelector);
   const peerName = useHMSStore(selectPeerNameByID(peerId));
   const audioTrack = useHMSStore(selectAudioTrackByPeerID(peerId));
   const localPeerID = useHMSStore(selectLocalPeerID);
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
+  const mirrorLocalVideo = useUISettings(UI_SETTINGS.mirrorLocalVideo);
   const showStatsOnTiles = useUISettings(UI_SETTINGS.showStatsOnTiles);
   const isHeadless = useIsHeadless();
   const isAudioMuted = !useHMSStore(selectIsPeerAudioEnabled(peerId));
@@ -93,13 +94,18 @@ const Tile = ({ peerId, trackId, width, height }) => {
             <Video
               trackId={track?.id}
               attach={isLocal ? undefined : !isAudioOnly}
-              mirror={peerId === localPeerID && track?.source === "regular"}
+              mirror={
+                mirrorLocalVideo &&
+                peerId === localPeerID &&
+                track?.source === "regular" &&
+                track?.facingMode !== "environment"
+              }
               degraded={isVideoDegraded}
               data-testid="participant_video_tile"
             />
           ) : null}
           <StyledVideoTile.AvatarContainer>
-            {isVideoMuted || isVideoDegraded || isAudioOnly ? (
+            {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (
               <Avatar
                 name={peerName || ""}
                 data-testid="participant_avatar_icon"

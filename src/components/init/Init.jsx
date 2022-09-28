@@ -6,6 +6,7 @@ import {
   selectLocalPeerName,
   selectLocalPeerRoleName,
 } from "@100mslive/react-sdk";
+import { useTheme } from "@100mslive/react-ui";
 import { FeatureFlagsInit } from "../../services/FeatureFlags";
 import { setUpLogRocket } from "./initUtils";
 
@@ -14,6 +15,11 @@ const Init = () => {
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const localPeerName = useHMSStore(selectLocalPeerName);
   const sessionId = useHMSStore(selectSessionId);
+  const { toggleTheme } = useTheme();
+
+  useEffect(() => {
+    window.toggleUiTheme = toggleTheme;
+  }, [toggleTheme]);
 
   useEffect(() => {
     function resetHeight() {

@@ -13,6 +13,7 @@ export const ResolutionInput = ({
   disabled,
   tooltipText,
   css,
+  testId,
 }) => {
   const [resolution, setResolution] = useState(RTMP_RECORD_DEFAULT_RESOLUTION);
 
@@ -59,6 +60,7 @@ export const ResolutionInput = ({
           <Flex direction="column" css={{ width: "50%" }}>
             <Text variant="xs">Width</Text>
             <Input
+              data-testid={`${testId}_width`}
               css={{ width: "100%", mt: "$4" }}
               name="resWidth"
               value={resolution.width}
@@ -73,6 +75,7 @@ export const ResolutionInput = ({
           <Flex direction="column" css={{ width: "50%" }}>
             <Text variant="xs">Height</Text>
             <Input
+              data-testid={`${testId}_height`}
               css={{ width: "100%", mt: "$4" }}
               name="resHeight"
               value={resolution.height}

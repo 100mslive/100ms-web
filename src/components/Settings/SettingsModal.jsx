@@ -19,6 +19,7 @@ import {
 import DeviceSettings from "./DeviceSettings";
 import { NotificationSettings } from "./NotificationSettings";
 import { LayoutSettings } from "./LayoutSettings";
+import { settingContent } from "./common.js";
 
 const SettingsModal = ({ open, onOpenChange, children }) => {
   const mediaQueryLg = cssConfig.media.md;
@@ -62,7 +63,10 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
               }}
             >
               <Text variant="h5">Settings </Text>
-              <Flex direction="column" css={{ mx: isMobile ? "-$8" : 0 }}>
+              <Flex
+                direction="column"
+                css={{ mx: isMobile ? "-$8" : 0, overflowY: "auto" }}
+              >
                 <Tabs.Trigger
                   value="devices"
                   css={{ gap: "$8", mt: "$10", mb: "$4" }}
@@ -99,7 +103,7 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
                     : {}),
                 }}
               >
-                <Tabs.Content value="devices">
+                <Tabs.Content value="devices" className={settingContent()}>
                   <SettingsContentHeader
                     onBack={resetSelection}
                     isMobile={isMobile}
@@ -108,7 +112,10 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
                   </SettingsContentHeader>
                   <DeviceSettings />
                 </Tabs.Content>
-                <Tabs.Content value="notifications">
+                <Tabs.Content
+                  value="notifications"
+                  className={settingContent()}
+                >
                   <SettingsContentHeader
                     onBack={resetSelection}
                     isMobile={isMobile}
@@ -117,7 +124,7 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
                   </SettingsContentHeader>
                   <NotificationSettings />
                 </Tabs.Content>
-                <Tabs.Content value="layout">
+                <Tabs.Content value="layout" className={settingContent()}>
                   <SettingsContentHeader
                     onBack={resetSelection}
                     isMobile={isMobile}
@@ -144,7 +151,7 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
 
 const SettingsContentHeader = ({ children, isMobile, onBack }) => {
   return (
-    <Text variant="h5" css={{ mb: "$12", display: "flex" }}>
+    <Text variant="h6" css={{ mb: "$12", display: "flex" }}>
       {isMobile && (
         <Box
           as="span"

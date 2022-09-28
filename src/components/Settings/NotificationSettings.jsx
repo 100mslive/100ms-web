@@ -13,6 +13,7 @@ import {
   useSubscribedNotifications,
 } from "../AppData/useUISettings";
 import { SUBSCRIBED_NOTIFICATIONS } from "../../common/constants";
+import { settingOverflow } from "./common.js";
 
 const NotificationItem = ({ type, label, icon, checked }) => {
   const [, setSubscribedNotifications] = useSetSubscribedNotifications(type);
@@ -33,7 +34,7 @@ export const NotificationSettings = () => {
   const subscribedNotifications = useSubscribedNotifications();
 
   return (
-    <Box>
+    <Box className={settingOverflow()}>
       <NotificationItem
         label="Peer Joined"
         type={SUBSCRIBED_NOTIFICATIONS.PEER_JOINED}

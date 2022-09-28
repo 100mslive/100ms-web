@@ -1,12 +1,6 @@
 import Hls from "hls.js";
 import { EventEmitter2 as EventEmitter } from "eventemitter2";
 import { FeatureFlags } from "../../services/FeatureFlags";
-import {
-  getSecondsFromTime,
-  isAlreadyInMetadataMap,
-  parseAttributesFromMetadata,
-  parseTagsList,
-} from "./HLSUtils";
 
 export const HLS_TIMED_METADATA_LOADED = "hls-timed-metadata";
 export const HLS_STREAM_NO_LONGER_LIVE = "hls-stream-no-longer-live";
@@ -15,7 +9,6 @@ export const HLS_DEFAULT_ALLOWED_MAX_LATENCY_DELAY = 10; // seconds
 export class HLSController {
   hls;
   videoRef;
-  metadataByTimeStamp = new Map();
   eventEmitter = new EventEmitter();
   isLive = true;
   constructor(hlsUrl, videoRef) {
@@ -35,7 +28,6 @@ export class HLSController {
       this.hls.detachMedia();
       this.hls = null;
     }
-    this.metadataByTimeStamp = null;
     this.eventEmitter = null;
   }
 
@@ -54,7 +46,10 @@ export class HLSController {
    * set the stream to. -1 for Auto
    */
   setCurrentLevel(currentLevel) {
-    this.hls.currentLevel = currentLevel;
+    const newLevel = this.hls.levels.findIndex(
+      level => level.height === currentLevel.height
+    );
+    this.hls.currentLevel = newLevel;
   }
 
   jumpToLive() {
@@ -111,150 +106,66 @@ export class HLSController {
   }
   handleHLSTimedMetadataParsing() {
     /**
-     * Everytime a fragment is appended to the buffer,
-     * we parse the tags and see if the metadata is
-     * in the tags. If it does, we parse the metadatastrings
-     * and create a metadataMap. This metadataMap is a map of key value
-     * pairs with timeinSeconds as key and the value is an array of objects
-     * of the parsed metadata.
-     * (e.g)
-     *  {
-     *   36206: [{
-     *     duration: "20",
-     *     id: "c382fce1-d551-4862-bdb3-c255ca668154",
-     *     payload: "hello2572",
-     *     startTime: Tue Jun 28 2022 10:03:26 GMT+0530 (India Standard Time)
-     *   }]
-     * }
-     */
-    this.hls.on(Hls.Events.BUFFER_APPENDED, (_, { frag }) => {
-      try {
-        const tagList = frag?.tagList;
-        const tagsMap = parseTagsList(tagList);
-        // There could be more than one EXT-X-DATERANGE tags in a fragment.
-        const metadataStrings = tagsMap.rawTags["EXT-X-DATERANGE"] || [];
-        if (metadataStrings.length > 0) {
-          for (let metadataString of metadataStrings) {
-            const tagMetadata = parseAttributesFromMetadata(metadataString);
-            const timeSegment = getSecondsFromTime(tagMetadata.startTime);
-            /**
-             * a single timestamp can have upto 3 DATERANGE tags.
-             * so we accumulate everything into a single key such that
-             * <timesegment>: [mt1, mt2, mt3]
-             */
-            if (this.metadataByTimeStamp.has(timeSegment)) {
-              // entry already exist in metadatamap
-              const metadataByTimeStampEntries =
-                this.metadataByTimeStamp.get(timeSegment);
-
-              /**
-               * Backend will keep sending the same metadata tags in each fragments
-               * until the fragment programtime exceed metadata starttime. so to prevent
-               * same tags getting parsed into metadataMap, we do a quick check here.
-               */
-              if (
-                !isAlreadyInMetadataMap(metadataByTimeStampEntries, tagMetadata)
-              ) {
-                // append current metadata to existing timestamp
-                this.metadataByTimeStamp.get(timeSegment).push(tagMetadata);
-              }
-            } else {
-              // no entry in metadataMap exist. So add a new entry
-              this.metadataByTimeStamp.set(timeSegment, [
-                {
-                  ...tagMetadata,
-                },
-              ]);
-            }
-          }
-        }
-      } catch (e) {
-        console.error("Error in extracting timemetadata", e);
-      }
-    });
-
-    /**
-     * on Every Fragment change, we check if the fragment's
-     * PROGRAM_TIME is nearby a possible metadata's START_TIME
-     * If it does, we start a setTimeout and try to emit an event
-     * on the right time.
-     * NOTE: Javascript cannot gaurantee exact time, it
-     * only gaurantees minimum time before trying to emit.
+     * Metadata are automatically parsed and added to the video element's
+     * textTrack cue by hlsjs as they come through the stream.
+     * in FRAG_CHANGED, we read the cues and emit HLS_METADATA_LOADED
+     * when the current fragment has a metadata to play.
      */
     this.hls.on(Hls.Events.FRAG_CHANGED, (_, { frag }) => {
       try {
-        const tagsList = parseTagsList(frag?.tagList);
-
-        const timeSegment = getSecondsFromTime(tagsList.fragmentStartAt);
-        const timeStamps = [];
-        this.metadataByTimeStamp.forEach((value, key) => {
-          timeStamps.push(key);
-        });
-
-        let nearestTimeStamp = timeSegment;
-        timeStamps.push(timeSegment);
-        timeStamps.sort();
-
-        const whereAmI = timeStamps.indexOf(timeSegment);
-        nearestTimeStamp = timeStamps[whereAmI + 1];
-
-        /**
-         * This check is if timestamp ends up on the
-         * end of the array after sorting. Meaning,
-         * there is no possible future events.
-         * Hence NearestTimeStamp will be undefined.
-         */
-        if (isNaN(nearestTimeStamp)) {
+        if (this.videoRef.current.textTracks.length === 0) {
           return;
         }
 
+        const fragStartTime = frag.start;
         /**
-         * at this point its gauranteed that we have a timesegment and a possible
-         * future event very close. We now take the difference between them.
-         * The difference must always be between 0(start of the fragment) and INF duration(end of the fragment)
-         * if it is not, then the metadata doesn't belong to this fragment and we leave it
-         * 'as-is' so future fragments can try to parse it.
-         *
-         * (e.g) timestamp => [5,11,12,15,20,22], duration = 2.
-         *
-         * Fragment1_timesegment = 11 => nearestTimeStamp=>11 => 11 - 11 = 0 (play at start of the fragment)
-         *
-         * Fragment2_timesegment = 14 => nearestTimeStamp=>15 => 15 - 14 = 1 (still inside duration.
-         * so play after 1 sec of the start of the fragment)
-         *
-         * Fragment3_timesegment = 15 => nearestTimeStamp=>20 => 20 - 15 = 5 (5 is greated than duration 2. so
-         * this does not belong to this fragment. ignore and move on to next fragment)
-         *
-         * Fragment4_timesegment = 19 => nearestTimeStamp=>20 => 20 - 19 = 1 (valid)
-         *
+         * this destructuring is needed because the cues array not a pure
+         * JS array and prevents us from
+         * performing array operations like map(),filter() etc.
          */
+        const metadata = [...this.videoRef.current.textTracks[0].cues];
+        /**
+         * filter out only the metadata that have startTime set to future.
+         * (i.e) more than the current fragment's startime.
+         */
+        const metadataAfterFragStart = metadata.filter(mt => {
+          return mt.startTime >= fragStartTime;
+        });
 
-        const timeDifference = nearestTimeStamp - timeSegment;
-        if (timeDifference >= 0 && timeDifference < tagsList.duration) {
-          const payload = this.metadataByTimeStamp
-            .get(nearestTimeStamp)
-            .map(metadata => metadata.payload);
-          /**
-           * we start a timeout for difference seconds.
-           * NOTE: Due to how setTimeout works, the time is only the minimum gauranteed
-           * time JS will wait before calling emit(). It's not guaranteed even
-           * for timeDifference = 0.
-           */
-          setTimeout(() => {
+        metadataAfterFragStart.forEach(mt => {
+          const timeDifference = mt.startTime - fragStartTime;
+          const fragmentDuration = frag.end - frag.start;
+
+          if (timeDifference < fragmentDuration) {
+            const payload = mt.value.data;
             /**
-             * finally emit event letting the user know its time to
-             * do whatever they want with the payload
+             * we start a timeout for difference seconds.
+             * NOTE: Due to how setTimeout works, the time is only the minimum gauranteed
+             * time JS will wait before calling emit(). It's not guaranteed even
+             * for timeDifference = 0.
              */
-            this.eventEmitter.emit(HLS_TIMED_METADATA_LOADED, payload);
-            /** we delete the occured events from the metadataMap. This is not
-             * needed for the operation. Just a bit of optimisation as a really
-             * long stream with many metadata can quickly make the metadataMap really big.
-             */
-            this.metadataByTimeStamp.delete(nearestTimeStamp);
-          }, timeDifference * 1000);
-        }
+            setTimeout(() => {
+              /** Even though duration comes as an attribute in the stream,
+               * HlsJs doesn't give us a property duration directly. So
+               * we calculate it ouselves. This is same as reading
+               * EXT-INF tag.
+               */
+              const duration = mt.endTime - mt.startTime;
+
+              /**
+               * finally emit event letting the user know its time to
+               * do whatever they want with the payload
+               */
+              this.eventEmitter.emit(HLS_TIMED_METADATA_LOADED, {
+                payload,
+                duration,
+                metadata: mt,
+              });
+            }, timeDifference * 1000);
+          }
+        });
       } catch (e) {
-        console.error("Frag changed event listener error:", e);
+        console.error("FRAG_CHANGED event error", e);
       }
     });
   }

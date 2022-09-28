@@ -1,17 +1,26 @@
 import React, { Fragment, useState } from "react";
+import { useMedia } from "react-use";
 import {
   VerticalMenuIcon,
   InfoIcon,
   MicOffIcon,
   SettingsIcon,
   PencilIcon,
+  RecordIcon,
 } from "@100mslive/react-icons";
 import {
   selectLocalPeerID,
   selectPermissions,
   useHMSStore,
+  useRecordingStreaming,
 } from "@100mslive/react-sdk";
-import { Box, Dropdown, Text, Tooltip } from "@100mslive/react-ui";
+import {
+  Box,
+  Dropdown,
+  Text,
+  Tooltip,
+  config as cssConfig,
+} from "@100mslive/react-ui";
 import { ChangeSelfRole } from "./ChangeSelfRole";
 import { FullScreenItem } from "./FullScreenItem";
 import SettingsModal from "../Settings/SettingsModal";
@@ -21,6 +30,7 @@ import { StatsForNerds } from "../StatsForNerds";
 import { MuteAllModal } from "./MuteAllModal";
 import { FeatureFlags } from "../../services/FeatureFlags";
 import IconButton from "../../IconButton";
+import StartRecording from "../Settings/StartRecording";
 
 export const MoreSettings = () => {
   const permissions = useHMSStore(selectPermissions);
@@ -31,7 +41,9 @@ export const MoreSettings = () => {
   const [showDeviceSettings, setShowDeviceSettings] = useState(false);
   const [showStatsForNerds, setShowStatsForNerds] = useState(false);
   const [showSelfRoleChange, setShowSelfRoleChange] = useState(false);
-
+  const [showStartRecording, setShowStartRecording] = useState(false);
+  const isMobile = useMedia(cssConfig.media.md);
+  const { isBrowserRecordingOn } = useRecordingStreaming();
   return (
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={setOpen}>
@@ -44,11 +56,25 @@ export const MoreSettings = () => {
             </Tooltip>
           </IconButton>
         </Dropdown.Trigger>
+
         <Dropdown.Content
           sideOffset={5}
           align="center"
           css={{ maxHeight: "$96", "@md": { w: "$64" } }}
         >
+          {isMobile && permissions?.browserRecording ? (
+            <>
+              <Dropdown.Item
+                onClick={() => setShowStartRecording(value => !value)}
+              >
+                <RecordIcon />
+                <Text variant="sm" css={{ ml: "$4" }}>
+                  {isBrowserRecordingOn ? "Stop" : "Start"} Recording
+                </Text>
+              </Dropdown.Item>
+              <Dropdown.ItemSeparator />
+            </>
+          ) : null}
           <Dropdown.Item
             onClick={() => setShowChangeNameModal(value => !value)}
             data-testid="change_name_btn"
@@ -111,6 +137,12 @@ export const MoreSettings = () => {
         <RoleChangeModal
           peerId={localPeerId}
           onOpenChange={setShowSelfRoleChange}
+        />
+      )}
+      {showStartRecording && (
+        <StartRecording
+          open={showStartRecording}
+          onOpenChange={setShowStartRecording}
         />
       )}
     </Fragment>

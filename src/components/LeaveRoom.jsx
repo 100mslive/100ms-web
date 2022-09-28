@@ -155,7 +155,12 @@ export const LeaveRoom = () => {
           </Dropdown.Root>
         </Flex>
       ) : (
-        <LeaveIconButton onClick={leaveRoom} variant="danger" key="LeaveRoom">
+        <LeaveIconButton
+          onClick={leaveRoom}
+          variant="danger"
+          key="LeaveRoom"
+          data-testid="leave_room_btn"
+        >
           <Tooltip title="Leave Room">
             <Box>
               {isStreamKit ? (

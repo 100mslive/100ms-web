@@ -42,7 +42,11 @@ export const StreamingLanding = () => {
           <Text variant="sm">Welcome !</Text>
           <Text variant="h6">Let’s get you started</Text>
         </Box>
-        <IconButton onClick={toggleStreaming} css={{ alignSelf: "flex-start" }}>
+        <IconButton
+          onClick={toggleStreaming}
+          css={{ alignSelf: "flex-start" }}
+          data-testid="close_streaming"
+        >
           <CrossIcon />
         </IconButton>
       </Flex>
@@ -51,6 +55,7 @@ export const StreamingLanding = () => {
       </Text>
       {permissions?.hlsStreaming && (
         <StreamCard
+          testId="hls_stream"
           title="Live Stream with HLS"
           subtitle="Stream to millions, edit and control what the viewer sees and more!"
           css={{ my: "$8" }}
@@ -60,6 +65,7 @@ export const StreamingLanding = () => {
       )}
       {permissions?.rtmpStreaming && (
         <StreamCard
+          testId="rtmp_stream"
           title="Stream live to Facebook, Twitch, and others"
           subtitle="Stream to a specific destination directly from your app."
           css={{ my: "$8" }}

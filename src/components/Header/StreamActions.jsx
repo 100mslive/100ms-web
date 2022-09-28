@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react";
+import { useMedia } from "react-use";
 import {
   selectAppData,
   selectIsConnectedToRoom,
@@ -16,6 +17,7 @@ import {
   Popover,
   Text,
   Tooltip,
+  config as cssConfig,
 } from "@100mslive/react-ui";
 import GoLiveButton from "../GoLiveButton";
 import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
@@ -98,6 +100,7 @@ const EndStream = () => {
   }
   return (
     <Button
+      data-testid="end_stream"
       variant="standard"
       outlined
       icon
@@ -129,7 +132,13 @@ const StartRecording = () => {
     return (
       <Popover.Root open={open} onOpenChange={setOpen}>
         <Popover.Trigger asChild>
-          <Button variant="danger" icon outlined onClick={() => setOpen(true)}>
+          <Button
+            variant="danger"
+            data-testid="stop_recording"
+            icon
+            outlined
+            onClick={() => setOpen(true)}
+          >
             <RecordIcon />
             <Text
               as="span"
@@ -139,29 +148,32 @@ const StartRecording = () => {
             </Text>
           </Button>
         </Popover.Trigger>
-        <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
-          <Text variant="body" css={{ color: "$textMedEmp" }}>
-            Are you sure you want to end the recording?
-          </Text>
-          <Button
-            variant="danger"
-            icon
-            css={{ ml: "auto" }}
-            onClick={async () => {
-              try {
-                await hmsActions.stopRTMPAndRecording();
-              } catch (error) {
-                ToastManager.addToast({
-                  title: error.message,
-                  variant: "error",
-                });
-              }
-              setOpen(false);
-            }}
-          >
-            Stop
-          </Button>
-        </Popover.Content>
+        <Popover.Portal>
+          <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
+            <Text variant="body" css={{ color: "$textMedEmp" }}>
+              Are you sure you want to end the recording?
+            </Text>
+            <Button
+              data-testid="stop_recording_confirm"
+              variant="danger"
+              icon
+              css={{ ml: "auto" }}
+              onClick={async () => {
+                try {
+                  await hmsActions.stopRTMPAndRecording();
+                } catch (error) {
+                  ToastManager.addToast({
+                    title: error.message,
+                    variant: "error",
+                  });
+                }
+                setOpen(false);
+              }}
+            >
+              Stop
+            </Button>
+          </Popover.Content>
+        </Popover.Portal>
       </Popover.Root>
     );
   }
@@ -169,6 +181,7 @@ const StartRecording = () => {
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
         <Button
+          data-testid="start_recording"
           variant="standard"
           icon
           disabled={recordingStarted || isStreamingOn}
@@ -189,10 +202,12 @@ const StartRecording = () => {
       </Popover.Trigger>
       <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
         <ResolutionInput
+          testId="recording_resolution"
           css={{ flexDirection: "column", alignItems: "start" }}
           onResolutionChange={setResolution}
         />
         <Button
+          data-testid="start_recording_confirm"
           variant="primary"
           icon
           css={{ ml: "auto" }}
@@ -207,7 +222,7 @@ const StartRecording = () => {
                 record: true,
               });
             } catch (error) {
-              if (error.message.includes("stream alredy running")) {
+              if (error.message.includes("stream already running")) {
                 ToastManager.addToast({
                   title: "Recording already running",
                   variant: "error",
@@ -233,6 +248,7 @@ const StartRecording = () => {
 export const StreamActions = () => {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const permissions = useHMSStore(selectPermissions);
+  const isMobile = useMedia(cssConfig.media.md);
   return (
     <Flex align="center" css={{ gap: "$4" }}>
       <AdditionalRoomState />
@@ -240,7 +256,7 @@ export const StreamActions = () => {
         <LiveStatus />
         <RecordingStatus />
       </Flex>
-      {isConnected && <StartRecording />}
+      {isConnected && !isMobile ? <StartRecording /> : null}
       {isConnected && (permissions.hlsStreaming || permissions.rtmpStreaming) && (
         <Fragment>
           <GoLiveButton />
