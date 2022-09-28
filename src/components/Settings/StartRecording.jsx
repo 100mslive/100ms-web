@@ -6,11 +6,11 @@ import {
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
-import { Button, Text, Dialog } from "@100mslive/react-ui";
+import { AlertTriangleIcon } from "@100mslive/react-icons";
+import { Button, Text, Dialog, Flex } from "@100mslive/react-ui";
 import { getResolution } from "../Streaming/RTMPStreaming";
 import { ToastManager } from "../Toast/ToastManager";
 import { ResolutionInput } from "../Streaming/ResolutionInput";
-
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import { getDefaultMeetingUrl } from "../../common/utils";
 import {
@@ -36,31 +36,53 @@ const StartRecording = ({ open, onOpenChange }) => {
     return (
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <Dialog.Portal>
-          <Dialog.Content css={{ width: "min(400px,80%)", p: "$10" }}>
+          <Dialog.Content
+            css={{
+              width: "min(400px,80%)",
+              p: "$10",
+              bg: "#201617",
+            }}
+          >
             <Dialog.Title>
-              <Text variant="h6">End Recording</Text>
+              <Flex gap={2} css={{ c: "$error" }}>
+                <AlertTriangleIcon />
+                <Text css={{ c: "inherit" }} variant="h6">
+                  End Recording
+                </Text>
+              </Flex>
             </Dialog.Title>
-            <Text variant="body" css={{ color: "$textMedEmp", my: "$4" }}>
-              Are you sure you want to end the recording?
+            <Text variant="sm" css={{ c: "$textMedEmp", my: "$8" }}>
+              Are you sure you want to end recording? You can’t undo this
+              action.
             </Text>
-            <Button
-              data-testid="stop_recording_confirm_mobile"
-              variant="danger"
-              icon
-              onClick={async () => {
-                try {
-                  await hmsActions.stopRTMPAndRecording();
-                } catch (error) {
-                  ToastManager.addToast({
-                    title: error.message,
-                    variant: "error",
-                  });
-                }
-                onOpenChange(false);
-              }}
-            >
-              Stop
-            </Button>
+            <Flex justify="end" css={{ mt: "$12" }}>
+              <Dialog.Close asChild>
+                <Button
+                  outlined
+                  css={{ borderColor: "$secondaryLight", mr: "$4" }}
+                >
+                  Don't end
+                </Button>
+              </Dialog.Close>
+              <Button
+                data-testid="stop_recording_confirm_mobile"
+                variant="danger"
+                icon
+                onClick={async () => {
+                  try {
+                    await hmsActions.stopRTMPAndRecording();
+                  } catch (error) {
+                    ToastManager.addToast({
+                      title: error.message,
+                      variant: "error",
+                    });
+                  }
+                  onOpenChange(false);
+                }}
+              >
+                End recording
+              </Button>
+            </Flex>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
