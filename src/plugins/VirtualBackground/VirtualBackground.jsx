@@ -38,7 +38,6 @@ export const VirtualBackground = () => {
       const pluginSupport = hmsActions.validateVideoPluginSupport(
         pluginRef.current
       );
-      console.error(pluginSupport, pluginRef.current.checkSupport());
       setIsVBSupported(pluginSupport.isSupported);
     });
   }, [hmsActions, localPeerVideoTrackID]);

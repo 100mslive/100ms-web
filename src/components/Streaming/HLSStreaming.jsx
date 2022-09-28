@@ -47,7 +47,7 @@ const StartHLS = () => {
         setHLSStarted(true);
         setError("");
         await hmsActions.startHLSStreaming({
-          variants: [{ meetingURL: recordingUrl || getDefaultMeetingUrl() }],
+          variants,
           recording: record
             ? { hlsVod: true, singleFilePerLayer: true }
             : undefined,
