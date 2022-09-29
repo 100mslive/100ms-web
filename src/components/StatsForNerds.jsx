@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   selectHMSStats,
   selectPeersMap,
@@ -35,6 +35,7 @@ export const StatsForNerds = ({ onOpenChange }) => {
     UI_SETTINGS.showStatsOnTiles
   );
   const [open, setOpen] = useState(false);
+  const ref = useRef();
   const selectionBg = useDropdownSelection();
 
   useEffect(() => {
@@ -84,13 +85,6 @@ export const StatsForNerds = ({ onOpenChange }) => {
               mb: "$12",
               position: "relative",
               minWidth: 0,
-              "[data-radix-popper-content-wrapper]": {
-                w: "100%",
-                minWidth: "0 !important",
-                mt: "$4",
-                transform: "translateY($space$20) !important",
-                zIndex: 11,
-              },
             }}
           >
             <Label variant="body2">Stats For</Label>
@@ -105,29 +99,37 @@ export const StatsForNerds = ({ onOpenChange }) => {
                   "Select Stats"
                 }
                 css={{ mt: "$4" }}
+                titleCSS={{ mx: 0 }}
                 open={open}
+                ref={ref}
               />
-              <Dropdown.Content
-                align="start"
-                sideOffset={8}
-                css={{ w: "100%" }}
-                portalled={false}
-              >
-                {statsOptions.map(option => (
-                  <Dropdown.Item
-                    key={option.id}
-                    onClick={() => {
-                      setSelectedStat(option.id);
-                    }}
-                    css={{
-                      bg: option.id === selectedStat ? selectionBg : undefined,
-                      c: option.id === selectedStat ? "$white" : "$textPrimary",
-                    }}
-                  >
-                    {option.label}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Content>
+              <Dropdown.Portal>
+                <Dropdown.Content
+                  align="start"
+                  sideOffset={8}
+                  css={{ w: ref.current?.clientWidth, zIndex: 1000 }}
+                >
+                  {statsOptions.map(option => (
+                    <Dropdown.Item
+                      key={option.id}
+                      onClick={() => {
+                        setSelectedStat(option.id);
+                      }}
+                      css={{
+                        px: "$9",
+                        bg:
+                          option.id === selectedStat ? selectionBg : undefined,
+                        c:
+                          option.id === selectedStat
+                            ? "$white"
+                            : "$textPrimary",
+                      }}
+                    >
+                      {option.label}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Content>
+              </Dropdown.Portal>
             </Dropdown.Root>
           </Flex>
           {/* Stats */}
