@@ -62,7 +62,7 @@ export const MoreSettings = () => {
           align="center"
           css={{ maxHeight: "$96", "@md": { w: "$64" } }}
         >
-          {isMobile ? (
+          {isMobile && permissions?.browserRecording ? (
             <>
               <Dropdown.Item
                 onClick={() => setShowStartRecording(value => !value)}

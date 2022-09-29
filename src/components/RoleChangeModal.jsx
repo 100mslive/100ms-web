@@ -3,7 +3,6 @@ import {
   useHMSStore,
   selectPeerByID,
   useHMSActions,
-  selectAvailableRoleNames,
 } from "@100mslive/react-sdk";
 import {
   CheckIcon,
@@ -23,6 +22,7 @@ import {
   Tooltip,
 } from "@100mslive/react-ui";
 import { useDropdownSelection } from "./hooks/useDropdownSelection";
+import { useFilteredRoles } from "../common/hooks";
 
 const PeerName = forwardRef(({ children, maxWidth, ...rest }, ref) => (
   <Text
@@ -43,7 +43,7 @@ const PeerName = forwardRef(({ children, maxWidth, ...rest }, ref) => (
 
 export const RoleChangeModal = ({ peerId, onOpenChange }) => {
   const peer = useHMSStore(selectPeerByID(peerId));
-  const roles = useHMSStore(selectAvailableRoleNames);
+  const roles = useFilteredRoles();
   const [selectedRole, setRole] = useState(peer?.roleName);
   const [requestPermission, setRequestPermission] = useState(true);
   const hmsActions = useHMSActions();

@@ -1,9 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {
-  selectAvailableRoleNames,
-  useHMSStore,
-  useHMSActions,
-} from "@100mslive/react-sdk";
+import { useHMSActions } from "@100mslive/react-sdk";
 import { MicOffIcon } from "@100mslive/react-icons";
 import {
   Dialog,
@@ -18,6 +14,7 @@ import {
   DialogRow,
   DialogSelect,
 } from "../../primitives/DialogContent";
+import { useFilteredRoles } from "../../common/hooks";
 
 const trackSourceOptions = [
   { label: "All Track Sources", value: "" },
@@ -32,7 +29,7 @@ const trackTypeOptions = [
   { label: "video", value: "video" },
 ];
 export const MuteAllModal = ({ onOpenChange }) => {
-  const roles = useHMSStore(selectAvailableRoleNames);
+  const roles = useFilteredRoles();
   const hmsActions = useHMSActions();
   const [enabled, setEnabled] = useState(false);
   const [trackType, setTrackType] = useState();

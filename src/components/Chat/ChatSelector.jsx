@@ -2,7 +2,6 @@ import React, { Fragment, useState, useMemo } from "react";
 import { useMeasure } from "react-use";
 import { FixedSizeList } from "react-window";
 import {
-  selectAvailableRoleNames,
   selectRemotePeers,
   useHMSStore,
   selectUnreadHMSMessagesCount,
@@ -20,6 +19,7 @@ import {
 } from "@100mslive/react-ui";
 import { ChatDotIcon } from "./ChatDotIcon";
 import { ParticipantSearch } from "../Header/ParticipantList";
+import { useFilteredRoles } from "../../common/hooks";
 
 const SelectorItem = ({ value, active, onClick, unreadCount }) => {
   return (
@@ -104,7 +104,7 @@ const VirtualizedSelectItemList = ({
   onSelect,
 }) => {
   const [ref, { width, height }] = useMeasure();
-  const roles = useHMSStore(selectAvailableRoleNames);
+  const roles = useFilteredRoles();
   const filteredPeers = useMemo(
     () =>
       peers.filter(

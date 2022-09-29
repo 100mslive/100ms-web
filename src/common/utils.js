@@ -74,3 +74,5 @@ export const getRoutePrefix = () => {
 export const isStreamingKit = () => {
   return window.location.pathname.startsWith("/streaming");
 };
+
+export const isInternalRole = role => role && role.startsWith("__internal");

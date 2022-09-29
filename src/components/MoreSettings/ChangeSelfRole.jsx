@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { useMedia } from "react-use";
 import {
-  selectAvailableRoleNames,
   selectLocalPeerID,
   selectLocalPeerRoleName,
   selectPermissions,
@@ -13,9 +12,10 @@ import { Dropdown, Text, config } from "@100mslive/react-ui";
 import { ToastManager } from "../Toast/ToastManager";
 import { useAppLayout } from "../AppData/useAppLayout";
 import { arrayIntersection } from "../../common/utils";
+import { useFilteredRoles } from "../../common/hooks";
 
 export const ChangeSelfRole = ({ onClick }) => {
-  const roles = useHMSStore(selectAvailableRoleNames);
+  const roles = useFilteredRoles();
   const permissions = useHMSStore(selectPermissions);
   const localPeerId = useHMSStore(selectLocalPeerID);
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
@@ -38,7 +38,7 @@ export const ChangeSelfRole = ({ onClick }) => {
       </Text>
     </Dropdown.Item>
   ) : (
-    <Dropdown.Root>
+    <Dropdown.SubMenu>
       <Dropdown.TriggerItem data-testid="change_my_role_btn">
         <PersonIcon />
         <Text variant="sm" css={{ flex: "1 1 0", mx: "$4" }}>
@@ -46,10 +46,10 @@ export const ChangeSelfRole = ({ onClick }) => {
         </Text>
         <ArrowRightIcon />
       </Dropdown.TriggerItem>
-      <Dropdown.Content
+      <Dropdown.SubMenuContent
         sideOffset={2}
         alignOffset={-5}
-        css={{ maxHeight: "$64" }}
+        css={{ "@md": { w: "$64" } }}
       >
         {availableSelfChangeRoles.map((role, i) => (
           <Dropdown.Item
@@ -68,7 +68,7 @@ export const ChangeSelfRole = ({ onClick }) => {
             {localPeerRole === role && <CheckIcon width={16} height={16} />}
           </Dropdown.Item>
         ))}
-      </Dropdown.Content>
-    </Dropdown.Root>
+      </Dropdown.SubMenuContent>
+    </Dropdown.SubMenu>
   );
 };
