@@ -118,6 +118,8 @@ const DeviceSelector = ({
 }) => {
   const [open, setOpen] = useState(false);
   const selectionBg = useDropdownSelection();
+  const ref = useRef(null);
+
   return (
     <Box css={{ mb: "$10" }}>
       <Text css={{ mb: "$4" }}>{title}</Text>
@@ -137,12 +139,6 @@ const DeviceSelector = ({
             flex: "1 1 0",
             w: "100%",
             minWidth: 0,
-            "[data-radix-popper-content-wrapper]": {
-              w: "100%",
-              minWidth: "0 !important",
-              transform: "translateY($space$17) !important",
-              zIndex: 11,
-            },
             "@md": {
               mb: children ? "$8" : 0,
             },
@@ -150,6 +146,7 @@ const DeviceSelector = ({
         >
           <Dropdown.Root open={open} onOpenChange={setOpen}>
             <DialogDropdownTrigger
+              ref={ref}
               css={{
                 ...(children
                   ? {
@@ -160,32 +157,36 @@ const DeviceSelector = ({
               }}
               icon={icon}
               title={
-                devices.find(({ deviceId }) => deviceId === selection)?.label
+                devices.find(({ deviceId }) => deviceId === selection)?.label ||
+                "Select device from list"
               }
               open={open}
             />
-            <Dropdown.Content
-              align="start"
-              sideOffset={8}
-              css={{ w: "100%" }}
-              portalled={false}
-            >
-              {devices.map(device => {
-                return (
-                  <Dropdown.Item
-                    key={device.label}
-                    onSelect={() => onChange(device.deviceId)}
-                    css={{
-                      px: "$9",
-                      bg:
-                        device.deviceId === selection ? selectionBg : undefined,
-                    }}
-                  >
-                    {device.label}
-                  </Dropdown.Item>
-                );
-              })}
-            </Dropdown.Content>
+            <Dropdown.Portal>
+              <Dropdown.Content
+                align="start"
+                sideOffset={8}
+                css={{ w: ref.current?.clientWidth, zIndex: 1000 }}
+              >
+                {devices.map(device => {
+                  return (
+                    <Dropdown.Item
+                      key={device.label}
+                      onSelect={() => onChange(device.deviceId)}
+                      css={{
+                        px: "$9",
+                        bg:
+                          device.deviceId === selection
+                            ? selectionBg
+                            : undefined,
+                      }}
+                    >
+                      {device.label}
+                    </Dropdown.Item>
+                  );
+                })}
+              </Dropdown.Content>
+            </Dropdown.Portal>
           </Dropdown.Root>
         </Box>
         {children}
