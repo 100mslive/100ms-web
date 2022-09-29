@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useRef } from "react";
 import {
   useHMSStore,
   selectPeerByID,
@@ -50,6 +50,7 @@ export const RoleChangeModal = ({ peerId, onOpenChange }) => {
   const [open, setOpen] = useState(false);
   const selectionBg = useDropdownSelection();
   const [peerNameRef, setPeerNameRef] = useState();
+  const ref = useRef();
   if (!peer) {
     return null;
   }
@@ -104,12 +105,6 @@ export const RoleChangeModal = ({ peerId, onOpenChange }) => {
                 position: "relative",
                 flex: "1 1 0",
                 minWidth: 0,
-                "[data-radix-popper-content-wrapper]": {
-                  w: "100%",
-                  minWidth: "0 !important",
-                  transform: "translateY($space$17) !important",
-                  zIndex: 11,
-                },
               }}
             >
               <Dropdown.Root
@@ -125,8 +120,8 @@ export const RoleChangeModal = ({ peerId, onOpenChange }) => {
                     bg: "$surfaceLight",
                     r: "$1",
                     p: "$6 $9",
-                    zIndex: 10,
                   }}
+                  ref={ref}
                 >
                   <Flex
                     align="center"
@@ -137,28 +132,29 @@ export const RoleChangeModal = ({ peerId, onOpenChange }) => {
                     {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
                   </Flex>
                 </Dropdown.Trigger>
-                <Dropdown.Content
-                  align="start"
-                  sideOffset={8}
-                  css={{ w: "100%" }}
-                  portalled={false}
-                >
-                  {roles.map(role => {
-                    return (
-                      <Dropdown.Item
-                        data-testid={role}
-                        key={role}
-                        onSelect={() => setRole(role)}
-                        css={{
-                          px: "$9",
-                          bg: role === selectedRole ? selectionBg : undefined,
-                        }}
-                      >
-                        {role}
-                      </Dropdown.Item>
-                    );
-                  })}
-                </Dropdown.Content>
+                <Dropdown.Portal>
+                  <Dropdown.Content
+                    align="start"
+                    sideOffset={8}
+                    css={{ zIndex: 1000, width: ref.current?.clientWidth }}
+                  >
+                    {roles.map(role => {
+                      return (
+                        <Dropdown.Item
+                          data-testid={role}
+                          key={role}
+                          onSelect={() => setRole(role)}
+                          css={{
+                            px: "$9",
+                            bg: role === selectedRole ? selectionBg : undefined,
+                          }}
+                        >
+                          {role}
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </Dropdown.Content>
+                </Dropdown.Portal>
               </Dropdown.Root>
             </Box>
           </Flex>

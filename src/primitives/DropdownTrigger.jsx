@@ -3,7 +3,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@100mslive/react-icons";
 import { Text, Flex, Dropdown, textEllipsis } from "@100mslive/react-ui";
 
 const DialogDropdownTrigger = React.forwardRef(
-  ({ title, css, open, icon }, ref) => {
+  ({ title, css, open, icon, titleCSS = {} }, ref) => {
     return (
       <Dropdown.Trigger
         asChild
@@ -33,6 +33,7 @@ const DialogDropdownTrigger = React.forwardRef(
               ...textEllipsis("90%"),
               flex: "1 1 0",
               mx: "$6",
+              ...titleCSS,
             }}
           >
             {title}
