@@ -7,6 +7,7 @@ import {
   HandRaiseIcon,
   PeopleIcon,
 } from "@100mslive/react-icons";
+import { isInternalRole } from "../../common/utils";
 
 export const ParticipantFilter = ({
   selection,
@@ -73,15 +74,17 @@ export const ParticipantFilter = ({
           value={{ metadata: { isHandRaised: true }, role: "" }}
         />
         <Dropdown.ItemSeparator />
-        {roles.map(role => (
-          <Item
-            key={role}
-            selected={selectionValue === role}
-            title={role}
-            value={{ metadata: { isHandRaised: false }, role }}
-            onSelection={onItemClick}
-          />
-        ))}
+        {roles
+          .filter(role => !isInternalRole(role))
+          .map(role => (
+            <Item
+              key={role}
+              selected={selectionValue === role}
+              title={role}
+              value={{ metadata: { isHandRaised: false }, role }}
+              onSelection={onItemClick}
+            />
+          ))}
       </Dropdown.Content>
     </Dropdown.Root>
   );

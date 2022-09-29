@@ -67,7 +67,8 @@ const HLSView = () => {
         });
 
         hlsController.on(Hls.Events.MANIFEST_LOADED, (_, { levels }) => {
-          setAvailableLevels(levels);
+          const onlyVideoLevels = removeAudioLevels(levels);
+          setAvailableLevels(onlyVideoLevels);
           setCurrentSelectedQualityText("Auto");
         });
       } else if (
@@ -215,5 +216,23 @@ const HLSView = () => {
     </Fragment>
   );
 };
+
+/**
+ *
+ * This function is needed because HLSJS currently doesn't
+ * support switching to audio rendition from a video rendition.
+ * more on this here
+ * https://github.com/video-dev/hls.js/issues/4881
+ * https://github.com/video-dev/hls.js/issues/3480#issuecomment-778799541
+ * https://github.com/video-dev/hls.js/issues/163#issuecomment-169773788
+ *
+ * @param {Array} levels array from hlsJS
+ * @returns a new array with only video levels.
+ */
+function removeAudioLevels(levels) {
+  return levels.filter(
+    ({ videoCodec, width, height }) => !!videoCodec || !!(width && height)
+  );
+}
 
 export default HLSView;

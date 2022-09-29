@@ -6,9 +6,11 @@ import {
   selectPermissions,
   selectIsConnectedToRoom,
   useRecordingStreaming,
+  selectAvailableRoleNames,
 } from "@100mslive/react-sdk";
 import { useEffect, useRef, useState } from "react";
 import { useIsHeadless } from "../components/AppData/useUISettings";
+import { isInternalRole } from "./utils";
 
 /**
  * Hook to execute a callback when alone in room(after a certain 5d of time)
@@ -84,4 +86,11 @@ export const useBeamAutoLeave = () => {
     isRTMPRunning,
     isBrowserRecordingOn,
   ]);
+};
+
+export const useFilteredRoles = () => {
+  const roles = useHMSStore(selectAvailableRoleNames).filter(
+    role => !isInternalRole(role)
+  );
+  return roles;
 };
