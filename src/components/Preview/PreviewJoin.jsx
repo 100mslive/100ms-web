@@ -5,7 +5,6 @@ import {
   useHMSStore,
   selectIsLocalVideoEnabled,
   useAVToggle,
-  useHMSActions,
   selectVideoTrackByID,
 } from "@100mslive/react-sdk";
 import {
@@ -59,19 +58,15 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
       }
     },
   });
-  const hmsActions = useHMSActions();
   const savePreferenceAndJoin = useCallback(() => {
     setPreviewPreference({
       name,
       isAudioMuted: !isLocalAudioEnabled,
       isVideoMuted: !isLocalVideoEnabled,
     });
-    join().then(() => {
-      hmsActions.populateSessionMetadata();
-    });
+    join();
     onJoin && onJoin();
   }, [
-    hmsActions,
     join,
     isLocalAudioEnabled,
     isLocalVideoEnabled,
