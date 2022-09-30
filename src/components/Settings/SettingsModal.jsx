@@ -151,7 +151,10 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
 
 const SettingsContentHeader = ({ children, isMobile, onBack }) => {
   return (
-    <Text variant="h6" css={{ mb: "$12", display: "flex" }}>
+    <Text
+      variant="h6"
+      css={{ mb: "$12", display: "flex", alignItems: "center" }}
+    >
       {isMobile && (
         <Box
           as="span"

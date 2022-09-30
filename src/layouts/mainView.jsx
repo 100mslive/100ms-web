@@ -22,6 +22,7 @@ import { useBeamAutoLeave } from "../common/hooks";
 import { useWhiteboardMetadata } from "../plugins/whiteboard";
 import { useAppConfig } from "../components/AppData/useAppConfig";
 import { UI_MODE_ACTIVE_SPEAKER } from "../common/constants";
+import { useRefreshSessionMetadata } from "../components/hooks/useRefreshSessionMetadata";
 
 const WhiteboardView = React.lazy(() => import("./WhiteboardView"));
 const HLSView = React.lazy(() => import("./HLSView"));
@@ -35,6 +36,7 @@ export const ConferenceMainView = () => {
   const { whiteboardOwner: whiteboardShared } = useWhiteboardMetadata();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   useBeamAutoLeave();
+  useRefreshSessionMetadata();
   const hmsActions = useHMSActions();
   const isHeadless = useIsHeadless();
   const headlessUIMode = useAppConfig("headlessConfig", "uiMode");

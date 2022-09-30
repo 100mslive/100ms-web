@@ -1,9 +1,11 @@
 import { css } from "@100mslive/react-ui";
 export const settingOverflow = css({
-  overflowY: "auto",
   flex: "1 1 0",
   pr: "$12",
   mr: "-$12",
+  "@lg": {
+    overflowY: "auto",
+  },
 });
 
 export const settingContent = css({
