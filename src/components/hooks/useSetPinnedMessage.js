@@ -26,11 +26,13 @@ export const useSetPinnedMessage = () => {
      * @param {import("@100mslive/react-sdk").HMSMessage | undefined} message
      */
     async message => {
-      const peerName = vanillaStore.getState(
-        selectPeerNameByID(message?.sender)
-      );
+      const peerName =
+        vanillaStore.getState(selectPeerNameByID(message?.sender)) ||
+        message?.senderName;
       const newPinnedMessage = message
-        ? `${peerName}: ${message.message}`
+        ? peerName
+          ? `${peerName}: ${message.message}`
+          : message.message
         : null;
       if (newPinnedMessage !== pinnedMessage) {
         await hmsActions.setSessionMetadata(newPinnedMessage);

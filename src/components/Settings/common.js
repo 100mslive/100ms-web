@@ -3,9 +3,7 @@ export const settingOverflow = css({
   flex: "1 1 0",
   pr: "$12",
   mr: "-$12",
-  "@lg": {
-    overflowY: "auto",
-  },
+  overflowY: "auto",
 });
 
 export const settingContent = css({
