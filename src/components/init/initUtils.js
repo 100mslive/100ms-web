@@ -131,8 +131,9 @@ export const normalizeAppPolicyConfig = (
       subscribedRoles.length === 0 ||
       (subscribedRoles.length === 1 && subscribedRoles[0] === roleName);
     if (!newConfig[roleName].center) {
-      const publishingRoleNames = roleNames.filter(roleName =>
-        canPublishAV(rolesMap[roleName])
+      const publishingRoleNames = roleNames.filter(
+        roleName =>
+          canPublishAV(rolesMap[roleName]) && subscribedRoles.includes(roleName)
       );
       if (isNotSubscribingOrSubscribingToSelf) {
         newConfig[roleName].center = [roleName];
