@@ -152,7 +152,13 @@ const VirtualizedParticipants = ({
 }) => {
   const [ref, { width, height }] = useMeasure();
   return (
-    <Box ref={ref} css={{ flex: "1 1 0" }}>
+    <Box
+      ref={ref}
+      css={{
+        flex: "1 1 0",
+        mr: "-$10",
+      }}
+    >
       <FixedSizeList
         itemSize={68}
         itemCount={participants.length}
@@ -185,7 +191,7 @@ const Participant = ({
   return (
     <Flex
       key={peer.id}
-      css={{ w: "100%", py: "$4" }}
+      css={{ w: "100%", py: "$4", pr: "$10" }}
       align="center"
       data-testid={"participant_" + peer.name}
     >
@@ -264,16 +270,17 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
           <VerticalMenuIcon />
         </Text>
       </Dropdown.Trigger>
-
-      <Dropdown.Content align="end" sideOffset={8} css={{ w: "$64" }}>
-        {canChangeRole && (
-          <Dropdown.Item onClick={() => onRoleChange(peerId)}>
-            <ChangeRoleIcon />
-            <Text css={{ ml: "$4" }}>Change Role</Text>
-          </Dropdown.Item>
-        )}
-        <ParticipantVolume peerId={peerId} />
-      </Dropdown.Content>
+      <Dropdown.Portal>
+        <Dropdown.Content align="end" sideOffset={8} css={{ w: "$64" }}>
+          {canChangeRole && (
+            <Dropdown.Item onClick={() => onRoleChange(peerId)}>
+              <ChangeRoleIcon />
+              <Text css={{ ml: "$4" }}>Change Role</Text>
+            </Dropdown.Item>
+          )}
+          <ParticipantVolume peerId={peerId} />
+        </Dropdown.Content>
+      </Dropdown.Portal>
     </Dropdown.Root>
   );
 };
