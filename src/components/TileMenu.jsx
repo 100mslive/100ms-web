@@ -19,6 +19,7 @@ import {
 } from "@100mslive/react-sdk";
 import { Flex, StyledMenuTile, Slider, Text, Box } from "@100mslive/react-ui";
 import { ChatDotIcon } from "./Chat/ChatDotIcon";
+import { useDropdownSelection } from "./hooks/useDropdownSelection";
 import { REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";
 
 /**
@@ -125,6 +126,7 @@ const TileMenu = ({
 const SimulcastLayers = ({ trackId }) => {
   const track = useHMSStore(selectTrackByID(trackId));
   const actions = useHMSActions();
+  const bg = useDropdownSelection();
   if (!track?.layerDefinitions) {
     return null;
   }
@@ -136,6 +138,9 @@ const SimulcastLayers = ({ trackId }) => {
             key={layer.layer}
             onClick={async () => {
               await actions.setPreferredLayer(trackId, layer.layer);
+            }}
+            css={{
+              bg: track.expectedLayer === layer.layer ? bg : undefined,
             }}
           >
             <ChatDotIcon
