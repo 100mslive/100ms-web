@@ -4,7 +4,6 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import LogRocket from "logrocket";
 import setupLogRocketReact from "logrocket-react";
-import { BeamController } from "@100mslive/hms-video-store";
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -13,9 +12,6 @@ if (
   LogRocket.init(process.env.REACT_APP_LOGROCKET_ID);
   setupLogRocketReact(LogRocket);
 }
-
-const beam = new BeamController();
-console.log(beam);
 
 const root = createRoot(document.getElementById("root"));
 root.render(
