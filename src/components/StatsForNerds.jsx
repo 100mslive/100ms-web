@@ -199,6 +199,8 @@ const TrackStats = ({ trackID }) => {
   }
   const inbound = stats.type.includes("inbound");
 
+  console.log(stats);
+
   return (
     <Flex css={{ flexWrap: "wrap", gap: "$10" }}>
       <StatsRow label="Type" value={stats.type + " " + stats.kind} />
@@ -218,6 +220,7 @@ const TrackStats = ({ trackID }) => {
               value={stats.qualityLimitationReason || "-"}
             />
           )}
+          {stats.rid && <StatsRow label="Rid" value={stats.rid} />}
         </>
       )}
     </Flex>
