@@ -141,6 +141,9 @@ const SimulcastLayers = ({ trackId }) => {
             }}
             css={{
               bg: track.expectedLayer === layer.layer ? bg : undefined,
+              "&:hover": {
+                bg: track.expectedLayer === layer.layer ? bg : undefined,
+              },
             }}
           >
             <ChatDotIcon
