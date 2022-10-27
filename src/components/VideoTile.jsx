@@ -106,14 +106,14 @@ const Tile = ({ peerId, trackId, width, height }) => {
               data-testid="participant_video_tile"
             />
           ) : null}
-          <StyledVideoTile.AvatarContainer>
-            {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (
+          {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (
+            <StyledVideoTile.AvatarContainer>
               <Avatar
                 name={peerName || ""}
                 data-testid="participant_avatar_icon"
               />
-            ) : null}
-          </StyledVideoTile.AvatarContainer>
+            </StyledVideoTile.AvatarContainer>
+          ) : null}
 
           {showAudioMuted({
             hideTileAudioMute: headlessConfig?.hideTileAudioMute,
