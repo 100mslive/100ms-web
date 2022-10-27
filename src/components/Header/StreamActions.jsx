@@ -12,18 +12,18 @@ import { EndStreamIcon, RecordIcon } from "@100mslive/react-icons";
 import {
   Box,
   Button,
+  config as cssConfig,
   Flex,
   Loading,
   Popover,
   Text,
   Tooltip,
-  config as cssConfig,
 } from "@100mslive/react-ui";
 import GoLiveButton from "../GoLiveButton";
-import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
+import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { getResolution } from "../Streaming/RTMPStreaming";
 import { ToastManager } from "../Toast/ToastManager";
-import { ResolutionInput } from "../Streaming/ResolutionInput";
+import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
 import { useSidepaneToggle } from "../AppData/useSidepane";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import { getDefaultMeetingUrl } from "../../common/utils";

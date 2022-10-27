@@ -1,36 +1,36 @@
 import React, { Fragment, useState } from "react";
 import { useMedia } from "react-use";
 import {
-  VerticalMenuIcon,
-  InfoIcon,
-  MicOffIcon,
-  SettingsIcon,
-  PencilIcon,
-  RecordIcon,
-} from "@100mslive/react-icons";
-import {
   selectLocalPeerID,
   selectPermissions,
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
 import {
+  InfoIcon,
+  MicOffIcon,
+  PencilIcon,
+  RecordIcon,
+  SettingsIcon,
+  VerticalMenuIcon,
+} from "@100mslive/react-icons";
+import {
   Box,
+  config as cssConfig,
   Dropdown,
   Text,
   Tooltip,
-  config as cssConfig,
 } from "@100mslive/react-ui";
+import IconButton from "../../IconButton";
+import { RoleChangeModal } from "../RoleChangeModal";
+import SettingsModal from "../Settings/SettingsModal";
+import StartRecording from "../Settings/StartRecording";
+import { StatsForNerds } from "../StatsForNerds";
+import { ChangeNameModal } from "./ChangeNameModal";
 import { ChangeSelfRole } from "./ChangeSelfRole";
 import { FullScreenItem } from "./FullScreenItem";
-import SettingsModal from "../Settings/SettingsModal";
-import { RoleChangeModal } from "../RoleChangeModal";
-import { ChangeNameModal } from "./ChangeNameModal";
-import { StatsForNerds } from "../StatsForNerds";
 import { MuteAllModal } from "./MuteAllModal";
 import { FeatureFlags } from "../../services/FeatureFlags";
-import IconButton from "../../IconButton";
-import StartRecording from "../Settings/StartRecording";
 
 export const MoreSettings = () => {
   const permissions = useHMSStore(selectPermissions);

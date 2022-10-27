@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import {
+  selectLocalPeerName,
   useHMSActions,
   useHMSStore,
-  selectLocalPeerName,
 } from "@100mslive/react-sdk";
-import { Dialog, Flex, Button, Text, Box, Input } from "@100mslive/react-ui";
-import {
-  useUserPreferences,
-  UserPreferencesKeys,
-} from "../hooks/useUserPreferences";
+import { Box, Button, Dialog, Flex, Input, Text } from "@100mslive/react-ui";
 import { ToastManager } from "../Toast/ToastManager";
+import {
+  UserPreferencesKeys,
+  useUserPreferences,
+} from "../hooks/useUserPreferences";
 
 export const ChangeNameModal = ({ onOpenChange }) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(

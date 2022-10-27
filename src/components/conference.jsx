@@ -2,20 +2,20 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { usePrevious } from "react-use";
 import {
-  selectRoomState,
   HMSRoomState,
   selectIsConnectedToRoom,
+  selectRoomState,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { Box, Flex } from "@100mslive/react-ui";
-import FullPageProgress from "./FullPageProgress";
-import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
 import { ConferenceMainView } from "../layouts/mainView";
-import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { useNavigation } from "./hooks/useNavigation";
+import FullPageProgress from "./FullPageProgress";
+import { Header } from "./Header";
+import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
 import { useIsHeadless } from "./AppData/useUISettings";
+import { useNavigation } from "./hooks/useNavigation";
 
 const Conference = () => {
   const navigate = useNavigation();

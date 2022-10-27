@@ -1,8 +1,8 @@
-import React, { useState, forwardRef, useRef } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 import {
-  useHMSStore,
   selectPeerByID,
   useHMSActions,
+  useHMSStore,
 } from "@100mslive/react-sdk";
 import {
   CheckIcon,
@@ -10,14 +10,14 @@ import {
   ChevronUpIcon,
 } from "@100mslive/react-icons";
 import {
-  Dialog,
-  Button,
-  Text,
-  Label,
-  Checkbox,
   Box,
-  Flex,
+  Button,
+  Checkbox,
+  Dialog,
   Dropdown,
+  Flex,
+  Label,
+  Text,
   textEllipsis,
   Tooltip,
 } from "@100mslive/react-ui";

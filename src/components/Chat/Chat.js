@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { ChevronDownIcon, CrossIcon, PinIcon } from "@100mslive/react-icons";
 import {
   selectPermissions,
   selectSessionMetadata,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
+import { ChevronDownIcon, CrossIcon, PinIcon } from "@100mslive/react-icons";
 import { Box, Button, Flex, IconButton, Text } from "@100mslive/react-ui";
+import { AnnotisedMessage, ChatBody } from "./ChatBody";
 import { ChatFooter } from "./ChatFooter";
 import { ChatHeader } from "./ChatHeader";
-import { AnnotisedMessage, ChatBody } from "./ChatBody";
-import { useUnreadCount } from "./useUnreadCount";
 import { useSetPinnedMessage } from "../hooks/useSetPinnedMessage";
+import { useUnreadCount } from "./useUnreadCount";
 
 const PinnedMessage = ({ clearPinnedMessage }) => {
   const permissions = useHMSStore(selectPermissions);

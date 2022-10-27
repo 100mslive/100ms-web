@@ -1,23 +1,23 @@
 import React, { Fragment } from "react";
 import {
+  selectPermissions,
+  selectTrackByID,
+  useCustomEvent,
+  useHMSActions,
+  useHMSStore,
+  useRemoteAVToggle,
+} from "@100mslive/react-sdk";
+import {
   HorizontalMenuIcon,
   MicOffIcon,
-  VideoOffIcon,
-  VideoOnIcon,
   MicOnIcon,
-  SpeakerIcon,
   RemoveUserIcon,
   ShareScreenIcon,
+  SpeakerIcon,
+  VideoOffIcon,
+  VideoOnIcon,
 } from "@100mslive/react-icons";
-import {
-  useHMSStore,
-  selectPermissions,
-  useHMSActions,
-  useRemoteAVToggle,
-  useCustomEvent,
-  selectTrackByID,
-} from "@100mslive/react-sdk";
-import { Flex, StyledMenuTile, Slider, Text, Box } from "@100mslive/react-ui";
+import { Box, Flex, Slider, StyledMenuTile, Text } from "@100mslive/react-ui";
 import { ChatDotIcon } from "./Chat/ChatDotIcon";
 import { useDropdownSelection } from "./hooks/useDropdownSelection";
 import { REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";

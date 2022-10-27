@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import {
+  selectDominantSpeaker,
   selectPeers,
   useHMSStore,
-  selectDominantSpeaker,
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
 import { GridCenterView, GridSidePaneView } from "../components/gridView";

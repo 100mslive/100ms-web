@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   selectLocalPeerRoleName,
+  selectRemotePeers,
+  selectTracksMap,
   useHMSActions,
   useHMSStore,
   useHMSVanillaStore,
-  selectRemotePeers,
-  selectTracksMap,
 } from "@100mslive/react-sdk";
-import { Tooltip } from "@100mslive/react-ui";
 import { PipIcon } from "@100mslive/react-icons";
-import { PictureInPicture } from "./PIPManager";
-import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
-import { MediaSession } from "./SetupMediaSession";
+import { Tooltip } from "@100mslive/react-ui";
 import IconButton from "../../IconButton";
+import { PictureInPicture } from "./PIPManager";
+import { MediaSession } from "./SetupMediaSession";
+import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
 
 /**
  * shows a button which when clicked shows some videos in PIP, clicking

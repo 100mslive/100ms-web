@@ -1,4 +1,4 @@
-import { Loading, Flex } from "@100mslive/react-ui";
+import { Flex, Loading } from "@100mslive/react-ui";
 
 const FullPageProgress = () => (
   <Flex justify="center" align="center" css={{ size: "100%" }}>

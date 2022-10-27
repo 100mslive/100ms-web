@@ -1,10 +1,10 @@
+import { useCallback, useEffect } from "react";
 import {
   selectIsConnectedToRoom,
   useCustomEvent,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { useCallback, useEffect } from "react";
 
 export const REFRESH_MESSAGE = "refresh";
 export const METADATA_MESSAGE_TYPE = "metadata";

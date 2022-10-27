@@ -1,5 +1,5 @@
-import Hls from "hls.js";
 import { EventEmitter2 as EventEmitter } from "eventemitter2";
+import Hls from "hls.js";
 import { FeatureFlags } from "../../services/FeatureFlags";
 
 export const HLS_TIMED_METADATA_LOADED = "hls-timed-metadata";

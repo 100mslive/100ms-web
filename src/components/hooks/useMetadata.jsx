@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
 import {
+  selectLocalPeerID,
+  selectPeerMetadata,
   useHMSActions,
   useHMSStore,
-  selectPeerMetadata,
-  selectLocalPeerID,
 } from "@100mslive/react-sdk";
 
 export const useMyMetadata = () => {

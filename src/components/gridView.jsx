@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { useMedia } from "react-use";
-import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
+import { Box, config as cssConfig, Flex } from "@100mslive/react-ui";
 import { FirstPersonDisplay } from "./FirstPersonDisplay";
-import VideoList from "./VideoList";
 import { Image } from "./Image";
+import VideoList from "./VideoList";
 
 const MAX_TILES_FOR_MOBILE = 4;
 

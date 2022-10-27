@@ -7,10 +7,10 @@ import {
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
 import { AlertTriangleIcon } from "@100mslive/react-icons";
-import { Button, Text, Dialog, Flex } from "@100mslive/react-ui";
+import { Button, Dialog, Flex, Text } from "@100mslive/react-ui";
+import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { getResolution } from "../Streaming/RTMPStreaming";
 import { ToastManager } from "../Toast/ToastManager";
-import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import { getDefaultMeetingUrl } from "../../common/utils";
 import {

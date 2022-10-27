@@ -1,10 +1,10 @@
 import React from "react";
 import { selectAppData } from "@100mslive/react-sdk";
 import {
-  HandIcon,
-  PersonIcon,
   ChatIcon,
   ConnectivityIcon,
+  HandIcon,
+  PersonIcon,
   PoorConnectivityIcon,
 } from "@100mslive/react-icons";
 import { Button } from "@100mslive/react-ui";
