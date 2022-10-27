@@ -11,19 +11,19 @@ import {
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
+import { normalizeAppPolicyConfig } from "../init/initUtils";
+import {
+  UserPreferencesKeys,
+  useUserPreferences,
+} from "../hooks/useUserPreferences";
 import {
   useIsSidepaneTypeOpen,
   useSidepaneReset,
   useSidepaneState,
   useSidepaneToggle,
 } from "./useSidepane";
-import {
-  UserPreferencesKeys,
-  useUserPreferences,
-} from "../hooks/useUserPreferences";
 import { useSetAppDataByKey } from "./useUISettings";
 import { getMetadata } from "../../common/utils";
-import { normalizeAppPolicyConfig } from "../init/initUtils";
 import {
   APP_DATA,
   DEFAULT_HLS_ROLE_KEY,

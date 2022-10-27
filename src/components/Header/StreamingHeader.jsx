@@ -1,10 +1,10 @@
 import React from "react";
 import { useMedia } from "react-use";
-import { Flex, config as cssConfig } from "@100mslive/react-ui";
-import { ParticipantCount } from "./ParticipantList";
+import { config as cssConfig, Flex } from "@100mslive/react-ui";
 import { LeaveRoom } from "../LeaveRoom";
 import MetaActions from "../MetaActions";
 import { Logo, SpeakerTag } from "./HeaderComponents";
+import { ParticipantCount } from "./ParticipantList";
 import { LiveStatus, RecordingStatus, StreamActions } from "./StreamActions";
 
 export const StreamingHeader = ({ isPreview }) => {

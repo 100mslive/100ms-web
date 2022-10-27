@@ -7,14 +7,14 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import {
-  Dialog,
-  Text,
   Box,
-  Flex,
-  Switch,
+  Dialog,
   Dropdown,
-  Label,
+  Flex,
   HorizontalDivider,
+  Label,
+  Switch,
+  Text,
 } from "@100mslive/react-ui";
 import { DialogDropdownTrigger } from "../primitives/DropdownTrigger";
 import { useSetUiSettings } from "./AppData/useUISettings";

@@ -1,6 +1,6 @@
 import { selectIsConnectedToRoom, useHMSStore } from "@100mslive/react-sdk";
 import { BrbIcon, HandIcon } from "@100mslive/react-icons";
-import { Tooltip, Flex } from "@100mslive/react-ui";
+import { Flex, Tooltip } from "@100mslive/react-ui";
 import IconButton from "../IconButton";
 import { useMyMetadata } from "./hooks/useMetadata";
 

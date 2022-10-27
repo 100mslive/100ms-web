@@ -1,13 +1,13 @@
 import React from "react";
-import { Flex, Footer as AppFooter, Box } from "@100mslive/react-ui";
+import { Box, Flex, Footer as AppFooter } from "@100mslive/react-ui";
 import { AudioVideoToggle } from "../AudioVideoToggle";
-import { MoreSettings } from "../MoreSettings/MoreSettings";
-import { ScreenshareToggle } from "../ScreenShare";
-import PIPComponent from "../PIP/PIPComponent";
+import { StreamActions } from "../Header/StreamActions";
 import { LeaveRoom } from "../LeaveRoom";
 import MetaActions from "../MetaActions";
+import { MoreSettings } from "../MoreSettings/MoreSettings";
+import PIPComponent from "../PIP/PIPComponent";
+import { ScreenshareToggle } from "../ScreenShare";
 import { ChatToggle } from "./ChatToggle";
-import { StreamActions } from "../Header/StreamActions";
 
 export const StreamingFooter = () => {
   return (

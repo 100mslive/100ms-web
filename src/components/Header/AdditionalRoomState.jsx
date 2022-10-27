@@ -1,25 +1,25 @@
 import React, { useState } from "react";
-import { Flex, Dropdown, Text, Box, Tooltip } from "@100mslive/react-ui";
 import {
-  MusicIcon,
-  ChevronUpIcon,
-  ChevronDownIcon,
+  selectLocalPeerID,
+  selectPeerSharingVideoPlaylist,
+  useHMSStore,
+  useScreenShare,
+} from "@100mslive/react-sdk";
+import {
   AudioPlayerIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  MusicIcon,
   PencilDrawIcon,
   ShareScreenIcon,
   VideoPlayerIcon,
 } from "@100mslive/react-icons";
-import {
-  useScreenShare,
-  selectPeerSharingVideoPlaylist,
-  useHMSStore,
-  selectLocalPeerID,
-} from "@100mslive/react-sdk";
+import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/react-ui";
+import { useWhiteboardMetadata } from "../../plugins/whiteboard/useWhiteboardMetadata";
+import { useUISettings } from "../AppData/useUISettings";
 import { usePlaylistMusic } from "../hooks/usePlaylistMusic";
 import { useScreenshareAudio } from "../hooks/useScreenshareAudio";
-import { useWhiteboardMetadata } from "../../plugins/whiteboard/useWhiteboardMetadata";
 import { UI_SETTINGS } from "../../common/constants";
-import { useUISettings } from "../AppData/useUISettings";
 
 export const getRecordingText = (
   { isBrowserRecordingOn, isServerRecordingOn, isHLSRecordingOn },
