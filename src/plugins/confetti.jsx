@@ -1,7 +1,7 @@
-import JSConfetti from "js-confetti";
-import { useCustomEvent } from "@100mslive/react-sdk";
 import { useCallback, useEffect } from "react";
 import { useMedia } from "react-use";
+import JSConfetti from "js-confetti";
+import { useCustomEvent } from "@100mslive/react-sdk";
 
 const jsConfetti = new JSConfetti();
 const confettiMsgType = "CONFETTI";

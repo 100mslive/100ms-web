@@ -9,11 +9,11 @@
     "src"
   ],
   "dependencies": {
-    "@100mslive/hms-noise-suppression": "0.5.3-alpha.1",
-    "@100mslive/hms-virtual-background": "1.7.3-alpha.1",
-    "@100mslive/react-icons": "0.4.3-alpha.1",
-    "@100mslive/react-sdk": "0.4.3-alpha.1",
-    "@100mslive/react-ui": "0.4.3-alpha.1",
+    "@100mslive/hms-noise-suppression": "0.5.4",
+    "@100mslive/hms-virtual-background": "1.7.4",
+    "@100mslive/react-icons": "0.4.4",
+    "@100mslive/react-sdk": "0.4.4",
+    "@100mslive/react-ui": "0.4.4",
     "@emoji-mart/data": "^1.0.6",
     "@emoji-mart/react": "^1.0.1",
     "@tldraw/tldraw": "^1.18.4",
@@ -44,7 +44,7 @@
     "esbuild": "node ../../scripts/build-webapp",
     "dev": "node ../../scripts/dev-webapp",
     "format": "prettier -w src",
-    "lint": "eslint -c .eslintrc",
+    "lint": "eslint -c .eslintrc --no-error-on-unmatched-pattern src --ext .js --ext jsx",
     "lint:fix": "yarn lint --fix"
   },
   "browserslist": {
@@ -72,6 +72,7 @@
     "eslint-config-react-app": "^7.0.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
     "eslint-webpack-plugin": "^3.1.1",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.5.2",

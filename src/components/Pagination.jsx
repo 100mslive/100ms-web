@@ -1,6 +1,6 @@
 import React from "react";
-import { StyledPagination } from "@100mslive/react-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@100mslive/react-icons";
+import { StyledPagination } from "@100mslive/react-ui";
 
 export const Pagination = ({ page, setPage, numPages }) => {
   const disableLeft = page === 0;

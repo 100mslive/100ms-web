@@ -1,12 +1,12 @@
+import React, { useCallback, useState } from "react";
 import { InfoIcon } from "@100mslive/react-icons";
 import { Flex, Input, Label, Text, Tooltip } from "@100mslive/react-ui";
-import React, { useCallback, useState } from "react";
+import { DialogRow } from "../../primitives/DialogContent";
 import {
   RTMP_RECORD_DEFAULT_RESOLUTION,
   RTMP_RECORD_RESOLUTION_MAX,
   RTMP_RECORD_RESOLUTION_MIN,
 } from "../../common/constants";
-import { DialogRow } from "../../primitives/DialogContent";
 
 export const ResolutionInput = ({
   onResolutionChange,

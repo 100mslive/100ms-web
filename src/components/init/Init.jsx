@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import {
-  useHMSStore,
-  selectSessionId,
   selectLocalPeerID,
   selectLocalPeerName,
   selectLocalPeerRoleName,
+  selectSessionId,
+  useHMSStore,
 } from "@100mslive/react-sdk";
 import { useTheme } from "@100mslive/react-ui";
-import { FeatureFlagsInit } from "../../services/FeatureFlags";
 import { setUpLogRocket } from "./initUtils";
+import { FeatureFlagsInit } from "../../services/FeatureFlags";
 
 const Init = () => {
   const localPeerID = useHMSStore(selectLocalPeerID);

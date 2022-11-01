@@ -11,6 +11,7 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
+import { HorizontalMenuIcon, PinIcon } from "@100mslive/react-icons";
 import {
   Box,
   Dropdown,
@@ -20,7 +21,6 @@ import {
   Text,
   Tooltip,
 } from "@100mslive/react-ui";
-import { HorizontalMenuIcon, PinIcon } from "@100mslive/react-icons";
 
 const formatTime = date => {
   if (!(date instanceof Date)) {

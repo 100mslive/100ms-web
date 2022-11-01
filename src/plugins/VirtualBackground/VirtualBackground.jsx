@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  selectIsAllowedToPublish,
+  selectIsLocalVideoPluginPresent,
+  selectLocalVideoTrackID,
   useHMSActions,
   useHMSStore,
-  selectIsLocalVideoPluginPresent,
-  selectIsAllowedToPublish,
-  selectLocalVideoTrackID,
 } from "@100mslive/react-sdk";
 import { VirtualBackgroundIcon } from "@100mslive/react-icons";
 import { Tooltip } from "@100mslive/react-ui";

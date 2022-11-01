@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useState, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import {
   selectAppData,
   useHMSActions,
@@ -6,7 +6,7 @@ import {
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
 import { EndStreamIcon, GoLiveIcon, InfoIcon } from "@100mslive/react-icons";
-import { Box, Button, Flex, Text, Loading } from "@100mslive/react-ui";
+import { Box, Button, Flex, Loading, Text } from "@100mslive/react-ui";
 import {
   Container,
   ContentBody,

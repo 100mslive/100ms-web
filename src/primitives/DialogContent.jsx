@@ -1,17 +1,17 @@
 import React from "react";
 import { CheckIcon, CrossIcon } from "@100mslive/react-icons";
 import {
+  Box,
+  Button,
+  Checkbox,
   Dialog,
-  Select,
   Flex,
   HorizontalDivider,
-  Text,
-  Button,
   Input,
-  Box,
-  Switch,
-  Checkbox,
   Label,
+  Select,
+  Switch,
+  Text,
 } from "@100mslive/react-ui";
 
 export const DialogContent = ({

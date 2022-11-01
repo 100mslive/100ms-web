@@ -1,31 +1,31 @@
 import React, { Fragment, useCallback, useState } from "react";
 import {
-  Avatar,
-  StyledVideoTile,
-  Video,
-  VideoTileStats,
-  useBorderAudioLevel,
-} from "@100mslive/react-ui";
-import {
-  useHMSStore,
-  selectIsPeerAudioEnabled,
-  selectPeerMetadata,
-  selectLocalPeerID,
-  selectPeerNameByID,
   selectAudioTrackByPeerID,
+  selectIsPeerAudioEnabled,
+  selectLocalPeerID,
+  selectPeerMetadata,
+  selectPeerNameByID,
   selectVideoTrackByID,
   selectVideoTrackByPeerID,
+  useHMSStore,
 } from "@100mslive/react-sdk";
 import {
-  MicOffIcon,
-  HandRaiseFilledIcon,
   BrbIcon,
+  HandRaiseFilledIcon,
+  MicOffIcon,
 } from "@100mslive/react-icons";
-import TileMenu from "./TileMenu";
+import {
+  Avatar,
+  StyledVideoTile,
+  useBorderAudioLevel,
+  Video,
+  VideoTileStats,
+} from "@100mslive/react-ui";
 import TileConnection from "./Connection/TileConnection";
-import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
-import { useAppConfig } from "./AppData/useAppConfig";
 import { getVideoTileLabel } from "./peerTileUtils";
+import TileMenu from "./TileMenu";
+import { useAppConfig } from "./AppData/useAppConfig";
+import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
 
 const Tile = ({ peerId, trackId, width, height }) => {

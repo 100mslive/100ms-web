@@ -6,8 +6,8 @@ import {
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
 import { GridCenterView, GridSidePaneView } from "../components/gridView";
-import { useUISettings } from "../components/AppData/useUISettings";
 import { useAppLayout } from "../components/AppData/useAppLayout";
+import { useUISettings } from "../components/AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
 
 export const MainGridView = () => {

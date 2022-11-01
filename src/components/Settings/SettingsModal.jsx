@@ -1,24 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useMedia } from "react-use";
 import {
-  SettingsIcon,
-  NotificationsIcon,
-  CrossIcon,
   ChevronLeftIcon,
+  CrossIcon,
   GridFourIcon,
+  NotificationsIcon,
+  SettingsIcon,
 } from "@100mslive/react-icons";
 import {
+  Box,
+  config as cssConfig,
   Dialog,
   Flex,
   IconButton,
   Tabs,
   Text,
-  config as cssConfig,
-  Box,
 } from "@100mslive/react-ui";
 import DeviceSettings from "./DeviceSettings";
-import { NotificationSettings } from "./NotificationSettings";
 import { LayoutSettings } from "./LayoutSettings";
+import { NotificationSettings } from "./NotificationSettings";
 import { settingContent } from "./common.js";
 
 const SettingsModal = ({ open, onOpenChange, children }) => {
