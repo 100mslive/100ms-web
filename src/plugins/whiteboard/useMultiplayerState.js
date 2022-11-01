@@ -1,9 +1,9 @@
 // @ts-check
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useHMSStore, selectDidIJoinWithin } from "@100mslive/react-sdk";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { selectDidIJoinWithin, useHMSStore } from "@100mslive/react-sdk";
 import { provider as room } from "./PusherCommunicationProvider";
-import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
 import { WhiteboardEvents as Events } from "./WhiteboardEvents";
+import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
 
 const useWhiteboardState = () => {
   const { amIWhiteboardOwner } = useWhiteboardMetadata();

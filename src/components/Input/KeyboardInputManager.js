@@ -1,12 +1,12 @@
+import { useEffect } from "react";
 import {
+  parsedUserAgent,
+  selectAppData,
   selectIsLocalAudioEnabled,
   selectIsLocalVideoEnabled,
-  parsedUserAgent,
-  useHMSVanillaStore,
   useHMSActions,
-  selectAppData,
+  useHMSVanillaStore,
 } from "@100mslive/react-sdk";
-import { useEffect } from "react";
 import { APP_DATA } from "../../common/constants";
 
 let isEvenListenersAttached = false;
