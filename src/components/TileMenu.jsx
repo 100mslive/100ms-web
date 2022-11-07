@@ -52,7 +52,7 @@ const TileMenu = ({
       <StyledMenuTile.Trigger data-testid="participant_menu_btn">
         <HorizontalMenuIcon />
       </StyledMenuTile.Trigger>
-      <StyledMenuTile.Content side="top" align="end" sideOffset={8}>
+      <StyledMenuTile.Content side="top" align="end">
         {toggleVideo ? (
           <StyledMenuTile.ItemButton
             onClick={toggleVideo}
