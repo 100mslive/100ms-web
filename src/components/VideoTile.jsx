@@ -1,6 +1,5 @@
 import React, { Fragment, useCallback, useState } from "react";
 import {
-  HMSSimulcastLayer,
   selectAudioTrackByPeerID,
   selectIsPeerAudioEnabled,
   selectLocalPeerID,
@@ -45,8 +44,7 @@ const Tile = ({ peerId, trackId, width, height }) => {
   const isVideoMuted = !track?.enabled;
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const borderAudioRef = useBorderAudioLevel(audioTrack?.id);
-  const isVideoDegraded =
-    track?.degraded && track.layer === HMSSimulcastLayer.NONE;
+  const isVideoDegraded = track?.degraded;
   const isLocal = localPeerID === peerId;
   const label = getVideoTileLabel({
     peerName,
@@ -77,18 +75,12 @@ const Tile = ({ peerId, trackId, width, height }) => {
               : borderAudioRef
           }
         >
-          <TileConnection
-            hideLabel={hideLabel}
-            name={label}
-            isTile
-            peerId={peerId}
-            width={width}
-          />
           {showStatsOnTiles ? (
             <VideoTileStats
               audioTrackID={audioTrack?.id}
               videoTrackID={track?.id}
               peerID={peerId}
+              isLocal={isLocal}
             />
           ) : null}
 
@@ -132,6 +124,13 @@ const Tile = ({ peerId, trackId, width, height }) => {
             />
           ) : null}
           <PeerMetadata peerId={peerId} />
+          <TileConnection
+            hideLabel={hideLabel}
+            name={label}
+            isTile
+            peerId={peerId}
+            width={width}
+          />
         </StyledVideoTile.Container>
       ) : null}
     </StyledVideoTile.Root>
