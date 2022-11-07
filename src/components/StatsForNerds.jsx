@@ -275,7 +275,7 @@ const StatsRow = React.memo(({ label, value }) => (
 ));
 
 const formatBytes = (bytes, unit = "B", decimals = 2) => {
-  if (!bytes) return "-";
+  if (bytes === undefined) return "-";
   if (bytes === 0) return "0 " + unit;
 
   const k = 1024;
