@@ -190,8 +190,11 @@ const LocalPeerStats = () => {
 
   return (
     <Flex css={{ flexWrap: "wrap", gap: "$10" }}>
-      <StatsRow label="Packets Lost" value={stats.subscribe?.packetsLost} />
-      <StatsRow label="Jitter" value={stats.subscribe?.jitter} />
+      <StatsRow
+        label="Packets Lost"
+        value={stats.subscribe?.packetsLost || "-"}
+      />
+      <StatsRow label="Jitter" value={stats.subscribe?.jitter || "-"} />
       <StatsRow
         label="Publish Bitrate"
         value={formatBytes(stats.publish?.bitrate, "b/s")}
@@ -272,6 +275,7 @@ const StatsRow = React.memo(({ label, value }) => (
 ));
 
 const formatBytes = (bytes, unit = "B", decimals = 2) => {
+  if (!bytes) return "-";
   if (bytes === 0) return "0 " + unit;
 
   const k = 1024;
