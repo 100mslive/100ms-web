@@ -156,7 +156,7 @@ const useTracksWithLabel = () => {
       Object.values(tracksMap).reduce((res, track) => {
         const peerName = peersMap[track.peerId]?.name;
         const isLocalTrack = track.peerId === localPeerID;
-        if (isLocalTrack && track.layerDefinitions) {
+        if (isLocalTrack && track.layerDefinitions?.length) {
           res = res.concat(
             track.layerDefinitions.map(({ layer }) => {
               return {
@@ -178,6 +178,7 @@ const useTracksWithLabel = () => {
       }, []),
     [tracksMap, peersMap, localPeerID]
   );
+  console.error({ tracksWithLabels });
   return tracksWithLabels;
 };
 
