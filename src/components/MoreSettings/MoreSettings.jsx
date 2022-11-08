@@ -28,6 +28,7 @@ import StartRecording from "../Settings/StartRecording";
 import { StatsForNerds } from "../StatsForNerds";
 import { ChangeNameModal } from "./ChangeNameModal";
 import { ChangeSelfRole } from "./ChangeSelfRole";
+import { EmbedUrl, EmbedUrlModal } from "./EmbedUrl";
 import { FullScreenItem } from "./FullScreenItem";
 import { MuteAllModal } from "./MuteAllModal";
 import { FeatureFlags } from "../../services/FeatureFlags";
@@ -38,6 +39,7 @@ export const MoreSettings = () => {
   const [open, setOpen] = useState(false);
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
   const [showMuteAll, setShowMuteAll] = useState(false);
+  const [showOpenUrl, setShowOpenUrl] = useState(false);
   const [showDeviceSettings, setShowDeviceSettings] = useState(false);
   const [showStatsForNerds, setShowStatsForNerds] = useState(false);
   const [showSelfRoleChange, setShowSelfRoleChange] = useState(false);
@@ -86,6 +88,7 @@ export const MoreSettings = () => {
           </Dropdown.Item>
           <ChangeSelfRole onClick={() => setShowSelfRoleChange(true)} />
           <FullScreenItem />
+          <EmbedUrl setShowOpenUrl={setShowOpenUrl} />
           {permissions.mute && (
             <Dropdown.Item
               onClick={() => setShowMuteAll(true)}
@@ -145,6 +148,7 @@ export const MoreSettings = () => {
           onOpenChange={setShowStartRecording}
         />
       )}
+      {showOpenUrl && <EmbedUrlModal onOpenChange={setShowOpenUrl} />}
     </Fragment>
   );
 };
