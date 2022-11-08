@@ -142,7 +142,7 @@ export const ToastConfig = {
       `,
         icon: <PoorConnectivityIcon />,
         variant: "warning",
-        duration: 10000,
+        duration: 30000,
       };
     },
   },
