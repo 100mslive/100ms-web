@@ -10,6 +10,7 @@ import {
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
 import FullPageProgress from "../components/FullPageProgress";
+import EmbedView from "./EmbedView";
 import { MainGridView } from "./mainGridView";
 import ScreenShareView from "./screenShareView";
 import SidePane from "./SidePane";
@@ -19,6 +20,7 @@ import {
   useHLSViewerRole,
   useIsHeadless,
   useUISettings,
+  useUrlToEmbed,
 } from "../components/AppData/useUISettings";
 import { useRefreshSessionMetadata } from "../components/hooks/useRefreshSessionMetadata";
 import { useBeamAutoLeave } from "../common/hooks";
@@ -42,6 +44,7 @@ export const ConferenceMainView = () => {
   const headlessUIMode = useAppConfig("headlessConfig", "uiMode");
   const { uiViewMode, isAudioOnly } = useUISettings();
   const hlsViewerRole = useHLSViewerRole();
+  const urlToIframe = useUrlToEmbed();
   useEffect(() => {
     if (!isConnected) {
       return;
@@ -68,6 +71,8 @@ export const ConferenceMainView = () => {
   let ViewComponent;
   if (localPeerRole === hlsViewerRole) {
     ViewComponent = HLSView;
+  } else if (urlToIframe) {
+    ViewComponent = EmbedView;
   } else if (whiteboardShared) {
     ViewComponent = WhiteboardView;
   } else if (

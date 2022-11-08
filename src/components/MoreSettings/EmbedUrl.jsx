@@ -6,6 +6,8 @@ import {
   DialogInput,
   DialogRow,
 } from "../../primitives/DialogContent";
+import { useSetAppDataByKey } from "../AppData/useUISettings";
+import { APP_DATA } from "../../common/constants";
 
 export const EmbedUrl = ({ setShowOpenUrl }) => {
   if (!window.CropTarget) {
@@ -28,16 +30,17 @@ export const EmbedUrl = ({ setShowOpenUrl }) => {
 };
 
 export function EmbedUrlModal({ onOpenChange }) {
-  const [url, setUrl] = useState("");
-  // const hmsActions = useHMSActions();
+  const [embedConfig, setEmbedConfig] = useSetAppDataByKey(
+    APP_DATA.embedConfig
+  );
+  const [url, setUrl] = useState(embedConfig?.url || "");
+
+  const isAnythingEmbedded = !!embedConfig?.url;
+  const isModifying = isAnythingEmbedded && url && url !== embedConfig.url;
 
   return (
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
-      <DialogContent
-        title="Embed URL"
-        Icon={ViewIcon}
-        // css={{ width: "min(700px, 100%)", height: "min(700px, 90%)" }}
-      >
+      <DialogContent title="Embed URL" Icon={ViewIcon}>
         <DialogInput
           title="URL"
           value={url}
@@ -47,22 +50,68 @@ export function EmbedUrlModal({ onOpenChange }) {
         />
         <DialogRow>
           <Text>
-            Embed or update the url and share with everyone in the room. Ensure
-            that you're sharing the current tab when the prompt opens. Note that
-            not all websites support being embedded. If your url doesn't support
-            it you would see a black screen.
+            Embed a url and share with everyone in the room. Ensure that you're
+            sharing the current tab when the prompt opens. Note that not all
+            websites support being embedded.
           </Text>
         </DialogRow>
         <DialogRow justify="end">
-          <Button
-            variant="primary"
-            type="submit"
-            disabled={!url.trim()}
-            onClick={async () => {}}
-            data-testid="embed_url_btn"
-          >
-            Open Prompt
-          </Button>
+          {isAnythingEmbedded ? (
+            <>
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={!isModifying}
+                onClick={() => {
+                  setEmbedConfig({ url, shareScreen: embedConfig.shareScreen });
+                  onOpenChange(false);
+                }}
+                data-testid="embed_url_btn"
+                css={{ mr: "$4" }}
+              >
+                Update Embed
+              </Button>
+              <Button
+                variant="danger"
+                type="submit"
+                onClick={() => {
+                  setEmbedConfig({ url: "" });
+                  onOpenChange(false);
+                }}
+                data-testid="embed_url_btn"
+              >
+                Stop Embed
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={!url.trim()}
+                onClick={() => {
+                  setEmbedConfig({ url });
+                  onOpenChange(false);
+                }}
+                data-testid="embed_url_btn"
+                css={{ mr: "$4" }}
+              >
+                Just Embed
+              </Button>
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={!url.trim()}
+                onClick={() => {
+                  setEmbedConfig({ url, shareScreen: true });
+                  onOpenChange(false);
+                }}
+                data-testid="embed_url_btn"
+              >
+                Embed and Share
+              </Button>
+            </>
+          )}
         </DialogRow>
       </DialogContent>
     </Dialog.Root>

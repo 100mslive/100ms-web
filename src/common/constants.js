@@ -117,6 +117,7 @@ export const APP_DATA = {
   hlsStarted: "hlsStarted",
   rtmpStarted: "rtmpStarted",
   recordingStarted: "recordingStarted",
+  embedConfig: "urlToIframe",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",

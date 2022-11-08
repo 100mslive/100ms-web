@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { useMedia } from "react-use";
 import {
+  selectIsAllowedToPublish,
   selectLocalPeerID,
   selectPermissions,
   useHMSStore,
@@ -35,6 +36,7 @@ import { FeatureFlags } from "../../services/FeatureFlags";
 
 export const MoreSettings = () => {
   const permissions = useHMSStore(selectPermissions);
+  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const localPeerId = useHMSStore(selectLocalPeerID);
   const [open, setOpen] = useState(false);
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
@@ -88,7 +90,9 @@ export const MoreSettings = () => {
           </Dropdown.Item>
           <ChangeSelfRole onClick={() => setShowSelfRoleChange(true)} />
           <FullScreenItem />
-          <EmbedUrl setShowOpenUrl={setShowOpenUrl} />
+          {isAllowedToPublish.screen && (
+            <EmbedUrl setShowOpenUrl={setShowOpenUrl} />
+          )}
           {permissions.mute && (
             <Dropdown.Item
               onClick={() => setShowMuteAll(true)}
