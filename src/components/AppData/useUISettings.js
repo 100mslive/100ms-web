@@ -72,6 +72,10 @@ export const useLogo = () => {
   return useHMSStore(selectAppData(APP_DATA.logo));
 };
 
+export const useUrlToEmbed = () => {
+  return useHMSStore(selectAppData(APP_DATA.embedConfig))?.url;
+};
+
 export const useSubscribedNotifications = notificationKey => {
   const notificationPreference = useHMSStore(
     selectAppDataByPath(APP_DATA.subscribedNotifications, notificationKey)
