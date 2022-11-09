@@ -135,14 +135,14 @@ export const ToastConfig = {
     },
   },
   RECONNECTING: {
-    single: () => {
+    single: message => {
       return {
         title: `You are offline for now. while we try to reconnect, please check
-        your internet connection.
+        your internet connection. ${message}.
       `,
         icon: <PoorConnectivityIcon />,
         variant: "warning",
-        duration: 10000,
+        duration: 30000,
       };
     },
   },
