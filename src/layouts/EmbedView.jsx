@@ -28,25 +28,18 @@ const EmbedComponent = () => {
     APP_DATA.embedConfig
   );
   const [wasScreenShared, setWasScreenShared] = useState(false);
+  // to handle - https://github.com/facebook/react/issues/24502
   const screenShareAttemptInProgress = useRef(false);
   const src = embedConfig.url;
   const iframeRef = useRef();
-  console.log("embed component render - ", embedConfig);
 
   const resetEmbedConfig = useCallback(() => {
     if (src) {
-      console.log("resetting embed config");
       setEmbedConfig({ url: "" });
     }
   }, [src, setEmbedConfig]);
 
   useEffect(() => {
-    console.log("starting screenshare", {
-      amIScreenSharing,
-      wasScreenShared,
-      embedConfig,
-      screenShareAttemptInProgress,
-    });
     if (
       embedConfig.shareScreen &&
       !amIScreenSharing &&
@@ -67,25 +60,21 @@ const EmbedComponent = () => {
           screenShareAttemptInProgress.current = false;
         });
     }
-    return () => {
-      console.log("embed cleanup running", {
-        amIScreenSharing,
-        wasScreenShared,
-      });
-      if (wasScreenShared && amIScreenSharing) {
-        toggleScreenShare(); // stop
-        resetEmbedConfig();
-      }
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // close embed when screenshare is closed
   useEffect(() => {
+    // reset embed when screenshare is closed from anywhere
     if (wasScreenShared && !amIScreenSharing) {
       resetEmbedConfig();
     }
-  }, [wasScreenShared, amIScreenSharing, resetEmbedConfig]);
+    return () => {
+      // close screenshare when this component is being unmounted
+      if (wasScreenShared && amIScreenSharing) {
+        toggleScreenShare(); // stop
+      }
+    };
+  }, [wasScreenShared, amIScreenSharing, resetEmbedConfig, toggleScreenShare]);
 
   return (
     <Box
