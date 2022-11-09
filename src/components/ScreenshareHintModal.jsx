@@ -14,7 +14,10 @@ export const ScreenShareHintModal = ({ onClose }) => {
             variant="primary"
             onClick={() => {
               hmsActions
-                .setScreenShareEnabled(true, { audioOnly: true })
+                .setScreenShareEnabled(true, {
+                  audioOnly: true,
+                  displaySurface: "browser",
+                })
                 .catch(console.error);
               onClose();
             }}
