@@ -1,13 +1,18 @@
 import React, { Fragment, useState } from "react";
 import { useMedia } from "react-use";
 import {
+  parsedUserAgent,
+  selectAppData,
   selectIsAllowedToPublish,
   selectLocalPeerID,
+  selectLocalPeerRoleName,
   selectPermissions,
+  useHMSActions,
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
 import {
+  CheckIcon,
   InfoIcon,
   MicOffIcon,
   PencilIcon,
@@ -17,8 +22,10 @@ import {
 } from "@100mslive/react-icons";
 import {
   Box,
+  Checkbox,
   config as cssConfig,
   Dropdown,
+  Flex,
   Text,
   Tooltip,
 } from "@100mslive/react-ui";
@@ -33,11 +40,19 @@ import { EmbedUrl, EmbedUrlModal } from "./EmbedUrl";
 import { FullScreenItem } from "./FullScreenItem";
 import { MuteAllModal } from "./MuteAllModal";
 import { FeatureFlags } from "../../services/FeatureFlags";
+import { APP_DATA } from "../../common/constants";
+
+const OSName = parsedUserAgent.getOS().name.toLowerCase();
+const isMacOS = OSName === "mac os";
+const isMobileOS = OSName === "android" || OSName === "ios";
 
 export const MoreSettings = () => {
   const permissions = useHMSStore(selectPermissions);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const localPeerId = useHMSStore(selectLocalPeerID);
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+  const hmsActions = useHMSActions();
+  const enablHlsStats = useHMSStore(selectAppData(APP_DATA.hlsStats));
   const [open, setOpen] = useState(false);
   const [showChangeNameModal, setShowChangeNameModal] = useState(false);
   const [showMuteAll, setShowMuteAll] = useState(false);
@@ -114,17 +129,47 @@ export const MoreSettings = () => {
               Settings
             </Text>
           </Dropdown.Item>
-          {FeatureFlags.enableStatsForNerds && (
-            <Dropdown.Item
-              onClick={() => setShowStatsForNerds(true)}
-              data-testid="stats_for_nreds_btn"
-            >
-              <InfoIcon />
-              <Text variant="sm" css={{ ml: "$4" }}>
-                Stats for Nerds
-              </Text>
-            </Dropdown.Item>
-          )}
+          {FeatureFlags.enableStatsForNerds &&
+            (localPeerRole === "hls-viewer" ? (
+              <Dropdown.Item
+                onClick={() =>
+                  hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats)
+                }
+                data-testid="hls_stats"
+              >
+                <Checkbox.Root
+                  css={{ margin: "$2" }}
+                  checked={enablHlsStats}
+                  onCheckedChange={() =>
+                    hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats)
+                  }
+                >
+                  <Checkbox.Indicator>
+                    <CheckIcon width={16} height={16} />
+                  </Checkbox.Indicator>
+                </Checkbox.Root>
+                <Flex justify="between" css={{ width: "100%" }}>
+                  <Text variant="sm" css={{ ml: "$4" }}>
+                    Show HLS Stats
+                  </Text>
+                  {!isMobileOS ? (
+                    <Text variant="sm" css={{ ml: "$4" }}>
+                      {`${isMacOS ? "⌘" : "ctrl"} + ]`}
+                    </Text>
+                  ) : null}
+                </Flex>
+              </Dropdown.Item>
+            ) : (
+              <Dropdown.Item
+                onClick={() => setShowStatsForNerds(true)}
+                data-testid="stats_for_nreds_btn"
+              >
+                <InfoIcon />
+                <Text variant="sm" css={{ ml: "$4" }}>
+                  Stats for Nerds
+                </Text>
+              </Dropdown.Item>
+            ))}
         </Dropdown.Content>
       </Dropdown.Root>
       {showMuteAll && <MuteAllModal onOpenChange={setShowMuteAll} />}

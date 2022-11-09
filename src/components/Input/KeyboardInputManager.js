@@ -34,14 +34,23 @@ export class KeyboardInputManager {
     }
   };
 
+  #toggleHlsStats = () => {
+    this.#actions.setAppData(
+      APP_DATA.hlsStats,
+      !this.#store.getState(selectAppData(APP_DATA.hlsStats))
+    );
+  };
+
   #keyDownHandler = async e => {
     const CONTROL_KEY = isMacOS ? e.metaKey : e.ctrlKey;
     const D_KEY = e.key === "d" || e.key === "D";
     const E_KEY = e.key === "e" || e.key === "E";
+    const SNF_KEY = e.key === "]" || e.key === "}";
 
     const SHORTCUT_TOGGLE_AUDIO = CONTROL_KEY && D_KEY;
     const SHORTCUT_TOGGLE_VIDEO = CONTROL_KEY && E_KEY;
     const SHORTCUT_SIDEPANE_CLOSE = e.key === "Escape";
+    const SHORTCUT_STATS_FOR_NERDS = CONTROL_KEY && SNF_KEY;
 
     if (SHORTCUT_TOGGLE_AUDIO) {
       e.preventDefault();
@@ -51,6 +60,8 @@ export class KeyboardInputManager {
       await this.#toggleVideo();
     } else if (SHORTCUT_SIDEPANE_CLOSE) {
       this.#hideSidepane();
+    } else if (SHORTCUT_STATS_FOR_NERDS) {
+      this.#toggleHlsStats();
     }
   };
 
