@@ -52,6 +52,10 @@ export class HLSController {
     this.hls.currentLevel = newLevel;
   }
 
+  getHlsJsInstance() {
+    return this.hls;
+  }
+
   jumpToLive() {
     const videoEl = this.videoRef.current;
     videoEl.currentTime = this.hls.liveSyncPosition;

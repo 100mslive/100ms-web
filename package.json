@@ -9,6 +9,7 @@
     "src"
   ],
   "dependencies": {
+    "@100mslive/hls-stats": "0.0.1",
     "@100mslive/hms-noise-suppression": "0.5.5-alpha.7",
     "@100mslive/hms-virtual-background": "1.7.5-alpha.7",
     "@100mslive/react-icons": "0.4.5-alpha.7",
