@@ -8,16 +8,19 @@ export function HlsStatsOverlay({ hlsStatsState, onClose }) {
       css={{
         position: "absolute",
         minWidth: "60%",
+        margin: "$8 0  0 $20",
         "@md": {
           minWidth: "60%",
+          margin: "$8 0  0 $8",
         },
         "@sm": {
           minWidth: "100%",
+          margin: "$0",
         },
         padding: "$2 $4 $2 $4",
         zIndex: 100,
         backgroundColor: "rgba(55,59,66, 0.84)",
-        margin: "$8 0  0 $20",
+
         borderRadius: "$1",
       }}
       direction="column"
