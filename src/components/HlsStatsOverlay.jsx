@@ -16,7 +16,9 @@ export function HlsStatsOverlay({ hlsStatsState, onClose }) {
         },
         padding: "$2 $4 $2 $4",
         zIndex: 100,
-        backgroundColor: "rgba(101,112,128, 0.25)",
+        backgroundColor: "rgba(55,59,66, 0.84)",
+        margin: "$8 0  0 $20",
+        borderRadius: "$1",
       }}
       direction="column"
     >
