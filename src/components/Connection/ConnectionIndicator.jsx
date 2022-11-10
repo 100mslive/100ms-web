@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  useHMSStore,
   selectConnectionQualityByPeerID,
+  useHMSStore,
 } from "@100mslive/react-sdk";
+import { PoorConnectivityIcon } from "@100mslive/react-icons";
 import { styled, Tooltip, useTheme } from "@100mslive/react-ui";
 import { getColor, getTooltipText } from "./connectionQualityUtils";
-import { PoorConnectivityIcon } from "@100mslive/react-icons";
 
 const Wrapper = styled("span", {
   width: "28px",

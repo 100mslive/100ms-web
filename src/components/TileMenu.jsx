@@ -1,22 +1,22 @@
 import React from "react";
 import {
+  selectPermissions,
+  useCustomEvent,
+  useHMSActions,
+  useHMSStore,
+  useRemoteAVToggle,
+} from "@100mslive/react-sdk";
+import {
   HorizontalMenuIcon,
   MicOffIcon,
-  VideoOffIcon,
-  VideoOnIcon,
   MicOnIcon,
-  SpeakerIcon,
   RemoveUserIcon,
   ShareScreenIcon,
+  SpeakerIcon,
+  VideoOffIcon,
+  VideoOnIcon,
 } from "@100mslive/react-icons";
-import {
-  useHMSStore,
-  selectPermissions,
-  useHMSActions,
-  useRemoteAVToggle,
-  useCustomEvent,
-} from "@100mslive/react-sdk";
-import { Flex, StyledMenuTile, Slider } from "@100mslive/react-ui";
+import { Flex, Slider, StyledMenuTile } from "@100mslive/react-ui";
 import { REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";
 
 /**

@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   selectLocalPeerRoleName,
+  selectRemotePeers,
+  selectTracksMap,
   useHMSActions,
   useHMSStore,
   useHMSVanillaStore,
-  selectRemotePeers,
-  selectTracksMap,
 } from "@100mslive/react-sdk";
-import { Tooltip } from "@100mslive/react-ui";
 import { PipIcon } from "@100mslive/react-icons";
-import { PictureInPicture } from "./PIPManager";
+import { Tooltip } from "@100mslive/react-ui";
 import IconButton from "../../IconButton";
-import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
+import { PictureInPicture } from "./PIPManager";
 import { MediaSession } from "./SetupMediaSession";
+import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
 
 /**
  * shows a button which when clicked shows some videos in PIP, clicking
@@ -25,15 +25,15 @@ const PIPComponent = () => {
   const store = useHMSVanillaStore();
 
   const onPipToggle = useCallback(() => {
-    if (!isPipOn) {
+    if (isPipOn) {
+      PictureInPicture.stop().catch(err =>
+        console.error("error in stopping pip", err)
+      );
+    } else {
       PictureInPicture.start(hmsActions, setIsPipOn).catch(err =>
         console.error("error in starting pip", err)
       );
       MediaSession.setup(hmsActions, store);
-    } else {
-      PictureInPicture.stop().catch(err =>
-        console.error("error in stopping pip", err)
-      );
     }
   }, [hmsActions, isPipOn, store]);
 

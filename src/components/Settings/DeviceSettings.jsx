@@ -1,26 +1,26 @@
-import React, { useRef, useState, useEffect, Fragment } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import {
-  useDevices,
   DeviceType,
-  useHMSStore,
-  selectLocalVideoTrackID,
   selectIsLocalVideoEnabled,
+  selectLocalVideoTrackID,
   selectVideoTrackByID,
+  useDevices,
+  useHMSStore,
 } from "@100mslive/react-sdk";
 import { MicOnIcon, SpeakerIcon, VideoOnIcon } from "@100mslive/react-icons";
 import {
-  Button,
-  Text,
-  Flex,
-  Dropdown,
   Box,
+  Button,
+  Dropdown,
+  Flex,
   StyledVideoTile,
+  Text,
   Video,
 } from "@100mslive/react-ui";
 import { DialogDropdownTrigger } from "../../primitives/DropdownTrigger";
+import { useUISettings } from "../AppData/useUISettings";
 import { useDropdownSelection } from "../hooks/useDropdownSelection";
 import { settingOverflow } from "./common.js";
-import { useUISettings } from "../AppData/useUISettings";
 import { UI_SETTINGS } from "../../common/constants";
 
 /**

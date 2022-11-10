@@ -4,8 +4,8 @@ import {
   HMSNotificationTypes,
   useHMSNotifications,
 } from "@100mslive/react-sdk";
-import { ToastManager } from "../Toast/ToastManager";
 import { ToastConfig } from "../Toast/ToastConfig";
+import { ToastManager } from "../Toast/ToastManager";
 
 const notificationTypes = [
   HMSNotificationTypes.RECONNECTED,
@@ -25,7 +25,7 @@ export const ReconnectNotifications = () => {
       LogRocket.track("Reconnecting");
       notificationId = ToastManager.replaceToast(
         notificationId,
-        ToastConfig.RECONNECTING.single()
+        ToastConfig.RECONNECTING.single(notification.data.message)
       );
     }
   }, [notification]);

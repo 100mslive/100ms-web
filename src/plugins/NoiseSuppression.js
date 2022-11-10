@@ -1,13 +1,13 @@
-import { useCallback, useRef, useState, useEffect } from "react";
-import { ToastManager } from "../components/Toast/ToastManager";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  useHMSActions,
-  useHMSStore,
   selectIsLocalAudioPluginPresent,
   useDevices,
+  useHMSActions,
+  useHMSStore,
 } from "@100mslive/react-sdk";
 import { AudioLevelIcon } from "@100mslive/react-icons";
 import { Tooltip } from "@100mslive/react-ui";
+import { ToastManager } from "../components/Toast/ToastManager";
 import IconButton from "../IconButton";
 import { FeatureFlags } from "../services/FeatureFlags";
 
@@ -93,15 +93,15 @@ export const NoiseSuppression = () => {
 
   if (isNSSupported && FeatureFlags.showNS()) {
     return (
-      <Tooltip title={`Turn ${!pluginActive ? "on" : "off"} noise suppression`}>
+      <Tooltip title={`Turn ${pluginActive ? "off" : "on"} noise suppression`}>
         <IconButton
           active={!pluginActive}
           disabled={disable}
           onClick={async () => {
-            if (!pluginActive) {
-              await addPlugin();
-            } else {
+            if (pluginActive) {
               await removePlugin();
+            } else {
+              await addPlugin();
             }
           }}
           data-testid="noise_suppression_btn"

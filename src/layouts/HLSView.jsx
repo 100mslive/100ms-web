@@ -1,17 +1,23 @@
 import React, {
+  Fragment,
+  useCallback,
   useEffect,
   useRef,
-  Fragment,
   useState,
-  useCallback,
 } from "react";
+import { HlsStats } from "@100mslive/hls-stats";
 import Hls from "hls.js";
-import { useHMSStore, selectHLSState } from "@100mslive/react-sdk";
+import {
+  selectAppData,
+  selectHLSState,
+  useHMSActions,
+  useHMSStore,
+} from "@100mslive/react-sdk";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
-  SettingsIcon,
   RecordIcon,
+  SettingsIcon,
 } from "@100mslive/react-icons";
 import {
   Box,
@@ -22,12 +28,14 @@ import {
   Text,
   Tooltip,
 } from "@100mslive/react-ui";
+import { HlsStatsOverlay } from "../components/HlsStatsOverlay";
 import { ToastManager } from "../components/Toast/ToastManager";
 import {
-  HLSController,
   HLS_STREAM_NO_LONGER_LIVE,
   HLS_TIMED_METADATA_LOADED,
+  HLSController,
 } from "../controllers/hls/HLSController";
+import { APP_DATA } from "../common/constants";
 
 const HLSVideo = styled("video", {
   margin: "0 auto",
@@ -37,21 +45,27 @@ const HLSVideo = styled("video", {
 });
 
 let hlsController;
+let hlsStats;
+
 const HLSView = () => {
   const videoRef = useRef(null);
   const hlsState = useHMSStore(selectHLSState);
+  const enablHlsStats = useHMSStore(selectAppData(APP_DATA.hlsStats));
+  const hmsActions = useHMSActions();
+  let [hlsStatsState, setHlsStatsState] = useState(null);
   const hlsUrl = hlsState.variants[0]?.url;
   const [availableLevels, setAvailableLevels] = useState([]);
   const [isVideoLive, setIsVideoLive] = useState(true);
+
   const [currentSelectedQualityText, setCurrentSelectedQualityText] =
     useState("");
   const [qualityDropDownOpen, setQualityDropDownOpen] = useState(false);
-
   useEffect(() => {
-    if (videoRef.current && hlsUrl) {
+    let videoEl = videoRef.current;
+    if (videoEl && hlsUrl) {
       if (Hls.isSupported()) {
         hlsController = new HLSController(hlsUrl, videoRef);
-
+        hlsStats = new HlsStats(hlsController.getHlsJsInstance(), videoEl);
         hlsController.on(HLS_STREAM_NO_LONGER_LIVE, () => {
           setIsVideoLive(false);
         });
@@ -71,13 +85,31 @@ const HLSView = () => {
           setAvailableLevels(onlyVideoLevels);
           setCurrentSelectedQualityText("Auto");
         });
-      } else if (
-        videoRef.current.canPlayType("application/vnd.apple.mpegurl")
-      ) {
-        videoRef.current.src = hlsUrl;
+      } else if (videoEl.canPlayType("application/vnd.apple.mpegurl")) {
+        videoEl.src = hlsUrl;
       }
     }
+    return () => {
+      hlsStats = null;
+    };
   }, [hlsUrl]);
+
+  useEffect(() => {
+    if (!hlsStats) {
+      return;
+    }
+    let unsubscribe;
+    if (enablHlsStats) {
+      unsubscribe = hlsStats.subscribe(state => {
+        setHlsStatsState(state);
+      });
+    } else {
+      unsubscribe?.();
+    }
+    return () => {
+      unsubscribe?.();
+    };
+  }, [enablHlsStats]);
 
   useEffect(() => {
     if (hlsController) {
@@ -97,8 +129,18 @@ const HLSView = () => {
     [availableLevels] //eslint-disable-line
   );
 
+  const sfnOverlayClose = () => {
+    hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats);
+  };
+
   return (
     <Fragment>
+      {hlsStatsState?.url && enablHlsStats ? (
+        <HlsStatsOverlay
+          hlsStatsState={hlsStatsState}
+          onClose={sfnOverlayClose}
+        />
+      ) : null}
       {hlsUrl ? (
         <Flex css={{ flexDirection: "column", size: "100%", px: "$10" }}>
           <HLSVideo ref={videoRef} autoPlay controls playsInline />

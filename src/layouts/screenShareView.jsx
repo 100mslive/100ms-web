@@ -1,20 +1,20 @@
-import React, { useCallback, useMemo, Fragment } from "react";
+import React, { Fragment, useCallback, useMemo } from "react";
 import { useMedia } from "react-use";
 import {
-  useHMSStore,
+  selectLocalPeerID,
+  selectLocalPeerRoleName,
   selectPeers,
   selectPeerScreenSharing,
   selectPeerSharingVideoPlaylist,
   selectScreenShareByPeerID,
-  selectLocalPeerID,
-  selectLocalPeerRoleName,
+  useHMSStore,
 } from "@100mslive/react-sdk";
-import { Box, Flex, config as cssConfig } from "@100mslive/react-ui";
+import { Box, config as cssConfig, Flex } from "@100mslive/react-ui";
+import { VideoPlayer } from "../components/Playlist/VideoPlayer";
 import { ScreenshareDisplay } from "../components/ScreenshareDisplay";
 import ScreenshareTile from "../components/ScreenshareTile";
 import VideoList from "../components/VideoList";
 import VideoTile from "../components/VideoTile";
-import { VideoPlayer } from "../components/Playlist/VideoPlayer";
 
 const ScreenShareView = () => {
   // for smaller screen we will show sidebar in bottom

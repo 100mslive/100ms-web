@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { IconButton, Tooltip } from "@100mslive/react-ui";
 import { MusicIcon } from "@100mslive/react-icons";
-import { useWhenAloneInRoom } from "../../common/hooks";
+import { IconButton, Tooltip } from "@100mslive/react-ui";
 import { useSetUiSettings } from "../AppData/useUISettings";
+import { useWhenAloneInRoom } from "../../common/hooks";
 import { UI_SETTINGS } from "../../common/constants";
 
 const ambientMusicURL = process.env.REACT_APP_AMBIENT_MUSIC;

@@ -5,7 +5,7 @@
     "react-app",
     "react-app/jest"
   ],
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "simple-import-sort"],
   "rules": {
     "no-unused-vars": [
       "error",
@@ -33,6 +33,41 @@
       {
         "endOfLine": "auto" // This is need to handle different end-of-line in windows/mac
       }
+    ],
+    "import/first": "error",
+    "import/no-duplicates": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          [
+            // Packages `react` related packages come first.
+            "^react",
+            "^@?\\w",
+            // Internal packages.
+            "^@100mslive/react-sdk",
+            "^@100mslive/react-icons",
+            "^@100mslive/react-ui",
+            // Side effect imports.
+            "^\\u0000",
+            
+            "(components)",
+            // Other relative imports. Put same-folder imports and `.`.
+            "^\\./(?=.*/)(?!/?$)",
+            "^\\.(?!/?$)",
+            "^\\./?$",
+            "(plugins)",
+            "(components)?(.*)(/use.*)",
+            ".*(hooks)",
+            "(common)",
+            "(services)",
+            "(utils)",
+            "(constants)",
+            // Style imports.
+            "^.+\\.?(css)$"
+          ]
+        ]
+      }
     ]
   },
   "settings": {
@@ -41,5 +76,6 @@
         "extensions": [".js", ".jsx"]
       }
     }
-  }
+  },
+  "ignorePatterns": ["src/*.css", "src/images/*"]
 }

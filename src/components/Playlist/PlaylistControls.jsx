@@ -10,11 +10,11 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import {
-  PrevIcon,
   NextIcon,
-  PlayIcon,
   PauseIcon,
+  PlayIcon,
   PlaylistIcon,
+  PrevIcon,
   SpeakerIcon,
 } from "@100mslive/react-icons";
 import { Box, Flex, IconButton, Slider, Text } from "@100mslive/react-ui";

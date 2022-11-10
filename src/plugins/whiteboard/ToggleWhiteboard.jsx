@@ -1,5 +1,5 @@
-import { Tooltip } from "@100mslive/react-ui";
 import { PencilDrawIcon } from "@100mslive/react-icons";
+import { Tooltip } from "@100mslive/react-ui";
 import IconButton from "../../IconButton";
 import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
 

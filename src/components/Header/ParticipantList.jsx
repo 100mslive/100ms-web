@@ -12,28 +12,28 @@ import {
   useParticipants,
 } from "@100mslive/react-sdk";
 import {
-  CrossIcon,
   ChangeRoleIcon,
+  CrossIcon,
   HandRaiseIcon,
   PeopleIcon,
   SearchIcon,
-  VerticalMenuIcon,
   SpeakerIcon,
+  VerticalMenuIcon,
 } from "@100mslive/react-icons";
 import {
-  Flex,
-  Box,
-  Text,
   Avatar,
-  textEllipsis,
-  Input,
+  Box,
   Dropdown,
+  Flex,
+  Input,
   Slider,
+  Text,
+  textEllipsis,
 } from "@100mslive/react-ui";
-import { RoleChangeModal } from "../RoleChangeModal";
-import { ConnectionIndicator } from "../Connection/ConnectionIndicator";
-import { ParticipantFilter } from "./ParticipantFilter";
 import IconButton from "../../IconButton";
+import { ConnectionIndicator } from "../Connection/ConnectionIndicator";
+import { RoleChangeModal } from "../RoleChangeModal";
+import { ParticipantFilter } from "./ParticipantFilter";
 import {
   useIsSidepaneTypeOpen,
   useSidepaneToggle,

@@ -1,9 +1,9 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import LogRocket from "logrocket";
 import setupLogRocketReact from "logrocket-react";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
 if (
   process.env.NODE_ENV === "production" &&
