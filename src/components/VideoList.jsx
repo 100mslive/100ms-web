@@ -39,6 +39,7 @@ const List = ({
         {pagesWithTiles && pagesWithTiles.length > 0
           ? pagesWithTiles.map((tiles, pageNo) => (
               <StyledVideoList.View
+                key={pageNo}
                 css={{
                   left: getLeft(pageNo, page),
                   transition: "left 0.3s ease-in-out",
