@@ -178,7 +178,6 @@ const useTracksWithLabel = () => {
       }, []),
     [tracksMap, peersMap, localPeerID]
   );
-  console.error({ tracksWithLabels });
   return tracksWithLabels;
 };
 
