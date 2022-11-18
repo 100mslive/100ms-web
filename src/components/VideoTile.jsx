@@ -28,7 +28,7 @@ import { useAppConfig } from "./AppData/useAppConfig";
 import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
 
-const Tile = ({ peerId, trackId, width, height }) => {
+const Tile = ({ peerId, trackId, width, height, visible }) => {
   const trackSelector = trackId
     ? selectVideoTrackByID(trackId)
     : selectVideoTrackByPeerID(peerId);
@@ -62,6 +62,7 @@ const Tile = ({ peerId, trackId, width, height }) => {
         width,
         height,
         padding: getPadding({ isHeadless, offset: headlessConfig?.tileOffset }),
+        visibility: visible ? "visible" : "hidden",
       }}
       data-testid={`participant_tile_${peerName}`}
     >
@@ -101,6 +102,7 @@ const Tile = ({ peerId, trackId, width, height }) => {
                 track?.facingMode !== "environment"
               }
               degraded={isVideoDegraded}
+              visible={visible}
               data-testid="participant_video_tile"
             />
           ) : null}
