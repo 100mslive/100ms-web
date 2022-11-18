@@ -96,6 +96,7 @@ const Tile = ({ peerId, trackId, width, height, visible }) => {
                 track?.facingMode !== "environment"
               }
               degraded={isVideoDegraded}
+              visible={visible}
               data-testid="participant_video_tile"
             />
           ) : null}
