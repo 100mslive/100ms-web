@@ -44,7 +44,13 @@ const TileMenu = ({
   const { sendEvent } = useCustomEvent({
     type: REMOTE_STOP_SCREENSHARE_TYPE,
   });
-  if (!(removeOthers || toggleAudio || toggleVideo || setVolume)) {
+  const track = useHMSStore(selectTrackByID(videoTrackID));
+  const hideSimulcastLayers =
+    !track?.layerDefinitions?.length || track.degraded || !track.enabled;
+  if (
+    !(removeOthers || toggleAudio || toggleVideo || setVolume) &&
+    hideSimulcastLayers
+  ) {
     return null;
   }
   return (
