@@ -10,14 +10,6 @@ RUN yarn install
 
 ENV NODE_ENV production
 
-# Build the app
-RUN yarn build
-
-# Bundle static assets with nginx
-FROM nginx:1.23.1-alpine AS production
-# Copy built assets from builder
-COPY --from=builder /100ms-web/build /usr/share/nginx/html
-
 # set environment variables.
 # These are the bare minimum needed for running
 # the app. Feel free to add more as per your needs.
@@ -36,6 +28,14 @@ ENV REACT_APP_ENABLE_STATS_FOR_NERDS='false'
 ENV REACT_APP_PUSHER_APP_KEY=''
 ENV REACT_APP_PUSHER_AUTHENDPOINT=''
 ENV REACT_APP_HEADLESS_JOIN='false'
+
+# Build the app
+RUN yarn build
+
+# Bundle static assets with nginx
+FROM nginx:1.23.1-alpine AS production
+# Copy built assets from builder
+COPY --from=builder /100ms-web/build /usr/share/nginx/html
 
 # Add your nginx.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
