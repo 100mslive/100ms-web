@@ -20,7 +20,6 @@ import {
   VideoOnIcon,
 } from "@100mslive/react-icons";
 import { Box, Flex, Slider, StyledMenuTile, Text } from "@100mslive/react-ui";
-import { ChatDotIcon } from "./Chat/ChatDotIcon";
 import { useSetAppDataByKey } from "./AppData/useUISettings";
 import { useDropdownSelection } from "./hooks/useDropdownSelection";
 import { APP_DATA, REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";
@@ -162,8 +161,16 @@ const SimulcastLayers = ({ trackId }) => {
   if (!track?.layerDefinitions || track.degraded || !track.enabled) {
     return null;
   }
+  const currentLayer = track.layerDefinitions.find(
+    layer => layer.layer === track.layer
+  );
   return (
     <Fragment>
+      <StyledMenuTile.ItemButton
+        css={{ color: "$textMedEmp", cursor: "default" }}
+      >
+        Select maximum resolution
+      </StyledMenuTile.ItemButton>
       {track.layerDefinitions.map(layer => {
         return (
           <StyledMenuTile.ItemButton
@@ -172,25 +179,52 @@ const SimulcastLayers = ({ trackId }) => {
               await actions.setPreferredLayer(trackId, layer.layer);
             }}
             css={{
+              justifyContent: "space-between",
               bg: track.expectedLayer === layer.layer ? bg : undefined,
               "&:hover": {
                 bg: track.expectedLayer === layer.layer ? bg : undefined,
               },
             }}
           >
-            <ChatDotIcon
+            <Text
+              as="span"
               css={{
-                visibility: layer.layer === track.layer ? "visible" : "hidden",
+                textTransform: "capitalize",
                 mr: "$2",
+                fontWeight:
+                  track.expectedLayer === layer.layer
+                    ? "$semiBold"
+                    : "$regular",
               }}
-            />
-            <Text as="span" css={{ textTransform: "capitalize", mr: "$2" }}>
+            >
               {layer.layer}
             </Text>
-            ({layer.resolution.width}x{layer.resolution.height})
+            <Text as="span" variant="xs" css={{ color: "$textMedEmp" }}>
+              {layer.resolution.width}x{layer.resolution.height}
+            </Text>
           </StyledMenuTile.ItemButton>
         );
       })}
+      {currentLayer && (
+        <StyledMenuTile.ItemButton>
+          <Text as="span" variant="xs" css={{ color: "$textMedEmp" }}>
+            Currently streaming:
+            <Text
+              as="span"
+              variant="xs"
+              css={{
+                fontWeight: "$semiBold",
+                textTransform: "capitalize",
+                color: "$textMedEmp",
+                ml: "$2",
+              }}
+            >
+              {track.layer} ({currentLayer.resolution.width}x
+              {currentLayer.resolution.height})
+            </Text>
+          </Text>
+        </StyledMenuTile.ItemButton>
+      )}
     </Fragment>
   );
 };
