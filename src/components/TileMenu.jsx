@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import {
   selectPermissions,
   selectTrackByID,
+  selectVideoTrackByPeerID,
   useCustomEvent,
   useHMSActions,
   useHMSStore,
@@ -11,6 +12,7 @@ import {
   HorizontalMenuIcon,
   MicOffIcon,
   MicOnIcon,
+  PinIcon,
   RemoveUserIcon,
   ShareScreenIcon,
   SpeakerIcon,
@@ -19,8 +21,9 @@ import {
 } from "@100mslive/react-icons";
 import { Box, Flex, Slider, StyledMenuTile, Text } from "@100mslive/react-ui";
 import { ChatDotIcon } from "./Chat/ChatDotIcon";
+import { useSetAppDataByKey } from "./AppData/useUISettings";
 import { useDropdownSelection } from "./hooks/useDropdownSelection";
-import { REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";
+import { APP_DATA, REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";
 
 /**
  * Taking peerID as peer won't necesarilly have tracks
@@ -44,11 +47,24 @@ const TileMenu = ({
   const { sendEvent } = useCustomEvent({
     type: REMOTE_STOP_SCREENSHARE_TYPE,
   });
+  const [pinnedTrackId, setPinnedTrackId] = useSetAppDataByKey(
+    APP_DATA.pinnedTrackId
+  );
+  const isTilePinned = videoTrackID === pinnedTrackId;
+  const isPrimaryVideoTrack =
+    useHMSStore(selectVideoTrackByPeerID(peerID))?.id === videoTrackID;
+
   const track = useHMSStore(selectTrackByID(videoTrackID));
   const hideSimulcastLayers =
     !track?.layerDefinitions?.length || track.degraded || !track.enabled;
   if (
-    !(removeOthers || toggleAudio || toggleVideo || setVolume) &&
+    !(
+      removeOthers ||
+      toggleAudio ||
+      toggleVideo ||
+      setVolume ||
+      isPrimaryVideoTrack
+    ) &&
     hideSimulcastLayers
   ) {
     return null;
@@ -101,6 +117,16 @@ const TileMenu = ({
             />
           </StyledMenuTile.VolumeItem>
         ) : null}
+        {isPrimaryVideoTrack && (
+          <StyledMenuTile.ItemButton
+            onClick={() =>
+              isTilePinned ? setPinnedTrackId() : setPinnedTrackId(videoTrackID)
+            }
+          >
+            <PinIcon />
+            <span>{`${isTilePinned ? "Unpin" : "Pin"}`} Tile</span>
+          </StyledMenuTile.ItemButton>
+        )}
         <SimulcastLayers trackId={videoTrackID} />
         {removeOthers ? (
           <StyledMenuTile.RemoveItem
