@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import {
+  selectLocalPeerID,
   selectPermissions,
   selectTrackByID,
   selectVideoTrackByPeerID,
@@ -34,6 +35,8 @@ const TileMenu = ({
   isScreenshare = false,
 }) => {
   const actions = useHMSActions();
+  const localPeerID = useHMSStore(selectLocalPeerID);
+  const isLocal = localPeerID === peerID;
   const { removeOthers } = useHMSStore(selectPermissions);
   const {
     isAudioEnabled,
@@ -68,55 +71,14 @@ const TileMenu = ({
   ) {
     return null;
   }
+
   return (
     <StyledMenuTile.Root>
       <StyledMenuTile.Trigger data-testid="participant_menu_btn">
         <HorizontalMenuIcon />
       </StyledMenuTile.Trigger>
       <StyledMenuTile.Content side="top" align="end">
-        {toggleVideo ? (
-          <StyledMenuTile.ItemButton
-            onClick={toggleVideo}
-            data-testid={
-              isVideoEnabled
-                ? "mute_video_participant_btn"
-                : "unmute_video_participant_btn"
-            }
-          >
-            {isVideoEnabled ? <VideoOnIcon /> : <VideoOffIcon />}
-            <span>{`${isVideoEnabled ? "Mute" : "Request Unmute"}`}</span>
-          </StyledMenuTile.ItemButton>
-        ) : null}
-        {toggleAudio ? (
-          <StyledMenuTile.ItemButton
-            onClick={toggleAudio}
-            data-testid={
-              isVideoEnabled
-                ? "mute_audio_participant_btn"
-                : "unmute_audio_participant_btn"
-            }
-          >
-            {isAudioEnabled ? <MicOnIcon /> : <MicOffIcon />}
-            <span>{`${isAudioEnabled ? "Mute" : "Request Unmute"}`}</span>
-          </StyledMenuTile.ItemButton>
-        ) : null}
-        {audioTrackID ? (
-          <StyledMenuTile.VolumeItem data-testid="participant_volume_slider">
-            <Flex align="center" gap={1}>
-              <SpeakerIcon />
-              <Box as="span" css={{ ml: "$4" }}>
-                Volume ({volume})
-              </Box>
-            </Flex>
-            <Slider
-              css={{ my: "0.5rem" }}
-              step={5}
-              value={[volume]}
-              onValueChange={e => setVolume(e[0])}
-            />
-          </StyledMenuTile.VolumeItem>
-        ) : null}
-        {isPrimaryVideoTrack && (
+        {isLocal ? (
           <StyledMenuTile.ItemButton
             onClick={() =>
               isTilePinned ? setPinnedTrackId() : setPinnedTrackId(videoTrackID)
@@ -125,30 +87,87 @@ const TileMenu = ({
             <PinIcon />
             <span>{`${isTilePinned ? "Unpin" : "Pin"}`} Tile</span>
           </StyledMenuTile.ItemButton>
-        )}
-        <SimulcastLayers trackId={videoTrackID} />
-        {removeOthers ? (
-          <StyledMenuTile.RemoveItem
-            onClick={async () => {
-              try {
-                await actions.removePeer(peerID, "");
-              } catch (error) {
-                // TODO: Toast here
-              }
-            }}
-            data-testid="remove_participant_btn"
-          >
-            <RemoveUserIcon />
-            <span>Remove Participant</span>
-          </StyledMenuTile.RemoveItem>
-        ) : null}
+        ) : (
+          <>
+            {toggleVideo ? (
+              <StyledMenuTile.ItemButton
+                onClick={toggleVideo}
+                data-testid={
+                  isVideoEnabled
+                    ? "mute_video_participant_btn"
+                    : "unmute_video_participant_btn"
+                }
+              >
+                {isVideoEnabled ? <VideoOnIcon /> : <VideoOffIcon />}
+                <span>{`${isVideoEnabled ? "Mute" : "Request Unmute"}`}</span>
+              </StyledMenuTile.ItemButton>
+            ) : null}
+            {toggleAudio ? (
+              <StyledMenuTile.ItemButton
+                onClick={toggleAudio}
+                data-testid={
+                  isVideoEnabled
+                    ? "mute_audio_participant_btn"
+                    : "unmute_audio_participant_btn"
+                }
+              >
+                {isAudioEnabled ? <MicOnIcon /> : <MicOffIcon />}
+                <span>{`${isAudioEnabled ? "Mute" : "Request Unmute"}`}</span>
+              </StyledMenuTile.ItemButton>
+            ) : null}
+            {audioTrackID ? (
+              <StyledMenuTile.VolumeItem data-testid="participant_volume_slider">
+                <Flex align="center" gap={1}>
+                  <SpeakerIcon />
+                  <Box as="span" css={{ ml: "$4" }}>
+                    Volume ({volume})
+                  </Box>
+                </Flex>
+                <Slider
+                  css={{ my: "0.5rem" }}
+                  step={5}
+                  value={[volume]}
+                  onValueChange={e => setVolume(e[0])}
+                />
+              </StyledMenuTile.VolumeItem>
+            ) : null}
+            {isPrimaryVideoTrack && (
+              <StyledMenuTile.ItemButton
+                onClick={() =>
+                  isTilePinned
+                    ? setPinnedTrackId()
+                    : setPinnedTrackId(videoTrackID)
+                }
+              >
+                <PinIcon />
+                <span>{`${isTilePinned ? "Unpin" : "Pin"}`} Tile</span>
+              </StyledMenuTile.ItemButton>
+            )}
+            <SimulcastLayers trackId={videoTrackID} />
+            {removeOthers ? (
+              <StyledMenuTile.RemoveItem
+                onClick={async () => {
+                  try {
+                    await actions.removePeer(peerID, "");
+                  } catch (error) {
+                    // TODO: Toast here
+                  }
+                }}
+                data-testid="remove_participant_btn"
+              >
+                <RemoveUserIcon />
+                <span>Remove Participant</span>
+              </StyledMenuTile.RemoveItem>
+            ) : null}
 
-        {removeOthers && isScreenshare ? (
-          <StyledMenuTile.RemoveItem onClick={() => sendEvent({})}>
-            <ShareScreenIcon />
-            <span>Stop Screenshare</span>
-          </StyledMenuTile.RemoveItem>
-        ) : null}
+            {removeOthers && isScreenshare ? (
+              <StyledMenuTile.RemoveItem onClick={() => sendEvent({})}>
+                <ShareScreenIcon />
+                <span>Stop Screenshare</span>
+              </StyledMenuTile.RemoveItem>
+            ) : null}
+          </>
+        )}
       </StyledMenuTile.Content>
     </StyledMenuTile.Root>
   );

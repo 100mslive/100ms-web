@@ -117,7 +117,7 @@ const Tile = ({ peerId, trackId, width, height, visible }) => {
               <MicOffIcon />
             </StyledVideoTile.AudioIndicator>
           ) : null}
-          {isMouseHovered && !isHeadless && !isLocal ? (
+          {isMouseHovered && !isHeadless ? (
             <TileMenu
               peerID={peerId}
               audioTrackID={audioTrack?.id}
