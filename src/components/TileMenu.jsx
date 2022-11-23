@@ -199,9 +199,9 @@ const SimulcastLayers = ({ trackId }) => {
             }}
             css={{
               justifyContent: "space-between",
-              bg: track.expectedLayer === layer.layer ? bg : undefined,
+              bg: track.preferredLayer === layer.layer ? bg : undefined,
               "&:hover": {
-                bg: track.expectedLayer === layer.layer ? bg : undefined,
+                bg: track.preferredLayer === layer.layer ? bg : undefined,
               },
             }}
           >
@@ -211,7 +211,7 @@ const SimulcastLayers = ({ trackId }) => {
                 textTransform: "capitalize",
                 mr: "$2",
                 fontWeight:
-                  track.expectedLayer === layer.layer
+                  track.preferredLayer === layer.layer
                     ? "$semiBold"
                     : "$regular",
               }}
