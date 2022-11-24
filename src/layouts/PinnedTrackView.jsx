@@ -46,7 +46,6 @@ const PinnedPeerView = () => {
           peerId={pinnedTrack.peerId}
           height={finalHeight}
           width={finalWidth}
-          visible={true}
         />
       </Flex>
       {showSidePane && (
