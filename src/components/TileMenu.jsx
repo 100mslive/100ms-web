@@ -179,7 +179,7 @@ const SimulcastLayers = ({ trackId }) => {
   const track = useHMSStore(selectTrackByID(trackId));
   const actions = useHMSActions();
   const bg = useDropdownSelection();
-  if (!track?.layerDefinitions || track.degraded || !track.enabled) {
+  if (!track?.layerDefinitions?.length || track.degraded || !track.enabled) {
     return null;
   }
   const currentLayer = track.layerDefinitions.find(
