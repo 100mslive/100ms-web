@@ -32,9 +32,9 @@ const PinnedPeerView = () => {
       <Flex
         css={{
           flex: "1 1 0",
-          height: "100%",
           p: "$8",
           minHeight: 0,
+          minWidth: 0,
           justifyContent: "center",
           alignItems: "center",
         }}
