@@ -9,7 +9,7 @@ import { usePinnedTrack } from "../components/AppData/useUISettings";
 const PinnedPeerView = () => {
   const { aspectRatio } = useTheme();
   const pinnedTrack = usePinnedTrack();
-  const [ref, { height }] = useMeasure();
+  const [ref, { height, width }] = useMeasure();
   const peers = (useHMSStore(selectPeers) || []).filter(
     peer =>
       peer.videoTrack || peer.audioTrack || peer.auxiliaryTracks.length > 0
@@ -19,15 +19,24 @@ const PinnedPeerView = () => {
   }
   const showSidePane = pinnedTrack && peers.length > 1;
 
+  let finalWidth = (aspectRatio.width / aspectRatio.height) * height;
+  let finalHeight = height;
+
+  if (finalWidth > width) {
+    finalWidth = width;
+    finalHeight = (aspectRatio.height / aspectRatio.width) * width;
+  }
+
   return (
     <Flex css={{ size: "100%", "@lg": { flexDirection: "column" } }}>
       <Flex
         css={{
           flex: "1 1 0",
           height: "100%",
-          mx: "$8",
+          p: "$8",
           minHeight: 0,
           justifyContent: "center",
+          alignItems: "center",
         }}
         ref={ref}
       >
@@ -35,8 +44,8 @@ const PinnedPeerView = () => {
           key={pinnedTrack.id}
           trackId={pinnedTrack.id}
           peerId={pinnedTrack.peerId}
-          height={height}
-          width={(aspectRatio.width / aspectRatio.height) * height}
+          height={finalHeight}
+          width={finalWidth}
           visible={true}
         />
       </Flex>
