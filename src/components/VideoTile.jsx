@@ -28,7 +28,7 @@ import { useAppConfig } from "./AppData/useAppConfig";
 import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
 
-const Tile = ({ peerId, trackId, width, height, visible }) => {
+const Tile = ({ peerId, trackId, width, height, visible = true }) => {
   const trackSelector = trackId
     ? selectVideoTrackByID(trackId)
     : selectVideoTrackByPeerID(peerId);
@@ -76,18 +76,12 @@ const Tile = ({ peerId, trackId, width, height, visible }) => {
               : borderAudioRef
           }
         >
-          <TileConnection
-            hideLabel={hideLabel}
-            name={label}
-            isTile
-            peerId={peerId}
-            width={width}
-          />
           {showStatsOnTiles ? (
             <VideoTileStats
               audioTrackID={audioTrack?.id}
               videoTrackID={track?.id}
               peerID={peerId}
+              isLocal={isLocal}
             />
           ) : null}
 
@@ -102,18 +96,17 @@ const Tile = ({ peerId, trackId, width, height, visible }) => {
                 track?.facingMode !== "environment"
               }
               degraded={isVideoDegraded}
-              visible={visible}
               data-testid="participant_video_tile"
             />
           ) : null}
-          <StyledVideoTile.AvatarContainer>
-            {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (
+          {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (
+            <StyledVideoTile.AvatarContainer>
               <Avatar
                 name={peerName || ""}
                 data-testid="participant_avatar_icon"
               />
-            ) : null}
-          </StyledVideoTile.AvatarContainer>
+            </StyledVideoTile.AvatarContainer>
+          ) : null}
 
           {showAudioMuted({
             hideTileAudioMute: headlessConfig?.hideTileAudioMute,
@@ -124,7 +117,7 @@ const Tile = ({ peerId, trackId, width, height, visible }) => {
               <MicOffIcon />
             </StyledVideoTile.AudioIndicator>
           ) : null}
-          {isMouseHovered && !isHeadless && !isLocal ? (
+          {isMouseHovered && !isHeadless ? (
             <TileMenu
               peerID={peerId}
               audioTrackID={audioTrack?.id}
@@ -132,6 +125,13 @@ const Tile = ({ peerId, trackId, width, height, visible }) => {
             />
           ) : null}
           <PeerMetadata peerId={peerId} />
+          <TileConnection
+            hideLabel={hideLabel}
+            name={label}
+            isTile
+            peerId={peerId}
+            width={width}
+          />
         </StyledVideoTile.Container>
       ) : null}
     </StyledVideoTile.Root>
