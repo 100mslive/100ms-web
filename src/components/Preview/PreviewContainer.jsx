@@ -1,5 +1,5 @@
 import React from "react";
-import { styled, flexCenter } from "@100mslive/react-ui";
+import { flexCenter, styled } from "@100mslive/react-ui";
 import PreviewJoin from "./PreviewJoin";
 
 const PreviewContainer = ({ token, onJoin, env, skipPreview, initialName }) => {

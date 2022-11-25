@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import {
   selectAppData,
   selectAppDataByPath,
+  selectTrackByID,
   useHMSActions,
   useHMSStore,
   useHMSVanillaStore,
@@ -70,6 +71,15 @@ export const useTokenEndpoint = () => {
 
 export const useLogo = () => {
   return useHMSStore(selectAppData(APP_DATA.logo));
+};
+
+export const useUrlToEmbed = () => {
+  return useHMSStore(selectAppData(APP_DATA.embedConfig))?.url;
+};
+
+export const usePinnedTrack = () => {
+  const pinnedTrackId = useHMSStore(selectAppData(APP_DATA.pinnedTrackId));
+  return useHMSStore(selectTrackByID(pinnedTrackId));
 };
 
 export const useSubscribedNotifications = notificationKey => {

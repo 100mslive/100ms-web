@@ -1,27 +1,27 @@
 import React, { Fragment, useState } from "react";
-import { MusicIcon } from "@100mslive/react-icons";
 import {
   HMSPlaylistType,
   selectIsAllowedToPublish,
   useHMSStore,
   useScreenShare,
 } from "@100mslive/react-sdk";
-import { Flex, Tooltip, Footer as AppFooter } from "@100mslive/react-ui";
+import { MusicIcon } from "@100mslive/react-icons";
+import { Flex, Footer as AppFooter, Tooltip } from "@100mslive/react-ui";
+import { Playlist } from "../../components/Playlist/Playlist";
+import IconButton from "../../IconButton";
 import { AudioVideoToggle } from "../AudioVideoToggle";
 import { LeaveRoom } from "../LeaveRoom";
+import MetaActions from "../MetaActions";
 import { MoreSettings } from "../MoreSettings/MoreSettings";
+import PIPComponent from "../PIP/PIPComponent";
 import { ScreenshareToggle } from "../ScreenShare";
 import { ScreenShareHintModal } from "../ScreenshareHintModal";
-import IconButton from "../../IconButton";
-import PIPComponent from "../PIP/PIPComponent";
-import MetaActions from "../MetaActions";
 import { ChatToggle } from "./ChatToggle";
-import { Playlist } from "../../components/Playlist/Playlist";
 import { NoiseSuppression } from "../../plugins/NoiseSuppression";
-import { ToggleWhiteboard } from "../../plugins/whiteboard";
 import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
-import { FeatureFlags } from "../../services/FeatureFlags";
+import { ToggleWhiteboard } from "../../plugins/whiteboard";
 import { isScreenshareSupported } from "../../common/utils";
+import { FeatureFlags } from "../../services/FeatureFlags";
 
 const TranscriptionButton = React.lazy(() =>
   import("../../plugins/transcription")
@@ -50,7 +50,7 @@ const ScreenshareAudio = () => {
           active={!isAudioScreenshare}
           onClick={() => {
             if (amIScreenSharing) {
-              toggleScreenShare(true);
+              toggleScreenShare();
             } else {
               setShowModal(true);
             }

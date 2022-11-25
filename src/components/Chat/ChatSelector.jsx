@@ -1,12 +1,12 @@
-import React, { Fragment, useState, useMemo } from "react";
+import React, { Fragment, useMemo, useState } from "react";
 import { useMeasure } from "react-use";
 import { FixedSizeList } from "react-window";
 import {
-  selectRemotePeers,
-  useHMSStore,
-  selectUnreadHMSMessagesCount,
-  selectMessagesUnreadCountByRole,
   selectMessagesUnreadCountByPeerID,
+  selectMessagesUnreadCountByRole,
+  selectRemotePeers,
+  selectUnreadHMSMessagesCount,
+  useHMSStore,
 } from "@100mslive/react-sdk";
 import { CheckIcon } from "@100mslive/react-icons";
 import {
@@ -17,9 +17,14 @@ import {
   Text,
   Tooltip,
 } from "@100mslive/react-ui";
-import { ChatDotIcon } from "./ChatDotIcon";
 import { ParticipantSearch } from "../Header/ParticipantList";
 import { useFilteredRoles } from "../../common/hooks";
+
+const ChatDotIcon = () => {
+  return (
+    <Box css={{ size: "$6", bg: "$brandDefault", mx: "$2", r: "$round" }} />
+  );
+};
 
 const SelectorItem = ({ value, active, onClick, unreadCount }) => {
   return (

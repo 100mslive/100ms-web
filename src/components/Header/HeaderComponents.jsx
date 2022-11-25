@@ -6,12 +6,12 @@ import {
 } from "@100mslive/react-sdk";
 import { VolumeOneIcon } from "@100mslive/react-icons";
 import {
+  config as cssConfig,
   Flex,
   styled,
   Text,
   textEllipsis,
   useTheme,
-  config as cssConfig,
 } from "@100mslive/react-ui";
 import { useLogo } from "../AppData/useUISettings";
 import { isStreamingKit } from "../../common/utils";

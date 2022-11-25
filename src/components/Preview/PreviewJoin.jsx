@@ -1,38 +1,38 @@
-import React, { useEffect, useCallback, useState, Fragment } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import {
-  usePreviewJoin,
-  selectLocalPeer,
-  useHMSStore,
   selectIsLocalVideoEnabled,
-  useAVToggle,
+  selectLocalPeer,
   selectVideoTrackByID,
+  useAVToggle,
+  useHMSStore,
+  usePreviewJoin,
 } from "@100mslive/react-sdk";
+import { SettingsIcon } from "@100mslive/react-icons";
 import {
-  styled,
-  flexCenter,
-  Text,
-  StyledVideoTile,
-  Loading,
-  Video,
-  useBorderAudioLevel,
-  useTheme,
   Avatar,
   Flex,
+  flexCenter,
+  Loading,
+  styled,
+  StyledVideoTile,
+  Text,
   textEllipsis,
+  useBorderAudioLevel,
+  useTheme,
+  Video,
 } from "@100mslive/react-ui";
-import { SettingsIcon } from "@100mslive/react-icons";
-import { AudioVideoToggle } from "../AudioVideoToggle";
-import SettingsModal from "../Settings/SettingsModal";
-import TileConnection from "../Connection/TileConnection";
-import PreviewName from "./PreviewName";
 import IconButton from "../../IconButton";
+import { AudioVideoToggle } from "../AudioVideoToggle";
+import TileConnection from "../Connection/TileConnection";
+import SettingsModal from "../Settings/SettingsModal";
+import PreviewName from "./PreviewName";
 import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
-import {
-  useUserPreferences,
-  UserPreferencesKeys,
-  defaultPreviewPreference,
-} from "../hooks/useUserPreferences";
 import { useUISettings } from "../AppData/useUISettings";
+import {
+  defaultPreviewPreference,
+  UserPreferencesKeys,
+  useUserPreferences,
+} from "../hooks/useUserPreferences";
 import { UI_SETTINGS } from "../../common/constants";
 
 const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {

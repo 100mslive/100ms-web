@@ -8,11 +8,11 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { ArrowRightIcon, CheckIcon, PersonIcon } from "@100mslive/react-icons";
-import { Dropdown, Text, config } from "@100mslive/react-ui";
+import { config, Dropdown, Text } from "@100mslive/react-ui";
 import { ToastManager } from "../Toast/ToastManager";
 import { useAppLayout } from "../AppData/useAppLayout";
-import { arrayIntersection } from "../../common/utils";
 import { useFilteredRoles } from "../../common/hooks";
+import { arrayIntersection } from "../../common/utils";
 
 export const ChangeSelfRole = ({ onClick }) => {
   const roles = useFilteredRoles();

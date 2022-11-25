@@ -2,12 +2,12 @@ import React, { useCallback, useState } from "react";
 import { useHMSActions } from "@100mslive/react-sdk";
 import { MicOffIcon } from "@100mslive/react-icons";
 import {
-  Dialog,
-  Text,
   Button,
-  RadioGroup,
+  Dialog,
   Flex,
   Label,
+  RadioGroup,
+  Text,
 } from "@100mslive/react-ui";
 import {
   DialogContent,
