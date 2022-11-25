@@ -2,31 +2,31 @@
 # yarn lockfile v1
 
 
-"@100mslive/hls-stats@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hls-stats/-/hls-stats-0.0.1.tgz#9204c0dd41535e73f6879be3cb019f070cf8ec67"
-  integrity sha512-HyOkt1bIAy38vKMaqJybHq6nNAede9A0UjNNJon7C0gRPONVcBVjLCbws9Kq2xk6e7nK9dVGY1IxxTVMssqkkg==
+"@100mslive/hls-stats@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@100mslive/hls-stats/-/hls-stats-0.0.2.tgz#d2d20c601fe748fa6ad0b06ef2e82443803a1401"
+  integrity sha512-qsbcAc1QMDCkXWkRQ8ShiYlT3FtuUjHgWIvcZBRagDDSWNMdajBx2sLuV2H7vOw+aHxRTuwlV87NSjQXPd0yxA==
 
-"@100mslive/hms-noise-suppression@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.6.0.tgz#112567df28551a2fec6ba65d9e2f90f1278453bd"
-  integrity sha512-Ynnpa1Y5UgvGnikpH3jHPPolM0y+7EujDJH4mpjlFdtS/qFHMm2Ga3P5kGxjNoQeGjA3SV+dbteaJNTeIqK9kg==
-
-"@100mslive/hms-video-store@0.7.0":
+"@100mslive/hms-noise-suppression@0.7.0":
   version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.7.0.tgz#7720871131bffde4d593b97131d8efe23fea9dfa"
-  integrity sha512-x7f/pR5JWJWlBUT1PVuLKW5PEov+CdflrI8fxV8gpqmNR+UCxVh22OnpAFQrhGb4YzKCNZ+D0qUUgYKu+0RXnA==
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.7.0.tgz#3e8ae6a287830b5f31c164d8fa17b7c258f76bf3"
+  integrity sha512-g9kyy1UZ1XjtOUMd/XNYyUsJ7oNqIdQPORsN3r9lCd0FANaKI0Vkw76WG2PmrORyCkoujnr5DMhEwHev1eqi5A==
+
+"@100mslive/hms-video-store@0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.8.0.tgz#c30007c20a05885c560f1e97188c4bf89afad8a8"
+  integrity sha512-84RFIfop3SEKGUmXH7GhLLwGc7TpEkg80Eqse4BCSA//3fltv6/HE1+WuIKczWMpXcTUhWMie4VIyZGfb0FqYg==
   dependencies:
-    "@100mslive/hms-video" "0.6.0"
+    "@100mslive/hms-video" "0.7.0"
     eventemitter2 "^6.4.7"
     immer "^9.0.6"
     reselect "4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.6.0.tgz#ecddbb1110d9719813b4b1686303a98b7dc663e3"
-  integrity sha512-kdSF8ffoYqnuWJQI93PeGDOwdCiUOrOsODYfKIWQ85c4WSY6go6GpIsulfnd45jCUP0pypDpjL29B9TQiUnbeQ==
+"@100mslive/hms-video@0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.7.0.tgz#8053c46f02df0603fe0ba0ef673a72978f3766ba"
+  integrity sha512-bEjn0oYYEdx/O4Emfmzmp06sos96QlEmtJMQfBRrVMH7fgaZlrt0lD/6KZoprC9ax0NmmmeoUK0v59UynNpnMg==
   dependencies:
     eventemitter2 "^6.4.7"
     sdp-transform "^2.14.1"
@@ -34,40 +34,43 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.8.0.tgz#6c726ff32d22b9b7c757574c47a944b51ff1d6b5"
-  integrity sha512-oyh2Xrshb9musu/y4ItwXhB95AsVF0QzNW/FMcVfhbPJuINoRFICnhO+KBRQcL25B+tr/u6G8htqnPnFvNXtTQ==
+"@100mslive/hms-virtual-background@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.9.0.tgz#321580bfafabcb43f266fc87e26aa78c13d19c64"
+  integrity sha512-rTdgfPDSVJQ2y2R2+lVUd5axpxp83QY7HP3H61WostV14u4Qsq+hgd92Vbac1cFDPYDOUSZ5gucgsaeGt+Ugsg==
   dependencies:
+    "@mediapipe/selfie_segmentation" "^0.1.1632777926"
+    "@tensorflow-models/body-segmentation" "^1.0.1"
     "@tensorflow/tfjs-backend-webgl" "^3.3.0"
-    "@tensorflow/tfjs-core" "^3.3.0"
+    "@tensorflow/tfjs-converter" "^3.19.0"
+    "@tensorflow/tfjs-core" "^3.19.0"
     "@webassemblyjs/helper-wasm-bytecode" "1.11.1"
     "@webassemblyjs/wasm-gen" "1.11.1"
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.5.0.tgz#cacbf9bb25d607a5409fa82e6bb6d0574b65c4bb"
-  integrity sha512-K64/iUrdMyiV7VVKwcD5siXrr40SgAPXvhEm5VEnRiqiIR8MUQV3WO5zoDM1AuMPpSbJCt8aWGvgW8YHqtqzgQ==
+"@100mslive/react-icons@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.6.0.tgz#ec34be7e5427b9667908a429c128cb3d3c8b0b8a"
+  integrity sha512-4Y1s7FjktBvxDvtqbqNgjtRfDxnMENY7m5aAwcFXNWlCL4vU9+TQxy7nOEiFruukSthfMXXEh3PtV/2d5jAt1Q==
 
-"@100mslive/react-sdk@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.5.0.tgz#90693835f7b2dac46278165e270b814b7bcf5542"
-  integrity sha512-dPQHEes18hFaphqXnZOby52DWDENOExVGxFRiz15/tXxUK7hP/EnEZ3+yAN0+X9WWs544/iToV/mh4rGY1lpyw==
+"@100mslive/react-sdk@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.6.0.tgz#db3d7b0bdcc0e6f6432bd2472289281a5698bde9"
+  integrity sha512-sxq2oaf25GvRkpNC0VNEPvKXGMPC9n8p5tbh5kezxsuF3xJcyZHzShXekzyRxw005sJQZrNp3w1k8AMP9mEE0w==
   dependencies:
-    "@100mslive/hms-video-store" "0.7.0"
+    "@100mslive/hms-video-store" "0.8.0"
     react-intersection-observer "^8.33.1"
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.5.0.tgz#2cf175e213dd033488b231edad7e155962911ba1"
-  integrity sha512-ahSreFQqxJL3/QxBYF/5fPQEmEnlEsCpKf832B4WSf6tlba5ZotAzv/9W+DD8FcedtfDWM47UwXd1Oybqjzflw==
+"@100mslive/react-ui@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.6.0.tgz#21252b9dd40a2a1f11465085733bb679c22dfcc9"
+  integrity sha512-qwptIle+iALK1tVjF3dqqE6FS0eMEy88mhkFhYbeHlM7AlRE8a2lLlRgv0BUUsIetsl7r1U2SljIhVeH9Y73ew==
   dependencies:
-    "@100mslive/react-icons" "0.5.0"
-    "@100mslive/react-sdk" "0.5.0"
+    "@100mslive/react-icons" "0.6.0"
+    "@100mslive/react-sdk" "0.6.0"
     "@radix-ui/react-accordion" "1.0.0"
     "@radix-ui/react-checkbox" "1.0.0"
     "@radix-ui/react-dialog" "1.0.0"
@@ -1338,6 +1341,11 @@
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
+"@mediapipe/selfie_segmentation@^0.1.1632777926":
+  version "0.1.1632777926"
+  resolved "https://registry.yarnpkg.com/@mediapipe/selfie_segmentation/-/selfie_segmentation-0.1.1632777926.tgz#67d37a53b0de89efc4a0e3b63332a4da3a6ad9c8"
+  integrity sha512-OSGhYaZsdOXKyY0JCueOflq3ICLNMrBekI2V8vShum8wuoH3xjfEM6NnIujwJ5SlTdZEXi7Up2koOILDgQbWyg==
+
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
   resolved "https://registry.npmjs.org/@nicolo-ribaudo/eslint-scope-5-internals/-/eslint-scope-5-internals-5.1.1-v1.tgz"
@@ -1668,14 +1676,6 @@
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-slot" "1.0.0"
 
-"@radix-ui/react-primitive@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@radix-ui/react-primitive/-/react-primitive-1.0.1.tgz#c1ebcce283dd2f02e4fbefdaa49d1cb13dbc990a"
-  integrity sha512-fHbmislWVkZaIdeF6GZxF0A/NH/3BjrGIYj+Ae6eTmTCr7EB0RQAAVEiqsXK6p3/JcRqVSBQoceZroj30Jj3XA==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-    "@radix-ui/react-slot" "1.0.1"
-
 "@radix-ui/react-radio-group@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@radix-ui/react-radio-group/-/react-radio-group-1.0.0.tgz"
@@ -1760,14 +1760,6 @@
   version "1.0.0"
   resolved "https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-1.0.0.tgz"
   integrity sha512-3mrKauI/tWXo1Ll+gN5dHcxDPdm/Df1ufcDLCecn+pnCIVcdWE7CujXo8QaXOWRJyZyQWWbpB8eFwHzWXlv5mQ==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-    "@radix-ui/react-compose-refs" "1.0.0"
-
-"@radix-ui/react-slot@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@radix-ui/react-slot/-/react-slot-1.0.1.tgz#e7868c669c974d649070e9ecbec0b367ee0b4d81"
-  integrity sha512-avutXAFL1ehGvAXtPquu0YK5oz6ctS474iM3vNGQIkswrVhdrS52e3uoMQBzZhNRAIE0jBnUyXWNmSjGHhCFcw==
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-compose-refs" "1.0.0"
@@ -1923,6 +1915,13 @@
   resolved "https://registry.npmjs.org/@stitches/react/-/react-1.2.8.tgz"
   integrity sha512-9g9dWI4gsSVe8bNLlb+lMkBYsnIKCZTmvqvDG+Avnn69XfmHZKiaMrx7cgTaddq7aTPPmXiTsbFcUy0xgI4+wA==
 
+"@tensorflow-models/body-segmentation@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@tensorflow-models/body-segmentation/-/body-segmentation-1.0.1.tgz#333429a8202252185f0cc6ffba726b82f71943eb"
+  integrity sha512-IPQ+a848KDZ/yzxJwP+GDPGwa6RLJ3+VbFraxlSWxAfygqTKx0EQQWHUawbCKxILtlzcfeinW+Gdcyiq0Onkfw==
+  dependencies:
+    rimraf "^3.0.2"
+
 "@tensorflow/tfjs-backend-cpu@3.21.0":
   version "3.21.0"
   resolved "https://registry.npmjs.org/@tensorflow/tfjs-backend-cpu/-/tfjs-backend-cpu-3.21.0.tgz"
@@ -1943,9 +1942,14 @@
     "@types/webgl2" "0.0.6"
     seedrandom "^3.0.5"
 
-"@tensorflow/tfjs-core@^3.3.0":
+"@tensorflow/tfjs-converter@^3.19.0":
   version "3.21.0"
-  resolved "https://registry.npmjs.org/@tensorflow/tfjs-core/-/tfjs-core-3.21.0.tgz"
+  resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-converter/-/tfjs-converter-3.21.0.tgz#a5872aa8b949dc01315fb7f7fea2df91a1f15799"
+  integrity sha512-12Y4zVDq3yW+wSjSDpSv4HnpL2sDZrNiGSg8XNiDE4HQBdjdA+a+Q3sZF/8NV9y2yoBhL5L7V4mMLDdbZBd9/Q==
+
+"@tensorflow/tfjs-core@^3.19.0":
+  version "3.21.0"
+  resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-core/-/tfjs-core-3.21.0.tgz#379c3698afc8f66bc82f77c7e35c35910daf7e3b"
   integrity sha512-YSfsswOqWfd+M4bXIhT3hwtAb+IV8+ODwIxwdFR/7jTAPZP1wMVnSlpKnXHAN64HFOiP+Tm3HmKusEZ0+09A0w==
   dependencies:
     "@types/long" "^4.0.1"
@@ -4448,10 +4452,10 @@ he@^1.2.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hls.js@^1.2.3:
-  version "1.2.4"
-  resolved "https://registry.npmjs.org/hls.js/-/hls.js-1.2.4.tgz"
-  integrity sha512-yC3K79Kzq1W+OgjT12JxKMDXv9DbfvulppxmPBl7D04SaTyd2IwWk5eNASQV1mUaPlKbjr16yI9292qpSGo0ig==
+hls.js@^1.2.5:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.2.7.tgz#f421e258b10aa797cffb5ab2c3786675ead617f5"
+  integrity sha512-mD4Po7Q5TPNIYX6G8sDD+RS/xfrWjMjrtp+xPw3Thw8Tq557Vn0wdXIX/Zii28F9ncUMMQPZsGkoCWFna9CZCw==
 
 hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
@@ -6065,11 +6069,6 @@ react-error-boundary@^3.1.4:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-freeze@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.3.tgz"
-  integrity sha512-ZnXwLQnGzrDpHBHiC56TXFXvmolPeMjTn1UOm610M4EXGzbEDR7oOIyS2ZiItgbs6eZc4oU/a0hpk8PrcKvv5g==
-
 react-hotkeys-hook@^3.4.7:
   version "3.4.7"
   resolved "https://registry.npmjs.org/react-hotkeys-hook/-/react-hotkeys-hook-3.4.7.tgz"
@@ -6161,26 +6160,6 @@ react-universal-interface@^0.6.2:
 react-use@^17.3.2, react-use@^17.4.0:
   version "17.4.0"
   resolved "https://registry.npmjs.org/react-use/-/react-use-17.4.0.tgz"
-  integrity sha512-TgbNTCA33Wl7xzIJegn1HndB4qTS9u03QUwyNycUnXaweZkE4Kq2SB+Yoxx8qbshkZGYBDvUXbXWRUmQDcZZ/Q==
-  dependencies:
-    "@types/js-cookie" "^2.2.6"
-    "@xobotyi/scrollbar-width" "^1.9.5"
-    copy-to-clipboard "^3.3.1"
-    fast-deep-equal "^3.1.3"
-    fast-shallow-equal "^1.0.0"
-    js-cookie "^2.2.1"
-    nano-css "^5.3.1"
-    react-universal-interface "^0.6.2"
-    resize-observer-polyfill "^1.5.1"
-    screenfull "^5.1.0"
-    set-harmonic-interval "^1.0.1"
-    throttle-debounce "^3.0.1"
-    ts-easing "^0.2.0"
-    tslib "^2.1.0"
-
-react-use@^17.4.0:
-  version "17.4.0"
-  resolved "https://registry.yarnpkg.com/react-use/-/react-use-17.4.0.tgz#cefef258b0a6c534a5c8021c2528ac6e1a4cdc6d"
   integrity sha512-TgbNTCA33Wl7xzIJegn1HndB4qTS9u03QUwyNycUnXaweZkE4Kq2SB+Yoxx8qbshkZGYBDvUXbXWRUmQDcZZ/Q==
   dependencies:
     "@types/js-cookie" "^2.2.6"
