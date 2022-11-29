@@ -53,10 +53,13 @@ const TileMenu = ({
     APP_DATA.pinnedTrackId
   );
   const isTilePinned =
-    pinnedTrackId && videoTrackID && videoTrackID === pinnedTrackId;
+    pinnedTrackId &&
+    ((videoTrackID && videoTrackID === pinnedTrackId) ||
+      (audioTrackID && audioTrackID === pinnedTrackId));
   const isPrimaryVideoTrack =
     useHMSStore(selectVideoTrackByPeerID(peerID))?.id === videoTrackID;
-  const showPinAction = videoTrackID && isPrimaryVideoTrack;
+
+  const showPinAction = audioTrackID || (videoTrackID && isPrimaryVideoTrack);
 
   const track = useHMSStore(selectTrackByID(videoTrackID));
   const hideSimulcastLayers =
@@ -83,7 +86,9 @@ const TileMenu = ({
         {isLocal && showPinAction ? (
           <StyledMenuTile.ItemButton
             onClick={() =>
-              isTilePinned ? setPinnedTrackId() : setPinnedTrackId(videoTrackID)
+              isTilePinned
+                ? setPinnedTrackId()
+                : setPinnedTrackId(videoTrackID || audioTrackID)
             }
           >
             <PinIcon />
@@ -138,7 +143,7 @@ const TileMenu = ({
                 onClick={() =>
                   isTilePinned
                     ? setPinnedTrackId()
-                    : setPinnedTrackId(videoTrackID)
+                    : setPinnedTrackId(videoTrackID || audioTrackID)
                 }
               >
                 <PinIcon />
