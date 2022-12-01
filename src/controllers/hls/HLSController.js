@@ -4,7 +4,7 @@ import { FeatureFlags } from "../../services/FeatureFlags";
 
 export const HLS_TIMED_METADATA_LOADED = "hls-timed-metadata";
 export const HLS_STREAM_NO_LONGER_LIVE = "hls-stream-no-longer-live";
-export const HLS_DEFAULT_ALLOWED_MAX_LATENCY_DELAY = 10; // seconds
+export const HLS_DEFAULT_ALLOWED_MAX_LATENCY_DELAY = 3; // seconds
 
 export class HLSController {
   hls;
@@ -42,7 +42,7 @@ export class HLSController {
 
   /**
    *
-   * @param { Number } currentLevel - currentLevel we want to
+   * @param { Hls.Level } currentLevel - currentLevel we want to
    * set the stream to. -1 for Auto
    */
   setCurrentLevel(currentLevel) {
@@ -89,6 +89,14 @@ export class HLSController {
       this.hls.on(eventName, eventCallback);
     } else {
       this.eventEmitter.addListener(eventName, eventCallback);
+    }
+  }
+
+  off(eventName, eventCallback) {
+    if (this.ControllerEvents.indexOf(eventName === -1)) {
+      this.hls.off(eventName, eventCallback);
+    } else {
+      this.eventEmitter.removeListener(eventName, eventCallback);
     }
   }
 
