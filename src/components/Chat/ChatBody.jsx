@@ -281,111 +281,100 @@ const ChatMessage = React.memo(
     );
   }
 );
-const VirtualizedChatMessages = ({ messages, setPinnedMessage }) => {
-  const listRef = useRef({});
-  const rowHeights = useRef({});
-  function getRowHeight(index) {
-    // 72 will be default row height for any message length
-    // 16 will add margin value as clientHeight don't include margin
-    return rowHeights.current[index] + 16 || 72;
-  }
-
-  const setRowHeight = useCallback((index, size) => {
-    listRef.current.resetAfterIndex(0);
-    rowHeights.current = { ...rowHeights.current, [index]: size };
-  }, []);
-
-  const scrollToBottom = useCallback(() => {
-    if (listRef.current && listRef.current.scrollToItem) {
-      listRef.current?.scrollToItem(messages.length - 1, "end");
-      requestAnimationFrame(() => {
-        listRef.current?.scrollToItem(messages.length - 1, "end");
-      });
+const VirtualizedChatMessages = React.forwardRef(
+  ({ messages, setPinnedMessage }, listRef) => {
+    const rowHeights = useRef({});
+    function getRowHeight(index) {
+      // 72 will be default row height for any message length
+      // 16 will add margin value as clientHeight don't include margin
+      return rowHeights.current[index] + 16 || 72;
     }
-  }, [messages.length]);
 
-  useEffect(() => {
-    if (messages.length > 0) {
-      scrollToBottom();
-      setTimeout(() => {
-        scrollToBottom();
-      }, 0);
-    }
-  }, [messages.length, scrollToBottom]);
+    const setRowHeight = useCallback(
+      (index, size) => {
+        listRef.current.resetAfterIndex(0);
+        rowHeights.current = { ...rowHeights.current, [index]: size };
+      },
+      [listRef]
+    );
 
-  return (
-    <Box
-      css={{
-        mr: "-$10",
-        h: "100%",
-      }}
-      as="div"
-    >
-      <AutoSizer
-        style={{
-          width: "90%",
-          height: "100%",
-        }}
-      >
-        {({ height, width }) => (
-          <VariableSizeList
-            ref={listRef}
-            itemCount={messages.length}
-            itemSize={getRowHeight}
-            width={width}
-            height={height}
-            style={{
-              overflowX: "hidden",
-            }}
-          >
-            {({ index, style }) => (
-              <ChatMessage
-                style={style}
-                index={index}
-                key={messages[index].id}
-                message={messages[index]}
-                setRowHeight={setRowHeight}
-                onPin={() => setPinnedMessage(messages[index])}
-              />
-            )}
-          </VariableSizeList>
-        )}
-      </AutoSizer>
-    </Box>
-  );
-};
-
-export const ChatBody = ({ role, peerId, setPinnedMessage }) => {
-  const storeMessageSelector = role
-    ? selectMessagesByRole(role)
-    : peerId
-    ? selectMessagesByPeerID(peerId)
-    : selectHMSMessages;
-  const messages = useHMSStore(storeMessageSelector) || [];
-
-  if (messages.length === 0) {
     return (
-      <Flex
+      <Box
         css={{
-          width: "100%",
-          height: "calc(100% - 1px)",
-          textAlign: "center",
-          px: "$4",
+          mr: "-$10",
+          h: "100%",
         }}
-        align="center"
-        justify="center"
+        as="div"
       >
-        <Text>There are no messages here</Text>
-      </Flex>
+        <AutoSizer
+          style={{
+            width: "90%",
+            height: "100%",
+          }}
+        >
+          {({ height, width }) => (
+            <VariableSizeList
+              ref={listRef}
+              itemCount={messages.length}
+              itemSize={getRowHeight}
+              width={width}
+              height={height - 1}
+              style={{
+                overflowX: "hidden",
+              }}
+            >
+              {({ index, style }) => (
+                <ChatMessage
+                  style={style}
+                  index={index}
+                  key={messages[index].id}
+                  message={messages[index]}
+                  setRowHeight={setRowHeight}
+                  onPin={() => setPinnedMessage(messages[index])}
+                />
+              )}
+            </VariableSizeList>
+          )}
+        </AutoSizer>
+      </Box>
     );
   }
+);
 
-  return (
-    <Fragment>
-      <VirtualizedChatMessages
-        messages={messages}
-        setPinnedMessage={setPinnedMessage}
-      />
-    </Fragment>
-  );
-};
+export const ChatBody = React.forwardRef(
+  ({ role, peerId, setPinnedMessage }, listRef) => {
+    const storeMessageSelector = role
+      ? selectMessagesByRole(role)
+      : peerId
+      ? selectMessagesByPeerID(peerId)
+      : selectHMSMessages;
+    const messages = useHMSStore(storeMessageSelector) || [];
+
+    if (messages.length === 0) {
+      return (
+        <Flex
+          css={{
+            width: "100%",
+            height: "100%",
+            textAlign: "center",
+            px: "$4",
+          }}
+          align="center"
+          justify="center"
+        >
+          <Text>There are no messages here</Text>
+        </Flex>
+      );
+    }
+
+    return (
+      <Fragment>
+        <VirtualizedChatMessages
+          messages={messages}
+          setPinnedMessage={setPinnedMessage}
+          ref={listRef}
+        />
+      </Fragment>
+    );
+  }
+);
