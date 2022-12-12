@@ -105,6 +105,7 @@ export const RTMP_RECORD_DEFAULT_RESOLUTION = {
 export const APP_DATA = {
   uiSettings: "uiSettings",
   chatOpen: "chatOpen",
+  chatSelector: "chatSelector",
   chatDraft: "chatDraft",
   appConfig: "appConfig",
   recordingUrl: "recordingUrl",
