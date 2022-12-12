@@ -71,6 +71,7 @@ const EmbedComponent = () => {
     return () => {
       // close screenshare when this component is being unmounted
       if (wasScreenShared && amIScreenSharing) {
+        resetEmbedConfig();
         toggleScreenShare(); // stop
       }
     };
