@@ -32,7 +32,7 @@ const DialogDropdownTrigger = React.forwardRef(
               color: "inherit",
               ...textEllipsis("90%"),
               flex: "1 1 0",
-              mx: "$6",
+              mx: icon ? "$6" : "0",
               ...titleCSS,
             }}
           >
