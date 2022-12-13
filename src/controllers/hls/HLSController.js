@@ -85,7 +85,7 @@ export class HLSController {
     if (eventName === HLS_STREAM_NO_LONGER_LIVE) {
       this.enableTimeUpdateListener();
     }
-    if (this.ControllerEvents.indexOf(eventName) === -1) {
+    if (this.ControllerEvents.includes(eventName)) {
       this.hls.on(eventName, eventCallback);
     } else {
       this.eventEmitter.addListener(eventName, eventCallback);
@@ -93,8 +93,8 @@ export class HLSController {
   }
 
   off(eventName, eventCallback) {
-    if (this.ControllerEvents.indexOf(eventName === -1)) {
-      this.hls.off(eventName, eventCallback);
+    if (this.ControllerEvents.includes(eventName)) {
+      this.hls?.off(eventName, eventCallback);
     } else {
       this.eventEmitter.removeListener(eventName, eventCallback);
     }
@@ -103,8 +103,8 @@ export class HLSController {
   // listen for pause, play as well to show not live if paused
   enableTimeUpdateListener() {
     this.videoRef.current.addEventListener("timeupdate", _ => {
-      if (this.hls) {
-        const videoEl = this.videoRef.current;
+      const videoEl = this.videoRef.current;
+      if (this.hls && videoEl) {
         const allowedDelay =
           this.getHLSConfig().liveMaxLatencyDuration ||
           HLS_DEFAULT_ALLOWED_MAX_LATENCY_DELAY;

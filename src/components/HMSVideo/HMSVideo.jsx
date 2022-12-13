@@ -7,7 +7,6 @@ export const HMSVideo = forwardRef(({ children }, videoRef) => {
       <video
         style={{ height: "100%", margin: "auto" }}
         ref={videoRef}
-        autoPlay
         playsInline
       />
       {children}

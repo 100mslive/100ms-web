@@ -20,6 +20,7 @@ import {
 import { HlsStatsOverlay } from "../components/HlsStatsOverlay";
 import { HMSVideoPlayer } from "../components/HMSVideo";
 import { FullScreenButton } from "../components/HMSVideo/FullscreenButton";
+import { HLSAutoplayBlockedPrompt } from "../components/HMSVideo/HLSAutoplayBlockedPrompt";
 import { HLSQualitySelector } from "../components/HMSVideo/HLSQualitySelector";
 import { ToastManager } from "../components/Toast/ToastManager";
 import {
@@ -45,6 +46,7 @@ const HLSView = () => {
   const [isVideoLive, setIsVideoLive] = useState(true);
   const [isUserSelectedAuto, setIsUserSelectedAuto] = useState(true);
   const [currentSelectedQuality, setisCurrentSelectedQuality] = useState(null);
+  const [isHlsAutoplayBlocked, setIsHlsAutoplayBlocked] = useState(false);
 
   const [currentSelectedQualityText, setCurrentSelectedQualityText] =
     useState("");
@@ -100,6 +102,7 @@ const HLSView = () => {
       hlsStats = null;
       hlsController?.off(Hls.Events.MANIFEST_LOADED, manifestLoadedHandler);
       hlsController?.off(Hls.Events.LEVEL_UPDATED, levelUpdatedHandler);
+      hlsController?.reset();
     };
   }, [hlsUrl]);
 
@@ -113,7 +116,7 @@ const HLSView = () => {
         : `${currentSelectedQuality.height}p`;
       setCurrentSelectedQualityText(levelText);
     }
-  }, [currentSelectedQuality]);
+  }, [currentSelectedQuality, isUserSelectedAuto]);
 
   /**
    * initialize and subscribe to hlsState
@@ -135,18 +138,57 @@ const HLSView = () => {
     };
   }, [enablHlsStats]);
 
+  const unblockAutoPlay = async () => {
+    try {
+      await videoRef.current?.play();
+      console.debug("Successfully started playing the stream.");
+      setIsHlsAutoplayBlocked(false);
+    } catch (error) {
+      console.error("Tried to unblock Autoplay failed with", error.toString());
+    }
+  };
+
   /**
    * On mount. Add listeners for Video play/pause
    */
   useEffect(() => {
-    videoRef.current?.addEventListener("play", event => {
-      setIsPaused(false);
-    });
-    videoRef.current?.addEventListener("pause", event => {
-      setIsPaused(true);
-    });
-    return () => hlsController?.reset();
-  }, []);
+    const playEventHandler = () => setIsPaused(false);
+    const pauseEventHandler = () => setIsPaused(true);
+    const videoEl = videoRef.current;
+    /**
+     * we are doing all the modifications
+     * to the video element after hlsUrl is loaded,
+     * this is because, <HMSVideo/> is conditionally
+     * rendered based on hlsUrl, so if we try to do
+     * things before that, the videoRef.current will be
+     * null.
+     */
+    if (!hlsUrl || !videoEl) {
+      return;
+    }
+
+    const playVideo = async () => {
+      try {
+        if (videoEl.paused) {
+          await videoEl.play();
+        }
+      } catch (error) {
+        console.debug("Browser blocked autoplay with error", error.toString());
+        console.debug("asking user to play the video manually...");
+        if (error.name === "NotAllowedError") {
+          setIsHlsAutoplayBlocked(true);
+        }
+      }
+    };
+    playVideo();
+
+    videoEl.addEventListener("play", playEventHandler);
+    videoEl.addEventListener("pause", pauseEventHandler);
+    return () => {
+      videoEl.removeEventListener("play", playEventHandler);
+      videoEl.removeEventListener("pause", pauseEventHandler);
+    };
+  }, [hlsUrl]);
 
   const qualitySelectorHandler = useCallback(
     qualityLevel => {
@@ -194,6 +236,10 @@ const HLSView = () => {
             "@lg": { height: "80%" },
           }}
         >
+          <HLSAutoplayBlockedPrompt
+            open={isHlsAutoplayBlocked}
+            unblockAutoPlay={unblockAutoPlay}
+          />
           <HMSVideoPlayer.Root ref={videoRef}>
             <HMSVideoPlayer.Progress videoRef={videoRef} />
             <HMSVideoPlayer.Controls.Root
