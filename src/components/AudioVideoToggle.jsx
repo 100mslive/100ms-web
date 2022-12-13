@@ -14,6 +14,7 @@ const isMacOS = parsedUserAgent.getOS().name.toLowerCase() === "mac os";
 export const AudioVideoToggle = () => {
   const { isLocalVideoEnabled, isLocalAudioEnabled, toggleAudio, toggleVideo } =
     useAVToggle();
+
   return (
     <Fragment>
       {toggleAudio ? (
