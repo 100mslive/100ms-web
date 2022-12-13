@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import LogRocket from "logrocket";
 import setupLogRocketReact from "logrocket-react";
-import zipy from "zipyai";
+import { init } from "zipyai";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
@@ -15,7 +15,7 @@ if (
 }
 
 if (process.env.REACT_APP_ZIPY_KEY) {
-  zipy.init(process.env.REACT_APP_ZIPY_KEY);
+  init(process.env.REACT_APP_ZIPY_KEY);
 }
 
 const root = createRoot(document.getElementById("root"));

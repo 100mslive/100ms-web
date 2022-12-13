@@ -1,12 +1,18 @@
 import LogRocket from "logrocket";
-import zipy from "zipyai";
+import { getCurrentSessionURL, identify } from "zipyai";
 
+const zipyKey = process.env.REACT_APP_ZIPY_KEY;
 export const setUpZipy = ({ localPeer, roomId, sessionId }) => {
+  if (!zipyKey) {
+    return;
+  }
+
   let domain;
   if (typeof window !== "undefined") {
     domain = window.location.hostname;
   }
-  zipy.identify(localPeer.id, {
+
+  identify(localPeer.id, {
     name: localPeer.name,
     email: domain,
     role: localPeer.roleName,
@@ -14,7 +20,7 @@ export const setUpZipy = ({ localPeer, roomId, sessionId }) => {
     sessionId,
   });
 
-  window.zipyURL = zipy.getCurrentSessionURL();
+  window.zipyURL = getCurrentSessionURL();
   console.debug("zipy url - ", window.zipyURL);
 };
 
