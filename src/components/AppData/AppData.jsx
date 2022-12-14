@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useSearchParam } from "react-use";
 import {
+  HMSRoomState,
   selectAvailableRoleNames,
   selectHLSState,
   selectIsConnectedToRoom,
   selectLocalPeerRoleName,
   selectRolesMap,
+  selectRoomState,
   selectRTMPState,
   useHMSActions,
   useHMSStore,
@@ -159,6 +161,7 @@ const ResetStreamingStart = () => {
     useRecordingStreaming();
   const hlsError = useHMSStore(selectHLSState).error;
   const rtmpError = useHMSStore(selectRTMPState).error;
+  const roomState = useHMSStore(selectRoomState);
   const [hlsStarted, setHLSStarted] = useSetAppDataByKey(APP_DATA.hlsStarted);
   const [recordingStarted, setRecordingStarted] = useSetAppDataByKey(
     APP_DATA.recordingStarted
@@ -174,6 +177,16 @@ const ResetStreamingStart = () => {
       setRecordingStarted(false);
     }
   }, [isBrowserRecordingOn, recordingStarted, setRecordingStarted]);
+  /**
+   * Reset on leave
+   */
+  useEffect(() => {
+    if (roomState === HMSRoomState.Disconnected) {
+      setHLSStarted(false);
+      setRecordingStarted(false);
+      setRTMPStarted(false);
+    }
+  }, [roomState, setHLSStarted, setRTMPStarted, setRecordingStarted]);
   useEffect(() => {
     if (isHLSRunning || hlsError) {
       if (hlsStarted) {
