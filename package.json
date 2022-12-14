@@ -4,6 +4,9 @@
   "private": true,
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
+  "engines": {
+    "node": "^14 || ^16"
+  },
   "files": [
     "dist",
     "src"
