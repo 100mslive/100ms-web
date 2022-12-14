@@ -45,12 +45,8 @@ const HLSView = () => {
   const [availableLevels, setAvailableLevels] = useState([]);
   const [isVideoLive, setIsVideoLive] = useState(true);
   const [isUserSelectedAuto, setIsUserSelectedAuto] = useState(true);
-  const [currentSelectedQuality, setisCurrentSelectedQuality] = useState(null);
+  const [currentSelectedQuality, setCurrentSelectedQuality] = useState(null);
   const [isHlsAutoplayBlocked, setIsHlsAutoplayBlocked] = useState(false);
-
-  const [currentSelectedQualityText, setCurrentSelectedQualityText] =
-    useState("");
-
   const [isPaused, setIsPaused] = useState(false);
 
   const [show, toggle] = useToggle(false);
@@ -66,30 +62,32 @@ const HLSView = () => {
     const manifestLoadedHandler = (_, { levels }) => {
       const onlyVideoLevels = removeAudioLevels(levels);
       setAvailableLevels(onlyVideoLevels);
-      setCurrentSelectedQualityText("Auto");
     };
-    const levelUpdatedHandler = (_, { details, level }) => {
+    const levelUpdatedHandler = (_, { level }) => {
       const qualityLevel = hlsController.getHlsJsInstance().levels[level];
-      setisCurrentSelectedQuality(qualityLevel);
+      setCurrentSelectedQuality(qualityLevel);
+    };
+    const metadataLoadedHandler = ({ payload, ...rest }) => {
+      console.log(
+        `%c Payload: ${payload}`,
+        "color:#2b2d42; background:#d80032"
+      );
+      console.log(rest);
+      ToastManager.addToast({
+        title: `Payload from timed Metadata ${payload}`,
+      });
+    };
+
+    const handleNoLongerLive = () => {
+      setIsVideoLive(false);
     };
 
     if (videoEl && hlsUrl) {
       if (Hls.isSupported()) {
         hlsController = new HLSController(hlsUrl, videoRef);
         hlsStats = new HlsStats(hlsController.getHlsJsInstance(), videoEl);
-        const metadataLoadedHandler = ({ payload, ...rest }) => {
-          console.log(
-            `%c Payload: ${payload}`,
-            "color:#2b2d42; background:#d80032"
-          );
-          console.log(rest);
-          ToastManager.addToast({
-            title: `Payload from timed Metadata ${payload}`,
-          });
-        };
-        hlsController.on(HLS_STREAM_NO_LONGER_LIVE, () => {
-          setIsVideoLive(false);
-        });
+
+        hlsController.on(HLS_STREAM_NO_LONGER_LIVE, handleNoLongerLive);
         hlsController.on(HLS_TIMED_METADATA_LOADED, metadataLoadedHandler);
 
         hlsController.on(Hls.Events.MANIFEST_LOADED, manifestLoadedHandler);
@@ -99,24 +97,15 @@ const HLSView = () => {
       }
     }
     return () => {
-      hlsStats = null;
       hlsController?.off(Hls.Events.MANIFEST_LOADED, manifestLoadedHandler);
       hlsController?.off(Hls.Events.LEVEL_UPDATED, levelUpdatedHandler);
+      hlsController?.off(HLS_TIMED_METADATA_LOADED, metadataLoadedHandler);
+      hlsController?.off(HLS_STREAM_NO_LONGER_LIVE, handleNoLongerLive);
       hlsController?.reset();
+      hlsStats = null;
+      hlsController = null;
     };
   }, [hlsUrl]);
-
-  /**
-   * update quality level text whenever a level is changed
-   */
-  useEffect(() => {
-    if (currentSelectedQuality) {
-      const levelText = isUserSelectedAuto
-        ? `Auto(${currentSelectedQuality.height}p)`
-        : `${currentSelectedQuality.height}p`;
-      setCurrentSelectedQualityText(levelText);
-    }
-  }, [currentSelectedQuality, isUserSelectedAuto]);
 
   /**
    * initialize and subscribe to hlsState
@@ -190,7 +179,7 @@ const HLSView = () => {
     };
   }, [hlsUrl]);
 
-  const qualitySelectorHandler = useCallback(
+  const handleQuality = useCallback(
     qualityLevel => {
       if (hlsController) {
         setIsUserSelectedAuto(
@@ -242,9 +231,7 @@ const HLSView = () => {
           />
           <HMSVideoPlayer.Root ref={videoRef}>
             <HMSVideoPlayer.Progress videoRef={videoRef} />
-            <HMSVideoPlayer.Controls.Root
-              css={{ paddingLeft: "$8", paddingRight: "$8" }}
-            >
+            <HMSVideoPlayer.Controls.Root css={{ p: "$4 $8" }}>
               <HMSVideoPlayer.Controls.Left>
                 <HMSVideoPlayer.PlayButton
                   onClick={() => {
@@ -261,6 +248,7 @@ const HLSView = () => {
                 {hlsController ? (
                   <IconButton
                     variant="standard"
+                    css={{ px: "$2" }}
                     onClick={() => {
                       hlsController.jumpToLive();
                       setIsVideoLive(true);
@@ -275,7 +263,7 @@ const HLSView = () => {
                             height: "$4",
                             width: "$4",
                             background: isVideoLive ? "$error" : "$white",
-                            borderRadius: "50%",
+                            r: "$1",
                           }}
                         />
                         <Text
@@ -283,16 +271,17 @@ const HLSView = () => {
                             "@sm": "xs",
                           }}
                         >
-                          {isVideoLive ? "Live" : "Go to Live"}{" "}
+                          {isVideoLive ? "LIVE" : "GO LIVE"}
                         </Text>
                       </Flex>
                     </Tooltip>
                   </IconButton>
                 ) : null}
                 <HLSQualitySelector
-                  availableLevels={availableLevels}
-                  currentSelectedQualityText={currentSelectedQualityText}
-                  qualitySelectorHandler={qualitySelectorHandler}
+                  levels={availableLevels}
+                  selection={currentSelectedQuality}
+                  onQualityChange={handleQuality}
+                  isAuto={isUserSelectedAuto}
                 />
                 <FullScreenButton
                   onToggle={toggle}

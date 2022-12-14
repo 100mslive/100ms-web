@@ -47,7 +47,9 @@ export class HLSController {
    */
   setCurrentLevel(currentLevel) {
     const newLevel = this.hls.levels.findIndex(
-      level => level.height === currentLevel.height
+      level =>
+        level.height === currentLevel.height &&
+        level.width === currentLevel.width
     );
     this.hls.currentLevel = newLevel;
   }
@@ -85,7 +87,7 @@ export class HLSController {
     if (eventName === HLS_STREAM_NO_LONGER_LIVE) {
       this.enableTimeUpdateListener();
     }
-    if (this.ControllerEvents.includes(eventName)) {
+    if (!this.ControllerEvents.includes(eventName)) {
       this.hls.on(eventName, eventCallback);
     } else {
       this.eventEmitter.addListener(eventName, eventCallback);
@@ -93,10 +95,10 @@ export class HLSController {
   }
 
   off(eventName, eventCallback) {
-    if (this.ControllerEvents.includes(eventName)) {
+    if (!this.ControllerEvents.includes(eventName)) {
       this.hls?.off(eventName, eventCallback);
     } else {
-      this.eventEmitter.removeListener(eventName, eventCallback);
+      this.eventEmitter?.removeListener(eventName, eventCallback);
     }
   }
 

@@ -1,21 +1,17 @@
 import { useState } from "react";
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  SettingsIcon,
-} from "@100mslive/react-icons";
+import { CheckCircleIcon, SettingsIcon } from "@100mslive/react-icons";
 import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/react-ui";
 
 export function HLSQualitySelector({
-  availableLevels,
-  qualitySelectorHandler,
-  currentSelectedQualityText,
+  levels,
+  onQualityChange,
+  selection,
+  isAuto,
 }) {
   const [qualityDropDownOpen, setQualityDropDownOpen] = useState(false);
 
   return (
     <Dropdown.Root
-      css={{ margin: "0px" }}
       open={qualityDropDownOpen}
       onOpenChange={value => setQualityDropDownOpen(value)}
     >
@@ -23,71 +19,74 @@ export function HLSQualitySelector({
         <Flex
           css={{
             color: "$textPrimary",
-            borderRadius: "$1",
-            margin: "0px",
+            r: "$1",
             cursor: "pointer",
-            border: "1px solid $textDisabled",
-            padding: "$2 $4",
+            p: "$2",
           }}
         >
           <Tooltip title="Select Quality">
             <Flex align="center">
-              <SettingsIcon />
+              <Box
+                css={{
+                  w: "$9",
+                  h: "$9",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
+                <SettingsIcon />
+              </Box>
               <Text
                 variant={{
                   "@md": "sm",
                   "@sm": "xs",
                   "@xs": "tiny",
                 }}
+                css={{ display: "flex", alignItems: "center", ml: "$2" }}
               >
-                {currentSelectedQualityText}
+                {isAuto && (
+                  <>
+                    Auto
+                    <Box
+                      css={{
+                        mx: "$2",
+                        w: "$2",
+                        h: "$2",
+                        background: "$textPrimary",
+                        r: "$1",
+                      }}
+                    />
+                  </>
+                )}
+                {selection && Math.min(selection.width, selection.height)}p
               </Text>
             </Flex>
           </Tooltip>
-
-          <Box
-            css={{
-              "@lg": { display: "none" },
-              color: "$textDisabled",
-            }}
-          >
-            {qualityDropDownOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-          </Box>
         </Flex>
       </Dropdown.Trigger>
-      {availableLevels.length > 0 && (
+      {levels.length > 0 && (
         <Dropdown.Content
           sideOffset={5}
           align="end"
-          css={{ height: "auto", maxHeight: "$96" }}
+          css={{ height: "auto", maxHeight: "$96", w: "$64" }}
         >
           <Dropdown.Item
-            onClick={_ => qualitySelectorHandler({ height: "auto" })}
-            css={{
-              h: "auto",
-              flexDirection: "column",
-              flexWrap: "wrap",
-              cursor: "pointer",
-              alignItems: "flex-start",
-            }}
+            onClick={_ => onQualityChange({ height: "auto" })}
             key="auto"
           >
-            <Text>Automatic</Text>
+            <Text css={{ flex: "1 1 0" }}>Automatic</Text>
+            {isAuto && <CheckCircleIcon />}
           </Dropdown.Item>
-          {availableLevels.map(level => {
+          {levels.map(level => {
             return (
               <Dropdown.Item
-                onClick={() => qualitySelectorHandler(level)}
-                css={{
-                  h: "auto",
-                  flexDirection: "column",
-                  flexWrap: "wrap",
-                  cursor: "pointer",
-                  alignItems: "flex-start",
-                }}
+                onClick={() => onQualityChange(level)}
                 key={level.url}
               >
-                <Text>{getQualityText(level)}</Text>
+                <Text css={{ flex: "1 1 0" }}>{getQualityText(level)}</Text>
+                {!isAuto &&
+                  level.width === selection?.width &&
+                  level.height === selection?.height && <CheckCircleIcon />}
               </Dropdown.Item>
             );
           })}
@@ -98,4 +97,6 @@ export function HLSQualitySelector({
 }
 
 const getQualityText = level =>
-  `${level.height}p (${(Number(level.bitrate / 1024) / 1024).toFixed(2)} Mbps)`;
+  `${Math.min(level.height, level.width)}p (${(
+    Number(level.bitrate / 1000) / 1000
+  ).toFixed(2)} Mbps)`;
