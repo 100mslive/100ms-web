@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useHMSActions } from "@100mslive/react-sdk";
 import { ChangeRoleIcon, CheckIcon } from "@100mslive/react-icons";
-import { Button, Dialog, Dropdown, Text } from "@100mslive/react-ui";
+import { Button, Checkbox, Dialog, Dropdown, Text } from "@100mslive/react-ui";
 import { DialogContent, DialogRow } from "../../primitives/DialogContent";
 import { DialogDropdownTrigger } from "../../primitives/DropdownTrigger";
 import { useFilteredRoles } from "../../common/hooks";
@@ -33,7 +33,12 @@ export const BulkRoleChangeModal = ({ onOpenChange }) => {
           <Text>For Roles: </Text>
           <Dropdown.Root
             open={bulkRoleDialog}
-            onOpenChange={value => setBulkRoleDialog(value)}
+            onOpenChange={value => {
+              if (value) {
+                setBulkRoleDialog(value);
+              }
+            }}
+            modal={false}
           >
             <DialogDropdownTrigger
               ref={ref}
@@ -50,6 +55,11 @@ export const BulkRoleChangeModal = ({ onOpenChange }) => {
             />
             <Dropdown.Content
               css={{ w: ref.current?.clientWidth, zIndex: 1000 }}
+              onInteractOutside={() => {
+                if (bulkRoleDialog) {
+                  setBulkRoleDialog(false);
+                }
+              }}
             >
               {roles &&
                 roles.map(role => {
@@ -67,10 +77,15 @@ export const BulkRoleChangeModal = ({ onOpenChange }) => {
                         })
                       }
                     >
+                      <Checkbox.Root
+                        css={{ margin: "$2" }}
+                        checked={selectedBulkRole.includes(role)}
+                      >
+                        <Checkbox.Indicator>
+                          <CheckIcon width={16} height={16} />
+                        </Checkbox.Indicator>
+                      </Checkbox.Root>
                       {role}
-                      <Dropdown.ItemIndicator>
-                        <CheckIcon />
-                      </Dropdown.ItemIndicator>
                     </Dropdown.CheckboxItem>
                   );
                 })}
@@ -107,7 +122,11 @@ export const BulkRoleChangeModal = ({ onOpenChange }) => {
           </Dropdown.Root>
         </DialogRow>
         <DialogRow justify="end">
-          <Button variant="primary" onClick={changeBulkRole}>
+          <Button
+            variant="primary"
+            onClick={changeBulkRole}
+            disabled={!(selectedRole && selectedBulkRole.length > 0)}
+          >
             Apply
           </Button>
         </DialogRow>
