@@ -1,10 +1,12 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
+  HMSNotificationTypes,
   selectHMSMessagesCount,
   selectPeerNameByID,
   selectPermissions,
   selectSessionMetadata,
   useHMSActions,
+  useHMSNotifications,
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { ChevronDownIcon, CrossIcon, PinIcon } from "@100mslive/react-icons";
@@ -12,10 +14,10 @@ import { Box, Button, Flex, IconButton, Text } from "@100mslive/react-ui";
 import { AnnotisedMessage, ChatBody } from "./ChatBody";
 import { ChatFooter } from "./ChatFooter";
 import { ChatHeader } from "./ChatHeader";
-import { useSetUiSettings } from "../AppData/useUISettings";
+import { useSetSubscribedChatSelector } from "../AppData/useUISettings";
 import { useSetPinnedMessage } from "../hooks/useSetPinnedMessage";
 import { useUnreadCount } from "./useUnreadCount";
-import { APP_DATA } from "../../common/constants";
+import { CHAT_SELECTOR } from "../../common/constants";
 
 const PinnedMessage = ({ clearPinnedMessage }) => {
   const permissions = useHMSStore(selectPermissions);
@@ -53,19 +55,41 @@ const PinnedMessage = ({ clearPinnedMessage }) => {
 };
 
 export const Chat = () => {
-  const [storedSelector, setStoredSelector] = useSetUiSettings(
-    APP_DATA.chatSelector
+  const notification = useHMSNotifications(HMSNotificationTypes.PEER_LEFT);
+  const [peerSelector, setPeerSelector] = useSetSubscribedChatSelector(
+    CHAT_SELECTOR.PEER_ID
   );
-  const peerName = useHMSStore(selectPeerNameByID(storedSelector));
+  const [roleSelector, setRoleSelector] = useSetSubscribedChatSelector(
+    CHAT_SELECTOR.ROLE
+  );
+  const peerName = useHMSStore(selectPeerNameByID(peerSelector));
   const [chatOptions, setChatOptions] = useState({
-    role: storedSelector || "",
-    peerId: storedSelector || "",
-    selection: storedSelector ? peerName || storedSelector : "Everyone",
+    role: roleSelector || "",
+    peerId: peerSelector && peerName ? peerSelector : "",
+    selection: roleSelector
+      ? roleSelector
+      : peerSelector && peerName
+      ? peerName
+      : "Everyone",
   });
   const [isSelectorOpen, setSelectorOpen] = useState(false);
   const listRef = useRef(null);
   const hmsActions = useHMSActions();
   const { setPinnedMessage } = useSetPinnedMessage();
+  useEffect(() => {
+    if (
+      notification &&
+      notification.data &&
+      peerSelector === notification.data.id
+    ) {
+      setPeerSelector("");
+      setChatOptions({
+        role: "",
+        peerId: "",
+        selection: "Everyone",
+      });
+    }
+  }, [notification, peerSelector, setPeerSelector]);
 
   const storeMessageSelector = selectHMSMessagesCount;
 
@@ -94,7 +118,8 @@ export const Chat = () => {
             peerId,
             selection,
           });
-          setStoredSelector(peerId || role);
+          setPeerSelector(peerId);
+          setRoleSelector(role);
         }}
         role={chatOptions.role}
         peerId={chatOptions.peerId}

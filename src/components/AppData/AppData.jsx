@@ -28,6 +28,7 @@ import { useSetAppDataByKey } from "./useUISettings";
 import { getMetadata } from "../../common/utils";
 import {
   APP_DATA,
+  CHAT_SELECTOR,
   DEFAULT_HLS_ROLE_KEY,
   DEFAULT_HLS_VIEWER_ROLE,
   QUERY_PARAM_VIEW_MODE,
@@ -63,7 +64,10 @@ const initialAppData = {
     METADATA_UPDATED: true,
   },
   [APP_DATA.chatOpen]: false,
-  [APP_DATA.chatSelector]: "",
+  [APP_DATA.chatSelector]: {
+    [CHAT_SELECTOR.ROLE]: "",
+    [CHAT_SELECTOR.PEER_ID]: "",
+  },
   [APP_DATA.chatDraft]: "",
   [APP_DATA.sidePane]: "",
   [APP_DATA.hlsStarted]: false,
