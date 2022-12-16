@@ -1,7 +1,19 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useHMSActions } from "@100mslive/react-sdk";
-import { ChangeRoleIcon, CheckIcon } from "@100mslive/react-icons";
-import { Button, Checkbox, Dialog, Dropdown, Text } from "@100mslive/react-ui";
+import {
+  AlertTriangleIcon,
+  ChangeRoleIcon,
+  CheckIcon,
+} from "@100mslive/react-icons";
+import {
+  Button,
+  Checkbox,
+  Dialog,
+  Dropdown,
+  Flex,
+  Loading,
+  Text,
+} from "@100mslive/react-ui";
 import { DialogContent, DialogRow } from "../../primitives/DialogContent";
 import { DialogDropdownTrigger } from "../../primitives/DropdownTrigger";
 import { useFilteredRoles } from "../../common/hooks";
@@ -15,16 +27,26 @@ export const BulkRoleChangeModal = ({ onOpenChange }) => {
   const [selectedRole, setRole] = useState("");
   const [bulkRoleDialog, setBulkRoleDialog] = useState(false);
   const [roleDialog, setRoleDialog] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   const changeBulkRole = useCallback(async () => {
     if (selectedBulkRole.length > 0 && selectedRole) {
-      await hmsActions.changeRoleOfPeersWithRoles(
-        selectedBulkRole,
-        selectedRole
-      );
+      try {
+        setIsSubmiting(true);
+        await hmsActions.changeRoleOfPeersWithRoles(
+          selectedBulkRole,
+          selectedRole
+        );
+        setIsSubmiting(false);
+        setErrorMessage("");
+        onOpenChange(false);
+      } catch (err) {
+        setErrorMessage(err?.message ? err?.message : "Unknown error");
+        setIsSubmiting(false);
+      }
     }
-    onOpenChange(false);
-  }, [selectedBulkRole, selectedRole, onOpenChange, hmsActions]);
+  }, [selectedBulkRole, selectedRole, hmsActions, onOpenChange]);
 
   return (
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
@@ -67,15 +89,16 @@ export const BulkRoleChangeModal = ({ onOpenChange }) => {
                     <Dropdown.CheckboxItem
                       key={role}
                       checked={selectedBulkRole.includes(role)}
-                      onCheckedChange={value =>
+                      onCheckedChange={value => {
                         setBulkRole(selection => {
                           return value
                             ? [...selection, role]
                             : selection.filter(
                                 selectedRole => selectedRole !== role
                               );
-                        })
-                      }
+                        });
+                        setErrorMessage("");
+                      }}
                     >
                       <Checkbox.Root
                         css={{ margin: "$2" }}
@@ -113,7 +136,13 @@ export const BulkRoleChangeModal = ({ onOpenChange }) => {
               {roles &&
                 roles.map(role => {
                   return (
-                    <Dropdown.Item key={role} onSelect={() => setRole(role)}>
+                    <Dropdown.Item
+                      key={role}
+                      onSelect={() => {
+                        setRole(role);
+                        setErrorMessage("");
+                      }}
+                    >
                       {role}
                     </Dropdown.Item>
                   );
@@ -121,12 +150,21 @@ export const BulkRoleChangeModal = ({ onOpenChange }) => {
             </Dropdown.Content>
           </Dropdown.Root>
         </DialogRow>
+        <DialogRow>
+          {errorMessage && (
+            <Flex gap={2} css={{ c: "$error", w: "70%", ml: "auto" }}>
+              <AlertTriangleIcon />
+              <Text css={{ c: "inherit" }}>{errorMessage}</Text>
+            </Flex>
+          )}
+        </DialogRow>
         <DialogRow justify="end">
           <Button
             variant="primary"
             onClick={changeBulkRole}
             disabled={!(selectedRole && selectedBulkRole.length > 0)}
           >
+            {isSubmiting && <Loading css={{ color: "$textSecondary" }} />}
             Apply
           </Button>
         </DialogRow>
