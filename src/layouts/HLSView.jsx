@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFullscreen, useToggle } from "react-use";
 import { HlsStats } from "@100mslive/hls-stats";
 import Hls from "hls.js";
+import { v4 } from "uuid";
 import {
   selectAppData,
   selectHLSState,
@@ -74,6 +75,7 @@ const HLSView = () => {
       );
       console.log(rest);
       ToastManager.addToast({
+        id: v4(),
         title: `Payload from timed Metadata ${payload}`,
       });
     };
