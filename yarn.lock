@@ -2,31 +2,31 @@
 # yarn lockfile v1
 
 
-"@100mslive/hls-stats@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@100mslive/hls-stats/-/hls-stats-0.0.2.tgz#d2d20c601fe748fa6ad0b06ef2e82443803a1401"
-  integrity sha512-qsbcAc1QMDCkXWkRQ8ShiYlT3FtuUjHgWIvcZBRagDDSWNMdajBx2sLuV2H7vOw+aHxRTuwlV87NSjQXPd0yxA==
+"@100mslive/hls-stats@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@100mslive/hls-stats/-/hls-stats-0.0.3.tgz#9acd810535dfd5a3f4786d0fd209352b133ee07b"
+  integrity sha512-i71wPfHmj77GTLiev0cQ+RdFBCI3XnGmR5j+s6VUNyeSI+dxpSlZoJHPiAMppb7kwYvZwS3EV4lAktyoch4h1g==
 
-"@100mslive/hms-noise-suppression@0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.7.0.tgz#3e8ae6a287830b5f31c164d8fa17b7c258f76bf3"
-  integrity sha512-g9kyy1UZ1XjtOUMd/XNYyUsJ7oNqIdQPORsN3r9lCd0FANaKI0Vkw76WG2PmrORyCkoujnr5DMhEwHev1eqi5A==
+"@100mslive/hms-noise-suppression@0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.7.1.tgz#bd2f8ee1f598fd0c68d1c8b5b3a2c19d0d39c4c0"
+  integrity sha512-P0Cj0WWa9Vpvum2UWRXMSyubUcKLV2hK6IcXxBO9KL1kELTaTIangivqxhaqJFGrQbYGL3fTXZu2i1p04UMGXQ==
 
-"@100mslive/hms-video-store@0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.8.0.tgz#c30007c20a05885c560f1e97188c4bf89afad8a8"
-  integrity sha512-84RFIfop3SEKGUmXH7GhLLwGc7TpEkg80Eqse4BCSA//3fltv6/HE1+WuIKczWMpXcTUhWMie4VIyZGfb0FqYg==
+"@100mslive/hms-video-store@0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.8.1.tgz#1826213b6ce763d51092a6d3375f8aba6d014748"
+  integrity sha512-kMUht04t8yv3HLeB+c+xxm9kC1q+VxcYQH+wTw91SpBZaA261ibL1yd/SDDFkhODBrPX2OvgAmqra1CWtfZh5w==
   dependencies:
-    "@100mslive/hms-video" "0.7.0"
+    "@100mslive/hms-video" "0.7.1"
     eventemitter2 "^6.4.7"
     immer "^9.0.6"
     reselect "4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.7.0.tgz#8053c46f02df0603fe0ba0ef673a72978f3766ba"
-  integrity sha512-bEjn0oYYEdx/O4Emfmzmp06sos96QlEmtJMQfBRrVMH7fgaZlrt0lD/6KZoprC9ax0NmmmeoUK0v59UynNpnMg==
+"@100mslive/hms-video@0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.7.1.tgz#a026fa803855eae5fc01588a445606b35365a1d9"
+  integrity sha512-B/YBS38EubL8iAuCtGyNDZBQOX/7hlZOnX27vupj2980PC5cvfoBGmeox3F5kxuOUEfFOQHh9C4SlQzFjr86mw==
   dependencies:
     eventemitter2 "^6.4.7"
     sdp-transform "^2.14.1"
@@ -34,10 +34,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.9.0.tgz#321580bfafabcb43f266fc87e26aa78c13d19c64"
-  integrity sha512-rTdgfPDSVJQ2y2R2+lVUd5axpxp83QY7HP3H61WostV14u4Qsq+hgd92Vbac1cFDPYDOUSZ5gucgsaeGt+Ugsg==
+"@100mslive/hms-virtual-background@1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.9.1.tgz#e451e8d351e50d72d25034734effd24c3a760914"
+  integrity sha512-qIW3mPRsulRgRgjrPWXGo6KxhpP7TEs0qfpjKxt8EHJ0lg7AXmicXJoYQVKgX011aCkpcEvvtpIxpqwGeHS1Hw==
   dependencies:
     "@mediapipe/selfie_segmentation" "^0.1.1632777926"
     "@tensorflow-models/body-segmentation" "^1.0.1"
@@ -49,28 +49,28 @@
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.6.0.tgz#ec34be7e5427b9667908a429c128cb3d3c8b0b8a"
-  integrity sha512-4Y1s7FjktBvxDvtqbqNgjtRfDxnMENY7m5aAwcFXNWlCL4vU9+TQxy7nOEiFruukSthfMXXEh3PtV/2d5jAt1Q==
+"@100mslive/react-icons@0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.6.1.tgz#152a32fe2d5183774a842ee9bffed751ba5390e6"
+  integrity sha512-kLr9XrLy0HrrxXl4N67I6G0zVsq8j/x6vP2Qp7BfQd1yJWLbI+W73SfoqXqhbdXgf8ePZtQEtACJeSwrRabxCQ==
 
-"@100mslive/react-sdk@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.6.0.tgz#db3d7b0bdcc0e6f6432bd2472289281a5698bde9"
-  integrity sha512-sxq2oaf25GvRkpNC0VNEPvKXGMPC9n8p5tbh5kezxsuF3xJcyZHzShXekzyRxw005sJQZrNp3w1k8AMP9mEE0w==
+"@100mslive/react-sdk@0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.6.1.tgz#27955470711c7cb986848073d77e65f3f0db2a4f"
+  integrity sha512-qL6DKbDQwjuC4ciD5eQvu5P9htcTBpzKtav3Qu2YSnRQVes9FMDzjMlM5uFZGFGTjJI4wRmgatdWP7oBEvqjBg==
   dependencies:
-    "@100mslive/hms-video-store" "0.8.0"
+    "@100mslive/hms-video-store" "0.8.1"
     react-intersection-observer "^8.33.1"
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.6.0.tgz#21252b9dd40a2a1f11465085733bb679c22dfcc9"
-  integrity sha512-qwptIle+iALK1tVjF3dqqE6FS0eMEy88mhkFhYbeHlM7AlRE8a2lLlRgv0BUUsIetsl7r1U2SljIhVeH9Y73ew==
+"@100mslive/react-ui@0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.6.1.tgz#aaa3d3734173fa86e342004bc3ee66fb1ac7dd42"
+  integrity sha512-xqne/td9UqqnjkFS+nqhObELrHyaEzYNwZScHJEUPpxlbAFvwhm/+PCcpAf1yoWxdpyMZJSXlXxJR8oX7Cvf8A==
   dependencies:
-    "@100mslive/react-icons" "0.6.0"
-    "@100mslive/react-sdk" "0.6.0"
+    "@100mslive/react-icons" "0.6.1"
+    "@100mslive/react-sdk" "0.6.1"
     "@radix-ui/react-accordion" "1.0.0"
     "@radix-ui/react-checkbox" "1.0.0"
     "@radix-ui/react-dialog" "1.0.0"
@@ -1342,9 +1342,9 @@
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
 "@mediapipe/selfie_segmentation@^0.1.1632777926":
-  version "0.1.1632777926"
-  resolved "https://registry.yarnpkg.com/@mediapipe/selfie_segmentation/-/selfie_segmentation-0.1.1632777926.tgz#67d37a53b0de89efc4a0e3b63332a4da3a6ad9c8"
-  integrity sha512-OSGhYaZsdOXKyY0JCueOflq3ICLNMrBekI2V8vShum8wuoH3xjfEM6NnIujwJ5SlTdZEXi7Up2koOILDgQbWyg==
+  version "0.1.1671057942"
+  resolved "https://registry.yarnpkg.com/@mediapipe/selfie_segmentation/-/selfie_segmentation-0.1.1671057942.tgz#525d06bb430427e85b90d19ba4e6b8416df87c5f"
+  integrity sha512-K0aR3L7r4DKfK71ZoAYZCyw1P17wqejpI2jaLlSbFo0Hi51jNHmiqw+SD/E1KskdnRFx2zRwW/VWoiY2H5cBwQ==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -2043,6 +2043,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/css-font-loading-module@0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@types/css-font-loading-module/-/css-font-loading-module-0.0.7.tgz#2f98ede46acc0975de85c0b7b0ebe06041d24601"
+  integrity sha512-nl09VhutdjINdWyXxHWN/w9zlNCfr60JUqJbd24YXUuCwgeL0TpFSdElCwb6cxfB6ybE19Gjj4g0jsgkXxKv1Q==
+
 "@types/eslint-scope@^3.7.3":
   version "3.7.4"
   resolved "https://registry.npmjs.org/@types/eslint-scope/-/eslint-scope-3.7.4.tgz"
@@ -2478,6 +2483,11 @@
   resolved "https://registry.npmjs.org/@xobotyi/scrollbar-width/-/scrollbar-width-1.9.5.tgz"
   integrity sha512-N8tkAACJx2ww8vFMneJmaAgmjAG1tnVBZJRLRcx061tmsLRZHSEZSLuGWnwPtunsSLvSqXQ2wfp7Mgqg1I+2dQ==
 
+"@xstate/fsm@^1.4.0":
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/@xstate/fsm/-/fsm-1.6.5.tgz#f599e301997ad7e3c572a0b1ff0696898081bea5"
+  integrity sha512-b5o1I6aLNeYlU/3CPlj/Z91ybk1gUsKT+5NAJI+2W4UjvS5KLG28K9v5UvNoFVjHV8PajVZ00RH3vnjyQO7ZAw==
+
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@xtuc/ieee754/-/ieee754-1.2.0.tgz"
@@ -2761,6 +2771,11 @@ balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
+
+base64-arraybuffer@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/base64-arraybuffer/-/base64-arraybuffer-1.0.2.tgz#1c37589a7c4b0746e34bd1feb951da2df01c1bdc"
+  integrity sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==
 
 batch@0.6.1:
   version "0.6.1"
@@ -3134,18 +3149,18 @@ css-in-js-utils@^2.0.0:
     isobject "^3.0.1"
 
 css-loader@^6.5.1:
-  version "6.7.1"
-  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-6.7.1.tgz#e98106f154f6e1baf3fc3bc455cb9981c1d5fd2e"
-  integrity sha512-yB5CNFa14MbPJcomwNh3wLThtkZgcNyI2bNMRt8iE5Z8Vwl7f8vQXFAzn2HDOJvtDq2NTZBUGMSUNNyrv3/+cw==
+  version "6.7.3"
+  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-6.7.3.tgz#1e8799f3ccc5874fdd55461af51137fcc5befbcd"
+  integrity sha512-qhOH1KlBMnZP8FzRO6YCH9UHXQhVMcEGLyNdb7Hv2cpcmJbW0YrddO+tG1ab5nT41KpHIYGsbeHqxB9xPu1pKQ==
   dependencies:
     icss-utils "^5.1.0"
-    postcss "^8.4.7"
+    postcss "^8.4.19"
     postcss-modules-extract-imports "^3.0.0"
     postcss-modules-local-by-default "^4.0.0"
     postcss-modules-scope "^3.0.0"
     postcss-modules-values "^4.0.0"
     postcss-value-parser "^4.2.0"
-    semver "^7.3.5"
+    semver "^7.3.8"
 
 css-select@^4.1.3:
   version "4.3.0"
@@ -4119,6 +4134,11 @@ faye-websocket@^0.11.3:
   dependencies:
     websocket-driver ">=0.5.1"
 
+fflate@^0.4.4:
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/fflate/-/fflate-0.4.8.tgz#f90b82aefbd8ac174213abb338bd7ef848f0f5ae"
+  integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
+
 file-entry-cache@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/file-entry-cache/-/file-entry-cache-6.0.1.tgz"
@@ -4453,9 +4473,9 @@ he@^1.2.0:
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
 hls.js@^1.2.5:
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.2.7.tgz#f421e258b10aa797cffb5ab2c3786675ead617f5"
-  integrity sha512-mD4Po7Q5TPNIYX6G8sDD+RS/xfrWjMjrtp+xPw3Thw8Tq557Vn0wdXIX/Zii28F9ncUMMQPZsGkoCWFna9CZCw==
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.2.9.tgz#2f25e42ec4c2ea8c88ab23c0f854f39062d45ac9"
+  integrity sha512-SPjm8ix0xe6cYzwDvdVGh2QvQPDkCYrGWpZu6bRaKNNVyEGWM9uF0pooh/Lqj/g8QBQgPFEx1vHzW8SyMY9rqg==
 
 hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
@@ -5292,6 +5312,11 @@ minimist@^1.2.0, minimist@^1.2.6:
   resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.6.tgz"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
+mitt@^1.1.3:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-1.2.0.tgz#cb24e6569c806e31bd4e3995787fe38a04fdf90d"
+  integrity sha512-r6lj77KlwqLhIUku9UWYes7KJtsczvolZkzp8hbaDPPaE24OmWl5s539Mytlj22siEQKosZ26qCBgda2PKwoJw==
+
 mobx@^6.3.12:
   version "6.6.2"
   resolved "https://registry.npmjs.org/mobx/-/mobx-6.6.2.tgz"
@@ -5941,10 +5966,19 @@ postcss-value-parser@^4.1.0, postcss-value-parser@^4.2.0:
   resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@8.x, postcss@^8.4.5, postcss@^8.4.7:
+postcss@8.x, postcss@^8.4.5:
   version "8.4.17"
   resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.17.tgz"
   integrity sha512-UNxNOLQydcOFi41yHNMcKRZ39NeXlr8AxGuZJsdub8vIb12fHzcq37DTU/QtbI6WLxNg2gF9Z+8qtRwTj1UI1Q==
+  dependencies:
+    nanoid "^3.3.4"
+    picocolors "^1.0.0"
+    source-map-js "^1.0.2"
+
+postcss@^8.4.19:
+  version "8.4.20"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.20.tgz#64c52f509644cecad8567e949f4081d98349dc56"
+  integrity sha512-6Q04AXR1212bXr5fh03u8aAwbLxAQNGQ/Q1LNa0VfOI06ZAlhPHtQvE4OIdpj4kLThXilalPnmDSOD65DcHt+g==
   dependencies:
     nanoid "^3.3.4"
     picocolors "^1.0.0"
@@ -6177,6 +6211,11 @@ react-use@^17.3.2, react-use@^17.4.0:
     ts-easing "^0.2.0"
     tslib "^2.1.0"
 
+react-virtualized-auto-sizer@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.7.tgz#bfb8414698ad1597912473de3e2e5f82180c1195"
+  integrity sha512-Mxi6lwOmjwIjC1X4gABXMJcKHsOo0xWl3E3ugOgufB8GJU+MqrtY35aBuvCYv/razQ1Vbp7h1gWJjGjoNN5pmA==
+
 react-window@^1.8.7:
   version "1.8.7"
   resolved "https://registry.npmjs.org/react-window/-/react-window-1.8.7.tgz"
@@ -6404,6 +6443,11 @@ rimraf@^3.0.0, rimraf@^3.0.2:
   dependencies:
     glob "^7.1.3"
 
+rrweb-snapshot@^1.1.14:
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/rrweb-snapshot/-/rrweb-snapshot-1.1.14.tgz#9d4d9be54a28a893373428ee4393ec7e5bd83fcc"
+  integrity sha512-eP5pirNjP5+GewQfcOQY4uBiDnpqxNRc65yKPW0eSoU1XamDfc4M8oqpXGMyUyvLyxFDB0q0+DChuxxiU2FXBQ==
+
 rtl-css-js@^1.14.0:
   version "1.16.0"
   resolved "https://registry.npmjs.org/rtl-css-js/-/rtl-css-js-1.16.0.tgz"
@@ -6529,7 +6573,7 @@ semver@^6.1.1, semver@^6.1.2, semver@^6.3.0:
   resolved "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
 
-semver@^7.3.5, semver@^7.3.7:
+semver@^7.3.5, semver@^7.3.7, semver@^7.3.8:
   version "7.3.8"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.8.tgz#07a78feafb3f7b32347d725e33de7e2a2df67798"
   integrity sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==
@@ -7440,6 +7484,26 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zipy-rrweb@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/zipy-rrweb/-/zipy-rrweb-0.0.2.tgz#fdbfc82f6ce456058f58161e5244d31306c08e19"
+  integrity sha512-uswB4xsnvHga0wkUstvRCedLQb39ihdCwwx5izpM8qZ6FxJI95S103PGIG5MWrJN+oxv1l8DauYNfqts1dTnBg==
+  dependencies:
+    "@types/css-font-loading-module" "0.0.7"
+    "@xstate/fsm" "^1.4.0"
+    base64-arraybuffer "^1.0.1"
+    fflate "^0.4.4"
+    mitt "^1.1.3"
+    rrweb-snapshot "^1.1.14"
+
+zipyai@^1.3.20:
+  version "1.3.21"
+  resolved "https://registry.yarnpkg.com/zipyai/-/zipyai-1.3.21.tgz#d92b6e3790257c95dbde8d10897b271735aad0ee"
+  integrity sha512-bKMcYzS/py7jbe91P+NWgQJDkPPqA8d73zQLz2odOuSRu0X9RaggYxsDOeHDJoBoIuuW8CX1nYYx/SyieE8p8A==
+  dependencies:
+    uuid "^8.3.2"
+    zipy-rrweb "^0.0.2"
 
 zustand@3.5.7:
   version "3.5.7"

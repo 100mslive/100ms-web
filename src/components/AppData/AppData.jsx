@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useSearchParam } from "react-use";
 import {
+  HMSRoomState,
   selectAvailableRoleNames,
   selectHLSState,
   selectIsConnectedToRoom,
   selectLocalPeerRoleName,
   selectRolesMap,
+  selectRoomState,
   selectRTMPState,
   useHMSActions,
   useHMSStore,
@@ -26,6 +28,7 @@ import { useSetAppDataByKey } from "./useUISettings";
 import { getMetadata } from "../../common/utils";
 import {
   APP_DATA,
+  CHAT_SELECTOR,
   DEFAULT_HLS_ROLE_KEY,
   DEFAULT_HLS_VIEWER_ROLE,
   QUERY_PARAM_VIEW_MODE,
@@ -61,6 +64,10 @@ const initialAppData = {
     METADATA_UPDATED: true,
   },
   [APP_DATA.chatOpen]: false,
+  [APP_DATA.chatSelector]: {
+    [CHAT_SELECTOR.ROLE]: "",
+    [CHAT_SELECTOR.PEER_ID]: "",
+  },
   [APP_DATA.chatDraft]: "",
   [APP_DATA.sidePane]: "",
   [APP_DATA.hlsStarted]: false,
@@ -158,6 +165,7 @@ const ResetStreamingStart = () => {
     useRecordingStreaming();
   const hlsError = useHMSStore(selectHLSState).error;
   const rtmpError = useHMSStore(selectRTMPState).error;
+  const roomState = useHMSStore(selectRoomState);
   const [hlsStarted, setHLSStarted] = useSetAppDataByKey(APP_DATA.hlsStarted);
   const [recordingStarted, setRecordingStarted] = useSetAppDataByKey(
     APP_DATA.recordingStarted
@@ -173,6 +181,16 @@ const ResetStreamingStart = () => {
       setRecordingStarted(false);
     }
   }, [isBrowserRecordingOn, recordingStarted, setRecordingStarted]);
+  /**
+   * Reset on leave
+   */
+  useEffect(() => {
+    if (roomState === HMSRoomState.Disconnected) {
+      setHLSStarted(false);
+      setRecordingStarted(false);
+      setRTMPStarted(false);
+    }
+  }, [roomState, setHLSStarted, setRTMPStarted, setRecordingStarted]);
   useEffect(() => {
     if (isHLSRunning || hlsError) {
       if (hlsStarted) {

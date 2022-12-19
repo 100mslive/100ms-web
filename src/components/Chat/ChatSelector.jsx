@@ -123,7 +123,10 @@ const VirtualizedSelectItemList = ({
 
   const listItems = useMemo(() => {
     const selectItems = [
-      <Everyone onSelect={onSelect} active={!selectedRole && !selectedRole} />,
+      <Everyone
+        onSelect={onSelect}
+        active={!selectedRole && !selectedPeerId}
+      />,
     ];
 
     roles.length > 0 &&

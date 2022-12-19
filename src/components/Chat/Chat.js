@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useInView } from "react-intersection-observer";
 import {
+  HMSNotificationTypes,
+  selectHMSMessagesCount,
+  selectPeerNameByID,
   selectPermissions,
   selectSessionMetadata,
   useHMSActions,
+  useHMSNotifications,
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { ChevronDownIcon, CrossIcon, PinIcon } from "@100mslive/react-icons";
@@ -11,8 +14,10 @@ import { Box, Button, Flex, IconButton, Text } from "@100mslive/react-ui";
 import { AnnotisedMessage, ChatBody } from "./ChatBody";
 import { ChatFooter } from "./ChatFooter";
 import { ChatHeader } from "./ChatHeader";
+import { useSetSubscribedChatSelector } from "../AppData/useUISettings";
 import { useSetPinnedMessage } from "../hooks/useSetPinnedMessage";
 import { useUnreadCount } from "./useUnreadCount";
+import { CHAT_SELECTOR } from "../../common/constants";
 
 const PinnedMessage = ({ clearPinnedMessage }) => {
   const permissions = useHMSStore(selectPermissions);
@@ -50,40 +55,72 @@ const PinnedMessage = ({ clearPinnedMessage }) => {
 };
 
 export const Chat = () => {
+  const notification = useHMSNotifications(HMSNotificationTypes.PEER_LEFT);
+  const [peerSelector, setPeerSelector] = useSetSubscribedChatSelector(
+    CHAT_SELECTOR.PEER_ID
+  );
+  const [roleSelector, setRoleSelector] = useSetSubscribedChatSelector(
+    CHAT_SELECTOR.ROLE
+  );
+  const peerName = useHMSStore(selectPeerNameByID(peerSelector));
   const [chatOptions, setChatOptions] = useState({
-    role: "",
-    peerId: "",
-    selection: "Everyone",
+    role: roleSelector || "",
+    peerId: peerSelector && peerName ? peerSelector : "",
+    selection: roleSelector
+      ? roleSelector
+      : peerSelector && peerName
+      ? peerName
+      : "Everyone",
   });
   const [isSelectorOpen, setSelectorOpen] = useState(false);
-  const bodyRef = useRef(null);
+  const listRef = useRef(null);
   const hmsActions = useHMSActions();
   const { setPinnedMessage } = useSetPinnedMessage();
-
-  const scrollToBottom = useCallback(
-    (instant = false) => {
-      if (!bodyRef.current) {
-        return;
-      }
-      bodyRef.current.scrollTo({
-        top: bodyRef.current.scrollHeight,
-        behavior: instant ? "instant" : "smooth",
-      });
-      hmsActions.setMessageRead(true);
-    },
-    [hmsActions]
-  );
-
   useEffect(() => {
-    scrollToBottom(true);
-  }, [scrollToBottom]);
+    if (
+      notification &&
+      notification.data &&
+      peerSelector === notification.data.id
+    ) {
+      setPeerSelector("");
+      setChatOptions({
+        role: "",
+        peerId: "",
+        selection: "Everyone",
+      });
+    }
+  }, [notification, peerSelector, setPeerSelector]);
+
+  const storeMessageSelector = selectHMSMessagesCount;
+
+  const messagesCount = useHMSStore(storeMessageSelector) || 0;
+  const scrollToBottom = useCallback(
+    (unreadCount = 0) => {
+      if (listRef.current && listRef.current.scrollToItem && unreadCount > 0) {
+        listRef.current?.scrollToItem(messagesCount, "end");
+        requestAnimationFrame(() => {
+          listRef.current?.scrollToItem(messagesCount, "end");
+        });
+        hmsActions.setMessageRead(true);
+      }
+    },
+    [hmsActions, messagesCount]
+  );
 
   return (
     <Flex direction="column" css={{ size: "100%" }}>
       <ChatHeader
         selectorOpen={isSelectorOpen}
         selection={chatOptions.selection}
-        onSelect={setChatOptions}
+        onSelect={({ role, peerId, selection }) => {
+          setChatOptions({
+            role,
+            peerId,
+            selection,
+          });
+          setPeerSelector(peerId);
+          setRoleSelector(role);
+        }}
         role={chatOptions.role}
         peerId={chatOptions.peerId}
         onToggle={() => {
@@ -91,34 +128,17 @@ export const Chat = () => {
         }}
       />
       <PinnedMessage clearPinnedMessage={setPinnedMessage} />
-      <Flex
-        direction="column"
-        css={{
-          flex: "1 1 0",
-          overflowY: "auto",
-          pt: "$4",
-          position: "relative",
-          // Below two are for pushing scroll to the edge of the box
-          mr: "-$10",
-          pr: "$10",
-        }}
-        ref={bodyRef}
-      >
-        <ChatBody
-          role={chatOptions.role}
-          peerId={chatOptions.peerId}
-          setPinnedMessage={setPinnedMessage}
-        />
-        <ScrollHandler
-          scrollToBottom={scrollToBottom}
-          role={chatOptions.role}
-          peerId={chatOptions.peerId}
-        />
-      </Flex>
+
+      <ChatBody
+        role={chatOptions.role}
+        peerId={chatOptions.peerId}
+        setPinnedMessage={setPinnedMessage}
+        ref={listRef}
+      />
       <ChatFooter
         role={chatOptions.role}
         peerId={chatOptions.peerId}
-        onSend={scrollToBottom}
+        onSend={() => scrollToBottom(1)}
       >
         {!isSelectorOpen && (
           <NewMessageIndicator
@@ -149,7 +169,7 @@ const NewMessageIndicator = ({ role, peerId, scrollToBottom }) => {
     >
       <Button
         onClick={() => {
-          scrollToBottom();
+          scrollToBottom(unreadCount);
         }}
         css={{ p: "$2 $4", "& > svg": { ml: "$4" } }}
       >
@@ -158,15 +178,4 @@ const NewMessageIndicator = ({ role, peerId, scrollToBottom }) => {
       </Button>
     </Flex>
   );
-};
-
-const ScrollHandler = ({ scrollToBottom, role, peerId }) => {
-  const { ref, inView } = useInView({ threshold: 0.5 });
-  const unreadCount = useUnreadCount({ role, peerId });
-  useEffect(() => {
-    if (inView && unreadCount) {
-      scrollToBottom();
-    }
-  }, [inView, unreadCount, scrollToBottom]);
-  return <div ref={ref} style={{ height: 1 }}></div>;
 };
