@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFullscreen, useToggle } from "react-use";
 import { HlsStats } from "@100mslive/hls-stats";
 import Hls from "hls.js";
-import { v4 } from "uuid";
 import {
   selectAppData,
   selectHLSState,
@@ -49,6 +48,7 @@ const HLSView = () => {
   const [currentSelectedQuality, setCurrentSelectedQuality] = useState(null);
   const [isHlsAutoplayBlocked, setIsHlsAutoplayBlocked] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMSENotSupported, setIsMSENotSupported] = useState(false);
 
   const [show, toggle] = useToggle(false);
   const isFullScreen = useFullscreen(hlsViewRef, show, {
@@ -75,7 +75,6 @@ const HLSView = () => {
       );
       console.log(rest);
       ToastManager.addToast({
-        id: v4(),
         title: `Payload from timed Metadata ${payload}`,
       });
     };
@@ -96,6 +95,7 @@ const HLSView = () => {
         hlsController.on(Hls.Events.LEVEL_UPDATED, levelUpdatedHandler);
       } else if (videoEl.canPlayType("application/vnd.apple.mpegurl")) {
         videoEl.src = hlsUrl;
+        setIsMSENotSupported(true);
       }
     }
     return () => {
@@ -232,7 +232,10 @@ const HLSView = () => {
             unblockAutoPlay={unblockAutoPlay}
           />
           <HMSVideoPlayer.Root ref={videoRef}>
-            <HMSVideoPlayer.Progress videoRef={videoRef} />
+            {!isMSENotSupported && (
+              <HMSVideoPlayer.Progress videoRef={videoRef} />
+            )}
+
             <HMSVideoPlayer.Controls.Root css={{ p: "$4 $8" }}>
               <HMSVideoPlayer.Controls.Left>
                 <HMSVideoPlayer.PlayButton
@@ -246,45 +249,48 @@ const HLSView = () => {
                 <HMSVideoPlayer.Duration videoRef={videoRef} />
                 <HMSVideoPlayer.Volume videoRef={videoRef} />
               </HMSVideoPlayer.Controls.Left>
+
               <HMSVideoPlayer.Controls.Right>
-                {hlsController ? (
-                  <IconButton
-                    variant="standard"
-                    css={{ px: "$2" }}
-                    onClick={() => {
-                      hlsController.jumpToLive();
-                      setIsVideoLive(true);
-                    }}
-                    key="jump-to-live_btn"
-                    data-testid="jump-to-live_btn"
-                  >
-                    <Tooltip title="Go to Live">
-                      <Flex justify="center" gap={2} align="center">
-                        <Box
-                          css={{
-                            height: "$4",
-                            width: "$4",
-                            background: isVideoLive ? "$error" : "$white",
-                            r: "$1",
-                          }}
-                        />
-                        <Text
-                          variant={{
-                            "@sm": "xs",
-                          }}
-                        >
-                          {isVideoLive ? "LIVE" : "GO LIVE"}
-                        </Text>
-                      </Flex>
-                    </Tooltip>
-                  </IconButton>
+                {!isMSENotSupported && hlsController ? (
+                  <>
+                    <IconButton
+                      variant="standard"
+                      css={{ px: "$2" }}
+                      onClick={() => {
+                        hlsController.jumpToLive();
+                        setIsVideoLive(true);
+                      }}
+                      key="jump-to-live_btn"
+                      data-testid="jump-to-live_btn"
+                    >
+                      <Tooltip title="Go to Live">
+                        <Flex justify="center" gap={2} align="center">
+                          <Box
+                            css={{
+                              height: "$4",
+                              width: "$4",
+                              background: isVideoLive ? "$error" : "$white",
+                              r: "$1",
+                            }}
+                          />
+                          <Text
+                            variant={{
+                              "@sm": "xs",
+                            }}
+                          >
+                            {isVideoLive ? "LIVE" : "GO LIVE"}
+                          </Text>
+                        </Flex>
+                      </Tooltip>
+                    </IconButton>
+                    <HLSQualitySelector
+                      levels={availableLevels}
+                      selection={currentSelectedQuality}
+                      onQualityChange={handleQuality}
+                      isAuto={isUserSelectedAuto}
+                    />
+                  </>
                 ) : null}
-                <HLSQualitySelector
-                  levels={availableLevels}
-                  selection={currentSelectedQuality}
-                  onQualityChange={handleQuality}
-                  isAuto={isUserSelectedAuto}
-                />
                 <FullScreenButton
                   onToggle={toggle}
                   icon={isFullScreen ? <ShrinkIcon /> : <ExpandIcon />}
