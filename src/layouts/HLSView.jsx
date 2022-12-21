@@ -29,6 +29,7 @@ import {
   HLSController,
 } from "../controllers/hls/HLSController";
 import { APP_DATA } from "../common/constants";
+import screenfull from "screenfull";
 
 let hlsController;
 let hlsStats;
@@ -49,7 +50,7 @@ const HLSView = () => {
   const [isHlsAutoplayBlocked, setIsHlsAutoplayBlocked] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isMSENotSupported, setIsMSENotSupported] = useState(false);
-
+  const isFullScreenSupported = screenfull.isEnabled;
   const [show, toggle] = useToggle(false);
   const isFullScreen = useFullscreen(hlsViewRef, show, {
     onClose: () => toggle(false),
@@ -291,10 +292,12 @@ const HLSView = () => {
                     />
                   </>
                 ) : null}
-                <FullScreenButton
-                  onToggle={toggle}
-                  icon={isFullScreen ? <ShrinkIcon /> : <ExpandIcon />}
-                />
+                {isFullScreenSupported ? (
+                  <FullScreenButton
+                    onToggle={toggle}
+                    icon={isFullScreen ? <ShrinkIcon /> : <ExpandIcon />}
+                  />
+                ) : null}
               </HMSVideoPlayer.Controls.Right>
             </HMSVideoPlayer.Controls.Root>
           </HMSVideoPlayer.Root>
