@@ -98,6 +98,22 @@ export const useSetSubscribedNotifications = notificationKey => {
   return [value, setValue];
 };
 
+export const useSubscribeChatSelector = chatSelectorKey => {
+  const chatSelectorPreference = useHMSStore(
+    selectAppDataByPath(APP_DATA.chatSelector, chatSelectorKey)
+  );
+  return chatSelectorPreference;
+};
+
+export const useSetSubscribedChatSelector = chatSelectorKey => {
+  const value = useSubscribeChatSelector(chatSelectorKey);
+  const setValue = useSetAppData({
+    key1: APP_DATA.chatSelector,
+    key2: chatSelectorKey,
+  });
+  return [value, setValue];
+};
+
 export const useSetAppDataByKey = appDataKey => {
   const value = useHMSStore(selectAppData(appDataKey));
   const actions = useHMSActions();

@@ -47,7 +47,7 @@ export const ChangeSelfRole = ({ onClick }) => {
         <ArrowRightIcon />
       </Dropdown.TriggerItem>
       <Dropdown.SubMenuContent
-        sideOffset={2}
+        sideOffset={8}
         alignOffset={-5}
         css={{ "@md": { w: "$64" } }}
       >

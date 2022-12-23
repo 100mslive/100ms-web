@@ -5,7 +5,7 @@ import {
   HMSNotificationTypes,
   useHMSNotifications,
 } from "@100mslive/react-sdk";
-import { Button, Flex, Text } from "@100mslive/react-ui";
+import { Button } from "@100mslive/react-ui";
 import { ToastBatcher } from "../Toast/ToastBatcher";
 import { ToastManager } from "../Toast/ToastManager";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
@@ -67,23 +67,21 @@ export function Notifications() {
             LogRocket.track("Disconnected");
             // show button action when the error is terminal
             const toastId = ToastManager.addToast({
-              title: (
-                <Flex justify="between" css={{ w: "100%" }}>
-                  <Text css={{ mr: "$4" }}>
-                    {notification.data?.message ||
-                      "We couldn’t reconnect you. When you’re back online, try joining the room."}
-                  </Text>
-                  <Button
-                    variant="primary"
-                    css={{ mr: "$4" }}
-                    onClick={() => {
-                      ToastManager.removeToast(toastId);
-                      window.location.reload();
-                    }}
-                  >
-                    Rejoin
-                  </Button>
-                </Flex>
+              title:
+                notification.data?.message ||
+                "We couldn’t reconnect you. When you’re back online, try joining the room.",
+              inlineAction: true,
+              action: (
+                <Button
+                  as="div"
+                  variant="primary"
+                  onClick={() => {
+                    ToastManager.removeToast(toastId);
+                    window.location.reload();
+                  }}
+                >
+                  Rejoin
+                </Button>
               ),
               close: false,
             });

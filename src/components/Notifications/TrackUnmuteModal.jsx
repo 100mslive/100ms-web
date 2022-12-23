@@ -12,13 +12,19 @@ export const TrackUnmuteModal = () => {
   const notification = useHMSNotifications(
     HMSNotificationTypes.CHANGE_TRACK_STATE_REQUEST
   );
+  const endedOrRemovedNotification = useHMSNotifications([
+    HMSNotificationTypes.ROOM_ENDED,
+    HMSNotificationTypes.REMOVED_FROM_ROOM,
+  ]);
   const [muteNotification, setMuteNotification] = useState(null);
 
   useEffect(() => {
-    if (notification?.data.enabled) {
+    if (endedOrRemovedNotification?.data.roomEnded) {
+      setMuteNotification(null);
+    } else if (notification?.data.enabled) {
       setMuteNotification(notification.data);
     }
-  }, [notification]);
+  }, [notification, endedOrRemovedNotification]);
 
   if (!muteNotification) {
     return null;

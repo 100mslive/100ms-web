@@ -36,7 +36,8 @@ export const InitErrorModal = ({ notification }) => {
       title={info.title}
     >
       <Text variant="sm" css={{ wordBreak: "break-word" }}>
-        {info.description} Current URL - {window.location.href}
+        {info.description} <br />
+        Current URL - {window.location.href}
       </Text>
     </ErrorDialog>
   );

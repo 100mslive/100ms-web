@@ -1,6 +1,10 @@
 import React from "react";
 import { useMeasure } from "react-use";
-import { selectPeers, useHMSStore } from "@100mslive/react-sdk";
+import {
+  selectPeers,
+  selectVideoTrackByPeerID,
+  useHMSStore,
+} from "@100mslive/react-sdk";
 import { Flex, useTheme } from "@100mslive/react-ui";
 import { GridSidePaneView } from "../components/gridView";
 import VideoTile from "../components/VideoTile";
@@ -8,7 +12,13 @@ import { usePinnedTrack } from "../components/AppData/useUISettings";
 
 const PinnedPeerView = () => {
   const { aspectRatio } = useTheme();
+  // can be audio or video track, if tile with only audio track is pinned
   const pinnedTrack = usePinnedTrack();
+  const peerVideoTrack = useHMSStore(
+    selectVideoTrackByPeerID(pinnedTrack.peerId)
+  );
+  const pinnedVideoTrack =
+    pinnedTrack && pinnedTrack.type === "audio" ? peerVideoTrack : pinnedTrack;
   const [ref, { height, width }] = useMeasure();
   const peers = (useHMSStore(selectPeers) || []).filter(
     peer =>
@@ -42,7 +52,7 @@ const PinnedPeerView = () => {
       >
         <VideoTile
           key={pinnedTrack.id}
-          trackId={pinnedTrack.id}
+          trackId={pinnedVideoTrack?.id}
           peerId={pinnedTrack.peerId}
           height={finalHeight}
           width={finalWidth}
