@@ -95,8 +95,6 @@ export const QUERY_PARAM_AUTH_TOKEN = "auth_token";
 export const UI_MODE_ACTIVE_SPEAKER = "activespeaker";
 export const UI_MODE_GRID = "grid";
 export const MAX_TOASTS = 5;
-export const RTMP_RESOLUTION_IGNORED_WARNING_TEXT =
-  "Resolution will be ignored when HLS is on";
 export const RTMP_RECORD_RESOLUTION_MIN = 480;
 export const RTMP_RECORD_RESOLUTION_MAX = 1280;
 export const RTMP_RECORD_DEFAULT_RESOLUTION = {
@@ -104,13 +102,20 @@ export const RTMP_RECORD_DEFAULT_RESOLUTION = {
   height: 720,
 };
 
+export const CHAT_SELECTOR = {
+  PEER_ID: "peer_id",
+  ROLE: "role",
+};
+
 export const APP_DATA = {
   uiSettings: "uiSettings",
   chatOpen: "chatOpen",
+  chatSelector: "chatSelector",
   chatDraft: "chatDraft",
   appConfig: "appConfig",
   recordingUrl: "recordingUrl",
   sidePane: "sidePane",
+  hlsStats: "hlsStats",
   hlsViewerRole: "hlsViewerRole",
   subscribedNotifications: "subscribedNotifications",
   logo: "logo",
@@ -119,6 +124,8 @@ export const APP_DATA = {
   hlsStarted: "hlsStarted",
   rtmpStarted: "rtmpStarted",
   recordingStarted: "recordingStarted",
+  embedConfig: "embedConfig",
+  pinnedTrackId: "pinnedTrackId",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",

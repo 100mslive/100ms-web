@@ -4,7 +4,7 @@ import { FeatureFlags } from "../../services/FeatureFlags";
 
 export const HLS_TIMED_METADATA_LOADED = "hls-timed-metadata";
 export const HLS_STREAM_NO_LONGER_LIVE = "hls-stream-no-longer-live";
-export const HLS_DEFAULT_ALLOWED_MAX_LATENCY_DELAY = 10; // seconds
+export const HLS_DEFAULT_ALLOWED_MAX_LATENCY_DELAY = 3; // seconds
 
 export class HLSController {
   hls;
@@ -42,14 +42,20 @@ export class HLSController {
 
   /**
    *
-   * @param { Number } currentLevel - currentLevel we want to
+   * @param { Hls.Level } currentLevel - currentLevel we want to
    * set the stream to. -1 for Auto
    */
   setCurrentLevel(currentLevel) {
     const newLevel = this.hls.levels.findIndex(
-      level => level.height === currentLevel.height
+      level =>
+        level.height === currentLevel.height &&
+        level.width === currentLevel.width
     );
     this.hls.currentLevel = newLevel;
+  }
+
+  getHlsJsInstance() {
+    return this.hls;
   }
 
   jumpToLive() {
@@ -81,18 +87,26 @@ export class HLSController {
     if (eventName === HLS_STREAM_NO_LONGER_LIVE) {
       this.enableTimeUpdateListener();
     }
-    if (this.ControllerEvents.indexOf(eventName) === -1) {
+    if (!this.ControllerEvents.includes(eventName)) {
       this.hls.on(eventName, eventCallback);
     } else {
       this.eventEmitter.addListener(eventName, eventCallback);
     }
   }
 
+  off(eventName, eventCallback) {
+    if (!this.ControllerEvents.includes(eventName)) {
+      this.hls?.off(eventName, eventCallback);
+    } else {
+      this.eventEmitter?.removeListener(eventName, eventCallback);
+    }
+  }
+
   // listen for pause, play as well to show not live if paused
   enableTimeUpdateListener() {
     this.videoRef.current.addEventListener("timeupdate", _ => {
-      if (this.hls) {
-        const videoEl = this.videoRef.current;
+      const videoEl = this.videoRef.current;
+      if (this.hls && videoEl) {
         const allowedDelay =
           this.getHLSConfig().liveMaxLatencyDuration ||
           HLS_DEFAULT_ALLOWED_MAX_LATENCY_DELAY;

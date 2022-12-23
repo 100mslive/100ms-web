@@ -50,7 +50,7 @@ const ScreenshareAudio = () => {
           active={!isAudioScreenshare}
           onClick={() => {
             if (amIScreenSharing) {
-              toggleScreenShare(true);
+              toggleScreenShare();
             } else {
               setShowModal(true);
             }

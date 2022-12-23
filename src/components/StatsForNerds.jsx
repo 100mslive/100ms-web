@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   selectHMSStats,
+  selectLocalPeerID,
   selectPeersMap,
   selectTracksMap,
   useHMSStatsStore,
@@ -30,7 +31,7 @@ export const StatsForNerds = ({ onOpenChange }) => {
     ],
     [tracksWithLabels]
   );
-  const [selectedStat, setSelectedStat] = useState("local-peer");
+  const [selectedStat, setSelectedStat] = useState(statsOptions[0]);
   const [showStatsOnTiles, setShowStatsOnTiles] = useSetUiSettings(
     UI_SETTINGS.showStatsOnTiles
   );
@@ -40,8 +41,8 @@ export const StatsForNerds = ({ onOpenChange }) => {
 
   useEffect(() => {
     if (
-      selectedStat !== "local-peer" &&
-      !tracksWithLabels.find(track => track.id === selectedStat)
+      selectedStat.id !== "local-peer" &&
+      !tracksWithLabels.find(track => track.id === selectedStat.id)
     ) {
       setSelectedStat("local-peer");
     }
@@ -94,10 +95,7 @@ export const StatsForNerds = ({ onOpenChange }) => {
               onOpenChange={setOpen}
             >
               <DialogDropdownTrigger
-                title={
-                  statsOptions.find(({ id }) => id === selectedStat)?.label ||
-                  "Select Stats"
-                }
+                title={selectedStat.label || "Select Stats"}
                 css={{ mt: "$4" }}
                 titleCSS={{ mx: 0 }}
                 open={open}
@@ -109,34 +107,39 @@ export const StatsForNerds = ({ onOpenChange }) => {
                   sideOffset={8}
                   css={{ w: ref.current?.clientWidth, zIndex: 1000 }}
                 >
-                  {statsOptions.map(option => (
-                    <Dropdown.Item
-                      key={option.id}
-                      onClick={() => {
-                        setSelectedStat(option.id);
-                      }}
-                      css={{
-                        px: "$9",
-                        bg:
-                          option.id === selectedStat ? selectionBg : undefined,
-                        c:
-                          option.id === selectedStat
-                            ? "$white"
-                            : "$textPrimary",
-                      }}
-                    >
-                      {option.label}
-                    </Dropdown.Item>
-                  ))}
+                  {statsOptions.map(option => {
+                    const isSelected =
+                      option.id === selectedStat.id &&
+                      option.layer === selectedStat.layer;
+                    return (
+                      <Dropdown.Item
+                        key={option.label}
+                        onClick={() => {
+                          setSelectedStat(option);
+                        }}
+                        css={{
+                          px: "$9",
+                          bg: isSelected ? selectionBg : undefined,
+                          c: isSelected ? "$white" : "$textPrimary",
+                        }}
+                      >
+                        {option.label}
+                      </Dropdown.Item>
+                    );
+                  })}
                 </Dropdown.Content>
               </Dropdown.Portal>
             </Dropdown.Root>
           </Flex>
           {/* Stats */}
-          {selectedStat === "local-peer" ? (
+          {selectedStat.id === "local-peer" ? (
             <LocalPeerStats />
           ) : (
-            <TrackStats trackID={selectedStat} />
+            <TrackStats
+              trackID={selectedStat.id}
+              layer={selectedStat.layer}
+              local={selectedStat.local}
+            />
           )}
         </Dialog.Content>
       </Dialog.Portal>
@@ -147,16 +150,33 @@ export const StatsForNerds = ({ onOpenChange }) => {
 const useTracksWithLabel = () => {
   const tracksMap = useHMSStore(selectTracksMap);
   const peersMap = useHMSStore(selectPeersMap);
+  const localPeerID = useHMSStore(selectLocalPeerID);
   const tracksWithLabels = useMemo(
     () =>
-      Object.values(tracksMap).map(track => {
+      Object.values(tracksMap).reduce((res, track) => {
         const peerName = peersMap[track.peerId]?.name;
-        return {
+        const isLocalTrack = track.peerId === localPeerID;
+        if (isLocalTrack && track.layerDefinitions?.length) {
+          res = res.concat(
+            track.layerDefinitions.map(({ layer }) => {
+              return {
+                id: track.id,
+                layer,
+                local: true,
+                label: `${peerName} ${track.source} ${track.type} - ${layer}`,
+              };
+            })
+          );
+          return res;
+        }
+        res.push({
           id: track.id,
+          local: isLocalTrack,
           label: `${peerName} ${track.source} ${track.type}`,
-        };
-      }),
-    [tracksMap, peersMap]
+        });
+        return res;
+      }, []),
+    [tracksMap, peersMap, localPeerID]
   );
   return tracksWithLabels;
 };
@@ -170,8 +190,11 @@ const LocalPeerStats = () => {
 
   return (
     <Flex css={{ flexWrap: "wrap", gap: "$10" }}>
-      <StatsRow label="Packets Lost" value={stats.subscribe?.packetsLost} />
-      <StatsRow label="Jitter" value={stats.subscribe?.jitter} />
+      <StatsRow
+        label="Packets Lost"
+        value={stats.subscribe?.packetsLost || "-"}
+      />
+      <StatsRow label="Jitter" value={stats.subscribe?.jitter || "-"} />
       <StatsRow
         label="Publish Bitrate"
         value={formatBytes(stats.publish?.bitrate, "b/s")}
@@ -192,8 +215,13 @@ const LocalPeerStats = () => {
   );
 };
 
-const TrackStats = ({ trackID }) => {
-  const stats = useHMSStatsStore(selectHMSStats.trackStatsByID(trackID));
+const TrackStats = ({ trackID, layer, local }) => {
+  const selector = layer
+    ? selectHMSStats.localVideoTrackStatsByLayer(layer)(trackID)
+    : local
+    ? selectHMSStats.localAudioTrackStatsByID(trackID)
+    : selectHMSStats.trackStatsByID(trackID);
+  const stats = useHMSStatsStore(selector);
   if (!stats) {
     return null;
   }
@@ -204,7 +232,7 @@ const TrackStats = ({ trackID }) => {
       <StatsRow label="Type" value={stats.type + " " + stats.kind} />
       <StatsRow label="Bitrate" value={formatBytes(stats.bitrate, "b/s")} />
       <StatsRow label="Packets Lost" value={stats.packetsLost || "-"} />
-      <StatsRow label="Jitter" value={stats.jitter || "-"} />
+      <StatsRow label="Jitter" value={stats.jitter?.toFixed(3) || "-"} />
       <StatsRow
         label={inbound ? "Bytes Received" : "Bytes Sent"}
         value={formatBytes(inbound ? stats.bytesReceived : stats.bytesSent)}
@@ -218,13 +246,14 @@ const TrackStats = ({ trackID }) => {
               value={stats.qualityLimitationReason || "-"}
             />
           )}
+          {stats.rid && <StatsRow label="Rid" value={stats.rid} />}
         </>
       )}
     </Flex>
   );
 };
 
-const StatsRow = ({ label, value }) => (
+const StatsRow = React.memo(({ label, value }) => (
   <Box css={{ bg: "$surfaceLight", w: "calc(50% - $6)", p: "$8", r: "$3" }}>
     <Text
       variant="overline"
@@ -243,9 +272,10 @@ const StatsRow = ({ label, value }) => (
       {value}
     </Text>
   </Box>
-);
+));
 
 const formatBytes = (bytes, unit = "B", decimals = 2) => {
+  if (bytes === undefined) return "-";
   if (bytes === 0) return "0 " + unit;
 
   const k = 1024;

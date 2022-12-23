@@ -18,8 +18,13 @@ import {
   Tooltip,
 } from "@100mslive/react-ui";
 import { ParticipantSearch } from "../Header/ParticipantList";
-import { ChatDotIcon } from "./ChatDotIcon";
 import { useFilteredRoles } from "../../common/hooks";
+
+const ChatDotIcon = () => {
+  return (
+    <Box css={{ size: "$6", bg: "$brandDefault", mx: "$2", r: "$round" }} />
+  );
+};
 
 const SelectorItem = ({ value, active, onClick, unreadCount }) => {
   return (
@@ -118,7 +123,10 @@ const VirtualizedSelectItemList = ({
 
   const listItems = useMemo(() => {
     const selectItems = [
-      <Everyone onSelect={onSelect} active={!selectedRole && !selectedRole} />,
+      <Everyone
+        onSelect={onSelect}
+        active={!selectedRole && !selectedPeerId}
+      />,
     ];
 
     roles.length > 0 &&

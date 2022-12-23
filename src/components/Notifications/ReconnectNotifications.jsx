@@ -25,7 +25,7 @@ export const ReconnectNotifications = () => {
       LogRocket.track("Reconnecting");
       notificationId = ToastManager.replaceToast(
         notificationId,
-        ToastConfig.RECONNECTING.single()
+        ToastConfig.RECONNECTING.single(notification.data.message)
       );
     }
   }, [notification]);

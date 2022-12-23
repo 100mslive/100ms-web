@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import {
   selectAppData,
   selectAppDataByPath,
+  selectTrackByID,
   useHMSActions,
   useHMSStore,
   useHMSVanillaStore,
@@ -72,6 +73,15 @@ export const useLogo = () => {
   return useHMSStore(selectAppData(APP_DATA.logo));
 };
 
+export const useUrlToEmbed = () => {
+  return useHMSStore(selectAppData(APP_DATA.embedConfig))?.url;
+};
+
+export const usePinnedTrack = () => {
+  const pinnedTrackId = useHMSStore(selectAppData(APP_DATA.pinnedTrackId));
+  return useHMSStore(selectTrackByID(pinnedTrackId));
+};
+
 export const useSubscribedNotifications = notificationKey => {
   const notificationPreference = useHMSStore(
     selectAppDataByPath(APP_DATA.subscribedNotifications, notificationKey)
@@ -84,6 +94,22 @@ export const useSetSubscribedNotifications = notificationKey => {
   const setValue = useSetAppData({
     key1: APP_DATA.subscribedNotifications,
     key2: notificationKey,
+  });
+  return [value, setValue];
+};
+
+export const useSubscribeChatSelector = chatSelectorKey => {
+  const chatSelectorPreference = useHMSStore(
+    selectAppDataByPath(APP_DATA.chatSelector, chatSelectorKey)
+  );
+  return chatSelectorPreference;
+};
+
+export const useSetSubscribedChatSelector = chatSelectorKey => {
+  const value = useSubscribeChatSelector(chatSelectorKey);
+  const setValue = useSetAppData({
+    key1: APP_DATA.chatSelector,
+    key2: chatSelectorKey,
   });
   return [value, setValue];
 };
