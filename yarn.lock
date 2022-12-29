@@ -5114,19 +5114,14 @@ loader-runner@^4.2.0:
   resolved "https://registry.npmjs.org/loader-runner/-/loader-runner-4.3.0.tgz"
   integrity sha512-3R/1M+yS3j5ou80Me59j7F9IMs4PXs3VqRrm0TU3AbKPxlmpoY1TNscJV/oGJXo8qCatFGTfDbY6W6ipGOYXfg==
 
-loader-utils@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.npmjs.org/loader-utils/-/loader-utils-2.0.2.tgz"
-  integrity sha512-TM57VeHptv569d/GKh6TAYdzKblwDNiumOdkFnejjD0XwTH87K90w3O7AiJRqdQoXygvi1VQTJTLGhJl7WqA7A==
+loader-utils@^2.0.0, loader-utils@^2.0.4, loader-utils@^3.2.0:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-2.0.4.tgz#8b5cb38b5c34a9a018ee1fc0e6a066d1dfcc528c"
+  integrity sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==
   dependencies:
     big.js "^5.2.2"
     emojis-list "^3.0.0"
     json5 "^2.1.2"
-
-loader-utils@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/loader-utils/-/loader-utils-3.2.0.tgz"
-  integrity sha512-HVl9ZqccQihZ7JM85dco1MvO9G+ONvxoGa9rkhzFsneGLKSUg1gJf9bWzhRhcvm2qChhWpebQhP44qxjKIUCaQ==
 
 locate-path@^5.0.0:
   version "5.0.0"
@@ -7497,10 +7492,10 @@ zipy-rrweb@^0.0.2:
     mitt "^1.1.3"
     rrweb-snapshot "^1.1.14"
 
-zipyai@^1.3.20:
-  version "1.3.21"
-  resolved "https://registry.yarnpkg.com/zipyai/-/zipyai-1.3.21.tgz#d92b6e3790257c95dbde8d10897b271735aad0ee"
-  integrity sha512-bKMcYzS/py7jbe91P+NWgQJDkPPqA8d73zQLz2odOuSRu0X9RaggYxsDOeHDJoBoIuuW8CX1nYYx/SyieE8p8A==
+zipyai@^1.3.21:
+  version "1.3.22"
+  resolved "https://registry.yarnpkg.com/zipyai/-/zipyai-1.3.22.tgz#681c6ca4fa99d1fbb1b5ab14e87f2e303bb6f3f7"
+  integrity sha512-xgCx3MxJWqUAkyP/n4mTUgi0DK6xelIf3eW1TtT/zr+llUiODgHgvg8wK/jVmQFrrNsD9HnEaG1WRGDRjMIEcg==
   dependencies:
     uuid "^8.3.2"
     zipy-rrweb "^0.0.2"
