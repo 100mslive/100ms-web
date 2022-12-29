@@ -6,7 +6,12 @@ import {
   Routes,
   useParams,
 } from "react-router-dom";
-import { HMSRoomProvider } from "@100mslive/react-sdk";
+import {
+  HMSRoomProvider,
+  selectIsConnectedToRoom,
+  useHMSActions,
+  useHMSStore,
+} from "@100mslive/react-sdk";
 import { Box, HMSThemeProvider } from "@100mslive/react-ui";
 import { AppData } from "./components/AppData/AppData.jsx";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -217,11 +222,29 @@ const RouteList = ({ getUserToken, getDetails }) => {
   );
 };
 
+const BackSwipe = () => {
+  const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);
+  const hmsActions = useHMSActions();
+  useEffect(() => {
+    const onRouteLeave = async () => {
+      if (isConnectedToRoom) {
+        await hmsActions.leave();
+      }
+    };
+    window.addEventListener("popstate", onRouteLeave);
+    return () => {
+      window.removeEventListener("popstate", onRouteLeave);
+    };
+  }, [hmsActions, isConnectedToRoom]);
+  return null;
+};
+
 function AppRoutes({ getUserToken, getDetails }) {
   return (
     <Router>
       <ToastContainer />
       <Notifications />
+      <BackSwipe />
       <Confetti />
       <RemoteStopScreenshare />
       <KeyboardHandler />
