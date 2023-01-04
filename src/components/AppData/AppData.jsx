@@ -31,6 +31,7 @@ import {
   CHAT_SELECTOR,
   DEFAULT_HLS_ROLE_KEY,
   DEFAULT_HLS_VIEWER_ROLE,
+  DEFAULT_WAITING_VIEWER_ROLE,
   QUERY_PARAM_VIEW_MODE,
   SIDE_PANE_OPTIONS,
   UI_MODE_ACTIVE_SPEAKER,
@@ -74,6 +75,7 @@ const initialAppData = {
   [APP_DATA.rtmpStarted]: false,
   [APP_DATA.recordingStarted]: false,
   [APP_DATA.hlsViewerRole]: DEFAULT_HLS_VIEWER_ROLE,
+  [APP_DATA.waitingViewerRole]: DEFAULT_WAITING_VIEWER_ROLE,
 };
 
 export const AppData = React.memo(
