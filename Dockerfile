@@ -16,11 +16,11 @@ ENV NODE_ENV production
 ENV REACT_APP_TILE_SHAPE=1-1
 ENV REACT_APP_THEME=dark
 ENV REACT_APP_COLOR=#2F80FF
-# ENV REACT_APP_LOGO='https://www.100ms.live/favicons/favicon.ico'
+ENV REACT_APP_LOGO='provide your logo img url here'
 ENV REACT_APP_FONT=Inter
 ENV REACT_APP_ENABLE_HLS_QUALITY_LVL='true'
-# ENV REACT_APP_TOKEN_GENERATION_ENDPOINT='https://qa-in2.100ms.live/hmsapi/amar.qa-app.100ms.live/'
-# ENV REACT_APP_ENV=qa
+ENV REACT_APP_TOKEN_GENERATION_ENDPOINT='<Your token generation endpoint from dashboard goes here>'
+ENV REACT_APP_ENV=prod
 ENV REACT_APP_LOGROCKET_ID='<Your Logrocket project ID>'
 ENV REACT_APP_POLICY_CONFIG=''
 ENV REACT_APP_DEFAULT_APP_DETAILS='{}'
