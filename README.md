@@ -32,6 +32,7 @@ Not using React? Find the [Javascript Quickstart here](https://docs.100ms.live/j
   - [Building and deployment](#building-and-deployment)
     - [Building the app](#building-the-app)
     - [Deploying the code](#deploying-the-code)
+  - [Further reading](#further-reading)
 
 ## Getting started
 
@@ -96,7 +97,7 @@ Then start the app with:
 yarn start
 ```
 
-The app now should be running at [http://localhost:3000/](http://localhost:3000/). You should see a Welcome message saying "Almost There!". Follow the instructions on the page to create a new room. You could also visit the [Next section](https://github.com/100mslive/100ms-web/wiki/Creating-and-joining-a-room) to see how to create a room
+The app now should be running at [http://localhost:3000/](http://localhost:3000/). You should see a Welcome message saying "Almost There!". Follow the instructions on the page to create a new room. You can also check [Creating and Joining a Room section](#creating-and-joining-a-room) to see how to create a room.
 
 ## Creating and Joining a Room
 
@@ -114,9 +115,9 @@ Create room from [100ms Dashboard](https://dashboard.100ms.live/create-room) & g
 
   ![image](https://user-images.githubusercontent.com/5078656/119534649-c60da000-bda4-11eb-9847-f283e2daa06f.png)
 
-* Use any name & Click on join.
+* Use any name & click on `join`.
 
-Moving on, lets go ahead and [customize our app](https://github.com/100mslive/100ms-web/wiki/Customizing-your-app)
+Moving on, lets go ahead and [Customize our app](#customizing-your-app)
 
 ## Customizing your app
 
@@ -173,7 +174,7 @@ This is a way to play any music or any videos from a url for everyone in the roo
 `REACT_APP_AUDIO_PLAYLIST` - a list of audio tracks which can be played by a person in the room for everyone
 `REACT_APP_VIDEO_PLAYLIST` - a list of video tracks which can be played by a person in the room for everyone
 
-That's it for the basics. You could continue to [Build and deploy your app](https://github.com/100mslive/100ms-web/wiki/Building-and-deployment) or do [Further Reading](https://github.com/100mslive/100ms-web/wiki/Further-reading) to understand more about 100ms-web.
+That's it for the basics. You could continue to [Build and deploy your app](#building-and-deployment) or do [Further Reading](#further-reading) to understand more about 100ms-web.
 
 
 ## Building and deployment
@@ -208,8 +209,10 @@ That's it for the basics. You could continue to [Build and deploy your app](http
    - [Web server](https://github.com/100mslive/100ms-web/wiki/Deployment:-Web-Server)
    - [Docker](https://github.com/100mslive/100ms-web/wiki/Deployment:-Docker)
 
--  This section covers ways to further customize and understand the codebase. This section assumes you have already set up the webapp on your development machine and have it up and running. If not, please take a look at [Getting Started](https://github.com/100mslive/100ms-web/wiki/Getting-Started)
+## Further reading
 
-   * [Environment Variables](https://github.com/100mslive/100ms-web/wiki/Environment-Variables)
+-  This section covers ways to further customize and understand the codebase. This section assumes you have already set up the webapp on your development machine and have it up and running. If not, please take a look at [Getting Started](#getting-started)
+
+   * [Environment Variables](#environment-Variables)
    * [code structure](https://github.com/100mslive/100ms-web/wiki/code-structure)
    * [Architecture](https://github.com/100mslive/100ms-web/wiki/Architecture)
