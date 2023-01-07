@@ -118,9 +118,7 @@ Create room from [100ms Dashboard](https://dashboard.100ms.live/create-room) & g
 
 * Use any name & click on `join`.
 
-<video loop="true" autoplay="autoplay" controls="controls" id="vid" muted>
-    <source src="/public/join-room-sample-app.mp4" type="video/mp4" />
-</video>
+  https://user-images.githubusercontent.com/105427758/211149767-8d171500-867d-4813-9620-8ee91d2057af.mp4
 
 Moving on, lets go ahead and [Customize our app](#customizing-your-app)
 
@@ -162,11 +160,11 @@ const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 ### Change logo
 
 You can upload your logo instead of 100ms logo in the sample app. You can acheive this in two ways:
+
 - Using the no-code editor in the UI
-  <video loop="true" autoplay="autoplay" controls="controls" id="vid" muted>
-    <source src="/public/logo.mp4" type="video/mp4" />
-  </video>
-  
+
+  https://user-images.githubusercontent.com/105427758/211149803-0f10a99a-a382-42b9-b2e1-84dc726f32ae.mp4
+
 - Adding the image URL in `REACT_APP_LOGO` variable in the .env file.
 
 ### Tile Aspect Ratio
