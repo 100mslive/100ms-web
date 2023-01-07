@@ -16,11 +16,22 @@ Not using React? Find the [Javascript Quickstart here](https://docs.100ms.live/j
 
 In this section we will setup our app and run it.
 
-# Table of Contents
-* [Prerequisites](#prerequisites)
-* [Cloning the repo](#cloning-the-repo)
-* [Setting environment variables](#setting-environment-variables)
-* [Getting the token generation endpoint](#getting-the-token-generation-endpoint)
+- [100ms 2.0 Sample React App](#100ms-20-sample-react-app)
+  - [Prerequisites](#prerequisites)
+  - [Cloning the repo](#cloning-the-repo)
+  - [Setting environment variables](#setting-environment-variables)
+    - [Getting the token generation endpoint](#getting-the-token-generation-endpoint)
+    - [Run the app](#run-the-app)
+  - [Create a room](#create-a-room)
+  - [Join the room](#join-the-room)
+    - [Configure UI layout](#configure-ui-layout)
+    - [Tile Aspect Ratio](#tile-aspect-ratio)
+    - [Theme and Color](#theme-and-color)
+        - [Env - REACT\_APP\_THEME](#env---react_app_theme)
+        - [Env - REACT\_APP\_COLOR](#env---react_app_color)
+    - [Playlist Tracks(Watch Party)](#playlist-trackswatch-party)
+  - [Building the app](#building-the-app)
+  - [Deploying the code](#deploying-the-code)
 
 ## Prerequisites
 
@@ -29,13 +40,10 @@ In this section we will setup our app and run it.
 * [Node.js](https://nodejs.org) version v16.7.0 or greater installed on your system.
 * [yarn](https://yarnpkg.com/)
 
----
-## Note (npm users only)
-
-#### if you are using `npm`, it is a hard dependency to use node `v16.7.0` (npm `v7.20.0`) because of some peer-dependency [issues](#noteerr-unable-to-resolve-dependency-tree-error)
----
+> Note (npm users only): if you are using `npm`, it is a hard dependency to use node `v16.7.0` (npm `v7.20.0`) because of some peer-dependency [issues](#noteerr-unable-to-resolve-dependency-tree-error)
 
 There are other dependencies like webpack but these are installed automatically when we do `yarn install`
+
 ## Cloning the repo
 
 Get the code by cloning this repo using [git](https://git-scm.com/).
@@ -56,26 +64,20 @@ or
 cd 100ms-web
 npm install
 ```
----
 
-### Note(ERR! unable to resolve dependency tree error): 
-`npm install` might fail because some of our dependency libraries haven't updated their peer dependencies to React 18. This should automatically get fixed when the respective authors update their libraries. Currently, this issue could be fixed by installing atleast node `v16.7.0`. Although, we recommend using `yarn` instead of `npm` if you can.
+> Note(ERR! unable to resolve dependency tree error): `npm install` might fail because some of our dependency libraries haven't updated their peer dependencies to React 18. This should automatically get fixed when the respective authors update their libraries. Currently, this issue could be fixed by installing atleast node `v16.7.0`. Although, we recommend using `yarn` instead of `npm` if you can.
 
----
 ## Setting environment variables
 Environment variables let you customize the app and set important things like token generation endpoint([see below](#getting-the-token-generation-endpoint)). We have a example.env as a template to help you get started with.You can add remove stuff to it as per your needs. To begin with, create a new file `.env` and copy the values from `example.env`
 
 ```bash
 cp example.env .env
 ```
----
 
-### ⚠️  Note: 
-* if you change your environment variables, your webapp must be restarted using `yarn start`. Otherwise, the changes won't take effect. Similarly, you might want to redeploy your app when using services like Vercel for new/updated environment variables to take effect.
+> Note: 
+> * if you change your environment variables, your webapp must be restarted using `yarn start`. Otherwise, the changes won't take effect. Similarly, you might want to redeploy your app when using services like Vercel for new/updated environment variables to take effect.
+> * The above method of setting the environment variables for your local development. Depending on what service/method you use for deployment (i.e) Netlify, Vercel, Nginx etc, setting up environment variables may be similar or different. See [Building and deployment](https://github.com/100mslive/100ms-web/wiki/Building-and-deployment) for specific instructions or instructions provided by specific providers.
 
-* The above method of setting the environment variables for your local development. Depending on what service/method you use for deployment (i.e) Netlify, Vercel, Nginx etc, setting up environment variables may be similar or different. See [Building and deployment](https://github.com/100mslive/100ms-web/wiki/Building-and-deployment) for specific instructions or instructions provided by specific providers.
-
----
 ### Getting the token generation endpoint
 
 Get your token endpoint from the [Developer section of 100ms' Dashboard](https://dashboard.100ms.live/developer)
@@ -89,14 +91,7 @@ Then start the app with:
 yarn start
 ```
 
-
 The app now should be running at [http://localhost:3000/](http://localhost:3000/). You should see a Welcome message saying "Almost There!". Follow the instructions on the page to create a new room. You could also visit the [Next section](https://github.com/100mslive/100ms-web/wiki/Creating-and-joining-a-room) to see how to create a room
-
----
-
-# Table of Contents
-* [Create a room](#create-a-room)
-* [Join the room](#join-the-room)
 
 ## Create a room
 
@@ -115,15 +110,6 @@ Visit the URL : `http://localhost:3000/meeting/<room_id>/<role>` to join the roo
 Use any name & Click on join.
 
 Moving on, lets go ahead and [customize our app](https://github.com/100mslive/100ms-web/wiki/Customizing-your-app)
-
----
-
-# Table of Contents
-
-* [Configure UI layout](#configure-ui-layout)
-* [Tile Aspect Ratio](#tile-aspect-ratio)
-* [Theme and Color](#theme-and-color)
-* [Playlist Tracks(Watch Party)](#playlist-trackswatch-party)
 
 ### Configure UI layout
 
@@ -183,16 +169,10 @@ is only for file formats which are supported by the native audio and video eleme
 
 That's it for the basics. You could continue to [Build and deploy your app](https://github.com/100mslive/100ms-web/wiki/Building-and-deployment) or do [Further Reading](https://github.com/100mslive/100ms-web/wiki/Further-reading) to understand more about 100ms-web.
 
----
-
-
-## NOTE: ⚠️  This page is under construction and the information here might be incomplete. Please reach out to us if you have any queries.
-
-# Table of Contents
- * [Build the app](https://github.com/100mslive/100ms-web/wiki/Building-and-deployment#building-the-app)
- * [Deploying the code](https://github.com/100mslive/100ms-web/wiki/Building-and-deployment#deploying-the-code)
-
 ## Building the app
+
+> NOTE: ⚠️  This section is under construction and the information here might be incomplete. Please reach out to us if you have any queries.
+
 100ms-web app is just like any react application. To build the app, just run
 
 ```bash
@@ -216,8 +196,6 @@ all the files that got built in the above step are in the `build/` directory. Th
    - [Vercel](https://github.com/100mslive/100ms-web/wiki/Deployment:-Vercel)
    - [Web server](https://github.com/100mslive/100ms-web/wiki/Deployment:-Web-Server)
    - [Docker](https://github.com/100mslive/100ms-web/wiki/Deployment:-Docker)
-
----
 
 This section covers ways to further customize and understand the codebase. This section assumes you have already set up the webapp on your development machine and have it up and running. If not, please take a look at [Getting Started](https://github.com/100mslive/100ms-web/wiki/Getting-Started)
 
