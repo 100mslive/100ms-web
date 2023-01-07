@@ -14,26 +14,30 @@
 This is an example React app to demo [100ms' React SDK](https://www.npmjs.com/package/@100mslive/react-sdk).
 Not using React? Find the [Javascript Quickstart here](https://docs.100ms.live/javascript/v2/guides/javascript-quickstart).
 
-In this section we will setup our app and run it.
-
 - [100ms 2.0 Sample React App](#100ms-20-sample-react-app)
-  - [Prerequisites](#prerequisites)
-  - [Cloning the repo](#cloning-the-repo)
-  - [Setting environment variables](#setting-environment-variables)
-    - [Getting the token generation endpoint](#getting-the-token-generation-endpoint)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Cloning the repo](#cloning-the-repo)
+    - [Setting environment variables](#setting-environment-variables)
+      - [Getting the token generation endpoint](#getting-the-token-generation-endpoint)
     - [Run the app](#run-the-app)
-  - [Create a room](#create-a-room)
-  - [Join the room](#join-the-room)
+  - [Creating and Joining a Room](#creating-and-joining-a-room)
+    - [Create a room](#create-a-room)
+    - [Join the room](#join-the-room)
+  - [Customizing your app](#customizing-your-app)
     - [Configure UI layout](#configure-ui-layout)
     - [Tile Aspect Ratio](#tile-aspect-ratio)
     - [Theme and Color](#theme-and-color)
-        - [Env - REACT\_APP\_THEME](#env---react_app_theme)
-        - [Env - REACT\_APP\_COLOR](#env---react_app_color)
-    - [Playlist Tracks(Watch Party)](#playlist-trackswatch-party)
-  - [Building the app](#building-the-app)
-  - [Deploying the code](#deploying-the-code)
+      - [Env - REACT\_APP\_THEME](#env---react_app_theme)
+    - [Env - REACT\_APP\_COLOR](#env---react_app_color)
+    - [Playlist Tracks (Watch Party)](#playlist-tracks-watch-party)
+  - [Building and deployment](#building-and-deployment)
+    - [Building the app](#building-the-app)
+    - [Deploying the code](#deploying-the-code)
 
-## Prerequisites
+## Getting started
+
+### Prerequisites
 
 100ms-web is a react application and need the following to setup the app up and running on your development environment. You will need
 
@@ -44,7 +48,7 @@ In this section we will setup our app and run it.
 
 There are other dependencies like webpack but these are installed automatically when we do `yarn install`
 
-## Cloning the repo
+### Cloning the repo
 
 Get the code by cloning this repo using [git](https://git-scm.com/).
 
@@ -67,7 +71,7 @@ npm install
 
 > Note(ERR! unable to resolve dependency tree error): `npm install` might fail because some of our dependency libraries haven't updated their peer dependencies to React 18. This should automatically get fixed when the respective authors update their libraries. Currently, this issue could be fixed by installing atleast node `v16.7.0`. Although, we recommend using `yarn` instead of `npm` if you can.
 
-## Setting environment variables
+### Setting environment variables
 Environment variables let you customize the app and set important things like token generation endpoint([see below](#getting-the-token-generation-endpoint)). We have a example.env as a template to help you get started with.You can add remove stuff to it as per your needs. To begin with, create a new file `.env` and copy the values from `example.env`
 
 ```bash
@@ -78,7 +82,7 @@ cp example.env .env
 > * if you change your environment variables, your webapp must be restarted using `yarn start`. Otherwise, the changes won't take effect. Similarly, you might want to redeploy your app when using services like Vercel for new/updated environment variables to take effect.
 > * The above method of setting the environment variables for your local development. Depending on what service/method you use for deployment (i.e) Netlify, Vercel, Nginx etc, setting up environment variables may be similar or different. See [Building and deployment](https://github.com/100mslive/100ms-web/wiki/Building-and-deployment) for specific instructions or instructions provided by specific providers.
 
-### Getting the token generation endpoint
+#### Getting the token generation endpoint
 
 Get your token endpoint from the [Developer section of 100ms' Dashboard](https://dashboard.100ms.live/developer)
 ![download](https://user-images.githubusercontent.com/11087313/140727818-43cd8be4-b3bf-4b34-9921-a77f9a1b819d.png)
@@ -93,13 +97,15 @@ yarn start
 
 The app now should be running at [http://localhost:3000/](http://localhost:3000/). You should see a Welcome message saying "Almost There!". Follow the instructions on the page to create a new room. You could also visit the [Next section](https://github.com/100mslive/100ms-web/wiki/Creating-and-joining-a-room) to see how to create a room
 
-## Create a room
+## Creating and Joining a Room
+
+### Create a room
 
 Create room from [100ms Dashboard](https://dashboard.100ms.live/create-room) & get the room_id & role of the created room. Room details page after creating the room gives you room_id and roles allowed in the room.
 
 ![image](https://prod-apps-public.s3.ap-south-1.amazonaws.com/Screenshot+2021-06-26+at+5.52.50+PM.png)
 
-## Join the room
+### Join the room
 
 *Before running the app locally make sure you update the environment file (.env) with the respective REACT_APP_TOKEN_GENERATION_ENDPOINT, the token endpoint will be present in the [developer section](https://dashboard.100ms.live/developer) on the dashboard.
 
@@ -110,6 +116,8 @@ Visit the URL : `http://localhost:3000/meeting/<room_id>/<role>` to join the roo
 Use any name & Click on join.
 
 Moving on, lets go ahead and [customize our app](https://github.com/100mslive/100ms-web/wiki/Customizing-your-app)
+
+## Customizing your app
 
 ### Configure UI layout
 
@@ -151,14 +159,14 @@ REACT_APP_TILE_SHAPE can be used for this, the format is `width-height` e.g.
 
 ### Theme and Color
 
-##### Env - REACT_APP_THEME
+#### Env - REACT_APP_THEME
 `dark` - for dark theme
 `light` - for light theme
 
-##### Env - REACT_APP_COLOR
+### Env - REACT_APP_COLOR
 You can give a hex code the color will be used for buttons, border audio level and such.
 
-### Playlist Tracks(Watch Party)
+### Playlist Tracks (Watch Party)
 
 This is a way to play any music or any videos from a url for everyone in the room to see/vibe to together. The support
 is only for file formats which are supported by the native audio and video elements, but it's super cool.
@@ -166,10 +174,12 @@ is only for file formats which are supported by the native audio and video eleme
 `REACT_APP_AUDIO_PLAYLIST` - a list of audio tracks which can be played by a person in the room for everyone
 `REACT_APP_VIDEO_PLAYLIST` - a list of video tracks which can be played by a person in the room for everyone
 
-
 That's it for the basics. You could continue to [Build and deploy your app](https://github.com/100mslive/100ms-web/wiki/Building-and-deployment) or do [Further Reading](https://github.com/100mslive/100ms-web/wiki/Further-reading) to understand more about 100ms-web.
 
-## Building the app
+
+## Building and deployment
+
+### Building the app
 
 > NOTE: ⚠️  This section is under construction and the information here might be incomplete. Please reach out to us if you have any queries.
 
@@ -189,13 +199,14 @@ webpack 5.70.0 compiled successfully in 22546 ms
 
 all the files that got built in the above step are in the `build/` directory. This is all we need to deploy. The files are just plain HTML/CSS/JS and could be deployed in many different ways. We discuss some popular ones below.
 
-## Deploying the code
- There are many ways to deploy 100ms-web. We discuss a few methods below. Please feel free to reach out to us if you don't find your preferred platform here.
-   - [Netlify](https://github.com/100mslive/100ms-web/wiki/Deployment:-Netlify)
-   - [AWS](https://github.com/100mslive/100ms-web/wiki/Deployment:-AWS)
-   - [Vercel](https://github.com/100mslive/100ms-web/wiki/Deployment:-Vercel)
-   - [Web server](https://github.com/100mslive/100ms-web/wiki/Deployment:-Web-Server)
-   - [Docker](https://github.com/100mslive/100ms-web/wiki/Deployment:-Docker)
+### Deploying the code
+
+There are many ways to deploy 100ms-web. We discuss a few methods below. Please feel free to reach out to us if you don't find your preferred platform here.
+  - [Netlify](https://github.com/100mslive/100ms-web/wiki/Deployment:-Netlify)
+  - [AWS](https://github.com/100mslive/100ms-web/wiki/Deployment:-AWS)
+  - [Vercel](https://github.com/100mslive/100ms-web/wiki/Deployment:-Vercel)
+  - [Web server](https://github.com/100mslive/100ms-web/wiki/Deployment:-Web-Server)
+  - [Docker](https://github.com/100mslive/100ms-web/wiki/Deployment:-Docker)
 
 This section covers ways to further customize and understand the codebase. This section assumes you have already set up the webapp on your development machine and have it up and running. If not, please take a look at [Getting Started](https://github.com/100mslive/100ms-web/wiki/Getting-Started)
 
