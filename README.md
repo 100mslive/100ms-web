@@ -26,6 +26,7 @@ Not using React? Find the [Javascript Quickstart here](https://docs.100ms.live/j
     - [Join the room](#join-the-room)
   - [Customizing your app](#customizing-your-app)
     - [Configure UI layout](#configure-ui-layout)
+    - [Change logo](#change-logo)
     - [Tile Aspect Ratio](#tile-aspect-ratio)
     - [Theme and Color](#theme-and-color)
     - [Playlist Tracks (Watch Party)](#playlist-tracks-watch-party)
@@ -109,7 +110,7 @@ Create room from [100ms Dashboard](https://dashboard.100ms.live/create-room) & g
 
 ### Join the room
 
-* Before running the app locally make sure you update the environment file (.env) with the respective REACT_APP_TOKEN_GENERATION_ENDPOINT, the token endpoint will be present in the [developer section](https://dashboard.100ms.live/developer) on the dashboard.
+* Before running the app locally make sure you update the environment file (.env) with the respective `REACT_APP_TOKEN_GENERATION_ENDPOINT`, the token endpoint will be present in the [developer section](https://dashboard.100ms.live/developer) on the dashboard.
 
 * Visit the URL : `http://localhost:3000/meeting/<room_id>/<role>` to join the room
 
@@ -117,15 +118,19 @@ Create room from [100ms Dashboard](https://dashboard.100ms.live/create-room) & g
 
 * Use any name & click on `join`.
 
+<video loop="true" autoplay="autoplay" controls="controls" id="vid" muted>
+    <source src="/public/join-room-sample-app.mp4" type="video/mp4" />
+</video>
+
 Moving on, lets go ahead and [Customize our app](#customizing-your-app)
 
 ## Customizing your app
 
 ### Configure UI layout
 
-Depending on the value of REACT_APP_POLICY_CONFIG in .env, you can customize which roles should be displayed in center stage and which roles should be display in side pane.
+Depending on the value of `REACT_APP_POLICY_CONFIG` in .env, you can customize which roles should be displayed in center stage and which roles should be display in side pane.
 
-The value of REACT_APP_POLICY_CONFIG should be a JSON stringified object of the structure:
+The value of `REACT_APP_POLICY_CONFIG` should be a JSON stringified object of the structure:
 
 ```ts
 type HMSRoleName = string;
@@ -154,9 +159,19 @@ It is used in the app as:
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 ```
 
+### Change logo
+
+You can upload your logo instead of 100ms logo in the sample app. You can acheive this in two ways:
+- Using the no-code editor in the UI
+  <video loop="true" autoplay="autoplay" controls="controls" id="vid" muted>
+    <source src="/public/logo.mp4" type="video/mp4" />
+  </video>
+  
+- Adding the image URL in `REACT_APP_LOGO` variable in the .env file.
+
 ### Tile Aspect Ratio
 
-REACT_APP_TILE_SHAPE can be used for this, the format is `width-height`. For example, `1-1` for square tiles, `4-3` for landscape tiles and `16-9` for wide tiles.
+`REACT_APP_TILE_SHAPE` can be used for this, the format is `width-height`. For example, `1-1` for square tiles, `4-3` for landscape tiles and `16-9` for wide tiles.
 
 ### Theme and Color
 
