@@ -118,7 +118,7 @@ Create room from [100ms Dashboard](https://dashboard.100ms.live/create-room) & g
 
 * Use any name & click on `join`.
 
-  https://user-images.githubusercontent.com/105427758/211149767-8d171500-867d-4813-9620-8ee91d2057af.mp4
+https://user-images.githubusercontent.com/105427758/211149767-8d171500-867d-4813-9620-8ee91d2057af.mp4
 
 Moving on, lets go ahead and [Customize our app](#customizing-your-app)
 
