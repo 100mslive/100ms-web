@@ -1,5 +1,4 @@
-// @ts-check
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { StyledVideoTile, Video, VideoTileStats } from "@100mslive/react-ui";
 import {
   useHMSStore,
@@ -10,6 +9,7 @@ import {
 import { ExpandIcon, ShrinkIcon } from "@100mslive/react-icons";
 import { useFullscreen } from "react-use";
 import screenfull from "screenfull";
+import { AppContext } from "./context/AppContext";
 
 const Tile = ({
   peerId,
@@ -19,6 +19,7 @@ const Tile = ({
 }) => {
   const track = useHMSStore(selectScreenShareByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
+  const { isHeadless } = useContext(AppContext);
   const fullscreenRef = useRef(null);
   // fullscreen is for desired state
   const [fullscreen, setFullscreen] = useState(false);
@@ -38,7 +39,7 @@ const Tile = ({
               videoTrackID={track?.id}
             />
           ) : null}
-          {isFullScreenSupported ? (
+          {isFullScreenSupported && !isHeadless ? (
             <StyledVideoTile.FullScreenButton
               onClick={() => setFullscreen(!fullscreen)}
             >
