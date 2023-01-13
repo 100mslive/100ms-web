@@ -3,7 +3,6 @@ import { useDebounce, useMeasure } from "react-use";
 import { FixedSizeList } from "react-window";
 import {
   selectAudioTrackByPeerID,
-  selectIsConnectedToRoom,
   selectLocalPeerID,
   selectPeerCount,
   selectPeerMetadata,
@@ -46,6 +45,7 @@ export const ParticipantList = () => {
   const [filter, setFilter] = useState();
   const { participants, isConnected, peerCount, rolesWithParticipants } =
     useParticipants(filter);
+  const [selectedPeerId, setSelectedPeerId] = useState(null);
   const toggleSidepane = useSidepaneToggle(SIDE_PANE_OPTIONS.PARTICIPANTS);
   const onSearch = useCallback(value => {
     setFilter(filterValue => {
@@ -88,8 +88,20 @@ export const ParticipantList = () => {
             </Text>
           </Flex>
         )}
-        <VirtualizedParticipants participants={participants} />
+        <VirtualizedParticipants
+          participants={participants}
+          isConnected={isConnected}
+          setSelectedPeerId={setSelectedPeerId}
+        />
       </Flex>
+      {selectedPeerId && (
+        <RoleChangeModal
+          peerId={selectedPeerId}
+          onOpenChange={value => {
+            !value && setSelectedPeerId(null);
+          }}
+        />
+      )}
     </Fragment>
   );
 };
@@ -133,10 +145,14 @@ export const ParticipantCount = () => {
 };
 
 function itemKey(index, data) {
-  return data[index].id;
+  return data.participants[index].id;
 }
 
-const VirtualizedParticipants = ({ participants }) => {
+const VirtualizedParticipants = ({
+  participants,
+  isConnected,
+  setSelectedPeerId,
+}) => {
   const [ref, { width, height }] = useMeasure();
   return (
     <Box
@@ -148,7 +164,7 @@ const VirtualizedParticipants = ({ participants }) => {
     >
       <FixedSizeList
         itemSize={68}
-        itemData={participants}
+        itemData={{ participants, isConnected, setSelectedPeerId }}
         itemKey={itemKey}
         itemCount={participants.length}
         width={width}
@@ -162,15 +178,17 @@ const VirtualizedParticipants = ({ participants }) => {
 
 const VirtualisedParticipantListItem = React.memo(({ style, index, data }) => {
   return (
-    <div style={style} key={data[index].id}>
-      <Participant peer={data[index]} />
+    <div style={style} key={data.participants[index].id}>
+      <Participant
+        peer={data.participants[index]}
+        isConnected={data.isConnected}
+        setSelectedPeerId={data.setSelectedPeerId}
+      />
     </div>
   );
 });
 
-const Participant = ({ peer }) => {
-  const [selectedPeerId, setSelectedPeerId] = useState(null);
-  const isConnected = useHMSStore(selectIsConnectedToRoom);
+const Participant = ({ peer, isConnected, setSelectedPeerId }) => {
   return (
     <Fragment>
       <Flex
@@ -209,14 +227,6 @@ const Participant = ({ peer }) => {
           />
         )}
       </Flex>
-      {selectedPeerId && (
-        <RoleChangeModal
-          peerId={selectedPeerId}
-          onOpenChange={value => {
-            !value && setSelectedPeerId(null);
-          }}
-        />
-      )}
     </Fragment>
   );
 };
