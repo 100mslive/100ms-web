@@ -3,6 +3,7 @@ import { useDebounce, useMeasure } from "react-use";
 import { FixedSizeList } from "react-window";
 import {
   selectAudioTrackByPeerID,
+  selectIsConnectedToRoom,
   selectLocalPeerID,
   selectPeerCount,
   selectPeerMetadata,
@@ -45,7 +46,6 @@ export const ParticipantList = () => {
   const [filter, setFilter] = useState();
   const { participants, isConnected, peerCount, rolesWithParticipants } =
     useParticipants(filter);
-  const [selectedPeerId, setSelectedPeerId] = useState(null);
   const toggleSidepane = useSidepaneToggle(SIDE_PANE_OPTIONS.PARTICIPANTS);
   const onSearch = useCallback(value => {
     setFilter(filterValue => {
@@ -88,20 +88,8 @@ export const ParticipantList = () => {
             </Text>
           </Flex>
         )}
-        <VirtualizedParticipants
-          participants={participants}
-          isConnected={isConnected}
-          setSelectedPeerId={setSelectedPeerId}
-        />
+        <VirtualizedParticipants participants={participants} />
       </Flex>
-      {selectedPeerId && (
-        <RoleChangeModal
-          peerId={selectedPeerId}
-          onOpenChange={value => {
-            !value && setSelectedPeerId(null);
-          }}
-        />
-      )}
     </Fragment>
   );
 };
@@ -144,12 +132,11 @@ export const ParticipantCount = () => {
   );
 };
 
-const VirtualizedParticipants = ({
-  participants,
-  canChangeRole,
-  isConnected,
-  setSelectedPeerId,
-}) => {
+function itemKey(index, data) {
+  return data[index].id;
+}
+
+const VirtualizedParticipants = ({ participants }) => {
   const [ref, { width, height }] = useMeasure();
   return (
     <Box
@@ -161,71 +148,76 @@ const VirtualizedParticipants = ({
     >
       <FixedSizeList
         itemSize={68}
+        itemData={participants}
+        itemKey={itemKey}
         itemCount={participants.length}
         width={width}
         height={height}
       >
-        {({ index, style }) => {
-          return (
-            <div style={style} key={participants[index].id}>
-              <Participant
-                peer={participants[index]}
-                canChangeRole={canChangeRole}
-                showActions={isConnected}
-                onParticipantAction={setSelectedPeerId}
-              />
-            </div>
-          );
-        }}
+        {VirtualisedParticipantListItem}
       </FixedSizeList>
     </Box>
   );
 };
 
-const Participant = ({
-  peer,
-  canChangeRole,
-  showActions,
-  onParticipantAction,
-}) => {
+const VirtualisedParticipantListItem = React.memo(({ style, index, data }) => {
   return (
-    <Flex
-      key={peer.id}
-      css={{ w: "100%", py: "$4", pr: "$10" }}
-      align="center"
-      data-testid={"participant_" + peer.name}
-    >
-      <Avatar
-        name={peer.name}
-        css={{
-          position: "unset",
-          transform: "unset",
-          mr: "$8",
-          fontSize: "$sm",
-          size: "$12",
-          p: "$4",
-        }}
-      />
-      <Flex direction="column" css={{ flex: "1 1 0" }}>
-        <Text
-          variant="md"
-          css={{ ...textEllipsis(150), fontWeight: "$semiBold" }}
-        >
-          {peer.name}
-        </Text>
-        <Text variant="sub2">{peer.roleName}</Text>
-      </Flex>
-      {showActions && (
-        <ParticipantActions
-          peerId={peer.id}
-          role={peer.roleName}
-          onSettings={() => {
-            onParticipantAction(peer.id);
+    <div style={style} key={data[index].id}>
+      <Participant peer={data[index]} />
+    </div>
+  );
+});
+
+const Participant = ({ peer }) => {
+  const [selectedPeerId, setSelectedPeerId] = useState(null);
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
+  return (
+    <Fragment>
+      <Flex
+        key={peer.id}
+        css={{ w: "100%", py: "$4", pr: "$10" }}
+        align="center"
+        data-testid={"participant_" + peer.name}
+      >
+        <Avatar
+          name={peer.name}
+          css={{
+            position: "unset",
+            transform: "unset",
+            mr: "$8",
+            fontSize: "$sm",
+            size: "$12",
+            p: "$4",
           }}
-          canChangeRole={canChangeRole}
+        />
+        <Flex direction="column" css={{ flex: "1 1 0" }}>
+          <Text
+            variant="md"
+            css={{ ...textEllipsis(150), fontWeight: "$semiBold" }}
+          >
+            {peer.name}
+          </Text>
+          <Text variant="sub2">{peer.roleName}</Text>
+        </Flex>
+        {isConnected && (
+          <ParticipantActions
+            peerId={peer.id}
+            role={peer.roleName}
+            onSettings={() => {
+              setSelectedPeerId(peer.id);
+            }}
+          />
+        )}
+      </Flex>
+      {selectedPeerId && (
+        <RoleChangeModal
+          peerId={selectedPeerId}
+          onOpenChange={value => {
+            !value && setSelectedPeerId(null);
+          }}
         />
       )}
-    </Flex>
+    </Fragment>
   );
 };
 
