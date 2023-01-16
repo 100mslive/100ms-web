@@ -264,7 +264,7 @@ const HLSView = () => {
                       key="jump-to-live_btn"
                       data-testid="jump-to-live_btn"
                     >
-                      <Tooltip title="Go to Live">
+                      <Tooltip title="Go to Live" side="top">
                         <Flex justify="center" gap={2} align="center">
                           <Box
                             css={{
