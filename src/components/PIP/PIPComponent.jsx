@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   selectLocalPeerRoleName,
+  selectPeers,
   selectRemotePeers,
   selectTracksMap,
   useHMSActions,
@@ -18,7 +19,7 @@ import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
  * shows a button which when clicked shows some videos in PIP, clicking
  * again turns it off.
  */
-const PIPComponent = () => {
+const PIPComponent = ({ peers, showLocalPeer }) => {
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const [isPipOn, setIsPipOn] = useState(PictureInPicture.isOn());
   const hmsActions = useHMSActions();
@@ -66,7 +67,7 @@ const PIPComponent = () => {
           <PipIcon />
         </IconButton>
       </Tooltip>
-      {isPipOn && <ActivatedPIP setIsPipOn={setIsPipOn} />}
+      {isPipOn && <ActivatedPIP showLocalPeer={showLocalPeer} peers={peers} />}
     </>
   );
 };
@@ -75,15 +76,21 @@ const PIPComponent = () => {
  * this is a separate component so it can be conditionally rendered and
  * the subscriptions to store are done only if required.
  */
-const ActivatedPIP = () => {
+const ActivatedPIP = ({ showLocalPeer, peers }) => {
   const tracksMap = useHMSStore(selectTracksMap);
-  const remotePeers = useHMSStore(selectRemotePeers);
+  const storePeers = useHMSStore(
+    showLocalPeer ? selectPeers : selectRemotePeers
+  );
 
   useEffect(() => {
-    PictureInPicture.updatePeersAndTracks(remotePeers, tracksMap).catch(err => {
+    let pipPeers = storePeers;
+    if (peers) {
+      pipPeers = storePeers.filter(peer => peers.includes(peer.id));
+    }
+    PictureInPicture.updatePeersAndTracks(pipPeers, tracksMap).catch(err => {
       console.error("error in updating pip", err);
     });
-  }, [tracksMap, remotePeers]);
+  }, [peers, storePeers, tracksMap]);
 
   return null;
 };

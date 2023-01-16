@@ -4,6 +4,8 @@ services:
   app:
     container_name: 100ms-web-prod
     image: 100ms-web-prod
+    ports:
+      - 3000:3000
     build:
       context: .
       target: production

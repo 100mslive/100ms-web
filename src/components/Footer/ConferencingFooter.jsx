@@ -13,7 +13,7 @@ import { AudioVideoToggle } from "../AudioVideoToggle";
 import { LeaveRoom } from "../LeaveRoom";
 import MetaActions from "../MetaActions";
 import { MoreSettings } from "../MoreSettings/MoreSettings";
-import PIPComponent from "../PIP/PIPComponent";
+import { PIP } from "../PIP";
 import { ScreenshareToggle } from "../ScreenShare";
 import { ScreenShareHintModal } from "../ScreenshareHintModal";
 import { ChatToggle } from "./ChatToggle";
@@ -93,7 +93,7 @@ export const ConferencingFooter = () => {
       <AppFooter.Center>
         <AudioVideoToggle />
         <ScreenshareToggle />
-        <PIPComponent />
+        <PIP />
         <MoreSettings />
         <LeaveRoom />
         <Flex

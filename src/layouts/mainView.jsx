@@ -14,6 +14,7 @@ import EmbedView from "./EmbedView";
 import { MainGridView } from "./mainGridView";
 import ScreenShareView from "./screenShareView";
 import SidePane from "./SidePane";
+import { WaitingView } from "./WaitingView";
 import { useWhiteboardMetadata } from "../plugins/whiteboard";
 import { useAppConfig } from "../components/AppData/useAppConfig";
 import {
@@ -22,6 +23,7 @@ import {
   usePinnedTrack,
   useUISettings,
   useUrlToEmbed,
+  useWaitingViewerRole,
 } from "../components/AppData/useUISettings";
 import { useRefreshSessionMetadata } from "../components/hooks/useRefreshSessionMetadata";
 import { useBeamAutoLeave } from "../common/hooks";
@@ -47,6 +49,7 @@ export const ConferenceMainView = () => {
   const headlessUIMode = useAppConfig("headlessConfig", "uiMode");
   const { uiViewMode, isAudioOnly } = useUISettings();
   const hlsViewerRole = useHLSViewerRole();
+  const waitingViewerRole = useWaitingViewerRole();
   const urlToIframe = useUrlToEmbed();
   useEffect(() => {
     if (!isConnected) {
@@ -74,6 +77,8 @@ export const ConferenceMainView = () => {
   let ViewComponent;
   if (localPeerRole === hlsViewerRole) {
     ViewComponent = HLSView;
+  } else if (localPeerRole === waitingViewerRole) {
+    ViewComponent = WaitingView;
   } else if (urlToIframe) {
     ViewComponent = EmbedView;
   } else if (whiteboardShared) {
