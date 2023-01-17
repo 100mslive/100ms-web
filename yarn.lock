@@ -4473,9 +4473,9 @@ he@^1.2.0:
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
 hls.js@^1.2.5:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.3.1.tgz#2e43949aeaee8f3d54cabd7c4c1a9a718a03e7c2"
-  integrity sha512-6f4Qyrfj9sNUWMzNFKruqeD2KdisOwQ1GQJqnWAgMQ1hequlFK7e2dmF9qQD3mF/RI76hvztCMBptlPb+HcDow==
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.2.9.tgz#2f25e42ec4c2ea8c88ab23c0f854f39062d45ac9"
+  integrity sha512-SPjm8ix0xe6cYzwDvdVGh2QvQPDkCYrGWpZu6bRaKNNVyEGWM9uF0pooh/Lqj/g8QBQgPFEx1vHzW8SyMY9rqg==
 
 hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
@@ -5971,9 +5971,9 @@ postcss@8.x, postcss@^8.4.5:
     source-map-js "^1.0.2"
 
 postcss@^8.4.19:
-  version "8.4.21"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.21.tgz#c639b719a57efc3187b13a1d765675485f4134f4"
-  integrity sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==
+  version "8.4.20"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.20.tgz#64c52f509644cecad8567e949f4081d98349dc56"
+  integrity sha512-6Q04AXR1212bXr5fh03u8aAwbLxAQNGQ/Q1LNa0VfOI06ZAlhPHtQvE4OIdpj4kLThXilalPnmDSOD65DcHt+g==
   dependencies:
     nanoid "^3.3.4"
     picocolors "^1.0.0"
