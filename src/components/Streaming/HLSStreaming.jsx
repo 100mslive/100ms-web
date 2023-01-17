@@ -5,7 +5,7 @@ import {
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
-import { EndStreamIcon, GoLiveIcon } from "@100mslive/react-icons";
+import { EndStreamIcon, GoLiveIcon, LinkTwoIcon } from "@100mslive/react-icons";
 import { Box, Button, Flex, Loading, Text } from "@100mslive/react-ui";
 import { Container, ContentBody, ContentHeader, ErrorText } from "./Common";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
@@ -14,37 +14,85 @@ import { APP_DATA } from "../../common/constants";
 
 const cards = [
   {
-    title: "Broadcaster",
-    content:
-      "Broadcasters can publish audio/video and livestream their conversations via HLS. They can also change roles, manage stream appearance and control the room.",
-    img: "",
-    link: "broadcaster",
-  },
-  {
     title: "Viewer",
     content:
       "Viewers can view the stream and send chat messages, but are unable to publish audio/video and participate with broadcasters. To enable participation, change their role from Viewer to Broadcaster.",
-    img: "",
-    link: "viewer",
+    img: "/viewer.svg",
+    link: "https://samplelivestream.app.100ms.live/streaming/preview/ugs-wov-pnq",
+    showAlways: false,
+  },
+  {
+    title: "Broadcaster",
+    content:
+      "Broadcasters can publish audio/video and livestream their conversations via HLS. They can also change roles, manage stream appearance and control the room.",
+    img: "/broadcaster.svg",
+    link: "https://samplelivestream.app.100ms.live/streaming/preview/tey-xrq-rue",
+    showAlways: true,
   },
 ];
+
+const Card = ({ title, img, link, content, showAlways, isHLSRunning }) => {
+  const [copied, setCopied] = useState(false);
+  return isHLSRunning || showAlways ? (
+    <Box
+      key={title}
+      css={{
+        backgroundColor: "$surfaceLight",
+        padding: "$8",
+        borderRadius: "$1",
+      }}
+    >
+      <Flex align="center" gap="2">
+        <img alt={title} src={img} height="24px" width="24px" />
+        <Text variant="lg" css={{ fontWeight: "$semiBold" }}>
+          {title}
+        </Text>
+      </Flex>
+      <Text variant="sm" css={{ color: "$textMedEmp", mt: "$4" }}>
+        {content}
+      </Text>
+      <Button
+        variant="standard"
+        onClick={() => {
+          navigator.clipboard.writeText(link);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        }}
+        css={{ w: "100%", r: "$0", mt: "$8" }}
+        icon
+      >
+        {copied ? (
+          "Link copied!"
+        ) : (
+          <>
+            <LinkTwoIcon /> Copy invite link
+          </>
+        )}
+      </Button>
+    </Box>
+  ) : null;
+};
 
 export const HLSStreaming = ({ onBack }) => {
   const { isHLSRunning } = useRecordingStreaming();
   return (
-    <Container>
-      <ContentHeader title="" content="" onBack={onBack} />
+    <Container rounded>
+      <ContentHeader title="Start Streaming" content="HLS" onBack={onBack} />
       <ContentBody title="HLS Streaming" Icon={GoLiveIcon}>
         Stream directly from the browser using any device with multiple hosts
         and real-time messaging, all within this platform.
       </ContentBody>
       {isHLSRunning ? <EndHLS /> : <StartHLS />}
+      <Flex direction="column" css={{ gap: "$sm", mt: "$6", p: "$0 $10" }}>
+        {cards.map(card => (
+          <Card key={card.title} {...card} isHLSRunning={isHLSRunning} />
+        ))}
+      </Flex>
     </Container>
   );
 };
 
 const StartHLS = () => {
-  const [record, setRecord] = useState(false);
   const [error, setError] = useState(false);
   const hmsActions = useHMSActions();
   const recordingUrl = useHMSStore(selectAppData(APP_DATA.recordingUrl));
@@ -59,9 +107,7 @@ const StartHLS = () => {
         setError("");
         await hmsActions.startHLSStreaming({
           variants,
-          recording: record
-            ? { hlsVod: true, singleFilePerLayer: true }
-            : undefined,
+          recording: undefined,
         });
       } catch (error) {
         if (error.message.includes("invalid input")) {
@@ -74,7 +120,7 @@ const StartHLS = () => {
         setError(error.message);
       }
     },
-    [hmsActions, record, isHLSStarted, setHLSStarted, recordingUrl]
+    [hmsActions, isHLSStarted, setHLSStarted, recordingUrl]
   );
 
   return (
@@ -95,28 +141,6 @@ const StartHLS = () => {
           )}
           {isHLSStarted ? "Starting stream..." : "Go Live"}
         </Button>
-        <Flex direction="column" css={{ gap: "$md" }}>
-          <Text variant="lg" css={{ fontWeight: "$semiBold", mt: "$8" }}>
-            Invite people
-          </Text>
-          {cards.map(card => (
-            <Box
-              key={card.title}
-              css={{
-                backgroundColor: "$surfaceLight",
-                padding: "$10",
-                borderRadius: "$3",
-              }}
-            >
-              <Text variant="lg" css={{ fontWeight: "$semiBold", mb: "$4" }}>
-                {card.title}
-              </Text>
-              <Text variant="sm" css={{ color: "$textMedEmp" }}>
-                {card.content}
-              </Text>
-            </Box>
-          ))}
-        </Flex>
       </Box>
     </Fragment>
   );
@@ -135,12 +159,12 @@ const EndHLS = () => {
   }, [inProgress, isHLSRunning]);
 
   return (
-    <Box css={{ p: "$4 $10" }}>
+    <Box css={{ p: "$0 $10" }}>
       <ErrorText error={error} />
       <Button
         data-testid="stop_hls"
         variant="danger"
-        css={{ w: "100%", r: "$0", my: "$8" }}
+        css={{ w: "100%", r: "$0", my: "$2" }}
         icon
         loading={inProgress}
         disabled={inProgress}

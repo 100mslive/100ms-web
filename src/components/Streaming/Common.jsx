@@ -80,7 +80,7 @@ export const ContentHeader = ({ onBack, title, content }) => {
   );
 };
 
-export const Container = ({ children }) => {
+export const Container = ({ children, rounded = false }) => {
   return (
     <Box
       css={{
@@ -89,6 +89,7 @@ export const Container = ({ children }) => {
         position: "absolute",
         top: 0,
         left: 0,
+        borderRadius: rounded ? "$3" : "0",
         bg: "$surfaceDefault",
         transform: "translateX(10%)",
         animation: `${slideLeftAndFade("10%")} 100ms ease-out forwards`,
