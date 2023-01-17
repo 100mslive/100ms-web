@@ -18,7 +18,7 @@ const cards = [
     content:
       "Viewers can view the stream and send chat messages, but are unable to publish audio/video and participate with broadcasters. To enable participation, change their role from Viewer to Broadcaster.",
     img: "/viewer.svg",
-    link: "https://samplelivestream.app.100ms.live/streaming/preview/ugs-wov-pnq",
+    link: "/streaming/preview/ugs-wov-pnq",
     showAlways: false,
   },
   {
@@ -26,7 +26,7 @@ const cards = [
     content:
       "Broadcasters can publish audio/video and livestream their conversations via HLS. They can also change roles, manage stream appearance and control the room.",
     img: "/broadcaster.svg",
-    link: "https://samplelivestream.app.100ms.live/streaming/preview/tey-xrq-rue",
+    link: "/streaming/preview/tey-xrq-rue",
     showAlways: true,
   },
 ];
@@ -54,7 +54,7 @@ const Card = ({ title, img, link, content, showAlways, isHLSRunning }) => {
       <Button
         variant="standard"
         onClick={() => {
-          navigator.clipboard.writeText(link);
+          navigator.clipboard.writeText(`${window.location.origin}${link}`);
           setCopied(true);
           setTimeout(() => setCopied(false), 2000);
         }}
