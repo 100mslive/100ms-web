@@ -57,7 +57,7 @@ export const StreamCard = ({
 
 export const ContentHeader = ({ onBack, title, content }) => {
   return (
-    <Flex css={{ w: "100%", py: "$8", px: "$10", cursor: "pointer" }}>
+    <Flex css={{ w: "100%", py: "$4", px: "$10", cursor: "pointer" }}>
       <Text
         css={{ p: "$2", bg: "$surfaceLight", r: "$round", alignSelf: "center" }}
         onClick={onBack}
@@ -103,7 +103,7 @@ export const Container = ({ children }) => {
 
 export const ContentBody = ({ Icon, title, children }) => {
   return (
-    <Box css={{ p: "$10" }}>
+    <Box css={{ p: "$4 $10" }}>
       <Text css={{ display: "flex", alignItems: "center", mb: "$4" }}>
         <Icon />
         <Text as="span" css={{ fontWeight: "$semiBold", ml: "$4" }}>

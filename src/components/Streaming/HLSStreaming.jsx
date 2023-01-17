@@ -5,24 +5,35 @@ import {
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
-import { EndStreamIcon, GoLiveIcon, InfoIcon } from "@100mslive/react-icons";
+import { EndStreamIcon, GoLiveIcon } from "@100mslive/react-icons";
 import { Box, Button, Flex, Loading, Text } from "@100mslive/react-ui";
-import {
-  Container,
-  ContentBody,
-  ContentHeader,
-  ErrorText,
-  RecordStream,
-} from "./Common";
+import { Container, ContentBody, ContentHeader, ErrorText } from "./Common";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import { getDefaultMeetingUrl } from "../../common/utils";
 import { APP_DATA } from "../../common/constants";
+
+const cards = [
+  {
+    title: "Broadcaster",
+    content:
+      "Broadcasters can publish audio/video and livestream their conversations via HLS. They can also change roles, manage stream appearance and control the room.",
+    img: "",
+    link: "broadcaster",
+  },
+  {
+    title: "Viewer",
+    content:
+      "Viewers can view the stream and send chat messages, but are unable to publish audio/video and participate with broadcasters. To enable participation, change their role from Viewer to Broadcaster.",
+    img: "",
+    link: "viewer",
+  },
+];
 
 export const HLSStreaming = ({ onBack }) => {
   const { isHLSRunning } = useRecordingStreaming();
   return (
     <Container>
-      <ContentHeader title="Start Streaming" content="HLS" onBack={onBack} />
+      <ContentHeader title="" content="" onBack={onBack} />
       <ContentBody title="HLS Streaming" Icon={GoLiveIcon}>
         Stream directly from the browser using any device with multiple hosts
         and real-time messaging, all within this platform.
@@ -68,12 +79,7 @@ const StartHLS = () => {
 
   return (
     <Fragment>
-      <RecordStream
-        record={record}
-        setRecord={setRecord}
-        testId="hls-recording"
-      />
-      <Box css={{ p: "$4 $10" }}>
+      <Box css={{ p: "$0 $10" }}>
         <ErrorText error={error} />
         <Button
           data-testid="start_hls"
@@ -89,16 +95,29 @@ const StartHLS = () => {
           )}
           {isHLSStarted ? "Starting stream..." : "Go Live"}
         </Button>
+        <Flex direction="column" css={{ gap: "$md" }}>
+          <Text variant="lg" css={{ fontWeight: "$semiBold", mt: "$8" }}>
+            Invite people
+          </Text>
+          {cards.map(card => (
+            <Box
+              key={card.title}
+              css={{
+                backgroundColor: "$surfaceLight",
+                padding: "$10",
+                borderRadius: "$3",
+              }}
+            >
+              <Text variant="lg" css={{ fontWeight: "$semiBold", mb: "$4" }}>
+                {card.title}
+              </Text>
+              <Text variant="sm" css={{ color: "$textMedEmp" }}>
+                {card.content}
+              </Text>
+            </Box>
+          ))}
+        </Flex>
       </Box>
-      <Flex align="center" css={{ p: "$4 $10" }}>
-        <Text>
-          <InfoIcon width={16} height={16} />
-        </Text>
-        <Text variant="tiny" color="$textMedEmp" css={{ mx: "$8" }}>
-          You cannot start recording once the stream starts, you will have to
-          stop the stream to enable recording.
-        </Text>
-      </Flex>
     </Fragment>
   );
 };
