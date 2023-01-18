@@ -57,7 +57,7 @@ export const StreamCard = ({
 
 export const ContentHeader = ({ onBack, title, content }) => {
   return (
-    <Flex css={{ w: "100%", py: "$4", px: "$10", cursor: "pointer" }}>
+    <Flex css={{ w: "100%", py: "$8", px: "$10", cursor: "pointer" }}>
       <Text
         css={{ p: "$2", bg: "$surfaceLight", r: "$round", alignSelf: "center" }}
         onClick={onBack}
@@ -89,12 +89,12 @@ export const Container = ({ children, rounded = false }) => {
         position: "absolute",
         top: 0,
         left: 0,
-        borderRadius: rounded ? "$3" : "0",
         bg: "$surfaceDefault",
         transform: "translateX(10%)",
         animation: `${slideLeftAndFade("10%")} 100ms ease-out forwards`,
         display: "flex",
         flexDirection: "column",
+        borderRadius: rounded ? "$2" : "0",
       }}
     >
       {children}
@@ -102,9 +102,14 @@ export const Container = ({ children, rounded = false }) => {
   );
 };
 
-export const ContentBody = ({ Icon, title, children }) => {
+export const ContentBody = ({
+  Icon,
+  title,
+  removeVerticalPadding = false,
+  children,
+}) => {
   return (
-    <Box css={{ p: "$4 $10" }}>
+    <Box css={{ p: removeVerticalPadding ? "$0 $10" : "$10" }}>
       <Text css={{ display: "flex", alignItems: "center", mb: "$4" }}>
         <Icon />
         <Text as="span" css={{ fontWeight: "$semiBold", ml: "$4" }}>

@@ -5,45 +5,54 @@ import {
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
-import { EndStreamIcon, GoLiveIcon, LinkTwoIcon } from "@100mslive/react-icons";
+import {
+  EndStreamIcon,
+  GoLiveIcon,
+  InfoIcon,
+  LinkTwoIcon,
+} from "@100mslive/react-icons";
 import { Box, Button, Flex, Loading, Text } from "@100mslive/react-ui";
-import { Container, ContentBody, ContentHeader, ErrorText } from "./Common";
+import {
+  Container,
+  ContentBody,
+  ContentHeader,
+  ErrorText,
+  RecordStream,
+} from "./Common";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import { getDefaultMeetingUrl } from "../../common/utils";
 import { APP_DATA } from "../../common/constants";
 
 const cards = [
   {
-    title: "Viewer",
-    content:
-      "Viewers can view the stream and send chat messages, but are unable to publish audio/video and participate with broadcasters. To enable participation, change their role from Viewer to Broadcaster.",
-    img: "/viewer.svg",
-    link: "/streaming/preview/ugs-wov-pnq",
-    showAlways: false,
-  },
-  {
     title: "Broadcaster",
     content:
-      "Broadcasters can publish audio/video and livestream their conversations via HLS. They can also change roles, manage stream appearance and control the room.",
+      "Broadcasters can livestream audio or video, manage stream appearance and control the room via HLS.",
     img: "/broadcaster.svg",
     link: "/streaming/preview/tey-xrq-rue",
-    showAlways: true,
+  },
+  {
+    title: "Viewer",
+    content:
+      "Viewers can view and send chat messages, but need to be made broadcasters to participate with audio or video.",
+    img: "/viewer.svg",
+    link: "/streaming/preview/ugs-wov-pnq",
   },
 ];
 
-const Card = ({ title, img, link, content, showAlways, isHLSRunning }) => {
+const Card = ({ title, img, link, content, isHLSRunning }) => {
   const [copied, setCopied] = useState(false);
-  return isHLSRunning || showAlways ? (
+  return isHLSRunning ? (
     <Box
       key={title}
       css={{
         backgroundColor: "$surfaceLight",
-        padding: "$8",
+        padding: "$9 $10",
         borderRadius: "$1",
       }}
     >
       <Flex align="center" gap="2">
-        <img alt={title} src={img} height="24px" width="24px" />
+        <img alt={title} src={img} height="28px" width="28px" />
         <Text variant="lg" css={{ fontWeight: "$semiBold" }}>
           {title}
         </Text>
@@ -64,9 +73,16 @@ const Card = ({ title, img, link, content, showAlways, isHLSRunning }) => {
         {copied ? (
           "Link copied!"
         ) : (
-          <>
-            <LinkTwoIcon /> Copy invite link
-          </>
+          <Text
+            css={{
+              display: "flex",
+              color: "$textHighEmp",
+              fontWeight: "$semiBold",
+            }}
+          >
+            <LinkTwoIcon style={{ color: "inherit", marginRight: "0.5rem" }} />
+            Copy Invite Link
+          </Text>
         )}
       </Button>
     </Box>
@@ -78,12 +94,16 @@ export const HLSStreaming = ({ onBack }) => {
   return (
     <Container rounded>
       <ContentHeader title="Start Streaming" content="HLS" onBack={onBack} />
-      <ContentBody title="HLS Streaming" Icon={GoLiveIcon}>
+      <ContentBody
+        title="HLS Streaming"
+        Icon={GoLiveIcon}
+        removeVerticalPadding
+      >
         Stream directly from the browser using any device with multiple hosts
         and real-time messaging, all within this platform.
       </ContentBody>
       {isHLSRunning ? <EndHLS /> : <StartHLS />}
-      <Flex direction="column" css={{ gap: "$sm", mt: "$6", p: "$0 $10" }}>
+      <Flex direction="column" css={{ gap: "$sm", mt: "$2", p: "$0 $10" }}>
         {cards.map(card => (
           <Card key={card.title} {...card} isHLSRunning={isHLSRunning} />
         ))}
@@ -93,6 +113,7 @@ export const HLSStreaming = ({ onBack }) => {
 };
 
 const StartHLS = () => {
+  const [record, setRecord] = useState(false);
   const [error, setError] = useState(false);
   const hmsActions = useHMSActions();
   const recordingUrl = useHMSStore(selectAppData(APP_DATA.recordingUrl));
@@ -107,7 +128,9 @@ const StartHLS = () => {
         setError("");
         await hmsActions.startHLSStreaming({
           variants,
-          recording: undefined,
+          recording: record
+            ? { hlsVod: true, singleFilePerLayer: true }
+            : undefined,
         });
       } catch (error) {
         if (error.message.includes("invalid input")) {
@@ -120,12 +143,17 @@ const StartHLS = () => {
         setError(error.message);
       }
     },
-    [hmsActions, isHLSStarted, setHLSStarted, recordingUrl]
+    [hmsActions, record, isHLSStarted, setHLSStarted, recordingUrl]
   );
 
   return (
     <Fragment>
-      <Box css={{ p: "$0 $10" }}>
+      <RecordStream
+        record={record}
+        setRecord={setRecord}
+        testId="hls-recording"
+      />
+      <Box css={{ p: "$4 $10" }}>
         <ErrorText error={error} />
         <Button
           data-testid="start_hls"
@@ -142,6 +170,15 @@ const StartHLS = () => {
           {isHLSStarted ? "Starting stream..." : "Go Live"}
         </Button>
       </Box>
+      <Flex align="center" css={{ p: "$4 $10" }}>
+        <Text>
+          <InfoIcon width={16} height={16} />
+        </Text>
+        <Text variant="tiny" color="$textMedEmp" css={{ mx: "$8" }}>
+          You cannot start recording once the stream starts, you will have to
+          stop the stream to enable recording.
+        </Text>
+      </Flex>
     </Fragment>
   );
 };
@@ -159,7 +196,7 @@ const EndHLS = () => {
   }, [inProgress, isHLSRunning]);
 
   return (
-    <Box css={{ p: "$0 $10" }}>
+    <Box css={{ p: "$4 $10" }}>
       <ErrorText error={error} />
       <Button
         data-testid="stop_hls"
