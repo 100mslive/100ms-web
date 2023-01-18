@@ -21,6 +21,7 @@ export const VolumeControl = ({ videoRef }) => {
         css={{
           mx: "$4",
           w: "$20",
+          cursor: "pointer",
           "@sm": { w: "$14" },
           "@xs": { w: "$14" },
         }}

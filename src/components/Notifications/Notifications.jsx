@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import React, { useEffect } from "react";
 import LogRocket from "logrocket";
+import { logMessage } from "zipyai";
 import {
   HMSNotificationTypes,
   useHMSNotifications,
@@ -65,6 +66,7 @@ export function Notifications() {
             });
           } else {
             LogRocket.track("Disconnected");
+            logMessage("Disconnected");
             // show button action when the error is terminal
             const toastId = ToastManager.addToast({
               title:

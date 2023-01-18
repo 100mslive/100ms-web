@@ -51,15 +51,6 @@ const Conference = () => {
     }
   }, [isHeadless, hmsActions]);
 
-  useEffect(() => {
-    return () => {
-      // This is needed to handle mac touchpad swipe gesture
-      if (isConnectedToRoom) {
-        hmsActions.leave();
-      }
-    };
-  }, [hmsActions, isConnectedToRoom]);
-
   if (!isConnectedToRoom) {
     return <FullPageProgress />;
   }
