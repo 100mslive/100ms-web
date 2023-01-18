@@ -71,7 +71,14 @@ const Card = ({ title, img, link, content, isHLSRunning }) => {
         icon
       >
         {copied ? (
-          "Link copied!"
+          <Text
+            css={{
+              color: "$textHighEmp",
+              fontWeight: "$semiBold",
+            }}
+          >
+            Link copied!
+          </Text>
         ) : (
           <Text
             css={{
