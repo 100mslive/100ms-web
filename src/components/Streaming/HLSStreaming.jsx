@@ -30,14 +30,14 @@ const cards = [
     content:
       "Broadcasters can livestream audio or video, manage stream appearance and control the room via HLS.",
     img: "/broadcaster.svg",
-    link: "/streaming/preview/tey-xrq-rue",
+    link: "/streaming/meeting/tlu-ktx-kkg",
   },
   {
     title: "Viewer",
     content:
       "Viewers can view and send chat messages, but need to be made broadcasters to participate with audio or video.",
     img: "/viewer.svg",
-    link: "/streaming/preview/ugs-wov-pnq",
+    link: "/streaming/meeting/rrn-urw-sth",
   },
 ];
 
@@ -96,7 +96,7 @@ export const HLSStreaming = ({ onBack }) => {
         removeVerticalPadding
       >
         Stream directly from the browser using any device with multiple hosts
-        and real-time messaging, all within this platform.
+        and real-time messaging, all within this plat
       </ContentBody>
       {isHLSRunning ? <EndHLS setShowLinks={setShowLinks} /> : <StartHLS />}
     </Container>
