@@ -9,7 +9,8 @@ import {
   EndStreamIcon,
   GoLiveIcon,
   InfoIcon,
-  LinkTwoIcon,
+  LinkIcon,
+  PeopleIcon,
 } from "@100mslive/react-icons";
 import { Box, Button, Flex, Loading, Text } from "@100mslive/react-ui";
 import {
@@ -47,17 +48,17 @@ const Card = ({ title, img, link, content, isHLSRunning }) => {
       key={title}
       css={{
         backgroundColor: "$surfaceLight",
-        padding: "$9 $10",
-        borderRadius: "$1",
+        padding: "$10",
+        borderRadius: "$2",
       }}
     >
       <Flex align="center" gap="2">
         <img alt={title} src={img} height="28px" width="28px" />
-        <Text variant="lg" css={{ fontWeight: "$semiBold" }}>
+        <Text variant="h6" css={{ fontWeight: "$semiBold" }}>
           {title}
         </Text>
       </Flex>
-      <Text variant="sm" css={{ color: "$textMedEmp", mt: "$4" }}>
+      <Text variant="sm" css={{ color: "$textMedEmp", mt: "$6" }}>
         {content}
       </Text>
       <Button
@@ -67,29 +68,16 @@ const Card = ({ title, img, link, content, isHLSRunning }) => {
           setCopied(true);
           setTimeout(() => setCopied(false), 2000);
         }}
-        css={{ w: "100%", r: "$0", mt: "$8" }}
+        css={{ w: "100%", r: "$1", mt: "$10", fontWeight: "$semiBold" }}
         icon
       >
         {copied ? (
-          <Text
-            css={{
-              color: "$textHighEmp",
-              fontWeight: "$semiBold",
-            }}
-          >
-            Link copied!
-          </Text>
+          <>Link copied!</>
         ) : (
-          <Text
-            css={{
-              display: "flex",
-              color: "$textHighEmp",
-              fontWeight: "$semiBold",
-            }}
-          >
-            <LinkTwoIcon style={{ color: "inherit", marginRight: "0.5rem" }} />
+          <>
+            <LinkIcon style={{ color: "inherit" }} />
             Copy Invite Link
-          </Text>
+          </>
         )}
       </Button>
     </Box>
@@ -98,7 +86,8 @@ const Card = ({ title, img, link, content, isHLSRunning }) => {
 
 export const HLSStreaming = ({ onBack }) => {
   const { isHLSRunning } = useRecordingStreaming();
-  return (
+  const [showLinks, setShowLinks] = useState(false);
+  return !showLinks ? (
     <Container rounded>
       <ContentHeader title="Start Streaming" content="HLS" onBack={onBack} />
       <ContentBody
@@ -109,8 +98,17 @@ export const HLSStreaming = ({ onBack }) => {
         Stream directly from the browser using any device with multiple hosts
         and real-time messaging, all within this platform.
       </ContentBody>
-      {isHLSRunning ? <EndHLS /> : <StartHLS />}
-      <Flex direction="column" css={{ gap: "$sm", mt: "$2", p: "$0 $10" }}>
+      {isHLSRunning ? <EndHLS setShowLinks={setShowLinks} /> : <StartHLS />}
+    </Container>
+  ) : (
+    <Container rounded>
+      <ContentHeader
+        title="Invite People"
+        content="Start the conversation"
+        onBack={() => setShowLinks(false)}
+      />
+
+      <Flex direction="column" css={{ gap: "$10", mt: "$2", p: "$0 $10" }}>
         {cards.map(card => (
           <Card key={card.title} {...card} isHLSRunning={isHLSRunning} />
         ))}
@@ -190,8 +188,9 @@ const StartHLS = () => {
   );
 };
 
-const EndHLS = () => {
+const EndHLS = ({ setShowLinks }) => {
   const hmsActions = useHMSActions();
+
   const [inProgress, setInProgress] = useState(false);
   const [error, setError] = useState("");
   const { isHLSRunning } = useRecordingStreaming();
@@ -208,7 +207,7 @@ const EndHLS = () => {
       <Button
         data-testid="stop_hls"
         variant="danger"
-        css={{ w: "100%", r: "$0", my: "$2" }}
+        css={{ w: "100%", r: "$0", mt: "$8" }}
         icon
         loading={inProgress}
         disabled={inProgress}
@@ -224,6 +223,13 @@ const EndHLS = () => {
       >
         <EndStreamIcon />
         End Stream
+      </Button>
+      <Button
+        icon
+        css={{ w: "100%", r: "$0", mt: "$8" }}
+        onClick={() => setShowLinks(true)}
+      >
+        <PeopleIcon /> Invite People
       </Button>
     </Box>
   );

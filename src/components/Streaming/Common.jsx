@@ -66,7 +66,16 @@ export const ContentHeader = ({ onBack, title, content }) => {
         <ChevronLeftIcon width={16} height={16} />
       </Text>
       <Box css={{ flex: "1 1 0", mx: "$8" }}>
-        <Text variant="sm">{title}</Text>
+        <Text
+          variant="tiny"
+          css={{
+            textTransform: "uppercase",
+            fontWeight: "$semiBold",
+            color: "$textMedEmp",
+          }}
+        >
+          {title}
+        </Text>
         <Text variant="h6">{content}</Text>
       </Box>
       <IconButton

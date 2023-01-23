@@ -101,8 +101,7 @@ const EndStream = () => {
   return (
     <Button
       data-testid="end_stream"
-      variant="standard"
-      outlined
+      variant="danger"
       icon
       onClick={() => {
         toggleStreaming();
