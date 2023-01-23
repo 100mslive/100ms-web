@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   selectLocalPeerID,
+  selectLocalPeerRole,
   selectPeers,
+  selectPeersByRoles,
+  selectRolesMap,
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
 import { GridCenterView, GridSidePaneView } from "../components/gridView";
+import { NonPublisherView } from "./NonPublisherView";
 import { useAppLayout } from "../components/AppData/useAppLayout";
 import { useUISettings } from "../components/AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
@@ -15,12 +19,47 @@ export const MainGridView = () => {
   const sidepaneRoles = useAppLayout("sidepane") || [];
   const maxTileCount = useUISettings(UI_SETTINGS.maxTileCount);
   const peers = useHMSStore(selectPeers);
+  const roles = useHMSStore(selectRolesMap);
   const localPeerId = useHMSStore(selectLocalPeerID);
   const centerPeers = peers.filter(peer => centerRoles.includes(peer.roleName));
   const sidebarPeers = peers.filter(peer =>
     sidepaneRoles.includes(peer.roleName)
   );
+  const localRole = useHMSStore(selectLocalPeerRole);
+  const peersByRoles = useHMSStore(
+    selectPeersByRoles(localRole.subscribeParams.subscribeToRoles || [])
+  );
+  const [placeholder, setPlaceholder] = useState("");
 
+  useEffect(() => {
+    const hasPublishingPeers = peers.some(peer => {
+      // peer able to publish
+      if (peer.roleName && roles[peer.roleName]) {
+        return !!roles[peer.roleName].publishParams?.allowed.length;
+      }
+      return true;
+    });
+    const hasSubscribedRolePublishing = peersByRoles.some(peer => {
+      if (peer.roleName && roles[peer.roleName]) {
+        return !!roles[peer.roleName].publishParams?.allowed.length;
+      }
+      return true;
+    });
+    if (!hasPublishingPeers) {
+      setPlaceholder("None of the roles can publish video, audio or screen");
+    } else if (!localRole.subscribeParams.subscribeToRoles?.length) {
+      setPlaceholder("This role isn't subscribed to any role");
+    } else if (!hasSubscribedRolePublishing) {
+      setPlaceholder("This role subscribed to roles is not publishing");
+    } else {
+      setPlaceholder("");
+    }
+  }, [
+    localRole.subscribeParams.subscribeToRoles?.length,
+    peers,
+    peersByRoles,
+    roles,
+  ]);
   /**
    * If there are peers from many publishing roles, then it's possible to divide
    * them into two parts, those who show in center and those who show in sidepane.
@@ -40,7 +79,6 @@ export const MainGridView = () => {
     const nooneIsPublishing = sidebarPeers.length === 0;
     showSidePane = itsOnlyMeInTheRoom || nooneIsPublishing;
   }
-
   return (
     <Flex
       css={{
@@ -51,15 +89,21 @@ export const MainGridView = () => {
         "@md": "column",
       }}
     >
-      <GridCenterView
-        peers={showSidePane ? centerPeers : peers}
-        maxTileCount={maxTileCount}
-        allowRemoteMute={false}
-        hideSidePane={!showSidePane}
-        totalPeers={peers.length}
-      />
-      {showSidePane && (
-        <GridSidePaneView peers={sidebarPeers} totalPeers={peers.length} />
+      {placeholder ? (
+        <NonPublisherView message={placeholder} />
+      ) : (
+        <>
+          <GridCenterView
+            peers={showSidePane ? centerPeers : peers}
+            maxTileCount={maxTileCount}
+            allowRemoteMute={false}
+            hideSidePane={!showSidePane}
+            totalPeers={peers.length}
+          />
+          {showSidePane && (
+            <GridSidePaneView peers={sidebarPeers} totalPeers={peers.length} />
+          )}
+        </>
       )}
     </Flex>
   );

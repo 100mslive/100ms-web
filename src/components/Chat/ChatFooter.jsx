@@ -128,6 +128,9 @@ export const ChatFooter = ({ role, peerId, onSend, children }) => {
         }}
         autoComplete="off"
         aria-autocomplete="none"
+        onPaste={e => e.stopPropagation()}
+        onCut={e => e.stopPropagation()}
+        onCopy={e => e.stopPropagation()}
       />
       <EmojiPicker
         onSelect={emoji => {

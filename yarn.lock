@@ -2,31 +2,31 @@
 # yarn lockfile v1
 
 
-"@100mslive/hls-stats@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hls-stats/-/hls-stats-0.0.3.tgz#9acd810535dfd5a3f4786d0fd209352b133ee07b"
-  integrity sha512-i71wPfHmj77GTLiev0cQ+RdFBCI3XnGmR5j+s6VUNyeSI+dxpSlZoJHPiAMppb7kwYvZwS3EV4lAktyoch4h1g==
+"@100mslive/hls-stats@0.0.4-alpha.4":
+  version "0.0.4-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hls-stats/-/hls-stats-0.0.4-alpha.4.tgz#787c849d5d8a3e925bd05d8a42a9e248fa5f8b93"
+  integrity sha512-mjWE5VrlveAnDK1ISl5nUIIl0JA0SxhgkZtoI1JTWUJuh4lF+yrXUOb08cO3Ky5NCK4Mi9ooI9XbMs8mbGRT6g==
 
-"@100mslive/hms-noise-suppression@0.7.1":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.7.1.tgz#bd2f8ee1f598fd0c68d1c8b5b3a2c19d0d39c4c0"
-  integrity sha512-P0Cj0WWa9Vpvum2UWRXMSyubUcKLV2hK6IcXxBO9KL1kELTaTIangivqxhaqJFGrQbYGL3fTXZu2i1p04UMGXQ==
+"@100mslive/hms-noise-suppression@0.7.2-alpha.4":
+  version "0.7.2-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.7.2-alpha.4.tgz#c2c35d4410b59e1bd666b5c5e2c7f46e2c2052b1"
+  integrity sha512-wco/s6iSdcqBAkmM+B3/eiyY5aLEM6BttE7CVM3e7j+ydUGnXRw0sJ/htJD5e+yq/CO29IwPZtFFfMyFI/jf0g==
 
-"@100mslive/hms-video-store@0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.8.1.tgz#1826213b6ce763d51092a6d3375f8aba6d014748"
-  integrity sha512-kMUht04t8yv3HLeB+c+xxm9kC1q+VxcYQH+wTw91SpBZaA261ibL1yd/SDDFkhODBrPX2OvgAmqra1CWtfZh5w==
+"@100mslive/hms-video-store@0.8.2-alpha.4":
+  version "0.8.2-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.8.2-alpha.4.tgz#543a4b2cb35f3164af2b18638bf99031a5fa94f1"
+  integrity sha512-9GbOIHsdgwNzEut41KgaR1KlLupThSV5gWlUyIvAkY1ZvzihFRxSSfdc285503PZ9NYfEhCNhT/qG3Pp/PMJEg==
   dependencies:
-    "@100mslive/hms-video" "0.7.1"
+    "@100mslive/hms-video" "0.7.2-alpha.4"
     eventemitter2 "^6.4.7"
     immer "^9.0.6"
     reselect "4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.7.1":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.7.1.tgz#a026fa803855eae5fc01588a445606b35365a1d9"
-  integrity sha512-B/YBS38EubL8iAuCtGyNDZBQOX/7hlZOnX27vupj2980PC5cvfoBGmeox3F5kxuOUEfFOQHh9C4SlQzFjr86mw==
+"@100mslive/hms-video@0.7.2-alpha.4":
+  version "0.7.2-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.7.2-alpha.4.tgz#9b67dbaf61583578baca2802c670ec4ab4f90f91"
+  integrity sha512-dhva6IMDDv4p1lt/c5+dkGeFZBlm4PxNH6kRT9fd1sY/M6XJwvZazqMnUrpAmQqpwM/cL2c31Ons6CYxGRd8Wg==
   dependencies:
     eventemitter2 "^6.4.7"
     sdp-transform "^2.14.1"
@@ -34,10 +34,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@1.9.1":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.9.1.tgz#e451e8d351e50d72d25034734effd24c3a760914"
-  integrity sha512-qIW3mPRsulRgRgjrPWXGo6KxhpP7TEs0qfpjKxt8EHJ0lg7AXmicXJoYQVKgX011aCkpcEvvtpIxpqwGeHS1Hw==
+"@100mslive/hms-virtual-background@1.9.2-alpha.4":
+  version "1.9.2-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.9.2-alpha.4.tgz#8344616a302e27d686414cfcaf2ffebf371bf6d7"
+  integrity sha512-srJw88sqwYAUqZu/3EjAHRfFnRdeeF71WUJrSFCP87Qql6mnzQ8/Pdx7aUei556GYY197H5JjXkybSz87XwdOg==
   dependencies:
     "@mediapipe/selfie_segmentation" "^0.1.1632777926"
     "@tensorflow-models/body-segmentation" "^1.0.1"
@@ -49,28 +49,28 @@
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.6.1.tgz#152a32fe2d5183774a842ee9bffed751ba5390e6"
-  integrity sha512-kLr9XrLy0HrrxXl4N67I6G0zVsq8j/x6vP2Qp7BfQd1yJWLbI+W73SfoqXqhbdXgf8ePZtQEtACJeSwrRabxCQ==
+"@100mslive/react-icons@0.6.2-alpha.4":
+  version "0.6.2-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.6.2-alpha.4.tgz#bd4b52e4868df6026af018ea53e287fbfca1bb43"
+  integrity sha512-Q9JFc48OI+1DbRyDSBrzVuEnIX7UZAVEJxR9jMWe1+ym8hMNAmPDWsP/hyZUzYrFx4PWRfzJHZls1HMDQEWgcA==
 
-"@100mslive/react-sdk@0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.6.1.tgz#27955470711c7cb986848073d77e65f3f0db2a4f"
-  integrity sha512-qL6DKbDQwjuC4ciD5eQvu5P9htcTBpzKtav3Qu2YSnRQVes9FMDzjMlM5uFZGFGTjJI4wRmgatdWP7oBEvqjBg==
+"@100mslive/react-sdk@0.6.2-alpha.4":
+  version "0.6.2-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.6.2-alpha.4.tgz#0c158f675808a5ed3709d1466d93c1ecd8103599"
+  integrity sha512-LuBg1bjChqCexW6P0xB6ipQXGkC5RY9tc6V6WXzxEoM0DMeh0LlMLnnR+TNPyovevfLYbtkHqmxMxrj0h/YSqg==
   dependencies:
-    "@100mslive/hms-video-store" "0.8.1"
+    "@100mslive/hms-video-store" "0.8.2-alpha.4"
     react-intersection-observer "^8.33.1"
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.6.1.tgz#aaa3d3734173fa86e342004bc3ee66fb1ac7dd42"
-  integrity sha512-xqne/td9UqqnjkFS+nqhObELrHyaEzYNwZScHJEUPpxlbAFvwhm/+PCcpAf1yoWxdpyMZJSXlXxJR8oX7Cvf8A==
+"@100mslive/react-ui@0.6.2-alpha.4":
+  version "0.6.2-alpha.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.6.2-alpha.4.tgz#785727ddc8ce2546047e66f418be4e48c843af02"
+  integrity sha512-ko0UiaaAv2k1eKdLMqI1z4xtZH0UQLu+bs7viSjhxkdrnIBdEMRv1/P2YK5ACqJz6jzR9wd6DhnfcrFnLq71xA==
   dependencies:
-    "@100mslive/react-icons" "0.6.1"
-    "@100mslive/react-sdk" "0.6.1"
+    "@100mslive/react-icons" "0.6.2-alpha.4"
+    "@100mslive/react-sdk" "0.6.2-alpha.4"
     "@radix-ui/react-accordion" "1.0.0"
     "@radix-ui/react-checkbox" "1.0.0"
     "@radix-ui/react-dialog" "1.0.0"
@@ -7492,10 +7492,10 @@ zipy-rrweb@^0.0.2:
     mitt "^1.1.3"
     rrweb-snapshot "^1.1.14"
 
-zipyai@^1.3.21:
-  version "1.3.22"
-  resolved "https://registry.yarnpkg.com/zipyai/-/zipyai-1.3.22.tgz#681c6ca4fa99d1fbb1b5ab14e87f2e303bb6f3f7"
-  integrity sha512-xgCx3MxJWqUAkyP/n4mTUgi0DK6xelIf3eW1TtT/zr+llUiODgHgvg8wK/jVmQFrrNsD9HnEaG1WRGDRjMIEcg==
+zipyai@^1.3.24:
+  version "1.3.24"
+  resolved "https://registry.yarnpkg.com/zipyai/-/zipyai-1.3.24.tgz#f7f4ed1df8c31e38ecec2961e40346e28064fa36"
+  integrity sha512-p2ojLk6iPAsRblymQSDPGWDefT5Rimpfu9+wKmkelQZ7JU7zMRIjaHF3HcKXwQWtq/fvlT+PMQ77aOhdqHbwvg==
   dependencies:
     uuid "^8.3.2"
     zipy-rrweb "^0.0.2"

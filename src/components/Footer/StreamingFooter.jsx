@@ -5,7 +5,7 @@ import { StreamActions } from "../Header/StreamActions";
 import { LeaveRoom } from "../LeaveRoom";
 import MetaActions from "../MetaActions";
 import { MoreSettings } from "../MoreSettings/MoreSettings";
-import PIPComponent from "../PIP/PIPComponent";
+import { PIP } from "../PIP";
 import { ScreenshareToggle } from "../ScreenShare";
 import { ChatToggle } from "./ChatToggle";
 
@@ -38,7 +38,7 @@ export const StreamingFooter = () => {
       >
         <ScreenshareToggle css={{ "@sm": { display: "none" } }} />
         <Box css={{ "@md": { display: "none" } }}>
-          <PIPComponent />
+          <PIP />
         </Box>
         <Box
           css={{
