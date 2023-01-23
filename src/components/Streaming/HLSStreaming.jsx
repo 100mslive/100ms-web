@@ -96,7 +96,7 @@ export const HLSStreaming = ({ onBack }) => {
         removeVerticalPadding
       >
         Stream directly from the browser using any device with multiple hosts
-        and real-time messaging, all within this plat
+        and real-time messaging, all within this platform.
       </ContentBody>
       {isHLSRunning ? <EndHLS setShowLinks={setShowLinks} /> : <StartHLS />}
     </Container>

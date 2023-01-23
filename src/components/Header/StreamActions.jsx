@@ -95,22 +95,18 @@ export const RecordingStatus = () => {
 const EndStream = () => {
   const { isStreamingOn } = useRecordingStreaming();
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
-  if (!isStreamingOn) {
-    return null;
-  }
-  return (
+
+  return isStreamingOn ? (
     <Button
       data-testid="end_stream"
       variant="danger"
       icon
-      onClick={() => {
-        toggleStreaming();
-      }}
+      onClick={toggleStreaming}
     >
       <EndStreamIcon />
       End Stream
     </Button>
-  );
+  ) : null;
 };
 
 const StartRecording = () => {
