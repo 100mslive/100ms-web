@@ -2,7 +2,7 @@ import { Flex, IconButton, Tooltip } from "@100mslive/react-ui";
 
 export const FullScreenButton = ({ icon, onToggle }) => {
   return (
-    <Tooltip title="Go fullscreen">
+    <Tooltip title="Go fullscreen" side="top">
       <IconButton
         variant="standard"
         css={{ margin: "0px" }}
