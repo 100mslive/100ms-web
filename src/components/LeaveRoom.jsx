@@ -23,6 +23,7 @@ import {
   Text,
   Tooltip,
 } from "@100mslive/react-ui";
+import { ToastManager } from "./Toast/ToastManager";
 import {
   DialogCheckbox,
   DialogContent,
@@ -46,6 +47,7 @@ export const LeaveRoom = () => {
     } else {
       navigate("/leave/" + params.roomId);
     }
+    ToastManager.clearAllToast();
   };
 
   const leaveRoom = () => {
