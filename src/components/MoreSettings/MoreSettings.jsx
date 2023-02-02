@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { useMedia } from "react-use";
 import {
-  parsedUserAgent,
   selectAppData,
   selectIsAllowedToPublish,
   selectLocalPeerID,
@@ -42,11 +41,9 @@ import { EmbedUrl, EmbedUrlModal } from "./EmbedUrl";
 import { FullScreenItem } from "./FullScreenItem";
 import { MuteAllModal } from "./MuteAllModal";
 import { FeatureFlags } from "../../services/FeatureFlags";
-import { APP_DATA } from "../../common/constants";
+import { APP_DATA, isAndroid, isIOS, isMacOS } from "../../common/constants";
 
-const OSName = parsedUserAgent.getOS().name.toLowerCase();
-const isMacOS = OSName === "mac os";
-const isMobileOS = OSName === "android" || OSName === "ios";
+const isMobileOS = isAndroid || isIOS;
 
 export const MoreSettings = () => {
   const permissions = useHMSStore(selectPermissions);

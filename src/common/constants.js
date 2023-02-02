@@ -1,3 +1,5 @@
+import { parsedUserAgent } from "@100mslive/react-sdk";
+
 export const defaultAudioList = [
   {
     name: "Audio1",
@@ -159,3 +161,9 @@ export const CREATE_ROOM_DOC_URL =
   "https://github.com/100mslive/100ms-web/wiki/Creating-and-joining-a-room";
 
 export const REMOTE_STOP_SCREENSHARE_TYPE = "REMOTE_STOP_SCREENSHARE";
+
+export const isIOS = parsedUserAgent.getOS()?.name?.toLowerCase() === "ios";
+export const isMacOS =
+  parsedUserAgent.getOS()?.name?.toLowerCase() === "mac os";
+export const isAndroid =
+  parsedUserAgent.getOS()?.name?.toLowerCase() === "android";
