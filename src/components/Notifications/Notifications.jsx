@@ -150,6 +150,7 @@ export function Notifications() {
             "leave"
           );
           navigate(leaveLocation);
+          ToastManager.clearAllToast();
         }, 2000);
         break;
       case HMSNotificationTypes.DEVICE_CHANGE_UPDATE:

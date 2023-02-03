@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useMedia } from "react-use";
+import { selectLocalPeerRoleName, useHMSStore } from "@100mslive/react-sdk";
 import {
   ChevronLeftIcon,
   CrossIcon,
@@ -19,19 +20,69 @@ import {
 import DeviceSettings from "./DeviceSettings";
 import { LayoutSettings } from "./LayoutSettings";
 import { NotificationSettings } from "./NotificationSettings";
+import { useHLSViewerRole } from "../AppData/useUISettings";
 import { settingContent } from "./common.js";
+
+const settings = [
+  {
+    tabName: "devices",
+    title: "Device Settings",
+    icon: SettingsIcon,
+    content: DeviceSettings,
+  },
+  {
+    tabName: "notifications",
+    title: "Notifications",
+    icon: NotificationsIcon,
+    content: NotificationSettings,
+  },
+  {
+    tabName: "layout",
+    title: "Layout",
+    icon: GridFourIcon,
+    content: LayoutSettings,
+  },
+];
 
 const SettingsModal = ({ open, onOpenChange, children }) => {
   const mediaQueryLg = cssConfig.media.md;
   const isMobile = useMedia(mediaQueryLg);
-  const [selection, setSelection] = useState("");
+
+  const hlsViewerRole = useHLSViewerRole();
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+  const isHlsViewer = hlsViewerRole === localPeerRole;
+
+  const [showSetting, setShowSetting] = useState(() =>
+    settings.reduce((obj, { tabName }) => ({ ...obj, [tabName]: true }), {})
+  );
+
+  const hideSettingByTabName = useCallback(
+    key => hide => setShowSetting(prev => ({ ...prev, [key]: !hide })),
+    [setShowSetting]
+  );
+
+  useEffect(() => {
+    if (isHlsViewer) {
+      hideSettingByTabName("layout")(true);
+    }
+  }, [isHlsViewer, hideSettingByTabName]);
+
+  const [selection, setSelection] = useState(
+    () => Object.keys(showSetting).find(key => showSetting[key]) ?? ""
+  );
   const resetSelection = useCallback(() => {
     setSelection("");
   }, []);
 
   useEffect(() => {
-    setSelection(isMobile ? "" : "devices");
-  }, [isMobile]);
+    if (isMobile) {
+      setSelection("");
+    } else {
+      const firstNotHiddenTabName =
+        Object.keys(showSetting).find(key => showSetting[key]) ?? "";
+      setSelection(firstNotHiddenTabName);
+    }
+  }, [isMobile, showSetting]);
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -65,23 +116,22 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
               <Text variant="h5">Settings </Text>
               <Flex
                 direction="column"
-                css={{ mx: isMobile ? "-$8" : 0, overflowY: "auto" }}
+                css={{ mx: isMobile ? "-$8" : 0, overflowY: "auto", pt: "$10" }}
               >
-                <Tabs.Trigger
-                  value="devices"
-                  css={{ gap: "$8", mt: "$10", mb: "$4" }}
-                >
-                  <SettingsIcon />
-                  Device Settings
-                </Tabs.Trigger>
-                <Tabs.Trigger value="notifications" css={{ gap: "$8" }}>
-                  <NotificationsIcon />
-                  Notifications
-                </Tabs.Trigger>
-                <Tabs.Trigger value="layout" css={{ gap: "$8" }}>
-                  <GridFourIcon />
-                  Layout
-                </Tabs.Trigger>
+                {settings
+                  .filter(({ tabName }) => showSetting[tabName])
+                  .map(({ icon: Icon, tabName, title }) => {
+                    return (
+                      <Tabs.Trigger
+                        key={tabName}
+                        value={tabName}
+                        css={{ gap: "$8" }}
+                      >
+                        <Icon />
+                        {title}
+                      </Tabs.Trigger>
+                    );
+                  })}
               </Flex>
             </Tabs.List>
             {selection && (
@@ -103,36 +153,24 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
                     : {}),
                 }}
               >
-                <Tabs.Content value="devices" className={settingContent()}>
-                  <SettingsContentHeader
-                    onBack={resetSelection}
-                    isMobile={isMobile}
-                  >
-                    Device Settings
-                  </SettingsContentHeader>
-                  <DeviceSettings />
-                </Tabs.Content>
-                <Tabs.Content
-                  value="notifications"
-                  className={settingContent()}
-                >
-                  <SettingsContentHeader
-                    onBack={resetSelection}
-                    isMobile={isMobile}
-                  >
-                    Notifications
-                  </SettingsContentHeader>
-                  <NotificationSettings />
-                </Tabs.Content>
-                <Tabs.Content value="layout" className={settingContent()}>
-                  <SettingsContentHeader
-                    onBack={resetSelection}
-                    isMobile={isMobile}
-                  >
-                    Layout
-                  </SettingsContentHeader>
-                  <LayoutSettings />
-                </Tabs.Content>
+                {settings
+                  .filter(({ tabName }) => showSetting[tabName])
+                  .map(({ content: Content, title, tabName }) => {
+                    return (
+                      <Tabs.Content
+                        value={tabName}
+                        className={settingContent()}
+                      >
+                        <SettingsContentHeader
+                          onBack={resetSelection}
+                          isMobile={isMobile}
+                        >
+                          {title}
+                        </SettingsContentHeader>
+                        <Content setHide={hideSettingByTabName(tabName)} />
+                      </Tabs.Content>
+                    );
+                  })}
               </Flex>
             )}
           </Tabs.Root>
