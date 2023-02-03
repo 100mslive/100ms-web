@@ -95,6 +95,7 @@ export const QUERY_PARAM_SKIP_PREVIEW_HEADFUL = "skip_preview_headful";
 export const QUERY_PARAM_NAME = "name";
 export const QUERY_PARAM_VIEW_MODE = "ui_mode";
 export const QUERY_PARAM_AUTH_TOKEN = "auth_token";
+export const QUERY_PARAM_PREVIEW_AS_ROLE = "preview_as_role";
 export const UI_MODE_ACTIVE_SPEAKER = "activespeaker";
 export const UI_MODE_GRID = "grid";
 export const MAX_TOASTS = 5;
