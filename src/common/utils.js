@@ -76,3 +76,13 @@ export const isStreamingKit = () => {
 };
 
 export const isInternalRole = role => role && role.startsWith("__internal");
+
+export const metadataPayloadParser = payload => {
+  try {
+    const data = window.atob(payload);
+    const parsedData = JSON.parse(data);
+    return parsedData;
+  } catch (e) {
+    return { payload };
+  }
+};

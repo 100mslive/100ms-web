@@ -29,6 +29,7 @@ import {
   HLS_TIMED_METADATA_LOADED,
   HLSController,
 } from "../controllers/hls/HLSController";
+import { metadataPayloadParser } from "../common/utils";
 import { APP_DATA } from "../common/constants";
 
 let hlsController;
@@ -56,11 +57,11 @@ const HLSView = () => {
     onClose: () => toggle(false),
   });
 
-  /**
-   * initialize HLSController and add event listeners.
-   */
+  const handleNoLongerLive = () => {
+    setIsVideoLive(false);
+  };
+
   useEffect(() => {
-    let videoEl = videoRef.current;
     const manifestLoadedHandler = (_, { levels }) => {
       const onlyVideoLevels = removeAudioLevels(levels);
       setAvailableLevels(onlyVideoLevels);
@@ -69,41 +70,95 @@ const HLSView = () => {
       const qualityLevel = hlsController.getHlsJsInstance().levels[level];
       setCurrentSelectedQuality(qualityLevel);
     };
+    let videoEl = videoRef.current;
     const metadataLoadedHandler = ({ payload, ...rest }) => {
-      console.log(
-        `%c Payload: ${payload}`,
-        "color:#2b2d42; background:#d80032"
-      );
-      console.log(rest);
-      ToastManager.addToast({
-        title: `Payload from timed Metadata ${payload}`,
-      });
+      // parse payload and extract start_time and payload
+      const data = metadataPayloadParser(payload);
+      const duration = rest.duration * 1000;
+      const toast = {
+        title: `Payload from timed Metadata ${data.payload}`,
+        duration: duration || 3000,
+      };
+      console.debug("Added toast ", JSON.stringify(toast));
+      ToastManager.addToast(toast);
     };
-
-    const handleNoLongerLive = () => {
-      setIsVideoLive(false);
+    const handleHLSError = error => {
+      console.error(error);
     };
-
-    if (videoEl && hlsUrl) {
-      if (Hls.isSupported()) {
-        hlsController = new HLSController(hlsUrl, videoRef);
-        hlsStats = new HlsStats(hlsController.getHlsJsInstance(), videoEl);
-
-        hlsController.on(HLS_STREAM_NO_LONGER_LIVE, handleNoLongerLive);
-        hlsController.on(HLS_TIMED_METADATA_LOADED, metadataLoadedHandler);
-
-        hlsController.on(Hls.Events.MANIFEST_LOADED, manifestLoadedHandler);
-        hlsController.on(Hls.Events.LEVEL_UPDATED, levelUpdatedHandler);
-      } else if (videoEl.canPlayType("application/vnd.apple.mpegurl")) {
-        videoEl.src = hlsUrl;
-        setIsMSENotSupported(true);
+    const handleTimeUpdateListener = _ => {
+      const textTrackListCount = videoEl.textTracks.length;
+      let metaTextTrack;
+      for (let trackIndex = 0; trackIndex < textTrackListCount; trackIndex++) {
+        const textTrack = videoEl.textTracks[trackIndex];
+        if (textTrack.kind !== "metadata") {
+          continue;
+        }
+        textTrack.mode = "showing";
+        metaTextTrack = textTrack;
+        break;
       }
+      if (!metaTextTrack) {
+        return;
+      }
+      const cuesLength = metaTextTrack.cues.length;
+      let cueIndex = 0;
+      while (cueIndex < cuesLength) {
+        const cue = metaTextTrack.cues[cueIndex];
+        if (cue.fired) {
+          cueIndex++;
+          continue;
+        }
+        const data = metadataPayloadParser(cue.value.data);
+        const programData = videoEl.getStartDate();
+        const startDate = data.start_date;
+        const endDate = data.end_date;
+        const startTime =
+          new Date(startDate) -
+          new Date(programData) -
+          videoEl.currentTime * 1000;
+        const duration = new Date(endDate) - new Date(startDate);
+        setTimeout(() => {
+          const toast = {
+            title: `Payload from timed Metadata ${data.payload}`,
+            duration: duration,
+          };
+          console.debug("Added toast ", JSON.stringify(toast));
+          ToastManager.addToast(toast);
+        }, startTime);
+        cue.fired = true;
+        cueIndex++;
+      }
+    };
+    if (!videoEl || !hlsUrl) {
+      console.debug("video element or hlsurl is not defined");
+      return;
+    }
+    if (Hls.isSupported()) {
+      /**
+       * initialize HLSController and add event listeners.
+       */
+      hlsController = new HLSController(hlsUrl, videoRef);
+      hlsStats = new HlsStats(hlsController.getHlsJsInstance(), videoEl);
+
+      hlsController.on(HLS_STREAM_NO_LONGER_LIVE, handleNoLongerLive);
+      hlsController.on(HLS_TIMED_METADATA_LOADED, metadataLoadedHandler);
+
+      hlsController.on(Hls.Events.MANIFEST_LOADED, manifestLoadedHandler);
+      hlsController.on(Hls.Events.LEVEL_UPDATED, levelUpdatedHandler);
+      hlsController.on(Hls.Events.ERROR, handleHLSError);
+    } else if (videoEl.canPlayType("application/vnd.apple.mpegurl")) {
+      console.log("PLAYING HLS NATIVELY");
+      videoEl.src = hlsUrl;
+      videoEl.addEventListener("timeupdate", handleTimeUpdateListener);
+      setIsMSENotSupported(true);
     }
     return () => {
       hlsController?.off(Hls.Events.MANIFEST_LOADED, manifestLoadedHandler);
       hlsController?.off(Hls.Events.LEVEL_UPDATED, levelUpdatedHandler);
       hlsController?.off(HLS_TIMED_METADATA_LOADED, metadataLoadedHandler);
       hlsController?.off(HLS_STREAM_NO_LONGER_LIVE, handleNoLongerLive);
+      hlsController?.off(Hls.Events.ERROR, handleHLSError);
+      videoEl.removeEventListener("timeupdate", handleTimeUpdateListener);
       hlsController?.reset();
       hlsStats = null;
       hlsController = null;

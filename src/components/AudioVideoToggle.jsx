@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { parsedUserAgent, useAVToggle } from "@100mslive/react-sdk";
+import { useAVToggle } from "@100mslive/react-sdk";
 import {
   MicOffIcon,
   MicOnIcon,
@@ -8,8 +8,7 @@ import {
 } from "@100mslive/react-icons";
 import { Tooltip } from "@100mslive/react-ui";
 import IconButton from "../IconButton";
-
-const isMacOS = parsedUserAgent.getOS().name.toLowerCase() === "mac os";
+import { isMacOS } from "../common/constants";
 
 export const AudioVideoToggle = () => {
   const { isLocalVideoEnabled, isLocalAudioEnabled, toggleAudio, toggleVideo } =

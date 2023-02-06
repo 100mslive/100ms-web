@@ -35,7 +35,14 @@ import {
 } from "../hooks/useUserPreferences";
 import { UI_SETTINGS } from "../../common/constants";
 
-const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
+const PreviewJoin = ({
+  token,
+  onJoin,
+  env,
+  skipPreview,
+  initialName,
+  asRole,
+}) => {
   const [previewPreference, setPreviewPreference] = useUserPreferences(
     UserPreferencesKeys.PREVIEW,
     defaultPreviewPreference
@@ -58,6 +65,7 @@ const PreviewJoin = ({ token, onJoin, env, skipPreview, initialName }) => {
         setPreviewError(true);
       }
     },
+    asRole,
   });
   const savePreferenceAndJoin = useCallback(() => {
     setPreviewPreference({
