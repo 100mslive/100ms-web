@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { useMedia } from "react-use";
+import Hls from "hls.js";
 import {
   selectAppData,
   selectIsAllowedToPublish,
@@ -141,6 +142,7 @@ export const MoreSettings = () => {
             </Text>
           </Dropdown.Item>
           {FeatureFlags.enableStatsForNerds &&
+            Hls.isSupported() &&
             (localPeerRole === "hls-viewer" ? (
               <Dropdown.Item
                 onClick={() =>
