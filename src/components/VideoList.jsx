@@ -47,7 +47,9 @@ const List = ({
                   css={{
                     left: pageNo === page ? undefined : getLeft(pageNo, page),
                     transition: "left 0.3s ease-in-out",
-                    w: (isLastPage ? lastPageCols : cols) * tiles[0].width,
+                    w:
+                      ((isLastPage ? lastPageCols : cols) || maxColCount) *
+                      tiles[0].width,
                   }}
                 >
                   {tiles.map(tile => {

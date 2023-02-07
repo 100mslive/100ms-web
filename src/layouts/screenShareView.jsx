@@ -167,7 +167,8 @@ const SmallTilePeersView = ({
       {smallTilePeers && smallTilePeers.length > 0 && (
         <VideoList
           peers={smallTilePeers}
-          maxColCount={showSidebarInBottom ? undefined : 2}
+          maxColCount={showSidebarInBottom ? undefined : 1}
+          maxTileCount={5}
           maxRowCount={showSidebarInBottom ? 1 : undefined}
           includeScreenShareForPeer={shouldShowScreenFn}
           showStatsOnTiles={showStatsOnTiles}
