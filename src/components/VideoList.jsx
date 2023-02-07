@@ -17,7 +17,7 @@ const List = ({
   const { aspectRatio } = useTheme();
   const tileOffset = useAppConfig("headlessConfig", "tileOffset");
   const isHeadless = useIsHeadless();
-  const { ref, pagesWithTiles } = useVideoList({
+  const { ref, pagesWithTiles, cols, lastPageCols } = useVideoList({
     peers,
     maxTileCount,
     maxColCount,
@@ -35,40 +35,46 @@ const List = ({
   }, [pagesWithTiles.length, page]);
   return (
     <StyledVideoList.Root ref={ref}>
-      <StyledVideoList.Container>
+      <StyledVideoList.Container css={{ justifyContent: "center" }}>
         {pagesWithTiles && pagesWithTiles.length > 0
-          ? pagesWithTiles.map((tiles, pageNo) => (
-              <StyledVideoList.View
-                key={pageNo}
-                css={{
-                  left: getLeft(pageNo, page),
-                  transition: "left 0.3s ease-in-out",
-                }}
-              >
-                {tiles.map(tile => {
-                  if (tile.width === 0 || tile.height === 0) {
-                    return null;
-                  }
-                  return tile.track?.source === "screen" ? (
-                    <ScreenshareTile
-                      key={tile.track.id}
-                      width={tile.width}
-                      height={tile.height}
-                      peerId={tile.peer.id}
-                    />
-                  ) : (
-                    <VideoTile
-                      key={tile.track?.id || tile.peer.id}
-                      width={tile.width}
-                      height={tile.height}
-                      peerId={tile.peer?.id}
-                      trackId={tile.track?.id}
-                      visible={pageNo === page}
-                    />
-                  );
-                })}
-              </StyledVideoList.View>
-            ))
+          ? pagesWithTiles.map((tiles, pageNo) => {
+              const isLastPage =
+                pagesWithTiles.length > 1 &&
+                pageNo === pagesWithTiles.length - 1;
+              return (
+                <StyledVideoList.View
+                  key={pageNo}
+                  css={{
+                    left: pageNo === page ? undefined : getLeft(pageNo, page),
+                    transition: "left 0.3s ease-in-out",
+                    w: (isLastPage ? lastPageCols : cols) * tiles[0].width,
+                  }}
+                >
+                  {tiles.map(tile => {
+                    if (tile.width === 0 || tile.height === 0) {
+                      return null;
+                    }
+                    return tile.track?.source === "screen" ? (
+                      <ScreenshareTile
+                        key={tile.track.id}
+                        width={tile.width}
+                        height={tile.height}
+                        peerId={tile.peer.id}
+                      />
+                    ) : (
+                      <VideoTile
+                        key={tile.track?.id || tile.peer.id}
+                        width={tile.width}
+                        height={tile.height}
+                        peerId={tile.peer?.id}
+                        trackId={tile.track?.id}
+                        visible={pageNo === page}
+                      />
+                    );
+                  })}
+                </StyledVideoList.View>
+              );
+            })
           : null}
       </StyledVideoList.Container>
       {!isHeadless && pagesWithTiles.length > 1 ? (
