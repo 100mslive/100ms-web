@@ -107,13 +107,6 @@ export const Chat = () => {
     [hmsActions, messagesCount]
   );
 
-  useEffect(() => {
-    if (listRef.current && listRef.current.scrollToItem) {
-      scrollToBottom(1);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listRef.current]);
-
   return (
     <Flex direction="column" css={{ size: "100%" }}>
       <ChatHeader
@@ -141,6 +134,7 @@ export const Chat = () => {
         peerId={chatOptions.peerId}
         setPinnedMessage={setPinnedMessage}
         ref={listRef}
+        scrollToBottom={scrollToBottom}
       />
       <ChatFooter
         role={chatOptions.role}
