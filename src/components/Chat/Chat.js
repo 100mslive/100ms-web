@@ -132,7 +132,6 @@ export const Chat = () => {
       <ChatBody
         role={chatOptions.role}
         peerId={chatOptions.peerId}
-        setPinnedMessage={setPinnedMessage}
         ref={listRef}
         scrollToBottom={scrollToBottom}
       />
