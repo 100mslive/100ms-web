@@ -172,9 +172,7 @@ export const MoreSettings = () => {
                     ) : null}
                   </Flex>
                 </Dropdown.Item>
-              ) : (
-                null
-              )
+              ) : null
             ) : (
               <Dropdown.Item
                 onClick={() => setShowStatsForNerds(true)}
