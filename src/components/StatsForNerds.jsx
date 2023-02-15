@@ -113,7 +113,7 @@ export const StatsForNerds = ({ onOpenChange }) => {
                       option.layer === selectedStat.layer;
                     return (
                       <Dropdown.Item
-                        key={option.label}
+                        key={`${option.id}-${option.layer || ""}`}
                         onClick={() => {
                           setSelectedStat(option);
                         }}
