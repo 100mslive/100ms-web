@@ -77,7 +77,7 @@ const StartHLS = () => {
           data-testid="start_hls"
           css={{ w: "100%", r: "$0" }}
           icon
-          onClick={startHLS}
+          onClick={() => startHLS()}
           disabled={isHLSStarted}
         >
           {isHLSStarted ? (
