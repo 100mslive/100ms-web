@@ -18,7 +18,7 @@ export const useRefreshSessionMetadata = () => {
 
   useEffect(() => {
     if (isConnected) {
-      hmsActions.populateSessionMetadata();
+      hmsActions.populateSessionMetadata().catch(console.error);
     }
   }, [hmsActions, isConnected]);
 

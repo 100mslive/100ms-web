@@ -14,6 +14,8 @@ const TextArea = styled("textarea", {
   color: "$textPrimary",
   resize: "none",
   lineHeight: "1rem",
+  position: "relative",
+  top: "$3",
   "&:focus": {
     boxShadow: "none",
     outline: "none",
