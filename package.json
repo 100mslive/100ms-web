@@ -28,6 +28,7 @@
     "pusher-js": "^7.0.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-resize-detector": "^8.0.4",
     "react-router-dom": "^6.3.0",
     "react-use": "^17.4.0",
     "react-virtualized-auto-sizer": "^1.0.7",

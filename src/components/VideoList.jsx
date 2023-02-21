@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useVideoList } from "@100mslive/react-sdk";
 import { getLeft, StyledVideoList, useTheme } from "@100mslive/react-ui";
 import { Pagination } from "./Pagination";
 import ScreenshareTile from "./ScreenshareTile";
 import VideoTile from "./VideoTile";
 import { useAppConfig } from "./AppData/useAppConfig";
 import { useIsHeadless } from "./AppData/useUISettings";
+import { useVideoList } from "./useVideoList";
 
 const List = ({
   maxTileCount,
