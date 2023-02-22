@@ -45,8 +45,11 @@ const List = ({
                   transition: "left 0.3s ease-in-out",
                 }}
               >
-                {tiles.map((tile, i) =>
-                  tile.track?.source === "screen" ? (
+                {tiles.map(tile => {
+                  if (tile.width === 0 || tile.height === 0) {
+                    return null;
+                  }
+                  return tile.track?.source === "screen" ? (
                     <ScreenshareTile
                       key={tile.track.id}
                       width={tile.width}
@@ -62,8 +65,8 @@ const List = ({
                       trackId={tile.track?.id}
                       visible={pageNo === page}
                     />
-                  )
-                )}
+                  );
+                })}
               </StyledVideoList.View>
             ))
           : null}

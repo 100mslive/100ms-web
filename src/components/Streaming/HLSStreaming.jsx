@@ -48,9 +48,7 @@ const StartHLS = () => {
         setError("");
         await hmsActions.startHLSStreaming({
           variants,
-          recording: record
-            ? { hlsVod: true, singleFilePerLayer: true }
-            : undefined,
+          recording: { hlsVod: record, singleFilePerLayer: record },
         });
       } catch (error) {
         if (error.message.includes("invalid input")) {
@@ -79,7 +77,7 @@ const StartHLS = () => {
           data-testid="start_hls"
           css={{ w: "100%", r: "$0" }}
           icon
-          onClick={startHLS}
+          onClick={() => startHLS()}
           disabled={isHLSStarted}
         >
           {isHLSStarted ? (
