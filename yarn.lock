@@ -2,31 +2,31 @@
 # yarn lockfile v1
 
 
-"@100mslive/hls-stats@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@100mslive/hls-stats/-/hls-stats-0.0.5.tgz#042658f33e9f49beda212d9b2e3158282dd11ae9"
-  integrity sha512-++ec4dGQ7t7js3BG3mf9HTwSA1ljQS//yUKQI/aTr+KQ6r7bbGcLEUl0pVby8MRL995uNlkTMMbfa/gd5wLbug==
+"@100mslive/hls-stats@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@100mslive/hls-stats/-/hls-stats-0.0.6.tgz#a5c59fda172a22c190667775cc3e61b72e004303"
+  integrity sha512-ZRBXdhW4jpCF3Hjg08Q6nT4NSoBwWqndu0IVyFTT+H1A7cL1PPMC/a7Z1dK386SulqUOF8OzO6H0q64Uda0kUw==
 
-"@100mslive/hms-noise-suppression@0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.7.3.tgz#a0e377a3481e2b6c27e6faab6d977c8aed18eedc"
-  integrity sha512-IUhJGCDP6Cns+SkcVTiLKpL5UvpeYelx8bgMqb0S55rLBG4WlCoN/K+NiKsAZWGS9UmzhQZCCn41qKsA/S8pNw==
+"@100mslive/hms-noise-suppression@0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-noise-suppression/-/hms-noise-suppression-0.7.4.tgz#04d62e0fa8c257cb559a5873839384945c5bc54b"
+  integrity sha512-hB7xXNEfZALpiYmEroW8UvaXywKdjIIJVHafSXMvljwqpOgcBwJL/IEr7SNYfFto0FKrIVA0Kl/qZNxQCptq9g==
 
-"@100mslive/hms-video-store@0.8.3":
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.8.3.tgz#d987a8b8328e996cf1f357662dc4bd4710392ea1"
-  integrity sha512-kjPVlsYvYvbkCGGA5ET/0aAD75ZgeGCU32ZupovG5w0c6Z0Fg2YqpWdBvlhaSQET/nUVZ5EjXgrHMafFtzvVrA==
+"@100mslive/hms-video-store@0.8.4":
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video-store/-/hms-video-store-0.8.4.tgz#23cf84208d6bf545ff0870a36df854047bd443b7"
+  integrity sha512-p2/4YnmwsQ5XVVV+CrAdqNX4g/A3ii1mITybsrHPvMF90PZ1+YgoH8onLysVO4CZJwILPbOTvaHZp6Jcn2WTuA==
   dependencies:
-    "@100mslive/hms-video" "0.7.3"
+    "@100mslive/hms-video" "0.7.4"
     eventemitter2 "^6.4.7"
     immer "^9.0.6"
     reselect "4.0.0"
     zustand "3.5.7"
 
-"@100mslive/hms-video@0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.7.3.tgz#0a8a0838511a06bf02407e4949d02106c4ce72d0"
-  integrity sha512-njFQkumjCE14eEXS0bGHydCijy1CfwzySmkqPKeNKRKlj5nYN1uqRiLp6fy5W/w5LBeFvaE3hOPvwsB7sEWkMw==
+"@100mslive/hms-video@0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-video/-/hms-video-0.7.4.tgz#e007ee67da15f4f8c39fde47fe2bf03eb3ec94e4"
+  integrity sha512-8S3Cbu5XXbXlJFTOhdpu83oxo/mmST4lVRo2eUfbyXvGx9eyn9T8ep5wVt3ShZRt7233bOIEPSwNrlX3+SCPPg==
   dependencies:
     eventemitter2 "^6.4.7"
     sdp-transform "^2.14.1"
@@ -34,10 +34,10 @@
     uuid "^8.3.2"
     webrtc-adapter "^8.0.0"
 
-"@100mslive/hms-virtual-background@1.9.3":
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.9.3.tgz#bf71626ae40a459bc2054f0b9d879deaedc5bd85"
-  integrity sha512-KeUKH/cDX+qWrTGBbuqnKmlCQiKES3VsNi5hDVcKTStJ9mA5kXWqjUH/7OYCQh2Jx0uG7mrLdfQEBWUQdSwBFQ==
+"@100mslive/hms-virtual-background@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/hms-virtual-background/-/hms-virtual-background-1.9.4.tgz#1aab2a9af8916a7f02d3b08a5974ee6f4b8d961d"
+  integrity sha512-lIUc9fkXEWZ4ucBjY8OnY2dQ2dRcEzqfBsqlWHLlzJBYVHDU1PvwERzMhQfnxUjqtB5uj06X0OmzUzjaEOafvA==
   dependencies:
     "@mediapipe/selfie_segmentation" "^0.1.1632777926"
     "@tensorflow-models/body-segmentation" "^1.0.1"
@@ -49,30 +49,31 @@
     gifuct-js "^2.1.2"
     wasm-check "^2.0.2"
 
-"@100mslive/react-icons@0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.6.3.tgz#cedecae86ba287f849e6de1715addd7d471b7aab"
-  integrity sha512-S2xH7pU8fpm5LdreZJ6WWCAtZDxaPCb5YA/0cHnQ1Yh6yhWhJ3OVUeqDK8Nm2Cbp0u3mTWfm7GSP2vhUt5J40w==
+"@100mslive/react-icons@0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-icons/-/react-icons-0.6.4.tgz#47c98dc0547c1e07ffd4473e374d5fc448baf8ac"
+  integrity sha512-TSlOqEiGsaiwfwet4cUCqXtjaMM0bhaFQ6zEREDIju8ArntPiLYhYkXeEvWoh5fOUu01/VqOyfUmML/gR2rHhw==
 
-"@100mslive/react-sdk@0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.6.3.tgz#30c90d05102af21437c123840b2082860e6bda02"
-  integrity sha512-k8cudNNl3MbuxADhX8JvAPbl46TQix87h8rIGhomoqQlnzDPePX/B34zhsI4StwyPFXzcJlYIheWLz01ZZbUhw==
+"@100mslive/react-sdk@0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-sdk/-/react-sdk-0.6.4.tgz#51e370ff65f261de0603d23e610a5cdd50534023"
+  integrity sha512-+rW7Xgobfm2YcJy5zn/mq24sljaysPoYKRxFTYsLF6nOeFTa5CTV9KyoNrdAtrOrSWJVJ51X0TOHnH96tgrDSw==
   dependencies:
-    "@100mslive/hms-video-store" "0.8.3"
+    "@100mslive/hms-video-store" "0.8.4"
     react-intersection-observer "^8.33.1"
     react-resize-detector "^7.0.0"
     zustand "^3.6.2"
 
-"@100mslive/react-ui@0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.6.3.tgz#a6e028b18d5be6b8a10d5e990fff65332473f886"
-  integrity sha512-jUqtE0UUivzNhaQE3baFMJXfna3lJc1oewJWmyQ+jlFlGQFSoUtSwjOYnNciJDeElG2WGRrMxtQwYTqP6kaJ1Q==
+"@100mslive/react-ui@0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@100mslive/react-ui/-/react-ui-0.6.4.tgz#2e218205bd1f074f92c901d3870cc4015aaf42e3"
+  integrity sha512-fyRCFLsUAhL9VAmH7PKQ8mAq6XwNGyht++4bnvf7bWAbgV19AzVS2OiCUGRYiA/qcdOjTfErefuuKRfz77SUIw==
   dependencies:
-    "@100mslive/react-icons" "0.6.3"
-    "@100mslive/react-sdk" "0.6.3"
+    "@100mslive/react-icons" "0.6.4"
+    "@100mslive/react-sdk" "0.6.4"
     "@radix-ui/react-accordion" "1.0.0"
     "@radix-ui/react-checkbox" "1.0.0"
+    "@radix-ui/react-collapsible" "^1.0.1"
     "@radix-ui/react-dialog" "1.0.0"
     "@radix-ui/react-dropdown-menu" "1.0.0"
     "@radix-ui/react-label" "1.0.0"
@@ -1455,6 +1456,21 @@
     "@radix-ui/react-use-controllable-state" "1.0.0"
     "@radix-ui/react-use-layout-effect" "1.0.0"
 
+"@radix-ui/react-collapsible@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-collapsible/-/react-collapsible-1.0.1.tgz#7184312ce18e703628b9ef75cdc44b896d6f06b1"
+  integrity sha512-0maX4q91iYa4gjt3PsNf7dq/yqSR+HGAE8I5p54dQ6gnveS+ETWlMoijxrhmgV1k8svxpm34mQAtqIrJt4XZmA==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/primitive" "1.0.0"
+    "@radix-ui/react-compose-refs" "1.0.0"
+    "@radix-ui/react-context" "1.0.0"
+    "@radix-ui/react-id" "1.0.0"
+    "@radix-ui/react-presence" "1.0.0"
+    "@radix-ui/react-primitive" "1.0.1"
+    "@radix-ui/react-use-controllable-state" "1.0.0"
+    "@radix-ui/react-use-layout-effect" "1.0.0"
+
 "@radix-ui/react-collection@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@radix-ui/react-collection/-/react-collection-1.0.0.tgz"
@@ -1676,6 +1692,14 @@
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-slot" "1.0.0"
 
+"@radix-ui/react-primitive@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-primitive/-/react-primitive-1.0.1.tgz#c1ebcce283dd2f02e4fbefdaa49d1cb13dbc990a"
+  integrity sha512-fHbmislWVkZaIdeF6GZxF0A/NH/3BjrGIYj+Ae6eTmTCr7EB0RQAAVEiqsXK6p3/JcRqVSBQoceZroj30Jj3XA==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-slot" "1.0.1"
+
 "@radix-ui/react-radio-group@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@radix-ui/react-radio-group/-/react-radio-group-1.0.0.tgz"
@@ -1760,6 +1784,14 @@
   version "1.0.0"
   resolved "https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-1.0.0.tgz"
   integrity sha512-3mrKauI/tWXo1Ll+gN5dHcxDPdm/Df1ufcDLCecn+pnCIVcdWE7CujXo8QaXOWRJyZyQWWbpB8eFwHzWXlv5mQ==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-compose-refs" "1.0.0"
+
+"@radix-ui/react-slot@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-slot/-/react-slot-1.0.1.tgz#e7868c669c974d649070e9ecbec0b367ee0b4d81"
+  integrity sha512-avutXAFL1ehGvAXtPquu0YK5oz6ctS474iM3vNGQIkswrVhdrS52e3uoMQBzZhNRAIE0jBnUyXWNmSjGHhCFcw==
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-compose-refs" "1.0.0"
