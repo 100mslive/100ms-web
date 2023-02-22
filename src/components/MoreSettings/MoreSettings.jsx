@@ -142,36 +142,37 @@ export const MoreSettings = () => {
             </Text>
           </Dropdown.Item>
           {FeatureFlags.enableStatsForNerds &&
-            Hls.isSupported() &&
             (localPeerRole === "hls-viewer" ? (
-              <Dropdown.Item
-                onClick={() =>
-                  hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats)
-                }
-                data-testid="hls_stats"
-              >
-                <Checkbox.Root
-                  css={{ margin: "$2" }}
-                  checked={enablHlsStats}
-                  onCheckedChange={() =>
+              Hls.isSupported() ? (
+                <Dropdown.Item
+                  onClick={() =>
                     hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats)
                   }
+                  data-testid="hls_stats"
                 >
-                  <Checkbox.Indicator>
-                    <CheckIcon width={16} height={16} />
-                  </Checkbox.Indicator>
-                </Checkbox.Root>
-                <Flex justify="between" css={{ width: "100%" }}>
-                  <Text variant="sm" css={{ ml: "$4" }}>
-                    Show HLS Stats
-                  </Text>
-                  {!isMobileOS ? (
+                  <Checkbox.Root
+                    css={{ margin: "$2" }}
+                    checked={enablHlsStats}
+                    onCheckedChange={() =>
+                      hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats)
+                    }
+                  >
+                    <Checkbox.Indicator>
+                      <CheckIcon width={16} height={16} />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  <Flex justify="between" css={{ width: "100%" }}>
                     <Text variant="sm" css={{ ml: "$4" }}>
-                      {`${isMacOS ? "⌘" : "ctrl"} + ]`}
+                      Show HLS Stats
                     </Text>
-                  ) : null}
-                </Flex>
-              </Dropdown.Item>
+                    {!isMobileOS ? (
+                      <Text variant="sm" css={{ ml: "$4" }}>
+                        {`${isMacOS ? "⌘" : "ctrl"} + ]`}
+                      </Text>
+                    ) : null}
+                  </Flex>
+                </Dropdown.Item>
+              ) : null
             ) : (
               <Dropdown.Item
                 onClick={() => setShowStatsForNerds(true)}

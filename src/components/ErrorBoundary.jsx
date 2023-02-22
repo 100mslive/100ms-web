@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import LogRocket from "logrocket";
+import { logMessage } from "zipyai";
 import { CopyIcon } from "@100mslive/react-icons";
 import {
   Box,
@@ -26,13 +26,11 @@ export class ErrorBoundary extends Component {
         errorInfo: errorInfo,
       },
       () => {
-        LogRocket.track("uiError", { error: this.state.error });
-        LogRocket.captureMessage(`uiError: ${this.state.error}`, {
-          tags: {
-            error: this.state.error,
-          },
-          extra: this.state.errorInfo,
-        });
+        logMessage(
+          `uiError - ${this.state.error} - ${JSON.stringify(
+            this.state.errorInfo
+          )}`
+        );
       }
     );
   }
