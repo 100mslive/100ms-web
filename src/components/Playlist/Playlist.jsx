@@ -123,7 +123,11 @@ export const Playlist = ({ type }) => {
                     {...playlistItem}
                     onClick={async e => {
                       e.preventDefault();
-                      await actions.play(playlistItem.id);
+                      try {
+                        await actions.play(playlistItem.id);
+                      } catch (e) {
+                        // error in playlist, stop or play next
+                      }
                       // Close the dropdown list for videoplaylist
                       if (!isAudioPlaylist) {
                         setOpen(false);

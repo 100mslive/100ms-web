@@ -93,15 +93,15 @@ export const NoiseSuppression = () => {
 
   if (isNSSupported && FeatureFlags.showNS()) {
     return (
-      <Tooltip title={`Turn ${!pluginActive ? "on" : "off"} noise suppression`}>
+      <Tooltip title={`Turn ${pluginActive ? "off" : "on"} noise suppression`}>
         <IconButton
           active={!pluginActive}
           disabled={disable}
           onClick={async () => {
-            if (!pluginActive) {
-              await addPlugin();
-            } else {
+            if (pluginActive) {
               await removePlugin();
+            } else {
+              await addPlugin();
             }
           }}
           data-testid="noise_suppression_btn"
