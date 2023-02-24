@@ -1,3 +1,7 @@
+/**
+ * Please refer the following docs for more detals.
+ * https://www.100ms.live/docs/javascript/v2/how--to-guides/extend-capabilities/plugins/noise-suppression
+ */
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   selectIsLocalAudioPluginPresent,
