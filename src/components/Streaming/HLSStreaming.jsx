@@ -109,7 +109,7 @@ export const HLSStreaming = ({ onBack }) => {
   const roleNames = useFilteredRoles();
   const roomId = useHMSStore(selectRoomID);
   const cards = roleNames.map(roleName => getCardData(roleName, roomId));
-  console.log(roleNames, cards);
+  
   const { isHLSRunning } = useRecordingStreaming();
   const [showLinks, setShowLinks] = useState(false);
   return !showLinks ? (
@@ -135,7 +135,7 @@ export const HLSStreaming = ({ onBack }) => {
 
       <Flex
         direction="column"
-        css={{ gap: "$10", p: "$4 $10", overflowY: "auto" }}
+        css={{ gap: "$10", p: "$0 $10", overflowY: "auto", mb: "$10" }}
       >
         {cards.map(card => (
           <Card key={card.title} {...card} isHLSRunning={isHLSRunning} />

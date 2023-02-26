@@ -28,9 +28,6 @@ const GoLiveButton = () => {
       tooltipText = "RTMP start in progress";
     }
   }
-  if (isStreamingOn) {
-    return null;
-  }
   return (
     <Tooltip title={tooltipText}>
       <Button

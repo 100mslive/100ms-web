@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useMedia } from "react-use";
 import {
   selectAppData,
@@ -93,10 +93,13 @@ export const RecordingStatus = () => {
 };
 
 const EndStream = () => {
-  const { isStreamingOn } = useRecordingStreaming();
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
 
-  return isStreamingOn ? (
+  useEffect(() => {
+    toggleStreaming();
+  }, []);
+
+  return (
     <Button
       data-testid="end_stream"
       variant="danger"
@@ -106,7 +109,7 @@ const EndStream = () => {
       <EndStreamIcon />
       End Stream
     </Button>
-  ) : null;
+  );
 };
 
 const StartRecording = () => {
@@ -244,6 +247,8 @@ export const StreamActions = () => {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const permissions = useHMSStore(selectPermissions);
   const isMobile = useMedia(cssConfig.media.md);
+  const { isStreamingOn } = useRecordingStreaming();
+
   return (
     <Flex align="center" css={{ gap: "$4" }}>
       <AdditionalRoomState />
@@ -252,12 +257,12 @@ export const StreamActions = () => {
         <RecordingStatus />
       </Flex>
       {isConnected && !isMobile ? <StartRecording /> : null}
-      {isConnected && (permissions.hlsStreaming || permissions.rtmpStreaming) && (
-        <Fragment>
-          <GoLiveButton />
-          <EndStream />
-        </Fragment>
-      )}
+      {isConnected &&
+        (permissions.hlsStreaming || permissions.rtmpStreaming) && (
+          <Fragment>
+            {isStreamingOn ? <EndStream /> : <GoLiveButton />}
+          </Fragment>
+        )}
     </Flex>
   );
 };
