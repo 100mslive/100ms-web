@@ -1,10 +1,12 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import {
+  selectRoomID,
   selectAppData,
   useHMSActions,
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
+import { SupportIcon, EyeOpenIcon, WrenchIcon } from "@100mslive/react-icons";
 import {
   EndStreamIcon,
   GoLiveIcon,
@@ -23,25 +25,43 @@ import {
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import { getDefaultMeetingUrl } from "../../common/utils";
 import { APP_DATA } from "../../common/constants";
+import { useFilteredRoles } from "../../common/hooks";
 
-const cards = [
-  {
-    title: "Broadcaster",
-    content:
-      "Broadcasters can livestream audio or video, manage stream appearance and control the room via HLS.",
-    img: "/broadcaster.svg",
-    link: "/streaming/meeting/tlu-ktx-kkg",
-  },
-  {
-    title: "Viewer",
-    content:
-      "Viewers can view and send chat messages, but need to be made broadcasters to participate with audio or video.",
-    img: "/viewer.svg",
-    link: "/streaming/meeting/rrn-urw-sth",
-  },
-];
+const getCardData = (roleName, roomId) => {
+  let data = {};
+  switch (roleName) {
+    case "broadcaster": {
+      data = {
+        title: "Broadcaster",
+        content:
+          "Broadcasters can livestream audio or video, manage stream appearance and control the room via HLS.",
+        icon: <SupportIcon />,
+      };
+      break;
+    }
+    case "hls-viewer": {
+      data = {
+        title: "Viewer",
+        content:
+          "Viewers can view and send chat messages, but need to be made broadcasters to participate with audio or video.",
+        icon: <EyeOpenIcon />,
+      };
+      break;
+    }
+    default:
+      data = {
+        title: roleName[0].toUpperCase() + roleName.slice(1),
+        content:
+          "Permissions for this role can be configured based on requirements",
+        icon: <WrenchIcon />,
+        order: 1,
+      };
+  }
+  data["link"] = `/${roomId}/${roleName}`;
+  return data;
+};
 
-const Card = ({ title, img, link, content, isHLSRunning }) => {
+const Card = ({ title, icon, link, content, isHLSRunning, order = 0 }) => {
   const [copied, setCopied] = useState(false);
   return isHLSRunning ? (
     <Box
@@ -49,11 +69,12 @@ const Card = ({ title, img, link, content, isHLSRunning }) => {
       css={{
         backgroundColor: "$surfaceLight",
         padding: "$10",
+        order,
         borderRadius: "$2",
       }}
     >
-      <Flex align="center" gap="2">
-        <img alt={title} src={img} height="28px" width="28px" />
+      <Flex align="center" gap="2" css={{ color: "$primaryLight" }}>
+        {icon}
         <Text variant="h6" css={{ fontWeight: "$semiBold" }}>
           {title}
         </Text>
@@ -85,6 +106,10 @@ const Card = ({ title, img, link, content, isHLSRunning }) => {
 };
 
 export const HLSStreaming = ({ onBack }) => {
+  const roleNames = useFilteredRoles();
+  const roomId = useHMSStore(selectRoomID);
+  const cards = roleNames.map(roleName => getCardData(roleName, roomId));
+  console.log(roleNames, cards);
   const { isHLSRunning } = useRecordingStreaming();
   const [showLinks, setShowLinks] = useState(false);
   return !showLinks ? (
@@ -108,7 +133,10 @@ export const HLSStreaming = ({ onBack }) => {
         onBack={() => setShowLinks(false)}
       />
 
-      <Flex direction="column" css={{ gap: "$10", mt: "$2", p: "$0 $10" }}>
+      <Flex
+        direction="column"
+        css={{ gap: "$10", p: "$4 $10", overflowY: "auto" }}
+      >
         {cards.map(card => (
           <Card key={card.title} {...card} isHLSRunning={isHLSRunning} />
         ))}
