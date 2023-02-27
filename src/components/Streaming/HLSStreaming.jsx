@@ -29,10 +29,12 @@ import { useFilteredRoles } from "../../common/hooks";
 
 const getCardData = (roleName, roomId) => {
   let data = {};
+  const formattedRoleName = roleName[0].toUpperCase() + roleName.slice(1);
+  
   switch (roleName) {
     case "broadcaster": {
       data = {
-        title: "Broadcaster",
+        title: formattedRoleName,
         content:
           "Broadcasters can livestream audio or video, manage stream appearance and control the room via HLS.",
         icon: <SupportIcon />,
@@ -41,7 +43,7 @@ const getCardData = (roleName, roomId) => {
     }
     case "hls-viewer": {
       data = {
-        title: "Viewer",
+        title: "HLS Viewer",
         content:
           "Viewers can view and send chat messages, but need to be made broadcasters to participate with audio or video.",
         icon: <EyeOpenIcon />,
@@ -50,9 +52,8 @@ const getCardData = (roleName, roomId) => {
     }
     default:
       data = {
-        title: roleName[0].toUpperCase() + roleName.slice(1),
-        content:
-          "Permissions for this role can be configured based on requirements",
+        title: formattedRoleName,
+        content: `${formattedRoleName} is customised with specific permissions, which will determine how it interacts with this room.`,
         icon: <WrenchIcon />,
         order: 1,
       };
@@ -109,7 +110,7 @@ export const HLSStreaming = ({ onBack }) => {
   const roleNames = useFilteredRoles();
   const roomId = useHMSStore(selectRoomID);
   const cards = roleNames.map(roleName => getCardData(roleName, roomId));
-  
+
   const { isHLSRunning } = useRecordingStreaming();
   const [showLinks, setShowLinks] = useState(false);
   return !showLinks ? (

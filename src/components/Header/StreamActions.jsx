@@ -24,7 +24,7 @@ import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { getResolution } from "../Streaming/RTMPStreaming";
 import { ToastManager } from "../Toast/ToastManager";
 import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
-import { useSidepaneToggle } from "../AppData/useSidepane";
+import { useSidepaneToggle, useSidepaneState } from "../AppData/useSidepane";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import { getDefaultMeetingUrl } from "../../common/utils";
 import {
@@ -94,10 +94,14 @@ export const RecordingStatus = () => {
 
 const EndStream = () => {
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
-
+  const sidePane = useSidepaneState();
+  const [openedOnFirstLoad, setOpenedOnFirstLoad] = useState(false);
   useEffect(() => {
-    toggleStreaming();
-  }, []);
+    if (!openedOnFirstLoad && !sidePane) {
+      setOpenedOnFirstLoad(true);
+      toggleStreaming();
+    }
+  }, [sidePane]);
 
   return (
     <Button
