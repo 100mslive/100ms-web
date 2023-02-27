@@ -6,13 +6,13 @@ import {
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
-import { SupportIcon, EyeOpenIcon, WrenchIcon } from "@100mslive/react-icons";
 import {
   EndStreamIcon,
   GoLiveIcon,
   InfoIcon,
   LinkIcon,
   PeopleIcon,
+  SupportIcon, EyeOpenIcon, WrenchIcon 
 } from "@100mslive/react-icons";
 import { Box, Button, Flex, Loading, Text } from "@100mslive/react-ui";
 import {
@@ -30,7 +30,7 @@ import { useFilteredRoles } from "../../common/hooks";
 const getCardData = (roleName, roomId) => {
   let data = {};
   const formattedRoleName = roleName[0].toUpperCase() + roleName.slice(1);
-  
+
   switch (roleName) {
     case "broadcaster": {
       data = {
