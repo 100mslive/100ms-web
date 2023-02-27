@@ -16,6 +16,7 @@ import {
   CrossIcon,
   HandRaiseIcon,
   PeopleIcon,
+  RemoveUserIcon,
   SearchIcon,
   SpeakerIcon,
   VerticalMenuIcon,
@@ -258,7 +259,11 @@ const ParticipantActions = React.memo(({ onSettings, peerId, role }) => {
 });
 
 const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
-  const canChangeRole = useHMSStore(selectPermissions)?.changeRole;
+  const { changeRole: canChangeRole, removeOthers: canRemoveOthers } =
+    useHMSStore(selectPermissions);
+  const localPeerId = useHMSStore(selectLocalPeerID);
+  const isLocal = localPeerId === peerId;
+  const actions = useHMSActions();
   const [open, setOpen] = useState(false);
   return (
     <Dropdown.Root open={open} onOpenChange={value => setOpen(value)}>
@@ -281,6 +286,22 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
             </Dropdown.Item>
           )}
           <ParticipantVolume peerId={peerId} />
+          {!isLocal && canRemoveOthers && (
+            <Dropdown.Item
+              onClick={async () => {
+                try {
+                  await actions.removePeer(peerId, "");
+                } catch (error) {
+                  // TODO: Toast here
+                }
+              }}
+            >
+              <RemoveUserIcon />
+              <Text css={{ ml: "$4", color: "$error" }}>
+                Remove Participant
+              </Text>
+            </Dropdown.Item>
+          )}
         </Dropdown.Content>
       </Dropdown.Portal>
     </Dropdown.Root>

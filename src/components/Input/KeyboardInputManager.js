@@ -1,16 +1,14 @@
 import { useEffect } from "react";
 import {
-  parsedUserAgent,
   selectAppData,
   selectIsLocalAudioEnabled,
   selectIsLocalVideoEnabled,
   useHMSActions,
   useHMSVanillaStore,
 } from "@100mslive/react-sdk";
-import { APP_DATA } from "../../common/constants";
+import { APP_DATA, isMacOS } from "../../common/constants";
 
 let isEvenListenersAttached = false;
-let isMacOS = parsedUserAgent.getOS().name.toLowerCase() === "mac os";
 export class KeyboardInputManager {
   #actions;
   #store;

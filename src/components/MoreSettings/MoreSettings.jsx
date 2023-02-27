@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { useMedia } from "react-use";
+import Hls from "hls.js";
 import {
-  parsedUserAgent,
   selectAppData,
   selectIsAllowedToPublish,
   selectLocalPeerID,
@@ -42,11 +42,9 @@ import { EmbedUrl, EmbedUrlModal } from "./EmbedUrl";
 import { FullScreenItem } from "./FullScreenItem";
 import { MuteAllModal } from "./MuteAllModal";
 import { FeatureFlags } from "../../services/FeatureFlags";
-import { APP_DATA } from "../../common/constants";
+import { APP_DATA, isAndroid, isIOS, isMacOS } from "../../common/constants";
 
-const OSName = parsedUserAgent.getOS().name.toLowerCase();
-const isMacOS = OSName === "mac os";
-const isMobileOS = OSName === "android" || OSName === "ios";
+const isMobileOS = isAndroid || isIOS;
 
 export const MoreSettings = () => {
   const permissions = useHMSStore(selectPermissions);
@@ -145,34 +143,36 @@ export const MoreSettings = () => {
           </Dropdown.Item>
           {FeatureFlags.enableStatsForNerds &&
             (localPeerRole === "hls-viewer" ? (
-              <Dropdown.Item
-                onClick={() =>
-                  hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats)
-                }
-                data-testid="hls_stats"
-              >
-                <Checkbox.Root
-                  css={{ margin: "$2" }}
-                  checked={enablHlsStats}
-                  onCheckedChange={() =>
+              Hls.isSupported() ? (
+                <Dropdown.Item
+                  onClick={() =>
                     hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats)
                   }
+                  data-testid="hls_stats"
                 >
-                  <Checkbox.Indicator>
-                    <CheckIcon width={16} height={16} />
-                  </Checkbox.Indicator>
-                </Checkbox.Root>
-                <Flex justify="between" css={{ width: "100%" }}>
-                  <Text variant="sm" css={{ ml: "$4" }}>
-                    Show HLS Stats
-                  </Text>
-                  {!isMobileOS ? (
+                  <Checkbox.Root
+                    css={{ margin: "$2" }}
+                    checked={enablHlsStats}
+                    onCheckedChange={() =>
+                      hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats)
+                    }
+                  >
+                    <Checkbox.Indicator>
+                      <CheckIcon width={16} height={16} />
+                    </Checkbox.Indicator>
+                  </Checkbox.Root>
+                  <Flex justify="between" css={{ width: "100%" }}>
                     <Text variant="sm" css={{ ml: "$4" }}>
-                      {`${isMacOS ? "⌘" : "ctrl"} + ]`}
+                      Show HLS Stats
                     </Text>
-                  ) : null}
-                </Flex>
-              </Dropdown.Item>
+                    {!isMobileOS ? (
+                      <Text variant="sm" css={{ ml: "$4" }}>
+                        {`${isMacOS ? "⌘" : "ctrl"} + ]`}
+                      </Text>
+                    ) : null}
+                  </Flex>
+                </Dropdown.Item>
+              ) : null
             ) : (
               <Dropdown.Item
                 onClick={() => setShowStatsForNerds(true)}

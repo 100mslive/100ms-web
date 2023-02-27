@@ -13,6 +13,7 @@ import getToken from "../services/tokenService";
 import {
   QUERY_PARAM_AUTH_TOKEN,
   QUERY_PARAM_NAME,
+  QUERY_PARAM_PREVIEW_AS_ROLE,
   QUERY_PARAM_SKIP_PREVIEW,
   QUERY_PARAM_SKIP_PREVIEW_HEADFUL,
   UI_SETTINGS,
@@ -48,6 +49,7 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
   skipPreview = skipPreview || beamInToken || directJoinHeadful;
   const initialName =
     useSearchParam(QUERY_PARAM_NAME) || (skipPreview ? "Beam" : "");
+  const previewAsRole = useSearchParam(QUERY_PARAM_PREVIEW_AS_ROLE);
   let authToken = useSearchParam(QUERY_PARAM_AUTH_TOKEN);
 
   useEffect(() => {
@@ -103,6 +105,7 @@ const PreviewScreen = React.memo(({ getUserToken }) => {
               env={env}
               onJoin={onJoin}
               token={token}
+              asRole={previewAsRole}
             />
           </>
         ) : (
