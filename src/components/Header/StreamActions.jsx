@@ -98,8 +98,8 @@ const EndStream = () => {
   const [openedOnFirstLoad, setOpenedOnFirstLoad] = useState(false);
   useEffect(() => {
     if (!openedOnFirstLoad && !sidePane) {
-      setOpenedOnFirstLoad(true);
       toggleStreaming();
+      setOpenedOnFirstLoad(true);
     }
   }, [sidePane]);
 
