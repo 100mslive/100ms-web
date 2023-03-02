@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useMedia } from "react-use";
 import {
   selectAppData,
@@ -24,7 +24,7 @@ import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { getResolution } from "../Streaming/RTMPStreaming";
 import { ToastManager } from "../Toast/ToastManager";
 import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
-import { useSidepaneToggle } from "../AppData/useSidepane";
+import { useSidepaneState, useSidepaneToggle } from "../AppData/useSidepane";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import { getDefaultMeetingUrl } from "../../common/utils";
 import {
@@ -93,20 +93,22 @@ export const RecordingStatus = () => {
 };
 
 const EndStream = () => {
-  const { isStreamingOn } = useRecordingStreaming();
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
-  if (!isStreamingOn) {
-    return null;
-  }
+  const sidePane = useSidepaneState();
+  const [openedOnFirstLoad, setOpenedOnFirstLoad] = useState(false);
+  useEffect(() => {
+    if (!openedOnFirstLoad && !sidePane) {
+      toggleStreaming();
+      setOpenedOnFirstLoad(true);
+    }
+  }, [sidePane]);
+
   return (
     <Button
       data-testid="end_stream"
-      variant="standard"
-      outlined
+      variant="danger"
       icon
-      onClick={() => {
-        toggleStreaming();
-      }}
+      onClick={toggleStreaming}
     >
       <EndStreamIcon />
       End Stream
@@ -249,6 +251,8 @@ export const StreamActions = () => {
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const permissions = useHMSStore(selectPermissions);
   const isMobile = useMedia(cssConfig.media.md);
+  const { isStreamingOn } = useRecordingStreaming();
+
   return (
     <Flex align="center" css={{ gap: "$4" }}>
       <AdditionalRoomState />
@@ -257,12 +261,12 @@ export const StreamActions = () => {
         <RecordingStatus />
       </Flex>
       {isConnected && !isMobile ? <StartRecording /> : null}
-      {isConnected && (permissions.hlsStreaming || permissions.rtmpStreaming) && (
-        <Fragment>
-          <GoLiveButton />
-          <EndStream />
-        </Fragment>
-      )}
+      {isConnected &&
+        (permissions.hlsStreaming || permissions.rtmpStreaming) && (
+          <Fragment>
+            {isStreamingOn ? <EndStream /> : <GoLiveButton />}
+          </Fragment>
+        )}
     </Flex>
   );
 };
