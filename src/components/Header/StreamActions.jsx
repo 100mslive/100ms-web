@@ -8,7 +8,7 @@ import {
   useHMSStore,
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
-import { EndStreamIcon, RecordIcon } from "@100mslive/react-icons";
+import { RecordIcon, WrenchIcon } from "@100mslive/react-icons";
 import {
   Box,
   Button,
@@ -95,11 +95,14 @@ export const RecordingStatus = () => {
 const EndStream = () => {
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
   const sidePane = useSidepaneState();
-  const [openedOnFirstLoad, setOpenedOnFirstLoad] = useState(false);
   useEffect(() => {
-    if (!openedOnFirstLoad && !sidePane) {
-      toggleStreaming();
-      setOpenedOnFirstLoad(true);
+    if (window && !sidePane) {
+      const userStartedStream =
+        window.sessionStorage.getItem("userStartedStream");
+      if (userStartedStream === "true") {
+        toggleStreaming();
+        window.sessionStorage.setItem("userStartedStream", "");
+      }
     }
   }, [sidePane]);
 
@@ -110,8 +113,8 @@ const EndStream = () => {
       icon
       onClick={toggleStreaming}
     >
-      <EndStreamIcon />
-      End Stream
+      <WrenchIcon />
+      Manage Stream
     </Button>
   );
 };

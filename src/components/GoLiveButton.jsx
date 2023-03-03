@@ -33,7 +33,10 @@ const GoLiveButton = () => {
       <Button
         data-testid="go_live"
         variant={isStreamingSidepaneOpen ? "standard" : "primary"}
-        onClick={toggleStreaming}
+        onClick={() => {
+          toggleStreaming();
+          window.sessionStorage.setItem("userStartedStream", "true");
+        }}
         icon
         loading={isRTMPStartedFromUI || isHLSStartedFromUI}
         disabled={isBrowserRecordingOn && !isStreamingOn}
