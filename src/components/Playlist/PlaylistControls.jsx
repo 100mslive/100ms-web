@@ -133,7 +133,7 @@ const VolumeControl = () => {
         min={0}
         max={100}
         step={1}
-        value={[Math.floor(sliderVolume)]}
+        value={[Math.floor(sliderVolume ?? 100)]}
         onValueChange={e => {
           const value = e[0];
           if (active) {

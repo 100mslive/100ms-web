@@ -3,18 +3,27 @@ import { useFullscreen, useToggle } from "react-use";
 import screenfull from "screenfull";
 import {
   selectVideoPlaylist,
+  selectVideoPlaylistAudioTrackByPeerID,
   selectVideoPlaylistVideoTrackByPeerID,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { CrossIcon, ExpandIcon, ShrinkIcon } from "@100mslive/react-icons";
-import { Flex, IconButton, Text, Video } from "@100mslive/react-ui";
+import {
+  Box,
+  Flex,
+  IconButton,
+  Text,
+  Video,
+  VideoTileStats,
+} from "@100mslive/react-ui";
 import { VideoPlaylistControls } from "./PlaylistControls";
 import { useUISettings } from "../AppData/useUISettings";
 import { UI_SETTINGS } from "../../common/constants";
 
 export const VideoPlayer = React.memo(({ peerId }) => {
   const videoTrack = useHMSStore(selectVideoPlaylistVideoTrackByPeerID(peerId));
+  const audioTrack = useHMSStore(selectVideoPlaylistAudioTrackByPeerID(peerId));
   const active = useHMSStore(selectVideoPlaylist.selectedItem);
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const hmsActions = useHMSActions();
@@ -23,6 +32,8 @@ export const VideoPlayer = React.memo(({ peerId }) => {
   const isFullscreen = useFullscreen(ref, show, {
     onClose: () => toggle(false),
   });
+  const showStatsOnTiles = useUISettings(UI_SETTINGS.showStatsOnTiles);
+
   return (
     <Flex
       direction="column"
@@ -55,6 +66,16 @@ export const VideoPlayer = React.memo(({ peerId }) => {
           </IconButton>
         </Flex>
       )}
+      {showStatsOnTiles ? (
+        <Box css={{ "& > div": { top: "$14", left: "$8" } }}>
+          <VideoTileStats
+            audioTrackID={audioTrack?.id}
+            videoTrackID={videoTrack?.id}
+            peerID={peerId}
+            isLocal={active}
+          />
+        </Box>
+      ) : null}
       <Video
         trackId={videoTrack?.id}
         attach={!isAudioOnly}

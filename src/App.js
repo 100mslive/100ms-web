@@ -14,6 +14,7 @@ import {
 } from "@100mslive/react-sdk";
 import { Box, HMSThemeProvider } from "@100mslive/react-ui";
 import { AppData } from "./components/AppData/AppData.jsx";
+import { BeamSpeakerLabelsLogging } from "./components/AudioLevel/BeamSpeakerLabelsLogging";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import ErrorPage from "./components/ErrorPage";
 import FullPageProgress from "./components/FullPageProgress";
@@ -68,7 +69,6 @@ const getAspectRatio = ({ width, height }) => {
 };
 
 export function EdtechComponent({
-  roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
   themeConfig: {
     aspectRatio = "1-1",
@@ -83,13 +83,13 @@ export function EdtechComponent({
   getUserToken = defaultGetUserToken,
   policyConfig = envPolicyConfig,
   getDetails = () => {},
+  authTokenByRoomCodeEndpoint = "",
 }) {
   const { 0: width, 1: height } = aspectRatio
     .split("-")
     .map(el => parseInt(el));
 
   const getUserTokenCallback = useCallback(getUserToken, []); //eslint-disable-line
-
   return (
     <ErrorBoundary>
       <HMSThemeProvider
@@ -135,6 +135,7 @@ export function EdtechComponent({
             <AppRoutes
               getUserToken={getUserTokenCallback}
               getDetails={getDetails}
+              authTokenByRoomCodeEndpoint={authTokenByRoomCodeEndpoint}
             />
           </Box>
         </HMSRoomProvider>
@@ -166,7 +167,11 @@ const RedirectToPreview = ({ getDetails }) => {
   );
 };
 
-const RouteList = ({ getUserToken, getDetails }) => {
+const RouteList = ({
+  getUserToken,
+  getDetails,
+  authTokenByRoomCodeEndpoint,
+}) => {
   return (
     <Routes>
       <Route path="preview">
@@ -174,7 +179,10 @@ const RouteList = ({ getUserToken, getDetails }) => {
           path=":roomId/:role"
           element={
             <Suspense fallback={<FullPageProgress />}>
-              <PreviewScreen getUserToken={getUserToken} />
+              <PreviewScreen
+                getUserToken={getUserToken}
+                authTokenByRoomCodeEndpoint={authTokenByRoomCodeEndpoint}
+              />
             </Suspense>
           }
         />
@@ -182,7 +190,10 @@ const RouteList = ({ getUserToken, getDetails }) => {
           path=":roomId"
           element={
             <Suspense fallback={<FullPageProgress />}>
-              <PreviewScreen getUserToken={getUserToken} />
+              <PreviewScreen
+                getUserToken={getUserToken}
+                authTokenByRoomCodeEndpoint={authTokenByRoomCodeEndpoint}
+              />
             </Suspense>
           }
         />
@@ -239,7 +250,7 @@ const BackSwipe = () => {
   return null;
 };
 
-function AppRoutes({ getUserToken, getDetails }) {
+function AppRoutes({ getUserToken, getDetails, authTokenByRoomCodeEndpoint }) {
   return (
     <Router>
       <ToastContainer />
@@ -248,17 +259,26 @@ function AppRoutes({ getUserToken, getDetails }) {
       <Confetti />
       <RemoteStopScreenshare />
       <KeyboardHandler />
+      <BeamSpeakerLabelsLogging />
       <Routes>
         <Route
           path="/*"
           element={
-            <RouteList getUserToken={getUserToken} getDetails={getDetails} />
+            <RouteList
+              getUserToken={getUserToken}
+              getDetails={getDetails}
+              authTokenByRoomCodeEndpoint={authTokenByRoomCodeEndpoint}
+            />
           }
         />
         <Route
           path="/streaming/*"
           element={
-            <RouteList getUserToken={getUserToken} getDetails={getDetails} />
+            <RouteList
+              getUserToken={getUserToken}
+              getDetails={getDetails}
+              authTokenByRoomCodeEndpoint={authTokenByRoomCodeEndpoint}
+            />
           }
         />
       </Routes>

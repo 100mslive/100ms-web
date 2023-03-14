@@ -5,7 +5,7 @@ export const useEmojiPickerStyles = showing => {
   useEffect(() => {
     if (showing) {
       setTimeout(() => {
-        const root = ref.current?.querySelector("em-emoji-picker").shadowRoot;
+        const root = ref.current?.querySelector("em-emoji-picker")?.shadowRoot;
         const style = document.createElement("style");
         style.textContent = `
           #root {
@@ -21,7 +21,7 @@ export const useEmojiPickerStyles = showing => {
             background-color: var(--hms-ui-colors-surfaceLight);
           }
         `;
-        root.appendChild(style);
+        root?.appendChild(style);
       }, 0);
     }
   }, [showing]);

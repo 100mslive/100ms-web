@@ -75,6 +75,10 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
               ? undefined
               : borderAudioRef
           }
+          css={{
+            ...(isHeadless &&
+              headlessConfig?.tileOffset === 0 && { "border-radius": 0 }),
+          }}
         >
           {showStatsOnTiles ? (
             <VideoTileStats
