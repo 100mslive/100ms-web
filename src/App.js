@@ -14,6 +14,7 @@ import {
 } from "@100mslive/react-sdk";
 import { Box, HMSThemeProvider } from "@100mslive/react-ui";
 import { AppData } from "./components/AppData/AppData.jsx";
+import { BeamSpeakerLabelsLogging } from "./components/AudioLevel/BeamSpeakerLabelsLogging";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import ErrorPage from "./components/ErrorPage";
 import FullPageProgress from "./components/FullPageProgress";
@@ -68,7 +69,6 @@ const getAspectRatio = ({ width, height }) => {
 };
 
 export function EdtechComponent({
-  roomId = "",
   tokenEndpoint = defaultTokenEndpoint,
   themeConfig: {
     aspectRatio = "1-1",
@@ -259,6 +259,7 @@ function AppRoutes({ getUserToken, getDetails, authTokenByRoomCodeEndpoint }) {
       <Confetti />
       <RemoteStopScreenshare />
       <KeyboardHandler />
+      <BeamSpeakerLabelsLogging />
       <Routes>
         <Route
           path="/*"
