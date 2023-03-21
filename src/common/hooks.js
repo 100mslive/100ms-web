@@ -4,12 +4,8 @@ import {
   selectAvailableRoleNames,
   selectIsConnectedToRoom,
   selectPeerCount,
-  selectPermissions,
-  useHMSActions,
   useHMSStore,
-  useRecordingStreaming,
 } from "@100mslive/react-sdk";
-import { useIsHeadless } from "../components/AppData/useUISettings";
 import { isInternalRole } from "./utils";
 
 /**
@@ -47,45 +43,6 @@ export const useWhenAloneInRoom = (thresholdMs = 5 * 60 * 1000) => {
   }, []);
 
   return { alone, aloneForLong };
-};
-
-export const useBeamAutoLeave = () => {
-  const hmsActions = useHMSActions();
-  const permissions = useHMSStore(selectPermissions);
-  const isHeadless = useIsHeadless();
-  const { aloneForLong } = useWhenAloneInRoom();
-  const { isHLSRunning, isRTMPRunning, isBrowserRecordingOn } =
-    useRecordingStreaming();
-
-  /**
-   * End room after 5 minutes of being alone in the room to stop beam
-   * Note: Leave doesn't stop beam
-   */
-  useEffect(() => {
-    if (aloneForLong && isHeadless) {
-      if (permissions?.endRoom) {
-        hmsActions.endRoom(false, "Stop Beam");
-      } else {
-        if (isHLSRunning && permissions?.hlsStreaming) {
-          hmsActions.stopHLSStreaming();
-        }
-        if (
-          (isRTMPRunning && permissions?.rtmpStreaming) ||
-          (isBrowserRecordingOn && permissions?.browserRecording)
-        ) {
-          hmsActions.stopRTMPAndRecording();
-        }
-      }
-    }
-  }, [
-    aloneForLong,
-    isHeadless,
-    hmsActions,
-    permissions,
-    isHLSRunning,
-    isRTMPRunning,
-    isBrowserRecordingOn,
-  ]);
 };
 
 export const useFilteredRoles = () => {

@@ -26,7 +26,6 @@ import {
   useWaitingViewerRole,
 } from "../components/AppData/useUISettings";
 import { useRefreshSessionMetadata } from "../components/hooks/useRefreshSessionMetadata";
-import { useBeamAutoLeave } from "../common/hooks";
 import { UI_MODE_ACTIVE_SPEAKER } from "../common/constants";
 
 const WhiteboardView = React.lazy(() => import("./WhiteboardView"));
@@ -42,7 +41,6 @@ export const ConferenceMainView = () => {
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const { whiteboardOwner: whiteboardShared } = useWhiteboardMetadata();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
-  useBeamAutoLeave();
   useRefreshSessionMetadata();
   const hmsActions = useHMSActions();
   const isHeadless = useIsHeadless();

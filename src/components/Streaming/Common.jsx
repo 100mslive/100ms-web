@@ -66,7 +66,16 @@ export const ContentHeader = ({ onBack, title, content }) => {
         <ChevronLeftIcon width={16} height={16} />
       </Text>
       <Box css={{ flex: "1 1 0", mx: "$8" }}>
-        <Text variant="sm">{title}</Text>
+        <Text
+          variant="tiny"
+          css={{
+            textTransform: "uppercase",
+            fontWeight: "$semiBold",
+            color: "$textMedEmp",
+          }}
+        >
+          {title}
+        </Text>
         <Text variant="h6">{content}</Text>
       </Box>
       <IconButton
@@ -80,7 +89,7 @@ export const ContentHeader = ({ onBack, title, content }) => {
   );
 };
 
-export const Container = ({ children }) => {
+export const Container = ({ children, rounded = false }) => {
   return (
     <Box
       css={{
@@ -94,6 +103,7 @@ export const Container = ({ children }) => {
         animation: `${slideLeftAndFade("10%")} 100ms ease-out forwards`,
         display: "flex",
         flexDirection: "column",
+        borderRadius: rounded ? "$2" : "0",
       }}
     >
       {children}
@@ -101,9 +111,14 @@ export const Container = ({ children }) => {
   );
 };
 
-export const ContentBody = ({ Icon, title, children }) => {
+export const ContentBody = ({
+  Icon,
+  title,
+  removeVerticalPadding = false,
+  children,
+}) => {
   return (
-    <Box css={{ p: "$10" }}>
+    <Box css={{ p: removeVerticalPadding ? "$0 $10" : "$10" }}>
       <Text css={{ display: "flex", alignItems: "center", mb: "$4" }}>
         <Icon />
         <Text as="span" css={{ fontWeight: "$semiBold", ml: "$4" }}>

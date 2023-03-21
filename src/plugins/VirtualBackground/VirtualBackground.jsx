@@ -13,7 +13,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { VirtualBackgroundIcon } from "@100mslive/react-icons";
-import { Tooltip } from "@100mslive/react-ui";
+import { Loading, Tooltip } from "@100mslive/react-ui";
 import IconButton from "../../IconButton";
 import { getRandomVirtualBackground } from "./vbutils";
 
@@ -22,6 +22,7 @@ export const VirtualBackground = () => {
   const hmsActions = useHMSActions();
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const role = useHMSStore(selectLocalPeerRole);
+  const [isVBLoading, setIsVBLoading] = useState(false);
   const [isVBSupported, setIsVBSupported] = useState(false);
   const localPeerVideoTrackID = useHMSStore(selectLocalVideoTrackID);
   const isVBPresent = useHMSStore(selectIsLocalVideoPluginPresent("HMSVB"));
@@ -49,6 +50,7 @@ export const VirtualBackground = () => {
   }, [hmsActions, localPeerVideoTrackID]);
 
   async function addPlugin() {
+    setIsVBLoading(true);
     try {
       await createPlugin();
       window.HMS.virtualBackground = pluginRef.current;
@@ -61,6 +63,7 @@ export const VirtualBackground = () => {
     } catch (err) {
       console.error("add virtual background plugin failed", err);
     }
+    setIsVBLoading(false);
   }
 
   async function removePlugin() {
@@ -75,15 +78,22 @@ export const VirtualBackground = () => {
   }
 
   return (
-    <Tooltip title={`Turn ${!isVBPresent ? "on" : "off"} virtual background`}>
+    <Tooltip
+      title={
+        isVBLoading
+          ? "Adding virtual background"
+          : `Turn ${!isVBPresent ? "on" : "off"} virtual background`
+      }
+    >
       <IconButton
         active={!isVBPresent}
+        disabled={isVBLoading}
         onClick={() => {
           !isVBPresent ? addPlugin() : removePlugin();
         }}
         data-testid="virtual_bg_btn"
       >
-        <VirtualBackgroundIcon />
+        {isVBLoading ? <Loading /> : <VirtualBackgroundIcon />}
       </IconButton>
     </Tooltip>
   );

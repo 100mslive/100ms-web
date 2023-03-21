@@ -210,11 +210,13 @@ const LocalPeerStats = () => {
       />
       <StatsRow
         label="Round Trip Time"
-        value={(
-          ((stats.publish?.currentRoundTripTime || "") +
-            (stats.subscribe?.currentRoundTripTime || "")) /
-          2
-        ).toFixed(3)}
+        value={`${
+          (
+            ((stats.publish?.currentRoundTripTime || 0) +
+              (stats.subscribe?.currentRoundTripTime || 0)) /
+            2
+          ).toFixed(3) * 1000
+        } ms`}
       />
     </Flex>
   );
@@ -253,7 +255,10 @@ const TrackStats = ({ trackID, layer, local }) => {
           )}
         </>
       )}
-      <StatsRow label="Round Trip Time" value={stats.roundTripTime} />
+      <StatsRow
+        label="Round Trip Time"
+        value={`${stats.roundTripTime * 1000} ms`}
+      />
     </Flex>
   );
 };
