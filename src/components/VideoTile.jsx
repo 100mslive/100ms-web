@@ -56,6 +56,7 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
   }, []);
   const headlessConfig = useAppConfig("headlessConfig");
   const hideLabel = isHeadless && headlessConfig?.hideTileName;
+  const isTileBigEnoughToShowStats = height >= 180 && width >= 180;
   return (
     <StyledVideoTile.Root
       css={{
@@ -80,7 +81,7 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
               headlessConfig?.tileOffset === 0 && { "border-radius": 0 }),
           }}
         >
-          {showStatsOnTiles ? (
+          {showStatsOnTiles && isTileBigEnoughToShowStats ? (
             <VideoTileStats
               audioTrackID={audioTrack?.id}
               videoTrackID={track?.id}
