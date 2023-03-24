@@ -68,10 +68,6 @@ export const useIsRTMPStartedFromUI = () => {
   return useHMSStore(selectAppData(APP_DATA.rtmpStarted));
 };
 
-export const useTokenEndpoint = () => {
-  return useHMSStore(selectAppData(APP_DATA.tokenEndpoint));
-};
-
 export const useLogo = () => {
   return useHMSStore(selectAppData(APP_DATA.logo));
 };

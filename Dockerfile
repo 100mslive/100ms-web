@@ -19,7 +19,6 @@ ENV REACT_APP_COLOR=#2F80FF
 ENV REACT_APP_LOGO='provide your logo img url here'
 ENV REACT_APP_FONT=Inter
 ENV REACT_APP_ENABLE_HLS_QUALITY_LVL='true'
-ENV REACT_APP_TOKEN_GENERATION_ENDPOINT='<Your token generation endpoint from dashboard goes here>'
 ENV REACT_APP_ENV=prod
 ENV REACT_APP_LOGROCKET_ID='<Your Logrocket project ID>'
 ENV REACT_APP_POLICY_CONFIG=''

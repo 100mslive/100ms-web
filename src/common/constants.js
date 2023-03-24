@@ -124,7 +124,6 @@ export const APP_DATA = {
   waitingViewerRole: "waitingViewerRole",
   subscribedNotifications: "subscribedNotifications",
   logo: "logo",
-  tokenEndpoint: "tokenEndpoint",
   appLayout: "appLayout",
   hlsStarted: "hlsStarted",
   rtmpStarted: "rtmpStarted",
