@@ -15,7 +15,6 @@ import {
 import { Box, HMSThemeProvider } from "@100mslive/react-ui";
 import { AppData } from "./components/AppData/AppData.jsx";
 import { BeamSpeakerLabelsLogging } from "./components/AudioLevel/BeamSpeakerLabelsLogging";
-import DeprecatedLink from "./components/DeprecatedLink.jsx";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import ErrorPage from "./components/ErrorPage";
 import FullPageProgress from "./components/FullPageProgress";
@@ -29,11 +28,19 @@ import { Confetti } from "./plugins/confetti";
 import { RemoteStopScreenshare } from "./plugins/RemoteStopScreenshare";
 import { getRoutePrefix, shadeColor } from "./common/utils";
 import { FeatureFlags } from "./services/FeatureFlags";
+import { getBackendEndpoint } from "./services/tokenService";
 import "./base.css";
 import "./index.css";
 
 const Conference = React.lazy(() => import("./components/conference"));
 const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
+
+const defaultTokenEndpoint = process.env
+  .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+  ? `${getBackendEndpoint()}${
+      process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
+    }/`
+  : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
@@ -59,6 +66,7 @@ const getAspectRatio = ({ width, height }) => {
 };
 
 export function EdtechComponent({
+  tokenEndpoint = defaultTokenEndpoint,
   themeConfig: {
     aspectRatio = "1-1",
     font = "Roboto",
@@ -106,6 +114,7 @@ export function EdtechComponent({
             policyConfig={policyConfig}
             recordingUrl={recordingUrl}
             logo={logo}
+            tokenEndpoint={tokenEndpoint}
           />
 
           <Init />
@@ -156,7 +165,16 @@ const RouteList = ({ getDetails, authTokenByRoomCodeEndpoint }) => {
   return (
     <Routes>
       <Route path="preview">
-        <Route path=":roomId/:role" element={<DeprecatedLink />} />
+        <Route
+          path=":roomId/:role"
+          element={
+            <Suspense fallback={<FullPageProgress />}>
+              <PreviewScreen
+                authTokenByRoomCodeEndpoint={authTokenByRoomCodeEndpoint}
+              />
+            </Suspense>
+          }
+        />
         <Route
           path=":roomId"
           element={
@@ -169,7 +187,14 @@ const RouteList = ({ getDetails, authTokenByRoomCodeEndpoint }) => {
         />
       </Route>
       <Route path="meeting">
-        <Route path=":roomId/:role" element={<DeprecatedLink />} />
+        <Route
+          path=":roomId/:role"
+          element={
+            <Suspense fallback={<FullPageProgress />}>
+              <Conference />
+            </Suspense>
+          }
+        />
         <Route
           path=":roomId"
           element={

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSearchParam } from "react-use";
+import { v4 as uuid } from "uuid";
 import { useHMSActions } from "@100mslive/react-sdk";
 import { Box, Flex, Loading, styled } from "@100mslive/react-ui";
 import PreviewContainer from "./Preview/PreviewContainer";
 import SidePane from "../layouts/SidePane";
 import { ErrorDialog } from "../primitives/DialogContent";
 import { Header } from "./Header";
-import { useSetUiSettings } from "./AppData/useUISettings";
+import { useSetUiSettings, useTokenEndpoint } from "./AppData/useUISettings";
 import { useNavigation } from "./hooks/useNavigation";
+import getToken from "../services/tokenService";
 import {
   QUERY_PARAM_AUTH_TOKEN,
   QUERY_PARAM_NAME,
@@ -32,8 +34,9 @@ const env = process.env.REACT_APP_ENV;
 const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
   const navigate = useNavigation();
   const hmsActions = useHMSActions();
+  const tokenEndpoint = useTokenEndpoint();
   const [, setIsHeadless] = useSetUiSettings(UI_SETTINGS.isHeadless);
-  const { roomId: roomCode } = useParams(); // from the url
+  const { roomId: urlRoomId, role: userRole } = useParams(); // from the url
   const [token, setToken] = useState(null);
   const [error, setError] = useState({ title: "", body: "" });
   // way to skip preview for automated tests, beam recording and streaming
@@ -50,32 +53,48 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
     useSearchParam(QUERY_PARAM_NAME) || (skipPreview ? "Beam" : "");
   const previewAsRole = useSearchParam(QUERY_PARAM_PREVIEW_AS_ROLE);
   let authToken = useSearchParam(QUERY_PARAM_AUTH_TOKEN);
-
   useEffect(() => {
     if (authToken) {
       setToken(authToken);
       return;
     }
-    if (!roomCode) {
+    if (!tokenEndpoint || !urlRoomId) {
       return;
     }
+    const roomCode = !userRole && urlRoomId;
 
-    hmsActions
-      .getAuthTokenByRoomCode(
-        { roomCode },
-        { endpoint: authTokenByRoomCodeEndpoint }
-      )
-      .then(response => {
-        setToken(response.token);
+    const getTokenFn = roomCode
+      ? () =>
+          hmsActions
+            .getAuthTokenByRoomCode(
+              { roomCode },
+              { endpoint: authTokenByRoomCodeEndpoint }
+            )
+            .then(response => response.token)
+      : () => getToken(tokenEndpoint, uuid(), userRole, urlRoomId);
+
+    getTokenFn()
+      .then(token => {
+        setToken(token);
       })
       .catch(error => {
         setError(convertPreviewError(error));
       });
-  }, [hmsActions, roomCode, authToken, authTokenByRoomCodeEndpoint]);
+  }, [
+    hmsActions,
+    tokenEndpoint,
+    urlRoomId,
+    userRole,
+    authToken,
+    authTokenByRoomCodeEndpoint,
+  ]);
 
   const onJoin = () => {
     !directJoinHeadful && setIsHeadless(skipPreview);
-    let meetingURL = `/meeting/${roomCode}`;
+    let meetingURL = `/meeting/${urlRoomId}`;
+    if (userRole) {
+      meetingURL += `/${userRole}`;
+    }
     navigate(meetingURL);
   };
 
