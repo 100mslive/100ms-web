@@ -259,9 +259,7 @@ const HLSView = () => {
       id={`hls-viewer-${themeType}`}
       ref={hlsViewRef}
       css={{
-        verticalAlign: "middle",
-        width: "100%",
-        height: "100%",
+        size: "100%",
       }}
     >
       {hlsStatsState?.url && enablHlsStats ? (
@@ -277,10 +275,8 @@ const HLSView = () => {
           justify="center"
           css={{
             width: "100%",
-            margin: "auto",
-            height: "90%",
-            "@md": { height: "90%" },
-            "@lg": { height: "80%" },
+            margin: "0 auto",
+            height: "100%",
           }}
         >
           <HLSAutoplayBlockedPrompt

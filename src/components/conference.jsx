@@ -73,7 +73,7 @@ const Conference = () => {
         <ConferenceMainView />
       </Box>
       {!isHeadless && (
-        <Box css={{ flexShrink: 0, minHeight: "$24" }} data-testid="footer">
+        <Box css={{ flex: "0 0 15%", maxHeight: "$24" }} data-testid="footer">
           <Footer />
         </Box>
       )}
