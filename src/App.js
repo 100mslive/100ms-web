@@ -28,20 +28,13 @@ import { Confetti } from "./plugins/confetti";
 import { RemoteStopScreenshare } from "./plugins/RemoteStopScreenshare";
 import { getRoutePrefix, shadeColor } from "./common/utils";
 import { FeatureFlags } from "./services/FeatureFlags";
-import { getBackendEndpoint } from "./services/tokenService";
 import "./base.css";
 import "./index.css";
 
 const Conference = React.lazy(() => import("./components/conference"));
 const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
 
-const defaultTokenEndpoint = process.env
-  .REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-  ? `${getBackendEndpoint()}${
-      process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT_DOMAIN
-    }/`
-  : process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
-
+const defaultTokenEndpoint = process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
 let appName;

@@ -47,25 +47,3 @@ export default async function getToken(tokenEndpoint, userId, role, roomId) {
     throw err;
   }
 }
-
-export function getBackendEndpoint() {
-  let BASE_BACKEND_URL;
-  const baseDomain = window.location.hostname;
-  if (baseDomain === "qa2.100ms.live" || process.env.REACT_APP_ENV === "qa") {
-    BASE_BACKEND_URL =
-      process.env.REACT_APP_QA_BACKEND_API ||
-      "https://qa-in.100ms.live/hmsapi/";
-  } else if (
-    baseDomain === "prod2.100ms.live" ||
-    process.env.REACT_APP_ENV === "prod"
-  ) {
-    BASE_BACKEND_URL =
-      process.env.REACT_APP_PROD_BACKEND_API ||
-      "https://prod-in.100ms.live/hmsapi/";
-  } else {
-    const env = process.env.REACT_APP_ENV || "prod";
-    const apiBasePath = `https://${env}-in2.100ms.live/hmsapi/`;
-    BASE_BACKEND_URL = apiBasePath || "https://prod-in.100ms.live/hmsapi/";
-  }
-  return BASE_BACKEND_URL;
-}
