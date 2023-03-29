@@ -7,6 +7,7 @@ import {
   useCustomEvent,
   useHMSActions,
   useHMSStore,
+  useRecordingStreaming,
 } from "@100mslive/react-sdk";
 import { EmojiIcon } from "@100mslive/react-icons";
 import {
@@ -45,7 +46,7 @@ export const EmojiReaction = () => {
   const roles = useHMSStore(selectAvailableRoleNames);
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const hlsViewerRole = useHLSViewerRole();
-
+  const { isStreamingOn } = useRecordingStreaming();
   const filteredRoles = useMemo(
     () => roles.filter(role => role !== hlsViewerRole),
     [roles, hlsViewerRole]
@@ -63,12 +64,14 @@ export const EmojiReaction = () => {
   const sendReaction = async emojiId => {
     const data = { type: "EMOJI_REACTION", emojiId: emojiId };
     sendEvent(data, { roleNames: filteredRoles });
-    await hmsActions.sendHLSTimedMetadata([
-      {
-        payload: JSON.stringify(data),
-        duration: 2,
-      },
-    ]);
+    if (isStreamingOn) {
+      await hmsActions.sendHLSTimedMetadata([
+        {
+          payload: JSON.stringify(data),
+          duration: 2,
+        },
+      ]);
+    }
   };
   if (localPeerRole === hlsViewerRole) {
     return null;
