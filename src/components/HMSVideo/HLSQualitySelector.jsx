@@ -81,7 +81,7 @@ export function HLSQualitySelector({
             return (
               <Dropdown.Item
                 onClick={() => onQualityChange(level)}
-                key={level.url}
+                key={level.width}
               >
                 <Text css={{ flex: "1 1 0" }}>{getQualityText(level)}</Text>
                 {!isAuto &&
