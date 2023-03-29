@@ -90,7 +90,7 @@ export const defaultVideoList = [
 export const emojiIdMapping = [
   { emojiId: "+1", emoji: "👍" },
   { emojiId: "-1", emoji: "👎" },
-  { emojiId: "wave", emoji: "👎" },
+  { emojiId: "wave", emoji: "👋" },
   { emojiId: "clap", emoji: "👏" },
   { emojiId: "fire", emoji: "🔥" },
   { emojiId: "tada", emoji: "🎉" },
