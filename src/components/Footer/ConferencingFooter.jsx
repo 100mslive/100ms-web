@@ -10,6 +10,7 @@ import { Flex, Footer as AppFooter, Tooltip } from "@100mslive/react-ui";
 import { Playlist } from "../../components/Playlist/Playlist";
 import IconButton from "../../IconButton";
 import { AudioVideoToggle } from "../AudioVideoToggle";
+import { EmojiReaction } from "../EmojiReaction";
 import { LeaveRoom } from "../LeaveRoom";
 import MetaActions from "../MetaActions";
 import { MoreSettings } from "../MoreSettings/MoreSettings";
@@ -104,6 +105,7 @@ export const ConferencingFooter = () => {
         </Flex>
       </AppFooter.Center>
       <AppFooter.Right>
+        <EmojiReaction />
         <MetaActions />
         <ChatToggle />
       </AppFooter.Right>

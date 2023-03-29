@@ -72,15 +72,33 @@ const HLSView = () => {
     };
     let videoEl = videoRef.current;
     const metadataLoadedHandler = ({ payload, ...rest }) => {
+      const dataPayload = str => {
+        try {
+          return JSON.parse(str);
+        } catch (e) {
+          return str;
+        }
+      };
+
       // parse payload and extract start_time and payload
       const data = metadataPayloadParser(payload);
       const duration = rest.duration * 1000;
-      const toast = {
-        title: `Payload from timed Metadata ${data.payload}`,
-        duration: duration || 3000,
-      };
-      console.debug("Added toast ", JSON.stringify(toast));
-      ToastManager.addToast(toast);
+      const parsedPayload = dataPayload(data.payload);
+
+      switch (parsedPayload?.type) {
+        case "EMOJI_REACTION":
+          window.showConfettiUsingEmojiId(parsedPayload?.emojiId);
+          break;
+        default: {
+          const toast = {
+            title: `Payload from timed Metadata ${data.payload}`,
+            duration: duration || 3000,
+          };
+          console.debug("Added toast ", JSON.stringify(toast));
+          ToastManager.addToast(toast);
+          break;
+        }
+      }
     };
     const handleHLSError = error => {
       console.error(error);

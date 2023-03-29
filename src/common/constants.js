@@ -87,6 +87,19 @@ export const defaultVideoList = [
   },
 ];
 
+export const emojiIdMapping = [
+  { emojiId: "+1", emoji: "👍" },
+  { emojiId: "-1", emoji: "👎" },
+  { emojiId: "wave", emoji: "👎" },
+  { emojiId: "clap", emoji: "👏" },
+  { emojiId: "fire", emoji: "🔥" },
+  { emojiId: "tada", emoji: "🎉" },
+  { emojiId: "heart_eyes", emoji: "😍" },
+  { emojiId: "joy", emoji: "😂" },
+  { emojiId: "open_mouth", emoji: "😮" },
+  { emojiId: "sob", emoji: "😭" },
+];
+
 export const DEFAULT_HLS_ROLE_KEY = "HLS_VIEWER_ROLE";
 export const DEFAULT_HLS_VIEWER_ROLE = "hls-viewer";
 export const DEFAULT_WAITING_VIEWER_ROLE = "waiting-room";
@@ -160,6 +173,8 @@ export const SUBSCRIBED_NOTIFICATIONS = {
 
 export const CREATE_ROOM_DOC_URL =
   "https://github.com/100mslive/100ms-web/wiki/Creating-and-joining-a-room";
+export const HLS_TIMED_METADATA_DOC_URL =
+  "https://www.100ms.live/docs/javascript/v2/how--to-guides/record-and-live-stream/hls/hls-timed-metadata";
 
 export const REMOTE_STOP_SCREENSHARE_TYPE = "REMOTE_STOP_SCREENSHARE";
 
