@@ -65,12 +65,10 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
 
     const getTokenFn = roomCode
       ? () =>
-          hmsActions
-            .getAuthTokenByRoomCode(
-              { roomCode },
-              { endpoint: authTokenByRoomCodeEndpoint }
-            )
-            .then(response => response.token)
+          hmsActions.getAuthTokenByRoomCode(
+            { roomCode },
+            { endpoint: authTokenByRoomCodeEndpoint }
+          )
       : () => getToken(tokenEndpoint, uuid(), userRole, urlRoomId);
 
     getTokenFn()
