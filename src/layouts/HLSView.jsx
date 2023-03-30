@@ -193,7 +193,7 @@ const HLSView = () => {
           onClose={sfnOverlayClose}
         />
       ) : null}
-      {hlsUrl ? (
+      {hlsUrl && hlsState.running ? (
         <Flex
           id="hls-player-container"
           align="center"
