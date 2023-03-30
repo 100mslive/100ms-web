@@ -71,7 +71,7 @@ const HLSView = () => {
         }
       };
       // parse payload and extract start_time and payload
-      const duration = rest.duration * 1000;
+      const duration = rest.duration;
       const parsedPayload = parsePayload(payload);
       switch (parsedPayload.type) {
         case "EMOJI_REACTION":
@@ -273,6 +273,7 @@ const HLSView = () => {
                 ) : null}
                 {isFullScreenSupported ? (
                   <FullScreenButton
+                    isFullScreen={isFullScreen}
                     onToggle={toggle}
                     icon={isFullScreen ? <ShrinkIcon /> : <ExpandIcon />}
                   />
