@@ -40,7 +40,7 @@ const HLSView = () => {
   const { themeType } = useTheme();
   let [hlsStatsState, setHlsStatsState] = useState(null);
   const hlsUrl = hlsState.variants[0]?.url;
-  const [availableLevels, setAvailableLevels] = useState([]);
+  const [availableLayers, setAvailableLayers] = useState([]);
   const [isVideoLive, setIsVideoLive] = useState(true);
   const [isUserSelectedAuto, setIsUserSelectedAuto] = useState(true);
   const [currentSelectedQuality, setCurrentSelectedQuality] = useState(null);
@@ -56,11 +56,11 @@ const HLSView = () => {
    */
   useEffect(() => {
     let videoEl = videoRef.current;
-    const manifestLoadedHandler = ({ levels }) => {
-      setAvailableLevels(levels);
+    const manifestLoadedHandler = ({ layers }) => {
+      setAvailableLayers(layers);
     };
-    const levelUpdatedHandler = ({ level }) => {
-      setCurrentSelectedQuality(level);
+    const layerUpdatedHandler = ({ layer }) => {
+      setCurrentSelectedQuality(layer);
     };
     const metadataLoadedHandler = ({ payload, ...rest }) => {
       const parsePayload = str => {
@@ -114,7 +114,7 @@ const HLSView = () => {
       hlsPlayer.on(HMSHLSPlayerEvents.AUTOPLAY_BLOCKED, handleAutoplayBlock);
 
       hlsPlayer.on(HMSHLSPlayerEvents.MANIFEST_LOADED, manifestLoadedHandler);
-      hlsPlayer.on(HMSHLSPlayerEvents.LEVEL_UPDATED, levelUpdatedHandler);
+      hlsPlayer.on(HMSHLSPlayerEvents.LAYER_UPDATED, layerUpdatedHandler);
       return () => {
         hlsPlayer.off(
           HMSHLSPlayerEvents.SEEK_POS_BEHIND_LIVE_EDGE,
@@ -131,7 +131,7 @@ const HLSView = () => {
           HMSHLSPlayerEvents.MANIFEST_LOADED,
           manifestLoadedHandler
         );
-        hlsPlayer.off(HMSHLSPlayerEvents.LEVEL_UPDATED, levelUpdatedHandler);
+        hlsPlayer.off(HMSHLSPlayerEvents.LAYER_UPDATED, layerUpdatedHandler);
         hlsPlayer.reset();
         hlsPlayer = null;
       };
@@ -163,15 +163,15 @@ const HLSView = () => {
   };
 
   const handleQuality = useCallback(
-    qualityLevel => {
+    quality => {
       if (hlsPlayer) {
         setIsUserSelectedAuto(
-          qualityLevel.height.toString().toLowerCase() === "auto"
+          quality.height.toString().toLowerCase() === "auto"
         );
-        hlsPlayer.setCurrentLevel(qualityLevel);
+        hlsPlayer.setLayer(quality);
       }
     },
-    [availableLevels] //eslint-disable-line
+    [availableLayers] //eslint-disable-line
   );
 
   const sfnOverlayClose = () => {
@@ -231,7 +231,7 @@ const HLSView = () => {
               </HMSVideoPlayer.Controls.Left>
 
               <HMSVideoPlayer.Controls.Right>
-                {availableLevels.length > 0 ? (
+                {availableLayers.length > 0 ? (
                   <>
                     <IconButton
                       variant="standard"
@@ -264,7 +264,7 @@ const HLSView = () => {
                       </Tooltip>
                     </IconButton>
                     <HLSQualitySelector
-                      levels={availableLevels}
+                      layers={availableLayers}
                       selection={currentSelectedQuality}
                       onQualityChange={handleQuality}
                       isAuto={isUserSelectedAuto}
