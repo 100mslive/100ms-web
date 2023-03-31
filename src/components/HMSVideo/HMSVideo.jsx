@@ -1,15 +1,15 @@
 import { forwardRef } from "react";
-import { Box } from "@100mslive/react-ui";
+import { Flex } from "@100mslive/react-ui";
 
 export const HMSVideo = forwardRef(({ children }, videoRef) => {
   return (
-    <Box data-testid="hms-video" css={{ size: "100%" }}>
+    <Flex data-testid="hms-video" css={{ size: "100%" }} direction="column">
       <video
-        style={{ height: "100%", margin: "auto" }}
+        style={{ flex: "1 1 0", margin: "0 auto", minHeight: "0" }}
         ref={videoRef}
         playsInline
       />
       {children}
-    </Box>
+    </Flex>
   );
 });

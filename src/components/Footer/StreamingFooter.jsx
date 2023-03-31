@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Flex, Footer as AppFooter } from "@100mslive/react-ui";
 import { AudioVideoToggle } from "../AudioVideoToggle";
+import { EmojiReaction } from "../EmojiReaction";
 import { StreamActions } from "../Header/StreamActions";
 import { LeaveRoom } from "../LeaveRoom";
 import MetaActions from "../MetaActions";
@@ -64,6 +65,7 @@ export const StreamingFooter = () => {
         </Flex>
       </AppFooter.Center>
       <AppFooter.Right>
+        <EmojiReaction />
         <MetaActions />
         <ChatToggle />
       </AppFooter.Right>

@@ -10,9 +10,8 @@ export function HlsStatsOverlay({ hlsStatsState, onClose }) {
         width: "$80",
         marginLeft: "$8",
         padding: "$8 $8 $10",
-        zIndex: 100,
+        zIndex: 10,
         backgroundColor: "rgba(55,59,66, 0.84)",
-
         borderRadius: "$1",
       }}
       direction="column"
@@ -42,10 +41,12 @@ export function HlsStatsOverlay({ hlsStatsState, onClose }) {
         {hlsStatsState?.bufferedDuration?.toFixed(2)}{" "}
       </HlsStatsRow>
       <HlsStatsRow label="Connection speed">
-        {`${(hlsStatsState?.bandwidthEstimate / (1000 * 1000)).toFixed(2)}Mbps`}
+        {`${(hlsStatsState?.bandwidthEstimate / (1000 * 1000)).toFixed(
+          2
+        )} Mbps`}
       </HlsStatsRow>
       <HlsStatsRow label="Bitrate">
-        {`${(hlsStatsState?.bitrate / (1000 * 1000)).toFixed(2)}Mbps`}
+        {`${(hlsStatsState?.bitrate / (1000 * 1000)).toFixed(2)} Mbps`}
       </HlsStatsRow>
       <HlsStatsRow label="distance from live">
         {getDurationFromSeconds(hlsStatsState.distanceFromLive / 1000)}

@@ -3,7 +3,7 @@ import { CheckCircleIcon, SettingsIcon } from "@100mslive/react-icons";
 import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/react-ui";
 
 export function HLSQualitySelector({
-  levels,
+  layers,
   onQualityChange,
   selection,
   isAuto,
@@ -64,7 +64,7 @@ export function HLSQualitySelector({
           </Tooltip>
         </Flex>
       </Dropdown.Trigger>
-      {levels.length > 0 && (
+      {layers.length > 0 && (
         <Dropdown.Content
           sideOffset={5}
           align="end"
@@ -77,16 +77,16 @@ export function HLSQualitySelector({
             <Text css={{ flex: "1 1 0" }}>Automatic</Text>
             {isAuto && <CheckCircleIcon />}
           </Dropdown.Item>
-          {levels.map(level => {
+          {layers.map(layer => {
             return (
               <Dropdown.Item
-                onClick={() => onQualityChange(level)}
-                key={level.url}
+                onClick={() => onQualityChange(layer)}
+                key={layer.width}
               >
-                <Text css={{ flex: "1 1 0" }}>{getQualityText(level)}</Text>
+                <Text css={{ flex: "1 1 0" }}>{getQualityText(layer)}</Text>
                 {!isAuto &&
-                  level.width === selection?.width &&
-                  level.height === selection?.height && <CheckCircleIcon />}
+                  layer.width === selection?.width &&
+                  layer.height === selection?.height && <CheckCircleIcon />}
               </Dropdown.Item>
             );
           })}
@@ -96,7 +96,7 @@ export function HLSQualitySelector({
   );
 }
 
-const getQualityText = level =>
-  `${Math.min(level.height, level.width)}p (${(
-    Number(level.bitrate / 1000) / 1000
+const getQualityText = layer =>
+  `${Math.min(layer.height, layer.width)}p (${(
+    Number(layer.bitrate / 1000) / 1000
   ).toFixed(2)} Mbps)`;

@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useMedia } from "react-use";
 import JSConfetti from "js-confetti";
 import { useCustomEvent } from "@100mslive/react-sdk";
+import { emojiIdMapping } from "../common/constants";
 
 const jsConfetti = new JSConfetti();
 const confettiMsgType = "CONFETTI";
@@ -47,10 +48,20 @@ export function Confetti() {
     [sendEvent]
   );
 
+  const showConfettiUsingEmojiId = useCallback(
+    emojiId => {
+      const emoji = emojiIdMapping.find(emoji => emoji.emojiId === emojiId);
+      const config = { emojis: [emoji?.emoji] };
+      onConfettiMsg(config);
+    },
+    [onConfettiMsg]
+  );
+
   // putting the function to send on window for quick access
   useEffect(() => {
     window.sendConfetti = sendConfetti;
-  }, [sendConfetti]);
+    window.showConfettiUsingEmojiId = showConfettiUsingEmojiId;
+  }, [sendConfetti, showConfettiUsingEmojiId]);
 
   return <></>;
 }
