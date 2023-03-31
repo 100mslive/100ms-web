@@ -1,6 +1,8 @@
+import { selectLocalPeerRoleName, useHMSStore } from "@100mslive/react-sdk";
 import { PencilDrawIcon } from "@100mslive/react-icons";
 import { Tooltip } from "@100mslive/react-ui";
 import IconButton from "../../IconButton";
+import { useHLSViewerRole } from "../../components/AppData/useUISettings";
 import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
 
 export const ToggleWhiteboard = () => {
@@ -10,8 +12,10 @@ export const ToggleWhiteboard = () => {
     amIWhiteboardOwner,
     toggleWhiteboard,
   } = useWhiteboardMetadata();
+  const hlsViewerRole = useHLSViewerRole();
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
 
-  if (!whiteboardEnabled) {
+  if (!whiteboardEnabled || localPeerRole === hlsViewerRole) {
     return null;
   }
 

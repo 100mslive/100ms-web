@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Flex } from "@100mslive/react-ui";
 import { getPercentage } from "./HMSVIdeoUtils";
 
-export const VideoProgress = ({ onValueChange, videoRef }) => {
+export const VideoProgress = ({ onValueChange, hlsPlayer }) => {
   const [videoProgress, setVideoProgress] = useState(0);
   const [bufferProgress, setBufferProgress] = useState(0);
   const progressRootRef = useRef();
 
   useEffect(() => {
-    const videoEl = videoRef.current;
+    const videoEl = hlsPlayer.getVideoElement();
     const timeupdateHandler = () => {
       const videoProgress = Math.floor(
         getPercentage(videoEl.currentTime, videoEl.duration)
@@ -37,16 +37,15 @@ export const VideoProgress = ({ onValueChange, videoRef }) => {
     const userClickedX = e.clientX - progressRootRef.current.offsetLeft;
     const progressBarWidth = progressRootRef.current.offsetWidth;
     const progress = Math.floor(getPercentage(userClickedX, progressBarWidth));
-    const videoEl = videoRef.current;
+    const videoEl = hlsPlayer.getVideoElement();
     const currentTime = (progress * videoEl.duration) / 100;
 
-    videoEl.currentTime = currentTime;
     if (onValueChange) {
       onValueChange(currentTime);
     }
   };
 
-  return videoRef.current ? (
+  return hlsPlayer.getVideoElement() ? (
     <Flex
       ref={progressRootRef}
       css={{ paddingLeft: "$8", paddingRight: "$8", cursor: "pointer" }}
