@@ -62,7 +62,10 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
       css={{
         width,
         height,
-        padding: getPadding({ isHeadless, offset: headlessConfig?.tileOffset }),
+        padding: getPadding({
+          isHeadless,
+          tileOffset: headlessConfig?.tileOffset,
+        }),
         visibility: visible ? "visible" : "hidden",
       }}
       data-testid={`participant_tile_${peerName}`}
@@ -181,11 +184,11 @@ const showAudioMuted = ({ hideTileAudioMute, isHeadless, isAudioMuted }) => {
   return isAudioMuted && !hideTileAudioMute;
 };
 
-const getPadding = ({ isHeadless, offset }) => {
-  if (!isHeadless || typeof offset !== "number") {
+const getPadding = ({ isHeadless, tileOffset }) => {
+  if (!isHeadless || isNaN(Number(tileOffset))) {
     return undefined;
   }
-  return offset === 0 ? 0 : undefined;
+  return Number(tileOffset) === 0 ? 0 : undefined;
 };
 
 export default VideoTile;
