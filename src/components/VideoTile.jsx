@@ -81,7 +81,9 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
           }
           css={{
             ...(isHeadless &&
-              headlessConfig?.tileOffset === 0 && { "border-radius": 0 }),
+              Number(headlessConfig?.tileOffset) === 0 && {
+                "border-radius": 0,
+              }),
           }}
         >
           {showStatsOnTiles && isTileBigEnoughToShowStats ? (

@@ -30,7 +30,8 @@ export const GridCenterView = ({ peers, maxTileCount }) => {
         css={{
           flex: "1 1 0",
           height: "100%",
-          mx: isHeadless && headlessConfig?.tileOffset === 0 ? "0" : "$8",
+          mx:
+            isHeadless && Number(headlessConfig?.tileOffset) === 0 ? "0" : "$8",
           "@md": { flex: "2 1 0" },
         }}
       >
@@ -73,7 +74,7 @@ export const GridSidePaneView = ({ peers }) => {
       direction="column"
       css={{
         flex: "0 0 20%",
-        mx: isHeadless && headlessConfig?.tileOffset === 0 ? "0" : "$8",
+        mx: isHeadless && Number(headlessConfig?.tileOffset) === 0 ? "0" : "$8",
         "@lg": {
           flex: "0 0 25%",
         },
