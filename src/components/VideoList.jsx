@@ -84,11 +84,11 @@ const List = ({
 
 const VideoList = React.memo(List);
 
-const getOffset = ({ offset, isHeadless }) => {
-  if (!isHeadless || typeof offset !== "number") {
+const getOffset = ({ tileOffset, isHeadless }) => {
+  if (!isHeadless || typeof tileOffset !== "number") {
     return 32;
   }
-  return offset;
+  return tileOffset;
 };
 
 export default VideoList;
