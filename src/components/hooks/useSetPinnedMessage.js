@@ -9,8 +9,7 @@ import {
 } from "@100mslive/react-sdk";
 
 /**
- * set pinned chat message by updating the session metadata
- * and broadcasting metadata refresh message to other peers
+ * set pinned chat message by updating the session store
  */
 export const useSetPinnedMessage = () => {
   const hmsActions = useHMSActions();
