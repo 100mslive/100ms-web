@@ -7,6 +7,7 @@ import {
   useHMSStore,
   useHMSVanillaStore,
 } from "@100mslive/react-sdk";
+import { ToastManager } from "../Toast/ToastManager";
 
 /**
  * set pinned chat message by updating the session store
@@ -30,7 +31,9 @@ export const useSetPinnedMessage = () => {
           : message.message
         : null;
       if (newPinnedMessage !== pinnedMessage) {
-        await hmsActions.sessionStore.set("pinnedMessage", newPinnedMessage);
+        await hmsActions.sessionStore
+          .set("pinnedMessage", newPinnedMessage)
+          .catch(err => ToastManager.addToast({ title: err.description }));
       }
     },
     [hmsActions, vanillaStore, pinnedMessage]

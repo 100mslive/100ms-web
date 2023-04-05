@@ -23,6 +23,7 @@ import {
   VideoOnIcon,
 } from "@100mslive/react-icons";
 import { Box, Flex, Slider, StyledMenuTile, Text } from "@100mslive/react-ui";
+import { ToastManager } from "./Toast/ToastManager";
 import { useSetAppDataByKey } from "./AppData/useUISettings";
 import { useDropdownSelection } from "./hooks/useDropdownSelection";
 import { APP_DATA, REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";
@@ -42,7 +43,9 @@ const SpotlightActions = ({ audioTrackID, videoTrackID }) => {
   });
 
   const setSpotlightTrackId = trackId =>
-    hmsActions.sessionStore.set("spotlight", trackId);
+    hmsActions.sessionStore
+      .set("spotlight", trackId)
+      .catch(err => ToastManager.addToast({ title: err.description }));
 
   return (
     <StyledMenuTile.ItemButton
