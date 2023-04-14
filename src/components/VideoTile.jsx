@@ -73,6 +73,7 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
         padding: getPadding({
           isHeadless,
           tileOffset: headlessConfig?.tileOffset,
+          hideAudioLevel: headlessConfig?.hideAudioLevel,
         }),
         visibility: visible ? "visible" : "hidden",
       }}
@@ -191,11 +192,12 @@ const showAudioMuted = ({ hideTileAudioMute, isHeadless, isAudioMuted }) => {
   return isAudioMuted && !hideTileAudioMute;
 };
 
-const getPadding = ({ isHeadless, tileOffset }) => {
+const getPadding = ({ isHeadless, tileOffset, hideAudioLevel }) => {
   if (!isHeadless || isNaN(Number(tileOffset))) {
     return undefined;
   }
-  return Number(tileOffset) === 0 ? 0 : undefined;
+  // Adding extra padding of 3px to ensure that the audio border is visible properly between tiles when tileOffset is 0.
+  return Number(tileOffset) === 0 ? (hideAudioLevel ? 0 : 3) : undefined;
 };
 
 export default VideoTile;
