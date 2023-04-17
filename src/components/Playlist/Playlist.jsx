@@ -13,7 +13,9 @@ import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/react-ui";
 import IconButton from "../../IconButton";
 import { AudioPlaylistControls } from "./PlaylistControls";
 import { PlaylistItem } from "./PlaylistItem";
+import { useIsFeatureEnabled } from "../hooks/useFeatures";
 import { usePlaylist } from "../hooks/usePlaylist";
+import { FEATURE_LIST } from "../../common/constants";
 
 const BrowseAndPlayFromLocal = ({ type, actions }) => {
   return (
@@ -55,7 +57,14 @@ export const Playlist = ({ type }) => {
   const [open, setOpen] = useState(false);
   const [collapse, setCollapse] = useState(false);
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
-  if (!isAllowedToPublish.screen || playlist.length === 0) {
+  const isFeatureEnabled = useIsFeatureEnabled(
+    isAudioPlaylist ? FEATURE_LIST.AUDIO_PLAYLIST : FEATURE_LIST.VIDEO_PLAYLIST
+  );
+  if (
+    !isAllowedToPublish.screen ||
+    playlist.length === 0 ||
+    !isFeatureEnabled
+  ) {
     return null;
   }
 

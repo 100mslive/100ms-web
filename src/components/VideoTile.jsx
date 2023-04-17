@@ -28,7 +28,16 @@ import { useAppConfig } from "./AppData/useAppConfig";
 import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
 
-const Tile = ({ peerId, trackId, width, height, visible = true }) => {
+const Tile = ({
+  peerId,
+  trackId,
+  width,
+  height,
+  visible = true,
+  objectFit = "cover",
+  rootCSS = {},
+  containerCSS = {},
+}) => {
   const trackSelector = trackId
     ? selectVideoTrackByID(trackId)
     : selectVideoTrackByPeerID(peerId);
@@ -58,6 +67,9 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
   const hideLabel = isHeadless && headlessConfig?.hideTileName;
   const isTileBigEnoughToShowStats = height >= 180 && width >= 180;
   const avatarSize = useMemo(() => {
+    if (!width || !height) {
+      return undefined;
+    }
     if (width <= 150 || height <= 150) {
       return "small";
     } else if (width <= 300 || height <= 300) {
@@ -76,6 +88,7 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
           hideAudioLevel: headlessConfig?.hideAudioLevel,
         }),
         visibility: visible ? "visible" : "hidden",
+        ...rootCSS,
       }}
       data-testid={`participant_tile_${peerName}`}
     >
@@ -89,6 +102,7 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
               : borderAudioRef
           }
           noRadius={isHeadless && Number(headlessConfig?.tileOffset) === 0}
+          css={containerCSS}
         >
           {showStatsOnTiles && isTileBigEnoughToShowStats ? (
             <VideoTileStats
@@ -112,6 +126,9 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
               degraded={isVideoDegraded}
               noRadius={isHeadless && Number(headlessConfig?.tileOffset) === 0}
               data-testid="participant_video_tile"
+              css={{
+                objectFit,
+              }}
             />
           ) : null}
           {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (

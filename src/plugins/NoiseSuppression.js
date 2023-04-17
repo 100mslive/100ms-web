@@ -9,7 +9,9 @@ import { AudioLevelIcon } from "@100mslive/react-icons";
 import { Tooltip } from "@100mslive/react-ui";
 import { ToastManager } from "../components/Toast/ToastManager";
 import IconButton from "../IconButton";
+import { useIsFeatureEnabled } from "../components/hooks/useFeatures";
 import { FeatureFlags } from "../services/FeatureFlags";
+import { FEATURE_LIST } from "../common/constants";
 
 export const NoiseSuppression = () => {
   const pluginRef = useRef(null);
@@ -19,6 +21,7 @@ export const NoiseSuppression = () => {
   const isPluginPresent = useHMSStore(
     selectIsLocalAudioPluginPresent("@100mslive/hms-noise-suppression")
   );
+  const isFeatureEnabled = useIsFeatureEnabled(FEATURE_LIST.AUDIO_PLUGINS);
   const { selectedDeviceIDs } = useDevices();
   const pluginActive = isPluginPresent && !disable;
 
@@ -91,7 +94,7 @@ export const NoiseSuppression = () => {
     })();
   }, [selectedDeviceIDs.audioInput, hmsActions, createPlugin]);
 
-  if (isNSSupported && FeatureFlags.showNS()) {
+  if (isNSSupported && FeatureFlags.showNS() && isFeatureEnabled) {
     return (
       <Tooltip title={`Turn ${!pluginActive ? "on" : "off"} noise suppression`}>
         <IconButton

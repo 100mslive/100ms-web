@@ -20,7 +20,8 @@ import {
 } from "@100mslive/react-ui";
 import IconButton from "../IconButton";
 import { useHLSViewerRole } from "./AppData/useUISettings";
-import { HLS_TIMED_METADATA_DOC_URL } from "../common/constants";
+import { useIsFeatureEnabled } from "./hooks/useFeatures";
+import { FEATURE_LIST, HLS_TIMED_METADATA_DOC_URL } from "../common/constants";
 
 init({ data });
 const emojiReactionList = [
@@ -47,6 +48,7 @@ export const EmojiReaction = () => {
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const hlsViewerRole = useHLSViewerRole();
   const { isStreamingOn } = useRecordingStreaming();
+  const isFeatureEnabled = useIsFeatureEnabled(FEATURE_LIST.EMOJI_REACTION);
   const filteredRoles = useMemo(
     () => roles.filter(role => role !== hlsViewerRole),
     [roles, hlsViewerRole]
@@ -73,7 +75,7 @@ export const EmojiReaction = () => {
       ]);
     }
   };
-  if (localPeerRole === hlsViewerRole) {
+  if (localPeerRole === hlsViewerRole || !isFeatureEnabled) {
     return null;
   }
   return (

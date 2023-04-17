@@ -29,17 +29,20 @@ import {
   DialogContent,
   DialogRow,
 } from "../primitives/DialogContent";
+import { useDropdownList } from "./hooks/useDropdownList";
 import { useNavigation } from "./hooks/useNavigation";
 import { isStreamingKit } from "../common/utils";
 
 export const LeaveRoom = () => {
   const navigate = useNavigation();
   const params = useParams();
+  const [open, setOpen] = useState(false);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const permissions = useHMSStore(selectPermissions);
   const hmsActions = useHMSActions();
+  useDropdownList({ open, name: "LeaveRoom" });
 
   const redirectToLeavePage = () => {
     if (params.role) {
@@ -96,7 +99,7 @@ export const LeaveRoom = () => {
               )}
             </Tooltip>
           </LeaveIconButton>
-          <Dropdown.Root>
+          <Dropdown.Root open={open} onOpenChange={setOpen}>
             <Dropdown.Trigger
               asChild
               css={{

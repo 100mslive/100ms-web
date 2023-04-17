@@ -8,10 +8,12 @@ import {
   useIsHeadless,
   useSubscribedNotifications,
 } from "../AppData/useUISettings";
-import { SUBSCRIBED_NOTIFICATIONS } from "../../common/constants";
+import { useIsFeatureEnabled } from "../hooks/useFeatures";
+import { FEATURE_LIST, SUBSCRIBED_NOTIFICATIONS } from "../../common/constants";
 
 export const MessageNotifications = () => {
   const notification = useHMSNotifications(HMSNotificationTypes.NEW_MESSAGE);
+  const isChatEnabled = useIsFeatureEnabled(FEATURE_LIST.CHAT);
   const isNewMessageSubscribed = useSubscribedNotifications(
     SUBSCRIBED_NOTIFICATIONS.NEW_MESSAGE
   );
@@ -21,11 +23,15 @@ export const MessageNotifications = () => {
       return;
     }
     console.debug(`[${notification.type}]`, notification);
-    if (!isNewMessageSubscribed || notification.data?.ignored || isHeadless) {
+    if (
+      !isNewMessageSubscribed ||
+      notification.data?.ignored ||
+      !isChatEnabled
+    ) {
       return;
     }
     ToastBatcher.showToast({ notification });
-  }, [notification, isNewMessageSubscribed, isHeadless]);
+  }, [notification, isNewMessageSubscribed, isHeadless, isChatEnabled]);
 
   return null;
 };

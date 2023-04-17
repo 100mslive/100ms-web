@@ -144,6 +144,7 @@ export const APP_DATA = {
   recordingStarted: "recordingStarted",
   embedConfig: "embedConfig",
   pinnedTrackId: "pinnedTrackId",
+  dropdownList: "dropdownList",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",
@@ -185,3 +186,26 @@ export const isMacOS =
   parsedUserAgent.getOS()?.name?.toLowerCase() === "mac os";
 export const isAndroid =
   parsedUserAgent.getOS()?.name?.toLowerCase() === "android";
+export const isIPadOS =
+  navigator?.maxTouchPoints &&
+  navigator?.maxTouchPoints > 2 &&
+  navigator?.userAgent?.match(/Mac/);
+
+export const FEATURE_LIST = {
+  AUDIO_ONLY_SCREENSHARE: "audioscreenshare",
+  AUDIO_PLAYLIST: "audioplaylist",
+  VIDEO_PLAYLIST: "videoplaylist",
+  EMOJI_REACTION: "emojireaction",
+  AUDIO_PLUGINS: "audioplugins",
+  VIDEO_PLUGINS: "videoplugins",
+  WHITEBOARD: "whiteboard",
+  CHANGE_NAME: "changename",
+  FULLSCREEN: "fullscreen",
+  PICTURE_IN_PICTURE: "pip",
+  STARTS_FOR_NERDS: "statsfornerds",
+  EMBED_URL: "embedurl",
+  BRB: "brb",
+  HAND_RAISE: "handraise",
+  CHAT: "chat",
+  PIN_TILE: "pintile",
+};

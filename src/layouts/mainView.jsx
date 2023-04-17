@@ -5,12 +5,14 @@ import {
   selectPeerScreenSharing,
   selectPeerSharingAudio,
   selectPeerSharingVideoPlaylist,
+  selectTemplateAppData,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
 import FullPageProgress from "../components/FullPageProgress";
 import EmbedView from "./EmbedView";
+import { InsetView } from "./InsetView";
 import { MainGridView } from "./mainGridView";
 import ScreenShareView from "./screenShareView";
 import SidePane from "./SidePane";
@@ -40,6 +42,7 @@ export const ConferenceMainView = () => {
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const { whiteboardOwner: whiteboardShared } = useWhiteboardMetadata();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
+  const uiMode = useHMSStore(selectTemplateAppData).uiMode;
   const hmsActions = useHMSActions();
   const isHeadless = useIsHeadless();
   const headlessUIMode = useAppConfig("headlessConfig", "uiMode");
@@ -81,6 +84,8 @@ export const ConferenceMainView = () => {
     ViewComponent = EmbedView;
   } else if (whiteboardShared) {
     ViewComponent = WhiteboardView;
+  } else if (uiMode === "inset") {
+    ViewComponent = InsetView;
   } else if (
     ((peerSharing && peerSharing.id !== peerSharingAudio?.id) ||
       peerSharingPlaylist) &&

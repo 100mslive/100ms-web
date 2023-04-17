@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usePrevious } from "react-use";
 import {
   HMSRoomState,
+  selectAppData,
   selectIsConnectedToRoom,
   selectRoomState,
   useHMSActions,
@@ -16,6 +17,7 @@ import { Header } from "./Header";
 import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
 import { useIsHeadless } from "./AppData/useUISettings";
 import { useNavigation } from "./hooks/useNavigation";
+import { APP_DATA, isAndroid, isIOS, isIPadOS } from "../common/constants";
 
 const Conference = () => {
   const navigate = useNavigation();
@@ -25,6 +27,40 @@ const Conference = () => {
   const prevState = usePrevious(roomState);
   const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);
   const hmsActions = useHMSActions();
+  const [hideControls, setHideControls] = useState(false);
+  const dropdownList = useHMSStore(selectAppData(APP_DATA.dropdownList));
+  const headerRef = useRef();
+  const footerRef = useRef();
+  const dropdownListRef = useRef();
+  dropdownListRef.current = dropdownList;
+  const performAutoHide = hideControls && (isAndroid || isIOS || isIPadOS);
+
+  useEffect(() => {
+    let timeout = null;
+    if (dropdownList.length > 0) {
+      setHideControls(false);
+    } else {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        if (dropdownListRef.current.length === 0) {
+          setHideControls(true);
+        }
+      }, 5000);
+    }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [dropdownList, hideControls]);
+
+  useEffect(() => {
+    const onPageClick = () => {
+      setHideControls(false);
+    };
+    document.addEventListener("click", onPageClick);
+    return () => {
+      document.removeEventListener("click", onPageClick);
+    };
+  }, []);
 
   useEffect(() => {
     if (!roomId) {
@@ -56,9 +92,22 @@ const Conference = () => {
   }
 
   return (
-    <Flex css={{ size: "100%" }} direction="column">
+    <Flex css={{ size: "100%", overflow: "hidden" }} direction="column">
       {!isHeadless && (
-        <Box css={{ h: "$18", "@md": { h: "$17" } }} data-testid="header">
+        <Box
+          ref={headerRef}
+          css={{
+            h: "$18",
+            transition: "margin 0.3s ease-in-out",
+            marginTop: performAutoHide
+              ? `-${headerRef.current?.clientHeight}px`
+              : "none",
+            "@md": {
+              h: "$17",
+            },
+          }}
+          data-testid="header"
+        >
           <Header />
         </Box>
       )}
@@ -67,13 +116,28 @@ const Conference = () => {
           w: "100%",
           flex: "1 1 0",
           minHeight: 0,
+          paddingBottom: "env(safe-area-inset-bottom)",
         }}
         data-testid="conferencing"
       >
         <ConferenceMainView />
       </Box>
       {!isHeadless && (
-        <Box css={{ flex: "0 0 15%", maxHeight: "$24" }} data-testid="footer">
+        <Box
+          ref={footerRef}
+          css={{
+            flexShrink: 0,
+            maxHeight: "$24",
+            transition: "margin 0.3s ease-in-out",
+            marginBottom: performAutoHide
+              ? `-${footerRef.current?.clientHeight}px`
+              : undefined,
+            "@md": {
+              maxHeight: "unset",
+            },
+          }}
+          data-testid="footer"
+        >
           <Footer />
         </Box>
       )}
