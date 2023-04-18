@@ -55,6 +55,8 @@ export const StatsForNerds = ({ onOpenChange }) => {
         <Dialog.Content
           css={{
             width: "min(500px, 95%)",
+            maxHeight: "100%",
+            overflowY: "auto",
           }}
         >
           {/* Title */}
