@@ -32,17 +32,17 @@ const Conference = () => {
   const headerRef = useRef();
   const footerRef = useRef();
   const dropdownListRef = useRef();
-  dropdownListRef.current = dropdownList;
   const performAutoHide = hideControls && (isAndroid || isIOS || isIPadOS);
 
   useEffect(() => {
     let timeout = null;
+    dropdownListRef.current = dropdownList;
     if (dropdownList.length > 0) {
       setHideControls(false);
     } else {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
-        if (dropdownListRef.current.length === 0) {
+        if (dropdownListRef.current?.length === 0) {
           setHideControls(true);
         }
       }, 5000);
