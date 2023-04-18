@@ -36,13 +36,13 @@ const Conference = () => {
 
   useEffect(() => {
     let timeout = null;
-    dropdownListRef.current = dropdownList;
-    if (dropdownList.length > 0) {
+    dropdownListRef.current = dropdownList || [];
+    if (dropdownListRef.current.length > 0) {
       setHideControls(false);
     } else {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
-        if (dropdownListRef.current?.length === 0) {
+        if (dropdownListRef.current.length === 0) {
           setHideControls(true);
         }
       }, 5000);
