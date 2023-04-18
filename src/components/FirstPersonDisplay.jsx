@@ -16,6 +16,10 @@ export const FirstPersonDisplay = React.memo(() => {
         backgroundImage: `url(${PlaceholderBg})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        "@md": {
+          w: "100%",
+          maxWidth: "unset",
+        },
       }}
       data-testid="first_person_img"
     >

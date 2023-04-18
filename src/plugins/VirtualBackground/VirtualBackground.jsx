@@ -11,7 +11,9 @@ import {
 import { VirtualBackgroundIcon } from "@100mslive/react-icons";
 import { Loading, Tooltip } from "@100mslive/react-ui";
 import IconButton from "../../IconButton";
+import { useIsFeatureEnabled } from "../../components/hooks/useFeatures";
 import { getRandomVirtualBackground } from "./vbutils";
+import { FEATURE_LIST } from "../../common/constants";
 
 export const VirtualBackground = () => {
   const pluginRef = useRef(null);
@@ -22,6 +24,7 @@ export const VirtualBackground = () => {
   const [isVBSupported, setIsVBSupported] = useState(false);
   const localPeerVideoTrackID = useHMSStore(selectLocalVideoTrackID);
   const isVBPresent = useHMSStore(selectIsLocalVideoPluginPresent("HMSVB"));
+  const isFeatureEnabled = useIsFeatureEnabled(FEATURE_LIST.VIDEO_PLUGINS);
 
   async function createPlugin() {
     if (!pluginRef.current) {
@@ -69,7 +72,7 @@ export const VirtualBackground = () => {
     }
   }
 
-  if (!isAllowedToPublish.video || !isVBSupported) {
+  if (!isAllowedToPublish.video || !isVBSupported || !isFeatureEnabled) {
     return null;
   }
 

@@ -31,6 +31,7 @@ export function Notifications() {
   const HLS_VIEWER_ROLE = useHLSViewerRole();
   const subscribedNotifications = useSubscribedNotifications() || {};
   const isHeadless = useIsHeadless();
+
   useEffect(() => {
     if (!notification) {
       return;

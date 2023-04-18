@@ -257,7 +257,7 @@ const TrackStats = ({ trackID, layer, local }) => {
       )}
       <StatsRow
         label="Round Trip Time"
-        value={`${stats.roundTripTime * 1000} ms`}
+        value={stats.roundTripTime ? `${stats.roundTripTime * 1000} ms` : "-"}
       />
     </Flex>
   );

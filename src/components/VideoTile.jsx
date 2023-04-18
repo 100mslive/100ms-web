@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState } from "react";
+import React, { Fragment, useCallback, useMemo, useState } from "react";
 import {
   selectAudioTrackByPeerID,
   selectIsPeerAudioEnabled,
@@ -28,7 +28,16 @@ import { useAppConfig } from "./AppData/useAppConfig";
 import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
 
-const Tile = ({ peerId, trackId, width, height, visible = true }) => {
+const Tile = ({
+  peerId,
+  trackId,
+  width,
+  height,
+  visible = true,
+  objectFit = "cover",
+  rootCSS = {},
+  containerCSS = {},
+}) => {
   const trackSelector = trackId
     ? selectVideoTrackByID(trackId)
     : selectVideoTrackByPeerID(peerId);
@@ -57,13 +66,29 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
   const headlessConfig = useAppConfig("headlessConfig");
   const hideLabel = isHeadless && headlessConfig?.hideTileName;
   const isTileBigEnoughToShowStats = height >= 180 && width >= 180;
+  const avatarSize = useMemo(() => {
+    if (!width || !height) {
+      return undefined;
+    }
+    if (width <= 150 || height <= 150) {
+      return "small";
+    } else if (width <= 300 || height <= 300) {
+      return "medium";
+    }
+    return "large";
+  }, [width, height]);
   return (
     <StyledVideoTile.Root
       css={{
         width,
         height,
-        padding: getPadding({ isHeadless, offset: headlessConfig?.tileOffset }),
+        padding: getPadding({
+          isHeadless,
+          tileOffset: headlessConfig?.tileOffset,
+          hideAudioLevel: headlessConfig?.hideAudioLevel,
+        }),
         visibility: visible ? "visible" : "hidden",
+        ...rootCSS,
       }}
       data-testid={`participant_tile_${peerName}`}
     >
@@ -76,10 +101,8 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
               ? undefined
               : borderAudioRef
           }
-          css={{
-            ...(isHeadless &&
-              headlessConfig?.tileOffset === 0 && { "border-radius": 0 }),
-          }}
+          noRadius={isHeadless && Number(headlessConfig?.tileOffset) === 0}
+          css={containerCSS}
         >
           {showStatsOnTiles && isTileBigEnoughToShowStats ? (
             <VideoTileStats
@@ -101,7 +124,11 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
                 track?.facingMode !== "environment"
               }
               degraded={isVideoDegraded}
+              noRadius={isHeadless && Number(headlessConfig?.tileOffset) === 0}
               data-testid="participant_video_tile"
+              css={{
+                objectFit,
+              }}
             />
           ) : null}
           {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (
@@ -109,6 +136,7 @@ const Tile = ({ peerId, trackId, width, height, visible = true }) => {
               <Avatar
                 name={peerName || ""}
                 data-testid="participant_avatar_icon"
+                size={avatarSize}
               />
             </StyledVideoTile.AvatarContainer>
           ) : null}
@@ -181,11 +209,12 @@ const showAudioMuted = ({ hideTileAudioMute, isHeadless, isAudioMuted }) => {
   return isAudioMuted && !hideTileAudioMute;
 };
 
-const getPadding = ({ isHeadless, offset }) => {
-  if (!isHeadless || typeof offset !== "number") {
+const getPadding = ({ isHeadless, tileOffset, hideAudioLevel }) => {
+  if (!isHeadless || isNaN(Number(tileOffset))) {
     return undefined;
   }
-  return offset === 0 ? 0 : undefined;
+  // Adding extra padding of 3px to ensure that the audio border is visible properly between tiles when tileOffset is 0.
+  return Number(tileOffset) === 0 ? (hideAudioLevel ? 0 : 3) : undefined;
 };
 
 export default VideoTile;

@@ -5,12 +5,14 @@ import {
   selectPeerScreenSharing,
   selectPeerSharingAudio,
   selectPeerSharingVideoPlaylist,
+  selectTemplateAppData,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/react-ui";
 import FullPageProgress from "../components/FullPageProgress";
 import EmbedView from "./EmbedView";
+import { InsetView } from "./InsetView";
 import { MainGridView } from "./mainGridView";
 import ScreenShareView from "./screenShareView";
 import SidePane from "./SidePane";
@@ -25,7 +27,6 @@ import {
   useUrlToEmbed,
   useWaitingViewerRole,
 } from "../components/AppData/useUISettings";
-import { useRefreshSessionMetadata } from "../components/hooks/useRefreshSessionMetadata";
 import { UI_MODE_ACTIVE_SPEAKER } from "../common/constants";
 
 const WhiteboardView = React.lazy(() => import("./WhiteboardView"));
@@ -41,7 +42,7 @@ export const ConferenceMainView = () => {
   const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
   const { whiteboardOwner: whiteboardShared } = useWhiteboardMetadata();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
-  useRefreshSessionMetadata();
+  const uiMode = useHMSStore(selectTemplateAppData).uiMode;
   const hmsActions = useHMSActions();
   const isHeadless = useIsHeadless();
   const headlessUIMode = useAppConfig("headlessConfig", "uiMode");
@@ -65,6 +66,8 @@ export const ConferenceMainView = () => {
     if (audioPlaylist.length > 0) {
       hmsActions.audioPlaylist.setList(audioPlaylist);
     }
+
+    hmsActions.sessionStore.observe(["pinnedMessage", "spotlight"]);
   }, [isConnected, hmsActions]);
 
   if (!localPeerRole) {
@@ -81,6 +84,8 @@ export const ConferenceMainView = () => {
     ViewComponent = EmbedView;
   } else if (whiteboardShared) {
     ViewComponent = WhiteboardView;
+  } else if (uiMode === "inset") {
+    ViewComponent = InsetView;
   } else if (
     ((peerSharing && peerSharing.id !== peerSharingAudio?.id) ||
       peerSharingPlaylist) &&

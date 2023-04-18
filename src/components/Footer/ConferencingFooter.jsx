@@ -21,8 +21,10 @@ import { ChatToggle } from "./ChatToggle";
 import { NoiseSuppression } from "../../plugins/NoiseSuppression";
 import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
 import { ToggleWhiteboard } from "../../plugins/whiteboard";
+import { useIsFeatureEnabled } from "../hooks/useFeatures";
 import { isScreenshareSupported } from "../../common/utils";
 import { FeatureFlags } from "../../services/FeatureFlags";
+import { FEATURE_LIST } from "../../common/constants";
 
 const TranscriptionButton = React.lazy(() =>
   import("../../plugins/transcription")
@@ -38,7 +40,14 @@ const ScreenshareAudio = () => {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const isAudioScreenshare = amIScreenSharing && !video && !!audio;
   const [showModal, setShowModal] = useState(false);
-  if (!isAllowedToPublish.screen || !isScreenshareSupported()) {
+  const isFeatureEnabled = useIsFeatureEnabled(
+    FEATURE_LIST.AUDIO_ONLY_SCREENSHARE
+  );
+  if (
+    !isFeatureEnabled ||
+    !isAllowedToPublish.screen ||
+    !isScreenshareSupported()
+  ) {
     return null;
   }
   return (
@@ -78,7 +87,7 @@ export const ConferencingFooter = () => {
         {FeatureFlags.enableWhiteboard ? <ToggleWhiteboard /> : null}
         <VirtualBackground />
         <NoiseSuppression />
-        {FeatureFlags.enableTranscription && <TranscriptionButton />}
+        {FeatureFlags.enableTranscription ? <TranscriptionButton /> : null}
         <Flex
           align="center"
           css={{
@@ -96,13 +105,13 @@ export const ConferencingFooter = () => {
         <ScreenshareToggle />
         <PIP />
         <MoreSettings />
-        <LeaveRoom />
         <Flex
           align="center"
           css={{ display: "none", "@md": { display: "flex" } }}
         >
           <ChatToggle />
         </Flex>
+        <LeaveRoom />
       </AppFooter.Center>
       <AppFooter.Right>
         <EmojiReaction />
