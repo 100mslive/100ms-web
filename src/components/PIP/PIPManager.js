@@ -4,6 +4,7 @@ import {
   dummyChangeInCanvas,
   resetPIPCanvasColors,
 } from "./pipUtils";
+import { isIOS, isMacOS, isSafari } from "../../common/constants";
 const MAX_NUMBER_OF_TILES_IN_PIP = 4;
 const DEFAULT_FPS = 30;
 const DEFAULT_CANVAS_WIDTH = 480;
@@ -51,7 +52,9 @@ class PipManager {
    * check if PIP is supported in this browser env
    */
   isSupported() {
-    return !!document.pictureInPictureEnabled;
+    return (
+      !!document.pictureInPictureEnabled && !isIOS && !(isMacOS && isSafari)
+    );
   }
 
   /**

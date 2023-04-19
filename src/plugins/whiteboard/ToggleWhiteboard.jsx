@@ -3,7 +3,9 @@ import { PencilDrawIcon } from "@100mslive/react-icons";
 import { Tooltip } from "@100mslive/react-ui";
 import IconButton from "../../IconButton";
 import { useHLSViewerRole } from "../../components/AppData/useUISettings";
+import { useIsFeatureEnabled } from "../../components/hooks/useFeatures";
 import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
+import { FEATURE_LIST } from "../../common/constants";
 
 export const ToggleWhiteboard = () => {
   const {
@@ -14,8 +16,13 @@ export const ToggleWhiteboard = () => {
   } = useWhiteboardMetadata();
   const hlsViewerRole = useHLSViewerRole();
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+  const isFeatureEnabled = useIsFeatureEnabled(FEATURE_LIST.WHITEBOARD);
 
-  if (!whiteboardEnabled || localPeerRole === hlsViewerRole) {
+  if (
+    !whiteboardEnabled ||
+    localPeerRole === hlsViewerRole ||
+    !isFeatureEnabled
+  ) {
     return null;
   }
 

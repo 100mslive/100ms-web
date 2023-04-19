@@ -13,7 +13,8 @@ import { Tooltip } from "@100mslive/react-ui";
 import IconButton from "../../IconButton";
 import { PictureInPicture } from "./PIPManager";
 import { MediaSession } from "./SetupMediaSession";
-import { DEFAULT_HLS_VIEWER_ROLE } from "../../common/constants";
+import { useIsFeatureEnabled } from "../hooks/useFeatures";
+import { DEFAULT_HLS_VIEWER_ROLE, FEATURE_LIST } from "../../common/constants";
 
 /**
  * shows a button which when clicked shows some videos in PIP, clicking
@@ -24,6 +25,7 @@ const PIPComponent = ({ peers, showLocalPeer }) => {
   const [isPipOn, setIsPipOn] = useState(PictureInPicture.isOn());
   const hmsActions = useHMSActions();
   const store = useHMSVanillaStore();
+  const isFeatureEnabled = useIsFeatureEnabled(FEATURE_LIST.PICTURE_IN_PICTURE);
 
   const onPipToggle = useCallback(() => {
     if (isPipOn) {
@@ -49,7 +51,8 @@ const PIPComponent = ({ peers, showLocalPeer }) => {
 
   if (
     !PictureInPicture.isSupported() ||
-    localPeerRole === DEFAULT_HLS_VIEWER_ROLE
+    localPeerRole === DEFAULT_HLS_VIEWER_ROLE ||
+    !isFeatureEnabled
   ) {
     return null;
   }

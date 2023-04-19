@@ -4,7 +4,7 @@ import {
   selectHMSMessagesCount,
   selectPeerNameByID,
   selectPermissions,
-  selectSessionMetadata,
+  selectSessionStore,
   useHMSActions,
   useHMSNotifications,
   useHMSStore,
@@ -21,7 +21,7 @@ import { CHAT_SELECTOR } from "../../common/constants";
 
 const PinnedMessage = ({ clearPinnedMessage }) => {
   const permissions = useHMSStore(selectPermissions);
-  const pinnedMessage = useHMSStore(selectSessionMetadata);
+  const pinnedMessage = useHMSStore(selectSessionStore("pinnedMessage"));
 
   return pinnedMessage ? (
     <Flex

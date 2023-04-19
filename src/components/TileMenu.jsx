@@ -1,7 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import {
   selectLocalPeerID,
   selectPermissions,
+  selectSessionStore,
+  selectTemplateAppData,
   selectTrackByID,
   selectVideoTrackByPeerID,
   useCustomEvent,
@@ -17,13 +19,87 @@ import {
   RemoveUserIcon,
   ShareScreenIcon,
   SpeakerIcon,
+  StarIcon,
   VideoOffIcon,
   VideoOnIcon,
 } from "@100mslive/react-icons";
 import { Box, Flex, Slider, StyledMenuTile, Text } from "@100mslive/react-ui";
+import { ToastManager } from "./Toast/ToastManager";
 import { useSetAppDataByKey } from "./AppData/useUISettings";
+import { useDropdownList } from "./hooks/useDropdownList";
 import { useDropdownSelection } from "./hooks/useDropdownSelection";
-import { APP_DATA, REMOTE_STOP_SCREENSHARE_TYPE } from "../common/constants";
+import { useIsFeatureEnabled } from "./hooks/useFeatures";
+import {
+  APP_DATA,
+  FEATURE_LIST,
+  REMOTE_STOP_SCREENSHARE_TYPE,
+} from "../common/constants";
+
+const isSameTile = ({ trackId, videoTrackID, audioTrackID }) =>
+  trackId &&
+  ((videoTrackID && videoTrackID === trackId) ||
+    (audioTrackID && audioTrackID === trackId));
+
+const SpotlightActions = ({ audioTrackID, videoTrackID }) => {
+  const hmsActions = useHMSActions();
+  const spotlightTrackId = useHMSStore(selectSessionStore("spotlight"));
+  const isTileSpotlighted = isSameTile({
+    trackId: spotlightTrackId,
+    videoTrackID,
+    audioTrackID,
+  });
+
+  const setSpotlightTrackId = trackId =>
+    hmsActions.sessionStore
+      .set("spotlight", trackId)
+      .catch(err => ToastManager.addToast({ title: err.description }));
+
+  return (
+    <StyledMenuTile.ItemButton
+      onClick={() =>
+        isTileSpotlighted
+          ? setSpotlightTrackId()
+          : setSpotlightTrackId(videoTrackID || audioTrackID)
+      }
+    >
+      <StarIcon />
+      <span>
+        {isTileSpotlighted
+          ? "Remove from Spotlight"
+          : "Spotlight Tile for everyone"}
+      </span>
+    </StyledMenuTile.ItemButton>
+  );
+};
+
+const PinActions = ({ audioTrackID, videoTrackID }) => {
+  const [pinnedTrackId, setPinnedTrackId] = useSetAppDataByKey(
+    APP_DATA.pinnedTrackId
+  );
+
+  const isTilePinned = isSameTile({
+    trackId: pinnedTrackId,
+    videoTrackID,
+    audioTrackID,
+  });
+
+  return (
+    <>
+      <StyledMenuTile.ItemButton
+        onClick={() =>
+          isTilePinned
+            ? setPinnedTrackId()
+            : setPinnedTrackId(videoTrackID || audioTrackID)
+        }
+      >
+        <PinIcon />
+        <span>{`${isTilePinned ? "Unpin" : "Pin"}`} Tile for myself</span>
+      </StyledMenuTile.ItemButton>
+    </>
+  );
+};
+
+const showSpotlight = process.env.REACT_APP_ENV === "qa";
 
 /**
  * Taking peerID as peer won't necesarilly have tracks
@@ -34,6 +110,7 @@ const TileMenu = ({
   peerID,
   isScreenshare = false,
 }) => {
+  const [open, setOpen] = useState(false);
   const actions = useHMSActions();
   const localPeerID = useHMSStore(selectLocalPeerID);
   const isLocal = localPeerID === peerID;
@@ -49,21 +126,24 @@ const TileMenu = ({
   const { sendEvent } = useCustomEvent({
     type: REMOTE_STOP_SCREENSHARE_TYPE,
   });
-  const [pinnedTrackId, setPinnedTrackId] = useSetAppDataByKey(
-    APP_DATA.pinnedTrackId
-  );
-  const isTilePinned =
-    pinnedTrackId &&
-    ((videoTrackID && videoTrackID === pinnedTrackId) ||
-      (audioTrackID && audioTrackID === pinnedTrackId));
+
   const isPrimaryVideoTrack =
     useHMSStore(selectVideoTrackByPeerID(peerID))?.id === videoTrackID;
+  const uiMode = useHMSStore(selectTemplateAppData).uiMode;
+  const isInset = uiMode === "inset";
 
-  const showPinAction = audioTrackID || (videoTrackID && isPrimaryVideoTrack);
+  const isPinEnabled = useIsFeatureEnabled(FEATURE_LIST.PIN_TILE);
+  const showPinAction =
+    isPinEnabled &&
+    (audioTrackID || (videoTrackID && isPrimaryVideoTrack)) &&
+    !isInset;
 
   const track = useHMSStore(selectTrackByID(videoTrackID));
   const hideSimulcastLayers =
     !track?.layerDefinitions?.length || track.degraded || !track.enabled;
+
+  useDropdownList({ open, name: "TileMenu" });
+
   if (
     !(
       removeOthers ||
@@ -77,23 +157,31 @@ const TileMenu = ({
     return null;
   }
 
+  if (isInset && isLocal) {
+    return null;
+  }
+
   return (
-    <StyledMenuTile.Root>
+    <StyledMenuTile.Root open={open} onOpenChange={setOpen}>
       <StyledMenuTile.Trigger data-testid="participant_menu_btn">
         <HorizontalMenuIcon />
       </StyledMenuTile.Trigger>
       <StyledMenuTile.Content side="top" align="end">
-        {isLocal && showPinAction ? (
-          <StyledMenuTile.ItemButton
-            onClick={() =>
-              isTilePinned
-                ? setPinnedTrackId()
-                : setPinnedTrackId(videoTrackID || audioTrackID)
-            }
-          >
-            <PinIcon />
-            <span>{`${isTilePinned ? "Unpin" : "Pin"}`} Tile</span>
-          </StyledMenuTile.ItemButton>
+        {isLocal ? (
+          showPinAction && (
+            <>
+              <PinActions
+                audioTrackID={audioTrackID}
+                videoTrackID={videoTrackID}
+              />
+              {showSpotlight && (
+                <SpotlightActions
+                  audioTrackID={audioTrackID}
+                  videoTrackID={videoTrackID}
+                />
+              )}
+            </>
+          )
         ) : (
           <>
             {toggleVideo ? (
@@ -139,16 +227,18 @@ const TileMenu = ({
               </StyledMenuTile.VolumeItem>
             ) : null}
             {showPinAction && (
-              <StyledMenuTile.ItemButton
-                onClick={() =>
-                  isTilePinned
-                    ? setPinnedTrackId()
-                    : setPinnedTrackId(videoTrackID || audioTrackID)
-                }
-              >
-                <PinIcon />
-                <span>{`${isTilePinned ? "Unpin" : "Pin"}`} Tile</span>
-              </StyledMenuTile.ItemButton>
+              <>
+                <PinActions
+                  audioTrackID={audioTrackID}
+                  videoTrackID={videoTrackID}
+                />
+                {showSpotlight && (
+                  <SpotlightActions
+                    audioTrackID={audioTrackID}
+                    videoTrackID={videoTrackID}
+                  />
+                )}
+              </>
             )}
             <SimulcastLayers trackId={videoTrackID} />
             {removeOthers ? (

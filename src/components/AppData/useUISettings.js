@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import {
   selectAppData,
   selectAppDataByPath,
+  selectSessionStore,
   selectTrackByID,
   useHMSActions,
   useHMSStore,
@@ -82,7 +83,8 @@ export const useUrlToEmbed = () => {
 
 export const usePinnedTrack = () => {
   const pinnedTrackId = useHMSStore(selectAppData(APP_DATA.pinnedTrackId));
-  return useHMSStore(selectTrackByID(pinnedTrackId));
+  const spotlightTrackId = useHMSStore(selectSessionStore("spotlight"));
+  return useHMSStore(selectTrackByID(pinnedTrackId || spotlightTrackId));
 };
 
 export const useSubscribedNotifications = notificationKey => {

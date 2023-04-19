@@ -55,6 +55,8 @@ export const StatsForNerds = ({ onOpenChange }) => {
         <Dialog.Content
           css={{
             width: "min(500px, 95%)",
+            maxHeight: "100%",
+            overflowY: "auto",
           }}
         >
           {/* Title */}
@@ -257,7 +259,7 @@ const TrackStats = ({ trackID, layer, local }) => {
       )}
       <StatsRow
         label="Round Trip Time"
-        value={`${stats.roundTripTime * 1000} ms`}
+        value={stats.roundTripTime ? `${stats.roundTripTime * 1000} ms` : "-"}
       />
     </Flex>
   );
