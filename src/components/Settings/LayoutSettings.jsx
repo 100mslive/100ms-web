@@ -20,7 +20,7 @@ export const LayoutSettings = () => {
   const isLocalVideoEnabled = useHMSStore(selectIsLocalVideoEnabled);
   const isLocalScreenShared = useHMSStore(selectIsLocalScreenShared);
   const [
-    { isAudioOnly, uiViewMode, maxTileCount, mirrorLocalVideo },
+    { isAudioOnly, uiViewMode, maxTileCount, mirrorLocalVideo, hideLocalVideo },
     setUISettings,
   ] = useSetUiSettings();
   const toggleIsAudioOnly = useCallback(
@@ -62,6 +62,16 @@ export const LayoutSettings = () => {
         onChange={value => {
           setUISettings({
             [UI_SETTINGS.mirrorLocalVideo]: value,
+          });
+        }}
+      />
+      <SwitchWithLabel
+        label="Hide Local Video"
+        id="hideLocalVideo"
+        checked={hideLocalVideo}
+        onChange={value => {
+          setUISettings({
+            [UI_SETTINGS.hideLocalVideo]: value,
           });
         }}
       />
