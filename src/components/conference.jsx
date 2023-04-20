@@ -34,12 +34,16 @@ const Conference = () => {
   const dropdownListRef = useRef();
   const performAutoHide = hideControls && (isAndroid || isIOS || isIPadOS);
 
+  const toggleControls = e => {
+    if (dropdownListRef.current?.length === 0) {
+      setHideControls(value => !value);
+    }
+  };
+
   useEffect(() => {
     let timeout = null;
     dropdownListRef.current = dropdownList || [];
-    if (dropdownListRef.current.length > 0) {
-      setHideControls(false);
-    } else {
+    if (dropdownListRef.current.length === 0) {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         if (dropdownListRef.current.length === 0) {
@@ -51,16 +55,6 @@ const Conference = () => {
       clearTimeout(timeout);
     };
   }, [dropdownList, hideControls]);
-
-  useEffect(() => {
-    const onPageClick = () => {
-      setHideControls(false);
-    };
-    document.addEventListener("click", onPageClick);
-    return () => {
-      document.removeEventListener("click", onPageClick);
-    };
-  }, []);
 
   useEffect(() => {
     if (!roomId) {
@@ -119,6 +113,7 @@ const Conference = () => {
           paddingBottom: "env(safe-area-inset-bottom)",
         }}
         data-testid="conferencing"
+        onClick={toggleControls}
       >
         <ConferenceMainView />
       </Box>

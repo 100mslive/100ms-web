@@ -163,7 +163,10 @@ const TileMenu = ({
 
   return (
     <StyledMenuTile.Root open={open} onOpenChange={setOpen}>
-      <StyledMenuTile.Trigger data-testid="participant_menu_btn">
+      <StyledMenuTile.Trigger
+        data-testid="participant_menu_btn"
+        onClick={e => e.stopPropagation()}
+      >
         <HorizontalMenuIcon />
       </StyledMenuTile.Trigger>
       <StyledMenuTile.Content side="top" align="end">
