@@ -112,6 +112,7 @@ const Conference = () => {
           minHeight: 0,
           paddingBottom: "env(safe-area-inset-bottom)",
         }}
+        id="conferencing"
         data-testid="conferencing"
         onClick={toggleControls}
       >
