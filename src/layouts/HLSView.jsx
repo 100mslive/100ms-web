@@ -27,7 +27,7 @@ import { FullScreenButton } from "../components/HMSVideo/FullscreenButton";
 import { HLSAutoplayBlockedPrompt } from "../components/HMSVideo/HLSAutoplayBlockedPrompt";
 import { HLSQualitySelector } from "../components/HMSVideo/HLSQualitySelector";
 import { ToastManager } from "../components/Toast/ToastManager";
-import { APP_DATA } from "../common/constants";
+import { APP_DATA, EMOJI_REACTION_TYPE } from "../common/constants";
 
 let hlsPlayer;
 
@@ -74,8 +74,11 @@ const HLSView = () => {
       const duration = rest.duration;
       const parsedPayload = parsePayload(payload);
       switch (parsedPayload.type) {
-        case "EMOJI_REACTION":
-          window.showConfettiUsingEmojiId(parsedPayload?.emojiId);
+        case EMOJI_REACTION_TYPE:
+          window.showFlyingEmoji(
+            parsedPayload?.emojiId,
+            parsedPayload?.senderPeerId
+          );
           break;
         default: {
           const toast = {

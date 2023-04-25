@@ -17,7 +17,13 @@ import { Header } from "./Header";
 import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
 import { useIsHeadless } from "./AppData/useUISettings";
 import { useNavigation } from "./hooks/useNavigation";
-import { APP_DATA, isAndroid, isIOS, isIPadOS } from "../common/constants";
+import {
+  APP_DATA,
+  EMOJI_REACTION_TYPE,
+  isAndroid,
+  isIOS,
+  isIPadOS,
+} from "../common/constants";
 
 const Conference = () => {
   const navigate = useNavigation();
@@ -77,7 +83,7 @@ const Conference = () => {
   useEffect(() => {
     // beam doesn't need to store messages, saves on unnecessary store updates in large calls
     if (isHeadless) {
-      hmsActions.ignoreMessageTypes(["chat"]);
+      hmsActions.ignoreMessageTypes(["chat", EMOJI_REACTION_TYPE]);
     }
   }, [isHeadless, hmsActions]);
 
