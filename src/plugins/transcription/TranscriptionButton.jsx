@@ -192,12 +192,9 @@ class Transcriber {
       };
 
       let url = process.env.REACT_APP_DYNAMIC_STT_TOKEN_GENERATION_ENDPOINT;
-      let authToken = process.env.REACT_APP_ASSEMBLY_AI_AUTH_TOKEN;
-      if (url) {
-        let res = await fetch(url);
-        let body = await res.json();
-        authToken = body.token;
-      }
+      let res = await fetch(url);
+      let body = await res.json();
+      const authToken = body.token;
 
       if (authToken) {
         this.socket = await new WebSocket(
