@@ -192,12 +192,16 @@ class Transcriber {
       };
 
       let url = process.env.REACT_APP_DYNAMIC_STT_TOKEN_GENERATION_ENDPOINT;
-      let res = await fetch(url);
-      let body = await res.json();
-      if (body && body.token) {
-        const token = body.token;
+      let authToken = process.env.REACT_APP_ASSEMBLY_AI_AUTH_TOKEN;
+      if (url) {
+        let res = await fetch(url);
+        let body = await res.json();
+        authToken = body.token;
+      }
+
+      if (authToken) {
         this.socket = await new WebSocket(
-          `wss://api.assemblyai.com/v2/realtime/ws?sample_rate=${this.sttTuningConfig.desiredSampRate}&token=${token}`
+          `wss://api.assemblyai.com/v2/realtime/ws?sample_rate=${this.sttTuningConfig.desiredSampRate}&token=${authToken}`
         );
         this.setTranscript("");
         this.socket.onmessage = message => {
