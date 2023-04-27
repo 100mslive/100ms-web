@@ -245,7 +245,7 @@ class Transcriber {
           try {
             console.log(event);
             this.socket = null;
-            if (this.enabled) {
+            if (this.enabled && event.code !== 4001) {
               this.listen();
             }
           } catch (err) {
