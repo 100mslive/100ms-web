@@ -176,6 +176,7 @@ class Transcriber {
       numberOfAudioChannels: 1,
       bufferSize: 256,
     };
+    this.textTimer = null;
   }
 
   broadcast = (text, eventName = "transcription") => {
@@ -214,19 +215,23 @@ class Transcriber {
                       .slice(Math.max(res.text.split(" ").length - 10, 1))
                       .join(" ")
                   : res.text;
-              this.setTranscript(messageText);
-              this.setSpeakingPeer("[You]");
-              setTimeout(() => {
-                this.setTranscript("");
-                this.setSpeakingPeer("");
-              }, 5000);
-              this.broadcast(
-                JSON.stringify({
-                  peername: peername,
-                  transcript: messageText,
-                  isEnabled: this.enabled,
-                })
-              );
+              if (messageText) {
+                this.setTranscript(messageText);
+                this.setSpeakingPeer("[You]");
+
+                clearTimeout(this.textTimer);
+                this.textTimer = setTimeout(() => {
+                  this.setTranscript("");
+                  this.setSpeakingPeer("");
+                }, 5000);
+                this.broadcast(
+                  JSON.stringify({
+                    peername: peername,
+                    transcript: messageText,
+                    isEnabled: this.enabled,
+                  })
+                );
+              }
             }
           } catch (err) {
             console.error("transcription", err);
