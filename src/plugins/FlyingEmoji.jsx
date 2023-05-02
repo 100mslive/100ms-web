@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useMedia } from "react-use";
 import {
   selectLocalPeerID,
@@ -18,7 +18,7 @@ let emojiCount = 1;
 
 const flyAndFade = keyframes({
   "20%": { opacity: 1 },
-  "100%": { bottom: "70%", opacity: 0 },
+  "100%": { bottom: "60%", opacity: 0 },
 });
 
 const wiggleLeftRight = keyframes({
@@ -31,36 +31,51 @@ const wiggleRightLeft = keyframes({
   "100%": { marginLeft: "-50px" },
 });
 
+const getStartingPoints = isMobile => {
+  let arr = [];
+  const min = 5;
+  const max = isMobile ? 30 : 20;
+  const inc = isMobile ? 8 : 5;
+  for (let i = min; i <= max; i += inc) {
+    arr.push(i);
+  }
+  return arr;
+};
+
 export function FlyingEmoji() {
   const localPeerId = useHMSStore(selectLocalPeerID);
   const vanillaStore = useHMSVanillaStore();
   const [emojis, setEmojis] = useState([]);
   const isMobile = useMedia(cssConfig.media.md);
 
+  const startingPoints = useMemo(() => getStartingPoints(isMobile), [isMobile]);
+
   const showFlyingEmoji = useCallback(
-    (emojiId, senderPeerId) => {
-      if (!emojiId || !senderPeerId || document.hidden) {
+    (emojiId, senderId) => {
+      if (!emojiId || !senderId || document.hidden) {
         return;
       }
       const senderPeerName = vanillaStore.getState(
-        selectPeerNameByID(senderPeerId)
+        selectPeerNameByID(senderId)
       );
-      const nameToShow = localPeerId === senderPeerId ? "You" : senderPeerName;
+      const nameToShow = localPeerId === senderId ? "You" : senderPeerName;
+      const startingPoint = startingPoints[emojiCount % startingPoints.length];
+      const id = emojiCount++;
 
       setEmojis(emojis => {
         return [
           ...emojis,
           {
-            id: emojiCount++,
+            id: id,
             emojiId: emojiId,
             senderName: nameToShow,
-            startingPoint: `${5 + Math.random() * (isMobile ? 40 : 20)}%`,
+            startingPoint: `${startingPoint}%`,
             wiggleType: Math.random() < 0.5 ? 0 : 1,
           },
         ];
       });
     },
-    [localPeerId, vanillaStore, isMobile]
+    [localPeerId, vanillaStore, startingPoints]
   );
 
   useEffect(() => {
@@ -91,7 +106,7 @@ export function FlyingEmoji() {
               alignItems: "center",
               position: "absolute",
               bottom: 0,
-              animation: `${flyAndFade()} 3s forwards, ${
+              animation: `${flyAndFade()} 5s forwards, ${
                 emoji.wiggleType === 0 ? wiggleLeftRight() : wiggleRightLeft()
               } 1s ease-in-out infinite alternate`,
             }}
@@ -100,7 +115,7 @@ export function FlyingEmoji() {
             }}
           >
             <Box>
-              <em-emoji id={emoji.emojiId} size="56px" set="apple"></em-emoji>
+              <em-emoji id={emoji.emojiId} size="48px" set="apple"></em-emoji>
             </Box>
             <Box
               css={{

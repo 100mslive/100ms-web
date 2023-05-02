@@ -77,7 +77,7 @@ const HLSView = () => {
         case EMOJI_REACTION_TYPE:
           window.showFlyingEmoji(
             parsedPayload?.emojiId,
-            parsedPayload?.senderPeerId
+            parsedPayload?.senderId
           );
           break;
         default: {
