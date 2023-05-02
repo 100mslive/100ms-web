@@ -17,11 +17,13 @@ import { ChatHeader } from "./ChatHeader";
 import { useSetSubscribedChatSelector } from "../AppData/useUISettings";
 import { useSetPinnedMessage } from "../hooks/useSetPinnedMessage";
 import { useUnreadCount } from "./useUnreadCount";
-import { CHAT_SELECTOR } from "../../common/constants";
+import { CHAT_SELECTOR, SESSION_STORE_KEY } from "../../common/constants";
 
 const PinnedMessage = ({ clearPinnedMessage }) => {
   const permissions = useHMSStore(selectPermissions);
-  const pinnedMessage = useHMSStore(selectSessionStore("pinnedMessage"));
+  const pinnedMessage = useHMSStore(
+    selectSessionStore(SESSION_STORE_KEY.PINNED_MESSAGE)
+  );
 
   return pinnedMessage ? (
     <Flex

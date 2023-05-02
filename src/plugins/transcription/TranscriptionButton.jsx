@@ -9,11 +9,12 @@ import {
 import { ClosedCaptionIcon } from "@100mslive/react-icons";
 import { Box, IconButton, Text, Tooltip } from "@100mslive/react-ui";
 import { Transcriber } from "./Transcriber";
-
-const SESSION_STORE_KEY = "transcriptionState";
+import { SESSION_STORE_KEY } from "../../common/constants";
 
 export function TranscriptionButton() {
-  const transcriptionState = useHMSStore(selectSessionStore(SESSION_STORE_KEY));
+  const transcriptionState = useHMSStore(
+    selectSessionStore(SESSION_STORE_KEY.TRANSCRIPTION_STATE)
+  );
   const rawStore = useHMSVanillaStore();
   const isTranscriptionEnabled = !!transcriptionState?.enabled;
   let transcript = "",
@@ -28,7 +29,7 @@ export function TranscriptionButton() {
   const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
 
   useEffect(() => {
-    hmsActions.sessionStore.observe(SESSION_STORE_KEY);
+    hmsActions.sessionStore.observe(SESSION_STORE_KEY.TRANSCRIPTION_STATE);
   }, [hmsActions]);
 
   useEffect(() => {
@@ -36,16 +37,22 @@ export function TranscriptionButton() {
       transcriber.current = new Transcriber(
         rawStore,
         async (transcript, peerName) => {
-          await hmsActions.sessionStore.set(SESSION_STORE_KEY, {
-            enabled: true,
-            transcript,
-            speakingPeer: peerName,
-          });
+          await hmsActions.sessionStore.set(
+            SESSION_STORE_KEY.TRANSCRIPTION_STATE,
+            {
+              enabled: true,
+              transcript,
+              speakingPeer: peerName,
+            }
+          );
         },
         async isEnabled => {
-          await hmsActions.sessionStore.set(SESSION_STORE_KEY, {
-            enabled: isEnabled,
-          });
+          await hmsActions.sessionStore.set(
+            SESSION_STORE_KEY.TRANSCRIPTION_STATE,
+            {
+              enabled: isEnabled,
+            }
+          );
         }
       );
     }
