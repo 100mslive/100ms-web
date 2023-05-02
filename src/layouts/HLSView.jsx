@@ -92,7 +92,7 @@ const HLSView = () => {
       }
     };
     const handleError = data => {
-      console.error("[HLSView] error in hls", data);
+      console.error("[HLSView] error in hls", `${data}`);
     };
     const handleNoLongerLive = ({ isLive }) => {
       setIsVideoLive(isLive);
