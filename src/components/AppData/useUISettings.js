@@ -12,7 +12,11 @@ import {
   UserPreferencesKeys,
   useUserPreferences,
 } from "../hooks/useUserPreferences";
-import { APP_DATA, UI_SETTINGS } from "../../common/constants";
+import {
+  APP_DATA,
+  SESSION_STORE_KEY,
+  UI_SETTINGS,
+} from "../../common/constants";
 
 /**
  * fields saved related to UI settings in store's app data can be
@@ -83,7 +87,9 @@ export const useUrlToEmbed = () => {
 
 export const usePinnedTrack = () => {
   const pinnedTrackId = useHMSStore(selectAppData(APP_DATA.pinnedTrackId));
-  const spotlightTrackId = useHMSStore(selectSessionStore("spotlight"));
+  const spotlightTrackId = useHMSStore(
+    selectSessionStore(SESSION_STORE_KEY.SPOTLIGHT)
+  );
   return useHMSStore(selectTrackByID(pinnedTrackId || spotlightTrackId));
 };
 

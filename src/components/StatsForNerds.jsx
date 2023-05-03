@@ -203,6 +203,10 @@ const LocalPeerStats = () => {
         value={formatBytes(stats.subscribe?.bitrate, "b/s")}
       />
       <StatsRow
+        label="Available Outgoing Bitrate"
+        value={formatBytes(stats.publish?.availableOutgoingBitrate, "b/s")}
+      />
+      <StatsRow
         label="Total Bytes Sent"
         value={formatBytes(stats.publish?.bytesSent)}
       />

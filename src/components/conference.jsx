@@ -17,7 +17,13 @@ import { Header } from "./Header";
 import { RoleChangeRequestModal } from "./RoleChangeRequestModal";
 import { useIsHeadless } from "./AppData/useUISettings";
 import { useNavigation } from "./hooks/useNavigation";
-import { APP_DATA, isAndroid, isIOS, isIPadOS } from "../common/constants";
+import {
+  APP_DATA,
+  EMOJI_REACTION_TYPE,
+  isAndroid,
+  isIOS,
+  isIPadOS,
+} from "../common/constants";
 
 const Conference = () => {
   const navigate = useNavigation();
@@ -34,12 +40,16 @@ const Conference = () => {
   const dropdownListRef = useRef();
   const performAutoHide = hideControls && (isAndroid || isIOS || isIPadOS);
 
+  const toggleControls = e => {
+    if (dropdownListRef.current?.length === 0) {
+      setHideControls(value => !value);
+    }
+  };
+
   useEffect(() => {
     let timeout = null;
     dropdownListRef.current = dropdownList || [];
-    if (dropdownListRef.current.length > 0) {
-      setHideControls(false);
-    } else {
+    if (dropdownListRef.current.length === 0) {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         if (dropdownListRef.current.length === 0) {
@@ -51,16 +61,6 @@ const Conference = () => {
       clearTimeout(timeout);
     };
   }, [dropdownList, hideControls]);
-
-  useEffect(() => {
-    const onPageClick = () => {
-      setHideControls(false);
-    };
-    document.addEventListener("click", onPageClick);
-    return () => {
-      document.removeEventListener("click", onPageClick);
-    };
-  }, []);
 
   useEffect(() => {
     if (!roomId) {
@@ -83,7 +83,7 @@ const Conference = () => {
   useEffect(() => {
     // beam doesn't need to store messages, saves on unnecessary store updates in large calls
     if (isHeadless) {
-      hmsActions.ignoreMessageTypes(["chat"]);
+      hmsActions.ignoreMessageTypes(["chat", EMOJI_REACTION_TYPE]);
     }
   }, [isHeadless, hmsActions]);
 
@@ -118,7 +118,9 @@ const Conference = () => {
           minHeight: 0,
           paddingBottom: "env(safe-area-inset-bottom)",
         }}
+        id="conferencing"
         data-testid="conferencing"
+        onClick={toggleControls}
       >
         <ConferenceMainView />
       </Box>
