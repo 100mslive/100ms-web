@@ -1,3 +1,7 @@
+/**
+ * Please refer the following docs for more detals.
+ * https://www.100ms.live/docs/javascript/v2/how--to-guides/extend-capabilities/plugins/noise-suppression
+ */
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   selectIsLocalAudioPluginPresent,
@@ -96,15 +100,15 @@ export const NoiseSuppression = () => {
 
   if (isNSSupported && FeatureFlags.showNS() && isFeatureEnabled) {
     return (
-      <Tooltip title={`Turn ${!pluginActive ? "on" : "off"} noise suppression`}>
+      <Tooltip title={`Turn ${pluginActive ? "off" : "on"} noise suppression`}>
         <IconButton
           active={!pluginActive}
           disabled={disable}
           onClick={async () => {
-            if (!pluginActive) {
-              await addPlugin();
-            } else {
+            if (pluginActive) {
               await removePlugin();
+            } else {
+              await addPlugin();
             }
           }}
           data-testid="noise_suppression_btn"
