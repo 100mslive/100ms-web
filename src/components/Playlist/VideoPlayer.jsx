@@ -80,7 +80,8 @@ export const VideoPlayer = React.memo(({ peerId }) => {
         trackId={videoTrack?.id}
         attach={!isAudioOnly}
         css={{
-          "@lg": { objectFit: "contain", h: "auto" },
+          objectFit: "contain",
+          h: "auto",
           r: "$1",
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,

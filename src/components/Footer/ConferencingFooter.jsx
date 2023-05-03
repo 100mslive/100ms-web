@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { useMedia } from "react-use";
 import {
   HMSPlaylistType,
   selectIsAllowedToPublish,
@@ -6,7 +7,12 @@ import {
   useScreenShare,
 } from "@100mslive/react-sdk";
 import { MusicIcon } from "@100mslive/react-icons";
-import { Flex, Footer as AppFooter, Tooltip } from "@100mslive/react-ui";
+import {
+  config as cssConfig,
+  Flex,
+  Footer as AppFooter,
+  Tooltip,
+} from "@100mslive/react-ui";
 import { Playlist } from "../../components/Playlist/Playlist";
 import IconButton from "../../IconButton";
 import { AudioVideoToggle } from "../AudioVideoToggle";
@@ -78,6 +84,7 @@ const ScreenshareAudio = () => {
 };
 
 export const ConferencingFooter = () => {
+  const isMobile = useMedia(cssConfig.media.md);
   return (
     <AppFooter.Root>
       <AppFooter.Left>
@@ -94,9 +101,11 @@ export const ConferencingFooter = () => {
             display: "none",
             "@md": {
               display: "flex",
+              gap: "$8",
             },
           }}
         >
+          {isMobile && <EmojiReaction />}
           <MetaActions isMobile />
         </Flex>
       </AppFooter.Left>
@@ -114,7 +123,7 @@ export const ConferencingFooter = () => {
         <LeaveRoom />
       </AppFooter.Center>
       <AppFooter.Right>
-        <EmojiReaction />
+        {!isMobile && <EmojiReaction />}
         <MetaActions />
         <ChatToggle />
       </AppFooter.Right>

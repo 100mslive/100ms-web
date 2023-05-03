@@ -3,6 +3,8 @@ import data from "@emoji-mart/data/sets/14/apple.json";
 import { init } from "emoji-mart";
 import {
   selectAvailableRoleNames,
+  selectIsConnectedToRoom,
+  selectLocalPeerID,
   selectLocalPeerRoleName,
   useCustomEvent,
   useHMSActions,
@@ -20,10 +22,17 @@ import {
 } from "@100mslive/react-ui";
 import IconButton from "../IconButton";
 import { useHLSViewerRole } from "./AppData/useUISettings";
+import { useDropdownList } from "./hooks/useDropdownList";
 import { useIsFeatureEnabled } from "./hooks/useFeatures";
-import { FEATURE_LIST, HLS_TIMED_METADATA_DOC_URL } from "../common/constants";
+import {
+  EMOJI_REACTION_TYPE,
+  FEATURE_LIST,
+  HLS_TIMED_METADATA_DOC_URL,
+} from "../common/constants";
 
 init({ data });
+
+// When changing emojis in the grid, keep in mind that the payload used in sendHLSTimedMetadata has a limit of 100 characters. Using bigger emoji Ids can cause the limit to be exceeded.
 const emojiReactionList = [
   [
     { emojiId: "+1" },
@@ -44,8 +53,10 @@ const emojiReactionList = [
 export const EmojiReaction = () => {
   const [open, setOpen] = useState(false);
   const hmsActions = useHMSActions();
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
   const roles = useHMSStore(selectAvailableRoleNames);
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+  const localPeerId = useHMSStore(selectLocalPeerID);
   const hlsViewerRole = useHLSViewerRole();
   const { isStreamingOn } = useRecordingStreaming();
   const isFeatureEnabled = useIsFeatureEnabled(FEATURE_LIST.EMOJI_REACTION);
@@ -53,18 +64,23 @@ export const EmojiReaction = () => {
     () => roles.filter(role => role !== hlsViewerRole),
     [roles, hlsViewerRole]
   );
+  useDropdownList({ open: open, name: "EmojiReaction" });
 
   const onEmojiEvent = useCallback(data => {
-    window.showConfettiUsingEmojiId(data.emojiId);
+    window.showFlyingEmoji(data?.emojiId, data?.senderId);
   }, []);
 
   const { sendEvent } = useCustomEvent({
-    type: "EMOJI_REACTION",
+    type: EMOJI_REACTION_TYPE,
     onEvent: onEmojiEvent,
   });
 
   const sendReaction = async emojiId => {
-    const data = { type: "EMOJI_REACTION", emojiId: emojiId };
+    const data = {
+      type: EMOJI_REACTION_TYPE,
+      emojiId: emojiId,
+      senderId: localPeerId,
+    };
     sendEvent(data, { roleNames: filteredRoles });
     if (isStreamingOn) {
       await hmsActions.sendHLSTimedMetadata([
@@ -75,7 +91,8 @@ export const EmojiReaction = () => {
       ]);
     }
   };
-  if (localPeerRole === hlsViewerRole || !isFeatureEnabled) {
+
+  if (!isConnected || localPeerRole === hlsViewerRole || !isFeatureEnabled) {
     return null;
   }
   return (
@@ -116,7 +133,7 @@ export const EmojiReaction = () => {
               variant="sm"
               inline={true}
               css={{
-                color: "$textAccentMedium",
+                color: "$textSecondary",
               }}
             >
               Reactions will be timed for Live Streaming viewers.{" "}

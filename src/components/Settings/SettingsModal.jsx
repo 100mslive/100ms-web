@@ -158,6 +158,7 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
                   .map(({ content: Content, title, tabName }) => {
                     return (
                       <Tabs.Content
+                        key={tabName}
                         value={tabName}
                         className={settingContent()}
                       >

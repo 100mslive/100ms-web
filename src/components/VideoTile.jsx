@@ -77,6 +77,7 @@ const Tile = ({
     }
     return "large";
   }, [width, height]);
+
   return (
     <StyledVideoTile.Root
       css={{
@@ -146,7 +147,14 @@ const Tile = ({
             isHeadless,
             isAudioMuted,
           }) ? (
-            <StyledVideoTile.AudioIndicator data-testid="participant_audio_mute_icon">
+            <StyledVideoTile.AudioIndicator
+              data-testid="participant_audio_mute_icon"
+              size={
+                width && height && (width < 180 || height < 180)
+                  ? "small"
+                  : "medium"
+              }
+            >
               <MicOffIcon />
             </StyledVideoTile.AudioIndicator>
           ) : null}

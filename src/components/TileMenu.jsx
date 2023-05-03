@@ -33,6 +33,7 @@ import {
   APP_DATA,
   FEATURE_LIST,
   REMOTE_STOP_SCREENSHARE_TYPE,
+  SESSION_STORE_KEY,
 } from "../common/constants";
 
 const isSameTile = ({ trackId, videoTrackID, audioTrackID }) =>
@@ -42,7 +43,9 @@ const isSameTile = ({ trackId, videoTrackID, audioTrackID }) =>
 
 const SpotlightActions = ({ audioTrackID, videoTrackID }) => {
   const hmsActions = useHMSActions();
-  const spotlightTrackId = useHMSStore(selectSessionStore("spotlight"));
+  const spotlightTrackId = useHMSStore(
+    selectSessionStore(SESSION_STORE_KEY.SPOTLIGHT)
+  );
   const isTileSpotlighted = isSameTile({
     trackId: spotlightTrackId,
     videoTrackID,
@@ -51,7 +54,7 @@ const SpotlightActions = ({ audioTrackID, videoTrackID }) => {
 
   const setSpotlightTrackId = trackId =>
     hmsActions.sessionStore
-      .set("spotlight", trackId)
+      .set(SESSION_STORE_KEY.SPOTLIGHT, trackId)
       .catch(err => ToastManager.addToast({ title: err.description }));
 
   return (
@@ -163,7 +166,10 @@ const TileMenu = ({
 
   return (
     <StyledMenuTile.Root open={open} onOpenChange={setOpen}>
-      <StyledMenuTile.Trigger data-testid="participant_menu_btn">
+      <StyledMenuTile.Trigger
+        data-testid="participant_menu_btn"
+        onClick={e => e.stopPropagation()}
+      >
         <HorizontalMenuIcon />
       </StyledMenuTile.Trigger>
       <StyledMenuTile.Content side="top" align="end">

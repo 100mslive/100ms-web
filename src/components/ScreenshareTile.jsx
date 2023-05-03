@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { useFullscreen } from "react-use";
 import screenfull from "screenfull";
 import {
+  selectLocalPeerID,
   selectPeerByID,
   selectScreenShareAudioByPeerID,
   selectScreenShareByPeerID,
@@ -24,6 +25,7 @@ const labelStyles = {
 };
 
 const Tile = ({ peerId, width = "100%", height = "100%" }) => {
+  const isLocal = useHMSStore(selectLocalPeerID) === peerId;
   const track = useHMSStore(selectScreenShareByPeerID(peerId));
   const peer = useHMSStore(selectPeerByID(peerId));
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
@@ -63,6 +65,8 @@ const Tile = ({ peerId, width = "100%", height = "100%" }) => {
             <VideoTileStats
               audioTrackID={audioTrack?.id}
               videoTrackID={track?.id}
+              peerID={peerId}
+              isLocal={isLocal}
             />
           ) : null}
           {isFullScreenSupported && !isHeadless ? (
