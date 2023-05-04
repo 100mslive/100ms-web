@@ -12,7 +12,6 @@ import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { getResolution } from "../Streaming/RTMPStreaming";
 import { ToastManager } from "../Toast/ToastManager";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
-import { getDefaultMeetingUrl } from "../../common/utils";
 import {
   APP_DATA,
   RTMP_RECORD_DEFAULT_RESOLUTION,
@@ -110,7 +109,7 @@ const StartRecording = ({ open, onOpenChange }) => {
             try {
               setRecordingState(true);
               await hmsActions.startRTMPOrRecording({
-                meetingURL: recordingUrl || getDefaultMeetingUrl(),
+                meetingURL: recordingUrl,
                 resolution: getResolution(resolution),
                 record: true,
               });
