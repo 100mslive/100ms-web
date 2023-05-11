@@ -36,7 +36,6 @@ import {
   UserPreferencesKeys,
   useUserPreferences,
 } from "../hooks/useUserPreferences";
-import { getDefaultMeetingUrl } from "../../common/utils";
 import {
   APP_DATA,
   RTMP_RECORD_DEFAULT_RESOLUTION,
@@ -197,7 +196,7 @@ const StartRTMP = () => {
                 : [];
               hmsActions.startRTMPOrRecording({
                 rtmpURLs: urls,
-                meetingURL: recordingUrl || getDefaultMeetingUrl(),
+                meetingURL: recordingUrl,
                 resolution: getResolution(resolution),
                 record: record,
               });

@@ -26,7 +26,6 @@ import { ToastManager } from "../Toast/ToastManager";
 import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
 import { useSidepaneState, useSidepaneToggle } from "../AppData/useSidepane";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
-import { getDefaultMeetingUrl } from "../../common/utils";
 import {
   APP_DATA,
   RTMP_RECORD_DEFAULT_RESOLUTION,
@@ -104,7 +103,7 @@ const EndStream = () => {
         window.sessionStorage.setItem("userStartedStream", "");
       }
     }
-  }, [sidePane]);
+  }, [sidePane, toggleStreaming]);
 
   return (
     <Button
@@ -222,7 +221,7 @@ const StartRecording = () => {
             try {
               setRecordingState(true);
               await hmsActions.startRTMPOrRecording({
-                meetingURL: recordingUrl || getDefaultMeetingUrl(),
+                meetingURL: recordingUrl,
                 resolution: getResolution(resolution),
                 record: true,
               });
