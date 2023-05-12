@@ -77,7 +77,6 @@ const Tile = ({
     }
     return "large";
   }, [width, height]);
-
   return (
     <StyledVideoTile.Root
       css={{
