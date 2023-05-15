@@ -223,6 +223,7 @@ const ChatMessage = React.memo(
             r: messageType ? "$1" : undefined,
             px: messageType ? "$4" : "$2",
             py: messageType ? "$4" : 0,
+            userSelect: "none",
           }}
           key={message.time}
           data-testid="chat_msg"
@@ -274,7 +275,9 @@ const ChatMessage = React.memo(
               mt: "$2",
               wordBreak: "break-word",
               whiteSpace: "pre-wrap",
+              userSelect: "all",
             }}
+            onClick={e => e.stopPropagation()}
           >
             <AnnotisedMessage message={message.message} />
           </Text>
