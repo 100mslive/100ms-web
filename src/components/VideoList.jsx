@@ -8,6 +8,7 @@ import { getLeft, StyledVideoList, useTheme } from "@100mslive/react-ui";
 import { Pagination } from "./Pagination";
 import ScreenshareTile from "./ScreenshareTile";
 import VideoTile from "./VideoTile";
+import useSortedPeers from "../common/useSortedPeers";
 import { useAppConfig } from "./AppData/useAppConfig";
 import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
@@ -24,11 +25,12 @@ const List = ({
   const isHeadless = useIsHeadless();
   const hideLocalVideo = useUISettings(UI_SETTINGS.hideLocalVideo);
   const localPeerId = useHMSStore(selectLocalPeerID);
-  if (hideLocalVideo && peers.length > 1) {
-    peers = filterPeerId(peers, localPeerId);
+  let sortedPeers = useSortedPeers({ peers, maxTileCount });
+  if (hideLocalVideo && sortedPeers.length > 1) {
+    sortedPeers = filterPeerId(sortedPeers, localPeerId);
   }
   const { ref, pagesWithTiles } = useVideoList({
-    peers,
+    peers: sortedPeers,
     maxTileCount,
     maxColCount,
     maxRowCount,
