@@ -53,17 +53,15 @@ const List = ({
         {pagesWithTiles && pagesWithTiles.length > 0
           ? pagesWithTiles[page]?.map(tile => {
               return (
-                <Fragment>
+                <Fragment key={tile.track?.id || tile.peer.id}>
                   {tile.track?.source === "screen" ? (
                     <ScreenshareTile
-                      key={tile.track.id}
                       width={tile.width}
                       height={tile.height}
                       peerId={tile.peer.id}
                     />
                   ) : (
                     <VideoTile
-                      key={tile.track?.id || tile.peer.id}
                       width={tile.width}
                       height={tile.height}
                       peerId={tile.peer?.id}
