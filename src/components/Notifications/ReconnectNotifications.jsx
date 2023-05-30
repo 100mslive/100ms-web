@@ -13,6 +13,8 @@ const notificationTypes = [
   HMSNotificationTypes.RECONNECTING,
 ];
 let notificationId = null;
+
+const isQA = process.env.REACT_APP_ENV === "qa";
 export const ReconnectNotifications = () => {
   const notification = useHMSNotifications(notificationTypes);
   const [open, setOpen] = useState(false);
@@ -26,11 +28,18 @@ export const ReconnectNotifications = () => {
       setOpen(false);
     } else if (notification?.type === HMSNotificationTypes.RECONNECTING) {
       logMessage("Reconnecting");
-      ToastManager.removeToast(notificationId);
-      setOpen(true);
+      if (isQA) {
+        ToastManager.removeToast(notificationId);
+        setOpen(true);
+      } else {
+        notificationId = ToastManager.replaceToast(
+          notificationId,
+          ToastConfig.RECONNECTING.single(notification.data.message)
+        );
+      }
     }
   }, [notification]);
-  if (!open) return null;
+  if (!open || !isQA) return null;
   return (
     <Dialog.Root open={open} modal={true}>
       <Dialog.Portal container={document.getElementById("conferencing")}>
