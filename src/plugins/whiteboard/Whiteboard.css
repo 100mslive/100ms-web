@@ -6,3 +6,7 @@
 .c-bUEyht-jvfJsl-side-right > button:nth-child(2) {
   display: none;
 }
+
+#TD-PrimaryTools-Image {
+  display: none;
+}

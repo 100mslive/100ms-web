@@ -58,6 +58,11 @@ export const useIsHeadless = () => {
   return isHeadless;
 };
 
+export const useActiveSpeakerSorting = () => {
+  const activeSpeakerSorting = useUISettings(UI_SETTINGS.activeSpeakerSorting);
+  return activeSpeakerSorting;
+};
+
 export const useHLSViewerRole = () => {
   return useHMSStore(selectAppData(APP_DATA.hlsViewerRole));
 };

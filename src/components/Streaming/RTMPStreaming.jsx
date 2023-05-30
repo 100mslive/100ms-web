@@ -194,7 +194,7 @@ const StartRTMP = () => {
                     value => `${value.rtmpURL}/${value.streamKey}`
                   )
                 : [];
-              hmsActions.startRTMPOrRecording({
+              await hmsActions.startRTMPOrRecording({
                 rtmpURLs: urls,
                 meetingURL: recordingUrl,
                 resolution: getResolution(resolution),

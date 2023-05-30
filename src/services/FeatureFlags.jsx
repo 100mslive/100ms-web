@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { selectRoomID, useHMSStore } from "@100mslive/react-sdk";
 
 export class FeatureFlags {
   static enableTranscription =
@@ -12,7 +13,7 @@ export class FeatureFlags {
   static enableBeamSpeakersLogging =
     process.env.REACT_APP_ENABLE_BEAM_SPEAKERS_LOGGING === "true";
 
-  static init() {
+  static init(roomId) {
     if (!window.HMS) {
       window.HMS = {};
     }
@@ -21,6 +22,9 @@ export class FeatureFlags {
     // ask permissions in preview even if role doesn't have it
     window.HMS.ALWAYS_REQUEST_PERMISSIONS = false;
     window.HMS.SHOW_NS = process.env.REACT_APP_ENV !== "prod";
+
+    this.enableTranscription =
+      process.env.REACT_APP_TRANSCRIPTION_ROOM_ID === roomId;
   }
 
   static showNS() {
@@ -37,8 +41,11 @@ export class FeatureFlags {
 }
 
 export function FeatureFlagsInit() {
+  const roomId = useHMSStore(selectRoomID);
   useEffect(() => {
-    FeatureFlags.init();
-  }, []);
+    if (roomId) {
+      FeatureFlags.init(roomId);
+    }
+  }, [roomId]);
   return null;
 }
