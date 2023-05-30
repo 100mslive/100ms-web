@@ -142,6 +142,7 @@ export const UI_SETTINGS = {
   showStatsOnTiles: "showStatsOnTiles",
   enableAmbientMusic: "enableAmbientMusic",
   mirrorLocalVideo: "mirrorLocalVideo",
+  activeSpeakerSorting: "activeSpeakerSorting",
   hideLocalVideo: "hideLocalVideo",
 };
 

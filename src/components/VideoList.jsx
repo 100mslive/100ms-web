@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   selectLocalPeerID,
   useHMSStore,
   useVideoList,
 } from "@100mslive/react-sdk";
-import { getLeft, StyledVideoList, useTheme } from "@100mslive/react-ui";
+import { StyledVideoList, useTheme } from "@100mslive/react-ui";
 import { Pagination } from "./Pagination";
 import ScreenshareTile from "./ScreenshareTile";
 import VideoTile from "./VideoTile";
+import useSortedPeers from "../common/useSortedPeers";
 import { useAppConfig } from "./AppData/useAppConfig";
 import { useIsHeadless, useUISettings } from "./AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
@@ -24,11 +25,12 @@ const List = ({
   const isHeadless = useIsHeadless();
   const hideLocalVideo = useUISettings(UI_SETTINGS.hideLocalVideo);
   const localPeerId = useHMSStore(selectLocalPeerID);
-  if (hideLocalVideo && peers.length > 1) {
-    peers = filterPeerId(peers, localPeerId);
+  let sortedPeers = useSortedPeers({ peers, maxTileCount });
+  if (hideLocalVideo && sortedPeers.length > 1) {
+    sortedPeers = filterPeerId(sortedPeers, localPeerId);
   }
   const { ref, pagesWithTiles } = useVideoList({
-    peers,
+    peers: sortedPeers,
     maxTileCount,
     maxColCount,
     maxRowCount,
@@ -45,40 +47,30 @@ const List = ({
   }, [pagesWithTiles.length, page]);
   return (
     <StyledVideoList.Root ref={ref}>
-      <StyledVideoList.Container>
+      <StyledVideoList.Container
+        css={{ flexWrap: "wrap", placeContent: "center" }}
+      >
         {pagesWithTiles && pagesWithTiles.length > 0
-          ? pagesWithTiles.map((tiles, pageNo) => (
-              <StyledVideoList.View
-                key={pageNo}
-                css={{
-                  left: getLeft(pageNo, page),
-                  transition: "left 0.3s ease-in-out",
-                }}
-              >
-                {tiles.map(tile => {
-                  if (tile.width === 0 || tile.height === 0) {
-                    return null;
-                  }
-                  return tile.track?.source === "screen" ? (
+          ? pagesWithTiles[page]?.map(tile => {
+              return (
+                <Fragment key={tile.track?.id || tile.peer.id}>
+                  {tile.track?.source === "screen" ? (
                     <ScreenshareTile
-                      key={tile.track.id}
                       width={tile.width}
                       height={tile.height}
                       peerId={tile.peer.id}
                     />
                   ) : (
                     <VideoTile
-                      key={tile.track?.id || tile.peer.id}
                       width={tile.width}
                       height={tile.height}
                       peerId={tile.peer?.id}
                       trackId={tile.track?.id}
-                      visible={pageNo === page}
                     />
-                  );
-                })}
-              </StyledVideoList.View>
-            ))
+                  )}
+                </Fragment>
+              );
+            })
           : null}
       </StyledVideoList.Container>
       {!isHeadless && pagesWithTiles.length > 1 ? (

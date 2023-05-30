@@ -22,6 +22,7 @@ const webinarInfoLink = webinarProps?.LINK_HREF || "https://100ms.live/";
 export const GridCenterView = ({ peers, maxTileCount }) => {
   const mediaQueryLg = cssConfig.media.md;
   const limitMaxTiles = useMedia(mediaQueryLg);
+
   const headlessConfig = useAppConfig("headlessConfig");
   const isHeadless = useIsHeadless();
   return (

@@ -5,11 +5,11 @@ import {
 } from "@100mslive/react-sdk";
 
 export class Transcriber {
-  constructor(
+  constructor({
     hmsStore,
     setTranscriptAndSpeakingPeer,
-    setIsTranscriptionEnabled
-  ) {
+    setIsTranscriptionEnabled,
+  }) {
     this.hmsStore = hmsStore;
     this.enabled = false;
     this.audioSocket = null; // this is the socket that will be used to send audio to the STT server

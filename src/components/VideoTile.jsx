@@ -33,7 +33,6 @@ const Tile = ({
   trackId,
   width,
   height,
-  visible = true,
   objectFit = "cover",
   rootCSS = {},
   containerCSS = {},
@@ -87,7 +86,6 @@ const Tile = ({
           tileOffset: headlessConfig?.tileOffset,
           hideAudioLevel: headlessConfig?.hideAudioLevel,
         }),
-        visibility: visible ? "visible" : "hidden",
         ...rootCSS,
       }}
       data-testid={`participant_tile_${peerName}`}

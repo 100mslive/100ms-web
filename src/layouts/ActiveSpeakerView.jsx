@@ -4,8 +4,9 @@ import {
   selectPeers,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Flex } from "@100mslive/react-ui";
-import { GridCenterView, GridSidePaneView } from "../components/gridView";
+import { Box, Flex } from "@100mslive/react-ui";
+import { GridSidePaneView } from "../components/gridView";
+import VideoTile from "../components/VideoTile";
 
 const ActiveSpeakerView = () => {
   const dominantSpeaker = useHMSStore(selectDominantSpeaker);
@@ -27,11 +28,9 @@ const ActiveSpeakerView = () => {
 
   return (
     <Flex css={{ size: "100%", "@lg": { flexDirection: "column" } }}>
-      <GridCenterView
-        peers={[activeSpeaker]}
-        maxTileCount={1}
-        hideSidePane={!showSidePane}
-      />
+      <Box css={{ flex: "1 1 0 " }}>
+        <VideoTile peerId={activeSpeaker.id} width="100%" height="100%" />
+      </Box>
       {showSidePane && (
         <GridSidePaneView
           peers={peers.filter(peer => peer.id !== activeSpeaker.id)}
