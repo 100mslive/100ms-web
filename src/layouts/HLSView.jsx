@@ -17,6 +17,7 @@ import {
   Box,
   Flex,
   IconButton,
+  Loading,
   Text,
   Tooltip,
   useTheme,
@@ -51,6 +52,24 @@ const HLSView = () => {
   const isFullScreen = useFullscreen(hlsViewRef, show, {
     onClose: () => toggle(false),
   });
+  const [showLoader, setShowLoader] = useState(false);
+
+  // FIXME: move this logic to player controller in next release
+  useEffect(() => {
+    /**
+     * @type {HTMLVideoElement} videoEl
+     */
+    const videoEl = videoRef.current;
+    const showLoader = () => setShowLoader(true);
+    const hideLoader = () => setShowLoader(false);
+    videoEl?.addEventListener("playing", hideLoader);
+    videoEl?.addEventListener("waiting", showLoader);
+    return () => {
+      videoEl?.removeEventListener("playing", hideLoader);
+      videoEl?.removeEventListener("waiting", showLoader);
+    };
+  }, [videoRef.current]);
+
   /**
    * initialize HMSHLSPlayer and add event listeners.
    */
@@ -211,6 +230,17 @@ const HLSView = () => {
             open={isHlsAutoplayBlocked}
             unblockAutoPlay={unblockAutoPlay}
           />
+          {showLoader && (
+            <Flex
+              align="center"
+              justify="center"
+              css={{
+                position: "absolute",
+              }}
+            >
+              <Loading width={72} height={72} />
+            </Flex>
+          )}
           <HMSVideoPlayer.Root ref={videoRef}>
             {hlsPlayer && (
               <HMSVideoPlayer.Progress
