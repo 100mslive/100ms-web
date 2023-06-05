@@ -7,7 +7,11 @@ import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
 
 const useWhiteboardState = () => {
   const { amIWhiteboardOwner } = useWhiteboardMetadata();
-  const shouldRequestState = useHMSStore(selectDidIJoinWithin(850));
+  /*
+   * LIVE-1470 state need to have some delay after join.
+   * It will initialize pusher room and send request state.
+   */
+  const shouldRequestState = useHMSStore(selectDidIJoinWithin(2000));
 
   return { shouldRequestState, amIWhiteboardOwner };
 };
