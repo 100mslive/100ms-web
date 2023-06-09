@@ -90,6 +90,9 @@ export const useUrlToEmbed = () => {
   return useHMSStore(selectAppData(APP_DATA.embedConfig))?.url;
 };
 
+export const usePDFAnnotator = () => {
+  return useHMSStore(selectAppData(APP_DATA.pdfConfig))?.state;
+};
 export const usePinnedTrack = () => {
   const pinnedTrackId = useHMSStore(selectAppData(APP_DATA.pinnedTrackId));
   const spotlightTrackId = useHMSStore(

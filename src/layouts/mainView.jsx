@@ -14,6 +14,7 @@ import FullPageProgress from "../components/FullPageProgress";
 import EmbedView from "./EmbedView";
 import { InsetView } from "./InsetView";
 import { MainGridView } from "./mainGridView";
+import PDFView from "./PDFView";
 import ScreenShareView from "./screenShareView";
 import SidePane from "./SidePane";
 import { WaitingView } from "./WaitingView";
@@ -22,6 +23,7 @@ import { useAppConfig } from "../components/AppData/useAppConfig";
 import {
   useHLSViewerRole,
   useIsHeadless,
+  usePDFAnnotator,
   usePinnedTrack,
   useUISettings,
   useUrlToEmbed,
@@ -50,6 +52,7 @@ export const ConferenceMainView = () => {
   const hlsViewerRole = useHLSViewerRole();
   const waitingViewerRole = useWaitingViewerRole();
   const urlToIframe = useUrlToEmbed();
+  const pdfAnntatorActive = usePDFAnnotator();
   useEffect(() => {
     if (!isConnected) {
       return;
@@ -83,6 +86,8 @@ export const ConferenceMainView = () => {
     ViewComponent = HLSView;
   } else if (localPeerRole === waitingViewerRole) {
     ViewComponent = WaitingView;
+  } else if (pdfAnntatorActive) {
+    ViewComponent = PDFView;
   } else if (urlToIframe) {
     ViewComponent = EmbedView;
   } else if (whiteboardShared) {
