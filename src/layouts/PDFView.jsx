@@ -28,7 +28,7 @@ const PDFEmbedComponent = () => {
   const { amIScreenSharing, toggleScreenShare } =
     useScreenShare(throwErrorHandler);
   const [pdfConfig, setPDFConfig] = useSetAppDataByKey(APP_DATA.pdfConfig);
-  if (pdfConfig.url) {
+  if (pdfConfig.url && !pdfConfig.file) {
     pdfJSURL = pdfJSURL + "?file=" + encodeURIComponent(pdfConfig.url);
   }
   const [wasScreenShared, setWasScreenShared] = useState(false);
