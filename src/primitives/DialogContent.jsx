@@ -321,7 +321,7 @@ export const DialogInputFile = ({
           hidden={true}
           {...props}
         />
-        <Button
+        <IconButton
           variant="standard"
           css={{
             background: "none",
@@ -334,7 +334,7 @@ export const DialogInputFile = ({
           }}
         >
           <Text variant="md">{placeholder}</Text>
-        </Button>
+        </IconButton>
       </Flex>
     </DialogCol>
   );
