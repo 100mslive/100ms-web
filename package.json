@@ -9,12 +9,12 @@
     "src"
   ],
   "dependencies": {
-    "@100mslive/hls-player": "0.1.7-alpha.0",
-    "@100mslive/hms-noise-suppression": "0.9.7-alpha.0",
-    "@100mslive/hms-virtual-background": "1.11.7-alpha.0",
-    "@100mslive/react-icons": "0.8.7-alpha.0",
-    "@100mslive/react-sdk": "0.8.7-alpha.0",
-    "@100mslive/react-ui": "0.8.7-alpha.0",
+    "@100mslive/hls-player": "0.1.7-alpha.2",
+    "@100mslive/hms-noise-suppression": "0.9.7-alpha.2",
+    "@100mslive/hms-virtual-background": "1.11.7-alpha.2",
+    "@100mslive/react-icons": "0.8.7-alpha.2",
+    "@100mslive/react-sdk": "0.8.7-alpha.2",
+    "@100mslive/react-ui": "0.8.7-alpha.2",
     "@emoji-mart/data": "^1.0.6",
     "@emoji-mart/react": "^1.0.1",
     "@tldraw/tldraw": "^1.18.4",
