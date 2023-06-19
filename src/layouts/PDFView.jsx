@@ -8,7 +8,7 @@ import {
 import { Box, Flex, ThemeTypes, useTheme } from "@100mslive/react-ui";
 import { GridSidePaneView } from "../components/gridView";
 import { useSetAppDataByKey } from "../components/AppData/useUISettings";
-import { APP_DATA } from "../common/constants";
+import { APP_DATA, isChrome } from "../common/constants";
 
 export const PDFView = ({ showStats }) => {
   const peers = useHMSStore(selectPeers);
@@ -24,6 +24,7 @@ export const PDFView = ({ showStats }) => {
 const PDFEmbedComponent = () => {
   const ref = useRef();
   const themeType = useTheme().themeType;
+  const [isPDFLoaded, setIsPDFLoaded] = useState(false);
   let pdfJSURL = process.env.REACT_APP_PDFJS_IFRAME_URL;
   const { amIScreenSharing, toggleScreenShare } =
     useScreenShare(throwErrorHandler);
@@ -40,6 +41,16 @@ const PDFEmbedComponent = () => {
     setPDFConfig({ state: false });
   }, [setPDFConfig]);
   useEffect(() => {
+    if (isPDFLoaded && ref.current) {
+      ref.current.contentWindow.postMessage(
+        {
+          theme: themeType === ThemeTypes.dark ? 2 : 1,
+        },
+        "*"
+      );
+    }
+  }, [isPDFLoaded, themeType]);
+  useEffect(() => {
     if (
       !amIScreenSharing &&
       !wasScreenShared &&
@@ -48,9 +59,9 @@ const PDFEmbedComponent = () => {
       screenShareAttemptInProgress.current = true;
       // start screenshare on load for others in the room to see
       toggleScreenShare({
-        forceCurrentTab: true,
+        forceCurrentTab: isChrome,
         cropElement: iframeRef.current,
-        preferCurrentTab: true,
+        preferCurrentTab: isChrome,
       })
         .then(() => {
           setWasScreenShared(true);
@@ -113,6 +124,7 @@ const PDFEmbedComponent = () => {
                 },
                 "*"
               );
+              setIsPDFLoaded(true);
             }, 1000);
           }
         }}
