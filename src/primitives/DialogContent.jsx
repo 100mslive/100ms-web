@@ -1,5 +1,5 @@
-import React from "react";
-import { CheckIcon, CrossIcon } from "@100mslive/react-icons";
+import React, { useRef } from "react";
+import { CheckIcon, CloudUploadIcon, CrossIcon } from "@100mslive/react-icons";
 import {
   Box,
   Button,
@@ -7,6 +7,7 @@ import {
   Dialog,
   Flex,
   HorizontalDivider,
+  IconButton,
   Input,
   Label,
   Select,
@@ -163,6 +164,39 @@ export const DialogRow = ({
   );
 };
 
+export const DialogCol = ({
+  children,
+  breakSm = false,
+  css,
+  align = "center",
+  justify = "between",
+  ...props
+}) => {
+  let finalCSS = {
+    margin: "$10 0",
+    w: "100%",
+  };
+  if (breakSm) {
+    finalCSS["@sm"] = {
+      alignItems: "flex-start",
+    };
+  }
+  if (css) {
+    finalCSS = Object.assign(finalCSS, css);
+  }
+  return (
+    <Flex
+      direction="column"
+      align={align}
+      justify={justify}
+      css={finalCSS}
+      {...props}
+    >
+      {children}
+    </Flex>
+  );
+};
+
 /**
  * key field and label field are optional, option is directly used if not passed
  */
@@ -226,6 +260,83 @@ export const DialogInput = ({
         {...props}
       />
     </DialogRow>
+  );
+};
+
+export const DialogInputFile = ({
+  title,
+  value,
+  onChange,
+  placeholder,
+  disabled,
+  type,
+  ...props
+}) => {
+  const inputRef = useRef();
+  return (
+    <DialogCol
+      breakSm
+      onClick={() => inputRef.current?.click()}
+      css={{
+        justifyContent: "center",
+        position: "relative",
+        cursor: "pointer",
+        py: "$12",
+        border: "1px dashed $borderLight",
+        r: "$1",
+        height: "max(140px, 30%)",
+        alignItems: "center",
+        m: "$6 0",
+      }}
+      gap="8"
+    >
+      <IconButton
+        variant="standard"
+        css={{
+          border: "none",
+          background: "none",
+          "&:hover": {
+            border: "none",
+            background: "none",
+            bg: "$transparent !important",
+          },
+        }}
+      >
+        <CloudUploadIcon
+          style={{
+            width: "3rem",
+            height: "3rem",
+          }}
+        />
+      </IconButton>
+      <Flex direction="row">
+        <Input
+          ref={inputRef}
+          css={{ width: "70%", "@sm": { width: "100%" } }}
+          value={value}
+          onChange={e => onChange(e.target)}
+          placeholder={placeholder}
+          disabled={disabled}
+          type={type}
+          hidden={true}
+          {...props}
+        />
+        <IconButton
+          variant="standard"
+          css={{
+            background: "none",
+            border: "none",
+            textDecoration: "underline",
+            "&:hover": {
+              background: "none !important",
+              border: "none !important",
+            },
+          }}
+        >
+          <Text variant="md">{placeholder}</Text>
+        </IconButton>
+      </Flex>
+    </DialogCol>
   );
 };
 
