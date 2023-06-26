@@ -5,7 +5,6 @@ import "./Whiteboard.css";
 
 export const Whiteboard = React.memo(({ roomId }) => {
   const events = useMultiplayerState(roomId);
-
   return (
     <Tldraw
       autofocus

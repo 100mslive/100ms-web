@@ -11,6 +11,7 @@ import { ToastManager } from "../Toast/ToastManager";
 const notificationTypes = [
   HMSNotificationTypes.RECONNECTED,
   HMSNotificationTypes.RECONNECTING,
+  HMSNotificationTypes.ERROR,
 ];
 let notificationId = null;
 
@@ -19,7 +20,13 @@ export const ReconnectNotifications = () => {
   const notification = useHMSNotifications(notificationTypes);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    if (notification?.type === HMSNotificationTypes.RECONNECTED) {
+    if (
+      notification?.type === HMSNotificationTypes.ERROR &&
+      notification?.data?.isTerminal
+    ) {
+      logMessage("Error ", notification.data?.description);
+      setOpen(false);
+    } else if (notification?.type === HMSNotificationTypes.RECONNECTED) {
       logMessage("Reconnected");
       notificationId = ToastManager.replaceToast(
         notificationId,
