@@ -32,6 +32,15 @@ export class KeyboardInputManager {
     }
   };
 
+  #toggleStatsForNerds = () => {
+    const uiSettings = this.#store.getState(selectAppData(APP_DATA.uiSettings));
+    const statsEnabled = uiSettings.showStatsOnTiles;
+    this.#actions.setAppData(APP_DATA.uiSettings, {
+      ...uiSettings,
+      showStatsOnTiles: !statsEnabled,
+    });
+  };
+
   #toggleHlsStats = () => {
     this.#actions.setAppData(
       APP_DATA.hlsStats,
@@ -60,6 +69,7 @@ export class KeyboardInputManager {
       this.#hideSidepane();
     } else if (SHORTCUT_STATS_FOR_NERDS) {
       this.#toggleHlsStats();
+      this.#toggleStatsForNerds();
     }
   };
 
