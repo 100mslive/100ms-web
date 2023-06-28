@@ -1,27 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  selectPeers,
-  throwErrorHandler,
-  useHMSStore,
-  useScreenShare,
-} from "@100mslive/react-sdk";
-import { Box, Flex, ThemeTypes, useTheme } from "@100mslive/react-ui";
-import { GridSidePaneView } from "../components/gridView";
+import { throwErrorHandler, useScreenShare } from "@100mslive/react-sdk";
+import { Box, ThemeTypes, useTheme } from "@100mslive/react-ui";
+import { EmbebScreenShareView } from "./EmbedView";
 import { useSetAppDataByKey } from "../components/AppData/useUISettings";
 import { APP_DATA, isChrome } from "../common/constants";
 
-export const PDFView = ({ showStats }) => {
-  const peers = useHMSStore(selectPeers);
-
+export const PDFView = () => {
   return (
-    <Flex css={{ size: "100%", "@lg": { flexDirection: "column" } }}>
+    <EmbebScreenShareView>
       <PDFEmbedComponent />
-      <GridSidePaneView peers={peers} showStatsOnTiles={showStats} />
-    </Flex>
+    </EmbebScreenShareView>
   );
 };
 
-const PDFEmbedComponent = () => {
+export const PDFEmbedComponent = () => {
   const ref = useRef();
   const themeType = useTheme().themeType;
   const [isPDFLoaded, setIsPDFLoaded] = useState(false);
