@@ -20,7 +20,7 @@ export const SubmitPDF = ({
       if (extension === "pdf") {
         setIsPDFUrlValid(true);
         setIsValidateProgress(false);
-        setPDFConfig({ state: true, file: pdfFile, url: pdfURL });
+        setPDFConfig({ isPDFBeingShared: true, file: pdfFile, url: pdfURL });
         onOpenChange(false);
       }
 
@@ -30,7 +30,11 @@ export const SubmitPDF = ({
           if (contentType === "application/pdf") {
             setIsPDFUrlValid(true);
             setIsValidateProgress(false);
-            setPDFConfig({ state: true, file: pdfFile, url: pdfURL });
+            setPDFConfig({
+              isPDFBeingShared: true,
+              file: pdfFile,
+              url: pdfURL,
+            });
             onOpenChange(false);
           } else {
             setIsPDFUrlValid(false);
@@ -75,7 +79,11 @@ export const SubmitPDF = ({
         type="submit"
         onClick={() => {
           if (pdfFile) {
-            setPDFConfig({ state: true, file: pdfFile, url: pdfURL });
+            setPDFConfig({
+              isPDFBeingShared: true,
+              file: pdfFile,
+              url: pdfURL,
+            });
             onOpenChange(false);
           } else if (pdfURL) {
             isValidPDF(pdfURL);

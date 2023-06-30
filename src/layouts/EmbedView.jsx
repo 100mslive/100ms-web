@@ -16,13 +16,13 @@ import { APP_DATA } from "../common/constants";
 
 export const EmbedView = () => {
   return (
-    <EmbebScreenShareView>
+    <EmbedScreenShareView>
       <EmbedComponent />
-    </EmbebScreenShareView>
+    </EmbedScreenShareView>
   );
 };
 
-export const EmbebScreenShareView = ({ children }) => {
+export const EmbedScreenShareView = ({ children }) => {
   const peers = useHMSStore(selectPeers);
 
   const mediaQueryLg = cssConfig.media.xl;
