@@ -10,6 +10,8 @@ export const SubmitPDF = ({
   setIsPDFUrlValid,
   setIsValidateProgress,
   onOpenChange,
+  hideSecondaryCTA = false,
+  setPDFFile = () => {},
 }) => {
   const [, setPDFConfig] = useSetAppDataByKey(APP_DATA.pdfConfig);
 
@@ -63,17 +65,17 @@ export const SubmitPDF = ({
         gap: "$8",
       }}
     >
-      <Button
-        variant="standard"
-        outlined
-        type="submit"
-        onClick={() => {
-          onOpenChange(false);
-        }}
-        css={{ w: "50%" }}
-      >
-        Cancel
-      </Button>
+      {hideSecondaryCTA ? null : (
+        <Button
+          variant="standard"
+          outlined
+          type="submit"
+          onClick={() => setPDFFile(null)}
+          css={{ w: "50%" }}
+        >
+          Go Back
+        </Button>
+      )}
       <Button
         variant="primary"
         type="submit"
@@ -93,7 +95,7 @@ export const SubmitPDF = ({
         loading={isValidateProgress}
         data-testid="share_pdf_btn"
         css={{
-          w: "50%",
+          w: hideSecondaryCTA ? "100%" : "50%",
         }}
       >
         Start Sharing

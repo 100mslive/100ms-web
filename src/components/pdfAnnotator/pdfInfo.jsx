@@ -1,30 +1,36 @@
 import { InfoIcon } from "@100mslive/react-icons";
 import { Text } from "@100mslive/react-ui";
 import { DialogRow } from "../../primitives/DialogContent";
+import { isChrome } from "../../common/constants";
 
 export const PDFInfo = () => {
+  if (!isChrome) {
+    return null;
+  }
+
   return (
     <DialogRow
       css={{
-        px: "$8",
-        py: "$3",
+        p: "$8",
         bg: "$surfaceLight",
         r: "$1",
         outline: "none",
         border: "1px solid $borderLight",
-        minHeight: "$11",
+        mt: "$0",
       }}
     >
       <InfoIcon
-        width="64px"
-        height="64px"
+        height={20}
+        width={20}
         style={{
-          paddingRight: "16px",
+          marginRight: "16px",
+          minWidth: "20px",
         }}
       />
-      <Text variant="caption">
-        On the next screen, ensure you select “This Tab” and click on share.
-        Only the PDF viewer will be seen by other participants
+      <Text variant="caption" css={{ color: "$textMedEmp" }}>
+        On the next screen, ensure you select{" "}
+        <span style={{ fontWeight: "600" }}>“This Tab”</span> and click on{" "}
+        <span style={{ fontWeight: "600" }}>“Share” </span>
       </Text>
     </DialogRow>
   );

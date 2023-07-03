@@ -27,7 +27,11 @@ export const UploadedFile = ({
           }}
         >
           <Flex direction="column">
-            <PDFHeader />
+            <PDFHeader
+              onOpenChange={onOpenChange}
+              title="Ready to Share?"
+              subtitle="Please check that the PDF selected is correct"
+            />
             <DialogRow
               css={{
                 fontFamily: "$sans",
@@ -44,7 +48,7 @@ export const UploadedFile = ({
                   boxShadow: "0 0 0 1px $colors$borderAccent",
                   border: "1px solid $transparent",
                 },
-                mb: 0,
+                mb: "$8",
                 mt: "$6",
               }}
             >
@@ -75,6 +79,7 @@ export const UploadedFile = ({
               setIsPDFUrlValid={setIsPDFUrlValid}
               setIsValidateProgress={setIsValidateProgress}
               onOpenChange={onOpenChange}
+              setPDFFile={setPDFFile}
             />
           </Flex>
         </Dialog.Content>
