@@ -333,7 +333,12 @@ export const DialogInputFile = ({
             },
           }}
         >
-          <Text variant="md">{placeholder}</Text>
+          <Text
+            variant="md"
+            css={{ fontWeight: "$semiBold", color: "$textHighEmp" }}
+          >
+            {placeholder}
+          </Text>
         </IconButton>
       </Flex>
     </DialogCol>

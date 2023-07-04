@@ -210,3 +210,8 @@ export const SESSION_STORE_KEY = {
   PINNED_MESSAGE: "pinnedMessage",
   SPOTLIGHT: "spotlight",
 };
+
+export const PDF_SHARING_OPTIONS = {
+  FROM_YOUR_COMPUTER: "From your Computer",
+  FROM_A_URL: "From a URL",
+};

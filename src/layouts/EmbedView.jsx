@@ -1,22 +1,73 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useMedia } from "react-use";
 import {
+  selectLocalPeerID,
+  selectLocalPeerRoleName,
   selectPeers,
+  selectPeerScreenSharing,
   throwErrorHandler,
   useHMSStore,
   useScreenShare,
 } from "@100mslive/react-sdk";
-import { Box, Flex } from "@100mslive/react-ui";
-import { GridSidePaneView } from "../components/gridView";
+import { Box, config as cssConfig, Flex } from "@100mslive/react-ui";
+import { SidePane } from "./screenShareView";
 import { useSetAppDataByKey } from "../components/AppData/useUISettings";
 import { APP_DATA } from "../common/constants";
 
-export const EmbedView = ({ showStats }) => {
+export const EmbedView = () => {
+  return (
+    <EmbedScreenShareView>
+      <EmbedComponent />
+    </EmbedScreenShareView>
+  );
+};
+
+export const EmbedScreenShareView = ({ children }) => {
   const peers = useHMSStore(selectPeers);
 
+  const mediaQueryLg = cssConfig.media.xl;
+  const showSidebarInBottom = useMedia(mediaQueryLg);
+  const localPeerID = useHMSStore(selectLocalPeerID);
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+  const peerPresenting = useHMSStore(selectPeerScreenSharing);
+  const isPresenterFromMyRole =
+    peerPresenting?.roleName?.toLowerCase() === localPeerRole?.toLowerCase();
+  const amIPresenting = localPeerID === peerPresenting?.id;
+  const showPresenterInSmallTile =
+    showSidebarInBottom || amIPresenting || isPresenterFromMyRole;
+
+  const smallTilePeers = useMemo(() => {
+    const smallTilePeers = peers.filter(peer => peer.id !== peerPresenting?.id);
+    if (showPresenterInSmallTile && peerPresenting) {
+      smallTilePeers.unshift(peerPresenting); // put presenter on first page
+    }
+    return smallTilePeers;
+  }, [peers, peerPresenting, showPresenterInSmallTile]);
   return (
-    <Flex css={{ size: "100%", "@lg": { flexDirection: "column" } }}>
-      <EmbedComponent />
-      <GridSidePaneView peers={peers} showStatsOnTiles={showStats} />
+    <Flex
+      css={{ size: "100%" }}
+      direction={showSidebarInBottom ? "column" : "row"}
+    >
+      {children}
+      <Flex
+        direction={{ "@initial": "column", "@lg": "row" }}
+        css={{
+          overflow: "hidden",
+          p: "$4 $8",
+          flex: "0 0 20%",
+          "@xl": {
+            flex: "1 1 0",
+          },
+        }}
+      >
+        <SidePane
+          showSidebarInBottom={showSidebarInBottom}
+          peerScreenSharing={peerPresenting}
+          isPresenterInSmallTiles={showPresenterInSmallTile}
+          smallTilePeers={smallTilePeers}
+          totalPeers={peers.length}
+        />
+      </Flex>
     </Flex>
   );
 };

@@ -1,10 +1,13 @@
 import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@100mslive/react-icons";
 import { StyledPagination } from "@100mslive/react-ui";
+import { usePinnedTrack } from "./AppData/useUISettings";
 
 export const Pagination = ({ page, setPage, numPages }) => {
   const disableLeft = page === 0;
   const disableRight = page === numPages - 1;
+  const pinnedTrack = usePinnedTrack();
+
   const nextPage = () => {
     setPage(Math.min(page + 1, numPages - 1));
   };
@@ -21,13 +24,15 @@ export const Pagination = ({ page, setPage, numPages }) => {
         />
       </StyledPagination.Chevron>
       <StyledPagination.Dots>
-        {[...Array(numPages)].map((_, i) => (
-          <StyledPagination.Dot
-            key={i}
-            active={page === i}
-            onClick={() => setPage(i)}
-          />
-        ))}
+        {!pinnedTrack &&
+          numPages < 8 &&
+          [...Array(numPages)].map((_, i) => (
+            <StyledPagination.Dot
+              key={i}
+              active={page === i}
+              onClick={() => setPage(i)}
+            />
+          ))}
       </StyledPagination.Dots>
       <StyledPagination.Chevron disabled={disableRight} onClick={nextPage}>
         <ChevronRightIcon
