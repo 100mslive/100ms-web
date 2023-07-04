@@ -15,15 +15,16 @@ import { useUISettings } from "../components/AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
 
 export const MainGridView = () => {
-  // const centerRoles = useAppLayout("center") || [];
+  const centerRoles = useAppLayout("center") || [];
   const sidepaneRoles = useAppLayout("sidepane") || [];
   const maxTileCount = useUISettings(UI_SETTINGS.maxTileCount);
   const peers = useHMSStore(selectPeers);
   const roles = useHMSStore(selectRolesMap);
   const localPeerId = useHMSStore(selectLocalPeerID);
-  const centerPeers = peers; //.filter(peer => centerRoles.includes(peer.roleName));
-  const sidebarPeers =
-    [] || peers.filter(peer => sidepaneRoles.includes(peer.roleName));
+  const centerPeers = peers.filter(peer => centerRoles.includes(peer.roleName));
+  const sidebarPeers = peers.filter(peer =>
+    sidepaneRoles.includes(peer.roleName)
+  );
   const localRole = useHMSStore(selectLocalPeerRole);
   const peersByRoles = useHMSStore(
     selectPeersByRoles(localRole.subscribeParams.subscribeToRoles || [])
