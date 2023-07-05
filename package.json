@@ -10,7 +10,6 @@
   ],
   "dependencies": {
     "@100mslive/hls-player": "0.1.7-alpha.8",
-    "@100mslive/hms-noise-suppression": "0.9.7-alpha.8",
     "@100mslive/hms-virtual-background": "1.11.7-alpha.8",
     "@100mslive/react-icons": "0.8.7-alpha.8",
     "@100mslive/react-sdk": "0.8.7-alpha.8",
