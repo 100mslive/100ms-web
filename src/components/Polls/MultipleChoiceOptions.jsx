@@ -108,7 +108,7 @@ export const MultipleChoiceOptionInputs = ({ isQuiz, options, setOptions }) => {
               placeholder={`Option ${index + 1}`}
               css={{ w: "100%" }}
               key={index}
-              value={option.text}
+              value={option?.text || ""}
               onChange={event => {
                 const newOptions = [...options];
                 newOptions[index] = {

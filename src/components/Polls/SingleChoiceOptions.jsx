@@ -139,6 +139,7 @@ export const SingleChoiceOptionInputs = ({ isQuiz, options, setOptions }) => {
               <Input
                 placeholder={`Option ${index + 1}`}
                 css={{ w: "100%" }}
+                value={option?.text || ""}
                 key={index}
                 onChange={event => {
                   const newOptions = [...options];
