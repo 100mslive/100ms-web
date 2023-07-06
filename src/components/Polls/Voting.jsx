@@ -11,11 +11,8 @@ import { StandardView } from "./Views/StandardView";
 import { TimedView } from "./Views/TimedView";
 import { Container } from "../Streaming/Common";
 import { StatusIndicator } from "./StatusIndicator";
-import { useSidepaneToggle } from "../AppData/useSidepane";
-import { SIDE_PANE_OPTIONS } from "../../common/constants";
 
-export const Voting = ({ id }) => {
-  const toggleVoting = useSidepaneToggle(SIDE_PANE_OPTIONS.VOTING);
+export const Voting = ({ id, toggleVoting }) => {
   const poll = useHMSStore(selectPollByID(id));
   const pollCreatorName = useHMSStore(selectPeerNameByID(poll?.createdBy));
 

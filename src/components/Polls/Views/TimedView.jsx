@@ -16,7 +16,7 @@ export const TimedView = ({ poll }) => {
   return (
     <QuestionCard
       pollID={poll.id}
-      index={currentIndex}
+      index={activeQuestion.index}
       text={activeQuestion.text}
       type={activeQuestion.type}
       totalResponses={activeQuestion.totalResponses}

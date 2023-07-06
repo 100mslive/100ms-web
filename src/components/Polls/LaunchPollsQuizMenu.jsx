@@ -1,6 +1,6 @@
 // @ts-check
 import React, { useRef, useState } from "react";
-import { isEqual } from "lodash";
+import { v4 as uuid } from "uuid";
 import {
   selectPollByID,
   useHMSActions,
@@ -60,7 +60,7 @@ const isValidQuestion = ({
 };
 
 export function LaunchPollsQuizMenu() {
-  const [questions, setQuestions] = useState([{}]);
+  const [questions, setQuestions] = useState([{ draftID: uuid() }]);
   const actions = useHMSActions();
   const { pollInView: id, setWidgetView } = useWidgetState();
   const interaction = useHMSStore(selectPollByID(id));
@@ -92,7 +92,7 @@ export function LaunchPollsQuizMenu() {
         <Flex direction="column">
           {questions.map((question, index) => (
             <QuestionCard
-              key={index}
+              key={question.draftID}
               question={question}
               index={index}
               length={questions.length}
@@ -104,12 +104,12 @@ export function LaunchPollsQuizMenu() {
                 ]);
               }}
               isQuiz={isQuiz}
-              removeQuestion={() =>
-                setQuestions(prev =>
-                  prev.filter(
-                    questionFromSet => !isEqual(question, questionFromSet)
-                  )
-                )
+              removeQuestion={questionID =>
+                setQuestions(prev => {
+                  return prev.filter(
+                    questionFromSet => questionID !== questionFromSet.draftID
+                  );
+                })
               }
             />
           ))}
@@ -121,7 +121,7 @@ export function LaunchPollsQuizMenu() {
             cursor: "pointer",
             "&:hover": { c: "$textMedEmp" },
           }}
-          onClick={() => setQuestions([...questions, {}])}
+          onClick={() => setQuestions([...questions, { draftID: uuid() }])}
         >
           <AddCircleIcon />
           <Text variant="body1" css={{ ml: "$md", c: "$inherit" }}>
@@ -155,10 +155,8 @@ const QuestionCard = ({
       ) : (
         <QuestionForm
           question={question}
-          removeQuestion={removeQuestion}
-          onSave={params => {
-            onSave(params);
-          }}
+          removeQuestion={() => removeQuestion(question.draftID)}
+          onSave={params => onSave(params)}
           index={index}
           length={length}
           isQuiz={isQuiz}

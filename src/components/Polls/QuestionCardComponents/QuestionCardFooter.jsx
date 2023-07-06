@@ -5,12 +5,14 @@ export const QuestionCardFooter = ({
   voted,
   stringAnswerExpected,
   handleVote,
+  skipQuestion,
 }) => {
   return (
     <Flex align="center" justify="end" css={{ gap: "$4", w: "100%" }}>
       {skippable && !voted ? (
         <Button
           variant="standard"
+          onClick={skipQuestion}
           css={{ p: "$xs $10", fontWeight: "$semiBold" }}
         >
           Skip

@@ -40,8 +40,8 @@ export const QuestionCard = ({
 }) => {
   const actions = useHMSActions();
   const [voted, setVoted] = useState(false);
-  const prev = index !== 0;
-  const next = index !== totalQuestions - 1 && (skippable || voted);
+  const prev = index !== 1;
+  const next = index !== totalQuestions && (skippable || voted);
   const [textAnswer, setTextAnswer] = useState("");
   const [singleOptionAnswer, setSingleOptionAnswer] = useState();
   const [multipleOptionAnswer, setMultipleOptionAnswer] = useState(new Set());
@@ -86,7 +86,7 @@ export const QuestionCard = ({
           variant="caption"
           css={{ color: "$textDisabled", fontWeight: "$semiBold" }}
         >
-          QUESTION {index + 1} OF {totalQuestions}: {type.toUpperCase()}
+          QUESTION {index} OF {totalQuestions}: {type.toUpperCase()}
         </Text>
 
         {isTimed ? (
@@ -177,6 +177,10 @@ export const QuestionCard = ({
 
       <QuestionCardFooter
         skippable={skippable}
+        skipQuestion={() => {
+          setCurrentIndex(prev => Math.min(totalQuestions, prev + 1));
+          setVoted(false);
+        }}
         voted={voted}
         stringAnswerExpected={stringAnswerExpected}
         handleVote={handleVote}

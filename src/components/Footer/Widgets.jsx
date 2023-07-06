@@ -16,7 +16,7 @@ export const Widgets = () => {
 
   return (
     <Container rounded>
-      <ContentHeader content="Widgets" onBack={toggleWidget} />
+      <ContentHeader content="Widgets" onClose={toggleWidget} />
       {widgetView === WIDGET_VIEWS.LANDING && (
         <Flex direction="column" css={{ p: "$10" }}>
           <Flex css={{ gap: "$10", mb: "$12" }}>
@@ -41,7 +41,9 @@ export const Widgets = () => {
       )}
       {widgetView === WIDGET_VIEWS.CREATE_POLL_QUIZ && <PollsQuizMenu />}
       {widgetView === WIDGET_VIEWS.CREATE_QUESTIONS && <LaunchPollsQuizMenu />}
-      {widgetView === WIDGET_VIEWS.VOTE && <Voting id={pollID} />}
+      {widgetView === WIDGET_VIEWS.VOTE && (
+        <Voting toggleVoting={toggleWidget} id={pollID} />
+      )}
     </Container>
   );
 };

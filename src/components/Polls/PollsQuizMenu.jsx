@@ -116,7 +116,6 @@ const timerSettings = {
 
 const AddMenu = ({ interactionType }) => {
   const actions = useHMSActions();
-  const selectionBg = useDropdownSelection();
   const [title, setTitle] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [error, setError] = useState();
@@ -128,10 +127,8 @@ const AddMenu = ({ interactionType }) => {
       [WIDGET_STATE.view]: WIDGET_VIEWS.CREATE_QUESTIONS,
     });
   };
-  const [timer, setTimer] = useState(10);
-  const [showTimerDropDown, setShowTimerDropDown] = useState(false);
-  const [timerDropdownToggle, setTimerDropdownToggle] = useState(false);
-  const timerDropdownRef = useRef();
+  // const [timer, setTimer] = useState(10);
+  // const [showTimerDropDown, setShowTimerDropDown] = useState(false);
 
   return (
     <Flex direction="column">
@@ -159,59 +156,12 @@ const AddMenu = ({ interactionType }) => {
           Make Results Anonymous
         </Text>
       </Flex>
-      <Flex justify="between" align="center" css={{ mt: "$10" }}>
-        <Flex align="center">
-          <Switch
-            checked={showTimerDropDown}
-            onCheckedChange={setShowTimerDropDown}
-            css={{ mr: "$6" }}
-          />
-          <Text variant="body2" css={{ c: "$textMedEmp" }}>
-            Timer
-          </Text>
-        </Flex>
-        <Flex align="center">
-          {showTimerDropDown ? (
-            <Dropdown.Root
-              open={timerDropdownToggle}
-              onOpenChange={setTimerDropdownToggle}
-            >
-              <DialogDropdownTrigger
-                ref={timerDropdownRef}
-                title={timerSettings[timer]}
-                open={timerDropdownToggle}
-                titleCss={{ c: "$textHighEmp", ml: "$md" }}
-              />
-              <Dropdown.Portal>
-                <Dropdown.Content
-                  align="start"
-                  sideOffset={8}
-                  css={{
-                    w: timerDropdownRef.current?.clientWidth,
-                    zIndex: 1000,
-                  }}
-                >
-                  {Object.keys(timerSettings).map(value => {
-                    const val = parseInt(value);
-                    return (
-                      <Dropdown.Item
-                        key={value}
-                        onSelect={() => setTimer(val)}
-                        css={{
-                          px: "$9",
-                          bg: timer === val ? selectionBg : undefined,
-                        }}
-                      >
-                        {timerSettings[val]}
-                      </Dropdown.Item>
-                    );
-                  })}
-                </Dropdown.Content>
-              </Dropdown.Portal>
-            </Dropdown.Root>
-          ) : null}
-        </Flex>
-      </Flex>
+      {/* <Timer
+        timer={timer}
+        setTimer={setTimer}
+        showTimerDropDown={showTimerDropDown}
+        setShowTimerDropDown={setShowTimerDropDown}
+      /> */}
 
       <Button
         variant="primary"
@@ -225,7 +175,7 @@ const AddMenu = ({ interactionType }) => {
               title,
               anonymous,
               type: interactionType.toLowerCase(),
-              duration: showTimerDropDown ? timer : undefined,
+              // duration: showTimerDropDown ? timer : undefined,
             })
             .then(() => handleCreate(id))
             .catch(err => setError(err.message));
@@ -247,9 +197,11 @@ const PrevMenu = () => {
       <Text variant="h6" css={{ c: "$textHighEmp" }}>
         Previous Polls/Quiz
       </Text>
-      {polls.map(poll => (
-        <InteractionCard {...poll} />
-      ))}
+      <Flex direction="column" css={{ gap: "$10", mt: "$8" }}>
+        {polls.map(poll => (
+          <InteractionCard {...poll} />
+        ))}
+      </Flex>
     </Flex>
   ) : null;
 };
@@ -266,25 +218,17 @@ const InteractionCard = ({ id, title, state = "stopped" }) => {
   };
 
   return (
-    <Flex direction="column">
+    <Flex
+      direction="column"
+      css={{ backgroundColor: "$surfaceLight", borderRadius: "$1", p: "$8" }}
+    >
       <Flex css={{ w: "100%", justifyContent: "space-between" }}>
         <Text
           variant="sub1"
-          css={{ mt: "$md", c: "$textHighEmp", fontWeight: "$semiBold" }}
+          css={{ c: "$textHighEmp", fontWeight: "$semiBold" }}
         >
           {title}
         </Text>
-        {/* <Text
-          css={{
-            bg: ended ? "$surfaceLighter" : "$error",
-            p: "$2 $4",
-            fontWeight: "$semiBold",
-            fontSize: "$xs",
-            r: "$1",
-          }}
-        >
-          {ended ? "ENDED" : "LIVE"}
-        </Text> */}
       </Flex>
       <Flex css={{ w: "100%", gap: "$4" }} justify="end">
         <Button variant="standard">View results</Button>
@@ -293,6 +237,73 @@ const InteractionCard = ({ id, title, state = "stopped" }) => {
             View
           </Button>
         )}
+      </Flex>
+    </Flex>
+  );
+};
+
+export const Timer = ({
+  timer,
+  setTimer,
+  showTimerDropDown,
+  setShowTimerDropDown,
+}) => {
+  const selectionBg = useDropdownSelection();
+  const [timerDropdownToggle, setTimerDropdownToggle] = useState(false);
+  const timerDropdownRef = useRef();
+
+  return (
+    <Flex justify="between" align="center" css={{ mt: "$10" }}>
+      <Flex align="center">
+        <Switch
+          checked={showTimerDropDown}
+          onCheckedChange={setShowTimerDropDown}
+          css={{ mr: "$6" }}
+        />
+        <Text variant="body2" css={{ c: "$textMedEmp" }}>
+          Timer
+        </Text>
+      </Flex>
+      <Flex align="center">
+        {showTimerDropDown ? (
+          <Dropdown.Root
+            open={timerDropdownToggle}
+            onOpenChange={setTimerDropdownToggle}
+          >
+            <DialogDropdownTrigger
+              ref={timerDropdownRef}
+              title={timerSettings[timer]}
+              open={timerDropdownToggle}
+              titleCss={{ c: "$textHighEmp", ml: "$md" }}
+            />
+            <Dropdown.Portal>
+              <Dropdown.Content
+                align="start"
+                sideOffset={8}
+                css={{
+                  w: timerDropdownRef.current?.clientWidth,
+                  zIndex: 1000,
+                }}
+              >
+                {Object.keys(timerSettings).map(value => {
+                  const val = parseInt(value);
+                  return (
+                    <Dropdown.Item
+                      key={value}
+                      onSelect={() => setTimer(val)}
+                      css={{
+                        px: "$9",
+                        bg: timer === val ? selectionBg : undefined,
+                      }}
+                    >
+                      {timerSettings[val]}
+                    </Dropdown.Item>
+                  );
+                })}
+              </Dropdown.Content>
+            </Dropdown.Portal>
+          </Dropdown.Root>
+        ) : null}
       </Flex>
     </Flex>
   );
