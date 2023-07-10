@@ -102,8 +102,6 @@ const PinActions = ({ audioTrackID, videoTrackID }) => {
   );
 };
 
-const showSpotlight = process.env.REACT_APP_ENV === "qa";
-
 /**
  * Taking peerID as peer won't necesarilly have tracks
  */
@@ -117,7 +115,9 @@ const TileMenu = ({
   const actions = useHMSActions();
   const localPeerID = useHMSStore(selectLocalPeerID);
   const isLocal = localPeerID === peerID;
-  const { removeOthers } = useHMSStore(selectPermissions);
+  const { removeOthers, changeRole } = useHMSStore(selectPermissions);
+  const showSpotlight = changeRole;
+
   const {
     isAudioEnabled,
     isVideoEnabled,
