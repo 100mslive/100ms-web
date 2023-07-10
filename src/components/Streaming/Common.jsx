@@ -55,12 +55,7 @@ export const StreamCard = ({
   );
 };
 
-export const ContentHeader = ({
-  onBack,
-  onClose = onBack,
-  title = "",
-  content,
-}) => {
+export const ContentHeader = ({ onBack, onClose, title = "", content }) => {
   return (
     <Flex css={{ w: "100%", py: "$8", px: "$10", cursor: "pointer" }}>
       {onBack ? (
@@ -92,13 +87,15 @@ export const ContentHeader = ({
         ) : null}
         <Text variant="h6">{content}</Text>
       </Box>
-      <IconButton
-        onClick={onClose || onBack}
-        css={{ alignSelf: "flex-start" }}
-        data-testid="close_stream_section"
-      >
-        <CrossIcon width={16} height={16} />
-      </IconButton>
+      {onClose ? (
+        <IconButton
+          onClick={onClose}
+          css={{ alignSelf: "flex-start" }}
+          data-testid="close_stream_section"
+        >
+          <CrossIcon width={16} height={16} />
+        </IconButton>
+      ) : null}
     </Flex>
   );
 };
