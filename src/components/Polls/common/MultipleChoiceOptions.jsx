@@ -15,7 +15,7 @@ export const MultipleChoiceOptions = ({
   questionIndex,
   isQuiz,
   options,
-  correctOptionIndexes = [],
+  correctOptionIndexes,
   response,
   totalResponses,
   selectedOptions,
@@ -35,7 +35,8 @@ export const MultipleChoiceOptions = ({
     <Flex direction="column" css={{ gap: "$md", w: "100%", mb: "$md" }}>
       {options.map(option => {
         const progressValue = (100 * option.voteCount) / totalResponses;
-        const isCorrectAnswer = correctOptionIndexes.includes(option.index);
+        const isCorrectAnswer =
+          isQuiz && correctOptionIndexes?.includes(option.index);
 
         return (
           <Flex

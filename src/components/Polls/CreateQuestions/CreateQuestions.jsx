@@ -1,5 +1,5 @@
 // @ts-check
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 import {
   selectPollByID,
@@ -21,6 +21,11 @@ export function CreateQuestions() {
   const toggleWidget = useWidgetToggle();
   const { pollInView: id, setWidgetView } = useWidgetState();
   const interaction = useHMSStore(selectPollByID(id));
+
+  const isValidPoll = useMemo(
+    () => questions.every(question => isValidQuestion(question)),
+    [questions]
+  );
 
   const launchPoll = async () => {
     const validQuestions = questions
@@ -99,7 +104,9 @@ export function CreateQuestions() {
         </Flex>
 
         <Flex css={{ w: "100%" }} justify="end">
-          <Button onClick={launchPoll}>Launch {interaction.type}</Button>
+          <Button disabled={!isValidPoll} onClick={launchPoll}>
+            Launch {interaction.type}
+          </Button>
         </Flex>
       </Flex>
     </Container>

@@ -13,6 +13,7 @@ import {
 import { ErrorDialog } from "../../../primitives/DialogContent";
 import { DialogDropdownTrigger } from "../../../primitives/DropdownTrigger";
 import { useDropdownSelection } from "../../hooks/useDropdownSelection";
+import { isValidTextInput } from "../../../common/utils";
 import { MultipleChoiceOptionInputs } from "../common/MultipleChoiceOptions";
 import { SingleChoiceOptionInputs } from "../common/SingleChoiceOptions";
 import { QUESTION_TYPE, QUESTION_TYPE_TITLE } from "../../../common/constants";
@@ -84,6 +85,7 @@ export const QuestionForm = ({
       <Input
         placeholder="Ask a question"
         css={{ mt: "$md" }}
+        type="text"
         value={text}
         onChange={event => setText(event.target.value)}
       />
@@ -223,7 +225,7 @@ export const isValidQuestion = ({
   isQuiz = false,
   skippable = true,
 }) => {
-  if (!text || !type) {
+  if (!isValidTextInput(text) || !type) {
     return false;
   }
 
@@ -234,7 +236,7 @@ export const isValidQuestion = ({
   }
 
   const everyOptionHasText = options.every(
-    option => option && option.text.length > 0
+    option => option && isValidTextInput(option.text, 1)
   );
   const isCorrectAnswerRequired = isQuiz && !skippable;
   const hasCorrectAnswer = options.some(option => option.isCorrectAnswer);

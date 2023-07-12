@@ -6,6 +6,7 @@ import { Button, Flex, Input, Switch, Text } from "@100mslive/react-ui";
 import { Container, ContentHeader, ErrorText } from "../../Streaming/Common";
 import { useWidgetToggle } from "../../AppData/useSidepane";
 import { useWidgetState } from "../../AppData/useUISettings";
+import { isValidTextInput } from "../../../common/utils";
 import { StatusIndicator } from "../common/StatusIndicator";
 import { WIDGET_STATE, WIDGET_VIEWS } from "../../../common/constants";
 
@@ -140,7 +141,7 @@ const AddMenu = ({ interactionType }) => {
 
       <Button
         variant="primary"
-        disabled={!title}
+        disabled={!isValidTextInput(title)}
         css={{ mt: "$10" }}
         onClick={async () => {
           const id = Date.now().toString();

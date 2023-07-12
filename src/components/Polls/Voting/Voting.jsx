@@ -72,7 +72,7 @@ export const Voting = ({ id, toggleVoting }) => {
                 css={{ fontSize: "$sm", fontWeight: "$semiBold", p: "$3 $6" }}
                 onClick={() => actions.interactivityCenter.stopPoll(id)}
               >
-                End Poll
+                End {poll.type}
               </Button>
             </Box>
           )}

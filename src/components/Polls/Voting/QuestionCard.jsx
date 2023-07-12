@@ -67,9 +67,9 @@ export const QuestionCard = ({
   const prev = index !== 1;
   const next = index !== totalQuestions && (skippable || localPeerResponse);
 
-  const moveNext = () => {
+  const moveNext = useCallback(() => {
     setCurrentIndex(curr => Math.min(totalQuestions, curr + 1));
-  };
+  }, [setCurrentIndex, totalQuestions]);
 
   const movePrev = () => {
     setCurrentIndex(curr => Math.max(1, curr - 1));
@@ -84,7 +84,26 @@ export const QuestionCard = ({
     QUESTION_TYPE.SHORT_ANSWER,
   ].includes(type);
 
+  const isValidVote = useMemo(() => {
+    if (stringAnswerExpected) {
+      return textAnswer.length > 0;
+    } else if (type === QUESTION_TYPE.SINGLE_CHOICE) {
+      return singleOptionAnswer !== undefined;
+    } else if (type === QUESTION_TYPE.MULTIPLE_CHOICE) {
+      return multipleOptionAnswer.size > 0;
+    }
+  }, [
+    textAnswer,
+    singleOptionAnswer,
+    multipleOptionAnswer,
+    type,
+    stringAnswerExpected,
+  ]);
+
   const handleVote = useCallback(async () => {
+    if (!isValidVote) {
+      return;
+    }
     await actions.interactivityCenter.addResponsesToPoll(pollID, [
       {
         questionIndex: index,
@@ -97,6 +116,7 @@ export const QuestionCard = ({
     actions,
     index,
     pollID,
+    isValidVote,
     textAnswer,
     singleOptionAnswer,
     multipleOptionAnswer,
@@ -109,7 +129,8 @@ export const QuestionCard = ({
         skipped: true,
       },
     ]);
-  }, [actions, index, pollID]);
+    moveNext();
+  }, [actions, index, pollID, moveNext]);
 
   return (
     <Box
@@ -219,32 +240,31 @@ export const QuestionCard = ({
       ) : null}
 
       <QuestionCardFooter
+        isValidVote={isValidVote}
         skippable={skippable}
-        skipQuestion={async () => {
-          await handleSkip();
-          moveNext();
-        }}
+        onSkip={handleSkip}
+        onVote={handleVote}
         response={localPeerResponse}
         stringAnswerExpected={stringAnswerExpected}
-        handleVote={handleVote}
       />
     </Box>
   );
 };
 
 const QuestionCardFooter = ({
+  isValidVote,
   skippable,
   response,
   stringAnswerExpected,
-  handleVote,
-  skipQuestion,
+  onVote,
+  onSkip,
 }) => {
   return (
     <Flex align="center" justify="end" css={{ gap: "$4", w: "100%" }}>
       {skippable && !response ? (
         <Button
           variant="standard"
-          onClick={skipQuestion}
+          onClick={onSkip}
           css={{ p: "$xs $10", fontWeight: "$semiBold" }}
         >
           Skip
@@ -262,7 +282,8 @@ const QuestionCardFooter = ({
       ) : (
         <Button
           css={{ p: "$xs $10", fontWeight: "$semiBold" }}
-          onClick={() => handleVote()}
+          disabled={!isValidVote}
+          onClick={onVote}
         >
           {stringAnswerExpected ? "Submit" : "Vote"}
         </Button>

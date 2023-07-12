@@ -27,7 +27,7 @@ export const SingleChoiceOptions = ({
       <Flex direction="column" css={{ gap: "$md", w: "100%", mb: "$md" }}>
         {options.map(option => {
           const progressValue = (100 * option.voteCount) / totalResponses;
-          const isCorrectAnswer = option.index === correctOptionIndex;
+          const isCorrectAnswer = isQuiz && option.index === correctOptionIndex;
 
           return (
             <Flex
