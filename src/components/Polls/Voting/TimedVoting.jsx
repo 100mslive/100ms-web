@@ -1,6 +1,6 @@
 // @ts-check
 import React, { useState } from "react";
-import { QuestionCard } from "../QuestionCard";
+import { QuestionCard } from "./QuestionCard";
 
 /**
  *
@@ -16,13 +16,16 @@ export const TimedView = ({ poll }) => {
   return (
     <QuestionCard
       pollID={poll.id}
+      isQuiz={poll.type === "quiz"}
       index={activeQuestion.index}
       text={activeQuestion.text}
       type={activeQuestion.type}
       totalResponses={activeQuestion.totalResponses}
       totalQuestions={poll.questions?.length || 0}
       options={activeQuestion.options}
-      skippable={activeQuestion?.skippable || false}
+      skippable={activeQuestion.skippable || false}
+      responses={activeQuestion.responses}
+      answer={activeQuestion.answer}
       setCurrentIndex={setCurrentIndex}
       isTimed
     />

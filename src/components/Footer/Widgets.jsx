@@ -2,9 +2,9 @@
 import React from "react";
 import { QuizIcon } from "@100mslive/react-icons";
 import { Flex, Text } from "@100mslive/react-ui";
-import { LaunchPollsQuizMenu } from "../Polls/LaunchPollsQuizMenu";
-import PollsQuizMenu from "../Polls/PollsQuizMenu";
-import { Voting } from "../Polls/Voting";
+import { PollsQuizMenu } from "../Polls/CreatePollQuiz/PollsQuizMenu";
+import { CreateQuestions } from "../Polls/CreateQuestions/CreateQuestions";
+import { Voting } from "../Polls/Voting/Voting";
 import { Container, ContentHeader } from "../Streaming/Common";
 import { useWidgetToggle } from "../AppData/useSidepane";
 import { useWidgetState } from "../AppData/useUISettings";
@@ -40,7 +40,7 @@ export const Widgets = () => {
         </Flex>
       )}
       {widgetView === WIDGET_VIEWS.CREATE_POLL_QUIZ && <PollsQuizMenu />}
-      {widgetView === WIDGET_VIEWS.CREATE_QUESTIONS && <LaunchPollsQuizMenu />}
+      {widgetView === WIDGET_VIEWS.CREATE_QUESTIONS && <CreateQuestions />}
       {widgetView === WIDGET_VIEWS.VOTE && (
         <Voting toggleVoting={toggleWidget} id={pollID} />
       )}

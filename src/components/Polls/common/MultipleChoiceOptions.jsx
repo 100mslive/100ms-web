@@ -1,11 +1,22 @@
 // @ts-check
 import React, { useCallback } from "react";
 import { CheckIcon } from "@100mslive/react-icons";
-import { Checkbox, Flex, Input, Progress, Text } from "@100mslive/react-ui";
+import {
+  Checkbox,
+  Flex,
+  Input,
+  Label,
+  Progress,
+  Text,
+} from "@100mslive/react-ui";
+import { VoteCount } from "./VoteCount";
 
 export const MultipleChoiceOptions = ({
+  questionIndex,
+  isQuiz,
   options,
-  voted,
+  correctOptionIndexes = [],
+  response,
   totalResponses,
   selectedOptions,
   setSelectedOptions,
@@ -24,19 +35,23 @@ export const MultipleChoiceOptions = ({
     <Flex direction="column" css={{ gap: "$md", w: "100%", mb: "$md" }}>
       {options.map(option => {
         const progressValue = (100 * option.voteCount) / totalResponses;
+        const isCorrectAnswer = correctOptionIndexes.includes(option.index);
+
         return (
           <Flex
             align="center"
-            key={`${option.text}-${option.index}`}
+            key={`${questionIndex}-${option.index}`}
             css={{ w: "100%", gap: "$9" }}
           >
             <Checkbox.Root
-              disabled={voted}
+              id={`${questionIndex}-${option.index}`}
+              disabled={!!response}
+              checked={response?.options?.includes(option.index)}
               onCheckedChange={checked =>
                 handleCheckedChange(checked, option.index)
               }
               css={{
-                cursor: voted ? "not-allowed" : "pointer",
+                cursor: response ? "not-allowed" : "pointer",
               }}
             >
               <Checkbox.Indicator>
@@ -45,16 +60,21 @@ export const MultipleChoiceOptions = ({
             </Checkbox.Root>
 
             <Flex direction="column" css={{ flexGrow: "1" }}>
-              <Flex css={{ w: "100%", mb: voted ? "$4" : "0" }}>
+              <Flex css={{ w: "100%", mb: response ? "$4" : "0" }}>
                 <Text css={{ display: "flex", flexGrow: "1" }}>
-                  {option.text}
+                  <Label htmlFor={`${questionIndex}-${option.index}`}>
+                    {option.text}
+                  </Label>
                 </Text>
-                <Text variant="sm" css={{ color: "$textMedEmp" }}>
-                  {option.voteCount}&nbsp;
-                  {option.voteCount !== 1 ? "votes" : "votes"}
-                </Text>
+                {response && (
+                  <VoteCount
+                    isQuiz={isQuiz}
+                    isCorrectAnswer={isCorrectAnswer}
+                    voteCount={option.voteCount}
+                  />
+                )}
               </Flex>
-              {voted ? (
+              {response ? (
                 <Progress.Root value={progressValue}>
                   <Progress.Content
                     style={{
@@ -90,7 +110,7 @@ export const MultipleChoiceOptionInputs = ({ isQuiz, options, setOptions }) => {
     <Flex direction="column" css={{ gap: "$md", w: "100%", mb: "$md" }}>
       {options.map((option, index) => {
         return (
-          <Flex align="center" key={index} css={{ w: "100%", gap: "$9" }}>
+          <Flex align="center" key={index} css={{ w: "100%", gap: "$5" }}>
             {isQuiz && (
               <Checkbox.Root
                 onCheckedChange={checked => selectAnswer(checked, index)}
@@ -110,12 +130,11 @@ export const MultipleChoiceOptionInputs = ({ isQuiz, options, setOptions }) => {
               key={index}
               value={option?.text || ""}
               onChange={event => {
-                const newOptions = [...options];
-                newOptions[index] = {
-                  ...newOptions[index],
-                  text: event.target.value,
-                };
-                setOptions(newOptions);
+                setOptions(options => [
+                  ...options.slice(0, index),
+                  { ...options[index], text: event.target.value },
+                  ...options.slice(index + 1),
+                ]);
               }}
             />
           </Flex>

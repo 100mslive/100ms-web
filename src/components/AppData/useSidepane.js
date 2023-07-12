@@ -49,17 +49,15 @@ export const useWidgetToggle = () => {
 
   const toggleWidget = useCallback(
     id => {
-      if (!widgetView) {
-        setWidgetState({
-          [WIDGET_STATE.view]: id ? WIDGET_VIEWS.VOTE : WIDGET_VIEWS.LANDING,
-          [WIDGET_STATE.pollInView]: id,
-        });
-      } else {
-        setWidgetState({
-          [WIDGET_STATE.view]: null,
-          [WIDGET_STATE.pollInView]: null,
-        });
-      }
+      id = typeof id === "string" ? id : undefined;
+      setWidgetState({
+        [WIDGET_STATE.pollInView]: id,
+        [WIDGET_STATE.view]: id
+          ? WIDGET_VIEWS.VOTE
+          : widgetView
+          ? null
+          : WIDGET_VIEWS.LANDING,
+      });
     },
     [widgetView, setWidgetState]
   );
@@ -74,6 +72,10 @@ export const useSidepaneReset = () => {
   const hmsActions = useHMSActions();
   const resetSidepane = useCallback(() => {
     hmsActions.setAppData(APP_DATA.sidePane, "");
+    hmsActions.setAppData(APP_DATA.widgetState, {
+      [WIDGET_STATE.pollInView]: "",
+      [WIDGET_STATE.view]: "",
+    });
   }, [hmsActions]);
   return resetSidepane;
 };

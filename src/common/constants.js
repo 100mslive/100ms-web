@@ -230,15 +230,15 @@ export const SESSION_STORE_KEY = {
 export const QUESTION_TYPE_TITLE = {
   "single-choice": "Single Choice",
   "multiple-choice": "Multiple Choice",
-  "short-answer": "Short Answer",
-  "long-answer": "Long Answer",
+  // "short-answer": "Short Answer",
+  // "long-answer": "Long Answer",
 };
 
 export const QUESTION_TYPE = {
   SINGLE_CHOICE: "single-choice",
   MULTIPLE_CHOICE: "multiple-choice",
-  SHORT_ANSWER: "short-answer",
-  LONG_ANSWER: "long-answer",
+  // SHORT_ANSWER: "short-answer",
+  // LONG_ANSWER: "long-answer",
 };
 
 export const PDF_SHARING_OPTIONS = {

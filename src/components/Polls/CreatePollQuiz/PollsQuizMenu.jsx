@@ -1,22 +1,16 @@
 // @ts-check
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { selectPolls, useHMSActions, useHMSStore } from "@100mslive/react-sdk";
 import { QuestionIcon, StatsIcon } from "@100mslive/react-icons";
-import {
-  Button,
-  Dropdown,
-  Flex,
-  Input,
-  Switch,
-  Text,
-} from "@100mslive/react-ui";
-import { DialogDropdownTrigger } from "../../primitives/DropdownTrigger";
-import { Container, ContentHeader, ErrorText } from "../Streaming/Common";
-import { useWidgetState } from "../AppData/useUISettings";
-import { useDropdownSelection } from "../hooks/useDropdownSelection";
-import { WIDGET_STATE, WIDGET_VIEWS } from "../../common/constants";
+import { Button, Flex, Input, Switch, Text } from "@100mslive/react-ui";
+import { Container, ContentHeader, ErrorText } from "../../Streaming/Common";
+import { useWidgetToggle } from "../../AppData/useSidepane";
+import { useWidgetState } from "../../AppData/useUISettings";
+import { StatusIndicator } from "../common/StatusIndicator";
+import { WIDGET_STATE, WIDGET_VIEWS } from "../../../common/constants";
 
-const PollsQuizMenu = () => {
+export const PollsQuizMenu = () => {
+  const toggleWidget = useWidgetToggle();
   const { setWidgetView } = useWidgetState();
   const [interactionType, setInteractionType] = useState(
     interactionTypes["Poll"].title
@@ -27,6 +21,7 @@ const PollsQuizMenu = () => {
       <ContentHeader
         content="Polls/Quiz"
         onBack={() => setWidgetView(WIDGET_VIEWS.LANDING)}
+        onClose={toggleWidget}
       />
       <Flex
         direction="column"
@@ -59,8 +54,6 @@ const PollsQuizMenu = () => {
     </Container>
   );
 };
-
-export default PollsQuizMenu;
 
 function InteractionSelectionCard({ title, icon, active, onClick }) {
   const activeBorderStyle = active
@@ -95,17 +88,6 @@ function InteractionSelectionCard({ title, icon, active, onClick }) {
     </Flex>
   );
 }
-
-const timerSettings = {
-  10: "10 secs",
-  15: "15 secs",
-  20: "20 secs",
-  25: "25 secs",
-  30: "30 secs",
-  60: "1 min",
-  120: "2 mins",
-  300: "5 mins",
-};
 
 const AddMenu = ({ interactionType }) => {
   const actions = useHMSActions();
@@ -192,15 +174,20 @@ const PrevMenu = () => {
       </Text>
       <Flex direction="column" css={{ gap: "$10", mt: "$8" }}>
         {polls.map(poll => (
-          <InteractionCard {...poll} />
+          <InteractionCard
+            key={poll.id}
+            id={poll.id}
+            title={poll.title}
+            isLive={poll.state === "started"}
+            isTimed={(poll.duration || 0) > 0}
+          />
         ))}
       </Flex>
     </Flex>
   ) : null;
 };
 
-const InteractionCard = ({ id, title, state = "stopped" }) => {
-  const ended = state === "stopped";
+const InteractionCard = ({ id, title, isLive, isTimed }) => {
   const { setWidgetState } = useWidgetState();
 
   const goToVote = id => {
@@ -215,88 +202,19 @@ const InteractionCard = ({ id, title, state = "stopped" }) => {
       direction="column"
       css={{ backgroundColor: "$surfaceLight", borderRadius: "$1", p: "$8" }}
     >
-      <Flex css={{ w: "100%", justifyContent: "space-between" }}>
+      <Flex css={{ w: "100%", justifyContent: "space-between", mb: "$sm" }}>
         <Text
           variant="sub1"
           css={{ c: "$textHighEmp", fontWeight: "$semiBold" }}
         >
           {title}
         </Text>
+        <StatusIndicator isLive={isLive} shouldShowTimer={isLive && isTimed} />
       </Flex>
       <Flex css={{ w: "100%", gap: "$4" }} justify="end">
-        <Button variant="standard">View results</Button>
-        {!ended && (
-          <Button variant="primary" onClick={() => goToVote(id)}>
-            View
-          </Button>
-        )}
-      </Flex>
-    </Flex>
-  );
-};
-
-export const Timer = ({
-  timer,
-  setTimer,
-  showTimerDropDown,
-  setShowTimerDropDown,
-}) => {
-  const selectionBg = useDropdownSelection();
-  const [timerDropdownToggle, setTimerDropdownToggle] = useState(false);
-  const timerDropdownRef = useRef();
-
-  return (
-    <Flex justify="between" align="center" css={{ mt: "$10" }}>
-      <Flex align="center">
-        <Switch
-          checked={showTimerDropDown}
-          onCheckedChange={setShowTimerDropDown}
-          css={{ mr: "$6" }}
-        />
-        <Text variant="body2" css={{ c: "$textMedEmp" }}>
-          Timer
-        </Text>
-      </Flex>
-      <Flex align="center">
-        {showTimerDropDown ? (
-          <Dropdown.Root
-            open={timerDropdownToggle}
-            onOpenChange={setTimerDropdownToggle}
-          >
-            <DialogDropdownTrigger
-              ref={timerDropdownRef}
-              title={timerSettings[timer]}
-              open={timerDropdownToggle}
-              titleCss={{ c: "$textHighEmp", ml: "$md" }}
-            />
-            <Dropdown.Portal>
-              <Dropdown.Content
-                align="start"
-                sideOffset={8}
-                css={{
-                  w: timerDropdownRef.current?.clientWidth,
-                  zIndex: 1000,
-                }}
-              >
-                {Object.keys(timerSettings).map(value => {
-                  const val = parseInt(value);
-                  return (
-                    <Dropdown.Item
-                      key={value}
-                      onSelect={() => setTimer(val)}
-                      css={{
-                        px: "$9",
-                        bg: timer === val ? selectionBg : undefined,
-                      }}
-                    >
-                      {timerSettings[val]}
-                    </Dropdown.Item>
-                  );
-                })}
-              </Dropdown.Content>
-            </Dropdown.Portal>
-          </Dropdown.Root>
-        ) : null}
+        <Button variant="primary" onClick={() => goToVote(id)}>
+          View
+        </Button>
       </Flex>
     </Flex>
   );
