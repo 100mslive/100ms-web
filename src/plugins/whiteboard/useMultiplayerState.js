@@ -41,11 +41,39 @@ export function useMultiplayerState(roomId) {
     };
   }, []);
 
-  const sendCurrentState = useCallback(() => {
-    if (amIWhiteboardOwner && isReady) {
-      room.broadcastEvent(Events.CURRENT_STATE, getCurrentState());
+  const sendDataInStream = useCallback(() => {
+    const shapesIterator = rLiveShapes.current?.entries();
+    const bindingsIterator = rLiveBindings.current?.entries();
+    let initial = true;
+    // it will run until shapes and binding data is broadcast
+    for (;;) {
+      const shapes = shapesIterator.next();
+      let shape = {};
+      if (!shapes.done) shape[shapes.value[0]] = shapes.value[1];
+      const bindings = bindingsIterator.next();
+      let binding = {};
+      if (!bindings.done) binding[bindings.value[0]] = bindings.value[1];
+      if (shapes.done && bindings.done) break;
+      if (initial) {
+        room.broadcastEvent(Events.CURRENT_STATE, {
+          shapes: shape,
+          bindings: binding,
+        });
+        initial = false;
+        continue;
+      }
+      room.broadcastEvent(Events.STATE_CHANGE, {
+        shapes: shape,
+        bindings: binding,
+      });
     }
-  }, [amIWhiteboardOwner, isReady, getCurrentState]);
+  }, []);
+  const sendCurrentState = useCallback(() => {
+    // TODO - add data chunking
+    if (amIWhiteboardOwner && isReady) {
+      sendDataInStream();
+    }
+  }, [amIWhiteboardOwner, isReady, sendDataInStream]);
 
   const updateLocalState = useCallback(({ shapes, bindings, merge = true }) => {
     if (!(shapes && bindings)) return;

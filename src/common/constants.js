@@ -131,9 +131,9 @@ export const APP_DATA = {
   rtmpStarted: "rtmpStarted",
   recordingStarted: "recordingStarted",
   embedConfig: "embedConfig",
+  pdfConfig: "pdfConfig",
   pinnedTrackId: "pinnedTrackId",
   dropdownList: "dropdownList",
-  pdfConfig: "pdfConfig",
 };
 export const UI_SETTINGS = {
   isAudioOnly: "isAudioOnly",
@@ -209,4 +209,9 @@ export const SESSION_STORE_KEY = {
   TRANSCRIPTION_STATE: "transcriptionState",
   PINNED_MESSAGE: "pinnedMessage",
   SPOTLIGHT: "spotlight",
+};
+
+export const PDF_SHARING_OPTIONS = {
+  FROM_YOUR_COMPUTER: "From your Computer",
+  FROM_A_URL: "From a URL",
 };

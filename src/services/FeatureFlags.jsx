@@ -21,14 +21,9 @@ export class FeatureFlags {
     window.HMS.OPTIMISE_HLS_LATENCY = false;
     // ask permissions in preview even if role doesn't have it
     window.HMS.ALWAYS_REQUEST_PERMISSIONS = false;
-    window.HMS.SHOW_NS = process.env.REACT_APP_ENV !== "prod";
 
     this.enableTranscription =
       process.env.REACT_APP_TRANSCRIPTION_ROOM_ID === roomId;
-  }
-
-  static showNS() {
-    return window.HMS.SHOW_NS;
   }
 
   static optimiseHLSLatency() {

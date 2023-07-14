@@ -52,6 +52,9 @@ const List = ({
       >
         {pagesWithTiles && pagesWithTiles.length > 0
           ? pagesWithTiles[page]?.map(tile => {
+              if (tile.width === 0 || tile.height === 0) {
+                return null;
+              }
               return (
                 <Fragment key={tile.track?.id || tile.peer.id}>
                   {tile.track?.source === "screen" ? (

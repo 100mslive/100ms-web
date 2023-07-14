@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useScreenShare } from "@100mslive/react-sdk";
 import { ViewIcon } from "@100mslive/react-icons";
 import { Button, Dialog, Dropdown, Text } from "@100mslive/react-ui";
 import {
@@ -6,19 +7,25 @@ import {
   DialogInput,
   DialogRow,
 } from "../../primitives/DialogContent";
-import { useSetAppDataByKey } from "../AppData/useUISettings";
+import {
+  useResetEmbedConfig,
+  useSetAppDataByKey,
+} from "../AppData/useUISettings";
 import { APP_DATA } from "../../common/constants";
 
 export const EmbedUrl = ({ setShowOpenUrl }) => {
+  const { amIScreenSharing } = useScreenShare();
   if (!window.CropTarget) {
     return null;
   }
-
   return (
     <Dropdown.Item
       onClick={() => {
-        setShowOpenUrl(true);
+        if (!amIScreenSharing) {
+          setShowOpenUrl(true);
+        }
       }}
+      disabled={amIScreenSharing}
       data-testid="embed_url_btn"
     >
       <ViewIcon />
@@ -33,11 +40,11 @@ export function EmbedUrlModal({ onOpenChange }) {
   const [embedConfig, setEmbedConfig] = useSetAppDataByKey(
     APP_DATA.embedConfig
   );
-  const [url, setUrl] = useState(embedConfig?.url || "");
+  const [url, setUrl] = useState(embedConfig || "");
 
-  const isAnythingEmbedded = !!embedConfig?.url;
-  const isModifying = isAnythingEmbedded && url && url !== embedConfig.url;
-
+  const isAnythingEmbedded = !!embedConfig;
+  const isModifying = isAnythingEmbedded && url && url !== embedConfig;
+  const resetConfig = useResetEmbedConfig();
   return (
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
       <DialogContent title="Embed URL" Icon={ViewIcon}>
@@ -63,7 +70,7 @@ export function EmbedUrlModal({ onOpenChange }) {
                 type="submit"
                 disabled={!isModifying}
                 onClick={() => {
-                  setEmbedConfig({ url, shareScreen: embedConfig.shareScreen });
+                  setEmbedConfig(url);
                   onOpenChange(false);
                 }}
                 data-testid="embed_url_btn"
@@ -75,7 +82,7 @@ export function EmbedUrlModal({ onOpenChange }) {
                 variant="danger"
                 type="submit"
                 onClick={() => {
-                  setEmbedConfig({ url: "" });
+                  resetConfig();
                   onOpenChange(false);
                 }}
                 data-testid="embed_url_btn"
@@ -84,33 +91,18 @@ export function EmbedUrlModal({ onOpenChange }) {
               </Button>
             </>
           ) : (
-            <>
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={!url.trim()}
-                onClick={() => {
-                  setEmbedConfig({ url });
-                  onOpenChange(false);
-                }}
-                data-testid="embed_url_btn"
-                css={{ mr: "$4" }}
-              >
-                Just Embed
-              </Button>
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={!url.trim()}
-                onClick={() => {
-                  setEmbedConfig({ url, shareScreen: true });
-                  onOpenChange(false);
-                }}
-                data-testid="embed_url_btn"
-              >
-                Embed and Share
-              </Button>
-            </>
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={!url.trim()}
+              onClick={() => {
+                setEmbedConfig(url);
+                onOpenChange(false);
+              }}
+              data-testid="embed_url_btn"
+            >
+              Embed and Share
+            </Button>
           )}
         </DialogRow>
       </DialogContent>
