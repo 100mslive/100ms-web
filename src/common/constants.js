@@ -131,9 +131,9 @@ export const APP_DATA = {
   rtmpStarted: "rtmpStarted",
   recordingStarted: "recordingStarted",
   embedConfig: "embedConfig",
+  pdfConfig: "pdfConfig",
   pinnedTrackId: "pinnedTrackId",
   dropdownList: "dropdownList",
-  pdfConfig: "pdfConfig",
   widgetState: "widgetState",
 };
 
