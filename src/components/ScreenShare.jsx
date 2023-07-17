@@ -8,7 +8,11 @@ import { ShareScreenIcon } from "@100mslive/react-icons";
 import { Box, Flex, styled, Tooltip } from "@100mslive/react-ui";
 import { ShareScreenOptions } from "./pdfAnnotator/shareScreenOptions";
 import IconButton from "../IconButton";
-import { useUISettings } from "./AppData/useUISettings";
+import {
+  useResetEmbedConfig,
+  useResetPDFConfig,
+  useUISettings,
+} from "./AppData/useUISettings";
 import { isScreenshareSupported } from "../common/utils";
 import { UI_SETTINGS } from "../common/constants";
 
@@ -21,6 +25,9 @@ export const ScreenshareToggle = ({ css = {} }) => {
     screenShareVideoTrackId: video,
     toggleScreenShare,
   } = useScreenShare();
+  const resetConfig = useResetPDFConfig();
+  const embedResetConfig = useResetEmbedConfig();
+
   const isVideoScreenshare = amIScreenSharing && !!video;
   if (!isAllowedToPublish.screen || !isScreenshareSupported()) {
     return null;
@@ -35,8 +42,10 @@ export const ScreenshareToggle = ({ css = {} }) => {
           active={!isVideoScreenshare}
           css={css}
           disabled={isAudioOnly}
-          onClick={() => {
-            toggleScreenShare();
+          onClick={async () => {
+            await toggleScreenShare();
+            resetConfig();
+            embedResetConfig();
           }}
         >
           <Tooltip

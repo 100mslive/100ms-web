@@ -23,7 +23,7 @@ import { useAppConfig } from "../components/AppData/useAppConfig";
 import {
   useHLSViewerRole,
   useIsHeadless,
-  usePDFAnnotator,
+  usePDFConfig,
   usePinnedTrack,
   useUISettings,
   useUrlToEmbed,
@@ -51,8 +51,9 @@ export const ConferenceMainView = () => {
   const { uiViewMode, isAudioOnly } = useUISettings();
   const hlsViewerRole = useHLSViewerRole();
   const waitingViewerRole = useWaitingViewerRole();
-  const urlToIframe = useUrlToEmbed();
-  const pdfAnntatorActive = usePDFAnnotator();
+  const embedConfig = useUrlToEmbed();
+  const pdfConfig = usePDFConfig();
+
   useEffect(() => {
     if (!isConnected) {
       return;
@@ -86,10 +87,10 @@ export const ConferenceMainView = () => {
     ViewComponent = HLSView;
   } else if (localPeerRole === waitingViewerRole) {
     ViewComponent = WaitingView;
-  } else if (pdfAnntatorActive) {
-    ViewComponent = PDFView;
-  } else if (urlToIframe) {
+  } else if (embedConfig) {
     ViewComponent = EmbedView;
+  } else if (pdfConfig) {
+    ViewComponent = PDFView;
   } else if (whiteboardShared) {
     ViewComponent = WhiteboardView;
   } else if (uiMode === "inset") {
