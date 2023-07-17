@@ -24,7 +24,6 @@ import { PIP } from "../PIP";
 import { ScreenshareToggle } from "../ScreenShare";
 import { ScreenShareHintModal } from "../ScreenshareHintModal";
 import { ChatToggle } from "./ChatToggle";
-import { NoiseSuppression } from "../../plugins/NoiseSuppression";
 import { VirtualBackground } from "../../plugins/VirtualBackground/VirtualBackground";
 import { ToggleWhiteboard } from "../../plugins/whiteboard";
 import { useIsFeatureEnabled } from "../hooks/useFeatures";
@@ -93,7 +92,6 @@ export const ConferencingFooter = () => {
         <Playlist type={HMSPlaylistType.video} />
         {FeatureFlags.enableWhiteboard ? <ToggleWhiteboard /> : null}
         <VirtualBackground />
-        <NoiseSuppression />
         {FeatureFlags.enableTranscription ? <TranscriptionButton /> : null}
         <Flex
           align="center"
