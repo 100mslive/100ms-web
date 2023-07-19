@@ -10,6 +10,7 @@ import {
 import { CrossIcon } from "@100mslive/react-icons";
 import { Box, Button, Flex, Text } from "@100mslive/react-ui";
 import { Container } from "../../Streaming/Common";
+import { PollResultSummary } from "./PollResultSummary";
 import { StandardView } from "./StandardVoting";
 import { TimedView } from "./TimedVoting";
 import { StatusIndicator } from "../common/StatusIndicator";
@@ -77,6 +78,14 @@ export const Voting = ({ id, toggleVoting }) => {
             </Box>
           )}
         </Flex>
+        {poll.state === "stopped" && (
+          <PollResultSummary
+            pollResult={poll.result}
+            questions={poll.questions}
+            isQuiz={poll.type === "quiz"}
+            isAdmin={isLocalPeerCreator}
+          />
+        )}
         {isTimed ? <TimedView poll={poll} /> : <StandardView poll={poll} />}
       </Flex>
     </Container>
