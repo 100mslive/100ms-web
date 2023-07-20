@@ -1,7 +1,7 @@
 // @ts-check
 import React, { useCallback } from "react";
 import { CheckIcon } from "@100mslive/react-icons";
-import { Checkbox, Flex, Input, Label, Text } from "@100mslive/react-ui";
+import { Checkbox, Flex, Input, Label, Text } from "@100mslive/roomkit-react";
 import { VoteCount } from "./VoteCount";
 import { VoteProgress } from "./VoteProgress";
 

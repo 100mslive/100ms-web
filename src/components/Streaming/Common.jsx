@@ -12,7 +12,7 @@ import {
   slideLeftAndFade,
   Switch,
   Text,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 
 export const StreamCard = ({
   title,

@@ -6,7 +6,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { QuizIcon } from "@100mslive/react-icons";
-import { Flex, Text } from "@100mslive/react-ui";
+import { Flex, Text } from "@100mslive/roomkit-react";
 import { PollsQuizMenu } from "../Polls/CreatePollQuiz/PollsQuizMenu";
 import { CreateQuestions } from "../Polls/CreateQuestions/CreateQuestions";
 import { Voting } from "../Polls/Voting/Voting";

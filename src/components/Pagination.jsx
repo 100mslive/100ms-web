@@ -1,6 +1,6 @@
 import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@100mslive/react-icons";
-import { StyledPagination } from "@100mslive/react-ui";
+import { StyledPagination } from "@100mslive/roomkit-react";
 import { usePinnedTrack } from "./AppData/useUISettings";
 
 export const Pagination = ({ page, setPage, numPages }) => {

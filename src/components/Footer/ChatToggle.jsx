@@ -3,7 +3,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { ChatIcon, ChatUnreadIcon } from "@100mslive/react-icons";
-import { Tooltip } from "@100mslive/react-ui";
+import { Tooltip } from "@100mslive/roomkit-react";
 import IconButton from "../../IconButton";
 import {
   useIsSidepaneTypeOpen,

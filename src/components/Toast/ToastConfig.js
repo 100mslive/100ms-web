@@ -7,7 +7,7 @@ import {
   PersonIcon,
   PoorConnectivityIcon,
 } from "@100mslive/react-icons";
-import { Button } from "@100mslive/react-ui";
+import { Button } from "@100mslive/roomkit-react";
 import { hmsActions, hmsStore } from "../../hms";
 import { APP_DATA, SIDE_PANE_OPTIONS } from "../../common/constants";
 

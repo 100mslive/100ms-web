@@ -1,4 +1,4 @@
-import { Flex, styled } from "@100mslive/react-ui";
+import { Flex, styled } from "@100mslive/roomkit-react";
 
 export const VideoControls = styled(Flex, {
   justifyContent: "center",

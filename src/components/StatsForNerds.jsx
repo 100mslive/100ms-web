@@ -16,7 +16,7 @@ import {
   Label,
   Switch,
   Text,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { DialogDropdownTrigger } from "../primitives/DropdownTrigger";
 import { useSetUiSettings } from "./AppData/useUISettings";
 import { useDropdownSelection } from "./hooks/useDropdownSelection";

@@ -1,5 +1,5 @@
 import React from "react";
-import { flexCenter, styled } from "@100mslive/react-ui";
+import { flexCenter, styled } from "@100mslive/roomkit-react";
 import PreviewJoin from "./PreviewJoin";
 
 const PreviewContainer = ({

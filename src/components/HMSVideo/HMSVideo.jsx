@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Flex } from "@100mslive/react-ui";
+import { Flex } from "@100mslive/roomkit-react";
 
 export const HMSVideo = forwardRef(({ children }, videoRef) => {
   return (

@@ -1,4 +1,4 @@
-import { styled } from "@100mslive/react-ui";
+import { styled } from "@100mslive/roomkit-react";
 
 export const Image = styled("img", {
   width: "100%",

@@ -9,7 +9,7 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Flex } from "@100mslive/react-ui";
+import { Flex } from "@100mslive/roomkit-react";
 import FullPageProgress from "../components/FullPageProgress";
 import EmbedView from "./EmbedView";
 import { InsetView } from "./InsetView";

@@ -1,6 +1,6 @@
 import React from "react";
 import { useMedia } from "react-use";
-import { config as cssConfig, Flex } from "@100mslive/react-ui";
+import { config as cssConfig, Flex } from "@100mslive/roomkit-react";
 import { EmojiReaction } from "../EmojiReaction";
 import { LeaveRoom } from "../LeaveRoom";
 import MetaActions from "../MetaActions";

@@ -5,7 +5,7 @@ import {
   config as cssConfig,
   Flex,
   Footer as AppFooter,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { Playlist } from "../../components/Playlist/Playlist";
 import { AudioVideoToggle } from "../AudioVideoToggle";
 import { EmojiReaction } from "../EmojiReaction";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Label, Switch } from "@100mslive/react-ui";
+import { Flex, Label, Switch } from "@100mslive/roomkit-react";
 
 const SwitchWithLabel = ({
   label,

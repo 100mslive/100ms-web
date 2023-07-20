@@ -1,7 +1,7 @@
 // @ts-check
 import React, { useMemo } from "react";
 import { selectLocalPeerID, useHMSStore } from "@100mslive/react-sdk";
-import { Box, Text } from "@100mslive/react-ui";
+import { Box, Text } from "@100mslive/roomkit-react";
 import { checkCorrectAnswer } from "../../../common/utils";
 
 /**

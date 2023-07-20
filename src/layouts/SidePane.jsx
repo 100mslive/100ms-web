@@ -1,6 +1,6 @@
 import React from "react";
 import { selectAppData, useHMSStore } from "@100mslive/react-sdk";
-import { Box } from "@100mslive/react-ui";
+import { Box } from "@100mslive/roomkit-react";
 import { Chat } from "../components/Chat/Chat";
 import { Widgets } from "../components/Footer/Widgets";
 import { ParticipantList } from "../components/Header/ParticipantList";

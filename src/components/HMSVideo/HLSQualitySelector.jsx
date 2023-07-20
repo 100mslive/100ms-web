@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CheckCircleIcon, SettingsIcon } from "@100mslive/react-icons";
-import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/react-ui";
+import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/roomkit-react";
 
 export function HLSQualitySelector({
   layers,

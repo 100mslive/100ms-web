@@ -1,6 +1,6 @@
 import React from "react";
 import { ShieldAlertIcon } from "@100mslive/react-icons";
-import { Box, Flex, Text } from "@100mslive/react-ui";
+import { Box, Flex, Text } from "@100mslive/roomkit-react";
 
 export const NonPublisherView = React.memo(({ message }) => {
   return (

@@ -7,7 +7,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { AddCircleIcon } from "@100mslive/react-icons";
-import { Button, Flex, Text } from "@100mslive/react-ui";
+import { Button, Flex, Text } from "@100mslive/roomkit-react";
 import { Container, ContentHeader } from "../../Streaming/Common";
 import { isValidQuestion, QuestionForm } from "./QuestionForm";
 import { SavedQuestion } from "./SavedQuestion";

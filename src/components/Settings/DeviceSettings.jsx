@@ -16,7 +16,7 @@ import {
   StyledVideoTile,
   Text,
   Video,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { DialogDropdownTrigger } from "../../primitives/DropdownTrigger";
 import { useUISettings } from "../AppData/useUISettings";
 import { useDropdownSelection } from "../hooks/useDropdownSelection";

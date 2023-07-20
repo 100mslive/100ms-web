@@ -4,7 +4,7 @@ import {
   HMSNotificationTypes,
   useHMSNotifications,
 } from "@100mslive/react-sdk";
-import { Dialog, Flex, Loading, Text } from "@100mslive/react-ui";
+import { Dialog, Flex, Loading, Text } from "@100mslive/roomkit-react";
 import { ToastConfig } from "../Toast/ToastConfig";
 import { ToastManager } from "../Toast/ToastManager";
 

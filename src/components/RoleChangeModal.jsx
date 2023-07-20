@@ -20,7 +20,7 @@ import {
   Text,
   textEllipsis,
   Tooltip,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { useDropdownSelection } from "./hooks/useDropdownSelection";
 import { useFilteredRoles } from "../common/hooks";
 

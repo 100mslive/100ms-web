@@ -10,7 +10,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { ChevronDownIcon, CrossIcon, PinIcon } from "@100mslive/react-icons";
-import { Box, Button, Flex, IconButton, Text } from "@100mslive/react-ui";
+import { Box, Button, Flex, IconButton, Text } from "@100mslive/roomkit-react";
 import { AnnotisedMessage, ChatBody } from "./ChatBody";
 import { ChatFooter } from "./ChatFooter";
 import { ChatHeader } from "./ChatHeader";

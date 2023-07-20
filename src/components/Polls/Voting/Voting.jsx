@@ -8,7 +8,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { CrossIcon } from "@100mslive/react-icons";
-import { Box, Button, Flex, Text } from "@100mslive/react-ui";
+import { Box, Button, Flex, Text } from "@100mslive/roomkit-react";
 import { Container } from "../../Streaming/Common";
 import { PollResultSummary } from "./PollResultSummary";
 import { StandardView } from "./StandardVoting";

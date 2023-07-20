@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { useMedia } from "react-use";
-import { Box, config as cssConfig, Flex } from "@100mslive/react-ui";
+import { Box, config as cssConfig, Flex } from "@100mslive/roomkit-react";
 import { FirstPersonDisplay } from "./FirstPersonDisplay";
 import { Image } from "./Image";
 import VideoList from "./VideoList";

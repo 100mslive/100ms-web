@@ -15,7 +15,7 @@ import {
   Input,
   styled,
   Text,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { checkCorrectAnswer } from "../../../common/utils";
 import { MultipleChoiceOptions } from "../common/MultipleChoiceOptions";
 import { SingleChoiceOptions } from "../common/SingleChoiceOptions";

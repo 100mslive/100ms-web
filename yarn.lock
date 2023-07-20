@@ -56,9 +56,9 @@
     "react-resize-detector" "^7.0.0"
     "zustand" "^3.6.2"
 
-"@100mslive/react-ui@0.4.4":
+"@100mslive/roomkit-react@0.4.4":
   "integrity" "sha512-JGU6idTlc2PqNNYxD6nBFNHZvtnDeLEIqktkgCMwtxAhdAcDQZKLI9OB1/zvFRYe9F/XTQNC6uGMEfJVx73dXg=="
-  "resolved" "https://registry.npmjs.org/@100mslive/react-ui/-/react-ui-0.4.4.tgz"
+  "resolved" "https://registry.npmjs.org/@100mslive/roomkit-react/-/react-ui-0.4.4.tgz"
   "version" "0.4.4"
   dependencies:
     "@100mslive/react-icons" "0.4.4"

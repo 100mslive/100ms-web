@@ -14,7 +14,7 @@ import {
   VideoOffIcon,
   VideoOnIcon,
 } from "@100mslive/react-icons";
-import { Tooltip } from "@100mslive/react-ui";
+import { Tooltip } from "@100mslive/roomkit-react";
 import { ToastManager } from "./Toast/ToastManager";
 import IconButton from "../IconButton";
 import { isMacOS } from "../common/constants";

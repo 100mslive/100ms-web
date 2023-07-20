@@ -1,4 +1,4 @@
-import { Progress } from "@100mslive/react-ui";
+import { Progress } from "@100mslive/roomkit-react";
 
 export const VoteProgress = ({ response, option, totalResponses }) => {
   const showProgress =

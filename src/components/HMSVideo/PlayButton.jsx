@@ -1,5 +1,5 @@
 import { PauseIcon, PlayIcon } from "@100mslive/react-icons";
-import { IconButton, Tooltip } from "@100mslive/react-ui";
+import { IconButton, Tooltip } from "@100mslive/roomkit-react";
 
 export const PlayButton = ({ onClick, isPaused }) => {
   return (

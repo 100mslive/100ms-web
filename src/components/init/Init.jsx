@@ -6,7 +6,7 @@ import {
   selectSessionId,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { useTheme } from "@100mslive/react-ui";
+import { useTheme } from "@100mslive/roomkit-react";
 import { setUpZipy } from "./initUtils";
 import { FeatureFlagsInit } from "../../services/FeatureFlags";
 

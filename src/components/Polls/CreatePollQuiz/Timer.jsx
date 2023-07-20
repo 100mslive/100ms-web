@@ -1,6 +1,6 @@
 // @ts-check
 import React, { useRef, useState } from "react";
-import { Dropdown, Flex, Switch, Text } from "@100mslive/react-ui";
+import { Dropdown, Flex, Switch, Text } from "@100mslive/roomkit-react";
 import { DialogDropdownTrigger } from "../../../primitives/DropdownTrigger";
 import { useDropdownSelection } from "../../hooks/useDropdownSelection";
 

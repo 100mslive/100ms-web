@@ -30,7 +30,7 @@ import {
   Slider,
   Text,
   textEllipsis,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import IconButton from "../../IconButton";
 import { ConnectionIndicator } from "../Connection/ConnectionIndicator";
 import { RoleChangeModal } from "../RoleChangeModal";

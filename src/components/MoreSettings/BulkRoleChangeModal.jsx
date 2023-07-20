@@ -13,7 +13,7 @@ import {
   Flex,
   Loading,
   Text,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { DialogContent, DialogRow } from "../../primitives/DialogContent";
 import { DialogDropdownTrigger } from "../../primitives/DropdownTrigger";
 import { useFilteredRoles } from "../../common/hooks";

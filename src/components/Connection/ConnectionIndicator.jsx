@@ -4,7 +4,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { PoorConnectivityIcon } from "@100mslive/react-icons";
-import { styled, Tooltip, useTheme } from "@100mslive/react-ui";
+import { styled, Tooltip, useTheme } from "@100mslive/roomkit-react";
 import { getColor, getTooltipText } from "./connectionQualityUtils";
 
 const Wrapper = styled("span", {

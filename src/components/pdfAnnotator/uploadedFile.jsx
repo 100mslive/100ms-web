@@ -1,5 +1,5 @@
 import { TrashIcon } from "@100mslive/react-icons";
-import { Dialog, Flex, Text } from "@100mslive/react-ui";
+import { Dialog, Flex, Text } from "@100mslive/roomkit-react";
 import { DialogRow } from "../../primitives/DialogContent";
 import { PDFHeader } from "./pdfHeader";
 import { PDFInfo } from "./pdfInfo";

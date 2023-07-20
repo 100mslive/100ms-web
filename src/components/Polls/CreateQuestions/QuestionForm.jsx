@@ -9,7 +9,7 @@ import {
   Input,
   Switch,
   Text,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { ErrorDialog } from "../../../primitives/DialogContent";
 import { DialogDropdownTrigger } from "../../../primitives/DropdownTrigger";
 import { useDropdownSelection } from "../../hooks/useDropdownSelection";

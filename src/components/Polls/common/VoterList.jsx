@@ -1,4 +1,4 @@
-import { Avatar, Flex, Text } from "@100mslive/react-ui";
+import { Avatar, Flex, Text } from "@100mslive/roomkit-react";
 
 export const VoterList = ({ voters }) => {
   return voters.map((voter, index) => (

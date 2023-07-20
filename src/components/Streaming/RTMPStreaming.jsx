@@ -22,7 +22,7 @@ import {
   Label,
   Loading,
   Text,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import {
   Container,
   ContentBody,

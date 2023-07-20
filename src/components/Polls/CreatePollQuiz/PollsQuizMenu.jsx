@@ -7,7 +7,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { QuestionIcon, StatsIcon } from "@100mslive/react-icons";
-import { Button, Flex, Input, Switch, Text } from "@100mslive/react-ui";
+import { Button, Flex, Input, Switch, Text } from "@100mslive/roomkit-react";
 import { Container, ContentHeader, ErrorText } from "../../Streaming/Common";
 import { useWidgetToggle } from "../../AppData/useSidepane";
 import { useWidgetState } from "../../AppData/useUISettings";

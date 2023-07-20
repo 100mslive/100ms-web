@@ -1,7 +1,7 @@
 // @ts-check
 import React from "react";
 import { CheckCircleIcon } from "@100mslive/react-icons";
-import { Box, Button, Flex, Text } from "@100mslive/react-ui";
+import { Box, Button, Flex, Text } from "@100mslive/roomkit-react";
 import { QUESTION_TYPE_TITLE } from "../../../common/constants";
 
 export const SavedQuestion = ({ question, index, length, convertToDraft }) => {

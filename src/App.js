@@ -12,7 +12,7 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Box, HMSThemeProvider } from "@100mslive/react-ui";
+import { Box, HMSThemeProvider } from "@100mslive/roomkit-react";
 import { AppData } from "./components/AppData/AppData.jsx";
 import { BeamSpeakerLabelsLogging } from "./components/AudioLevel/BeamSpeakerLabelsLogging";
 import { ErrorBoundary } from "./components/ErrorBoundary";

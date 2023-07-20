@@ -1,6 +1,6 @@
 import React from "react";
 import { useAutoplayError } from "@100mslive/react-sdk";
-import { Button, Dialog, Text } from "@100mslive/react-ui";
+import { Button, Dialog, Text } from "@100mslive/roomkit-react";
 import { DialogContent, DialogRow } from "../../primitives/DialogContent";
 
 export function AutoplayBlockedModal() {

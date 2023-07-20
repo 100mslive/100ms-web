@@ -1,4 +1,4 @@
-import { useTheme } from "@100mslive/react-ui";
+import { useTheme } from "@100mslive/roomkit-react";
 
 export const useDropdownSelection = () => {
   const { themeType } = useTheme();

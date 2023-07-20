@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input, styled } from "@100mslive/react-ui";
+import { Button, Input, styled } from "@100mslive/roomkit-react";
 import { isStreamingKit } from "../../common/utils";
 
 const PreviewName = ({ name, onChange, onJoin, enableJoin }) => {
