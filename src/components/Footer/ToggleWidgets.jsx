@@ -3,11 +3,11 @@ import {
   InteractionOpenIcon,
 } from "@100mslive/react-icons";
 import { Tooltip } from "@100mslive/react-ui";
-import IconButton from "../IconButton";
-import { useWidgetToggle } from "./AppData/useSidepane";
-import { useWidgetState } from "./AppData/useUISettings";
+import IconButton from "../../IconButton";
+import { useWidgetToggle } from "../AppData/useSidepane";
+import { useWidgetState } from "../AppData/useUISettings";
 
-const ToggleWidgets = () => {
+export const ToggleWidgets = () => {
   const toggle = useWidgetToggle();
   const { widgetView } = useWidgetState();
 
@@ -19,5 +19,3 @@ const ToggleWidgets = () => {
     </Tooltip>
   );
 };
-
-export default ToggleWidgets;

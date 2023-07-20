@@ -2,6 +2,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import {
   selectLocalPeerID,
+  selectPermissions,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
@@ -49,11 +50,12 @@ export const QuestionCard = ({
 }) => {
   const actions = useHMSActions();
   const localPeerID = useHMSStore(selectLocalPeerID);
+  const permissions = useHMSStore(selectPermissions);
   const localPeerResponse = responses?.find(
     response => response.peer?.peerid === localPeerID
   );
   const isLive = pollState === "started";
-  const canRespond = isLive && !localPeerResponse;
+  const canRespond = isLive && permissions?.pollRead && !localPeerResponse;
 
   const isCorrectAnswer = checkCorrectAnswer(answer, localPeerResponse, type);
 

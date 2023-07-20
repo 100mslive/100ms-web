@@ -227,6 +227,11 @@ export const SESSION_STORE_KEY = {
   SPOTLIGHT: "spotlight",
 };
 
+export const INTERACTION_TYPE = {
+  POLL: "Poll",
+  QUIZ: "Quiz",
+};
+
 export const QUESTION_TYPE_TITLE = {
   "single-choice": "Single Choice",
   "multiple-choice": "Multiple Choice",

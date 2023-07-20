@@ -1,7 +1,5 @@
 import { selectLocalPeerRoleName, useHMSStore } from "@100mslive/react-sdk";
-import { PencilDrawIcon } from "@100mslive/react-icons";
-import { Tooltip } from "@100mslive/react-ui";
-import IconButton from "../../IconButton";
+import { WidgetCard } from "../../components/Footer/WidgetCard";
 import { useHLSViewerRole } from "../../components/AppData/useUISettings";
 import { useIsFeatureEnabled } from "../../components/hooks/useFeatures";
 import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
@@ -27,24 +25,17 @@ export const ToggleWhiteboard = () => {
   }
 
   return (
-    <Tooltip
-      title={`${
+    <WidgetCard
+      title="Whiteboard"
+      subtitle={`${
         whiteboardActive
           ? amIWhiteboardOwner
             ? `Stop whiteboard`
-            : `Can't stop whiteboard`
-          : "Start whiteboard"
+            : `Can't stop whiteboard as it was started by another peer`
+          : "Collaboratively sketch ideas"
       }`}
-      key="whiteboard"
-    >
-      <IconButton
-        onClick={toggleWhiteboard}
-        active={!whiteboardActive}
-        disabled={whiteboardActive && !amIWhiteboardOwner}
-        data-testid="white_board_btn"
-      >
-        <PencilDrawIcon />
-      </IconButton>
-    </Tooltip>
+      imageSrc={require("../../images/whiteboard.png")}
+      onClick={() => toggleWhiteboard()}
+    />
   );
 };
