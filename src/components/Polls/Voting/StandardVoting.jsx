@@ -29,6 +29,7 @@ export const StandardView = ({ poll }) => {
           responses={question.responses}
           answer={question.answer}
           setCurrentIndex={() => {}}
+          rolesThatCanViewResponses={poll.rolesThatCanViewResponses}
         />
       ))}
     </>

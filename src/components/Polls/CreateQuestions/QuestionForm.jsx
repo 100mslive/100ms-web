@@ -169,7 +169,6 @@ export const QuestionForm = ({
               type,
               options,
               isQuiz,
-              skippable,
             })
           }
           onClick={() => {
@@ -221,13 +220,7 @@ export const QuestionForm = ({
   );
 };
 
-export const isValidQuestion = ({
-  text,
-  type,
-  options,
-  isQuiz = false,
-  skippable = true,
-}) => {
+export const isValidQuestion = ({ text, type, options, isQuiz = false }) => {
   if (!isValidTextInput(text) || !type) {
     return false;
   }
@@ -241,10 +234,9 @@ export const isValidQuestion = ({
   const everyOptionHasText = options.every(
     option => option && isValidTextInput(option.text, 1)
   );
-  const isCorrectAnswerRequired = isQuiz && !skippable;
   const hasCorrectAnswer = options.some(option => option.isCorrectAnswer);
 
-  if (!isCorrectAnswerRequired) {
+  if (!isQuiz) {
     return everyOptionHasText;
   }
 

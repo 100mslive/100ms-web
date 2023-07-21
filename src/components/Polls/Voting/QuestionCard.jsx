@@ -2,7 +2,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import {
   selectLocalPeerID,
-  selectPermissions,
+  selectLocalPeerRoleName,
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
@@ -47,15 +47,22 @@ export const QuestionCard = ({
   skippable = false,
   responses = [],
   isTimed = false,
+  rolesThatCanViewResponses,
 }) => {
   const actions = useHMSActions();
   const localPeerID = useHMSStore(selectLocalPeerID);
-  const permissions = useHMSStore(selectPermissions);
   const localPeerResponse = responses?.find(
     response => response.peer?.peerid === localPeerID
   );
+  const localPeerRoleName = useHMSStore(selectLocalPeerRoleName);
+  const showVoteCount =
+    localPeerResponse &&
+    (!rolesThatCanViewResponses ||
+      rolesThatCanViewResponses.length === 0 ||
+      rolesThatCanViewResponses.includes(localPeerRoleName || ""));
+
   const isLive = pollState === "started";
-  const canRespond = isLive && permissions?.pollRead && !localPeerResponse;
+  const canRespond = isLive && !localPeerResponse;
 
   const isCorrectAnswer = checkCorrectAnswer(answer, localPeerResponse, type);
 
@@ -219,6 +226,7 @@ export const QuestionCard = ({
           options={options}
           setAnswer={setSingleOptionAnswer}
           totalResponses={result?.totalResponses}
+          showVoteCount={showVoteCount}
         />
       ) : null}
 
@@ -233,6 +241,7 @@ export const QuestionCard = ({
           selectedOptions={multipleOptionAnswer}
           setSelectedOptions={setMultipleOptionAnswer}
           totalResponses={result?.totalResponses}
+          showVoteCount={showVoteCount}
         />
       ) : null}
 

@@ -23,7 +23,9 @@ export function CreateQuestions() {
   const interaction = useHMSStore(selectPollByID(id));
 
   const isValidPoll = useMemo(
-    () => questions.every(question => isValidQuestion(question)),
+    () =>
+      questions.length > 0 &&
+      questions.every(question => isValidQuestion(question)),
     [questions]
   );
 

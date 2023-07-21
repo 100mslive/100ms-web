@@ -28,6 +28,7 @@ export const TimedView = ({ poll }) => {
       responses={activeQuestion.responses}
       answer={activeQuestion.answer}
       setCurrentIndex={setCurrentIndex}
+      rolesThatCanViewResponses={poll.rolesThatCanViewResponses}
       isTimed
     />
   );

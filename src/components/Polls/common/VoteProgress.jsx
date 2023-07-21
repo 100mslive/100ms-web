@@ -1,8 +1,7 @@
 import { Progress } from "@100mslive/roomkit-react";
 
-export const VoteProgress = ({ response, option, totalResponses }) => {
+export const VoteProgress = ({ option, totalResponses }) => {
   const showProgress =
-    response &&
     typeof option.voteCount === "number" &&
     typeof totalResponses === "number" &&
     totalResponses > 0;

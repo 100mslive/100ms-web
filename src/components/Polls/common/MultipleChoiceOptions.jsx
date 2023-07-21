@@ -15,6 +15,7 @@ export const MultipleChoiceOptions = ({
   totalResponses,
   selectedOptions,
   setSelectedOptions,
+  showVoteCount,
 }) => {
   const handleCheckedChange = (checked, index) => {
     const newSelected = new Set(selectedOptions);
@@ -55,13 +56,13 @@ export const MultipleChoiceOptions = ({
             </Checkbox.Root>
 
             <Flex direction="column" css={{ flexGrow: "1" }}>
-              <Flex css={{ w: "100%", mb: canRespond ? "0" : "$4" }}>
+              <Flex css={{ w: "100%" }}>
                 <Text css={{ display: "flex", flexGrow: "1" }}>
                   <Label htmlFor={`${questionIndex}-${option.index}`}>
                     {option.text}
                   </Label>
                 </Text>
-                {response && (
+                {showVoteCount && (
                   <VoteCount
                     isQuiz={isQuiz}
                     isCorrectAnswer={isCorrectAnswer}
@@ -69,11 +70,9 @@ export const MultipleChoiceOptions = ({
                   />
                 )}
               </Flex>
-              <VoteProgress
-                response={response}
-                option={option}
-                totalResponses={totalResponses}
-              />
+              {showVoteCount && (
+                <VoteProgress option={option} totalResponses={totalResponses} />
+              )}
             </Flex>
           </Flex>
         );
