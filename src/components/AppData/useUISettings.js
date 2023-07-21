@@ -1,19 +1,27 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   selectAppData,
   selectAppDataByPath,
+  selectIsAllowedToPublish,
+  selectLocalPeerRoleName,
+  selectPermissions,
+  selectPolls,
   selectSessionStore,
   selectTrackByID,
   useHMSActions,
   useHMSStore,
   useHMSVanillaStore,
 } from "@100mslive/react-sdk";
+import { useWhiteboardMetadata } from "../../plugins/whiteboard/useWhiteboardMetadata";
+import { useIsFeatureEnabled } from "../hooks/useFeatures";
 import {
   UserPreferencesKeys,
   useUserPreferences,
 } from "../hooks/useUserPreferences";
+import { isScreenshareSupported } from "../../common/utils";
 import {
   APP_DATA,
+  FEATURE_LIST,
   SESSION_STORE_KEY,
   UI_SETTINGS,
   WIDGET_STATE,
@@ -205,5 +213,62 @@ export const useWidgetState = () => {
     setWidgetView,
     pollInView: widgetState?.pollInView,
     widgetView: widgetState?.view,
+  };
+};
+export const useShowWhiteboard = () => {
+  const { whiteboardEnabled } = useWhiteboardMetadata();
+  const hlsViewerRole = useHLSViewerRole();
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+  const isWhiteboardFeatureEnabled = useIsFeatureEnabled(
+    FEATURE_LIST.WHITEBOARD
+  );
+  const showWhiteboard = useMemo(() => {
+    return !(
+      !whiteboardEnabled ||
+      hlsViewerRole === localPeerRole ||
+      !isWhiteboardFeatureEnabled
+    );
+  }, [
+    hlsViewerRole,
+    isWhiteboardFeatureEnabled,
+    localPeerRole,
+    whiteboardEnabled,
+  ]);
+  return {
+    showWhiteboard: showWhiteboard,
+  };
+};
+export const useShowAudioShare = () => {
+  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
+  const isAudioShareFeatureEnabled = useIsFeatureEnabled(
+    FEATURE_LIST.AUDIO_ONLY_SCREENSHARE
+  );
+
+  const showAudioShare = useMemo(() => {
+    return !(
+      !isAudioShareFeatureEnabled ||
+      !isAllowedToPublish.screen ||
+      !isScreenshareSupported()
+    );
+  }, [isAllowedToPublish.screen, isAudioShareFeatureEnabled]);
+
+  return {
+    showAudioShare: showAudioShare,
+  };
+};
+export const useShowPolls = () => {
+  const permissions = useHMSStore(selectPermissions);
+  const polls = useHMSStore(selectPolls)?.filter(
+    poll => poll.state === "started" || poll.state === "stopped"
+  );
+
+  const showPolls = useMemo(() => {
+    return (
+      permissions?.pollWrite || (permissions?.pollRead && polls?.length > 0)
+    );
+  }, [permissions?.pollRead, permissions?.pollWrite, polls?.length]);
+
+  return {
+    showPolls: showPolls,
   };
 };

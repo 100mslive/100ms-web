@@ -1,26 +1,17 @@
-import { selectLocalPeerRoleName, useHMSStore } from "@100mslive/react-sdk";
 import { WidgetCard } from "../../components/Footer/WidgetCard";
-import { useHLSViewerRole } from "../../components/AppData/useUISettings";
-import { useIsFeatureEnabled } from "../../components/hooks/useFeatures";
+import { useShowWhiteboard } from "../../components/AppData/useUISettings";
 import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
-import { FEATURE_LIST } from "../../common/constants";
 
 export const ToggleWhiteboard = () => {
   const {
-    whiteboardEnabled,
     whiteboardOwner: whiteboardActive,
     amIWhiteboardOwner,
     toggleWhiteboard,
   } = useWhiteboardMetadata();
-  const hlsViewerRole = useHLSViewerRole();
-  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
-  const isFeatureEnabled = useIsFeatureEnabled(FEATURE_LIST.WHITEBOARD);
 
-  if (
-    !whiteboardEnabled ||
-    localPeerRole === hlsViewerRole ||
-    !isFeatureEnabled
-  ) {
+  const { showWhiteboard } = useShowWhiteboard();
+
+  if (!showWhiteboard) {
     return null;
   }
 

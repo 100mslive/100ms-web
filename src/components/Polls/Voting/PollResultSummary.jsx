@@ -85,7 +85,7 @@ export const PollResultSummary = ({
         <PollStat label="Peers who didn't answer" value={noAnswers} />
         <PollStat
           label="Participation Percentage"
-          value={participationPercentage + "%"}
+          value={participationPercentage.toFixed(2) + "%"}
         />
       </>
     );
@@ -102,7 +102,7 @@ export const PollResultSummary = ({
         <PollStat label="Peers who didn't answer" value={noAnswers} />
         <PollStat
           label="Participation Percentage"
-          value={participationPercentage + "%"}
+          value={participationPercentage.toFixed(2) + "%"}
         />
       </>
     );

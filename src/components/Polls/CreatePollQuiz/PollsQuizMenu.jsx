@@ -1,5 +1,5 @@
 // @ts-check
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   selectPermissions,
   selectPolls,
@@ -81,6 +81,7 @@ const AddMenu = () => {
   const [title, setTitle] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [error, setError] = useState();
+  const [titleError, setTitleError] = useState("");
   const { setWidgetState } = useWidgetState();
   const [interactionType, setInteractionType] = useState(INTERACTION_TYPE.POLL);
 
@@ -90,6 +91,18 @@ const AddMenu = () => {
       [WIDGET_STATE.view]: WIDGET_VIEWS.CREATE_QUESTIONS,
     });
   };
+
+  const validateTitle = useMemo(() => {
+    if (!isValidTextInput(title)) {
+      if (title) {
+        setTitleError("Title of Poll/Quiz need to between 2-100 characters");
+      }
+      return true;
+    } else {
+      setTitleError("");
+      return false;
+    }
+  }, [title]);
   // const [timer, setTimer] = useState(10);
   // const [showTimerDropDown, setShowTimerDropDown] = useState(false);
 
@@ -146,7 +159,7 @@ const AddMenu = () => {
 
         <Button
           variant="primary"
-          disabled={!isValidTextInput(title)}
+          disabled={validateTitle}
           css={{ mt: "$10" }}
           onClick={async () => {
             const id = Date.now().toString();
@@ -164,7 +177,7 @@ const AddMenu = () => {
         >
           Create {interactionType}
         </Button>
-        <ErrorText error={error} />
+        <ErrorText error={error || titleError} />
       </Flex>
     </>
   );

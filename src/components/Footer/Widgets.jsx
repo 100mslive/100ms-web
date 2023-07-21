@@ -1,10 +1,5 @@
 // @ts-check
 import React from "react";
-import {
-  selectPermissions,
-  selectPolls,
-  useHMSStore,
-} from "@100mslive/react-sdk";
 import { QuizIcon } from "@100mslive/react-icons";
 import { Flex, Text } from "@100mslive/roomkit-react";
 import { PollsQuizMenu } from "../Polls/CreatePollQuiz/PollsQuizMenu";
@@ -14,29 +9,32 @@ import { Container, ContentHeader } from "../Streaming/Common";
 import { ScreenshareAudio } from "./ScreenshareAudio";
 import { ToggleWhiteboard } from "../../plugins/whiteboard/ToggleWhiteboard";
 import { useWidgetToggle } from "../AppData/useSidepane";
-import { useWidgetState } from "../AppData/useUISettings";
+import {
+  useShowAudioShare,
+  useShowPolls,
+  useShowWhiteboard,
+  useWidgetState,
+} from "../AppData/useUISettings";
 import { WIDGET_STATE, WIDGET_VIEWS } from "../../common/constants";
 
 export const Widgets = () => {
   const toggleWidget = useWidgetToggle();
   const { pollInView: pollID, widgetView, setWidgetState } = useWidgetState();
-  const permissions = useHMSStore(selectPermissions);
-  const polls = useHMSStore(selectPolls)?.filter(
-    poll => poll.state === "started" || poll.state === "stopped"
-  );
-
-  const showPolls =
-    permissions?.pollWrite || (permissions?.pollRead && polls?.length > 0);
+  const { showPolls } = useShowPolls();
+  const { showWhiteboard } = useShowWhiteboard();
+  const { showAudioShare } = useShowAudioShare();
 
   return (
     <Container rounded>
       <ContentHeader content="Widgets" onClose={toggleWidget} />
       {widgetView === WIDGET_VIEWS.LANDING && (
         <Flex direction="column" css={{ p: "$10" }}>
-          <Flex css={{ gap: "$10", mb: "$12" }}>
-            <ScreenshareAudio />
-            <ToggleWhiteboard />
-          </Flex>
+          {(showWhiteboard || showAudioShare) && (
+            <Flex css={{ gap: "$10", mb: "$12" }}>
+              <ScreenshareAudio />
+              <ToggleWhiteboard />
+            </Flex>
+          )}
 
           {showPolls && (
             <Flex direction="column" css={{ py: "$12" }}>

@@ -1,14 +1,8 @@
 import React, { Fragment, useState } from "react";
-import {
-  selectIsAllowedToPublish,
-  useHMSStore,
-  useScreenShare,
-} from "@100mslive/react-sdk";
+import { useScreenShare } from "@100mslive/react-sdk";
 import { ScreenShareHintModal } from "../ScreenshareHintModal";
 import { WidgetCard } from "./WidgetCard";
-import { useIsFeatureEnabled } from "../hooks/useFeatures";
-import { isScreenshareSupported } from "../../common/utils";
-import { FEATURE_LIST } from "../../common/constants";
+import { useShowAudioShare } from "../AppData/useUISettings";
 
 export const ScreenshareAudio = () => {
   const {
@@ -17,17 +11,11 @@ export const ScreenshareAudio = () => {
     screenShareAudioTrackId: audio,
     toggleScreenShare,
   } = useScreenShare();
-  const isAllowedToPublish = useHMSStore(selectIsAllowedToPublish);
   const isAudioScreenshare = amIScreenSharing && !video && !!audio;
   const [showModal, setShowModal] = useState(false);
-  const isFeatureEnabled = useIsFeatureEnabled(
-    FEATURE_LIST.AUDIO_ONLY_SCREENSHARE
-  );
-  if (
-    !isFeatureEnabled ||
-    !isAllowedToPublish.screen ||
-    !isScreenshareSupported()
-  ) {
+  const { showAudioShare } = useShowAudioShare();
+
+  if (!showAudioShare) {
     return null;
   }
   return (
