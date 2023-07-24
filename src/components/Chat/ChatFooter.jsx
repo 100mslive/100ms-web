@@ -16,6 +16,7 @@ import { useEmojiPickerStyles } from "./useEmojiPickerStyles";
 
 const TextArea = styled("textarea", {
   width: "100%",
+  fontFamily: "$sans",
   bg: "transparent",
   color: "$textPrimary",
   resize: "none",
