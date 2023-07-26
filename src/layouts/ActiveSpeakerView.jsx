@@ -4,7 +4,7 @@ import {
   selectPeers,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Box, Flex } from "@100mslive/react-ui";
+import { Box, Flex } from "@100mslive/roomkit-react";
 import { GridSidePaneView } from "../components/gridView";
 import VideoTile from "../components/VideoTile";
 

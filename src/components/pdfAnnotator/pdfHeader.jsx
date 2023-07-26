@@ -1,5 +1,5 @@
 import { CrossIcon } from "@100mslive/react-icons";
-import { Dialog, Flex, Text } from "@100mslive/react-ui";
+import { Dialog, Flex, Text } from "@100mslive/roomkit-react";
 import { DialogCol } from "../../primitives/DialogContent";
 
 export const PDFHeader = ({ onOpenChange, title = "", subtitle = "" }) => {

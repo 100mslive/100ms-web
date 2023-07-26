@@ -16,7 +16,7 @@ import {
   HorizontalDivider,
   Text,
   Tooltip,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { ParticipantSearch } from "../Header/ParticipantList";
 import { useFilteredRoles } from "../../common/hooks";
 

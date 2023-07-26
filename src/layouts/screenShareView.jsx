@@ -9,7 +9,7 @@ import {
   selectScreenShareByPeerID,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Box, config as cssConfig, Flex } from "@100mslive/react-ui";
+import { Box, config as cssConfig, Flex } from "@100mslive/roomkit-react";
 import { VideoPlayer } from "../components/Playlist/VideoPlayer";
 import { ScreenshareDisplay } from "../components/ScreenshareDisplay";
 import ScreenshareTile from "../components/ScreenshareTile";

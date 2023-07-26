@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useScreenShare } from "@100mslive/react-sdk";
 import { ViewIcon } from "@100mslive/react-icons";
-import { Button, Dialog, Dropdown, Text } from "@100mslive/react-ui";
+import { Button, Dialog, Dropdown, Text } from "@100mslive/roomkit-react";
 import {
   DialogContent,
   DialogInput,

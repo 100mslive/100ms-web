@@ -1,4 +1,4 @@
-import { Flex, IconButton, Tooltip } from "@100mslive/react-ui";
+import { Flex, IconButton, Tooltip } from "@100mslive/roomkit-react";
 
 export const FullScreenButton = ({ isFullScreen, icon, onToggle }) => {
   return (

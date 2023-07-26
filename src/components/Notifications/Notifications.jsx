@@ -3,9 +3,11 @@ import React, { useEffect } from "react";
 import { logMessage } from "zipyai";
 import {
   HMSNotificationTypes,
+  selectLocalPeerID,
   useHMSNotifications,
+  useHMSStore,
 } from "@100mslive/react-sdk";
-import { Button } from "@100mslive/react-ui";
+import { Button } from "@100mslive/roomkit-react";
 import { ToastBatcher } from "../Toast/ToastBatcher";
 import { ToastManager } from "../Toast/ToastManager";
 import { AutoplayBlockedModal } from "./AutoplayBlockedModal";
@@ -17,6 +19,7 @@ import { ReconnectNotifications } from "./ReconnectNotifications";
 import { TrackBulkUnmuteModal } from "./TrackBulkUnmuteModal";
 import { TrackNotifications } from "./TrackNotifications";
 import { TrackUnmuteModal } from "./TrackUnmuteModal";
+import { useWidgetToggle } from "../AppData/useSidepane";
 import {
   useHLSViewerRole,
   useIsHeadless,
@@ -26,11 +29,13 @@ import { useNavigation } from "../hooks/useNavigation";
 import { getMetadata } from "../../common/utils";
 
 export function Notifications() {
+  const localPeerID = useHMSStore(selectLocalPeerID);
   const notification = useHMSNotifications();
   const navigate = useNavigation();
   const HLS_VIEWER_ROLE = useHLSViewerRole();
   const subscribedNotifications = useSubscribedNotifications() || {};
   const isHeadless = useIsHeadless();
+  const toggleWidget = useWidgetToggle();
 
   useEffect(() => {
     if (!notification) {
@@ -156,6 +161,28 @@ export function Notifications() {
         ToastManager.addToast({
           title: notification.message,
         });
+        break;
+
+      case HMSNotificationTypes.POLL_STARTED:
+        if (notification.data.startedBy !== localPeerID) {
+          ToastManager.addToast({
+            title: `A poll was started: ${notification.data.title}`,
+            action: (
+              <Button
+                onClick={() => toggleWidget(notification.data.id)}
+                variant="standard"
+                css={{
+                  backgroundColor: "$surfaceLight",
+                  fontWeight: "$semiBold",
+                  color: "$textHighEmp",
+                  p: "$xs $md",
+                }}
+              >
+                Vote
+              </Button>
+            ),
+          });
+        }
         break;
       default:
         break;

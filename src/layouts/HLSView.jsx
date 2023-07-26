@@ -21,7 +21,7 @@ import {
   Text,
   Tooltip,
   useTheme,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { HlsStatsOverlay } from "../components/HlsStatsOverlay";
 import { HMSVideoPlayer } from "../components/HMSVideo";
 import { FullScreenButton } from "../components/HMSVideo/FullscreenButton";

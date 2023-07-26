@@ -9,7 +9,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { VirtualBackgroundIcon } from "@100mslive/react-icons";
-import { Loading, Tooltip } from "@100mslive/react-ui";
+import { Loading, Tooltip } from "@100mslive/roomkit-react";
 import IconButton from "../../IconButton";
 import { useIsFeatureEnabled } from "../../components/hooks/useFeatures";
 import { getRandomVirtualBackground } from "./vbutils";

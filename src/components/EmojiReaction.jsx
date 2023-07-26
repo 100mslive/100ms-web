@@ -19,7 +19,7 @@ import {
   styled,
   Text,
   Tooltip,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import IconButton from "../IconButton";
 import { useHLSViewerRole } from "./AppData/useUISettings";
 import { useDropdownList } from "./hooks/useDropdownList";

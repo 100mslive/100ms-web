@@ -1,4 +1,4 @@
-import { css } from "@100mslive/react-ui";
+import { css } from "@100mslive/roomkit-react";
 export const settingOverflow = css({
   flex: "1 1 0",
   pr: "$12",

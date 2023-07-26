@@ -1,5 +1,5 @@
 import React from "react";
-import { Toast as ToastPrimitive } from "@100mslive/react-ui";
+import { Toast as ToastPrimitive } from "@100mslive/roomkit-react";
 
 export const Toast = ({
   title,

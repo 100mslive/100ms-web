@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "@100mslive/react-ui";
+import { Text } from "@100mslive/roomkit-react";
 import { ErrorDialog } from "../../primitives/DialogContent";
 
 export const InitErrorModal = ({ notification }) => {

@@ -5,7 +5,7 @@ import {
   selectVideoTrackByPeerID,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Flex, useTheme } from "@100mslive/react-ui";
+import { Flex, useTheme } from "@100mslive/roomkit-react";
 import { GridSidePaneView } from "../components/gridView";
 import VideoTile from "../components/VideoTile";
 import { usePinnedTrack } from "../components/AppData/useUISettings";

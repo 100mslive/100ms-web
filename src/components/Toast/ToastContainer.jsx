@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { selectIsConnectedToRoom, useHMSStore } from "@100mslive/react-sdk";
-import { Toast as ToastPrimitive } from "@100mslive/react-ui";
+import { Toast as ToastPrimitive } from "@100mslive/roomkit-react";
 import { Toast } from "./Toast";
 import { ToastManager } from "./ToastManager";
 import { MAX_TOASTS } from "../../common/constants";

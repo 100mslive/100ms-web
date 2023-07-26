@@ -3,13 +3,20 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useHMSActions } from "@100mslive/react-sdk";
 import { EmojiIcon, SendIcon } from "@100mslive/react-icons";
-import { Box, Flex, IconButton, Popover, styled } from "@100mslive/react-ui";
+import {
+  Box,
+  Flex,
+  IconButton,
+  Popover,
+  styled,
+} from "@100mslive/roomkit-react";
 import { ToastManager } from "../Toast/ToastManager";
 import { useChatDraftMessage } from "../AppData/useChatState";
 import { useEmojiPickerStyles } from "./useEmojiPickerStyles";
 
 const TextArea = styled("textarea", {
   width: "100%",
+  fontFamily: "$sans",
   bg: "transparent",
   color: "$textPrimary",
   resize: "none",

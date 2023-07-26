@@ -8,7 +8,7 @@ import {
   selectRolesMap,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Box, config as cssConfig, Flex } from "@100mslive/react-ui";
+import { Box, config as cssConfig, Flex } from "@100mslive/roomkit-react";
 import { FirstPersonDisplay } from "../components/FirstPersonDisplay";
 import VideoTile from "../components/VideoTile";
 import { useRolePreference } from "../components/hooks/useFeatures";

@@ -5,7 +5,7 @@ import {
   useScreenShare,
 } from "@100mslive/react-sdk";
 import { ShareScreenIcon } from "@100mslive/react-icons";
-import { Box, Flex, styled, Tooltip } from "@100mslive/react-ui";
+import { Box, Flex, styled, Tooltip } from "@100mslive/roomkit-react";
 import { ShareScreenOptions } from "./pdfAnnotator/shareScreenOptions";
 import IconButton from "../IconButton";
 import {

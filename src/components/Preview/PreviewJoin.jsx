@@ -20,7 +20,7 @@ import {
   useBorderAudioLevel,
   useTheme,
   Video,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import IconButton from "../../IconButton";
 import { AudioVideoToggle } from "../AudioVideoToggle";
 import TileConnection from "../Connection/TileConnection";

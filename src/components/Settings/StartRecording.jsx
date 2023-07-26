@@ -7,7 +7,7 @@ import {
   useRecordingStreaming,
 } from "@100mslive/react-sdk";
 import { AlertTriangleIcon } from "@100mslive/react-icons";
-import { Button, Dialog, Flex, Text } from "@100mslive/react-ui";
+import { Button, Dialog, Flex, Text } from "@100mslive/roomkit-react";
 import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { getResolution } from "../Streaming/RTMPStreaming";
 import { ToastManager } from "../Toast/ToastManager";

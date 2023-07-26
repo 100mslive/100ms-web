@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Dialog, Text } from "@100mslive/react-ui";
+import { Button, Dialog, Text } from "@100mslive/roomkit-react";
 import { DialogContent, DialogRow } from "../../primitives/DialogContent";
 
 export function HLSAutoplayBlockedPrompt({ open, unblockAutoPlay }) {

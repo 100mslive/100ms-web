@@ -12,7 +12,7 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Box, HMSThemeProvider } from "@100mslive/react-ui";
+import { Box, globalStyles, HMSThemeProvider } from "@100mslive/roomkit-react";
 import { AppData } from "./components/AppData/AppData.jsx";
 import { BeamSpeakerLabelsLogging } from "./components/AudioLevel/BeamSpeakerLabelsLogging";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -29,8 +29,6 @@ import { FlyingEmoji } from "./plugins/FlyingEmoji.jsx";
 import { RemoteStopScreenshare } from "./plugins/RemoteStopScreenshare";
 import { getRoutePrefix, shadeColor } from "./common/utils";
 import { FeatureFlags } from "./services/FeatureFlags";
-import "./base.css";
-import "./index.css";
 
 const Conference = React.lazy(() => import("./components/conference"));
 const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
@@ -79,6 +77,8 @@ export function EdtechComponent({
     .split("-")
     .map(el => parseInt(el));
 
+  globalStyles();
+
   return (
     <ErrorBoundary>
       <HMSThemeProvider
@@ -116,6 +116,8 @@ export function EdtechComponent({
             css={{
               bg: "$mainBg",
               w: "100%",
+              lineHeight: "1.5",
+              "-webkit-text-size-adjust": "100%",
               ...(headerPresent === "true"
                 ? { flex: "1 1 0", minHeight: 0 }
                 : { h: "100%" }),

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   selectLocalPeerID,
   selectPeerMetadata,
@@ -15,6 +15,14 @@ export const useMyMetadata = () => {
   );
   const [isBRBOn, setBRBOn] = useState(metaData?.isBRBOn || false); // BRB = be right back
 
+  useEffect(() => {
+    if (metaData?.isHandRaised !== isHandRaised) {
+      setHandRaised(metaData?.isHandRaised || false);
+    }
+    if (metaData?.isBRBOn !== isBRBOn) {
+      setBRBOn(metaData?.isBRBOn || false);
+    }
+  }, [isBRBOn, isHandRaised, metaData]);
   const update = async updatedFields => {
     try {
       await hmsActions.changeMetadata(Object.assign(metaData, updatedFields));

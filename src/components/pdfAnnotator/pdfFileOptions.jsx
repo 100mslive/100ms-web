@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Dialog, Flex, Input, Text } from "@100mslive/react-ui";
+import { Box, Dialog, Flex, Input, Text } from "@100mslive/roomkit-react";
 import { DialogInputFile } from "../../primitives/DialogContent";
 import Tabs from "../Tabs";
 import { PdfErrorView } from "./pdfErrorView";

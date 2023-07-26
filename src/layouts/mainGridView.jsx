@@ -7,7 +7,7 @@ import {
   selectRolesMap,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Flex } from "@100mslive/react-ui";
+import { Flex } from "@100mslive/roomkit-react";
 import { GridCenterView, GridSidePaneView } from "../components/gridView";
 import { NonPublisherView } from "./NonPublisherView";
 import { useAppLayout } from "../components/AppData/useAppLayout";

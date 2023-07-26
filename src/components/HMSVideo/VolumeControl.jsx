@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SpeakerIcon } from "@100mslive/react-icons";
-import { Flex, Slider } from "@100mslive/react-ui";
+import { Flex, Slider } from "@100mslive/roomkit-react";
 
 export const VolumeControl = ({ hlsPlayer }) => {
   const [volume, setVolume] = useState(hlsPlayer?.volume ?? 100);
