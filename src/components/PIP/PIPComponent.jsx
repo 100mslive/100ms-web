@@ -28,15 +28,15 @@ const PIPComponent = ({ peers, showLocalPeer }) => {
   const isFeatureEnabled = useIsFeatureEnabled(FEATURE_LIST.PICTURE_IN_PICTURE);
 
   const onPipToggle = useCallback(() => {
-    if (!isPipOn) {
+    if (isPipOn) {
+      PictureInPicture.stop().catch(err =>
+        console.error("error in stopping pip", err)
+      );
+    } else {
       PictureInPicture.start(hmsActions, setIsPipOn).catch(err =>
         console.error("error in starting pip", err)
       );
       MediaSession.setup(hmsActions, store);
-    } else {
-      PictureInPicture.stop().catch(err =>
-        console.error("error in stopping pip", err)
-      );
     }
   }, [hmsActions, isPipOn, store]);
 
