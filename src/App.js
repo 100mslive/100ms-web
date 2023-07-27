@@ -43,7 +43,8 @@ if (window.location.host.includes("localhost")) {
   appName = window.location.host.split(".")[0];
 }
 
-document.title = `${appName}'s ${document.title}`;
+document.title =
+  process.env.REACT_APP_TITLE || `${appName}'s ${document.title}`;
 
 // TODO: remove now that there are options to change to portrait
 const getAspectRatio = ({ width, height }) => {
