@@ -68,7 +68,6 @@ export function EdtechComponent({
     logo = "",
     headerPresent = "false",
     metadata = "",
-    recordingUrl = "",
   },
   policyConfig = envPolicyConfig,
   getDetails = () => {},
@@ -107,7 +106,6 @@ export function EdtechComponent({
           <AppData
             appDetails={metadata}
             policyConfig={policyConfig}
-            recordingUrl={recordingUrl}
             logo={logo}
             tokenEndpoint={tokenEndpoint}
           />

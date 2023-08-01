@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  selectAppData,
-  useHMSActions,
-  useHMSStore,
-  useRecordingStreaming,
-} from "@100mslive/react-sdk";
+import { useHMSActions, useRecordingStreaming } from "@100mslive/react-sdk";
 import {
   AddCircleIcon,
   EndStreamIcon,
@@ -77,7 +72,6 @@ const StartRTMP = () => {
         ]
   );
   const hmsActions = useHMSActions();
-  const recordingUrl = useHMSStore(selectAppData(APP_DATA.recordingUrl));
   const [error, setError] = useState(false);
   const [record, setRecord] = useState(false);
   const [resolution, setResolution] = useState(RTMP_RECORD_DEFAULT_RESOLUTION);
@@ -196,7 +190,6 @@ const StartRTMP = () => {
                 : [];
               await hmsActions.startRTMPOrRecording({
                 rtmpURLs: urls,
-                meetingURL: recordingUrl,
                 resolution: getResolution(resolution),
                 record: record,
               });
