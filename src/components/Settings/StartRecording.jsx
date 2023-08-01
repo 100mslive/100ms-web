@@ -41,14 +41,14 @@ const StartRecording = ({ open, onOpenChange }) => {
             }}
           >
             <Dialog.Title>
-              <Flex gap={2} css={{ c: "$error" }}>
+              <Flex gap={2} css={{ c: "$alert_error_default" }}>
                 <AlertTriangleIcon />
                 <Text css={{ c: "inherit" }} variant="h6">
                   End Recording
                 </Text>
               </Flex>
             </Dialog.Title>
-            <Text variant="sm" css={{ c: "$textMedEmp", my: "$8" }}>
+            <Text variant="sm" css={{ c: "$on_surface_medium", my: "$8" }}>
               Are you sure you want to end recording? You can’t undo this
               action.
             </Text>
@@ -56,7 +56,7 @@ const StartRecording = ({ open, onOpenChange }) => {
               <Dialog.Close asChild>
                 <Button
                   outlined
-                  css={{ borderColor: "$secondaryLight", mr: "$4" }}
+                  css={{ borderColor: "$secondary_bright", mr: "$4" }}
                 >
                   Don't end
                 </Button>

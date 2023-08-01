@@ -6,9 +6,9 @@ import {
 } from "@100mslive/react-sdk";
 import { ColoredHandIcon, CrossIcon, GoLiveIcon } from "@100mslive/react-icons";
 import { Box, Flex, IconButton, Text } from "@100mslive/roomkit-react";
+import RTMPIcon from "../../images/rtmp.png";
 import { StreamCard } from "./Common";
 import { HLSStreaming } from "./HLSStreaming";
-import { RTMPIcon } from "./RTMPIcon";
 import { RTMPStreaming } from "./RTMPStreaming";
 import { useSidepaneToggle } from "../AppData/useSidepane";
 import { SIDE_PANE_OPTIONS } from "../../common/constants";
@@ -32,7 +32,7 @@ export const StreamingLanding = () => {
           css={{
             alignSelf: "center",
             p: "$4",
-            bg: "$surfaceLight",
+            bg: "$surface_bright",
             r: "$round",
           }}
         >
@@ -50,7 +50,7 @@ export const StreamingLanding = () => {
           <CrossIcon />
         </IconButton>
       </Flex>
-      <Text variant="tiny" color="$textMedEmp">
+      <Text variant="tiny" color="$on_surface_medium">
         Start Streaming
       </Text>
       {permissions?.hlsStreaming && (
@@ -72,7 +72,7 @@ export const StreamingLanding = () => {
           onClick={() => {
             setShowRTMP(true);
           }}
-          Icon={RTMPIcon}
+          imgSrc={RTMPIcon}
         />
       )}
       {showHLS && <HLSStreaming onBack={() => setShowHLS(false)} />}

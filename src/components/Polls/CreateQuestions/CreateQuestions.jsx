@@ -92,10 +92,10 @@ export function CreateQuestions() {
         </Flex>
         <Flex
           css={{
-            c: "$textDisabled",
+            c: "$on_surface_low",
             my: "$sm",
             cursor: "pointer",
-            "&:hover": { c: "$textMedEmp" },
+            "&:hover": { c: "$on_surface_medium" },
           }}
           onClick={() => setQuestions([...questions, { draftID: uuid() }])}
         >
@@ -126,7 +126,7 @@ const QuestionCard = ({
   return (
     <Flex
       direction="column"
-      css={{ p: "$md", bg: "$surfaceLight", r: "$1", mb: "$sm" }}
+      css={{ p: "$md", bg: "$surface_bright", r: "$1", mb: "$sm" }}
     >
       {question.saved ? (
         <SavedQuestion

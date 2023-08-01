@@ -46,7 +46,7 @@ export const QuestionForm = ({
     <>
       <Text
         variant="overline"
-        css={{ c: "$textDisabled", textTransform: "uppercase" }}
+        css={{ c: "$on_surface_low", textTransform: "uppercase" }}
       >
         Question {index + 1} of {length}
       </Text>
@@ -92,10 +92,10 @@ export const QuestionForm = ({
       {type === QUESTION_TYPE.SINGLE_CHOICE ||
       type === QUESTION_TYPE.MULTIPLE_CHOICE ? (
         <>
-          <Text variant="body2" css={{ my: "$md", c: "$textMedEmp" }}>
+          <Text variant="body2" css={{ my: "$md", c: "$on_surface_medium" }}>
             Options{" "}
             {isQuiz && (
-              <Text variant="xs" css={{ c: "$textMedEmp" }}>
+              <Text variant="xs" css={{ c: "$on_surface_medium" }}>
                 (Use checkboxes to indicate correct answers)
               </Text>
             )}
@@ -117,9 +117,9 @@ export const QuestionForm = ({
           {options?.length < 20 && (
             <Flex
               css={{
-                c: "$textMedEmp",
+                c: "$on_surface_medium",
                 cursor: "pointer",
-                "&:hover": { c: "$textHighEmp" },
+                "&:hover": { c: "$on_surface_high" },
               }}
               onClick={() =>
                 setOptions([...options, { text: "", isCorrectAnswer: false }])
@@ -154,9 +154,9 @@ export const QuestionForm = ({
       <Flex justify="between" align="center" css={{ mt: "$12" }}>
         <Box
           css={{
-            color: "$textMedEmp",
+            color: "$on_surface_medium",
             cursor: "pointer",
-            "&:hover": { color: "$textHighEmp" },
+            "&:hover": { color: "$on_surface_high" },
           }}
         >
           <TrashIcon onClick={() => setOpenDelete(!open)} />
@@ -191,7 +191,7 @@ export const QuestionForm = ({
         title="Delete question?"
         css={{ w: "$80", p: "$10", backgroundColor: "#201617" }}
       >
-        <Text variant="sm" css={{ color: "$textMedEmp" }}>
+        <Text variant="sm" css={{ color: "$on_surface_medium" }}>
           Are you sure you want to delete this question? This action cannot be
           undone.
         </Text>

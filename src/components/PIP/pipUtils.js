@@ -5,12 +5,12 @@ function setPIPCanvasColors() {
   if (!CANVAS_FILL_COLOR) {
     CANVAS_FILL_COLOR = window
       .getComputedStyle(document.documentElement)
-      .getPropertyValue("--hms-ui-colors-surfaceLight");
+      .getPropertyValue("--hms-ui-colors-surface_bright");
   }
   if (!CANVAS_STROKE_COLOR) {
     CANVAS_STROKE_COLOR = window
       .getComputedStyle(document.documentElement)
-      .getPropertyValue("--hms-ui-colors-borderLight");
+      .getPropertyValue("--hms-ui-colors-border_bright");
   }
 }
 

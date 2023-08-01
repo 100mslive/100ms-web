@@ -15,6 +15,7 @@ export const FullScreenItem = () => {
 
   return (
     <Dropdown.Item
+      css={{ "&:hover": { backgroundColor: "$surface_bright" } }}
       onClick={() => {
         toggleFullscreen();
       }}

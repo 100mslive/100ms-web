@@ -103,7 +103,7 @@ const StartRTMP = () => {
                   value={rtmp.id}
                   key={rtmp.id}
                   css={{
-                    border: "2px solid $surfaceLight !important",
+                    border: "2px solid $surface_bright !important",
                     r: "$1",
                     my: "$4",
                   }}
@@ -265,7 +265,7 @@ const FormLabel = ({ id, children }) => {
   return (
     <Label
       htmlFor={id}
-      css={{ color: "$textHighEmp", my: "$4", fontSize: "$sm" }}
+      css={{ color: "$on_surface_high", my: "$4", fontSize: "$sm" }}
     >
       {children}
     </Label>
@@ -326,7 +326,11 @@ const RTMPForm = ({ rtmpURL, id, streamKey, setRTMPStreams, testId }) => {
 
 const Asterik = () => {
   return (
-    <Text variant="sm" as="span" css={{ color: "$error", mx: "$2" }}>
+    <Text
+      variant="sm"
+      as="span"
+      css={{ color: "$alert_error_default", mx: "$2" }}
+    >
       *
     </Text>
   );

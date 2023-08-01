@@ -104,7 +104,7 @@ export const LeaveRoom = () => {
               asChild
               css={{
                 '&[data-state="open"]': {
-                  bg: "$errorDark",
+                  bg: "$alert_error_dim",
                 },
               }}
             >
@@ -117,28 +117,38 @@ export const LeaveRoom = () => {
             </Dropdown.Trigger>
             <Dropdown.Content css={{ p: 0 }} alignOffset={-50} sideOffset={10}>
               <Dropdown.Item
-                css={{ w: "100%", bg: "rgba(178, 71, 81, 0.1)" }}
+                css={{
+                  w: "100%",
+                  bg: "rgba(178, 71, 81, 0.1)",
+                  "&:hover": { backgroundColor: "$surface_bright" },
+                }}
                 onClick={() => {
                   setShowEndRoomModal(true);
                 }}
                 data-testid="end_room_btn"
               >
                 <Flex gap={4}>
-                  <Box css={{ color: "$error" }}>
+                  <Box css={{ color: "$alert_error_default" }}>
                     <AlertTriangleIcon />
                   </Box>
                   <Flex direction="column" align="start">
-                    <Text variant="lg" css={{ c: "$error" }}>
+                    <Text variant="lg" css={{ c: "$alert_error_default" }}>
                       End Room for All
                     </Text>
-                    <Text variant="sm" css={{ c: "$textMedEmp", mt: "$2" }}>
+                    <Text
+                      variant="sm"
+                      css={{ c: "$on_surface_medium", mt: "$2" }}
+                    >
                       Warning: You can’t undo this action
                     </Text>
                   </Flex>
                 </Flex>
               </Dropdown.Item>
               <Dropdown.Item
-                css={{ bg: "$surfaceDefault" }}
+                css={{
+                  bg: "$surface_default",
+                  "&:hover": { bg: "$surface_bright" },
+                }}
                 onClick={leaveRoom}
                 data-testid="just_leave_btn"
               >
@@ -150,7 +160,10 @@ export const LeaveRoom = () => {
                     <Text variant="lg">
                       Leave {isStreamKit ? "Studio" : "Room"}
                     </Text>
-                    <Text variant="sm" css={{ c: "$textMedEmp", mt: "$2" }}>
+                    <Text
+                      variant="sm"
+                      css={{ c: "$on_surface_medium", mt: "$2" }}
+                    >
                       You can always rejoin later
                     </Text>
                   </Flex>
@@ -212,16 +225,16 @@ export const LeaveRoom = () => {
 };
 
 const LeaveIconButton = styled(IconButton, {
-  color: "$white",
+  color: "$on_primary_high",
   h: "$14",
   px: "$8",
   r: "$1",
-  bg: "$error",
+  bg: "$alert_error_default",
   "&:not([disabled]):hover": {
-    bg: "$errorTint",
+    bg: "$alert_error_bright",
   },
   "&:not([disabled]):active": {
-    bg: "$errorTint",
+    bg: "$alert_error_bright",
   },
   "@md": {
     px: "$4",
@@ -230,7 +243,7 @@ const LeaveIconButton = styled(IconButton, {
 });
 
 const MenuTriggerButton = styled(LeaveIconButton, {
-  borderLeft: "1px solid $errorDark",
+  borderLeft: "1px solid $alert_error_dim",
   borderTopLeftRadius: 0,
   borderBottomLeftRadius: 0,
   px: "$3",

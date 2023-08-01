@@ -30,11 +30,15 @@ const SelectorItem = ({ value, active, onClick, unreadCount }) => {
   return (
     <Dropdown.Item
       data-testid="chat_members"
-      css={{ align: "center", px: "$10" }}
+      css={{
+        align: "center",
+        px: "$10",
+        "&:hover": { backgroundColor: "$surface_brighter" },
+      }}
       onClick={onClick}
     >
       <Text variant="sm">{value}</Text>
-      <Flex align="center" css={{ ml: "auto", color: "$textPrimary" }}>
+      <Flex align="center" css={{ ml: "auto", color: "$on_surface_high" }}>
         {unreadCount > 0 && (
           <Tooltip title={`${unreadCount} unread`}>
             <Box css={{ mr: active ? "$3" : 0 }}>

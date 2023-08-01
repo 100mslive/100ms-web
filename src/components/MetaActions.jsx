@@ -23,16 +23,14 @@ const MetaActions = ({ isMobile = false, compact = false }) => {
           <IconButton
             onClick={toggleHandRaise}
             active={!isHandRaised}
-            data-testid={`${
-              isMobile ? "raise_hand_btn_mobile" : "raise_hand_btn"
-            }`}
+            data-testid={isMobile ? "raise_hand_btn_mobile" : "raise_hand_btn"}
           >
             <HandIcon />
           </IconButton>
         </Tooltip>
       )}
       {isBRBEnabled && (
-        <Tooltip title={`${isBRBOn ? `I'm back` : `I'll be right back`}`}>
+        <Tooltip title={isBRBOn ? `I'm back` : `I'll be right back`}>
           <IconButton
             onClick={toggleBRB}
             active={!isBRBOn}

@@ -19,8 +19,8 @@ export const ScreenshareDisplay = () => {
         h: "100%",
         r: "$3",
         m: "0 auto",
-        color: "$textPrimary",
-        bg: "$surfaceDefault",
+        color: "$on_surface_high",
+        bg: "$surface_default",
         textAlign: "center",
       }}
     >

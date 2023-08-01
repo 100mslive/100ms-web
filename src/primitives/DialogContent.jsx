@@ -32,7 +32,7 @@ export const DialogContent = ({
           <Flex justify="between">
             <Flex align="center" css={{ mb: "$1" }}>
               {Icon ? (
-                <Box css={{ mr: "$2", color: "$textPrimary", ...iconCSS }}>
+                <Box css={{ mr: "$2", color: "$on_surface_high", ...iconCSS }}>
                   <Icon />
                 </Box>
               ) : null}
@@ -68,7 +68,7 @@ export const ErrorDialog = ({
         onEscapeKeyDown={e => e.preventDefault()}
         onPointerDownOutside={e => e.preventDefault()}
         closeable={false}
-        iconCSS={{ color: "$error" }}
+        iconCSS={{ color: "$alert_error_default" }}
         {...props}
       >
         <Box css={{ mt: "$lg" }}>{children}</Box>
@@ -102,7 +102,7 @@ export const RequestDialog = ({
             fontWeight: 400,
             mt: "$4",
             mb: "$10",
-            c: "$textMedEmp",
+            c: "$on_surface_medium",
           }}
         >
           {body}
@@ -282,7 +282,7 @@ export const DialogInputFile = ({
         position: "relative",
         cursor: "pointer",
         py: "$12",
-        border: "1px dashed $borderLight",
+        border: "1px dashed $border_bright",
         r: "$1",
         height: "max(140px, 30%)",
         alignItems: "center",
@@ -335,7 +335,7 @@ export const DialogInputFile = ({
         >
           <Text
             variant="md"
-            css={{ fontWeight: "$semiBold", color: "$textHighEmp" }}
+            css={{ fontWeight: "$semiBold", color: "$on_surface_high" }}
           >
             {placeholder}
           </Text>

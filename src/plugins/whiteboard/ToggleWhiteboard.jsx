@@ -18,13 +18,13 @@ export const ToggleWhiteboard = () => {
   return (
     <WidgetCard
       title="Whiteboard"
-      subtitle={`${
+      subtitle={
         whiteboardActive
           ? amIWhiteboardOwner
             ? `Stop whiteboard`
             : `Can't stop whiteboard as it was started by another peer`
           : "Collaboratively sketch ideas"
-      }`}
+      }
       imageSrc={require("../../images/whiteboard.png")}
       onClick={() => toggleWhiteboard()}
     />

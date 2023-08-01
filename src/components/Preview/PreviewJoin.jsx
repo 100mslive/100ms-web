@@ -95,11 +95,18 @@ const PreviewJoin = ({
   }, [token, skipPreview]);
   return (
     <Container>
-      <Text variant="h4" css={{ wordBreak: "break-word", textAlign: "center" }}>
+      <Text
+        variant="h4"
+        css={{
+          wordBreak: "break-word",
+          textAlign: "center",
+          color: "$on_surface_high",
+        }}
+      >
         Get Started
       </Text>
       <Text
-        css={{ c: "$textMedEmp", my: "$6", textAlign: "center" }}
+        css={{ c: "$on_surface_medium", my: "$6", textAlign: "center" }}
         variant="body1"
       >
         Setup your audio and video before joining
@@ -149,7 +156,7 @@ const PreviewTile = ({ name, error }) => {
   return (
     <StyledVideoTile.Container
       css={{
-        bg: "$surfaceDefault",
+        bg: "$surface_default",
         aspectRatio: width / height,
         width: "unset",
         height: "min(360px, 60vh)",

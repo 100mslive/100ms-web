@@ -33,7 +33,7 @@ export const Timer = ({
           onCheckedChange={setShowTimerDropDown}
           css={{ mr: "$6" }}
         />
-        <Text variant="body2" css={{ c: "$textMedEmp" }}>
+        <Text variant="body2" css={{ c: "$on_surface_medium" }}>
           Timer
         </Text>
       </Flex>
@@ -47,7 +47,7 @@ export const Timer = ({
               ref={timerDropdownRef}
               title={timerSettings[timer]}
               open={timerDropdownToggle}
-              titleCss={{ c: "$textHighEmp", ml: "$md" }}
+              titleCss={{ c: "$on_surface_high", ml: "$md" }}
             />
             <Dropdown.Portal>
               <Dropdown.Content

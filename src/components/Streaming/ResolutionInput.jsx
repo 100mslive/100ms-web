@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { InfoIcon } from "@100mslive/react-icons";
-import { Flex, Input, Label, Text, Tooltip } from "@100mslive/roomkit-react";
+import { Flex, Input, Text, Tooltip } from "@100mslive/roomkit-react";
 import { DialogRow } from "../../primitives/DialogContent";
 import {
   RTMP_RECORD_DEFAULT_RESOLUTION,
@@ -41,7 +41,7 @@ export const ResolutionInput = ({
   return (
     <DialogRow breakSm css={css}>
       <Flex gap={1}>
-        <Label css={{ mb: "$8" }}>Resolution</Label>
+        <Text css={{ mb: "$8" }}>Resolution</Text>
         {tooltipText && (
           <Tooltip title={tooltipText}>
             <div>
