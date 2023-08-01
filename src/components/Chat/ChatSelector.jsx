@@ -22,7 +22,7 @@ import { useFilteredRoles } from "../../common/hooks";
 
 const ChatDotIcon = () => {
   return (
-    <Box css={{ size: "$6", bg: "$brandDefault", mx: "$2", r: "$round" }} />
+    <Box css={{ size: "$6", bg: "$primary_default", mx: "$2", r: "$round" }} />
   );
 };
 

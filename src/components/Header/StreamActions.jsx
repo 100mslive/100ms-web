@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useMedia } from "react-use";
 import {
   selectIsConnectedToRoom,
@@ -23,7 +23,7 @@ import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { getResolution } from "../Streaming/RTMPStreaming";
 import { ToastManager } from "../Toast/ToastManager";
 import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
-import { useSidepaneState, useSidepaneToggle } from "../AppData/useSidepane";
+import { useSidepaneToggle } from "../AppData/useSidepane";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import {
   APP_DATA,
@@ -100,17 +100,6 @@ export const RecordingStatus = () => {
 
 const EndStream = () => {
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
-  const sidePane = useSidepaneState();
-  useEffect(() => {
-    if (window && !sidePane) {
-      const userStartedStream =
-        window.sessionStorage.getItem("userStartedStream");
-      if (userStartedStream === "true") {
-        toggleStreaming();
-        window.sessionStorage.setItem("userStartedStream", "");
-      }
-    }
-  }, [sidePane, toggleStreaming]);
 
   return (
     <Button
