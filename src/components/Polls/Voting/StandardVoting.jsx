@@ -17,6 +17,7 @@ export const StandardView = ({ poll }) => {
         <QuestionCard
           pollID={poll.id}
           isQuiz={poll.type === "quiz"}
+          startedBy={poll.startedBy}
           pollState={poll.state}
           key={`${question.text}-${index}`}
           index={question.index}

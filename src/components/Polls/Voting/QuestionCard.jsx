@@ -35,6 +35,7 @@ const TextArea = styled("textarea", {
 export const QuestionCard = ({
   pollID,
   isQuiz,
+  startedBy,
   pollState,
   index,
   totalQuestions,
@@ -54,12 +55,15 @@ export const QuestionCard = ({
   const localPeerResponse = responses?.find(
     response => response.peer?.peerid === localPeerID
   );
+  const isLocalPeerCreator = localPeerID === startedBy;
   const localPeerRoleName = useHMSStore(selectLocalPeerRoleName);
+  const roleCanViewResponse =
+    !rolesThatCanViewResponses ||
+    rolesThatCanViewResponses.length === 0 ||
+    rolesThatCanViewResponses.includes(localPeerRoleName || "");
   const showVoteCount =
-    localPeerResponse &&
-    (!rolesThatCanViewResponses ||
-      rolesThatCanViewResponses.length === 0 ||
-      rolesThatCanViewResponses.includes(localPeerRoleName || ""));
+    roleCanViewResponse &&
+    (localPeerResponse || (isLocalPeerCreator && pollState === "stopped"));
 
   const isLive = pollState === "started";
   const canRespond = isLive && !localPeerResponse;
