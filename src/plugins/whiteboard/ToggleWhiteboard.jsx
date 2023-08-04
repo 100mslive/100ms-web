@@ -1,4 +1,5 @@
 import { WidgetCard } from "../../components/Footer/WidgetCard";
+import { useWidgetToggle } from "../../components/AppData/useSidepane";
 import { useShowWhiteboard } from "../../components/AppData/useUISettings";
 import { useWhiteboardMetadata } from "./useWhiteboardMetadata";
 
@@ -8,6 +9,7 @@ export const ToggleWhiteboard = () => {
     amIWhiteboardOwner,
     toggleWhiteboard,
   } = useWhiteboardMetadata();
+  const toggleWidget = useWidgetToggle();
 
   const { showWhiteboard } = useShowWhiteboard();
 
@@ -26,7 +28,10 @@ export const ToggleWhiteboard = () => {
           : "Collaboratively sketch ideas"
       }
       imageSrc={require("../../images/whiteboard.png")}
-      onClick={() => toggleWhiteboard()}
+      onClick={async () => {
+        await toggleWhiteboard();
+        toggleWidget();
+      }}
     />
   );
 };
