@@ -170,6 +170,7 @@ export function ShareScreenOptions() {
                 />
                 <Flex
                   direction="row"
+                  align="center"
                   css={{
                     position: "absolute",
                     top: "29%",
@@ -178,20 +179,11 @@ export function ShareScreenOptions() {
                     r: "$2",
                     bg: "$primary_bright",
                     zIndex: "2",
+                    gap: "$2",
                   }}
                 >
-                  <IconButton
-                    css={{
-                      w: "$10",
-                      h: "$8",
-                      "&:hover": {
-                        bg: "$surface_default !important",
-                        border: "none",
-                      },
-                    }}
-                  >
-                    <StarIcon />
-                  </IconButton>
+                  <StarIcon height={14} width={14} />
+
                   <Text
                     variant="xs"
                     css={{
