@@ -1,9 +1,9 @@
 export const palette = {
   dark: {
-    primary_default: "#2572ed",
-    primary_bright: "#538dff",
-    primary_dim: "#004299",
-    primary_disabled: "#444954",
+    primary_default: "#2572ED",
+    primary_bright: "#538DFF",
+    primary_dim: "#002D6D",
+    primary_disabled: "#004299",
     on_primary_high: "#FFFFFF",
     on_primary_medium: "#DADADA",
     on_primary_low: "#ABABAB",

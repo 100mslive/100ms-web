@@ -57,6 +57,10 @@ export const QuestionForm = ({
         <DialogDropdownTrigger
           ref={ref}
           title={QUESTION_TYPE_TITLE[type]}
+          css={{
+            backgroundColor: "$surface_default",
+            border: "1px solid $border_bright",
+          }}
           open={open}
         />
         <Dropdown.Portal>
@@ -84,7 +88,11 @@ export const QuestionForm = ({
       </Dropdown.Root>
       <Input
         placeholder="Ask a question"
-        css={{ mt: "$md" }}
+        css={{
+          mt: "$md",
+          backgroundColor: "$surface_default",
+          border: "1px solid $border_bright",
+        }}
         type="text"
         value={text}
         onChange={event => setText(event.target.value)}

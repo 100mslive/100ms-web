@@ -126,7 +126,7 @@ const QuestionCard = ({
   return (
     <Flex
       direction="column"
-      css={{ p: "$md", bg: "$surface_bright", r: "$1", mb: "$sm" }}
+      css={{ p: "$md", bg: "$surface_default", r: "$1", mb: "$sm" }}
     >
       {question.saved ? (
         <SavedQuestion
