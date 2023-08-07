@@ -137,6 +137,10 @@ const AddMenu = () => {
           type="text"
           value={title}
           onChange={event => setTitle(event.target.value)}
+          css={{
+            backgroundColor: "$surface_bright",
+            border: "1px solid $border_default",
+          }}
         />
         <Flex align="center" css={{ mt: "$10" }}>
           <Switch
