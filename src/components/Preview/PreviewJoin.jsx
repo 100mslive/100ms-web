@@ -106,7 +106,13 @@ const PreviewJoin = ({
         Get Started
       </Text>
       <Text
-        css={{ c: "$on_surface_medium", my: "$6", textAlign: "center" }}
+        css={{
+          c: "$on_surface_medium",
+          my: "$6",
+          textAlign: "center",
+          maxWidth: "100%",
+          wordWrap: "break-word",
+        }}
         variant="body1"
       >
         Setup your audio and video before joining
