@@ -26,6 +26,8 @@ const SidePane = ({ css = {} }) => {
       w: "100%",
       position: "fixed",
       bottom: 0,
+      right: 0,
+      left: "0 !important",
       height: "unset",
       ...(css["@lg"] || {}),
     },
@@ -46,7 +48,7 @@ const SidePane = ({ css = {} }) => {
           css={{
             ...commonCss,
             right: "$10",
-            "@lg": { ...commonCss["@lg"], right: 0 },
+            "@lg": { ...commonCss["@lg"] },
           }}
         >
           <RightComponent />
@@ -57,7 +59,7 @@ const SidePane = ({ css = {} }) => {
           css={{
             ...commonCss,
             left: "$10",
-            "@lg": { ...commonCss["@lg"], left: 0 },
+            "@lg": { ...commonCss["@lg"] },
           }}
         >
           <Widgets />
