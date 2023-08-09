@@ -14,7 +14,7 @@ import {
   ShareScreenIcon,
   VideoPlayerIcon,
 } from "@100mslive/react-icons";
-import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/react-ui";
+import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/roomkit-react";
 import { useWhiteboardMetadata } from "../../plugins/whiteboard/useWhiteboardMetadata";
 import { useUISettings } from "../AppData/useUISettings";
 import { usePlaylistMusic } from "../hooks/usePlaylistMusic";

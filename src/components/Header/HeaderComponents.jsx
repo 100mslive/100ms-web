@@ -12,7 +12,7 @@ import {
   Text,
   textEllipsis,
   useTheme,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { useLogo } from "../AppData/useUISettings";
 import { isStreamingKit } from "../../common/utils";
 

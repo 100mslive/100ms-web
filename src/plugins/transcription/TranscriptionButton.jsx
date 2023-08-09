@@ -7,7 +7,7 @@ import {
   useHMSVanillaStore,
 } from "@100mslive/react-sdk";
 import { ClosedCaptionIcon } from "@100mslive/react-icons";
-import { Box, IconButton, Text, Tooltip } from "@100mslive/react-ui";
+import { Box, IconButton, Text, Tooltip } from "@100mslive/roomkit-react";
 import { Transcriber } from "./Transcriber";
 import { SESSION_STORE_KEY } from "../../common/constants";
 

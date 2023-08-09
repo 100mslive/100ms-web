@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { InfoIcon } from "@100mslive/react-icons";
-import { Flex, Input, Label, Text, Tooltip } from "@100mslive/react-ui";
+import { Flex, Input, Label, Text, Tooltip } from "@100mslive/roomkit-react";
 import { DialogRow } from "../../primitives/DialogContent";
 import {
   RTMP_RECORD_DEFAULT_RESOLUTION,

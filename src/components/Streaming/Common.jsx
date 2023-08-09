@@ -12,7 +12,7 @@ import {
   slideLeftAndFade,
   Switch,
   Text,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 
 export const StreamCard = ({
   title,
@@ -55,36 +55,47 @@ export const StreamCard = ({
   );
 };
 
-export const ContentHeader = ({ onBack, title, content }) => {
+export const ContentHeader = ({ onBack, onClose, title = "", content }) => {
   return (
     <Flex css={{ w: "100%", py: "$8", px: "$10", cursor: "pointer" }}>
-      <Text
-        css={{ p: "$2", bg: "$surfaceLight", r: "$round", alignSelf: "center" }}
-        onClick={onBack}
-        data-testid="go_back"
-      >
-        <ChevronLeftIcon width={16} height={16} />
-      </Text>
-      <Box css={{ flex: "1 1 0", mx: "$8" }}>
+      {onBack ? (
         <Text
-          variant="tiny"
           css={{
-            textTransform: "uppercase",
-            fontWeight: "$semiBold",
-            color: "$textMedEmp",
+            p: "$2",
+            bg: "$surfaceLight",
+            r: "$round",
+            alignSelf: "center",
           }}
+          onClick={onBack}
+          data-testid="go_back"
         >
-          {title}
+          <ChevronLeftIcon width={16} height={16} />
         </Text>
+      ) : null}
+      <Box css={{ flex: "1 1 0", mx: "$8" }}>
+        {title ? (
+          <Text
+            variant="tiny"
+            css={{
+              textTransform: "uppercase",
+              fontWeight: "$semiBold",
+              color: "$textMedEmp",
+            }}
+          >
+            {title}
+          </Text>
+        ) : null}
         <Text variant="h6">{content}</Text>
       </Box>
-      <IconButton
-        onClick={onBack}
-        css={{ alignSelf: "flex-start" }}
-        data-testid="close_stream_section"
-      >
-        <CrossIcon width={16} height={16} />
-      </IconButton>
+      {onClose ? (
+        <IconButton
+          onClick={onClose}
+          css={{ alignSelf: "flex-start" }}
+          data-testid="close_stream_section"
+        >
+          <CrossIcon width={16} height={16} />
+        </IconButton>
+      ) : null}
     </Flex>
   );
 };
@@ -104,6 +115,8 @@ export const Container = ({ children, rounded = false }) => {
         display: "flex",
         flexDirection: "column",
         borderRadius: rounded ? "$2" : "0",
+        overflowY: "auto",
+        overflowX: "hidden",
       }}
     >
       {children}

@@ -29,7 +29,7 @@ import {
   Flex,
   Text,
   Tooltip,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import IconButton from "../../IconButton";
 import { RoleChangeModal } from "../RoleChangeModal";
 import SettingsModal from "../Settings/SettingsModal";

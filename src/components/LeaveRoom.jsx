@@ -22,7 +22,7 @@ import {
   styled,
   Text,
   Tooltip,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { ToastManager } from "./Toast/ToastManager";
 import {
   DialogCheckbox,

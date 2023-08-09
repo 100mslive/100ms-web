@@ -1,7 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { ExitIcon } from "@100mslive/react-icons";
-import { Box, Button, Flex, Text, textEllipsis } from "@100mslive/react-ui";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  textEllipsis,
+} from "@100mslive/roomkit-react";
 import { ToastManager } from "./Toast/ToastManager";
 import { Header } from "./Header";
 import { useNavigation } from "./hooks/useNavigation";

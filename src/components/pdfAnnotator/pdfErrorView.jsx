@@ -1,5 +1,5 @@
 import { InfoIcon } from "@100mslive/react-icons";
-import { Text } from "@100mslive/react-ui";
+import { Text } from "@100mslive/roomkit-react";
 import { DialogRow } from "../../primitives/DialogContent";
 
 export const PdfErrorView = ({ isPDFUrlValid }) => {

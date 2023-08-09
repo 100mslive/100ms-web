@@ -1,5 +1,5 @@
 import React from "react";
-import { Dropdown, Flex, Text } from "@100mslive/react-ui";
+import { Dropdown, Flex, Text } from "@100mslive/roomkit-react";
 
 function formatDuration(duration) {
   if (!duration) {

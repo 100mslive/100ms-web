@@ -14,7 +14,7 @@ import {
   IconButton,
   Text,
   Tooltip,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { ShareMenuIcon } from "../ScreenShare";
 import { PDFFileOptions } from "./pdfFileOptions";
 

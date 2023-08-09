@@ -12,7 +12,7 @@ import {
   Flex,
   keyframes,
   Text,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 
 let emojiCount = 1;
 

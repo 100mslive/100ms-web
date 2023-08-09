@@ -16,7 +16,7 @@ import {
   IconButton,
   Tabs,
   Text,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import DeviceSettings from "./DeviceSettings";
 import { LayoutSettings } from "./LayoutSettings";
 import { NotificationSettings } from "./NotificationSettings";

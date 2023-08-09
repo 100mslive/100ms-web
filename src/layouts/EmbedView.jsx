@@ -9,7 +9,7 @@ import {
   useEmbedShare,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Box, config as cssConfig, Flex } from "@100mslive/react-ui";
+import { Box, config as cssConfig, Flex } from "@100mslive/roomkit-react";
 import { ToastManager } from "../components/Toast/ToastManager";
 import { SidePane } from "./screenShareView";
 import { useResetEmbedConfig } from "../components/AppData/useUISettings";

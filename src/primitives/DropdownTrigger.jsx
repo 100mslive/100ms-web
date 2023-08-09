@@ -1,6 +1,6 @@
 import React from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@100mslive/react-icons";
-import { Dropdown, Flex, Text, textEllipsis } from "@100mslive/react-ui";
+import { Dropdown, Flex, Text, textEllipsis } from "@100mslive/roomkit-react";
 
 const DialogDropdownTrigger = React.forwardRef(
   ({ title, css, open, icon, titleCSS = {} }, ref) => {

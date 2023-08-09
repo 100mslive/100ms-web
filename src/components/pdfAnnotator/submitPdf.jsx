@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Button, Flex } from "@100mslive/react-ui";
+import { Button, Flex } from "@100mslive/roomkit-react";
 import {
   useResetPDFConfig,
   useSetAppDataByKey,

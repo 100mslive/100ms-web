@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Flex } from "@100mslive/react-ui";
+import { Box, Flex } from "@100mslive/roomkit-react";
 import { getPercentage } from "./HMSVIdeoUtils";
 
 export const VideoProgress = ({ onValueChange, hlsPlayer }) => {

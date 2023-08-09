@@ -11,7 +11,7 @@ import {
   IconButton,
   Text,
   textEllipsis,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { ChatSelector } from "./ChatSelector";
 import { useSidepaneToggle } from "../AppData/useSidepane";
 import { SIDE_PANE_OPTIONS } from "../../common/constants";

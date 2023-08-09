@@ -4,7 +4,7 @@ import {
   useHMSStore,
   useVideoList,
 } from "@100mslive/react-sdk";
-import { StyledVideoList, useTheme } from "@100mslive/react-ui";
+import { StyledVideoList, useTheme } from "@100mslive/roomkit-react";
 import { Pagination } from "./Pagination";
 import ScreenshareTile from "./ScreenshareTile";
 import VideoTile from "./VideoTile";

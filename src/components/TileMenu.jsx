@@ -23,7 +23,13 @@ import {
   VideoOffIcon,
   VideoOnIcon,
 } from "@100mslive/react-icons";
-import { Box, Flex, Slider, StyledMenuTile, Text } from "@100mslive/react-ui";
+import {
+  Box,
+  Flex,
+  Slider,
+  StyledMenuTile,
+  Text,
+} from "@100mslive/roomkit-react";
 import { ToastManager } from "./Toast/ToastManager";
 import { useSetAppDataByKey } from "./AppData/useUISettings";
 import { useDropdownList } from "./hooks/useDropdownList";

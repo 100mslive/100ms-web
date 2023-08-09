@@ -9,7 +9,7 @@ import {
   CrossIcon,
   VideoPlayerIcon,
 } from "@100mslive/react-icons";
-import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/react-ui";
+import { Box, Dropdown, Flex, Text, Tooltip } from "@100mslive/roomkit-react";
 import IconButton from "../../IconButton";
 import { AudioPlaylistControls } from "./PlaylistControls";
 import { PlaylistItem } from "./PlaylistItem";

@@ -29,7 +29,7 @@ import {
   styled,
   Text,
   Tooltip,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import { useSetPinnedMessage } from "../hooks/useSetPinnedMessage";
 
 const formatTime = date => {

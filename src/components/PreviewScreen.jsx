@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSearchParam } from "react-use";
 import { v4 as uuid } from "uuid";
 import { useHMSActions } from "@100mslive/react-sdk";
-import { Box, Flex, Loading, styled } from "@100mslive/react-ui";
+import { Box, Flex, Loading, styled } from "@100mslive/roomkit-react";
 import PreviewContainer from "./Preview/PreviewContainer";
 import SidePane from "../layouts/SidePane";
 import { ErrorDialog } from "../primitives/DialogContent";

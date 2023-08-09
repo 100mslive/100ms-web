@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@100mslive/react-ui";
+import { Box, Flex, Text } from "@100mslive/roomkit-react";
 
 const Tabs = ({ options, activeTab, setActiveTab }) => {
   return (

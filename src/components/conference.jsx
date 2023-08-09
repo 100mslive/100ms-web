@@ -9,7 +9,7 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { Box, Flex } from "@100mslive/react-ui";
+import { Box, Flex } from "@100mslive/roomkit-react";
 import { ConferenceMainView } from "../layouts/mainView";
 import { Footer } from "./Footer";
 import FullPageProgress from "./FullPageProgress";

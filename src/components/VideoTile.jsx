@@ -20,7 +20,7 @@ import {
   useBorderAudioLevel,
   Video,
   VideoTileStats,
-} from "@100mslive/react-ui";
+} from "@100mslive/roomkit-react";
 import TileConnection from "./Connection/TileConnection";
 import { getVideoTileLabel } from "./peerTileUtils";
 import TileMenu from "./TileMenu";
@@ -76,6 +76,7 @@ const Tile = ({
     }
     return "large";
   }, [width, height]);
+
   return (
     <StyledVideoTile.Root
       css={{

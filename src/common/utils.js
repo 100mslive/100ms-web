@@ -1,4 +1,4 @@
-import { QUERY_PARAM_SKIP_PREVIEW } from "./constants";
+import { QUERY_PARAM_SKIP_PREVIEW, QUESTION_TYPE } from "./constants";
 
 export function shadeColor(color, percent) {
   let R = parseInt(color.substring(1, 3), 16);
@@ -92,7 +92,7 @@ export const isValidURL = url => {
   return !!urlPattern.test(url);
 };
 
-export const compareArrays = (a, b) => {
+const compareArrays = (a, b) => {
   if (a.length !== b.length) return false;
   else {
     // Comparing each element of your array
@@ -102,6 +102,18 @@ export const compareArrays = (a, b) => {
       }
     }
     return true;
+  }
+};
+
+export const checkCorrectAnswer = (answer, localPeerResponse, type) => {
+  if (type === QUESTION_TYPE.SINGLE_CHOICE) {
+    return answer?.option === localPeerResponse?.option;
+  } else if (type === QUESTION_TYPE.MULTIPLE_CHOICE) {
+    return (
+      answer?.options &&
+      localPeerResponse?.options &&
+      compareArrays(answer?.options, localPeerResponse?.options)
+    );
   }
 };
 

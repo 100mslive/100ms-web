@@ -1,5 +1,5 @@
 import React from "react";
-import { styled, Text, textEllipsis } from "@100mslive/react-ui";
+import { styled, Text, textEllipsis } from "@100mslive/roomkit-react";
 import { ConnectionIndicator } from "./ConnectionIndicator";
 
 const TileConnection = ({ name, peerId, hideLabel, width }) => {
