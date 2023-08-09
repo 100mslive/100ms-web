@@ -7,7 +7,9 @@ export const StatusIndicator = ({ isLive, shouldShowTimer }) => {
     <Flex align="center">
       <Flex
         css={{
-          backgroundColor: isLive ? "$error" : "$secondaryDefault",
+          backgroundColor: isLive
+            ? "$alert_error_default"
+            : "$secondary_default",
           p: "$2 $4",
           borderRadius: shouldShowTimer ? "$0 0 0 $0" : "$0",
         }}
@@ -16,7 +18,7 @@ export const StatusIndicator = ({ isLive, shouldShowTimer }) => {
           variant="caption"
           css={{
             fontWeight: "$semiBold",
-            color: "$textHighEmp",
+            color: "$on_surface_high",
           }}
         >
           {isLive ? "LIVE" : "ENDED"}
@@ -28,14 +30,14 @@ export const StatusIndicator = ({ isLive, shouldShowTimer }) => {
           css={{
             borderRadius: "0 $0 $0 0",
             p: "$2 $4",
-            backgroundColor: "$backgroundDefault",
+            backgroundColor: "$background_default",
           }}
         >
           <Text
             variant="caption"
             css={{
               fontWeight: "$semiBold",
-              color: "$textHighEmp",
+              color: "$on_surface_high",
             }}
           >
             0:32

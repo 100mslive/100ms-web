@@ -13,7 +13,7 @@ const PreviewName = ({ name, onChange, onJoin, enableJoin }) => {
         id="name"
         css={{ w: "100%" }}
         value={name}
-        onChange={e => onChange(e.target.value)}
+        onChange={e => onChange(e.target.value.trimStart())}
         placeholder="Enter your name"
         autoFocus
         autoComplete="name"

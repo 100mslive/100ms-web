@@ -126,12 +126,12 @@ export const PollResultSummary = ({
 
 const PollStat = ({ label, value }) => {
   return (
-    <Box css={{ bg: "$surfaceLight", p: "$8", r: "$1" }}>
+    <Box css={{ bg: "$surface_bright", p: "$8", r: "$1" }}>
       <Text
         variant="overline"
         css={{
           fontWeight: "$semiBold",
-          color: "$textMedEmp",
+          color: "$on_surface_medium",
           textTransform: "uppercase",
         }}
       >
@@ -139,7 +139,7 @@ const PollStat = ({ label, value }) => {
       </Text>
       <Text
         variant="sub1"
-        css={{ fontWeight: "$semiBold", color: "$textHighEmp" }}
+        css={{ fontWeight: "$semiBold", color: "$on_surface_medium" }}
       >
         {value}
       </Text>

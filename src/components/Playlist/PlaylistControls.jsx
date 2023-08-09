@@ -126,7 +126,7 @@ const VolumeControl = () => {
   const sliderVolume = active ? volume : audioTrackVolume;
 
   return (
-    <Flex align="center" css={{ color: "$white" }}>
+    <Flex align="center" css={{ color: "$on_primary_high" }}>
       <SpeakerIcon />
       <Slider
         css={{ mx: "$4", w: "$20" }}
@@ -157,8 +157,8 @@ export const AudioPlaylistControls = ({ onToggle }) => {
     <Box
       css={{
         p: "$8",
-        borderTop: "1px solid $borderLight",
-        bg: "$menuBg",
+        borderTop: "1px solid $border_bright",
+        bg: "$surface_default",
       }}
     >
       <Controls type={HMSPlaylistType.audio} />

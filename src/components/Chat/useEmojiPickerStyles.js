@@ -9,16 +9,16 @@ export const useEmojiPickerStyles = showing => {
         const style = document.createElement("style");
         style.textContent = `
           #root {
-            --em-rgb-color: var(--hms-ui-colors-textPrimary);
-            --em-rgb-input: var(--hms-ui-colors-textPrimary);
-            --em-color-border: var(--hms-ui-colors-surfaceDefault);
-            --color-b: var(--hms-ui-colors-textPrimary);
+            --em-rgb-color: var(--hms-ui-colors-on_surface_high);
+            --em-rgb-input: var(--hms-ui-colors-on_surface_high);
+            --em-color-border: var(--hms-ui-colors-surface_default);
+            --color-b: var(--hms-ui-colors-on_surface_high);
             --rgb-background: transparent;
-            color: var(--hms-ui-colors-textPrimary);
+            color: var(--hms-ui-colors-on_surface_high);
             font-family: var(--hms-ui-fonts-sans);
           }
           .sticky {
-            background-color: var(--hms-ui-colors-surfaceLight);
+            background-color: var(--hms-ui-colors-surface_bright);
           }
         `;
         root?.appendChild(style);
