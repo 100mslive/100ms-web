@@ -373,8 +373,8 @@ export const ParticipantSearch = ({ onSearch, placeholder }) => {
       </Box>
       <Input
         type="text"
-        placeholder={placeholder || "Find what you are looking for"}
-        css={{ w: "100%", pl: "$14" }}
+        placeholder={placeholder || "Search among participants"}
+        css={{ w: "100%", pl: "$14", bg: "$surface_bright" }}
         value={value}
         onKeyDown={event => {
           event.stopPropagation();
