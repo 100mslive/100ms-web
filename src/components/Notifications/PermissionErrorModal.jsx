@@ -51,7 +51,7 @@ export function PermissionErrorModal() {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              borderBottom: "1px solid $borderDefault",
+              borderBottom: "1px solid $border_default",
               pb: "$8",
             }}
           >

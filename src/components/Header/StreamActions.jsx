@@ -1,7 +1,6 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useMedia } from "react-use";
 import {
-  selectAppData,
   selectIsConnectedToRoom,
   selectPermissions,
   useHMSActions,
@@ -24,7 +23,7 @@ import { ResolutionInput } from "../Streaming/ResolutionInput";
 import { getResolution } from "../Streaming/RTMPStreaming";
 import { ToastManager } from "../Toast/ToastManager";
 import { AdditionalRoomState, getRecordingText } from "./AdditionalRoomState";
-import { useSidepaneState, useSidepaneToggle } from "../AppData/useSidepane";
+import { useSidepaneToggle } from "../AppData/useSidepane";
 import { useSetAppDataByKey } from "../AppData/useUISettings";
 import {
   APP_DATA,
@@ -39,7 +38,15 @@ export const LiveStatus = () => {
   }
   return (
     <Flex align="center">
-      <Box css={{ w: "$4", h: "$4", r: "$round", bg: "$error", mr: "$2" }} />
+      <Box
+        css={{
+          w: "$4",
+          h: "$4",
+          r: "$round",
+          bg: "$alert_error_default",
+          mr: "$2",
+        }}
+      />
       <Text>
         Live
         <Text as="span" css={{ "@md": { display: "none" } }}>
@@ -82,7 +89,7 @@ export const RecordingStatus = () => {
     >
       <Box
         css={{
-          color: "$error",
+          color: "$alert_error_default",
         }}
       >
         <RecordIcon width={24} height={24} />
@@ -93,17 +100,6 @@ export const RecordingStatus = () => {
 
 const EndStream = () => {
   const toggleStreaming = useSidepaneToggle(SIDE_PANE_OPTIONS.STREAMING);
-  const sidePane = useSidepaneState();
-  useEffect(() => {
-    if (window && !sidePane) {
-      const userStartedStream =
-        window.sessionStorage.getItem("userStartedStream");
-      if (userStartedStream === "true") {
-        toggleStreaming();
-        window.sessionStorage.setItem("userStartedStream", "");
-      }
-    }
-  }, [sidePane, toggleStreaming]);
 
   return (
     <Button
@@ -120,7 +116,6 @@ const EndStream = () => {
 
 const StartRecording = () => {
   const permissions = useHMSStore(selectPermissions);
-  const recordingUrl = useHMSStore(selectAppData(APP_DATA.recordingUrl));
   const [resolution, setResolution] = useState(RTMP_RECORD_DEFAULT_RESOLUTION);
   const [open, setOpen] = useState(false);
   const [recordingStarted, setRecordingState] = useSetAppDataByKey(
@@ -154,7 +149,7 @@ const StartRecording = () => {
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content align="end" sideOffset={8} css={{ w: "$64" }}>
-            <Text variant="body" css={{ color: "$textMedEmp" }}>
+            <Text variant="body" css={{ color: "$on_surface_medium" }}>
               Are you sure you want to end the recording?
             </Text>
             <Button
@@ -221,7 +216,6 @@ const StartRecording = () => {
             try {
               setRecordingState(true);
               await hmsActions.startRTMPOrRecording({
-                meetingURL: recordingUrl,
                 resolution: getResolution(resolution),
                 record: true,
               });

@@ -273,14 +273,24 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
         css={{ p: "$2", r: "$0" }}
         tabIndex={0}
       >
-        <Text>
+        <Flex css={{ color: "$on_surface_high" }}>
           <VerticalMenuIcon />
-        </Text>
+        </Flex>
       </Dropdown.Trigger>
       <Dropdown.Portal>
-        <Dropdown.Content align="end" sideOffset={8} css={{ w: "$64" }}>
+        <Dropdown.Content
+          align="end"
+          sideOffset={8}
+          css={{
+            w: "$64",
+            backgroundColor: "$surface_default",
+          }}
+        >
           {canChangeRole && (
-            <Dropdown.Item onClick={() => onRoleChange(peerId)}>
+            <Dropdown.Item
+              onClick={() => onRoleChange(peerId)}
+              css={{ "&:hover": { backgroundColor: "$surface_bright" } }}
+            >
               <ChangeRoleIcon />
               <Text css={{ ml: "$4" }}>Change Role</Text>
             </Dropdown.Item>
@@ -297,7 +307,7 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
               }}
             >
               <RemoveUserIcon />
-              <Text css={{ ml: "$4", color: "$error" }}>
+              <Text css={{ ml: "$4", color: "$alert_error_default" }}>
                 Remove Participant
               </Text>
             </Dropdown.Item>
@@ -356,7 +366,7 @@ export const ParticipantSearch = ({ onSearch, placeholder }) => {
           left: "$4",
           top: "$2",
           transform: "translateY(50%)",
-          color: "$textMedEmp",
+          color: "$on_surface_medium",
         }}
       >
         <SearchIcon />
