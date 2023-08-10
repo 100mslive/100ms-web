@@ -107,7 +107,7 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
               css={{
                 w: isMobile ? "100%" : "18.625rem",
                 flexDirection: "column",
-                bg: "$backgroundDefault",
+                bg: "$background_dim",
                 p: "$14 $10",
                 borderTopLeftRadius: "$4",
                 borderBottomLeftRadius: "$4",
@@ -146,7 +146,7 @@ const SettingsModal = ({ open, onOpenChange, children }) => {
                         position: "absolute",
                         left: 0,
                         right: 0,
-                        bg: "$surfaceDefault",
+                        bg: "$surface_default",
                         width: "100%",
                         height: "100%",
                       }
@@ -197,7 +197,7 @@ const SettingsContentHeader = ({ children, isMobile, onBack }) => {
       {isMobile && (
         <Box
           as="span"
-          css={{ bg: "$surfaceLight", mr: "$4", r: "$round", p: "$2" }}
+          css={{ bg: "$surface_bright", mr: "$4", r: "$round", p: "$2" }}
           onClick={onBack}
         >
           <ChevronLeftIcon />

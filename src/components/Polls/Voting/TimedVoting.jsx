@@ -17,6 +17,7 @@ export const TimedView = ({ poll }) => {
     <QuestionCard
       pollID={poll.id}
       isQuiz={poll.type === "quiz"}
+      startedBy={poll.startedBy}
       pollState={poll.state}
       index={activeQuestion.index}
       text={activeQuestion.text}

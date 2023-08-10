@@ -11,15 +11,17 @@ export const VoteCount = ({ isQuiz, voteCount, isCorrectAnswer }) => {
           css={{
             p: "$2",
             mr: "$2",
-            color: isCorrectAnswer ? "$success" : "$error",
+            color: isCorrectAnswer ? "$alert_success" : "$alert_error_default",
             borderRadius: "$1",
-            border: `1px solid ${isCorrectAnswer ? "$success" : "$error"}`,
+            border: `1px solid ${
+              isCorrectAnswer ? "$alert_success" : "$alert_error_default"
+            }`,
           }}
         >
           {isCorrectAnswer ? "Correct" : "Incorrect"}
         </Text>
       )}
-      <Text variant="sm" css={{ color: "$textMedEmp" }}>
+      <Text variant="sm" css={{ color: "$on_surface_medium" }}>
         {voteCount}&nbsp;
         {voteCount === 1 ? "vote" : "votes"}
       </Text>

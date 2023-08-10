@@ -35,17 +35,17 @@ export const UploadedFile = ({
             <DialogRow
               css={{
                 fontFamily: "$sans",
-                bg: "$surfaceLight",
+                bg: "$surface_bright",
                 r: "$1",
                 outline: "none",
-                border: "1px solid $borderLight",
+                border: "1px solid $border_bright",
                 p: "$4 $6",
                 minHeight: "$11",
-                c: "$textPrimary",
+                c: "$on_surface_high",
                 fs: "$md",
                 w: "100%",
                 "&:focus": {
-                  boxShadow: "0 0 0 1px $colors$borderAccent",
+                  boxShadow: "0 0 0 1px $colors$primary_default",
                   border: "1px solid $transparent",
                 },
                 mb: "$8",

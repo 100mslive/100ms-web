@@ -38,8 +38,8 @@ export const Voting = ({ id, toggleVoting }) => {
             gap: "$6",
             py: "$10",
             w: "100%",
-            color: "$textHighEmp",
-            borderBottom: "1px solid $borderDefault",
+            color: "$on_surface_high",
+            borderBottom: "1px solid $border_default",
           }}
         >
           <Text variant="h6">{poll?.type?.toUpperCase()}</Text>
@@ -62,7 +62,9 @@ export const Voting = ({ id, toggleVoting }) => {
       <Flex direction="column" css={{ p: "$8 $10" }}>
         <Flex align="center">
           <Box css={{ flex: "auto" }}>
-            <Text css={{ color: "$textMedEmp", fontWeight: "$semiBold" }}>
+            <Text
+              css={{ color: "$on_surface_medium", fontWeight: "$semiBold" }}
+            >
               {pollCreatorName || "Participant"} started a {poll.type}
             </Text>
           </Box>

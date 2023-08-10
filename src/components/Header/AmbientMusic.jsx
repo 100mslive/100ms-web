@@ -84,7 +84,7 @@ export const AmbientMusic = () => {
 
   return (
     <Tooltip
-      title={`${playing ? `Disable Ambient Music` : `Play Ambient Music`}`}
+      title={playing ? `Disable Ambient Music` : `Play Ambient Music`}
       key="ambient-music"
     >
       <IconButton

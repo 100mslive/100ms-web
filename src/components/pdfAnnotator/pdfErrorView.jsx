@@ -8,7 +8,7 @@ export const PdfErrorView = ({ isPDFUrlValid }) => {
       <DialogRow
         css={{
           mt: "-$8",
-          color: "$error",
+          color: "$alert_error_default",
           justifyContent: "start",
         }}
       >
@@ -17,7 +17,7 @@ export const PdfErrorView = ({ isPDFUrlValid }) => {
           variant="caption"
           css={{
             pl: "$1",
-            color: "$error",
+            color: "$alert_error_default",
           }}
         >
           Please enter a valid PDF URL

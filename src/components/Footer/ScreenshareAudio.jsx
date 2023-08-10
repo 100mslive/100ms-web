@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import { useScreenShare } from "@100mslive/react-sdk";
 import { ScreenShareHintModal } from "../ScreenshareHintModal";
 import { WidgetCard } from "./WidgetCard";
+import { useWidgetToggle } from "../AppData/useSidepane";
 import { useShowAudioShare } from "../AppData/useUISettings";
 
 export const ScreenshareAudio = () => {
@@ -14,6 +15,7 @@ export const ScreenshareAudio = () => {
   const isAudioScreenshare = amIScreenSharing && !video && !!audio;
   const [showModal, setShowModal] = useState(false);
   const { showAudioShare } = useShowAudioShare();
+  const toggleWidget = useWidgetToggle();
 
   if (!showAudioShare) {
     return null;
@@ -35,7 +37,12 @@ export const ScreenshareAudio = () => {
         }}
       />
       {showModal && (
-        <ScreenShareHintModal onClose={() => setShowModal(false)} />
+        <ScreenShareHintModal
+          onClose={() => {
+            setShowModal(false);
+            toggleWidget();
+          }}
+        />
       )}
     </Fragment>
   );

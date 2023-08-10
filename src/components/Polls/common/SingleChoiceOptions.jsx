@@ -36,13 +36,13 @@ export const SingleChoiceOptions = ({
                   h: "$9",
                   w: "$9",
                   border: "2px solid",
-                  borderColor: "$textHighEmp",
+                  borderColor: "$on_surface_high",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   cursor: canRespond ? "pointer" : "not-allowed",
                   '&[data-state="checked"]': {
-                    borderColor: "$primaryLight",
+                    borderColor: "$primary_bright",
                     borderWidth: "2px",
                   },
                 }}
@@ -54,7 +54,7 @@ export const SingleChoiceOptions = ({
                   css={{
                     h: "80%",
                     w: "80%",
-                    background: "$primaryLight",
+                    background: "$primary_bright",
                     borderRadius: "$round",
                   }}
                 />
@@ -127,13 +127,13 @@ export const SingleChoiceOptionInputs = ({ isQuiz, options, setOptions }) => {
                     h: "$9",
                     w: "$9",
                     border: "2px solid",
-                    borderColor: "$textHighEmp",
+                    borderColor: "$on_surface_high",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     cursor: "pointer",
                     '&[data-state="checked"]': {
-                      borderColor: "$primaryLight",
+                      borderColor: "$primary_bright",
                       borderWidth: "2px",
                     },
                   }}
@@ -143,7 +143,7 @@ export const SingleChoiceOptionInputs = ({ isQuiz, options, setOptions }) => {
                     css={{
                       h: "80%",
                       w: "80%",
-                      background: "$primaryLight",
+                      background: "$primary_bright",
                       borderRadius: "$round",
                     }}
                   />
@@ -152,7 +152,11 @@ export const SingleChoiceOptionInputs = ({ isQuiz, options, setOptions }) => {
 
               <Input
                 placeholder={`Option ${index + 1}`}
-                css={{ w: "100%" }}
+                css={{
+                  w: "100%",
+                  backgroundColor: "$surface_default",
+                  border: "1px solid $border_bright",
+                }}
                 value={option?.text || ""}
                 key={index}
                 onChange={event => {
