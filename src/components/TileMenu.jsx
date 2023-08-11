@@ -47,28 +47,22 @@ const isSameTile = ({ trackId, videoTrackID, audioTrackID }) =>
   ((videoTrackID && videoTrackID === trackId) ||
     (audioTrackID && audioTrackID === trackId));
 
-const SpotlightActions = ({ audioTrackID, videoTrackID }) => {
+const SpotlightActions = ({ peerId }) => {
   const hmsActions = useHMSActions();
-  const spotlightTrackId = useHMSStore(
+  const spotlightPeerId = useHMSStore(
     selectSessionStore(SESSION_STORE_KEY.SPOTLIGHT)
   );
-  const isTileSpotlighted = isSameTile({
-    trackId: spotlightTrackId,
-    videoTrackID,
-    audioTrackID,
-  });
+  const isTileSpotlighted = spotlightPeerId === peerId;
 
-  const setSpotlightTrackId = trackId =>
+  const setSpotlightPeerId = peer =>
     hmsActions.sessionStore
-      .set(SESSION_STORE_KEY.SPOTLIGHT, trackId)
+      .set(SESSION_STORE_KEY.SPOTLIGHT, peer)
       .catch(err => ToastManager.addToast({ title: err.description }));
 
   return (
     <StyledMenuTile.ItemButton
       onClick={() =>
-        isTileSpotlighted
-          ? setSpotlightTrackId()
-          : setSpotlightTrackId(videoTrackID || audioTrackID)
+        isTileSpotlighted ? setSpotlightPeerId() : setSpotlightPeerId(peerId)
       }
     >
       <StarIcon />
@@ -186,12 +180,7 @@ const TileMenu = ({
                 audioTrackID={audioTrackID}
                 videoTrackID={videoTrackID}
               />
-              {showSpotlight && (
-                <SpotlightActions
-                  audioTrackID={audioTrackID}
-                  videoTrackID={videoTrackID}
-                />
-              )}
+              {showSpotlight && <SpotlightActions peerId={peerID} />}
             </>
           )
         ) : (
@@ -244,12 +233,7 @@ const TileMenu = ({
                   audioTrackID={audioTrackID}
                   videoTrackID={videoTrackID}
                 />
-                {showSpotlight && (
-                  <SpotlightActions
-                    audioTrackID={audioTrackID}
-                    videoTrackID={videoTrackID}
-                  />
-                )}
+                {showSpotlight && <SpotlightActions peerId={peerID} />}
               </>
             )}
             <SimulcastLayers trackId={videoTrackID} />
