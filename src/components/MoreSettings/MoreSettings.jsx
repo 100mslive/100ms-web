@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { useMedia } from "react-use";
-import Hls from "hls.js";
+import { HMSHLSPlayer } from "@100mslive/hls-player";
 import {
   selectAppData,
   selectIsAllowedToPublish,
@@ -195,7 +195,7 @@ export const MoreSettings = () => {
           {FeatureFlags.enableStatsForNerds &&
             isSFNEnabled &&
             (localPeerRole === "hls-viewer" ? (
-              Hls.isSupported() ? (
+              HMSHLSPlayer.isSupported() ? (
                 <Dropdown.Item
                   css={{ "&:hover": { backgroundColor: "$surfaceight" } }}
                   onClick={() =>
