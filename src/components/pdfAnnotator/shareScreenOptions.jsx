@@ -42,6 +42,7 @@ export function ShareScreenOptions() {
       <Dropdown.Root
         open={openModals.has(MODALS.SHARE)}
         onOpenChange={value => updateState(MODALS.SHARE, value)}
+        modal={false}
       >
         <Dropdown.Trigger
           asChild
