@@ -116,7 +116,7 @@ export const MoreSettings = () => {
           sideOffset={5}
           align="center"
           css={{
-            backgroundColor: "$surface_default",
+            backgroundColor: "$surface_dim",
             maxHeight: "$96",
             "@md": { w: "$64" },
             "div[role='separator']:first-child": {
@@ -172,7 +172,7 @@ export const MoreSettings = () => {
           )}
           {permissions.mute && (
             <Dropdown.Item
-              css={{ "&:hover": { backgroundColor: "$surfaceight" } }}
+              css={{ "&:hover": { backgroundColor: "$surface_bright" } }}
               onClick={() => updateState(MODALS.MUTE_ALL, true)}
               data-testid="mute_all_btn"
             >
@@ -183,7 +183,7 @@ export const MoreSettings = () => {
             </Dropdown.Item>
           )}
           <Dropdown.Item
-            css={{ "&:hover": { backgroundColor: "$surfaceight" } }}
+            css={{ "&:hover": { backgroundColor: "$surface_bright" } }}
             onClick={() => updateState(MODALS.DEVICE_SETTINGS, true)}
             data-testid="device_settings_btn"
           >
@@ -197,7 +197,7 @@ export const MoreSettings = () => {
             (localPeerRole === "hls-viewer" ? (
               HMSHLSPlayer.isSupported() ? (
                 <Dropdown.Item
-                  css={{ "&:hover": { backgroundColor: "$surfaceight" } }}
+                  css={{ "&:hover": { backgroundColor: "$surface_bright" } }}
                   onClick={() =>
                     hmsActions.setAppData(APP_DATA.hlsStats, !enablHlsStats)
                   }
@@ -228,7 +228,7 @@ export const MoreSettings = () => {
               ) : null
             ) : (
               <Dropdown.Item
-                css={{ "&:hover": { backgroundColor: "$surfaceight" } }}
+                css={{ "&:hover": { backgroundColor: "$surface_bright" } }}
                 onClick={() => updateState(MODALS.STATS_FOR_NERDS, true)}
                 data-testid="stats_for_nreds_btn"
               >

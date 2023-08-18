@@ -99,7 +99,7 @@ export const LeaveRoom = () => {
               )}
             </Tooltip>
           </LeaveIconButton>
-          <Dropdown.Root open={open} onOpenChange={setOpen}>
+          <Dropdown.Root open={open} onOpenChange={setOpen} modal={false}>
             <Dropdown.Trigger
               asChild
               css={{
@@ -201,6 +201,7 @@ export const LeaveRoom = () => {
           }
           setShowEndRoomModal(value);
         }}
+        modal={false}
       >
         <DialogContent title="End Room" Icon={HangUpIcon}>
           <DialogCheckbox
