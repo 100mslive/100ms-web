@@ -39,7 +39,10 @@ export const ChangeSelfRole = ({ onClick }) => {
     </Dropdown.Item>
   ) : (
     <Dropdown.SubMenu>
-      <Dropdown.TriggerItem data-testid="change_my_role_btn">
+      <Dropdown.TriggerItem
+        data-testid="change_my_role_btn"
+        css={{ bg: "$surface_dim" }}
+      >
         <PersonIcon />
         <Text variant="sm" css={{ flex: "1 1 0", mx: "$4" }}>
           Change My Role
@@ -50,7 +53,7 @@ export const ChangeSelfRole = ({ onClick }) => {
         sideOffset={8}
         alignOffset={-5}
         css={{
-          backgroundColor: "$surface_default",
+          backgroundColor: "$surface_dim",
           "@md": { w: "$64" },
         }}
       >

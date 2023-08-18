@@ -34,6 +34,7 @@ import {
 import IconButton from "../../IconButton";
 import { ConnectionIndicator } from "../Connection/ConnectionIndicator";
 import { RoleChangeModal } from "../RoleChangeModal";
+import { ToastManager } from "../Toast/ToastManager";
 import { ParticipantFilter } from "./ParticipantFilter";
 import {
   useIsSidepaneTypeOpen,
@@ -283,7 +284,7 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
           sideOffset={8}
           css={{
             w: "$64",
-            backgroundColor: "$surface_default",
+            backgroundColor: "$surface_dim",
           }}
         >
           {canChangeRole && (
@@ -298,18 +299,20 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
           <ParticipantVolume peerId={peerId} />
           {!isLocal && canRemoveOthers && (
             <Dropdown.Item
+              css={{ color: "$alert_error_default" }}
               onClick={async () => {
                 try {
                   await actions.removePeer(peerId, "");
                 } catch (error) {
-                  // TODO: Toast here
+                  ToastManager.addToast({
+                    title: error.message,
+                    variant: "error",
+                  });
                 }
               }}
             >
               <RemoveUserIcon />
-              <Text css={{ ml: "$4", color: "$alert_error_default" }}>
-                Remove Participant
-              </Text>
+              <Text css={{ ml: "$4", c: "inherit" }}>Remove Participant</Text>
             </Dropdown.Item>
           )}
         </Dropdown.Content>

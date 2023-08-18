@@ -164,7 +164,10 @@ const VirtualizedSelectItemList = ({
   }, [onSelect, selectedRole, selectedPeerId, roles, filteredPeers]);
 
   return (
-    <Dropdown.Group ref={ref} css={{ height: "$64", overflowY: "auto" }}>
+    <Dropdown.Group
+      ref={ref}
+      css={{ height: "$64", overflowY: "auto", bg: "$surface_dim" }}
+    >
       <FixedSizeList
         itemSize={52}
         itemCount={listItems.length}
@@ -186,7 +189,7 @@ export const ChatSelector = ({ role, peerId, onSelect }) => {
   const [search, setSearch] = useState("");
 
   return (
-    <Fragment>
+    <>
       {peers.length > 0 && (
         <Box css={{ px: "$8" }}>
           <ParticipantSearch
@@ -202,6 +205,6 @@ export const ChatSelector = ({ role, peerId, onSelect }) => {
         peers={peers}
         searchValue={search}
       />
-    </Fragment>
+    </>
   );
 };
