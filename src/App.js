@@ -87,7 +87,7 @@ export function EdtechComponent({
           colors: {
             ...palette[theme],
             primary_default: color,
-            primary_dark: shadeColor(color, -30),
+            primary_dim: shadeColor(color, -30),
             primary_bright: shadeColor(color, 30),
             primary_disabled: shadeColor(color, 10),
           },
