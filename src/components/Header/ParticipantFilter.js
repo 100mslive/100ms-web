@@ -64,7 +64,7 @@ export const ParticipantFilter = ({
           maxHeight: "$96",
           boxShadow: "$md",
           w: "$48",
-          backgroundColor: "$surface_default",
+          backgroundColor: "$surface_dim",
         }}
       >
         <Item
@@ -99,7 +99,7 @@ export const ParticipantFilter = ({
   );
 };
 
-const Item = ({ selected, title, onSelection, value, icon }) => {
+const Item = ({ selected, title, onSelection, value, icon = null }) => {
   return (
     <Dropdown.Item
       css={{ "&:hover": { backgroundColor: "$surface_bright" } }}
@@ -109,7 +109,7 @@ const Item = ({ selected, title, onSelection, value, icon }) => {
       }}
     >
       <Flex align="center" css={{ flex: "1 1 0" }}>
-        {icon && <Text>{icon}</Text>}
+        {icon}
         <Text css={{ ml: "$4" }}>{title}</Text>
       </Flex>
       {selected && (
