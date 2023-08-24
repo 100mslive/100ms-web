@@ -34,6 +34,7 @@ import {
 import IconButton from "../../IconButton";
 import { ConnectionIndicator } from "../Connection/ConnectionIndicator";
 import { RoleChangeModal } from "../RoleChangeModal";
+import { ToastManager } from "../Toast/ToastManager";
 import { ParticipantFilter } from "./ParticipantFilter";
 import {
   useIsSidepaneTypeOpen,
@@ -266,7 +267,11 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
   const actions = useHMSActions();
   const [open, setOpen] = useState(false);
   return (
-    <Dropdown.Root open={open} onOpenChange={value => setOpen(value)}>
+    <Dropdown.Root
+      open={open}
+      onOpenChange={value => setOpen(value)}
+      modal={false}
+    >
       <Dropdown.Trigger
         asChild
         data-testid="participant_more_actions"
@@ -283,7 +288,7 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
           sideOffset={8}
           css={{
             w: "$64",
-            backgroundColor: "$surface_default",
+            backgroundColor: "$surface_dim",
           }}
         >
           {canChangeRole && (
@@ -298,18 +303,20 @@ const ParticipantMoreActions = ({ onRoleChange, peerId }) => {
           <ParticipantVolume peerId={peerId} />
           {!isLocal && canRemoveOthers && (
             <Dropdown.Item
+              css={{ color: "$alert_error_default" }}
               onClick={async () => {
                 try {
                   await actions.removePeer(peerId, "");
                 } catch (error) {
-                  // TODO: Toast here
+                  ToastManager.addToast({
+                    title: error.message,
+                    variant: "error",
+                  });
                 }
               }}
             >
               <RemoveUserIcon />
-              <Text css={{ ml: "$4", color: "$alert_error_default" }}>
-                Remove Participant
-              </Text>
+              <Text css={{ ml: "$4", c: "inherit" }}>Remove Participant</Text>
             </Dropdown.Item>
           )}
         </Dropdown.Content>
@@ -373,8 +380,8 @@ export const ParticipantSearch = ({ onSearch, placeholder }) => {
       </Box>
       <Input
         type="text"
-        placeholder={placeholder || "Find what you are looking for"}
-        css={{ w: "100%", pl: "$14" }}
+        placeholder={placeholder || "Search among participants"}
+        css={{ w: "100%", pl: "$14", bg: "$surface_bright" }}
         value={value}
         onKeyDown={event => {
           event.stopPropagation();
