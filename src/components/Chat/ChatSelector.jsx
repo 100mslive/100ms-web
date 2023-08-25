@@ -194,7 +194,7 @@ export const ChatSelector = ({ role, peerId, onSelect }) => {
         <Box css={{ px: "$8" }}>
           <ParticipantSearch
             onSearch={setSearch}
-            placeholder="Search participants"
+            placeholder="Search for participants"
           />
         </Box>
       )}
