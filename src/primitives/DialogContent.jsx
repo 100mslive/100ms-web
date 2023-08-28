@@ -96,17 +96,21 @@ export const RequestDialog = ({
           {Icon ? Icon : null}
           <Text variant="h6">{title}</Text>
         </Dialog.Title>
-        <Text
-          variant="md"
-          css={{
-            fontWeight: 400,
-            mt: "$4",
-            mb: "$10",
-            c: "$on_surface_medium",
-          }}
-        >
-          {body}
-        </Text>
+        {typeof body === "string" ? (
+          <Text
+            variant="md"
+            css={{
+              mt: "$4",
+              mb: "$10",
+              fontWeight: 400,
+              c: "$on_surface_medium",
+            }}
+          >
+            {body}
+          </Text>
+        ) : (
+          <Box css={{ mt: "$4", mb: "$10" }}>{body}</Box>
+        )}
         <Flex
           justify="center"
           align="center"
