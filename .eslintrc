@@ -35,7 +35,7 @@
       }
     ],
     "import/first": "error",
-    "no-nested-ternary": "warning",
+    "no-nested-ternary": 1,
     "import/no-duplicates": "error",
     "simple-import-sort/imports": [
       "error",
