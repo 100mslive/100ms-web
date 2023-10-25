@@ -44,7 +44,7 @@ export function CreateQuestions() {
   };
   const headingTitle = interaction?.type
     ? interaction?.type?.[0]?.toUpperCase() + interaction?.type?.slice(1)
-    : "Polls/Quiz";
+    : "Polls and Quizzes";
   const isQuiz = interaction?.type === "quiz";
   return (
     <Container rounded>

@@ -70,6 +70,7 @@ export const ContentHeader = ({ onBack, onClose, title = "", content }) => {
             bg: "$surface_bright",
             r: "$round",
             alignSelf: "center",
+            mr: "$8",
           }}
           onClick={onBack}
           data-testid="go_back"
@@ -77,7 +78,7 @@ export const ContentHeader = ({ onBack, onClose, title = "", content }) => {
           <ChevronLeftIcon width={16} height={16} />
         </Text>
       ) : null}
-      <Box css={{ flex: "1 1 0", mx: "$8" }}>
+      <Box css={{ flex: "1 1 0" }}>
         {title ? (
           <Text
             variant="tiny"
