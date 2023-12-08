@@ -3,7 +3,9 @@ import React, { useEffect } from "react";
 import { logMessage } from "zipyai";
 import {
   HMSNotificationTypes,
+  HMSRoomState,
   selectLocalPeerID,
+  selectRoomState,
   useHMSNotifications,
   useHMSStore,
 } from "@100mslive/react-sdk";
@@ -36,6 +38,7 @@ export function Notifications() {
   const subscribedNotifications = useSubscribedNotifications() || {};
   const isHeadless = useIsHeadless();
   const toggleWidget = useWidgetToggle();
+  const roomState = useHMSStore(selectRoomState);
 
   useEffect(() => {
     if (!notification) {
@@ -43,6 +46,9 @@ export function Notifications() {
     }
     switch (notification.type) {
       case HMSNotificationTypes.METADATA_UPDATED:
+        if (roomState !== HMSRoomState.Connected) {
+          return;
+        }
         // Don't toast message when metadata is updated and raiseHand is false.
         // Don't toast message in case of local peer.
         const metadata = getMetadata(notification.data?.metadata);
