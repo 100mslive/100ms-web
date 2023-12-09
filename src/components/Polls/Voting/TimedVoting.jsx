@@ -8,8 +8,11 @@ import { QuestionCard } from "./QuestionCard";
  * @returns
  */
 export const TimedView = ({ poll }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const activeQuestion = poll.questions?.[currentIndex];
+  // backend question index starts at 1
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const activeQuestion = poll.questions?.find(
+    question => question.index === currentIndex
+  );
   if (!activeQuestion) {
     return null;
   }

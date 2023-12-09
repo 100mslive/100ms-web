@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import {
   HMSNotificationTypes,
+  HMSRoomState,
+  selectRoomState,
   useHMSNotifications,
+  useHMSStore,
 } from "@100mslive/react-sdk";
 import { ToastBatcher } from "../Toast/ToastBatcher";
 import { useSubscribedNotifications } from "../AppData/useUISettings";
@@ -22,7 +25,12 @@ export const PeerNotifications = () => {
   const isPeerLeftSubscribed = useSubscribedNotifications(
     SUBSCRIBED_NOTIFICATIONS.PEER_LEFT
   );
+  const roomState = useHMSStore(selectRoomState);
+
   useEffect(() => {
+    if (roomState !== HMSRoomState.Connected) {
+      return;
+    }
     if (
       !notification ||
       (notification?.data?.roleName &&
@@ -51,7 +59,7 @@ export const PeerNotifications = () => {
         return;
     }
     ToastBatcher.showToast({ notification });
-  }, [notification, isPeerJoinSubscribed, isPeerLeftSubscribed]);
+  }, [notification, isPeerJoinSubscribed, isPeerLeftSubscribed, roomState]);
 
   return null;
 };

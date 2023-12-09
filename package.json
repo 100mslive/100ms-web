@@ -9,11 +9,11 @@
     "src"
   ],
   "dependencies": {
-    "@100mslive/hls-player": "0.1.13",
-    "@100mslive/hms-virtual-background": "1.11.13",
-    "@100mslive/react-icons": "0.8.13",
-    "@100mslive/react-sdk": "0.8.13",
-    "@100mslive/roomkit-react": "0.1.4",
+    "@100mslive/hls-player": "0.1.24",
+    "@100mslive/hms-virtual-background": "1.11.24",
+    "@100mslive/react-icons": "0.8.24",
+    "@100mslive/react-sdk": "0.8.24",
+    "@100mslive/roomkit-react": "0.1.15",
     "@emoji-mart/data": "^1.0.6",
     "@emoji-mart/react": "^1.0.1",
     "@tldraw/tldraw": "^1.18.4",

@@ -42,7 +42,7 @@ export const Voting = ({ id, toggleVoting }) => {
             borderBottom: "1px solid $border_default",
           }}
         >
-          <Text variant="h6">{poll?.type?.toUpperCase()}</Text>
+          <Text variant="h6">{poll.title}</Text>
           <StatusIndicator
             isLive={isLive}
             shouldShowTimer={isLive && isTimed}

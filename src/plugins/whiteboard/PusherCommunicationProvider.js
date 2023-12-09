@@ -37,7 +37,7 @@ class PusherCommunicationProvider {
 
     /** @private */
     this.pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
-      cluster: "ap2",
+      cluster: process.env.REACT_APP_PUSHER_CLUSTER || "ap2",
       authEndpoint: process.env.REACT_APP_PUSHER_AUTHENDPOINT,
     });
 

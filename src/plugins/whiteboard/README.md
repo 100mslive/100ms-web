@@ -24,6 +24,6 @@ APP_ID="app_id"
 ## Whiteboard Client
 
 - Copy the whole folder at `/src/plugins/whiteboard` into your live video conferencing apps using 100ms' SDKs.
-- Add the pusher app key and pusher auth endpoint to `REACT_APP_PUSHER_APP_KEY` and `REACT_APP_PUSHER_AUTHENDPOINT` environment variables.
+- Add the pusher app key, auth endpoint and cluster to `REACT_APP_PUSHER_APP_KEY`, `REACT_APP_PUSHER_AUTHENDPOINT`, `REACT_APP_PUSHER_CLUSTER` environment variables.
 - The `useWhiteboardMetadata` hook returns state such as the whiteboard owner(`whiteboardOwner`) and action to toggle the whiteboard(`toggleWhiteboard`). Refer usage in `ToggleWhiteboard.jsx` - an icon button to toggle the whiteboard based on the active state.
 - When the whiteboard is active(`whiteboardOwner` from `useWhiteboardMetadata` is not null), render the `Whiteboard` component on your UI to let your users draw on the whiteboard. Refer `mainView.jsx` and `WhiteboardView.jsx`.
