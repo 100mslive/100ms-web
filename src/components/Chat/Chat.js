@@ -70,14 +70,19 @@ export const Chat = () => {
     CHAT_SELECTOR.ROLE
   );
   const peerName = useHMSStore(selectPeerNameByID(peerSelector));
-  const [chatOptions, setChatOptions] = useState({
-    role: roleSelector || "",
-    peerId: peerSelector && peerName ? peerSelector : "",
-    selection: roleSelector
-      ? roleSelector
-      : peerSelector && peerName
-      ? peerName
-      : "Everyone",
+  const [chatOptions, setChatOptions] = useState(() => {
+    const roleValue = roleSelector || "";
+    const peerIdValue = peerSelector && peerName ? peerSelector : "";
+    const selectionValue =
+      roleSelector || (peerSelector && peerName)
+        ? roleSelector || peerName
+        : "Everyone";
+
+    return {
+      role: roleValue,
+      peerId: peerIdValue,
+      selection: selectionValue,
+    };
   });
   const [isSelectorOpen, setSelectorOpen] = useState(false);
   const listRef = useRef(null);

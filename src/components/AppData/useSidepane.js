@@ -50,13 +50,18 @@ export const useWidgetToggle = () => {
   const toggleWidget = useCallback(
     id => {
       id = typeof id === "string" ? id : undefined;
+      let viewToShow;
+      if (id) {
+        viewToShow = WIDGET_VIEWS.VOTE;
+      } else if (widgetView) {
+        viewToShow = null;
+      } else {
+        viewToShow = WIDGET_VIEWS.LANDING;
+      }
+
       setWidgetState({
         [WIDGET_STATE.pollInView]: id,
-        [WIDGET_STATE.view]: id
-          ? WIDGET_VIEWS.VOTE
-          : widgetView
-          ? null
-          : WIDGET_VIEWS.LANDING,
+        [WIDGET_STATE.view]: viewToShow,
       });
     },
     [widgetView, setWidgetState]
