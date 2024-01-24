@@ -1,4 +1,3 @@
-// @ts-check
 import { useCallback } from "react";
 import {
   selectPeerNameByID,
@@ -23,14 +22,16 @@ export const useSetPinnedMessage = () => {
      * @param {import("@100mslive/react-sdk").HMSMessage | undefined} message
      */
     async message => {
+      const senderId = message?.sender;
       const peerName =
-        vanillaStore.getState(selectPeerNameByID(message?.sender)) ||
+        vanillaStore.getState(selectPeerNameByID(senderId)) ||
         message?.senderName;
-      const newPinnedMessage = message
-        ? peerName
-          ? `${peerName}: ${message.message}`
-          : message.message
-        : null;
+
+      const messageContent = message ? message.message : null;
+      const newPinnedMessage = peerName
+        ? `${peerName}: ${messageContent}`
+        : messageContent;
+
       if (newPinnedMessage !== pinnedMessage) {
         await hmsActions.sessionStore
           .set(SESSION_STORE_KEY.PINNED_MESSAGE, newPinnedMessage)
