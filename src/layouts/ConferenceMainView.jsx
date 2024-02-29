@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   selectIsConnectedToRoom,
   selectLocalPeerRoleName,
@@ -9,6 +9,8 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 import { Flex } from "@100mslive/roomkit-react";
 import FullPageProgress from "../components/FullPageProgress";
 import EmbedView from "./EmbedView";
@@ -53,6 +55,23 @@ export const ConferenceMainView = () => {
   const waitingViewerRole = useWaitingViewerRole();
   const embedConfig = useUrlToEmbed();
   const pdfConfig = usePDFConfig();
+
+
+  useEffect(() => {
+    toast(
+     'Topic: Introduce Yourself'
+      
+      , {
+      position: "bottom-center",
+      autoClose: 50000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+      });
+  }, []);
 
   useEffect(() => {
     if (!isConnected) {
@@ -118,11 +137,17 @@ export const ConferenceMainView = () => {
         css={{
           size: "100%",
           position: "relative",
+
         }}
       >
         <ViewComponent />
         <SidePane />
+
       </Flex>
+      <ToastContainer
+         style={{ position: "fixed", bottom: "50px", left: "50%", transform: "translateX(-50%)" }}
+        closeButton={false}
+      />
     </Suspense>
   );
 };
