@@ -13,12 +13,10 @@ export function PDFFileOptions({ onOpenChange }) {
   const [isPDFUrlValid, setIsPDFUrlValid] = useState(true);
   const [isValidateProgress, setIsValidateProgress] = useState(false);
   const [pdfFile, setPDFFile] = useState(null);
-  const [pdfURL, setPDFURL] = useState("");
-  const [activeTab, setActiveTab] = useState(
-    PDF_SHARING_OPTIONS.FROM_YOUR_COMPUTER
-  );
+  const [pdfURL, setPDFURL] = useState("https://clapcourses.s3.ap-south-1.amazonaws.com/curriculums/15+min+sessions/Learner/Level+1/L1S1+(L-15mins).pdf");
+  const [activeTab, setActiveTab] = useState(PDF_SHARING_OPTIONS.FROM_A_URL);
 
-  return !pdfFile ? (
+  return (
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay />
@@ -98,15 +96,6 @@ export function PDFFileOptions({ onOpenChange }) {
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  ) : (
-    <UploadedFile
-      pdfFile={pdfFile}
-      pdfURL={pdfURL}
-      isValidateProgress={isValidateProgress}
-      setPDFFile={setPDFFile}
-      setIsPDFUrlValid={setIsPDFUrlValid}
-      setIsValidateProgress={setIsValidateProgress}
-      onOpenChange={onOpenChange}
-    />
   );
 }
+

@@ -60,10 +60,9 @@ export const ConferenceMainView = () => {
   useEffect(() => {
     toast(
      'Topic: Introduce Yourself'
-      
       , {
       position: "bottom-center",
-      autoClose: 50000,
+      autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: false,
       pauseOnHover: false,
