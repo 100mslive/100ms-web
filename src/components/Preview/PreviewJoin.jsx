@@ -53,6 +53,7 @@ const PreviewJoin = ({
   const { enableJoin, preview, join } = usePreviewJoin({
     name,
     token,
+    metadata: JSON.stringify({city: 'Winterfell', knowledge: 'nothing'}),
     initEndpoint: env ? `https://${env}-init.100ms.live/init` : undefined,
     initialSettings: {
       isAudioMuted: skipPreview || previewPreference.isAudioMuted,
@@ -65,6 +66,7 @@ const PreviewJoin = ({
         setPreviewError(true);
       }
     },
+    
     asRole,
   });
   const savePreferenceAndJoin = useCallback(() => {
