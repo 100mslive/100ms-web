@@ -10,7 +10,6 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
 import { Flex } from "@100mslive/roomkit-react";
 import FullPageProgress from "../components/FullPageProgress";
 import EmbedView from "./EmbedView";
@@ -38,6 +37,17 @@ const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 const PinnedTrackView = React.lazy(() => import("./PinnedTrackView"));
 
+const CustomCard = ({ onClose }) => (
+  <div className="custom-card" style={{ position: "fixed", bottom: "50px", left: "50%", transform: "translateX(-50%)" }}>
+    <div className="card-content" style={{ padding: "10px", border: "1px solid #ccc", borderRadius: "5px", backgroundColor: "#fff", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <span style={{ fontSize: "16px", fontWeight: "bold" }}>Topic: Introduce Yourself</span>
+      <button onClick={onClose} className="close-button" style={{ backgroundColor: "#007bff", color: "#fff", border: "none", padding: "5px 10px", borderRadius: "5px", marginLeft:"5px", cursor: "pointer" }}>
+        Next
+      </button>
+    </div>
+  </div>
+);
+
 export const ConferenceMainView = () => {
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const pinnedTrack = usePinnedTrack();
@@ -56,21 +66,11 @@ export const ConferenceMainView = () => {
   const embedConfig = useUrlToEmbed();
   const pdfConfig = usePDFConfig();
 
+  const [showCard, setShowCard] = useState(true);
 
-  useEffect(() => {
-    toast(
-     'Topic: Introduce Yourself'
-      , {
-      position: "bottom-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-      });
-  }, []);
+  const handleCloseCard = () => {
+    setShowCard(false);
+  };
 
   useEffect(() => {
     if (!isConnected) {
@@ -134,19 +134,16 @@ export const ConferenceMainView = () => {
     <Suspense fallback={<FullPageProgress />}>
       <Flex
         css={{
-          size: "100%",
+          
+          width:"100%",
+          height:"80%",
           position: "relative",
-
         }}
       >
         <ViewComponent />
         <SidePane />
-
       </Flex>
-      <ToastContainer
-         style={{ position: "fixed", bottom: "50px", left: "50%", transform: "translateX(-50%)" }}
-        closeButton={false}
-      />
+      {showCard && <CustomCard onClose={handleCloseCard} />}
     </Suspense>
   );
 };
