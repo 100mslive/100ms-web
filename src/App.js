@@ -42,7 +42,7 @@ if (window.location.host.includes("localhost")) {
 } else {
   appName = window.location.host.split(".")[0];
 }
-
+console.log("HELLO");
 document.title =
   process.env.REACT_APP_TITLE || `${appName}'s ${document.title}`;
 
@@ -131,10 +131,11 @@ const RedirectToPreview = ({ getDetails }) => {
   const { roomId, role } = useParams();
   useEffect(() => {
     getDetails();
+    console.log("room", roomId, role);
   }, [roomId]); //eslint-disable-line
 
   console.error({ roomId, role });
-
+  console.log("room", roomId, role);
   if (!roomId && !role) {
     return <Navigate to="/" />;
   }
