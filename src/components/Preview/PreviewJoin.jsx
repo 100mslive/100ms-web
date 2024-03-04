@@ -50,10 +50,33 @@ const PreviewJoin = ({
   const [name, setName] = useState(initialName || previewPreference.name);
   const { isLocalAudioEnabled, isLocalVideoEnabled } = useAVToggle();
   const [previewError, setPreviewError] = useState(false);
+  const [learner, setLearner] = useState(null);
+  const [type, setType] = useState(null);
+  const [userAgent, setUserAgent] = useState(null);
+  useEffect(() => {
+    setUserAgent(window.navigator.userAgent.toLowerCase())
+    // Parse the query parameters from the URL
+    const queryParams = new URLSearchParams(window.location.search);
+    
+    // Get the value of 'learner' from the query parameters and set it in state
+    const learnerParam = queryParams.get('learner');
+    setLearner(learnerParam);
+
+    // Get the value of 'type' from the query parameters and set it in state
+    const typeParam = queryParams.get('type');
+    setType(typeParam);
+  }, []); 
+  // console.log("user", userAgent, learner, type)
+  
   const { enableJoin, preview, join } = usePreviewJoin({
     name,
     token,
-    metadata: JSON.stringify({city: 'Winterfell', knowledge: 'nothing'}),
+    metadata: JSON.stringify({
+      userId:learner,
+      type,
+      platform:"web",     
+      userAgent
+      }),
     initEndpoint: env ? `https://${env}-init.100ms.live/init` : undefined,
     initialSettings: {
       isAudioMuted: skipPreview || previewPreference.isAudioMuted,
