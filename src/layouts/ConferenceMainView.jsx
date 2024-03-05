@@ -1,4 +1,6 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
+import { FaLongArrowAltLeft,FaLongArrowAltRight } from "react-icons/fa";
+
 import {
   selectIsConnectedToRoom,
   selectLocalPeerRoleName,
@@ -37,18 +39,117 @@ const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 const PinnedTrackView = React.lazy(() => import("./PinnedTrackView"));
 
-const CustomCard = ({ onClose }) => (
-  <div className="custom-card" style={{ position: "fixed", bottom: "50px", left: "50%", transform: "translateX(-50%)" }}>
-    <div className="card-content" style={{ padding: "10px", border: "1px solid #ccc", borderRadius: "5px", backgroundColor: "#fff", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <span style={{ fontSize: "16px", fontWeight: "bold" }}>Topic: Introduce Yourself</span>
-      <button onClick={onClose} className="close-button" style={{ backgroundColor: "#007bff", color: "#fff", border: "none", padding: "5px 10px", borderRadius: "5px", marginLeft:"5px", cursor: "pointer" }}>
-        Next
-      </button>
+const CustomCard = ({ topics, onClose }) => {
+  const [topicIndex, setTopicIndex] = useState(0);
+
+  const handleNextTopic = () => {
+    if (topicIndex < topics.length - 1) {
+      setTopicIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
+  const handlePrevTopic = () => {
+    if (topicIndex > 0) {
+      setTopicIndex((prevIndex) => prevIndex - 1);
+    }
+  };
+
+  return (
+    <div
+      className="custom-card"
+      style={{
+        position: "fixed",
+        bottom: "50px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "auto", // Dynamic width
+      }}
+    >
+      <div
+        className="card-content"
+        style={{
+          padding: "10px",
+          border: "1px solid #ccc",
+          borderRadius: "5px",
+          backgroundColor: "#fff",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <span
+          style={{
+            color: "#4CB7A4",
+            marginRight: "10px",
+            fontWeight: "400",
+            fontFamily: "Poppins, sans-serif", // Apply Poppins font to the "Topic" text
+          }}
+        >
+          Topic:
+        </span>
+        <span style={{ flex: 1, fontWeight: "400", fontFamily: "Poppins, sans-serif", marginRight:"5px" }}>{topics[topicIndex]}</span>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {topicIndex > 0 && (
+            <button
+              onClick={handlePrevTopic}
+              className="prev-button"
+              style={{
+                backgroundColor: "#007bff",
+                color: "#fff",
+                border: "none",
+                padding: "5px",
+                borderRadius: "5px",
+                cursor: "pointer",
+                marginRight: "10px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <FaLongArrowAltLeft style={{ marginRight: "5px" }} />
+              Previous
+            </button>
+          )}
+          {topicIndex < topics.length - 1 && (
+            <button
+              onClick={handleNextTopic}
+              className="next-button"
+              style={{
+                backgroundColor: "#007bff",
+                color: "#fff",
+                border: "none",
+                padding: "5px",
+                borderRadius: "5px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              Next
+              <FaLongArrowAltRight style={{ marginLeft: "5px" }} />
+            </button>
+          )}
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
+
 
 export const ConferenceMainView = () => {
+  const [showCard, setShowCard] = useState(true);
+  const [topics] = useState([
+    "Introduction",
+    "Agenda Overview",
+    "Keynote Speaker",
+    "Breakout Sessions",
+    "Q&A Session",
+  ]);
+
+  const handleCloseCard = () => {
+    setShowCard(false);
+  };
+
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const pinnedTrack = usePinnedTrack();
   const peerSharing = useHMSStore(selectPeerScreenSharing);
@@ -65,12 +166,6 @@ export const ConferenceMainView = () => {
   const waitingViewerRole = useWaitingViewerRole();
   const embedConfig = useUrlToEmbed();
   const pdfConfig = usePDFConfig();
-
-  const [showCard, setShowCard] = useState(true);
-
-  const handleCloseCard = () => {
-    setShowCard(false);
-  };
 
   useEffect(() => {
     if (!isConnected) {
@@ -134,16 +229,15 @@ export const ConferenceMainView = () => {
     <Suspense fallback={<FullPageProgress />}>
       <Flex
         css={{
-          
-          width:"100%",
-          height:"80%",
+          width: "100%",
+          height: "95%",
           position: "relative",
         }}
       >
         <ViewComponent />
         <SidePane />
       </Flex>
-      {showCard && <CustomCard onClose={handleCloseCard} />}
+      {showCard && <CustomCard topics={topics} onClose={handleCloseCard} />}
     </Suspense>
   );
 };

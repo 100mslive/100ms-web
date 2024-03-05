@@ -6457,6 +6457,11 @@
   dependencies:
     "hotkeys-js" "3.9.4"
 
+"react-icons@^5.0.1":
+  "integrity" "sha512-WqLZJ4bLzlhmsvme6iFdgO8gfZP17rfjYEJ2m9RsZjZ+cc4k1hTzknEz63YS1MeT50kVzoa1Nz36f4BEx+Wigw=="
+  "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-5.0.1.tgz"
+  "version" "5.0.1"
+
 "react-intersection-observer@^9.4.3":
   "integrity" "sha512-EmoV66/yvksJcGa1rdW0nDNc4I1RifDWkT50gXSFnPLYQ4xUptuDD4V7k+Rj1OgVAlww628KLGcxPXFlOkkU/Q=="
   "resolved" "https://registry.npmjs.org/react-intersection-observer/-/react-intersection-observer-9.5.2.tgz"
