@@ -230,14 +230,14 @@ export const ConferenceMainView = () => {
       <Flex
         css={{
           width: "100%",
-          height: "95%",
+          height: "100%",
           position: "relative",
         }}
       >
         <ViewComponent />
         <SidePane />
       </Flex>
-      {showCard && <CustomCard topics={topics} onClose={handleCloseCard} />}
+      {/* {showCard && <CustomCard topics={topics} onClose={handleCloseCard} />} */}
     </Suspense>
   );
 };
