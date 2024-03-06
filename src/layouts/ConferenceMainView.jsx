@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from "react";
-import { FaLongArrowAltLeft,FaLongArrowAltRight } from "react-icons/fa";
+import { FaLongArrowAltLeft, FaLongArrowAltRight, FaSyncAlt } from "react-icons/fa";
 
 import {
   selectIsConnectedToRoom,
@@ -41,17 +41,40 @@ const PinnedTrackView = React.lazy(() => import("./PinnedTrackView"));
 
 const CustomCard = ({ topics, onClose }) => {
   const [topicIndex, setTopicIndex] = useState(0);
+  const [question, setQuestion] = useState(""); // State to store the fetched question
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleNextTopic = () => {
-    if (topicIndex < topics.length - 1) {
-      setTopicIndex((prevIndex) => prevIndex + 1);
-    }
+  const fetchQuestion = () => {
+    setIsLoading(true);
+    fetch("https://conversationai.clapingo.com/reading/question")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          setQuestion(data.question);
+        } else {
+          // Handle API error if needed
+        }
+      })
+      .catch(error => {
+        // Handle fetch error if needed
+        console.error('Fetch error:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
-  const handlePrevTopic = () => {
-    if (topicIndex > 0) {
-      setTopicIndex((prevIndex) => prevIndex - 1);
-    }
+  useEffect(() => {
+    fetchQuestion(); // Fetch data on first load
+  }, []);
+
+  const handleRefresh = () => {
+    fetchQuestion(); // Fetch data on refresh
   };
 
   return (
@@ -87,9 +110,12 @@ const CustomCard = ({ topics, onClose }) => {
         >
           Topic:
         </span>
-        <span style={{ flex: 1, fontWeight: "400", fontFamily: "Poppins, sans-serif", marginRight:"5px" }}>{topics[topicIndex]}</span>
+        <span style={{ flex: 1, fontWeight: "400", fontFamily: "Poppins, sans-serif", marginRight:"5px" }}>
+          {isLoading ? "Loading..." : question || topics[topicIndex]} {/* Display fetched question if available */}
+        </span>
         <div style={{ display: "flex", alignItems: "center" }}>
-          {topicIndex > 0 && (
+          {/* Previous Button */}
+          {/* {topicIndex > 0 && (
             <button
               onClick={handlePrevTopic}
               className="prev-button"
@@ -108,8 +134,9 @@ const CustomCard = ({ topics, onClose }) => {
               <FaLongArrowAltLeft style={{ marginRight: "5px" }} />
               Previous
             </button>
-          )}
-          {topicIndex < topics.length - 1 && (
+          )} */}
+          {/* Next Button */}
+          {/* {topicIndex < topics.length - 1 && (
             <button
               onClick={handleNextTopic}
               className="next-button"
@@ -127,14 +154,32 @@ const CustomCard = ({ topics, onClose }) => {
               Next
               <FaLongArrowAltRight style={{ marginLeft: "5px" }} />
             </button>
-          )}
+          )} */}
+          {/* Refresh Button */}
+          <button
+            onClick={handleRefresh}
+            className="refresh-button"
+            style={{
+              backgroundColor: "#007bff",
+              color: "#fff",
+              border: "none",
+              padding: "5px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              marginRight: "10px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <FaSyncAlt style={{ marginRight: "5px" }} />
+            Refresh
+            
+          </button>
         </div>
       </div>
     </div>
   );
 };
-
-
 
 export const ConferenceMainView = () => {
   const [showCard, setShowCard] = useState(true);
@@ -174,12 +219,12 @@ export const ConferenceMainView = () => {
     const audioPlaylist = JSON.parse(
       process.env.REACT_APP_AUDIO_PLAYLIST || "[]"
     );
-    const videoPlaylist = JSON.parse(
-      process.env.REACT_APP_VIDEO_PLAYLIST || "[]"
-    );
-    if (videoPlaylist.length > 0) {
-      hmsActions.videoPlaylist.setList(videoPlaylist);
-    }
+    // const videoPlaylist = JSON.parse(
+    //   process.env.REACT_APP_VIDEO_PLAYLIST || "[]"
+    // );
+    // if (videoPlaylist.length > 0) {
+    //   hmsActions.videoPlaylist.setList(videoPlaylist);
+    // }
     if (audioPlaylist.length > 0) {
       hmsActions.audioPlaylist.setList(audioPlaylist);
     }
@@ -230,14 +275,14 @@ export const ConferenceMainView = () => {
       <Flex
         css={{
           width: "100%",
-          height: "100%",
+          height: "95%",
           position: "relative",
         }}
       >
         <ViewComponent />
         <SidePane />
       </Flex>
-      {/* {showCard && <CustomCard topics={topics} onClose={handleCloseCard} />} */}
+      {showCard && <CustomCard topics={topics} onClose={handleCloseCard} />}
     </Suspense>
   );
 };
