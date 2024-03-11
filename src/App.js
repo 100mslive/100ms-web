@@ -42,14 +42,8 @@ const queryParams = new URLSearchParams(window.location.search);
 // Get the value of 'learner' from the query parameters
 const learnerParam = queryParams.get("isPeerLearner");
 console.log("Peer value", learnerParam);
-// // Store the value in local storage
-// localStorage.setItem("isPeerLearner", learnerParam);
-
-// // // Fetch the value from local storage
-// // const storedLearnerParam = localStorage.getItem('isPeerLearner');
-
-// // // Set the peer value to the fetched value
-// // setPeer(storedLearnerParam);
+// Store the value in local storage
+localStorage.setItem("isPeerLearner", learnerParam);
 
 let appName;
 if (window.location.host.includes("localhost")) {
@@ -196,7 +190,7 @@ const RouteList = ({ getDetails, authTokenByRoomCodeEndpoint }) => {
           path=":roomId/:role"
           element={
             <Suspense fallback={<FullPageProgress />}>
-              <Conference peerToPeerValue={learnerParam} />
+              <Conference />
             </Suspense>
           }
         />
@@ -204,7 +198,7 @@ const RouteList = ({ getDetails, authTokenByRoomCodeEndpoint }) => {
           path=":roomId"
           element={
             <Suspense fallback={<FullPageProgress />}>
-              <Conference peerToPeerValue={learnerParam} />
+              <Conference />
             </Suspense>
           }
         />

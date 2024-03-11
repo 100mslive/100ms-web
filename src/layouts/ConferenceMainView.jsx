@@ -190,8 +190,8 @@ const CustomCard = ({ topics }) => {
   );
 };
 
-export const ConferenceMainView = (peerToPeerValue) => {
-  
+export const ConferenceMainView = () => {
+  const [peer , setPeer] = useState(false);
   const [topics] = useState([
     "Introduction",
     "Agenda Overview",
@@ -252,23 +252,22 @@ export const ConferenceMainView = (peerToPeerValue) => {
   }
 
  
+  const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
   
-  console.log("storedpeer",peerToPeerValue.peerToPeerValue.peerToPeerValue)
 
   return (
-    
     <Suspense fallback={<FullPageProgress />}>
       <Flex
         css={{
           width: "100%",
-          height: peerToPeerValue.peerToPeerValue.peerToPeerValue=='true' ? (isMobileWeb ? "80%" : "95%") : "100%",
+          height: storedLearnerPeerValue=='true' ? (isMobileWeb ? "80%" : "95%") : "100%",
           position: "relative",
         }}
       >
         <ViewComponent />
         <SidePane />
       </Flex>
-      {peerToPeerValue.peerToPeerValue.peerToPeerValue=='true' && <CustomCard topics={topics} />}
+      {storedLearnerPeerValue=='true' && <CustomCard topics={topics} />}
     </Suspense>
   );
 };
