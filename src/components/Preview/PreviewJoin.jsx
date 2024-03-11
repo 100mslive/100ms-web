@@ -62,6 +62,9 @@ const PreviewJoin = ({
     const learnerParam = queryParams.get('learner');
     setLearner(learnerParam);
 
+    const nameParam = queryParams.get('name');
+    setName(nameParam);
+
     // Get the value of 'type' from the query parameters and set it in state
     const typeParam = queryParams.get('type');
     setType(typeParam);
