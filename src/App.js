@@ -36,13 +36,28 @@ const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
 const defaultTokenEndpoint = process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
+// Parse the query parameters from the URL
+const queryParams = new URLSearchParams(window.location.search);
+
+// Get the value of 'learner' from the query parameters
+const learnerParam = queryParams.get("isPeerLearner");
+console.log("Peer value", learnerParam);
+// // Store the value in local storage
+// localStorage.setItem("isPeerLearner", learnerParam);
+
+// // // Fetch the value from local storage
+// // const storedLearnerParam = localStorage.getItem('isPeerLearner');
+
+// // // Set the peer value to the fetched value
+// // setPeer(storedLearnerParam);
+
 let appName;
 if (window.location.host.includes("localhost")) {
   appName = "localhost";
 } else {
   appName = window.location.host.split(".")[0];
 }
-console.log("HELLO");
+
 document.title =
   process.env.REACT_APP_TITLE || `${appName}'s ${document.title}`;
 
@@ -181,7 +196,7 @@ const RouteList = ({ getDetails, authTokenByRoomCodeEndpoint }) => {
           path=":roomId/:role"
           element={
             <Suspense fallback={<FullPageProgress />}>
-              <Conference />
+              <Conference peerToPeerValue={learnerParam} />
             </Suspense>
           }
         />
@@ -189,7 +204,7 @@ const RouteList = ({ getDetails, authTokenByRoomCodeEndpoint }) => {
           path=":roomId"
           element={
             <Suspense fallback={<FullPageProgress />}>
-              <Conference />
+              <Conference peerToPeerValue={learnerParam} />
             </Suspense>
           }
         />

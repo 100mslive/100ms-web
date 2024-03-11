@@ -38,6 +38,7 @@ const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 const PinnedTrackView = React.lazy(() => import("./PinnedTrackView"));
 
+
 const CustomCard = ({ topics }) => {
   const [question, setQuestion] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -189,8 +190,8 @@ const CustomCard = ({ topics }) => {
   );
 };
 
-export const ConferenceMainView = () => {
-  const [peer] = useState(true);
+export const ConferenceMainView = (peerToPeerValue) => {
+  
   const [topics] = useState([
     "Introduction",
     "Agenda Overview",
@@ -250,21 +251,24 @@ export const ConferenceMainView = () => {
     ViewComponent = MainGridView;
   }
 
-
+ 
+  
+  console.log("storedpeer",peerToPeerValue.peerToPeerValue.peerToPeerValue)
 
   return (
+    
     <Suspense fallback={<FullPageProgress />}>
       <Flex
         css={{
           width: "100%",
-          height: peer ? (isMobileWeb ? "80%" : "95%") : "100%",
+          height: peerToPeerValue.peerToPeerValue.peerToPeerValue=='true' ? (isMobileWeb ? "80%" : "95%") : "100%",
           position: "relative",
         }}
       >
         <ViewComponent />
         <SidePane />
       </Flex>
-      {peer && <CustomCard topics={topics} />}
+      {peerToPeerValue.peerToPeerValue.peerToPeerValue=='true' && <CustomCard topics={topics} />}
     </Suspense>
   );
 };

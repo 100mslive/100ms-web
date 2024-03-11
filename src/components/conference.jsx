@@ -25,7 +25,7 @@ import {
   isIPadOS,
 } from "../common/constants";
 
-const Conference = () => {
+const Conference = (peerToPeerValue) => {
   const navigate = useNavigation();
   const { roomId, role } = useParams();
   const isHeadless = useIsHeadless();
@@ -39,7 +39,7 @@ const Conference = () => {
   const footerRef = useRef();
   const dropdownListRef = useRef();
   const performAutoHide = hideControls && (isAndroid || isIOS || isIPadOS);
-
+  console.log("conference peer", peerToPeerValue)
   const toggleControls = e => {
     if (dropdownListRef.current?.length === 0) {
       setHideControls(value => !value);
@@ -122,7 +122,7 @@ const Conference = () => {
         data-testid="conferencing"
         onClick={toggleControls}
       >
-        <ConferenceMainView />
+        <ConferenceMainView peerToPeerValue={peerToPeerValue} />
       </Box>
       {!isHeadless && (
         <Box
