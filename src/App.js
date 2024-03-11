@@ -36,13 +36,22 @@ const PreviewScreen = React.lazy(() => import("./components/PreviewScreen"));
 const defaultTokenEndpoint = process.env.REACT_APP_TOKEN_GENERATION_ENDPOINT;
 const envPolicyConfig = JSON.parse(process.env.REACT_APP_POLICY_CONFIG || "{}");
 
+// Parse the query parameters from the URL
+const queryParams = new URLSearchParams(window.location.search);
+
+// Get the value of 'learner' from the query parameters
+const learnerParam = queryParams.get("isPeerLearner");
+console.log("Peer value", learnerParam);
+// Store the value in local storage
+localStorage.setItem("isPeerLearner", learnerParam);
+
 let appName;
 if (window.location.host.includes("localhost")) {
   appName = "localhost";
 } else {
   appName = window.location.host.split(".")[0];
 }
-console.log("HELLO");
+
 document.title =
   process.env.REACT_APP_TITLE || `${appName}'s ${document.title}`;
 

@@ -44,13 +44,20 @@ export const LeaveRoom = () => {
   const hmsActions = useHMSActions();
   useDropdownList({ open, name: "LeaveRoom" });
 
+  const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
   const redirectToLeavePage = () => {
-    if (params.role) {
-      navigate("/leave/" + params.roomId + "/" + params.role);
+    // if (params.role) {
+    //   navigate("/leave/" + params.roomId + "/" + params.role);
+    // } else {
+    //   navigate("/leave/" + params.roomId);
+    // }
+    if(storedLearnerPeerValue=='true'){
+    window.location.href = "https://customer-web-git-learner-to-learner-ui-clapingo.vercel.app/peer-learning/dashboard";
     } else {
-      navigate("/leave/" + params.roomId);
+      window.location.href = "https://customer-web-git-staging-clapingo.vercel.app/learner";
     }
-    ToastManager.clearAllToast();
+
+        ToastManager.clearAllToast();
   };
 
   const leaveRoom = () => {
