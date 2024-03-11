@@ -45,6 +45,7 @@ export const LeaveRoom = () => {
   useDropdownList({ open, name: "LeaveRoom" });
 
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
+  const sessionId = localStorage.getItem('sessionId');
   const redirectToLeavePage = () => {
     // if (params.role) {
     //   navigate("/leave/" + params.roomId + "/" + params.role);
@@ -52,7 +53,7 @@ export const LeaveRoom = () => {
     //   navigate("/leave/" + params.roomId);
     // }
     if(storedLearnerPeerValue=='true'){
-    window.location.href = "https://customer-web-git-learner-to-learner-ui-clapingo.vercel.app/peer-learning/dashboard";
+    window.location.href = `https://customer-web-git-learner-to-learner-ui-clapingo.vercel.app/peer-learning/dashboard?sessionId=${sessionId}`;
     } else {
       window.location.href = "https://customer-web-git-staging-clapingo.vercel.app/learner";
     }
