@@ -39,7 +39,7 @@ export function Notifications() {
   const isHeadless = useIsHeadless();
   const toggleWidget = useWidgetToggle();
   const roomState = useHMSStore(selectRoomState);
-
+  const sessionId = localStorage.getItem('sessionId');
   useEffect(() => {
     if (!notification) {
       return;
@@ -155,11 +155,14 @@ export function Notifications() {
               }`,
         });
         setTimeout(() => {
-          const leaveLocation = window.location.pathname.replace(
-            "meeting",
-            "leave"
-          );
-          navigate(leaveLocation);
+          // const leaveLocation = window.location.pathname.replace(
+          //   "meeting",
+          //   "leave"
+          // );
+          // navigate(leaveLocation);
+
+          //Redirect to dashboard
+          window.location.href = `https://customer-web-git-learner-to-learner-ui-clapingo.vercel.app/peer-learning/dashboard?sessionId=${sessionId}`;
           ToastManager.clearAllToast();
         }, 2000);
         break;
