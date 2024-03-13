@@ -19,7 +19,7 @@ import {
   QUERY_PARAM_SKIP_PREVIEW_HEADFUL,
   UI_SETTINGS,
 } from "../common/constants";
-
+import { useLocation } from "react-router-dom";
 /**
  * query params exposed -
  * skip_preview=true => used by recording and streaming service, skips preview and directly joins
@@ -39,6 +39,7 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
   const { roomId: urlRoomId, role: userRole } = useParams(); // from the url
   const [token, setToken] = useState(null);
   const [error, setError] = useState({ title: "", body: "" });
+
   // way to skip preview for automated tests, beam recording and streaming
   const beamInToken = useSearchParam("token") === "beam_recording"; // old format to remove
   let skipPreview = useSearchParam(QUERY_PARAM_SKIP_PREVIEW) === "true";
@@ -53,6 +54,38 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
     useSearchParam(QUERY_PARAM_NAME) || (skipPreview ? "Beam" : "");
   const previewAsRole = useSearchParam(QUERY_PARAM_PREVIEW_AS_ROLE);
   let authToken = useSearchParam(QUERY_PARAM_AUTH_TOKEN);
+  const queryParams = new URLSearchParams(window.location.search);
+
+
+  const sessionId = queryParams.get("sessionId");
+
+  // Detect tab close
+  const location = useLocation();
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      
+      const data = { sessionId: sessionId };
+      const json = JSON.stringify(data);
+      navigator.sendBeacon('https://dev.clapingo.com/api/session/endActiveP2PSession', json);
+    };
+  
+    const previewRegex = /^\/preview\/(.*)$/;
+  
+    if (previewRegex.test(location.pathname)) {
+      window.addEventListener('beforeunload', handleBeforeUnload);
+  
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    }
+  }, [location.pathname]);
+  
+
+
+
+
+
+
   useEffect(() => {
     if (authToken) {
       setToken(authToken);
@@ -65,10 +98,10 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
 
     const getTokenFn = roomCode
       ? () =>
-          hmsActions.getAuthTokenByRoomCode(
-            { roomCode },
-            { endpoint: authTokenByRoomCodeEndpoint }
-          )
+        hmsActions.getAuthTokenByRoomCode(
+          { roomCode },
+          { endpoint: authTokenByRoomCodeEndpoint }
+        )
       : () => getToken(tokenEndpoint, uuid(), userRole, urlRoomId);
 
     getTokenFn()
