@@ -66,7 +66,8 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
       
       const data = { sessionId: sessionId };
       const json = JSON.stringify(data);
-      navigator.sendBeacon('https://dev.clapingo.com/api/session/endActiveP2PSession', json);
+      const blob = new Blob([json], { type: 'application/json' });
+      navigator.sendBeacon('https://dev.clapingo.com/api/session/endActiveP2PSession', blob);
     };
   
     const previewRegex = /^\/preview\/(.*)$/;
