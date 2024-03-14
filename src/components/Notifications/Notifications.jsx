@@ -162,7 +162,7 @@ export function Notifications() {
           // navigate(leaveLocation);
 
           //Redirect to dashboard
-          window.location.href = `https://customer-web-git-learner-to-learner-ui-clapingo.vercel.app/peer-learning/dashboard?sessionId=${sessionId}`;
+          window.location.href = `https://clapingo.com/peer-learning/dashboard?sessionId=${sessionId}`;
           ToastManager.clearAllToast();
         }, 2000);
         break;

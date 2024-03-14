@@ -53,9 +53,9 @@ export const LeaveRoom = () => {
     //   navigate("/leave/" + params.roomId);
     // }
     if(storedLearnerPeerValue=='true'){
-    window.location.href = `https://customer-web-git-learner-to-learner-ui-clapingo.vercel.app/peer-learning/dashboard?sessionId=${sessionId}`;
+    window.location.href = `https://clapingo.com/peer-learning/dashboard?sessionId=${sessionId}`;
     } else {
-      window.location.href = "https://customer-web-git-staging-clapingo.vercel.app/learner";
+      window.location.href = "https://clapingo.com/learner";
     }
 
         ToastManager.clearAllToast();
