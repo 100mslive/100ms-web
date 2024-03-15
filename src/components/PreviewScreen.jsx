@@ -62,24 +62,24 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
   // Detect tab close
   const location = useLocation();
   useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      
-      const data = { sessionId: sessionId };
-      const json = JSON.stringify(data);
-      const blob = new Blob([json], { type: 'application/json' });
-      navigator.sendBeacon('https://api.clapingo.com/api/session/endActiveP2PSession', blob);
+    const handleBeforeUnload = () => {
+        const data = { sessionId: sessionId };
+        const params = new URLSearchParams(data).toString();
+        const url = ` https://eozpko3745zdu6h.m.pipedream.net?${params}`;
+        navigator.sendBeacon(url);
     };
-  
+
     const previewRegex = /^\/preview\/(.*)$/;
-  
+
     if (previewRegex.test(location.pathname)) {
-      window.addEventListener('beforeunload', handleBeforeUnload);
-  
-      return () => {
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-      };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
     }
-  }, [location.pathname]);
+}, [location.pathname, sessionId]);
+
   
 
 
