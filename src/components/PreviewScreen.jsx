@@ -59,13 +59,13 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
 
   const sessionId = queryParams.get("sessionId");
 
-  // Detect tab close
+  // Detect tab close.
   const location = useLocation();
   useEffect(() => {
     const handleBeforeUnload = () => {
         const data = { sessionId: sessionId };
         const params = new URLSearchParams(data).toString();
-        const url = ` https://eozpko3745zdu6h.m.pipedream.net?${params}`;
+        const url = `https://api.clapingo.com/api/session/endActiveP2PSession?${params}`;
         navigator.sendBeacon(url);
     };
 
