@@ -13,10 +13,12 @@ export function PDFFileOptions({ onOpenChange }) {
   const [isPDFUrlValid, setIsPDFUrlValid] = useState(true);
   const [isValidateProgress, setIsValidateProgress] = useState(false);
   const [pdfFile, setPDFFile] = useState(null);
-  const [pdfURL, setPDFURL] = useState();
-  const [activeTab, setActiveTab] = useState(PDF_SHARING_OPTIONS.FROM_A_URL);
+  const [pdfURL, setPDFURL] = useState("");
+  const [activeTab, setActiveTab] = useState(
+    PDF_SHARING_OPTIONS.FROM_YOUR_COMPUTER
+  );
 
-  return (
+  return !pdfFile ? (
     <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay />
@@ -96,6 +98,15 @@ export function PDFFileOptions({ onOpenChange }) {
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
+  ) : (
+    <UploadedFile
+      pdfFile={pdfFile}
+      pdfURL={pdfURL}
+      isValidateProgress={isValidateProgress}
+      setPDFFile={setPDFFile}
+      setIsPDFUrlValid={setIsPDFUrlValid}
+      setIsValidateProgress={setIsValidateProgress}
+      onOpenChange={onOpenChange}
+    />
   );
 }
-

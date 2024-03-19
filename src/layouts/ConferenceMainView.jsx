@@ -199,7 +199,11 @@ export const ConferenceMainView = () => {
     "Breakout Sessions",
     "Q&A Session",
   ]);
-
+  const { whiteboardOwner: whiteboardShared } = useWhiteboardMetadata();
+  const peerSharing = useHMSStore(selectPeerScreenSharing);
+  const peerSharingPlaylist = useHMSStore(selectPeerSharingVideoPlaylist);
+  const pinnedTrack = usePinnedTrack();
+  const peerSharingAudio = useHMSStore(selectPeerSharingAudio);
   const localPeerRole = useHMSStore(selectLocalPeerRoleName);
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const uiMode = useHMSStore(selectTemplateAppData).uiMode;
@@ -240,8 +244,18 @@ export const ConferenceMainView = () => {
     ViewComponent = EmbedView;
   } else if (pdfConfig) {
     ViewComponent = PDFView;
+  } else if (whiteboardShared) {
+    ViewComponent = WhiteboardView;
   } else if (uiMode === "inset") {
     ViewComponent = InsetView;
+  } else if (
+    ((peerSharing && peerSharing.id !== peerSharingAudio?.id) ||
+      peerSharingPlaylist) &&
+    !isAudioOnly
+  ) {
+    ViewComponent = ScreenShareView;
+  } else if (pinnedTrack) {
+    ViewComponent = PinnedTrackView;
   } else if (
     uiViewMode === UI_MODE_ACTIVE_SPEAKER ||
     (isHeadless && headlessUIMode === UI_MODE_ACTIVE_SPEAKER)

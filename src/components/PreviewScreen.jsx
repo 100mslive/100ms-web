@@ -58,11 +58,12 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
 
 
   const sessionId = queryParams.get("sessionId");
-
+  const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
   // Detect tab close.
   const location = useLocation();
   useEffect(() => {
-    const handleBeforeUnload = () => {
+    if(storedLearnerPeerValue=='true'){
+      const handleBeforeUnload = () => {
         const data = { sessionId: sessionId };
         const params = new URLSearchParams(data).toString();
         const url = `https://api.clapingo.com/api/session/endActiveP2PSession?${params}`;
@@ -78,6 +79,8 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
     }
+    }
+   
 }, [location.pathname, sessionId]);
 
   
