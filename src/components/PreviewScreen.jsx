@@ -60,28 +60,28 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
   const sessionId = queryParams.get("sessionId");
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
   // Detect tab close.
-  const location = useLocation();
-  useEffect(() => {
-    if(storedLearnerPeerValue=='true'){
-      const handleBeforeUnload = () => {
-        const data = { sessionId: sessionId };
-        const params = new URLSearchParams(data).toString();
-        const url = `https://api.clapingo.com/api/session/endActiveP2PSession?${params}`;
-        navigator.sendBeacon(url);
-    };
+//   const location = useLocation();
+//   useEffect(() => {
+//     if(storedLearnerPeerValue=='true'){
+//       const handleBeforeUnload = () => {
+//         const data = { sessionId: sessionId };
+//         const params = new URLSearchParams(data).toString();
+//         const url = `https://api.clapingo.com/api/session/endActiveP2PSession?${params}`;
+//         navigator.sendBeacon(url);
+//     };
 
-    const previewRegex = /^\/preview\/(.*)$/;
+//     const previewRegex = /^\/preview\/(.*)$/;
 
-    if (previewRegex.test(location.pathname)) {
-        window.addEventListener('beforeunload', handleBeforeUnload);
+//     if (previewRegex.test(location.pathname)) {
+//         window.addEventListener('beforeunload', handleBeforeUnload);
 
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }
-    }
+//         return () => {
+//             window.removeEventListener('beforeunload', handleBeforeUnload);
+//         };
+//     }
+//     }
    
-}, [location.pathname, sessionId]);
+// }, [location.pathname, sessionId]);
 
   
 
