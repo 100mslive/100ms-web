@@ -229,22 +229,22 @@ const Link = styled("a", {
 
 export const ErrorWithSupportLink = errorMessage => (
   <div>
-    {errorMessage} If you think this is a mistake on our side, please create{" "}
+    {errorMessage} Apologies the other peer had to cancel.  Please try to join again from the{" "}
     <Link
       target="_blank"
-      href="https://github.com/100mslive/100ms-web/issues"
+      href="https://clapingo.com/peer-learning/dashboard"
       rel="noreferrer"
     >
-      an issue
+      dashboard.
     </Link>{" "}
-    or reach out over{" "}
+    {/* or reach out over{" "}
     <Link
       target="_blank"
       href="https://discord.com/invite/kGdmszyzq2"
       rel="noreferrer"
     >
       Discord
-    </Link>
+    </Link> */}
     .
   </div>
 );
