@@ -191,7 +191,7 @@ const CustomCard = ({ topics }) => {
 };
 
 export const ConferenceMainView = () => {
-  const [peer , setPeer] = useState(false);
+  const [peer, setPeer] = useState(false);
   const [topics] = useState([
     "Introduction",
     "Agenda Overview",
@@ -215,6 +215,26 @@ export const ConferenceMainView = () => {
   const waitingViewerRole = useWaitingViewerRole();
   const embedConfig = useUrlToEmbed();
   const pdfConfig = usePDFConfig();
+
+  //countdown timer
+  const [countdown, setCountdown] = useState(900); // 15 minutes in seconds
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown(prevCountdown => prevCountdown - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (countdown === 0) {
+      // Timer has reached zero, perform any action you need
+      clearInterval(timer);
+      // For example, display an alert
+      alert("Time's up!");
+    }
+  }, [countdown]);
 
   useEffect(() => {
     if (!isConnected) {
@@ -265,23 +285,32 @@ export const ConferenceMainView = () => {
     ViewComponent = MainGridView;
   }
 
- 
+
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
-  
+
 
   return (
     <Suspense fallback={<FullPageProgress />}>
       <Flex
         css={{
           width: "100%",
-          height: storedLearnerPeerValue=='true' ? (isMobileWeb ? "80%" : "95%") : "100%",
+          height: storedLearnerPeerValue == 'true' ? (isMobileWeb ? "80%" : "95%") : "100%",
           position: "relative",
         }}
       >
         <ViewComponent />
         <SidePane />
       </Flex>
-      {storedLearnerPeerValue=='true' && <CustomCard topics={topics} />}
+      {storedLearnerPeerValue == 'true' && <CustomCard topics={topics} />}
+      {storedLearnerPeerValue === 'true' && (
+        <div style={{ position: "fixed", top: "10px", left: "50%", transform: "translateX(-50%)", padding: "8px 16px", backgroundColor: "#fff", borderRadius: "5px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)", fontSize: "18px" }}>
+         {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? "0" : ""}{countdown % 60}
+        </div>
+      )}
+
+
+
+
     </Suspense>
   );
 };
