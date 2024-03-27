@@ -303,8 +303,8 @@ export const ConferenceMainView = () => {
       </Flex>
       {storedLearnerPeerValue == 'true' && <CustomCard topics={topics} />}
       {storedLearnerPeerValue === 'true' && (
-        <div style={{ position: "fixed", top: "10px", left: "50%", transform: "translateX(-50%)", padding: "8px 16px", backgroundColor: "#fff", borderRadius: "5px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)", fontSize: "18px" }}>
-         {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? "0" : ""}{countdown % 60}
+        <div style={{ position: "fixed", top: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "18px", fontWeight: "bold", color: "#fff" }}>
+           {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? "0" : ""}{countdown % 60}
         </div>
       )}
 
