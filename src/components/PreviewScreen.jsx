@@ -46,9 +46,7 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
   // use this field to join directly for quick testing while in local
   const directJoinHeadfulFromEnv =
     process.env.REACT_APP_HEADLESS_JOIN === "true";
-  const directJoinHeadful =
-    useSearchParam(QUERY_PARAM_SKIP_PREVIEW_HEADFUL) === "true" ||
-    directJoinHeadfulFromEnv;
+  const directJoinHeadful = 'true'
   skipPreview = skipPreview || beamInToken || directJoinHeadful;
   const initialName =
     useSearchParam(QUERY_PARAM_NAME) || (skipPreview ? "Beam" : "");
@@ -59,7 +57,7 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
   skipPreview = storedLearnerPeerValue === 'true';
 
-  console.log("Skip preview", skipPreview)
+  console.log("Skip preview", skipPreview , directJoinHeadful)
 
   useEffect(() => {
     if (authToken) {
