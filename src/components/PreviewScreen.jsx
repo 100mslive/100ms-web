@@ -46,18 +46,49 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
   // use this field to join directly for quick testing while in local
   const directJoinHeadfulFromEnv =
     process.env.REACT_APP_HEADLESS_JOIN === "true";
-  const directJoinHeadful = 'true'
+  const directJoinHeadful =
+    useSearchParam(QUERY_PARAM_SKIP_PREVIEW_HEADFUL) === "true" ||
+    directJoinHeadfulFromEnv;
   skipPreview = skipPreview || beamInToken || directJoinHeadful;
   const initialName =
     useSearchParam(QUERY_PARAM_NAME) || (skipPreview ? "Beam" : "");
   const previewAsRole = useSearchParam(QUERY_PARAM_PREVIEW_AS_ROLE);
   let authToken = useSearchParam(QUERY_PARAM_AUTH_TOKEN);
+  const queryParams = new URLSearchParams(window.location.search);
 
-  //skip preview if peer to peer session is true
+
+  const sessionId = queryParams.get("sessionId");
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
-  skipPreview = storedLearnerPeerValue === 'true';
+  // Detect tab close.
+//   const location = useLocation();
+//   useEffect(() => {
+//     if(storedLearnerPeerValue=='true'){
+//       const handleBeforeUnload = () => {
+//         const data = { sessionId: sessionId };
+//         const params = new URLSearchParams(data).toString();
+//         const url = `https://api.clapingo.com/api/session/endActiveP2PSession?${params}`;
+//         navigator.sendBeacon(url);
+//     };
 
-  console.log("Skip preview", skipPreview , directJoinHeadful)
+//     const previewRegex = /^\/preview\/(.*)$/;
+
+//     if (previewRegex.test(location.pathname)) {
+//         window.addEventListener('beforeunload', handleBeforeUnload);
+
+//         return () => {
+//             window.removeEventListener('beforeunload', handleBeforeUnload);
+//         };
+//     }
+//     }
+   
+// }, [location.pathname, sessionId]);
+
+  
+
+
+
+
+
 
   useEffect(() => {
     if (authToken) {
