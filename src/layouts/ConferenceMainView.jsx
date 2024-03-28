@@ -216,25 +216,46 @@ export const ConferenceMainView = () => {
   const embedConfig = useUrlToEmbed();
   const pdfConfig = usePDFConfig();
 
-  //countdown timer
-  const [countdown, setCountdown] = useState(900); // 15 minutes in seconds
+  const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
+  const endTime = localStorage.getItem('endTime');
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown(prevCountdown => prevCountdown - 1);
-    }, 1000);
+ // Parse end time to get hours and minutes
+ const [endHours, endMinutes] = endTime.split(":").map(num => parseInt(num, 10));
 
-    return () => clearInterval(timer);
-  }, []);
+ // Calculate total remaining time in minutes
+ const totalRemainingMinutes = (endHours * 60 + endMinutes) - (new Date().getUTCHours() * 60 + new Date().getUTCMinutes());
 
-  useEffect(() => {
-    if (countdown === 0) {
-      // Timer has reached zero, perform any action you need
-      clearInterval(timer);
-      // For example, display an alert
-      alert("Time's up!");
-    }
-  }, [countdown]);
+ // Convert total remaining minutes to seconds
+ const totalRemainingSeconds = totalRemainingMinutes * 60;
+
+ // Countdown state
+ const [countdown, setCountdown] = useState(totalRemainingSeconds);
+
+// Update countdown every second
+useEffect(() => {
+  const timer = setInterval(() => {
+    setCountdown(prevCountdown => {
+      if (prevCountdown === 0) {
+        clearInterval(timer); // Stop the timer if countdown reaches zero
+        return 0;
+      } else {
+        return prevCountdown - 1;
+      }
+    });
+  }, 1000);
+
+  // Cleanup interval on unmount
+  return () => clearInterval(timer);
+}, []);
+
+
+ // Alert when countdown reaches zero
+ useEffect(() => {
+   if (countdown === 0) {
+     console.log("Time's up!");
+   }
+ }, [countdown]);
+
 
   useEffect(() => {
     if (!isConnected) {
@@ -286,9 +307,9 @@ export const ConferenceMainView = () => {
   }
 
 
-  const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
+ 
 
-
+  
   return (
     <Suspense fallback={<FullPageProgress />}>
       <Flex
