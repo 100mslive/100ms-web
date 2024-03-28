@@ -54,41 +54,12 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
     useSearchParam(QUERY_PARAM_NAME) || (skipPreview ? "Beam" : "");
   const previewAsRole = useSearchParam(QUERY_PARAM_PREVIEW_AS_ROLE);
   let authToken = useSearchParam(QUERY_PARAM_AUTH_TOKEN);
-  const queryParams = new URLSearchParams(window.location.search);
 
-
-  const sessionId = queryParams.get("sessionId");
+  //skip preview if peer to peer session is true
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
-  // Detect tab close.
-//   const location = useLocation();
-//   useEffect(() => {
-//     if(storedLearnerPeerValue=='true'){
-//       const handleBeforeUnload = () => {
-//         const data = { sessionId: sessionId };
-//         const params = new URLSearchParams(data).toString();
-//         const url = `https://api.clapingo.com/api/session/endActiveP2PSession?${params}`;
-//         navigator.sendBeacon(url);
-//     };
+  skipPreview = storedLearnerPeerValue === 'true';
 
-//     const previewRegex = /^\/preview\/(.*)$/;
-
-//     if (previewRegex.test(location.pathname)) {
-//         window.addEventListener('beforeunload', handleBeforeUnload);
-
-//         return () => {
-//             window.removeEventListener('beforeunload', handleBeforeUnload);
-//         };
-//     }
-//     }
-   
-// }, [location.pathname, sessionId]);
-
-  
-
-
-
-
-
+  console.log("Skip preview", skipPreview)
 
   useEffect(() => {
     if (authToken) {
