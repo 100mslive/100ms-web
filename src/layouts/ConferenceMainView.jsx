@@ -231,15 +231,23 @@ export const ConferenceMainView = () => {
  // Countdown state
  const [countdown, setCountdown] = useState(totalRemainingSeconds);
 
- // Update countdown every second
- useEffect(() => {
-   const timer = setInterval(() => {
-     setCountdown(prevCountdown => prevCountdown - 1);
-   }, 1000);
+// Update countdown every second
+useEffect(() => {
+  const timer = setInterval(() => {
+    setCountdown(prevCountdown => {
+      if (prevCountdown === 0) {
+        clearInterval(timer); // Stop the timer if countdown reaches zero
+        return 0;
+      } else {
+        return prevCountdown - 1;
+      }
+    });
+  }, 1000);
 
-   // Cleanup interval on unmount
-   return () => clearInterval(timer);
- }, []);
+  // Cleanup interval on unmount
+  return () => clearInterval(timer);
+}, []);
+
 
  // Alert when countdown reaches zero
  useEffect(() => {
@@ -301,7 +309,7 @@ export const ConferenceMainView = () => {
 
  
 
-  console.log("endtime", endTime)
+  
   return (
     <Suspense fallback={<FullPageProgress />}>
       <Flex
