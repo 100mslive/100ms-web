@@ -42,10 +42,11 @@ const queryParams = new URLSearchParams(window.location.search);
 // Get the value of 'learner' from the query parameters
 const learnerParam = queryParams.get("isPeerLearner");
 const sessionId = queryParams.get("sessionId");
-
+const endTime = queryParams.get("endTime");
 // Store the value in local storage
 localStorage.setItem("isPeerLearner", learnerParam);
 localStorage.setItem("sessionId", sessionId);
+localStorage.setItem("endTime", endTime);
 
 let appName;
 if (window.location.host.includes("localhost")) {
