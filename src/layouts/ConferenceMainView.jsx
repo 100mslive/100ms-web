@@ -45,7 +45,7 @@ const CustomCard = ({ topics }) => {
 
   const fetchQuestion = () => {
     setIsLoading(true);
-    fetch("https://conversationai.clapingo.com/reading/question")
+    fetch("https://conversationai-questions.clapingo.com/reading/question")
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
