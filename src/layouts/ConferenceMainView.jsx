@@ -218,7 +218,15 @@ export const ConferenceMainView = () => {
 
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
   const endTime = localStorage.getItem('endTime');
-
+  const currentHours = new Date().getUTCHours();
+  const currentMinutes = new Date().getUTCMinutes();
+  const currentSeconds = new Date().getUTCSeconds();
+  const currentMilliseconds = new Date().getUTCMilliseconds();
+  
+  const formattedTime = `${currentHours}:${currentMinutes}:${currentSeconds}.${currentMilliseconds}`;
+  
+  console.log(formattedTime);
+  
  // Parse end time to get hours and minutes
  const [endHours, endMinutes] = endTime.split(":").map(num => parseInt(num, 10));
 
@@ -226,7 +234,7 @@ export const ConferenceMainView = () => {
  const totalRemainingMinutes = (endHours * 60 + endMinutes) - (new Date().getUTCHours() * 60 + new Date().getUTCMinutes());
 
  // Convert total remaining minutes to seconds
- const totalRemainingSeconds = totalRemainingMinutes * 60;
+ const totalRemainingSeconds = totalRemainingMinutes * 60 - currentSeconds;
 
  // Countdown state
  const [countdown, setCountdown] = useState(totalRemainingSeconds);
