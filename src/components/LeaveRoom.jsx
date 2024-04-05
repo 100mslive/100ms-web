@@ -45,6 +45,7 @@ export const LeaveRoom = () => {
   useDropdownList({ open, name: "LeaveRoom" });
 
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
+  const distribution = localStorage.getItem('distribution');
   const sessionId = localStorage.getItem('sessionId');
   const redirectToLeavePage = () => {
     // if (params.role) {
@@ -54,6 +55,8 @@ export const LeaveRoom = () => {
     // }
     if(storedLearnerPeerValue=='true'){
     window.location.href = `https://clapingo.com/peer-learning/dashboard`;
+    } else if(distribution == 'team_b'){
+      window.location.href = "https://clapingo.com/thankyou/session-success"
     } else {
       window.location.href = "https://clapingo.com/learner";
     }
