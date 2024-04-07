@@ -46,7 +46,7 @@ const endTime = queryParams.get("endTime");
 const name = queryParams.get("name");
 const learner = queryParams.get("learner");
 const type = queryParams.get("type");
-const distribution = queryParams.get("distribution")
+const distribution = queryParams.get("distribution");
 // Store the value in local storage
 localStorage.setItem("isPeerLearner", learnerParam);
 localStorage.setItem("sessionId", sessionId);

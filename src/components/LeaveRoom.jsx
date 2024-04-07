@@ -46,6 +46,7 @@ export const LeaveRoom = () => {
 
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
   const distribution = localStorage.getItem('distribution');
+  const type = localStorage.getItem('type');
   const sessionId = localStorage.getItem('sessionId');
   const redirectToLeavePage = () => {
     // if (params.role) {
@@ -55,8 +56,10 @@ export const LeaveRoom = () => {
     // }
     if(storedLearnerPeerValue=='true'){
     window.location.href = `https://clapingo.com/peer-learning/dashboard`;
-    } else if(distribution == 'team_b'){
+    } else if(distribution == 'team_b' && type=="learner"){
       window.location.href = "https://clapingo.com/thankyou/session-success"
+    } else if(type=="teacher"){
+      window.location.href = "https://teacher.clapingo.com/pastsession";
     } else {
       window.location.href = "https://clapingo.com/learner";
     }
