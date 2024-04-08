@@ -55,7 +55,9 @@ const PreviewScreen = React.memo(({ authTokenByRoomCodeEndpoint }) => {
 
   //skip preview if peer to peer session is true
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
-  skipPreview = storedLearnerPeerValue === 'true';
+  const storedInstantDemoValue = localStorage.getItem('isInstantDemo');
+  console.log({storedInstantDemoValue})
+  skipPreview = (storedLearnerPeerValue || storedInstantDemoValue) === 'true';
 
   console.log("Skip preview", skipPreview , directJoinHeadful)
 
