@@ -332,7 +332,7 @@ useEffect(() => {
         <SidePane />
       </Flex>
       {storedLearnerPeerValue == 'true'  && <CustomCard topics={topics} />}
-      {storedLearnerPeerValue === 'true' || storedInstantDemoValue === 'true' && (
+      {storedLearnerPeerValue === 'true' && (
         <div style={{ position: "fixed", top: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "18px", fontWeight: "bold", color: countdown <= 120 ? "#ff0000" : "#fff" }}>
            {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? "0" : ""}{countdown % 60}
         </div>
