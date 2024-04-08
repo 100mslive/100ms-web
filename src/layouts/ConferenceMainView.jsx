@@ -217,6 +217,7 @@ export const ConferenceMainView = () => {
   const pdfConfig = usePDFConfig();
 
   const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
+  const storedInstantDemoValue = localStorage.getItem('isInstantDemo');
   const endTime = localStorage.getItem('endTime');
   const currentHours = new Date().getUTCHours();
   const currentMinutes = new Date().getUTCMinutes();
@@ -330,8 +331,8 @@ useEffect(() => {
         <ViewComponent />
         <SidePane />
       </Flex>
-      {storedLearnerPeerValue == 'true' && <CustomCard topics={topics} />}
-      {storedLearnerPeerValue === 'true' && (
+      {storedLearnerPeerValue == 'true'  && <CustomCard topics={topics} />}
+      {storedLearnerPeerValue === 'true' || storedInstantDemoValue === 'true' && (
         <div style={{ position: "fixed", top: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "18px", fontWeight: "bold", color: countdown <= 120 ? "#ff0000" : "#fff" }}>
            {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? "0" : ""}{countdown % 60}
         </div>
