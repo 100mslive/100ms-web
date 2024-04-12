@@ -311,13 +311,20 @@ useEffect(() => {
     (isHeadless && headlessUIMode === UI_MODE_ACTIVE_SPEAKER)
   ) {
     ViewComponent = ActiveSpeakerView;
-  } else {
+  } else if (localPeerRole === "moderator") {
+    ViewComponent = MainGridView;
+  } else if (localPeerRole === "interviewee") {
+    ViewComponent = MainGridView;
+  } else if (localPeerRole === "candidate") {
+    ViewComponent = MainGridView;
+  }
+   else {
     ViewComponent = MainGridView;
   }
 
 
  
-
+  console.log(localPeerRole, "local")
   
   return (
     <Suspense fallback={<FullPageProgress />}>

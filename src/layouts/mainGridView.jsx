@@ -13,18 +13,18 @@ import { NonPublisherView } from "./NonPublisherView";
 import { useAppLayout } from "../components/AppData/useAppLayout";
 import { useUISettings } from "../components/AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
+import VideoTile from "../components/VideoTile";
 
 export const MainGridView = () => {
-  const centerRoles = useAppLayout("center") || [];
-  const sidepaneRoles = useAppLayout("sidepane") || [];
+  // const centerRoles = useAppLayout("center") || [];
+  // const sidepaneRoles = useAppLayout("sidepane") || [];
+  const centerPeers = useHMSStore(selectPeersByRoles(["moderator", "interviewee"]));
+  const sidebarPeers = useHMSStore(selectPeersByRoles(["candidate"]));
   const maxTileCount = useUISettings(UI_SETTINGS.maxTileCount);
   const peers = useHMSStore(selectPeers);
   const roles = useHMSStore(selectRolesMap);
   const localPeerId = useHMSStore(selectLocalPeerID);
-  const centerPeers = peers.filter(peer => centerRoles.includes(peer.roleName));
-  const sidebarPeers = peers.filter(peer =>
-    sidepaneRoles.includes(peer.roleName)
-  );
+ 
   const localRole = useHMSStore(selectLocalPeerRole);
   const peersByRoles = useHMSStore(
     selectPeersByRoles(localRole.subscribeParams.subscribeToRoles || [])
@@ -79,32 +79,58 @@ export const MainGridView = () => {
     const nooneIsPublishing = sidebarPeers.length === 0;
     showSidePane = itsOnlyMeInTheRoom || nooneIsPublishing;
   }
+  const containerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  };
+  
+  const rowStyle = {
+    display: "flex",
+    flexDirection: "row",
+    gap: "10px",
+  };
   return (
-    <Flex
-      css={{
-        size: "100%",
-      }}
-      direction={{
-        "@initial": "row",
-        "@md": "column",
-      }}
-    >
-      {placeholder ? (
-        <NonPublisherView message={placeholder} />
-      ) : (
-        <>
-          <GridCenterView
-            peers={showSidePane ? centerPeers : peers}
-            maxTileCount={maxTileCount}
-            allowRemoteMute={false}
-            hideSidePane={!showSidePane}
-            totalPeers={peers.length}
-          />
-          {showSidePane && (
-            <GridSidePaneView peers={sidebarPeers} totalPeers={peers.length} />
-          )}
-        </>
-      )}
-    </Flex>
+    // <Flex
+    //   css={{
+    //     size: "100%",
+    //   }}
+    //   direction={{
+    //     "@initial": "row",
+    //     "@md": "column",
+    //   }}
+    // >
+    //   {placeholder ? (
+    //     <NonPublisherView message={placeholder} />
+    //   ) : (
+    //     <>
+    //       <GridCenterView
+    //         peers={showSidePane ? centerPeers : peers}
+    //         maxTileCount={maxTileCount}
+    //         allowRemoteMute={false}
+    //         hideSidePane={!showSidePane}
+    //         totalPeers={peers.length}
+    //       />
+    //       {showSidePane && (
+    //         <GridSidePaneView peers={sidebarPeers} totalPeers={peers.length} />
+    //       )}
+    //     </>
+    //   )}
+    // </Flex>
+    <div className="conference-section" style={containerStyle}>
+    {/* Container for moderators and interviewees */}
+    <div className="moderator-interviewee-container" style={rowStyle}>
+      {centerPeers.map(peer => (
+        <VideoTile key={peer.id} peerId={peer.id} role={peer.role} />
+      ))}
+    </div>
+
+    {/* Container for candidates */}
+    <div className="candidates-container" style={{ ...rowStyle, flexWrap: "wrap" }}>
+      {sidebarPeers.map(peer => (
+        <VideoTile key={peer.id} peerId={peer.id} role={peer.role} />
+      ))}
+    </div>
+  </div>
   );
 };

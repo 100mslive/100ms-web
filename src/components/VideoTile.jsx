@@ -8,6 +8,8 @@ import {
   selectVideoTrackByID,
   selectVideoTrackByPeerID,
   useHMSStore,
+  selectLocalPeerRoleName,
+  selectPeerByID
 } from "@100mslive/react-sdk";
 import {
   BrbIcon,
@@ -44,6 +46,9 @@ const Tile = ({
   const peerName = useHMSStore(selectPeerNameByID(peerId));
   const audioTrack = useHMSStore(selectAudioTrackByPeerID(peerId));
   const localPeerID = useHMSStore(selectLocalPeerID);
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+  const peer = useHMSStore(selectPeerByID(peerId));
+  const peerRole = peer?.roleName || ""; // Get peer's role name
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const mirrorLocalVideo = useUISettings(UI_SETTINGS.mirrorLocalVideo);
   const showStatsOnTiles = useUISettings(UI_SETTINGS.showStatsOnTiles);
@@ -77,11 +82,32 @@ const Tile = ({
     return "large";
   }, [width, height]);
 
+  console.log("videotile role", peerRole)
+   // Adjust video size based on local peer role
+   let videoWidth, videoHeight, videoCSS;
+   if (peerRole === "moderator") {
+    videoWidth = "50vw"; // Occupies the full width
+    videoHeight = "60vh"; 
+     videoCSS = { backgroundColor: "blue" }; // Example style for host
+   }else if (peerRole === "interviewee") {
+    videoWidth = "50vw"; // Occupies the full width
+    videoHeight = "60vh"; 
+    videoCSS = { backgroundColor: "green" };
+   
+   }else if (peerRole === "candidate") {
+    videoWidth = "30vw"; // Occupies the full width
+    videoHeight = "30vh"; 
+    videoCSS = { backgroundColor: "green" }; 
+    } else {
+     videoWidth = 200;
+     videoHeight = 150;
+     videoCSS = {}; // Default style
+   }
   return (
     <StyledVideoTile.Root
       css={{
-        width,
-        height,
+        width: videoWidth, // Use adjusted video width
+        height: videoHeight, // Use adjusted video height
         padding: getPadding({
           isHeadless,
           tileOffset: headlessConfig?.tileOffset,
