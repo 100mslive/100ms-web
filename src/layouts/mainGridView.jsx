@@ -43,6 +43,15 @@ export const MainGridView = () => {
     console.log(role, 'can I end room - ', permissions);
     console.log('can I change role - ', permissions.changeRole);
    
+    const kickUser = async (peerId) => {
+      try {
+        const reason = 'Good Bye';
+        await hmsActions.removePeer(peerId, reason);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
   const changeRole = (peerId, newRole, force) => {
     hmsActions.changeRoleOfPeer(peerId, newRole, force);
   };
@@ -105,6 +114,10 @@ export const MainGridView = () => {
     flexDirection: "row",
     gap: "10px",
   };
+
+  console.log("Center Peers:", centerPeers);
+console.log("Sidebar Peers:", sidebarPeers);
+
   return (
     // <Flex
     //   css={{
@@ -136,7 +149,7 @@ export const MainGridView = () => {
     {/* Container for moderators and interviewees */}
     <div className="moderator-interviewee-container" style={rowStyle}>
       {centerPeers.map(peer => (
-        <VideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)}   />
+        <VideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)}  kickUser={() => kickUser(peer.id)}   />
       ))}
     </div>
 

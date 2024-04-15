@@ -38,7 +38,8 @@ const Tile = ({
   objectFit = "cover",
   rootCSS = {},
   containerCSS = {},
-  onChangeRole
+  onChangeRole,
+  kickUser
 }) => {
   const trackSelector = trackId
     ? selectVideoTrackByID(trackId)
@@ -84,26 +85,30 @@ const Tile = ({
   }, [width, height]);
 
 
-   // Adjust video size based on local peer role
-   let videoWidth, videoHeight, videoCSS;
-   if (peerRole === "moderator") {
+  // Adjust video size based on local peer role
+  let videoWidth, videoHeight, videoCSS;
+  if (peerRole === "moderator") {
     videoWidth = "50vw"; // Occupies the full width
-    videoHeight = "60vh"; 
-     videoCSS = { backgroundColor: "blue" }; // Example style for host
-   }else if (peerRole === "interviewee") {
+    videoHeight = "60vh";
+    videoCSS = { backgroundColor: "blue" }; // Example style for host
+  } else if (peerRole === "interviewee") {
     videoWidth = "50vw"; // Occupies the full width
-    videoHeight = "60vh"; 
+    videoHeight = "60vh";
     videoCSS = { backgroundColor: "green" };
-   
-   }else if (peerRole === "candidate") {
+
+  } else if (peerRole === "candidate") {
     videoWidth = "30vw"; // Occupies the full width
-    videoHeight = "30vh"; 
-    videoCSS = { backgroundColor: "green" }; 
-    } else {
-     videoWidth = 200;
-     videoHeight = 150;
-     videoCSS = {}; // Default style
-   }
+    videoHeight = "30vh";
+    videoCSS = { backgroundColor: "green" };
+  } else {
+    videoWidth = 200;
+    videoHeight = 150;
+    videoCSS = {}; // Default style
+  }
+
+  console.log("Peer:", peer);
+console.log("Video Track:", track);
+
   return (
     <StyledVideoTile.Root
       css={{
@@ -117,9 +122,36 @@ const Tile = ({
         ...rootCSS,
       }}
       data-testid={`participant_tile_${peerName}`}
-      
+
     >
-       <button onClick={onChangeRole}>Change Role</button>
+      <button style={{
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '5px',
+        backgroundColor: '#4caf50', /* Green */
+        color: 'white',
+        textAlign: 'center',
+        textDecoration: 'none',
+        display: 'inline-block',
+        fontSize: '16px',
+        cursor: 'pointer',
+      }} onClick={onChangeRole}>Change Role</button>
+
+      <button
+        style={{
+          padding: '10px 20px',
+          border: 'none',
+          borderRadius: '5px',
+          backgroundColor: 'red', /* Green */
+          color: 'white',
+          textAlign: 'center',
+          textDecoration: 'none',
+          display: 'inline-block',
+          fontSize: '16px',
+          cursor: 'pointer',
+        }}
+        onClick={kickUser}>Kick User</button>
+
       {peerName !== undefined ? (
         <StyledVideoTile.Container
           onMouseEnter={onHoverHandler}
