@@ -38,6 +38,7 @@ const Tile = ({
   objectFit = "cover",
   rootCSS = {},
   containerCSS = {},
+  onChangeRole
 }) => {
   const trackSelector = trackId
     ? selectVideoTrackByID(trackId)
@@ -82,7 +83,7 @@ const Tile = ({
     return "large";
   }, [width, height]);
 
-  console.log("videotile role", peerRole)
+
    // Adjust video size based on local peer role
    let videoWidth, videoHeight, videoCSS;
    if (peerRole === "moderator") {
@@ -116,7 +117,9 @@ const Tile = ({
         ...rootCSS,
       }}
       data-testid={`participant_tile_${peerName}`}
+      
     >
+       <button onClick={onChangeRole}>Change Role</button>
       {peerName !== undefined ? (
         <StyledVideoTile.Container
           onMouseEnter={onHoverHandler}

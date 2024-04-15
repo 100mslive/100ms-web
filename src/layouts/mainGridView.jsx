@@ -6,6 +6,8 @@ import {
   selectPeersByRoles,
   selectRolesMap,
   useHMSStore,
+  useHMSActions,
+  selectPermissions,
 } from "@100mslive/react-sdk";
 import { Flex } from "@100mslive/roomkit-react";
 import { GridCenterView, GridSidePaneView } from "../components/gridView";
@@ -30,7 +32,20 @@ export const MainGridView = () => {
     selectPeersByRoles(localRole.subscribeParams.subscribeToRoles || [])
   );
   const [placeholder, setPlaceholder] = useState("");
-
+  const hmsActions = useHMSActions();
+ 
+    // Access selectors to get local peer's role, permissions, and allowed publishing
+    const role =useHMSStore(selectLocalPeerRole);
+    const permissions = useHMSStore(selectPermissions);
+    
+  
+    // Log the permissions
+    console.log(role, 'can I end room - ', permissions);
+    console.log('can I change role - ', permissions.changeRole);
+   
+  const changeRole = (peerId, newRole, force) => {
+    hmsActions.changeRoleOfPeer(peerId, newRole, force);
+  };
   useEffect(() => {
     const hasPublishingPeers = peers.some(peer => {
       // peer able to publish
@@ -121,14 +136,14 @@ export const MainGridView = () => {
     {/* Container for moderators and interviewees */}
     <div className="moderator-interviewee-container" style={rowStyle}>
       {centerPeers.map(peer => (
-        <VideoTile key={peer.id} peerId={peer.id} role={peer.role} />
+        <VideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)}   />
       ))}
     </div>
 
     {/* Container for candidates */}
     <div className="candidates-container" style={{ ...rowStyle, flexWrap: "wrap" }}>
       {sidebarPeers.map(peer => (
-        <VideoTile key={peer.id} peerId={peer.id} role={peer.role} />
+        <VideoTile key={peer.id} peerId={peer.id} role={peer.role}  onChangeRole={() => changeRole(peer.id, "interviewee", true)} />
       ))}
     </div>
   </div>
