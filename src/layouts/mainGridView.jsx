@@ -16,7 +16,7 @@ import { useAppLayout } from "../components/AppData/useAppLayout";
 import { useUISettings } from "../components/AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
 import VideoTile from "../components/VideoTile";
-
+import Modal from 'react-modal';
 export const MainGridView = () => {
   // const centerRoles = useAppLayout("center") || [];
   // const sidepaneRoles = useAppLayout("sidepane") || [];
@@ -26,31 +26,49 @@ export const MainGridView = () => {
   const peers = useHMSStore(selectPeers);
   const roles = useHMSStore(selectRolesMap);
   const localPeerId = useHMSStore(selectLocalPeerID);
- 
+
   const localRole = useHMSStore(selectLocalPeerRole);
   const peersByRoles = useHMSStore(
     selectPeersByRoles(localRole.subscribeParams.subscribeToRoles || [])
   );
   const [placeholder, setPlaceholder] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const hmsActions = useHMSActions();
- 
-    // Access selectors to get local peer's role, permissions, and allowed publishing
-    const role =useHMSStore(selectLocalPeerRole);
-    const permissions = useHMSStore(selectPermissions);
-    
-  
-    // Log the permissions
-    console.log(role, 'can I end room - ', permissions);
-    console.log('can I change role - ', permissions.changeRole);
-   
-    const kickUser = async (peerId) => {
-      try {
-        const reason = 'Good Bye';
-        await hmsActions.removePeer(peerId, reason);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+
+  // Function to toggle modal visibility
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  // Logic for showing more than 4 candidates
+  const showMoreCandidates = () => {
+    setShowMore(true);
+  };
+
+  // JSX for the "Show More" button
+  const showMoreButton = (
+    <button onClick={showMoreCandidates}>Show More</button>
+  );
+
+  // Access selectors to get local peer's role, permissions, and allowed publishing
+  const role = useHMSStore(selectLocalPeerRole);
+  const permissions = useHMSStore(selectPermissions);
+
+
+  // Log the permissions
+  console.log(role, 'can I end room - ', permissions);
+  console.log('can I change role - ', permissions.changeRole);
+
+  const kickUser = async (peerId) => {
+    try {
+      const reason = 'Good Bye';
+      await hmsActions.removePeer(peerId, reason);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const changeRole = (peerId, newRole, force) => {
     hmsActions.changeRoleOfPeer(peerId, newRole, force);
@@ -108,7 +126,7 @@ export const MainGridView = () => {
     flexDirection: "column",
     gap: "10px",
   };
-  
+
   const rowStyle = {
     display: "flex",
     flexDirection: "row",
@@ -116,49 +134,77 @@ export const MainGridView = () => {
   };
 
   console.log("Center Peers:", centerPeers);
-console.log("Sidebar Peers:", sidebarPeers);
-
+  console.log("Sidebar Peers:", sidebarPeers);
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
   return (
-    // <Flex
-    //   css={{
-    //     size: "100%",
-    //   }}
-    //   direction={{
-    //     "@initial": "row",
-    //     "@md": "column",
-    //   }}
-    // >
-    //   {placeholder ? (
-    //     <NonPublisherView message={placeholder} />
-    //   ) : (
-    //     <>
-    //       <GridCenterView
-    //         peers={showSidePane ? centerPeers : peers}
-    //         maxTileCount={maxTileCount}
-    //         allowRemoteMute={false}
-    //         hideSidePane={!showSidePane}
-    //         totalPeers={peers.length}
-    //       />
-    //       {showSidePane && (
-    //         <GridSidePaneView peers={sidebarPeers} totalPeers={peers.length} />
-    //       )}
-    //     </>
-    //   )}
-    // </Flex>
-    <div className="conference-section" style={containerStyle}>
-    {/* Container for moderators and interviewees */}
-    <div className="moderator-interviewee-container" style={rowStyle}>
-      {centerPeers.map(peer => (
-        <VideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)}  kickUser={() => kickUser(peer.id)}   />
-      ))}
-    </div>
-
-    {/* Container for candidates */}
-    <div className="candidates-container" style={{ ...rowStyle, flexWrap: "wrap" }}>
-      {sidebarPeers.map(peer => (
-        <VideoTile key={peer.id} peerId={peer.id} role={peer.role}  onChangeRole={() => changeRole(peer.id, "interviewee", true)} />
-      ))}
-    </div>
-  </div>
+    <>
+      <Modal
+        isOpen={showModal}
+        onRequestClose={toggleModal}
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: '#39424e', // Background color for modal
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            padding: '20px'
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }}
+      >
+        <h2 style={{ color: '#fff' }}>All Candidates</h2>
+        <ol style={{ color: '#fff', textAlign: 'left' }}> {/* Adjusted textAlign to 'left' */}
+          {sidebarPeers.map((peer, index) => (
+            <li key={peer.id} style={{ marginBottom: '10px' }}>
+              {peer.name}
+            </li>
+          ))}
+        </ol>
+      </Modal>
+  
+      <div className="conference-section" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {/* Container for moderators and interviewees */}
+        <div className="moderator-interviewee-container" style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+          {centerPeers.map(peer => (
+            <VideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} kickUser={() => kickUser(peer.id)} />
+          ))}
+        </div>
+  
+        {/* Candidates container */}
+        <div className="candidates-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {sidebarPeers.map(peer => (
+            <VideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} />
+          ))}
+        </div>
+  
+        {/* Show More button */}
+        {sidebarPeers.length > 4 && (
+          <button
+            onClick={toggleModal}
+            style={{
+              backgroundColor: '#39424e',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '4px',
+              padding: '5px 8px',
+              cursor: 'pointer',
+              marginTop: '30px', // Add some top margin for spacing
+              alignSelf: 'center', // Align button to the center
+            }}
+          >
+            Show More
+          </button>
+        )}
+      </div>
+    </>
   );
+  
+  
 };

@@ -61,6 +61,7 @@ const Tile = ({
   const borderAudioRef = useBorderAudioLevel(audioTrack?.id);
   const isVideoDegraded = track?.degraded;
   const isLocal = localPeerID === peerId;
+  const [isKickingUser, setIsKickingUser] = useState(false);
   const label = getVideoTileLabel({
     peerName,
     track,
@@ -84,21 +85,23 @@ const Tile = ({
     return "large";
   }, [width, height]);
 
-
+  const isModerator = peerRole === "moderator";
+  const isInterviewee = peerRole === "interviewee";
+  const isCandidate = peerRole === "candidate";
   // Adjust video size based on local peer role
   let videoWidth, videoHeight, videoCSS;
-  if (peerRole === "moderator") {
+  if (isModerator) {
     videoWidth = "50vw"; // Occupies the full width
-    videoHeight = "60vh";
+    videoHeight = "50vh";
     videoCSS = { backgroundColor: "blue" }; // Example style for host
-  } else if (peerRole === "interviewee") {
+  } else if (isInterviewee) {
     videoWidth = "50vw"; // Occupies the full width
-    videoHeight = "60vh";
+    videoHeight = "50vh";
     videoCSS = { backgroundColor: "green" };
 
-  } else if (peerRole === "candidate") {
-    videoWidth = "30vw"; // Occupies the full width
-    videoHeight = "30vh";
+  } else if (isCandidate) {
+    videoWidth = "20vw"; // Occupies the full width
+    videoHeight = "20vh";
     videoCSS = { backgroundColor: "green" };
   } else {
     videoWidth = 200;
@@ -106,8 +109,6 @@ const Tile = ({
     videoCSS = {}; // Default style
   }
 
-  console.log("Peer:", peer);
-console.log("Video Track:", track);
 
   return (
     <StyledVideoTile.Root
@@ -124,33 +125,62 @@ console.log("Video Track:", track);
       data-testid={`participant_tile_${peerName}`}
 
     >
-      <button style={{
-        padding: '10px 20px',
-        border: 'none',
-        borderRadius: '5px',
-        backgroundColor: '#4caf50', /* Green */
-        color: 'white',
-        textAlign: 'center',
-        textDecoration: 'none',
-        display: 'inline-block',
-        fontSize: '16px',
-        cursor: 'pointer',
-      }} onClick={onChangeRole}>Change Role</button>
+       {localPeerRole === "moderator" && peerRole === "moderator" && 
+       <div style={{ textAlign: "center", marginBottom: "5px" }}>
+       <span style={{ fontSize: "14px", fontWeight: "bold", color:"white" }}>MODERATOR</span>
+     </div>
+       }
+    
 
+    <div style={{ textAlign: "center", marginBottom: "5px" }}>
+    {/* Buttons for kicking user and changing role */}
+    {localPeerRole === "moderator" && peerRole === "interviewee" && (
       <button
         style={{
-          padding: '10px 20px',
+          padding: '5px 8px', // Adjusted padding
           border: 'none',
-          borderRadius: '5px',
-          backgroundColor: 'red', /* Green */
+          borderRadius: '3px', // Adjusted border radius
+          backgroundColor: 'red', // Red color for kick button
           color: 'white',
-          textAlign: 'center',
           textDecoration: 'none',
           display: 'inline-block',
-          fontSize: '16px',
+          fontSize: '12px', // Adjusted font size
           cursor: 'pointer',
         }}
-        onClick={kickUser}>Kick User</button>
+        disabled={isKickingUser} // Disable button while kicking user
+        onClick={() => {
+          setIsKickingUser(true); // Set loading state
+          kickUser()
+        }}
+      >
+        {isKickingUser ? 'Removing...' : 'Remove'}
+      </button>
+    )}
+
+    {localPeerRole === "moderator" && peerRole === "candidate" && (
+      <button
+        style={{
+          padding: '5px 8px', // Adjusted padding
+          border: 'none',
+          borderRadius: '3px', // Adjusted border radius
+          backgroundColor: 'green', // Green color for change role button
+          color: 'white',
+          textDecoration: 'none',
+          display: 'inline-block',
+          fontSize: '12px', // Adjusted font size
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          onChangeRole(); // Call the onChangeRole function
+        }}
+      >
+        Change Role
+      </button>
+    )}
+  </div>
+
+
+
 
       {peerName !== undefined ? (
         <StyledVideoTile.Container
@@ -174,22 +204,26 @@ console.log("Video Track:", track);
           ) : null}
 
           {track ? (
-            <Video
-              trackId={track?.id}
-              attach={isLocal ? undefined : !isAudioOnly}
-              mirror={
-                mirrorLocalVideo &&
-                peerId === localPeerID &&
-                track?.source === "regular" &&
-                track?.facingMode !== "environment"
-              }
-              degraded={isVideoDegraded}
-              noRadius={isHeadless && Number(headlessConfig?.tileOffset) === 0}
-              data-testid="participant_video_tile"
-              css={{
-                objectFit,
-              }}
-            />
+            <>
+
+
+              <Video
+                trackId={track?.id}
+                attach={isLocal ? undefined : !isAudioOnly}
+                mirror={
+                  mirrorLocalVideo &&
+                  peerId === localPeerID &&
+                  track?.source === "regular" &&
+                  track?.facingMode !== "environment"
+                }
+                degraded={isVideoDegraded}
+                noRadius={isHeadless && Number(headlessConfig?.tileOffset) === 0}
+                data-testid="participant_video_tile"
+                css={{
+                  objectFit,
+                }}
+              />
+            </>
           ) : null}
           {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (
             <StyledVideoTile.AvatarContainer>
@@ -222,6 +256,10 @@ console.log("Video Track:", track);
               peerID={peerId}
               audioTrackID={audioTrack?.id}
               videoTrackID={track?.id}
+              kickUser={kickUser}
+              onChangeRole={onChangeRole}
+              localPeerRole={localPeerRole}
+              peerRole={peerRole}
             />
           ) : null}
           <PeerMetadata peerId={peerId} />
