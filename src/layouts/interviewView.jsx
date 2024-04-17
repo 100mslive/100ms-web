@@ -15,7 +15,7 @@ import { NonPublisherView } from "./NonPublisherView";
 import { useAppLayout } from "../components/AppData/useAppLayout";
 import { useUISettings } from "../components/AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
-import VideoTile from "../components/VideoTile";
+import InterviewVideoTile from "../components/InterviewVideoTile";
 import Modal from 'react-modal';
 export const InterviewView = () => {
   // const centerRoles = useAppLayout("center") || [];
@@ -173,14 +173,14 @@ export const InterviewView = () => {
         {/* Container for moderators and interviewees */}
         <div className="moderator-interviewee-container" style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
           {centerPeers.map(peer => (
-            <VideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} kickUser={() => kickUser(peer.id)} />
+            <InterviewVideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} kickUser={() => kickUser(peer.id)} />
           ))}
         </div>
   
         {/* Candidates container */}
         <div className="candidates-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
           {sidebarPeers.map(peer => (
-            <VideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} />
+            <InterviewVideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} />
           ))}
         </div>
   

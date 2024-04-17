@@ -60,10 +60,10 @@ export const LeaveRoom = () => {
       window.location.href = "https://clapingo.com/thankyou/session-success"
     } else if(type=="teacher"){
       console.log("teacher redirection block")
-      // window.location.href = "https://teacher.clapingo.com/pastsession";
+      window.location.href = "https://teacher.clapingo.com/pastsession";
     } else {
       console.log("final block")
-      // window.location.href = "https://clapingo.com/learner";
+      window.location.href = "https://clapingo.com/learner";
     }
 
         ToastManager.clearAllToast();
