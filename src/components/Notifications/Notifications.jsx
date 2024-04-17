@@ -40,6 +40,9 @@ export function Notifications() {
   const toggleWidget = useWidgetToggle();
   const roomState = useHMSStore(selectRoomState);
   const sessionId = localStorage.getItem('sessionId');
+  const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
+  const distribution = localStorage.getItem('distribution');
+  const type = localStorage.getItem('type');
   useEffect(() => {
     if (!notification) {
       return;
@@ -162,7 +165,19 @@ export function Notifications() {
           // navigate(leaveLocation);
 
           //Redirect to dashboard
-          window.location.href = `https://clapingo.com/peer-learning/dashboard?sessionId=${sessionId}`;
+          if(storedLearnerPeerValue=='true'){
+            console.log("peer block" ,type, storedLearnerPeerValue)
+          window.location.href = `https://clapingo.com/peer-learning/dashboard`;
+          } else if(distribution == 'team_b' && type=="learner"){
+            console.log("distribution block" ,type)
+            window.location.href = "https://clapingo.com/thankyou/session-success"
+          } else if(type=="teacher"){
+            console.log("teacher block" ,type)
+            window.location.href = "https://teacher.clapingo.com/pastsession";
+          } else {
+            console.log("final block" , type)
+            window.location.href = "https://clapingo.com/learner";
+          }
           ToastManager.clearAllToast();
         }, 2000);
         break;
