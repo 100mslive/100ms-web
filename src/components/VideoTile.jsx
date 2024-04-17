@@ -104,8 +104,8 @@ const Tile = ({
     videoHeight = "20vh";
     videoCSS = { backgroundColor: "green" };
   } else {
-    videoWidth = 200;
-    videoHeight = 150;
+    videoWidth = "40vw";
+    videoHeight = "60vh";
     videoCSS = {}; // Default style
   }
 
@@ -125,59 +125,59 @@ const Tile = ({
       data-testid={`participant_tile_${peerName}`}
 
     >
-       {localPeerRole === "moderator" && peerRole === "moderator" && 
-       <div style={{ textAlign: "center", marginBottom: "5px" }}>
-       <span style={{ fontSize: "14px", fontWeight: "bold", color:"white" }}>MODERATOR</span>
-     </div>
-       }
-    
+      {localPeerRole === "moderator" && peerRole === "moderator" &&
+        <div style={{ textAlign: "center", marginBottom: "5px" }}>
+          <span style={{ fontSize: "14px", fontWeight: "bold", color: "white" }}>MODERATOR</span>
+        </div>
+      }
 
-    <div style={{ textAlign: "center", marginBottom: "5px" }}>
-    {/* Buttons for kicking user and changing role */}
-    {localPeerRole === "moderator" && peerRole === "interviewee" && (
-      <button
-        style={{
-          padding: '5px 8px', // Adjusted padding
-          border: 'none',
-          borderRadius: '3px', // Adjusted border radius
-          backgroundColor: 'red', // Red color for kick button
-          color: 'white',
-          textDecoration: 'none',
-          display: 'inline-block',
-          fontSize: '12px', // Adjusted font size
-          cursor: 'pointer',
-        }}
-        disabled={isKickingUser} // Disable button while kicking user
-        onClick={() => {
-          setIsKickingUser(true); // Set loading state
-          kickUser()
-        }}
-      >
-        {isKickingUser ? 'Removing...' : 'Remove'}
-      </button>
-    )}
 
-    {localPeerRole === "moderator" && peerRole === "candidate" && (
-      <button
-        style={{
-          padding: '5px 8px', // Adjusted padding
-          border: 'none',
-          borderRadius: '3px', // Adjusted border radius
-          backgroundColor: 'green', // Green color for change role button
-          color: 'white',
-          textDecoration: 'none',
-          display: 'inline-block',
-          fontSize: '12px', // Adjusted font size
-          cursor: 'pointer',
-        }}
-        onClick={() => {
-          onChangeRole(); // Call the onChangeRole function
-        }}
-      >
-        Change Role
-      </button>
-    )}
-  </div>
+      <div style={{ textAlign: "center", marginBottom: "5px" }}>
+        {/* Buttons for kicking user and changing role */}
+        {localPeerRole === "moderator" && peerRole === "interviewee" && (
+          <button
+            style={{
+              padding: '5px 8px', // Adjusted padding
+              border: 'none',
+              borderRadius: '3px', // Adjusted border radius
+              backgroundColor: 'red', // Red color for kick button
+              color: 'white',
+              textDecoration: 'none',
+              display: 'inline-block',
+              fontSize: '12px', // Adjusted font size
+              cursor: 'pointer',
+            }}
+            disabled={isKickingUser} // Disable button while kicking user
+            onClick={() => {
+              setIsKickingUser(true); // Set loading state
+              kickUser()
+            }}
+          >
+            {isKickingUser ? 'Removing...' : 'Remove'}
+          </button>
+        )}
+
+        {localPeerRole === "moderator" && peerRole === "candidate" && (
+          <button
+            style={{
+              padding: '5px 8px', // Adjusted padding
+              border: 'none',
+              borderRadius: '3px', // Adjusted border radius
+              backgroundColor: 'green', // Green color for change role button
+              color: 'white',
+              textDecoration: 'none',
+              display: 'inline-block',
+              fontSize: '12px', // Adjusted font size
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              onChangeRole(); // Call the onChangeRole function
+            }}
+          >
+            Change Role
+          </button>
+        )}
+      </div>
 
 
 

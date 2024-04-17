@@ -16,6 +16,7 @@ import FullPageProgress from "../components/FullPageProgress";
 import EmbedView from "./EmbedView";
 import { InsetView } from "./InsetView";
 import { MainGridView } from "./mainGridView";
+import { InterviewView } from "./interviewView";
 import PDFView from "./PDFView";
 import ScreenShareView from "./screenShareView";
 import SidePane from "./SidePane";
@@ -312,11 +313,11 @@ useEffect(() => {
   ) {
     ViewComponent = ActiveSpeakerView;
   } else if (localPeerRole === "moderator") {
-    ViewComponent = MainGridView;
+    ViewComponent = InterviewView;
   } else if (localPeerRole === "interviewee") {
-    ViewComponent = MainGridView;
+    ViewComponent = InterviewView;
   } else if (localPeerRole === "candidate") {
-    ViewComponent = MainGridView;
+    ViewComponent = InterviewView;
   }
    else {
     ViewComponent = MainGridView;

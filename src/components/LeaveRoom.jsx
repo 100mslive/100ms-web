@@ -59,9 +59,11 @@ export const LeaveRoom = () => {
     } else if(distribution == 'team_b' && type=="learner"){
       window.location.href = "https://clapingo.com/thankyou/session-success"
     } else if(type=="teacher"){
-      window.location.href = "https://teacher.clapingo.com/pastsession";
+      console.log("teacher redirection block")
+      // window.location.href = "https://teacher.clapingo.com/pastsession";
     } else {
-      window.location.href = "https://clapingo.com/learner";
+      console.log("final block")
+      // window.location.href = "https://clapingo.com/learner";
     }
 
         ToastManager.clearAllToast();
