@@ -40,6 +40,7 @@ export function Notifications() {
   const toggleWidget = useWidgetToggle();
   const roomState = useHMSStore(selectRoomState);
   const sessionId = localStorage.getItem('sessionId');
+  const leaveUrl = localStorage.getItem('leaveUrl')
   useEffect(() => {
     if (!notification) {
       return;
@@ -162,7 +163,12 @@ export function Notifications() {
           // navigate(leaveLocation);
 
           //Redirect to dashboard
-          window.location.href = `https://clapingo.com/peer-learning/dashboard?sessionId=${sessionId}`;
+          if (leaveUrl) {
+            window.location.href = leaveUrl;
+          } else {
+            console.log("final block");
+            window.location.href = "https://clapingo.com/learner";
+          }
           ToastManager.clearAllToast();
         }, 2000);
         break;
