@@ -163,7 +163,9 @@ export function Notifications() {
           // navigate(leaveLocation);
 
           //Redirect to dashboard
-          if (leaveUrl) {
+          if (leaveUrl !== "null") {
+            console.log("leave url", leaveUrl, )
+            console.log(typeof leaveUrl);
             window.location.href = leaveUrl;
           } else {
             console.log("final block");
