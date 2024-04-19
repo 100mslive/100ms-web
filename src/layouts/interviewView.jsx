@@ -15,8 +15,9 @@ import { NonPublisherView } from "./NonPublisherView";
 import { useAppLayout } from "../components/AppData/useAppLayout";
 import { useUISettings } from "../components/AppData/useUISettings";
 import { UI_SETTINGS } from "../common/constants";
-import InterviewVideoTile from "../components/InterviewVideoTile";
+import VideoTile from "../components/VideoTile";
 import Modal from 'react-modal';
+import InterviewVideoTile from "../components/InterviewVideoTile";
 export const InterviewView = () => {
   // const centerRoles = useAppLayout("center") || [];
   // const sidepaneRoles = useAppLayout("sidepane") || [];
@@ -168,7 +169,7 @@ export const InterviewView = () => {
           ))}
         </ol>
       </Modal>
-  
+
       <div className="conference-section" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {/* Container for moderators and interviewees */}
         <div className="moderator-interviewee-container" style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
@@ -176,14 +177,14 @@ export const InterviewView = () => {
             <InterviewVideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} kickUser={() => kickUser(peer.id)} />
           ))}
         </div>
-  
+
         {/* Candidates container */}
         <div className="candidates-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
-          {sidebarPeers.map(peer => (
+          {sidebarPeers.slice(0, 5).map(peer => (
             <InterviewVideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} />
           ))}
         </div>
-  
+
         {/* Show More button */}
         {sidebarPeers.length > 4 && (
           <button
@@ -205,6 +206,6 @@ export const InterviewView = () => {
       </div>
     </>
   );
-  
-  
+
+
 };
