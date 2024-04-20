@@ -3,10 +3,12 @@ import { FaSyncAlt } from "react-icons/fa";
 
 import {
   selectIsConnectedToRoom,
+  selectLocalPeerRole,
   selectLocalPeerRoleName,
   selectPeerScreenSharing,
   selectPeerSharingAudio,
   selectPeerSharingVideoPlaylist,
+  selectPeersByRole,
   selectTemplateAppData,
   useHMSActions,
   useHMSStore,
@@ -16,6 +18,7 @@ import FullPageProgress from "../components/FullPageProgress";
 import EmbedView from "./EmbedView";
 import { InsetView } from "./InsetView";
 import { MainGridView } from "./mainGridView";
+import { InterviewView } from "./interviewView";
 import PDFView from "./PDFView";
 import ScreenShareView from "./screenShareView";
 import SidePane from "./SidePane";
@@ -223,47 +226,47 @@ export const ConferenceMainView = () => {
   const currentMinutes = new Date().getUTCMinutes();
   const currentSeconds = new Date().getUTCSeconds();
   const currentMilliseconds = new Date().getUTCMilliseconds();
-  
+  const role = useHMSStore(selectLocalPeerRole);
   const formattedTime = `${currentHours}:${currentMinutes}:${currentSeconds}.${currentMilliseconds}`;
-  
-  console.log(formattedTime);
-  
- // Parse end time to get hours and minutes
- const [endHours, endMinutes] = endTime.split(":").map(num => parseInt(num, 10));
 
- // Calculate total remaining time in minutes
- const totalRemainingMinutes = (endHours * 60 + endMinutes) - (new Date().getUTCHours() * 60 + new Date().getUTCMinutes());
+  console.log("is mod", role.name);
 
- // Convert total remaining minutes to seconds
- const totalRemainingSeconds = totalRemainingMinutes * 60 - currentSeconds;
+  // Parse end time to get hours and minutes
+  const [endHours, endMinutes] = endTime.split(":").map(num => parseInt(num, 10));
 
- // Countdown state
- const [countdown, setCountdown] = useState(totalRemainingSeconds);
+  // Calculate total remaining time in minutes
+  const totalRemainingMinutes = (endHours * 60 + endMinutes) - (new Date().getUTCHours() * 60 + new Date().getUTCMinutes());
 
-// Update countdown every second
-useEffect(() => {
-  const timer = setInterval(() => {
-    setCountdown(prevCountdown => {
-      if (prevCountdown === 0) {
-        clearInterval(timer); // Stop the timer if countdown reaches zero
-        return 0;
-      } else {
-        return prevCountdown - 1;
-      }
-    });
-  }, 1000);
+  // Convert total remaining minutes to seconds
+  const totalRemainingSeconds = totalRemainingMinutes * 60 - currentSeconds;
 
-  // Cleanup interval on unmount
-  return () => clearInterval(timer);
-}, []);
+  // Countdown state
+  const [countdown, setCountdown] = useState(totalRemainingSeconds);
+
+  // Update countdown every second
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown(prevCountdown => {
+        if (prevCountdown === 0) {
+          clearInterval(timer); // Stop the timer if countdown reaches zero
+          return 0;
+        } else {
+          return prevCountdown - 1;
+        }
+      });
+    }, 1000);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(timer);
+  }, []);
 
 
- // Alert when countdown reaches zero
- useEffect(() => {
-   if (countdown === 0) {
-     console.log("Time's up!");
-   }
- }, [countdown]);
+  // Alert when countdown reaches zero
+  useEffect(() => {
+    if (countdown === 0) {
+      console.log("Time's up!");
+    }
+  }, [countdown]);
 
 
   useEffect(() => {
@@ -311,14 +314,21 @@ useEffect(() => {
     (isHeadless && headlessUIMode === UI_MODE_ACTIVE_SPEAKER)
   ) {
     ViewComponent = ActiveSpeakerView;
-  } else {
+  } else if (localPeerRole === "moderator") {
+    ViewComponent = InterviewView;
+  } else if (localPeerRole === "interviewee") {
+    ViewComponent = InterviewView;
+  } else if (localPeerRole === "candidate") {
+    ViewComponent = InterviewView;
+  }
+  else {
     ViewComponent = MainGridView;
   }
 
 
- 
 
-  
+  console.log(localPeerRole, "local")
+
   return (
     <Suspense fallback={<FullPageProgress />}>
       <Flex
@@ -331,10 +341,10 @@ useEffect(() => {
         <ViewComponent />
         <SidePane />
       </Flex>
-      {storedLearnerPeerValue == 'true'  && <CustomCard topics={topics} />}
-      {storedLearnerPeerValue === 'true' && (
+      {storedLearnerPeerValue == 'true' && <CustomCard topics={topics} />}
+      {(storedLearnerPeerValue === 'true' || role.name === 'moderator') && (
         <div style={{ position: "fixed", top: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "18px", fontWeight: "bold", color: countdown <= 120 ? "#ff0000" : "#fff" }}>
-           {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? "0" : ""}{countdown % 60}
+          {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? "0" : ""}{countdown % 60}
         </div>
       )}
 

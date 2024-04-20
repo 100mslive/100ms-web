@@ -8,6 +8,8 @@ import {
   selectVideoTrackByID,
   selectVideoTrackByPeerID,
   useHMSStore,
+  selectLocalPeerRoleName,
+  selectPeerByID
 } from "@100mslive/react-sdk";
 import {
   BrbIcon,
@@ -36,6 +38,8 @@ const Tile = ({
   objectFit = "cover",
   rootCSS = {},
   containerCSS = {},
+  onChangeRole,
+  kickUser
 }) => {
   const trackSelector = trackId
     ? selectVideoTrackByID(trackId)
@@ -44,6 +48,9 @@ const Tile = ({
   const peerName = useHMSStore(selectPeerNameByID(peerId));
   const audioTrack = useHMSStore(selectAudioTrackByPeerID(peerId));
   const localPeerID = useHMSStore(selectLocalPeerID);
+  const localPeerRole = useHMSStore(selectLocalPeerRoleName);
+  const peer = useHMSStore(selectPeerByID(peerId));
+  const peerRole = peer?.roleName || ""; // Get peer's role name
   const isAudioOnly = useUISettings(UI_SETTINGS.isAudioOnly);
   const mirrorLocalVideo = useUISettings(UI_SETTINGS.mirrorLocalVideo);
   const showStatsOnTiles = useUISettings(UI_SETTINGS.showStatsOnTiles);
@@ -54,6 +61,7 @@ const Tile = ({
   const borderAudioRef = useBorderAudioLevel(audioTrack?.id);
   const isVideoDegraded = track?.degraded;
   const isLocal = localPeerID === peerId;
+  const [isKickingUser, setIsKickingUser] = useState(false);
   const label = getVideoTileLabel({
     peerName,
     track,
@@ -77,11 +85,36 @@ const Tile = ({
     return "large";
   }, [width, height]);
 
+  const isModerator = peerRole === "moderator";
+  const isInterviewee = peerRole === "interviewee";
+  const isCandidate = peerRole === "candidate";
+  // Adjust video size based on local peer role
+  let videoWidth, videoHeight, videoCSS;
+  if (isModerator) {
+    videoWidth = "50vw"; // Occupies the full width
+    videoHeight = "50vh";
+    videoCSS = { backgroundColor: "blue" }; // Example style for host
+  } else if (isInterviewee) {
+    videoWidth = "50vw"; // Occupies the full width
+    videoHeight = "50vh";
+    videoCSS = { backgroundColor: "green" };
+
+  } else if (isCandidate) {
+    videoWidth = "20vw"; // Occupies the full width
+    videoHeight = "20vh";
+    videoCSS = { backgroundColor: "green" };
+  } else {
+    videoWidth = "40vw";
+    videoHeight = "60vh";
+    videoCSS = {}; // Default style
+  }
+
+
   return (
     <StyledVideoTile.Root
       css={{
-        width,
-        height,
+        width: videoWidth, // Use adjusted video width
+        height: videoHeight, // Use adjusted video height
         padding: getPadding({
           isHeadless,
           tileOffset: headlessConfig?.tileOffset,
@@ -90,7 +123,65 @@ const Tile = ({
         ...rootCSS,
       }}
       data-testid={`participant_tile_${peerName}`}
+
     >
+      {localPeerRole === "moderator" && peerRole === "moderator" &&
+        <div style={{ textAlign: "center", marginBottom: "5px" }}>
+          <span style={{ fontSize: "14px", fontWeight: "bold", color: "white" }}>MODERATOR</span>
+        </div>
+      }
+
+
+      <div style={{ textAlign: "center", marginBottom: "5px" }}>
+        {/* Buttons for kicking user and changing role */}
+        {localPeerRole === "moderator" && peerRole === "interviewee" && (
+          <button
+            style={{
+              padding: '5px 8px', // Adjusted padding
+              border: 'none',
+              borderRadius: '3px', // Adjusted border radius
+              backgroundColor: 'red', // Red color for kick button
+              color: 'white',
+              textDecoration: 'none',
+              display: 'inline-block',
+              fontSize: '12px', // Adjusted font size
+              cursor: 'pointer',
+            }}
+            disabled={isKickingUser} // Disable button while kicking user
+            onClick={() => {
+              setIsKickingUser(true); // Set loading state
+              kickUser()
+            }}
+          >
+            {isKickingUser ? 'Removing...' : 'Remove'}
+          </button>
+        )}
+
+        {localPeerRole === "moderator" && peerRole === "candidate" && (
+          <button
+            style={{
+              padding: '5px 8px', // Adjusted padding
+              border: 'none',
+              borderRadius: '3px', // Adjusted border radius
+              backgroundColor: 'green', // Green color for change role button
+              color: 'white',
+              textDecoration: 'none',
+              display: 'inline-block',
+              fontSize: '12px', // Adjusted font size
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              onChangeRole(); // Call the onChangeRole function
+            }}
+          >
+            Change Role
+          </button>
+        )}
+      </div>
+
+
+
+
       {peerName !== undefined ? (
         <StyledVideoTile.Container
           onMouseEnter={onHoverHandler}
@@ -113,22 +204,26 @@ const Tile = ({
           ) : null}
 
           {track ? (
-            <Video
-              trackId={track?.id}
-              attach={isLocal ? undefined : !isAudioOnly}
-              mirror={
-                mirrorLocalVideo &&
-                peerId === localPeerID &&
-                track?.source === "regular" &&
-                track?.facingMode !== "environment"
-              }
-              degraded={isVideoDegraded}
-              noRadius={isHeadless && Number(headlessConfig?.tileOffset) === 0}
-              data-testid="participant_video_tile"
-              css={{
-                objectFit,
-              }}
-            />
+            <>
+
+
+              <Video
+                trackId={track?.id}
+                attach={isLocal ? undefined : !isAudioOnly}
+                mirror={
+                  mirrorLocalVideo &&
+                  peerId === localPeerID &&
+                  track?.source === "regular" &&
+                  track?.facingMode !== "environment"
+                }
+                degraded={isVideoDegraded}
+                noRadius={isHeadless && Number(headlessConfig?.tileOffset) === 0}
+                data-testid="participant_video_tile"
+                css={{
+                  objectFit,
+                }}
+              />
+            </>
           ) : null}
           {isVideoMuted || isVideoDegraded || (!isLocal && isAudioOnly) ? (
             <StyledVideoTile.AvatarContainer>
@@ -161,6 +256,10 @@ const Tile = ({
               peerID={peerId}
               audioTrackID={audioTrack?.id}
               videoTrackID={track?.id}
+              kickUser={kickUser}
+              onChangeRole={onChangeRole}
+              localPeerRole={localPeerRole}
+              peerRole={peerRole}
             />
           ) : null}
           <PeerMetadata peerId={peerId} />
@@ -206,7 +305,7 @@ const PeerMetadata = ({ peerId }) => {
   );
 };
 
-const VideoTile = React.memo(Tile);
+const InterviewVideoTile = React.memo(Tile);
 
 const showAudioMuted = ({ hideTileAudioMute, isHeadless, isAudioMuted }) => {
   if (!isHeadless) {
@@ -223,4 +322,4 @@ const getPadding = ({ isHeadless, tileOffset, hideAudioLevel }) => {
   return Number(tileOffset) === 0 ? (hideAudioLevel ? 0 : 3) : undefined;
 };
 
-export default VideoTile;
+export default InterviewVideoTile;
