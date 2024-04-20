@@ -49,18 +49,22 @@ export const LeaveRoom = () => {
   const type = localStorage.getItem('type');
   const leaveUrl = localStorage.getItem('leaveUrl')
   const sessionId = localStorage.getItem('sessionId');
+  console.log("type", type)
+  console.log("storedpeer", storedLearnerPeerValue)
   const redirectToLeavePage = () => {
     // if (params.role) {
     //   navigate("/leave/" + params.roomId + "/" + params.role);
     // } else {
     //   navigate("/leave/" + params.roomId);
     // }
+
     if (leaveUrl !== "null") {
       console.log("leave url", leaveUrl, )
       console.log(typeof leaveUrl);
       window.location.href = leaveUrl;
     } else {
       console.log("final block");
+
       window.location.href = "https://clapingo.com/learner";
     }
 
