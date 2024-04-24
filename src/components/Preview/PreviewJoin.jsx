@@ -2,6 +2,7 @@ import React, { Fragment, useCallback, useEffect, useState } from "react";
 import {
   selectIsLocalVideoEnabled,
   selectLocalPeer,
+  selectLocalPeerRole,
   selectVideoTrackByID,
   useAVToggle,
   useHMSStore,
@@ -50,28 +51,19 @@ const PreviewJoin = ({
   const [name, setName] = useState(initialName || previewPreference.name);
   const { isLocalAudioEnabled, isLocalVideoEnabled } = useAVToggle();
   const [previewError, setPreviewError] = useState(false);
-  // const [learner, setLearner] = useState(null);
-  // const [type, setType] = useState(null);
-  // const [userAgent, setUserAgent] = useState(null);
-  // useEffect(() => {
-  //   setUserAgent(window.navigator.userAgent.toLowerCase())
-  //   // Parse the query parameters from the URL
-  //   const queryParams = new URLSearchParams(window.location.search);
-    
-  //   // Get the value of 'learner' from the query parameters and set it in state
-  //   const learnerParam = queryParams.get('learner');
-  //   setLearner(learnerParam);
-
-  //   const nameParam = queryParams.get('name');
-  //   setName(nameParam);
-
-  //   // Get the value of 'type' from the query parameters and set it in state
-  //   const typeParam = queryParams.get('type');
-  //   setType(typeParam);
-  // }, []); 
-  // // console.log("user", userAgent, learner, type)
+  const [isVideoMuted, setIsVideoMuted] = useState(false);
   const learner = localStorage.getItem('learner');
   const type = localStorage.getItem('type');
+  const role = useHMSStore(selectLocalPeerRole);
+  
+  useEffect(() => {
+    // Define the condition for setting isVideoMuted
+    const shouldMuteVideo = role?.name === 'candidate' ? false : (skipPreview || previewPreference.isVideoMuted);
+  
+    // Update isVideoMuted based on the condition
+    setIsVideoMuted(shouldMuteVideo);
+  }, [role?.name, skipPreview, previewPreference.isVideoMuted]);
+  console.log("role", role?.name, isVideoMuted)
   const { enableJoin, preview, join } = usePreviewJoin({
     name,
     token,
@@ -84,7 +76,7 @@ const PreviewJoin = ({
     initEndpoint: env ? `https://${env}-init.100ms.live/init` : undefined,
     initialSettings: {
       isAudioMuted: skipPreview || previewPreference.isAudioMuted,
-      isVideoMuted: skipPreview || previewPreference.isVideoMuted,
+      isVideoMuted,
       speakerAutoSelectionBlacklist: ["Yeti Stereo Microphone"],
     },
     captureNetworkQualityInPreview: true,

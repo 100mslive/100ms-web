@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import {
   selectIsConnectedToRoom,
+  selectLocalPeerRole,
   selectLocalVideoTrackID,
   selectVideoTrackByID,
   useAVToggle,
@@ -26,7 +27,7 @@ export const AudioVideoToggle = () => {
   const videoTracKId = useHMSStore(selectLocalVideoTrackID);
   const localVideoTrack = useHMSStore(selectVideoTrackByID(videoTracKId));
   const isConnectedToRoom = useHMSStore(selectIsConnectedToRoom);
-
+  const role = useHMSStore(selectLocalPeerRole);
   return (
     <Fragment>
       {toggleAudio ? (
@@ -49,12 +50,12 @@ export const AudioVideoToggle = () => {
           </IconButton>
         </Tooltip>
       ) : null}
-      {toggleVideo ? (
+      {role?.name !=="candidate" && toggleVideo ? (
         <Tooltip
           title={`Turn ${isLocalVideoEnabled ? "off" : "on"} video (${
             isMacOS ? "⌘" : "ctrl"
           } + e)`}
-        >
+        > 
           <IconButton
             key="toggleVideo"
             active={isLocalVideoEnabled}
