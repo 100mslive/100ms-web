@@ -52,7 +52,7 @@ const PreviewJoin = ({
   const { isLocalAudioEnabled, isLocalVideoEnabled } = useAVToggle();
   const [previewError, setPreviewError] = useState(false);
   const [isVideoMuted, setIsVideoMuted] = useState(false);
-  const [isAudioMuted, setIsAudioMuted] = useState(false);
+ 
   const learner = localStorage.getItem('learner');
   const type = localStorage.getItem('type');
   const role = useHMSStore(selectLocalPeerRole);
@@ -60,12 +60,12 @@ const PreviewJoin = ({
   useEffect(() => {
     // Define the condition for setting isVideoMuted
     const shouldMuteVideo = role?.name === 'candidate' ? false : (skipPreview || previewPreference.isVideoMuted);
-    const shouldMuteAudio = role?.name === 'guest' ? false : (skipPreview || previewPreference.isVideoMuted);
+    
   
     // Update isVideoMuted based on the condition
     setIsVideoMuted(shouldMuteVideo);
-    setIsAudioMuted(shouldMuteAudio);
-  }, [role?.name, skipPreview, previewPreference.isVideoMuted, previewPreference.isAudioMuted]);
+    
+  }, [role?.name, skipPreview, previewPreference.isVideoMuted]);
 
   
   console.log("role", role?.name, isVideoMuted)
@@ -80,7 +80,8 @@ const PreviewJoin = ({
       }),
     initEndpoint: env ? `https://${env}-init.100ms.live/init` : undefined,
     initialSettings: {
-      isAudioMuted,
+      // isAudioMuted: skipPreview || previewPreference.isAudioMuted,
+      isAudioMuted: false,
       isVideoMuted,
       speakerAutoSelectionBlacklist: ["Yeti Stereo Microphone"],
     },
