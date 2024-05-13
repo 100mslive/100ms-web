@@ -45,19 +45,18 @@ export const LeaveRoom = () => {
   const hmsActions = useHMSActions();
   useDropdownList({ open, name: "LeaveRoom" });
 
-  // const isPeerLearner = localStorage.getItem("isPeerLearner");
-  const isPeerLearner = "true";
+  const isPeerLearner = localStorage.getItem("isPeerLearner");
   const startTime = JSON.parse(localStorage.getItem("startTime"));
   const leaveUrl = localStorage.getItem("leaveUrl");
 
   const redirectToLeavePage = () => {
     hmsActions.leave();
+    ToastManager.clearAllToast();
     if (leaveUrl !== "null") {
       window.location.href = leaveUrl;
     } else {
       window.location.href = "https://clapingo.com/learner";
     }
-    ToastManager.clearAllToast();
   };
 
   const leaveRoom = () => {
