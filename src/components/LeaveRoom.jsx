@@ -39,41 +39,41 @@ export const LeaveRoom = () => {
   const [open, setOpen] = useState(false);
   const [showEndRoomModal, setShowEndRoomModal] = useState(false);
   const [lockRoom, setLockRoom] = useState(false);
+  const [showWarningModal, setShowWarningModal] = useState(false);
   const isConnected = useHMSStore(selectIsConnectedToRoom);
   const permissions = useHMSStore(selectPermissions);
   const hmsActions = useHMSActions();
   useDropdownList({ open, name: "LeaveRoom" });
 
-  const storedLearnerPeerValue = localStorage.getItem('isPeerLearner');
-  const distribution = localStorage.getItem('distribution');
-  const type = localStorage.getItem('type');
-  const leaveUrl = localStorage.getItem('leaveUrl')
-  const sessionId = localStorage.getItem('sessionId');
-  console.log("type", type)
-  console.log("storedpeer", storedLearnerPeerValue)
-  const redirectToLeavePage = () => {
-    // if (params.role) {
-    //   navigate("/leave/" + params.roomId + "/" + params.role);
-    // } else {
-    //   navigate("/leave/" + params.roomId);
-    // }
+  // const isPeerLearner = localStorage.getItem("isPeerLearner");
+  const isPeerLearner = "true";
+  const startTime = JSON.parse(localStorage.getItem("startTime"));
+  const leaveUrl = localStorage.getItem("leaveUrl");
 
+  const redirectToLeavePage = () => {
+    hmsActions.leave();
     if (leaveUrl !== "null") {
-      console.log("leave url", leaveUrl, )
-      console.log(typeof leaveUrl);
       window.location.href = leaveUrl;
     } else {
-      console.log("final block");
-
       window.location.href = "https://clapingo.com/learner";
     }
-
-        ToastManager.clearAllToast();
+    ToastManager.clearAllToast();
   };
 
   const leaveRoom = () => {
-    hmsActions.leave();
-    redirectToLeavePage();
+    if (isPeerLearner === "true" && startTime) {
+      let currentTime = new Date();
+      let timeDifference = Math.abs(currentTime - new Date(startTime));
+      let differenceInMinutes = Math.floor(timeDifference / 1000 / 60);
+
+      if (differenceInMinutes >= 7) {
+        redirectToLeavePage();
+      } else {
+        setShowWarningModal(true);
+      }
+    } else {
+      redirectToLeavePage();
+    }
   };
 
   const endRoom = () => {
@@ -236,6 +236,30 @@ export const LeaveRoom = () => {
             >
               End Room
             </Button>
+          </DialogRow>
+        </DialogContent>
+      </Dialog.Root>
+      <Dialog.Root
+        open={showWarningModal}
+        onOpenChange={setShowWarningModal}
+        modal={true}
+      >
+        <DialogContent
+          title="Warning"
+          Icon={AlertTriangleIcon}
+          iconCSS={{ color: "red" }}
+        >
+          <Text css={{ c: "$on_surface_medium", mt: "$10" }}>
+            You must not leave in the middle of conversation.
+          </Text>
+          <Text css={{ c: "$on_surface_medium", mt: "$6" }}>
+            Leaving will cost you some specific privileges in future.
+          </Text>
+          <DialogRow justify="end" css={{ gap: 10 }}>
+            <Button onClick={redirectToLeavePage} variant="danger">
+              <Text variant="sm">Leave</Text>
+            </Button>
+            <Button onClick={() => setShowWarningModal(false)}>Stay</Button>
           </DialogRow>
         </DialogContent>
       </Dialog.Root>
