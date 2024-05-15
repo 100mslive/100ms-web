@@ -32,6 +32,7 @@ import {
 import { useDropdownList } from "./hooks/useDropdownList";
 import { useNavigation } from "./hooks/useNavigation";
 import { isStreamingKit } from "../common/utils";
+import { p2p_abortedEvent } from "../helpers/amplitudeHelper";
 
 export const LeaveRoom = () => {
   const navigate = useNavigation();
@@ -48,8 +49,23 @@ export const LeaveRoom = () => {
   const isPeerLearner = localStorage.getItem("isPeerLearner");
   const startTime = JSON.parse(localStorage.getItem("startTime"));
   const leaveUrl = localStorage.getItem("leaveUrl");
-
+  const learner = localStorage.getItem("learner");
+  const coLearner = localStorage.getItem("coLearner");
+  const coLearnerName = localStorage.getItem("coLearnerName");
   const redirectToLeavePage = () => {
+    //amplitude event
+    let currentTime = new Date();
+    const amplitudeEventProperties = {
+      colearner_name:coLearnerName,
+      colearner_id:coLearner, 
+      time_stamp:currentTime
+    }
+    const amplitudeUserProperties = {
+      user_id: learner
+    }
+
+    p2p_abortedEvent(amplitudeUserProperties, amplitudeEventProperties)
+
     hmsActions.leave();
     ToastManager.clearAllToast();
     if (leaveUrl !== "null") {
