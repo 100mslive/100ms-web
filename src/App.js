@@ -50,6 +50,8 @@ const type = queryParams.get("type");
 const distribution = queryParams.get("distribution");
 const instantDemo = queryParams.get("isInstantDemo");
 const leaveUrl = queryParams.get("leaveUrl");
+const coLearnerName = queryParams.get("coLearnerName");
+const coLearner = queryParams.get("coLearner");
 // Store the value in local storage
 localStorage.setItem("isPeerLearner", learnerParam);
 localStorage.setItem("sessionId", sessionId);
@@ -61,6 +63,8 @@ localStorage.setItem("type", type);
 localStorage.setItem("distribution", distribution);
 localStorage.setItem("isInstantDemo", instantDemo);
 localStorage.setItem("leaveUrl", leaveUrl);
+localStorage.setItem("coLearner", coLearner);
+localStorage.setItem("coLearnerName", coLearnerName);
 
 let appName;
 if (window.location.host.includes("localhost")) {

@@ -35,6 +35,7 @@ import {
   useUserPreferences,
 } from "../hooks/useUserPreferences";
 import { UI_SETTINGS } from "../../common/constants";
+import { initAmplitude } from "../../helpers/amplitudeHelper";
 
 const PreviewJoin = ({
   token,
@@ -56,7 +57,10 @@ const PreviewJoin = ({
   const learner = localStorage.getItem('learner');
   const type = localStorage.getItem('type');
   const role = useHMSStore(selectLocalPeerRole);
-  
+  console.log("preview learner", learner)
+  useEffect(() => {
+    initAmplitude();
+  }, []);
   useEffect(() => {
     // Define the condition for setting isVideoMuted
     const shouldMuteVideo = role?.name === 'candidate' ? false : (skipPreview || previewPreference.isVideoMuted);
