@@ -52,13 +52,15 @@ export const LeaveRoom = () => {
   const learner = localStorage.getItem("learner");
   const coLearner = localStorage.getItem("coLearner");
   const coLearnerName = localStorage.getItem("coLearnerName");
+  const coLearnerGender = localStorage.getItem("coLearnerGender");
   const redirectToLeavePage = () => {
     //amplitude event
     let currentTime = new Date();
     const amplitudeEventProperties = {
       colearner_name:coLearnerName,
       colearner_id:coLearner, 
-      time_stamp:currentTime
+      time_stamp:currentTime,
+      colearner_gender:coLearnerGender
     }
     const amplitudeUserProperties = {
       user_id: learner
