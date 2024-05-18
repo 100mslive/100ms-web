@@ -53,40 +53,56 @@ export const LeaveRoom = () => {
   const coLearner = localStorage.getItem("coLearner");
   const coLearnerName = localStorage.getItem("coLearnerName");
   const coLearnerGender = localStorage.getItem("coLearnerGender");
-  const redirectToLeavePage = () => {
-    //amplitude event
-    let currentTime = new Date();
-    // Extracting date components
-    let date = currentTime.toLocaleDateString('en-CA'); // YYYY-MM-DD format
-
-    // Extracting time components
-    let hours = currentTime.getHours().toString().padStart(2, '0');
-    let minutes = currentTime.getMinutes().toString().padStart(2, '0');
-    let seconds = currentTime.getSeconds().toString().padStart(2, '0');
-    let formattedTime = `${hours}:${minutes}:${seconds}`;
-
-    // Combining date and time
-    let timeStamp = `${date} ${formattedTime}`;
-    const amplitudeEventProperties = {
-      colearner_name: coLearnerName,
-      colearner_id: coLearner,
-      time_stamp: timeStamp,
-      colearner_gender: coLearnerGender
-    }
-    const amplitudeUserProperties = {
-      user_id: learner
-    }
-
-    p2p_abortedEvent(amplitudeUserProperties, amplitudeEventProperties)
-
+  const redirectToLeavePage = async () => {
+    try {
+      // amplitude event
+      let currentTime = new Date();
+  
+      // Extracting date components in UTC
+      let year = currentTime.getUTCFullYear();
+      let month = (currentTime.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+      let date = currentTime.getUTCDate().toString().padStart(2, '0');
+  
+      // Extracting time components in UTC
+      let hours = currentTime.getUTCHours().toString().padStart(2, '0');
+      let minutes = currentTime.getUTCMinutes().toString().padStart(2, '0');
+      let seconds = currentTime.getUTCSeconds().toString().padStart(2, '0');
+      let formattedTime = `${hours}:${minutes}:${seconds}`;
+  
+      // Combining date and time
+      let timeStamp = `${year}-${month}-${date} ${formattedTime}`;
+      const amplitudeEventProperties = {
+        colearner_name: coLearnerName,
+        colearner_id: coLearner,
+        time_stamp: timeStamp,
+        colearner_gender: coLearnerGender
+      };
+      const amplitudeUserProperties = {
+        user_id: learner
+      };
+  
+      // Await the asynchronous event before continuing
+      await new Promise((resolve, reject) => {
+        p2p_abortedEvent(amplitudeUserProperties, amplitudeEventProperties, () => {
+          console.log("Promise resolved");
+          resolve();
+        });
+      });
+  // Adding a delay to ensure the event is sent before redirecting
+  setTimeout(() => {
     hmsActions.leave();
     ToastManager.clearAllToast();
     if (leaveUrl !== "null") {
-      window.location.href = leaveUrl;
+      window.location.replace(leaveUrl);
     } else {
-      window.location.href = "https://clapingo.com/learner";
+      window.location.replace("https://clapingo.com/learner");
+    }
+  }, 1000); // Adjust the delay as necessary
+    } catch (error) {
+      console.error("Error in redirectToLeavePage:", error);
     }
   };
+  
 
   const leaveRoom = () => {
     if (isPeerLearner === "true" && startTime) {

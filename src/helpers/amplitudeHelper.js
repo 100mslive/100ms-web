@@ -23,10 +23,14 @@ export const p2pquestion_refreshedEvent = (userProperties, eventProperties) => {
   console.log("p2pquestion_refreshed", eventProperties);
 };
 
-export const p2p_abortedEvent = (userProperties, eventProperties) => {
+export const p2p_abortedEvent = (userProperties, eventProperties, callback) => {
   amplitude.getInstance().setUserProperties(userProperties);
   // amplitude.getInstance().logEvent("p2preview_visited", userProperties);
   amplitude.getInstance().logEvent("p2p_aborted", eventProperties);
   console.log("p2p_aborted", userProperties);
   console.log("p2p_aborted", eventProperties);
+  // Call the callback to signal completion
+  if (callback) {
+    callback();
+  }
 };
