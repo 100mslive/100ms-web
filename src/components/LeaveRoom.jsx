@@ -56,11 +56,22 @@ export const LeaveRoom = () => {
   const redirectToLeavePage = () => {
     //amplitude event
     let currentTime = new Date();
+    // Extracting date components
+    let date = currentTime.toLocaleDateString('en-CA'); // YYYY-MM-DD format
+
+    // Extracting time components
+    let hours = currentTime.getHours().toString().padStart(2, '0');
+    let minutes = currentTime.getMinutes().toString().padStart(2, '0');
+    let seconds = currentTime.getSeconds().toString().padStart(2, '0');
+    let formattedTime = `${hours}:${minutes}:${seconds}`;
+
+    // Combining date and time
+    let timeStamp = `${date} ${formattedTime}`;
     const amplitudeEventProperties = {
-      colearner_name:coLearnerName,
-      colearner_id:coLearner, 
-      time_stamp:currentTime,
-      colearner_gender:coLearnerGender
+      colearner_name: coLearnerName,
+      colearner_id: coLearner,
+      time_stamp: timeStamp,
+      colearner_gender: coLearnerGender
     }
     const amplitudeUserProperties = {
       user_id: learner
