@@ -35,12 +35,13 @@ import {
   useWaitingViewerRole,
 } from "../components/AppData/useUISettings";
 import { SESSION_STORE_KEY, UI_MODE_ACTIVE_SPEAKER } from "../common/constants";
+import { p2pquestion_refreshedEvent } from "../helpers/amplitudeHelper";
 const isMobileWeb = window.innerWidth <= 768;
 const WhiteboardView = React.lazy(() => import("./WhiteboardView"));
 const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 const PinnedTrackView = React.lazy(() => import("./PinnedTrackView"));
-
+const learner = localStorage.getItem('learner');
 
 const CustomCard = ({ topics }) => {
   const [question, setQuestion] = useState("");
@@ -76,6 +77,15 @@ const CustomCard = ({ topics }) => {
   }, []);
 
   const handleRefresh = () => {
+    const amplitudeEventProperties = {
+      question
+    }
+    const amplitudeUserProperties = {
+      user_id: learner
+    }
+
+    p2pquestion_refreshedEvent(amplitudeUserProperties, amplitudeEventProperties)
+
     fetchQuestion();
   };
 

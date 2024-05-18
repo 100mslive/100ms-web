@@ -32,7 +32,15 @@ export const DialogContent = ({
           <Flex justify="between">
             <Flex align="center" css={{ mb: "$1" }}>
               {Icon ? (
-                <Box css={{ mr: "$2", color: "$on_surface_high", ...iconCSS }}>
+                <Box
+                  css={{
+                    mr: "$2",
+                    color: "$on_surface_high",
+                    ...iconCSS,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <Icon />
                 </Box>
               ) : null}
