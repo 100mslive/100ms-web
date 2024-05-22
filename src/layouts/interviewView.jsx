@@ -37,7 +37,8 @@ export const InterviewView = () => {
   const [showModal, setShowModal] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const hmsActions = useHMSActions();
-
+  const [prevPeerCount, setPrevPeerCount] = useState(peers.length);
+  const pingSound = new Audio("/ping.mp3");
   // Function to toggle modal visibility
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -59,8 +60,18 @@ export const InterviewView = () => {
 
 
   // Log the permissions
-  console.log(role, 'can I end room - ', permissions);
-  console.log('can I change role - ', permissions.changeRole);
+  // console.log(role, 'can I end room - ', permissions);
+  // console.log('can I change role - ', permissions.changeRole);
+  console.log('no of peers', peers, peers.length, prevPeerCount)
+
+  useEffect(() => {
+    console.log("peer lenth useeffect")
+    if (peers.length > 0 && peers.length > prevPeerCount) {
+      pingSound.play();
+      console.log("play ping sound")
+    }
+    setPrevPeerCount(peers.length);
+  }, [peers.length]);
 
   const kickUser = async (peerId) => {
     try {
@@ -134,8 +145,8 @@ export const InterviewView = () => {
     gap: "10px",
   };
 
-  console.log("Center Peers:", centerPeers);
-  console.log("Sidebar Peers:", sidebarPeers);
+  // console.log("Center Peers:", centerPeers);
+  // console.log("Sidebar Peers:", sidebarPeers);
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
   return (
     <>
