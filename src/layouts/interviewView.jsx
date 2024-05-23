@@ -187,6 +187,11 @@ export const InterviewView = () => {
           {centerPeers.map(peer => (
             <InterviewVideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} kickUser={() => kickUser(peer.id)} />
           ))}
+          {/* Container for UI element */}
+          <div style={{ backgroundColor: '#39424e', color: '#fff', padding: '10px', borderRadius: '8px' }}>
+            <h1>Your Card Title</h1>
+            <p>Card content goes here</p>
+          </div>
         </div>
 
         {/* Candidates container */}
@@ -215,6 +220,7 @@ export const InterviewView = () => {
           </button>
         )}
       </div>
+
     </>
   );
 

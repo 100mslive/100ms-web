@@ -91,11 +91,11 @@ const Tile = ({
   // Adjust video size based on local peer role
   let videoWidth, videoHeight, videoCSS;
   if (isModerator) {
-    videoWidth = "50vw"; // Occupies the full width
+    videoWidth = "40vw"; // Occupies the full width
     videoHeight = "50vh";
     videoCSS = { backgroundColor: "blue" }; // Example style for host
   } else if (isInterviewee) {
-    videoWidth = "50vw"; // Occupies the full width
+    videoWidth = "40vw"; // Occupies the full width
     videoHeight = "50vh";
     videoCSS = { backgroundColor: "green" };
 
