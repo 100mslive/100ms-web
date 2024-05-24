@@ -38,6 +38,8 @@ export const InterviewView = () => {
   const [showMore, setShowMore] = useState(false);
   const hmsActions = useHMSActions();
   const [prevPeerCount, setPrevPeerCount] = useState(peers.length);
+  const [intervieweePeer, setIntervieweePeer] = useState(null);
+
   const pingSound = new Audio("/ping.mp3");
   // Function to toggle modal visibility
   const toggleModal = () => {
@@ -63,6 +65,13 @@ export const InterviewView = () => {
   // console.log(role, 'can I end room - ', permissions);
   // console.log('can I change role - ', permissions.changeRole);
   console.log('no of peers', peers, peers.length, prevPeerCount)
+  console.log('interview peer', intervieweePeer)
+  console.log("local role", localRole)
+  //set default interview peer data
+  useEffect(() => {
+    const initialInterviewee = peers.find(peer => peer.roleName === "interviewee");
+    setIntervieweePeer(initialInterviewee);
+  }, [peers]);
 
   useEffect(() => {
     console.log("peer lenth useeffect")
@@ -84,6 +93,10 @@ export const InterviewView = () => {
 
   const changeRole = (peerId, newRole, force) => {
     hmsActions.changeRoleOfPeer(peerId, newRole, force);
+    if (newRole === "interviewee") {
+      const updatedPeer = peers.find(peer => peer.id === peerId);
+      setIntervieweePeer(updatedPeer);
+    }
   };
   useEffect(() => {
     const hasPublishingPeers = peers.some(peer => {
@@ -145,9 +158,39 @@ export const InterviewView = () => {
     gap: "10px",
   };
 
-  // console.log("Center Peers:", centerPeers);
+  console.log("Center Peers:", centerPeers);
   // console.log("Sidebar Peers:", sidebarPeers);
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+  //approve or deny a candidate
+  const handleAction = async (action) => {
+    console.log('áction')
+    try {
+      const learnerId = intervieweePeer ? JSON.parse(intervieweePeer.metadata).userId : null;
+      const response = await fetch('https://dev.clapingo.com/api/session/acceptOrRejectLearner', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjE5NDNlZGQ5YzA5NjAwMTMyOTk1OTQiLCJpYXQiOjE3MTI5ODI0OTEsImV4cCI6MTgyMjI3ODQ5MX0.79fi6UHImmT_D-hiCMs_Nf3yIF0ErW0szZ70AGkjZNA'
+        },
+        body: JSON.stringify({
+          learnerId,
+          sessionId: '661a0ccd45dd095fdcd9b94f',
+          accept: action
+        })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Success:', data);
+      } else {
+        const errorData = await response.json();
+        console.error('Error:', errorData);
+      }
+    } catch (error) {
+      console.error(`Error ${action}ing learner:`, error);
+    }
+  };
+  
   return (
     <>
       <Modal
@@ -181,18 +224,33 @@ export const InterviewView = () => {
         </ol>
       </Modal>
 
-      <div className="conference-section" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div className="conference-section" style={{ display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
         {/* Container for moderators and interviewees */}
         <div className="moderator-interviewee-container" style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
           {centerPeers.map(peer => (
-            <InterviewVideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} kickUser={() => kickUser(peer.id)} />
+
+            <InterviewVideoTile
+              peerId={peer.id}
+              role={peer.role}
+              onChangeRole={() => changeRole(peer.id, "interviewee", true)}
+              kickUser={() => kickUser(peer.id)}
+            />
+
+
           ))}
-          {/* Container for UI element */}
-          <div style={{ backgroundColor: '#39424e', color: '#fff', padding: '10px', borderRadius: '8px' }}>
-            <h1>Your Card Title</h1>
-            <p>Card content goes here</p>
-          </div>
+          {localRole.name === "moderator" &&
+            <div style={{ backgroundColor: '#39424e', color: '#fff', padding: '10px', borderRadius: '8px', marginTop: '50px' }}>
+              <h1>User Information</h1>
+              <p>Name : {intervieweePeer?.name}</p>
+              <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '10px' }}>
+                <button onClick={() => handleAction(true)} style={{ backgroundColor: '#28a745', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Approve</button>
+                <button onClick={() => handleAction(false)} style={{ backgroundColor: '#dc3545', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Deny</button>
+              </div>
+            </div>
+          }
+
         </div>
+
 
         {/* Candidates container */}
         <div className="candidates-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
