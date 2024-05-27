@@ -18,6 +18,8 @@ import { UI_SETTINGS } from "../common/constants";
 import VideoTile from "../components/VideoTile";
 import Modal from 'react-modal';
 import InterviewVideoTile from "../components/InterviewVideoTile";
+import { ToastManager } from "../components/Toast/ToastManager";
+import { Buffer } from 'buffer';
 export const InterviewView = () => {
   // const centerRoles = useAppLayout("center") || [];
   // const sidepaneRoles = useAppLayout("sidepane") || [];
@@ -59,8 +61,30 @@ export const InterviewView = () => {
   // Access selectors to get local peer's role, permissions, and allowed publishing
   const role = useHMSStore(selectLocalPeerRole);
   const permissions = useHMSStore(selectPermissions);
+  const [decodedData, setDecodedData] = useState(null);
 
-
+  useEffect(() => {
+    const base64Data  = localStorage.getItem('data');
+    console.log(base64Data, "base64")
+    if (base64Data) {
+      try {
+        // Decode the Base64 string using Buffer
+        const decodedString = Buffer.from(base64Data, 'base64').toString('utf-8');
+        
+        // Parse the JSON string
+        const data = JSON.parse(decodedString);
+        
+        // Set the decoded data to state
+        setDecodedData(data);
+      } catch (error) {
+        console.error('Error decoding Base64 string:', error);
+        // setError('Failed to decode data');
+      }
+    } else {
+      console.log('No data parameter found in URL');
+    }
+  }, [location.search]);
+  console.log("decoded data", decodedData)
   // Log the permissions
   // console.log(role, 'can I end room - ', permissions);
   // console.log('can I change role - ', permissions.changeRole);
@@ -171,11 +195,11 @@ export const InterviewView = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjE5NDNlZGQ5YzA5NjAwMTMyOTk1OTQiLCJpYXQiOjE3MTI5ODI0OTEsImV4cCI6MTgyMjI3ODQ5MX0.79fi6UHImmT_D-hiCMs_Nf3yIF0ErW0szZ70AGkjZNA'
+          'x-access-token': decodedData.token
         },
         body: JSON.stringify({
           learnerId,
-          sessionId: '661a0ccd45dd095fdcd9b94f',
+          sessionId: decodedData.sessionId,
           accept: action
         })
       });
@@ -185,12 +209,16 @@ export const InterviewView = () => {
       } else {
         const errorData = await response.json();
         console.error('Error:', errorData);
+        ToastManager.addToast({
+          title: `${errorData.message || ""}`,
+          variant: "error",
+        });
       }
     } catch (error) {
       console.error(`Error ${action}ing learner:`, error);
     }
   };
-  
+
   return (
     <>
       <Modal
@@ -238,7 +266,7 @@ export const InterviewView = () => {
 
 
           ))}
-          {localRole.name === "moderator" &&
+          {localRole.name === "moderator" && intervieweePeer && (
             <div style={{ backgroundColor: '#39424e', color: '#fff', padding: '10px', borderRadius: '8px', marginTop: '50px' }}>
               <h1>User Information</h1>
               <p>Name : {intervieweePeer?.name}</p>
@@ -247,7 +275,8 @@ export const InterviewView = () => {
                 <button onClick={() => handleAction(false)} style={{ backgroundColor: '#dc3545', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Deny</button>
               </div>
             </div>
-          }
+          )}
+
 
         </div>
 
@@ -258,7 +287,7 @@ export const InterviewView = () => {
             <InterviewVideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} />
           ))}
         </div>
-       
+
         {/* Show More button */}
         {sidebarPeers.length > 4 && (
           <button
