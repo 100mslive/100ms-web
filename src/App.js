@@ -53,6 +53,7 @@ const leaveUrl = queryParams.get("leaveUrl");
 const coLearnerName = queryParams.get("coLearnerName");
 const coLearner = queryParams.get("coLearner");
 const coLearnerGender = queryParams.get("coLearnerGender");
+const data = queryParams.get("data");
 // Store the value in local storage
 localStorage.setItem("isPeerLearner", learnerParam);
 localStorage.setItem("sessionId", sessionId);
@@ -67,7 +68,7 @@ localStorage.setItem("leaveUrl", leaveUrl);
 localStorage.setItem("coLearner", coLearner);
 localStorage.setItem("coLearnerName", coLearnerName);
 localStorage.setItem("coLearnerGender", coLearnerGender);
-
+localStorage.setItem("data", data);
 let appName;
 if (window.location.host.includes("localhost")) {
   appName = "localhost";

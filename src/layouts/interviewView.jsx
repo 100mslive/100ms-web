@@ -18,6 +18,8 @@ import { UI_SETTINGS } from "../common/constants";
 import VideoTile from "../components/VideoTile";
 import Modal from 'react-modal';
 import InterviewVideoTile from "../components/InterviewVideoTile";
+import { ToastManager } from "../components/Toast/ToastManager";
+import { Buffer } from 'buffer';
 export const InterviewView = () => {
   // const centerRoles = useAppLayout("center") || [];
   // const sidepaneRoles = useAppLayout("sidepane") || [];
@@ -38,6 +40,8 @@ export const InterviewView = () => {
   const [showMore, setShowMore] = useState(false);
   const hmsActions = useHMSActions();
   const [prevPeerCount, setPrevPeerCount] = useState(peers.length);
+  const [intervieweePeer, setIntervieweePeer] = useState(null);
+
   const pingSound = new Audio("/ping.mp3");
   // Function to toggle modal visibility
   const toggleModal = () => {
@@ -57,12 +61,41 @@ export const InterviewView = () => {
   // Access selectors to get local peer's role, permissions, and allowed publishing
   const role = useHMSStore(selectLocalPeerRole);
   const permissions = useHMSStore(selectPermissions);
+  const [decodedData, setDecodedData] = useState(null);
 
-
+  useEffect(() => {
+    const base64Data  = localStorage.getItem('data');
+    console.log(base64Data, "base64")
+    if (base64Data) {
+      try {
+        // Decode the Base64 string using Buffer
+        const decodedString = Buffer.from(base64Data, 'base64').toString('utf-8');
+        
+        // Parse the JSON string
+        const data = JSON.parse(decodedString);
+        
+        // Set the decoded data to state
+        setDecodedData(data);
+      } catch (error) {
+        console.error('Error decoding Base64 string:', error);
+        // setError('Failed to decode data');
+      }
+    } else {
+      console.log('No data parameter found in URL');
+    }
+  }, [location.search]);
+  console.log("decoded data", decodedData)
   // Log the permissions
   // console.log(role, 'can I end room - ', permissions);
   // console.log('can I change role - ', permissions.changeRole);
   console.log('no of peers', peers, peers.length, prevPeerCount)
+  console.log('interview peer', intervieweePeer)
+  console.log("local role", localRole)
+  //set default interview peer data
+  useEffect(() => {
+    const initialInterviewee = peers.find(peer => peer.roleName === "interviewee");
+    setIntervieweePeer(initialInterviewee);
+  }, [peers]);
 
   useEffect(() => {
     console.log("peer lenth useeffect")
@@ -84,6 +117,10 @@ export const InterviewView = () => {
 
   const changeRole = (peerId, newRole, force) => {
     hmsActions.changeRoleOfPeer(peerId, newRole, force);
+    if (newRole === "interviewee") {
+      const updatedPeer = peers.find(peer => peer.id === peerId);
+      setIntervieweePeer(updatedPeer);
+    }
   };
   useEffect(() => {
     const hasPublishingPeers = peers.some(peer => {
@@ -145,9 +182,43 @@ export const InterviewView = () => {
     gap: "10px",
   };
 
-  // console.log("Center Peers:", centerPeers);
+  console.log("Center Peers:", centerPeers);
   // console.log("Sidebar Peers:", sidebarPeers);
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+  //approve or deny a candidate
+  const handleAction = async (action) => {
+    console.log('áction')
+    try {
+      const learnerId = intervieweePeer ? JSON.parse(intervieweePeer.metadata).userId : null;
+      const response = await fetch('https://dev.clapingo.com/api/session/acceptOrRejectLearner', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': decodedData.token
+        },
+        body: JSON.stringify({
+          learnerId,
+          sessionId: decodedData.sessionId,
+          accept: action
+        })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Success:', data);
+      } else {
+        const errorData = await response.json();
+        console.error('Error:', errorData);
+        ToastManager.addToast({
+          title: `${errorData.message || ""}`,
+          variant: "error",
+        });
+      }
+    } catch (error) {
+      console.error(`Error ${action}ing learner:`, error);
+    }
+  };
+
   return (
     <>
       <Modal
@@ -181,13 +252,34 @@ export const InterviewView = () => {
         </ol>
       </Modal>
 
-      <div className="conference-section" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div className="conference-section" style={{ display: 'flex', flexDirection: 'column', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
         {/* Container for moderators and interviewees */}
         <div className="moderator-interviewee-container" style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
           {centerPeers.map(peer => (
-            <InterviewVideoTile key={peer.id} peerId={peer.id} role={peer.role} onChangeRole={() => changeRole(peer.id, "interviewee", true)} kickUser={() => kickUser(peer.id)} />
+
+            <InterviewVideoTile
+              peerId={peer.id}
+              role={peer.role}
+              onChangeRole={() => changeRole(peer.id, "interviewee", true)}
+              kickUser={() => kickUser(peer.id)}
+            />
+
+
           ))}
+          {localRole.name === "moderator" && intervieweePeer && (
+            <div style={{ backgroundColor: '#39424e', color: '#fff', padding: '10px', borderRadius: '8px', marginTop: '50px' }}>
+              <h1>User Information</h1>
+              <p>Name : {intervieweePeer?.name}</p>
+              <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '10px' }}>
+                <button onClick={() => handleAction(true)} style={{ backgroundColor: '#28a745', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Approve</button>
+                <button onClick={() => handleAction(false)} style={{ backgroundColor: '#dc3545', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Deny</button>
+              </div>
+            </div>
+          )}
+
+
         </div>
+
 
         {/* Candidates container */}
         <div className="candidates-container" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -215,6 +307,7 @@ export const InterviewView = () => {
           </button>
         )}
       </div>
+
     </>
   );
 
