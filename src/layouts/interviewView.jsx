@@ -42,7 +42,7 @@ export const InterviewView = () => {
   const [prevPeerCount, setPrevPeerCount] = useState(peers.length);
   const [intervieweePeer, setIntervieweePeer] = useState(null);
   const [showReasonModal, setShowReasonModal] = useState(false); // New state for the reason selection modal
-  const [selectedReason, setSelectedReason] = useState(null);
+  const [selectedReasons, setSelectedReasons] = useState([]);
 
   const reasonOptions = [
     "Mic not audible",
@@ -58,16 +58,26 @@ export const InterviewView = () => {
     setShowReasonModal(!showReasonModal);
   };
 
-  // Function to handle deny action with reason
-  const handleDeny = (reason) => {
-    console.log('handle deny function')
-    setSelectedReason(reason);
-    toggleReasonModal();
-    // Call handleAction with reason
-    handleAction(false, reason);
+  const handleReasonChange = (reason) => {
+    setSelectedReasons(prevSelectedReasons => {
+      if (prevSelectedReasons.includes(reason)) {
+        // Remove reason if already selected
+        return prevSelectedReasons.filter(selectedReason => selectedReason !== reason);
+      } else {
+        // Add reason if not selected
+        return [...prevSelectedReasons, reason];
+      }
+    });
+  };
+  
+  // Function to handle deny action with multiple reasons
+  const handleDeny = (reasons) => {
+    console.log('handle deny function');
+    // Call handleAction with reasons as array
+    handleAction(false, reasons);
   };
 
-  
+
   const pingSound = new Audio("/ping.mp3");
   // Function to toggle modal visibility
   const toggleModal = () => {
@@ -274,16 +284,16 @@ export const InterviewView = () => {
           }
         }}
       >
-        <h2 style={{ color: '#fff', marginBottom: '20px' }}>Select Reason for Denial</h2>
+        <h2 style={{ color: '#fff', marginBottom: '20px' }}>Select Reason(s) for Denial</h2>
         <form>
           {reasonOptions.map(reason => (
             <div key={reason} style={{ marginBottom: '10px' }}>
               <input
-                type="radio"
+                type="checkbox"
                 id={reason}
                 name="reason"
                 value={reason}
-                onChange={(e) => setSelectedReason(e.target.value)}
+                onChange={(e) => handleReasonChange(e.target.value)}
                 style={{ marginRight: '10px' }}
               />
               <label htmlFor={reason} style={{ color: '#fff' }}>{reason}</label>
@@ -291,10 +301,8 @@ export const InterviewView = () => {
           ))}
           <button
             onClick={() => {
-              if (selectedReason) {
-                handleDeny(selectedReason);
-                toggleReasonModal();
-              }
+              handleDeny(selectedReasons);
+              toggleReasonModal();
             }}
             style={{ backgroundColor: '#dc3545', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer', marginTop: '20px' }}
           >
@@ -302,6 +310,7 @@ export const InterviewView = () => {
           </button>
         </form>
       </Modal>
+
 
 
       <Modal
