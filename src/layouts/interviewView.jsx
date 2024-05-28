@@ -41,7 +41,33 @@ export const InterviewView = () => {
   const hmsActions = useHMSActions();
   const [prevPeerCount, setPrevPeerCount] = useState(peers.length);
   const [intervieweePeer, setIntervieweePeer] = useState(null);
+  const [showReasonModal, setShowReasonModal] = useState(false); // New state for the reason selection modal
+  const [selectedReason, setSelectedReason] = useState(null);
 
+  const reasonOptions = [
+    "Mic not audible",
+    "Camera not Clear",
+    "Inappropriate Behavior",
+    "Background not working",
+    "English too weak",
+    "Bad Internet"
+  ];
+
+  // Function to toggle reason selection modal visibility
+  const toggleReasonModal = () => {
+    setShowReasonModal(!showReasonModal);
+  };
+
+  // Function to handle deny action with reason
+  const handleDeny = (reason) => {
+    console.log('handle deny function')
+    setSelectedReason(reason);
+    toggleReasonModal();
+    // Call handleAction with reason
+    handleAction(false, reason);
+  };
+
+  
   const pingSound = new Audio("/ping.mp3");
   // Function to toggle modal visibility
   const toggleModal = () => {
@@ -64,16 +90,16 @@ export const InterviewView = () => {
   const [decodedData, setDecodedData] = useState(null);
 
   useEffect(() => {
-    const base64Data  = localStorage.getItem('data');
+    const base64Data = localStorage.getItem('data');
     console.log(base64Data, "base64")
     if (base64Data) {
       try {
         // Decode the Base64 string using Buffer
         const decodedString = Buffer.from(base64Data, 'base64').toString('utf-8');
-        
+
         // Parse the JSON string
         const data = JSON.parse(decodedString);
-        
+
         // Set the decoded data to state
         setDecodedData(data);
       } catch (error) {
@@ -186,9 +212,8 @@ export const InterviewView = () => {
   // console.log("Sidebar Peers:", sidebarPeers);
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  //approve or deny a candidate
-  const handleAction = async (action) => {
-    console.log('áction')
+  // Function to handle API call with action and optional reason
+  const handleAction = async (accept, rejectionReason = null) => {
     try {
       const learnerId = intervieweePeer ? JSON.parse(intervieweePeer.metadata).userId : null;
       const response = await fetch('https://dev.clapingo.com/api/session/acceptOrRejectLearner', {
@@ -200,7 +225,8 @@ export const InterviewView = () => {
         body: JSON.stringify({
           learnerId,
           sessionId: decodedData.sessionId,
-          accept: action
+          accept,
+          rejectionReason // Pass rejection reason if provided
         })
       });
       if (response.ok) {
@@ -219,12 +245,65 @@ export const InterviewView = () => {
         });
       }
     } catch (error) {
-      console.error(`Error ${action}ing learner:`, error);
+      console.error(`Error ${accept ? "approving" : "denying"} learner:`, error);
     }
   };
 
+
   return (
     <>
+      {/* Deny Reason Modal */}
+      <Modal
+        isOpen={showReasonModal}
+        onRequestClose={toggleReasonModal}
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: '#39424e', // Background color for modal
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            padding: '20px'
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }}
+      >
+        <h2 style={{ color: '#fff', marginBottom: '20px' }}>Select Reason for Denial</h2>
+        <form>
+          {reasonOptions.map(reason => (
+            <div key={reason} style={{ marginBottom: '10px' }}>
+              <input
+                type="radio"
+                id={reason}
+                name="reason"
+                value={reason}
+                onChange={(e) => setSelectedReason(e.target.value)}
+                style={{ marginRight: '10px' }}
+              />
+              <label htmlFor={reason} style={{ color: '#fff' }}>{reason}</label>
+            </div>
+          ))}
+          <button
+            onClick={() => {
+              if (selectedReason) {
+                handleDeny(selectedReason);
+                toggleReasonModal();
+              }
+            }}
+            style={{ backgroundColor: '#dc3545', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer', marginTop: '20px' }}
+          >
+            Deny
+          </button>
+        </form>
+      </Modal>
+
+
       <Modal
         isOpen={showModal}
         onRequestClose={toggleModal}
@@ -276,7 +355,7 @@ export const InterviewView = () => {
               <p>Name : {intervieweePeer?.name}</p>
               <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '10px' }}>
                 <button onClick={() => handleAction(true)} style={{ backgroundColor: '#28a745', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Approve</button>
-                <button onClick={() => handleAction(false)} style={{ backgroundColor: '#dc3545', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Deny</button>
+                <button onClick={toggleReasonModal} style={{ backgroundColor: '#dc3545', color: '#fff', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Deny</button>
               </div>
             </div>
           )}
