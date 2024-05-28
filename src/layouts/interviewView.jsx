@@ -206,6 +206,10 @@ export const InterviewView = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Success:', data);
+        ToastManager.addToast({
+          title: `${data.message || ""}`,
+          variant: "success",
+        });
       } else {
         const errorData = await response.json();
         console.error('Error:', errorData);
