@@ -5,6 +5,7 @@ import {
   selectPermissions,
   useHMSActions,
   useHMSStore,
+  selectLocalPeerRole
 } from "@100mslive/react-sdk";
 import {
   AlertTriangleIcon,
@@ -53,6 +54,8 @@ export const LeaveRoom = () => {
   const coLearner = localStorage.getItem("coLearner");
   const coLearnerName = localStorage.getItem("coLearnerName");
   const coLearnerGender = localStorage.getItem("coLearnerGender");
+  const localRole = useHMSStore(selectLocalPeerRole);
+  console.log(localRole, "leave page local role")
   const redirectToLeavePage = async () => {
     try {
       // amplitude event
@@ -94,8 +97,10 @@ export const LeaveRoom = () => {
     ToastManager.clearAllToast();
     if (leaveUrl !== "null") {
       window.location.replace(leaveUrl);
+    } else if (localRole.name === "moderator") {
+      window.location.replace("https://clapingo.com/moderator/dashboard");
     } else {
-      window.location.replace("https://clapingo.com/learner");
+      window.location.replace("https://clapingo.com/");
     }
   }, 1000); // Adjust the delay as necessary
     } catch (error) {
