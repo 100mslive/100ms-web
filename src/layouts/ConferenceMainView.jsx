@@ -1,5 +1,6 @@
 import React, { Suspense, useState, useEffect } from "react";
-import { FaSyncAlt } from "react-icons/fa";
+import { FaSyncAlt, FaCheck } from "react-icons/fa";
+
 
 import {
   selectIsConnectedToRoom,
@@ -42,6 +43,80 @@ const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 const PinnedTrackView = React.lazy(() => import("./PinnedTrackView"));
 const learner = localStorage.getItem('learner');
+
+const NewCustomCard = ({ topics }) => {
+  const hardcodedQuestions = [
+    "What is your name?",
+    "Where are you from?",
+    "What is your favorite color?",
+    "What are your hobbies?",
+    "What is your profession?"
+  ];
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [isAnswered, setIsAnswered] = useState(false);
+
+  const handleNext = () => {
+    setIsAnswered(true);
+    setTimeout(() => {
+      setCurrentQuestionIndex((prevIndex) => (prevIndex + 1) % hardcodedQuestions.length);
+      setIsAnswered(false);
+    }, 500); // Delay to show the tick mark for a short time
+  };
+
+  return (
+    <div className="custom-card" style={{ width: "100%", textAlign: "center" }}>
+      <div
+        className="card-content"
+        style={{
+          position: "fixed",
+          bottom: "50px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "auto",
+          padding: "10px",
+          border: "1px solid #ccc",
+          borderRadius: "5px",
+          backgroundColor: "#fff",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <span
+          style={{
+            color: "#4CB7A4",
+            marginRight: "10px",
+            fontWeight: "400",
+            fontFamily: "Poppins, sans-serif",
+          }}
+        >
+          Question:
+        </span>
+        <span style={{ flex: 1, fontWeight: "400", fontFamily: "Poppins, sans-serif", marginRight: "5px" }}>
+          {hardcodedQuestions[currentQuestionIndex]}
+        </span>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <button
+            onClick={handleNext}
+            className="next-button"
+            style={{
+              backgroundColor: isAnswered ? "#28a745" : "#007bff",
+              color: "#fff",
+              border: "none",
+              padding: "5px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {isAnswered ? <FaCheck /> : "Next"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CustomCard = ({ topics }) => {
   const [question, setQuestion] = useState("");
@@ -203,6 +278,8 @@ const CustomCard = ({ topics }) => {
   );
 };
 
+
+
 export const ConferenceMainView = () => {
   const [peer, setPeer] = useState(false);
   const [topics] = useState([
@@ -336,32 +413,31 @@ export const ConferenceMainView = () => {
   }
 
 
-
+  const isFirstSession = true
   console.log(localPeerRole, "local")
 
   return (
     <Suspense fallback={<FullPageProgress />}>
-      <Flex
-        css={{
-          width: "100%",
-          height: storedLearnerPeerValue == 'true' ? (isMobileWeb ? "80%" : "95%") : "100%",
-          position: "relative",
-        }}
-      >
-        <ViewComponent />
-        <SidePane />
-      </Flex>
-      {storedLearnerPeerValue == 'true' && <CustomCard topics={topics} />}
-      {(storedLearnerPeerValue === 'true' || role.name === 'moderator') && (
-        <div style={{ position: "fixed", top: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "18px", fontWeight: "bold", color: countdown <= 120 ? "#ff0000" : "#fff" }}>
-          {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? "0" : ""}{countdown % 60}
-        </div>
-      )}
-
-
-
-
-
-    </Suspense>
-  );
+    <Flex
+      css={{
+        width: "100%",
+        height: storedLearnerPeerValue == 'true' ? (isMobileWeb ? "80%" : "95%") : "100%",
+        position: "relative",
+      }}
+    >
+      <ViewComponent />
+      <SidePane />
+    </Flex>
+    {isFirstSession ? (
+      <NewCustomCard topics={topics} />
+    ) : (
+      storedLearnerPeerValue == 'true' && <CustomCard topics={topics} />
+    )}
+    {(storedLearnerPeerValue === 'true' || role.name === 'moderator') && (
+      <div style={{ position: "fixed", top: "10px", left: "50%", transform: "translateX(-50%)", fontSize: "18px", fontWeight: "bold", color: countdown <= 120 ? "#ff0000" : "#fff" }}>
+        {Math.floor(countdown / 60)}:{countdown % 60 < 10 ? "0" : ""}{countdown % 60}
+      </div>
+    )}
+  </Suspense>
+);
 };
