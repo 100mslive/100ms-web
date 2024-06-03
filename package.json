@@ -19,6 +19,7 @@
     "@tldraw/tldraw": "^1.18.4",
     "emoji-mart": "^5.2.2",
     "eventemitter2": "^6.4.7",
+    "follow-redirects": "1.15.6",
     "js-confetti": "^0.10.2",
     "mobx": "^6.3.12",
     "pusher-js": "^7.0.3",
