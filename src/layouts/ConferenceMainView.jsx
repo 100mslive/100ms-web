@@ -43,14 +43,14 @@ const HLSView = React.lazy(() => import("./HLSView"));
 const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 const PinnedTrackView = React.lazy(() => import("./PinnedTrackView"));
 const learner = localStorage.getItem('learner');
-
+const peerName = localStorage.getItem('name');
 const NewCustomCard = ({ topics }) => {
   const hardcodedQuestions = [
-    "What is your name?",
-    "Where are you from?",
-    "What is your favorite color?",
-    "What are your hobbies?",
-    "What is your profession?"
+    `Hi ${peerName}, please introduce yourself in around 60 seconds to your co-learner`,
+    "Who is your favorite sports personality and why?[Give short description]",
+    "What did you want to be when you were growing up?[Give short description]",
+    "Imagine yourself in a different century and describe an average day in your life",
+    "Which character from a book or movie would you most like to meet and why?"
   ];
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -82,7 +82,7 @@ const NewCustomCard = ({ topics }) => {
           alignItems: "center",
         }}
       >
-        <span
+        {/* <span
           style={{
             color: "#4CB7A4",
             marginRight: "10px",
@@ -91,7 +91,7 @@ const NewCustomCard = ({ topics }) => {
           }}
         >
           Question:
-        </span>
+        </span> */}
         <span style={{ flex: 1, fontWeight: "400", fontFamily: "Poppins, sans-serif", marginRight: "5px" }}>
           {hardcodedQuestions[currentQuestionIndex]}
         </span>
