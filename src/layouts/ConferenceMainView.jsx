@@ -429,7 +429,7 @@ export const ConferenceMainView = () => {
       <ViewComponent />
       <SidePane />
     </Flex>
-    {isFirstSession ? (
+    {isFirstSession==="true" && storedLearnerPeerValue == 'true'? (
       <NewCustomCard topics={topics} />
     ) : (
       storedLearnerPeerValue == 'true' && <CustomCard topics={topics} />
