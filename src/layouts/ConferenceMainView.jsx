@@ -44,6 +44,7 @@ const ActiveSpeakerView = React.lazy(() => import("./ActiveSpeakerView"));
 const PinnedTrackView = React.lazy(() => import("./PinnedTrackView"));
 const learner = localStorage.getItem('learner');
 const peerName = localStorage.getItem('name');
+const isFirstSession = localStorage.getItem('isFirstSession');
 const NewCustomCard = ({ topics }) => {
   const hardcodedQuestions = [
     `Hi ${peerName}, please introduce yourself in around 60 seconds to your co-learner`,
@@ -413,7 +414,7 @@ export const ConferenceMainView = () => {
   }
 
 
-  const isFirstSession = true
+  // const isFirstSession = true
   console.log(localPeerRole, "local")
 
   return (

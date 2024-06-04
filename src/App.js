@@ -54,6 +54,7 @@ const coLearnerName = queryParams.get("coLearnerName");
 const coLearner = queryParams.get("coLearner");
 const coLearnerGender = queryParams.get("coLearnerGender");
 const data = queryParams.get("data");
+const isFirstSession = queryParams.get("isFirstSession");
 // Store the value in local storage
 localStorage.setItem("isPeerLearner", learnerParam);
 localStorage.setItem("sessionId", sessionId);
@@ -69,6 +70,7 @@ localStorage.setItem("coLearner", coLearner);
 localStorage.setItem("coLearnerName", coLearnerName);
 localStorage.setItem("coLearnerGender", coLearnerGender);
 localStorage.setItem("data", data);
+localStorage.setItem("isFirstSession", isFirstSession);
 let appName;
 if (window.location.host.includes("localhost")) {
   appName = "localhost";
