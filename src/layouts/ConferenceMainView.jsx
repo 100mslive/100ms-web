@@ -45,9 +45,10 @@ const PinnedTrackView = React.lazy(() => import("./PinnedTrackView"));
 const learner = localStorage.getItem('learner');
 const peerName = localStorage.getItem('name');
 const isFirstSession = localStorage.getItem('isFirstSession');
+const coLearnerName = localStorage.getItem('coLearnerName');
 const NewCustomCard = ({ topics }) => {
   const hardcodedQuestions = [
-    `Hi ${peerName}, please introduce yourself in around 60 seconds to your co-learner`,
+    `Hi ${peerName}, please introduce yourself in around 60 seconds to ${coLearnerName}`,
     "Who is your favorite sports personality and why?[Give short description]",
     "What did you want to be when you were growing up?[Give short description]",
     "Imagine yourself in a different century and describe an average day in your life",
