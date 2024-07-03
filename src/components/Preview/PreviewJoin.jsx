@@ -72,7 +72,13 @@ const PreviewJoin = ({
   }, [role?.name, skipPreview, previewPreference.isVideoMuted]);
 
   
-  console.log("role", role?.name, isVideoMuted)
+  console.log("Metadata:", JSON.stringify({
+    userId: learner,
+    type,
+    platform: "web",
+    userAgent: window.navigator.userAgent.toLowerCase()
+  }));
+  
   const { enableJoin, preview, join } = usePreviewJoin({
     name,
     token,
