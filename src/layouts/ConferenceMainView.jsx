@@ -67,56 +67,48 @@ const NewCustomCard = ({ topics }) => {
 
   return (
     <div className="custom-card" style={{ width: "100%", textAlign: "center" }}>
-      <div
-        className="card-content"
-        style={{
-          position: "fixed",
-          bottom: "50px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "auto",
-          padding: "10px",
-          border: "1px solid #ccc",
-          borderRadius: "5px",
-          backgroundColor: "#fff",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        {/* <span
+    <div
+      className="card-content"
+      style={{
+        position: isMobileWeb ? "fixed" : "absolute",
+        bottom: "50px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: isMobileWeb ? "90%" : "auto",
+        maxWidth: isMobileWeb ? "90%" : "600px",
+        padding: "10px",
+        border: "1px solid #ccc",
+        borderRadius: "5px",
+        backgroundColor: "#fff",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        fontSize: isMobileWeb ? "14px" : "16px",
+      }}
+    >
+      <span style={{ flex: 1, marginRight: "5px", wordWrap: "break-word" }}>
+        {hardcodedQuestions[currentQuestionIndex]}
+      </span>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <button
+          onClick={handleNext}
+          className="next-button"
           style={{
-            color: "#4CB7A4",
-            marginRight: "10px",
-            fontWeight: "400",
-            fontFamily: "Poppins, sans-serif",
+            backgroundColor: isAnswered ? "#28a745" : "#007bff",
+            color: "#fff",
+            border: "none",
+            padding: "5px",
+            borderRadius: "5px",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
           }}
         >
-          Question:
-        </span> */}
-        <span style={{ flex: 1, fontWeight: "400", fontFamily: "Poppins, sans-serif", marginRight: "5px" }}>
-          {hardcodedQuestions[currentQuestionIndex]}
-        </span>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <button
-            onClick={handleNext}
-            className="next-button"
-            style={{
-              backgroundColor: isAnswered ? "#28a745" : "#007bff",
-              color: "#fff",
-              border: "none",
-              padding: "5px",
-              borderRadius: "5px",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {isAnswered ? <FaCheck /> : "Next"}
-          </button>
-        </div>
+          {isAnswered ? <FaCheck /> : "Next"}
+        </button>
       </div>
     </div>
+  </div>
   );
 };
 
@@ -171,108 +163,48 @@ const CustomCard = ({ topics }) => {
 
 
     <div className="custom-card" style={{ width: "100%", textAlign: "center" }}>
-      {isMobileWeb ? (
-        <div className="custom-card" style={{ width: "100%", textAlign: "center" }}>
-          <div
-            className="card-content"
+      <div
+        className="card-content"
+        style={{
+          position: isMobileWeb ? "fixed" : "absolute",
+          bottom: "50px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: isMobileWeb ? "90%" : "auto",
+          maxWidth: isMobileWeb ? "90%" : "600px",
+          padding: "10px",
+          border: "1px solid #ccc",
+          borderRadius: "5px",
+          backgroundColor: "#fff",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          fontSize: isMobileWeb ? "14px" : "16px",
+        }}
+      >
+        <span style={{ flex: 1, marginRight: "5px", wordWrap: "break-word" }}>
+          {isLoading ? "Loading..." : question || topics[0]}
+        </span>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <button
+            onClick={handleRefresh}
+            className="refresh-button"
             style={{
-              padding: "10px",
-              border: "1px solid #ccc",
+              backgroundColor: "#007bff",
+              color: "#fff",
+              border: "none",
+              padding: "5px",
               borderRadius: "5px",
-              backgroundColor: "#fff",
+              cursor: "pointer",
               display: "flex",
-              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
-            <span
-              style={{
-                color: "#4CB7A4",
-                marginRight: "10px",
-                fontWeight: "400",
-                fontFamily: "Poppins, sans-serif",
-              }}
-            >
-              Topic:
-            </span>
-            <span style={{ flex: 1, fontWeight: "400", fontFamily: "Poppins, sans-serif", marginRight: "5px" }}>
-              {isLoading ? "Loading..." : question || topics[0]}
-            </span>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <button
-                onClick={handleRefresh}
-                className="refresh-button"
-                style={{
-                  backgroundColor: "#007bff",
-                  color: "#fff",
-                  border: "none",
-                  padding: "5px",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <FaSyncAlt style={{ marginRight: "5px" }} />
-                Refresh
-              </button>
-            </div>
-          </div>
+            <FaSyncAlt style={{ marginRight: "5px" }} />
+            Refresh
+          </button>
         </div>
-
-      ) : (
-        <div
-          className="card-content"
-          style={{
-            position: "fixed",
-            bottom: "50px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "auto", // Dynamic width
-            padding: "10px",
-            border: "1px solid #ccc",
-            borderRadius: "5px",
-            backgroundColor: "#fff",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <span
-            style={{
-              color: "#4CB7A4",
-              marginRight: "10px",
-              fontWeight: "400",
-              fontFamily: "Poppins, sans-serif", // Apply Poppins font to the "Topic" text
-            }}
-          >
-            Topic:
-          </span>
-          <span style={{ flex: 1, fontWeight: "400", fontFamily: "Poppins, sans-serif", marginRight: "5px" }}>
-            {isLoading ? "Loading..." : question || topics[0]}
-          </span>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <button
-              onClick={handleRefresh}
-              className="refresh-button"
-              style={{
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                padding: "5px",
-                borderRadius: "5px",
-                cursor: "pointer",
-                marginRight: "10px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <FaSyncAlt style={{ marginRight: "5px" }} />
-              Refresh
-            </button>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
 
 
