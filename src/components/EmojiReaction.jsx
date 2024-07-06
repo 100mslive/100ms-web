@@ -99,13 +99,13 @@ export const EmojiReaction = () => {
     <Fragment>
       <Dropdown.Root open={open} onOpenChange={setOpen}>
         <Dropdown.Trigger asChild data-testid="emoji_reaction_btn">
-          <IconButton>
+          {/* <IconButton>
             <Tooltip title="Emoji reaction">
               <Box>
                 <EmojiIcon />
               </Box>
             </Tooltip>
-          </IconButton>
+          </IconButton> */}
         </Dropdown.Trigger>
         <Dropdown.Content
           sideOffset={5}

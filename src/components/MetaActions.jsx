@@ -18,7 +18,7 @@ const MetaActions = ({ isMobile = false, compact = false }) => {
 
   return (
     <Flex align="center" css={{ gap: compact ? "$4" : "$8" }}>
-      {isHandRaiseEnabled && (
+      {/* {isHandRaiseEnabled && (
         <Tooltip title={`${!isHandRaised ? "Raise" : "Unraise"} hand`}>
           <IconButton
             onClick={toggleHandRaise}
@@ -28,8 +28,8 @@ const MetaActions = ({ isMobile = false, compact = false }) => {
             <HandIcon />
           </IconButton>
         </Tooltip>
-      )}
-      {isBRBEnabled && (
+      )} */}
+      {/* {isBRBEnabled && (
         <Tooltip title={isBRBOn ? `I'm back` : `I'll be right back`}>
           <IconButton
             onClick={toggleBRB}
@@ -39,7 +39,7 @@ const MetaActions = ({ isMobile = false, compact = false }) => {
             <BrbIcon />
           </IconButton>
         </Tooltip>
-      )}
+      )} */}
     </Flex>
   );
 };

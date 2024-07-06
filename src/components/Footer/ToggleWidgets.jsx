@@ -32,7 +32,7 @@ export const ToggleWidgets = () => {
         zIndex: "100",
       }}
     >
-      <IconButton
+      {/* <IconButton
         data-testid="get_widgets"
         onClick={() => toggle()}
         css={{ color: "$on_surface_high" }}
@@ -42,7 +42,7 @@ export const ToggleWidgets = () => {
         ) : (
           <InteractionClosedIcon style={{ color: "inherit" }} />
         )}
-      </IconButton>
+      </IconButton> */}
     </Tooltip>
   );
 };

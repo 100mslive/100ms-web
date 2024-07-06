@@ -88,7 +88,7 @@ export const VirtualBackground = () => {
           : `Turn ${!isVBPresent ? "on" : "off"} virtual background`
       }
     >
-      <IconButton
+      {/* <IconButton
         active={!isVBPresent}
         disabled={isVBLoading}
         onClick={() => {
@@ -97,7 +97,7 @@ export const VirtualBackground = () => {
         data-testid="virtual_bg_btn"
       >
         {isVBLoading ? <Loading /> : <VirtualBackgroundIcon />}
-      </IconButton>
+      </IconButton> */}
     </Tooltip>
   );
 };
